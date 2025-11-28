@@ -169,6 +169,50 @@ export async function POST(request: NextRequest) {
       email
     })
 
+    // Create Google Calendar event (non-blocking - don't fail booking if this fails)
+    try {
+      const { createClient: createSupabaseClient } = await import('@/lib/supabaseAdmin')
+      const { setCredentials, createConsultationEvent } = await import('@/lib/googleCalendar')
+      
+      const supabaseAdmin = createSupabaseClient()
+      const { data: settings } = await supabaseAdmin
+        .from('settings')
+        .select('value')
+        .eq('key', 'google_calendar_tokens')
+        .single()
+      
+      if (settings?.value) {
+        const tokens = JSON.parse(settings.value)
+        setCredentials(tokens)
+        
+        const calendarEvent = await createConsultationEvent({
+          date,
+          time,
+          clientName: name,
+          clientEmail: email,
+          phone,
+          notes
+        })
+        
+        // Store calendar event ID with booking
+        await supabase
+          .from('appointments')
+          .update({ calendar_event_id: calendarEvent.id })
+          .eq('id', booking.id)
+        
+        log.info('Google Calendar event created', {
+          eventId: calendarEvent.id,
+          bookingId: booking.id
+        })
+      }
+    } catch (calendarError: any) {
+      // Log but don't fail the booking
+      log.warn('Failed to create calendar event', {
+        error: calendarError.message,
+        bookingId: booking.id
+      })
+    }
+
     // TODO: Send confirmation email
     // TODO: Send calendar invite
     // TODO: Add to CRM/leads if needed

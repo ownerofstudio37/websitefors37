@@ -60,6 +60,39 @@ export async function GET(request: NextRequest) {
       bookingsPerDay[dateKey].total++
     })
 
+    // Fetch busy times from Google Calendar (non-blocking)
+    let googleBusyDates: Set<string> = new Set()
+    try {
+      const { setCredentials, getBusyTimes } = await import('@/lib/googleCalendar')
+      const { data: calendarSettings } = await supabase
+        .from('settings')
+        .select('value')
+        .eq('key', 'google_calendar_tokens')
+        .single()
+      
+      if (calendarSettings?.value) {
+        const tokens = JSON.parse(calendarSettings.value)
+        setCredentials(tokens)
+        
+        const busyTimes = await getBusyTimes({
+          startDate: startDate.toISOString().split('T')[0],
+          endDate: endDate.toISOString().split('T')[0]
+        })
+        
+        // Mark dates with any busy time as having a photo session booked
+        busyTimes.forEach(busy => {
+          const busyDate = new Date(busy.start)
+          const dateKey = busyDate.toISOString().split('T')[0]
+          googleBusyDates.add(dateKey)
+        })
+        
+        log.info('Synced Google Calendar busy times', { busyDatesCount: googleBusyDates.size })
+      }
+    } catch (calendarError: any) {
+      // Log but don't fail - calendar sync is optional
+      log.warn('Failed to sync Google Calendar', { error: calendarError.message })
+    }
+
     // Generate available dates for the month
     const availableDates = []
     const daysInMonth = endDate.getDate()
@@ -81,8 +114,16 @@ export async function GET(request: NextRequest) {
 
       const dayBookings = bookingsPerDay[dateStr] || { photo: 0, consultation: 0, total: 0 }
       
+      // Check if Google Calendar shows this date as busy (blocks all photo sessions)
+      const isGoogleBusy = googleBusyDates.has(dateStr)
+      
       // Max photo sessions per day
-      const maxPhotoSessions = isWeekend ? 4 : 1
+      let maxPhotoSessions = isWeekend ? 4 : 1
+      
+      // If Google Calendar shows busy, mark all photo sessions as booked
+      if (isGoogleBusy) {
+        maxPhotoSessions = 0
+      }
       
       // Max consultation slots per day
       // Weekends: 12pm to 11pm = 11 hours = 22 thirty-minute slots
