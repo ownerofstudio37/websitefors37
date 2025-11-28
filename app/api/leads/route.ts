@@ -22,78 +22,96 @@ const LeadSchema = z.object({
  * Determines template based on service_interest and source
  */
 async function sendAutoResponseEmail(lead: any, payload: any) {
-  // Determine template slug based on context
-  let templateSlug = 'contact-form-confirmation'
-  
-  // If service interest suggests booking/quote, use booking template
-  const bookingKeywords = ['wedding', 'event', 'portrait', 'session', 'photoshoot', 'commercial']
-  const isBookingRequest = bookingKeywords.some(kw => 
-    payload.service_interest?.toLowerCase().includes(kw) ||
-    payload.message?.toLowerCase().includes(kw)
-  )
-  
+  try {
+    // Check if Resend is configured
+    if (!process.env.RESEND_API_KEY) {
+      log.warn('RESEND_API_KEY not configured, skipping auto-response')
+      return
+    }
 
-  // If source is newsletter signup, use newsletter welcome template
-  if (payload.source === "newsletter-modal" || payload.service_interest === "newsletter") {
-    templateSlug = "newsletter-welcome"
-  } else if (isBookingRequest || payload.event_date) {
-    templateSlug = "booking-request-confirmation"
-  }
-  // Get template ID from database
-  const { data: template } = await supabaseAdmin
-    .from('email_templates')
-    .select('id')
-    .eq('slug', templateSlug)
-    .eq('is_active', true)
-    .single()
+    // Determine template slug based on context
+    let templateSlug = 'contact-form-confirmation'
+    
+    // If service interest suggests booking/quote, use booking template
+    const bookingKeywords = ['wedding', 'event', 'portrait', 'session', 'photoshoot', 'commercial']
+    const isBookingRequest = bookingKeywords.some(kw => 
+      payload.service_interest?.toLowerCase().includes(kw) ||
+      payload.message?.toLowerCase().includes(kw)
+    )
+    
 
-  if (!template) {
-    log.warn('Auto-response template not found', { slug: templateSlug })
-    return
-  }
+    // If source is newsletter signup, use newsletter welcome template
+    if (payload.source === "newsletter-modal" || payload.service_interest === "newsletter") {
+      templateSlug = "newsletter-welcome"
+    } else if (isBookingRequest || payload.event_date) {
+      templateSlug = "booking-request-confirmation"
+    }
+    
+    // Get template ID from database
+    const { data: template, error: templateError } = await supabaseAdmin
+      .from('email_templates')
+      .select('id')
+      .eq('slug', templateSlug)
+      .eq('is_active', true)
+      .single()
 
-  // Split name into first/last
-  const nameParts = payload.name.split(' ')
-  const firstName = nameParts[0] || ''
-  const lastName = nameParts.slice(1).join(' ') || ''
+    if (templateError || !template) {
+      log.warn('Auto-response template not found', { slug: templateSlug, error: templateError })
+      return
+    }
 
-  // Prepare variables based on template type
-  const variables: Record<string, any> = {
-    firstName,
-    lastName,
-    email: payload.email,
-    phone: payload.phone || '',
-    message: payload.message,
-    submittedAt: new Date().toLocaleString()
-  }
+    // Split name into first/last
+    const nameParts = payload.name.split(' ')
+    const firstName = nameParts[0] || ''
+    const lastName = nameParts.slice(1).join(' ') || ''
 
-  if (templateSlug === 'booking-request-confirmation') {
-    variables.sessionType = payload.service_interest
-    variables.preferredDate = payload.event_date || 'To be determined'
-    variables.budget = payload.budget_range || 'Not specified'
-    variables.details = payload.message
-  }
+    // Prepare variables based on template type
+    const variables: Record<string, any> = {
+      firstName,
+      lastName,
+      email: payload.email,
+      phone: payload.phone || '',
+      message: payload.message,
+      submittedAt: new Date().toLocaleString()
+    }
 
-  // Send email via marketing API
-  await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.studio37.cc'}/api/marketing/email/send`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      to: payload.email,
-      subject: templateSlug === 'booking-request-confirmation' 
-        ? 'We Received Your Booking Request!' 
-        : 'Thanks for Contacting Studio37!',
-      templateId: template.id,
-      variables,
-      leadId: lead.id
+    if (templateSlug === 'booking-request-confirmation') {
+      variables.sessionType = payload.service_interest
+      variables.preferredDate = payload.event_date || 'To be determined'
+      variables.budget = payload.budget_range || 'Not specified'
+      variables.details = payload.message
+    }
+
+    // Send email via marketing API
+    const emailResponse = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.studio37.cc'}/api/marketing/email/send`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        to: payload.email,
+        subject: templateSlug === 'booking-request-confirmation' 
+          ? 'We Received Your Booking Request!' 
+          : 'Thanks for Contacting Studio37!',
+        templateId: template.id,
+        variables,
+        leadId: lead.id
+      })
     })
-  })
 
-  log.info('Auto-response email sent', { 
-    leadId: lead.id, 
-    email: payload.email, 
-    template: templateSlug 
-  })
+    if (!emailResponse.ok) {
+      log.warn('Auto-response email request failed', { 
+        status: emailResponse.status,
+        leadId: lead.id 
+      })
+    } else {
+      log.info('Auto-response email sent', { 
+        leadId: lead.id, 
+        email: payload.email, 
+        template: templateSlug 
+      })
+    }
+  } catch (error) {
+    log.error('Auto-response email error', { leadId: lead?.id }, error)
+  }
 }
 
 // CORS headers for cross-origin requests

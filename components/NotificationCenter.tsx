@@ -20,12 +20,30 @@ export default function NotificationCenter() {
   const [loading, setLoading] = useState(false)
   const [unreadCount, setUnreadCount] = useState(0)
   const dropdownRef = useRef<HTMLDivElement>(null)
+  const intervalRef = useRef<NodeJS.Timeout | null>(null)
+  const isMountedRef = useRef(true)
 
   useEffect(() => {
+    isMountedRef.current = true
     fetchNotifications()
-    // Poll for new notifications every 30 seconds
-    const interval = setInterval(fetchNotifications, 30000)
-    return () => clearInterval(interval)
+    
+    // Poll for new notifications every 60 seconds (increased from 30)
+    // Only set one interval per component mount
+    if (!intervalRef.current) {
+      intervalRef.current = setInterval(() => {
+        if (isMountedRef.current) {
+          fetchNotifications()
+        }
+      }, 60000)
+    }
+    
+    return () => {
+      isMountedRef.current = false
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current)
+        intervalRef.current = null
+      }
+    }
   }, [])
 
   useEffect(() => {
@@ -44,15 +62,25 @@ export default function NotificationCenter() {
 
   const fetchNotifications = async () => {
     try {
+      // Don't fetch if component is unmounted
+      if (!isMountedRef.current) return
+      
       const response = await fetch('/api/admin/notifications')
+      if (!response.ok) throw new Error('Failed to fetch')
+      
       const data = await response.json()
       
-      if (data.success) {
+      if (data.success && isMountedRef.current) {
         setNotifications(data.notifications)
         setUnreadCount(data.unreadCount)
       }
     } catch (error) {
       console.error('Failed to fetch notifications:', error)
+      // Stop polling on persistent errors
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current)
+        intervalRef.current = null
+      }
     }
   }
 

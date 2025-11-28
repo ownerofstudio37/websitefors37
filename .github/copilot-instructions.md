@@ -4,14 +4,14 @@
 Purpose: Give AI coding agents the minimum context to be productive in this codebase and avoid common pitfalls.
 
 ## Architecture & Data Flow
-- **Monorepo**: Apps in `apps/*` (e.g., `apps/workflow`), shared code in `packages/shared`. Main Next.js website/admin is in `app/`.
+- **Monorepo**: Apps in `apps/*` (`workflow`, `portal`, `web`), shared code in `packages/shared`. Main Next.js website/admin is in `app/`. Uses Turbo for parallel builds.
 - **Web stack**: Next.js 14 App Router + TypeScript + Tailwind on Netlify. PWA via `@ducanh2912/next-pwa` (disabled in dev).
 - **Data layer**: Supabase (PostgreSQL). Public reads use `lib/supabase.ts` (anon key). Service role client `lib/supabaseAdmin.ts` is **ONLY** for server API routes under `app/api/**`.
-- **Core tables**: `content_pages`, `blog_posts`, `gallery_images`, `settings`, `page_configs`, `admin_users`, `admin_sessions`, `gallery_highlight_sets`, `leads`, `appointments`.
+- **Core tables**: `content_pages`, `blog_posts`, `gallery_images`, `settings`, `page_configs`, `admin_users`, `admin_sessions`, `gallery_highlight_sets`, `leads`, `appointments`, `email_campaigns`, `sms_campaigns`, `client_portal_users`, `shoots`, `app_users`.
 
 ## Dev Workflow
-- **Scripts** (`package.json`): `dev`, `build`, `start`, `lint`, `typecheck`. Monorepo: `repo:dev`, `repo:build`, `web:dev`, `workflow:dev`.
-- **Env** (`.env.local`): `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`; server-only: `SUPABASE_SERVICE_ROLE_KEY`.
+- **Scripts** (`package.json`): `dev`, `build`, `start`, `lint`, `typecheck`. Monorepo: `repo:dev`, `repo:build`, `web:dev`, `workflow:dev`, `import:training`.
+- **Env** (`.env.local`): `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`; server-only: `SUPABASE_SERVICE_ROLE_KEY`, `GOOGLE_API_KEY` or `GEMINI_API_KEY`, `RESEND_API_KEY`, `TWILIO_*`.
 - **Netlify** (`netlify.toml`): Uses `@netlify/plugin-nextjs` and long-lived caching headers. Images are unoptimized when `NETLIFY=true` in `next.config.js`.
 - **Path alias**: Import with `@/*` per `tsconfig.json`.
 
@@ -29,7 +29,16 @@ Examples: `app/blog/page.tsx`, `app/[slug]/page.tsx`.
 - `app/[slug]/page.tsx` renders MDX content using `next-mdx-remote/rsc` with `rehype-raw` and `rehype-highlight`.
 - Visual blocks (Hero, Gallery, etc.) live in `components/BuilderRuntime.tsx`.
 - To add a block: export it in `BuilderRuntime.tsx` and register in `MDXBuilderComponents` object.
-- Blocks needing server data use `createServerComponentClient({ cookies })` from `@supabase/auth-helpers-nextjs`.
+- Blocks needing server data fetch directly within the component (no createServerComponentClient needed).
+- **Enhanced blocks**: VideoHero, BeforeAfterSlider, Timeline, MasonryGallery, AnimatedCounterStats, FilterableGallery, TabbedContent, Accordion, ModalLightbox.
+
+### AI Features Integration
+- **Unified AI client**: `lib/ai-client.ts` provides consistent Gemini API access with retry logic, structured JSON outputs, vision support.
+- **Model**: Defaults to `gemini-3-pro-preview` with fallbacks. Set via `GOOGLE_GENAI_MODEL` env var.
+- **AI endpoints**: `/api/ai/content-suggestions`, `/api/blog/generate`, `/api/gallery/generate-alt-text`, `/api/leads/score`, `/api/gallery/analyze`.
+- **Admin components**: `AIBlockSuggestions.tsx` for page builder, AI chatbot training via `/admin/chatbot-training`.
+- **Training data**: `scripts/import-website-content.ts` imports site content to Supabase for chatbot context. Run: `npm run import:training`.
+- **Pattern**: Import `createAIClient` from `lib/ai-client.ts`, NOT direct `GoogleGenerativeAI` instantiation in API routes.
 
 ### Admin Authentication
 - **Login flow**: `app/api/auth/login/route.ts` validates credentials → rate limits → bcrypt → creates session → sets httpOnly cookie.
@@ -55,6 +64,14 @@ Examples: `app/blog/page.tsx`, `app/[slug]/page.tsx`.
 - `next.config.js` sets `remotePatterns` for Unsplash, Supabase, Cloudinary.
 - Prefer AVIF/WebP formats with long cache TTL (1 year).
 - Always use `next/image` (note: unoptimized on Netlify due to serverless).
+- **Cloudinary integration**: `lib/cloudinary.ts` and `lib/cloudinaryOptimizer.ts` for image optimization and transformation.
+
+### CRM & Marketing Features
+- **Email campaigns**: Use `@react-email/components` templates in `emails/` directory. Send via Resend API (`/api/marketing/email/send`).
+- **SMS campaigns**: Twilio integration via `/api/marketing/sms/send`. Auto-formats US phone numbers, calculates costs.
+- **Lead scoring**: `/api/leads/score` uses AI to score leads 0-100 with priority levels and next action recommendations.
+- **Email templates**: React Email components (BookingConfirmation, SessionReminder, PhotosReady, etc.) rendered via `lib/emailRenderer.ts`.
+- **Pattern**: Variable substitution `{{firstName}}`, `{{sessionDate}}` in templates. Store campaigns in `email_campaigns`/`sms_campaigns` tables.
 
 ### SEO & PWA
 - `app/robots.ts`, `app/sitemap.ts` for SEO.

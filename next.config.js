@@ -147,11 +147,11 @@ const nextConfig = {
               "base-uri 'self'",
               "form-action 'self'",
               // Next.js requires unsafe-inline for React hydration; unsafe-eval only in dev
-              "script-src 'self' 'unsafe-inline' " + (process.env.NODE_ENV === 'development' ? "'unsafe-eval' " : "") + "https://www.googletagmanager.com https://www.google-analytics.com",
+              "script-src 'self' 'unsafe-inline' " + (process.env.NODE_ENV === 'development' ? "'unsafe-eval' " : "") + "https://www.googletagmanager.com https://www.google-analytics.com https://scripts.simpleanalyticscdn.com",
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
               "img-src 'self' data: blob: https://res.cloudinary.com https://images.unsplash.com https://*.supabase.co",
               "font-src 'self' data: https://fonts.gstatic.com",
-              "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://www.google-analytics.com https://res.cloudinary.com",
+              "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://www.google-analytics.com https://res.cloudinary.com https://queue.simpleanalyticscdn.com",
               "frame-ancestors 'self'",
               "frame-src 'self' https://app.simpletexting.com https://app2.simpletexting.com",
               "child-src 'self' https://app.simpletexting.com https://app2.simpletexting.com",
