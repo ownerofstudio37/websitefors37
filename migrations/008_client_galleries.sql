@@ -53,6 +53,40 @@ CREATE TABLE IF NOT EXISTS gallery_images (
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
+-- Idempotent column additions in case table existed prior to this migration with partial schema
+ALTER TABLE gallery_images ADD COLUMN IF NOT EXISTS gallery_id UUID; -- will be linked below if missing FK
+ALTER TABLE gallery_images ADD COLUMN IF NOT EXISTS cloudinary_public_id VARCHAR(255);
+ALTER TABLE gallery_images ADD COLUMN IF NOT EXISTS cloudinary_url TEXT;
+ALTER TABLE gallery_images ADD COLUMN IF NOT EXISTS thumbnail_url TEXT;
+ALTER TABLE gallery_images ADD COLUMN IF NOT EXISTS watermarked_url TEXT;
+ALTER TABLE gallery_images ADD COLUMN IF NOT EXISTS full_res_url TEXT;
+ALTER TABLE gallery_images ADD COLUMN IF NOT EXISTS filename VARCHAR(255);
+ALTER TABLE gallery_images ADD COLUMN IF NOT EXISTS file_size INTEGER;
+ALTER TABLE gallery_images ADD COLUMN IF NOT EXISTS width INTEGER;
+ALTER TABLE gallery_images ADD COLUMN IF NOT EXISTS height INTEGER;
+ALTER TABLE gallery_images ADD COLUMN IF NOT EXISTS format VARCHAR(20);
+ALTER TABLE gallery_images ADD COLUMN IF NOT EXISTS caption TEXT;
+ALTER TABLE gallery_images ADD COLUMN IF NOT EXISTS display_order INTEGER DEFAULT 0;
+ALTER TABLE gallery_images ADD COLUMN IF NOT EXISTS view_count INTEGER DEFAULT 0;
+ALTER TABLE gallery_images ADD COLUMN IF NOT EXISTS favorite_count INTEGER DEFAULT 0;
+ALTER TABLE gallery_images ADD COLUMN IF NOT EXISTS download_count INTEGER DEFAULT 0;
+ALTER TABLE gallery_images ADD COLUMN IF NOT EXISTS is_featured BOOLEAN DEFAULT false;
+ALTER TABLE gallery_images ADD COLUMN IF NOT EXISTS is_available_for_purchase BOOLEAN DEFAULT true;
+ALTER TABLE gallery_images ADD COLUMN IF NOT EXISTS created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW();
+ALTER TABLE gallery_images ADD COLUMN IF NOT EXISTS updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW();
+
+-- Recreate FK if missing (cannot use IF NOT EXISTS directly)
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_constraint WHERE conname = 'gallery_images_gallery_id_fkey'
+  ) THEN
+    ALTER TABLE gallery_images
+      ADD CONSTRAINT gallery_images_gallery_id_fkey FOREIGN KEY (gallery_id)
+      REFERENCES galleries(id) ON DELETE CASCADE;
+  END IF;
+END $$;
+
 -- 3. Gallery favorites - tracks client favorites
 CREATE TABLE IF NOT EXISTS gallery_favorites (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -62,6 +96,12 @@ CREATE TABLE IF NOT EXISTS gallery_favorites (
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   UNIQUE(gallery_id, image_id, session_id)
 );
+
+-- Idempotent column additions (if table pre-existed without full schema)
+ALTER TABLE gallery_favorites ADD COLUMN IF NOT EXISTS gallery_id UUID;
+ALTER TABLE gallery_favorites ADD COLUMN IF NOT EXISTS image_id UUID;
+ALTER TABLE gallery_favorites ADD COLUMN IF NOT EXISTS session_id VARCHAR(255);
+ALTER TABLE gallery_favorites ADD COLUMN IF NOT EXISTS created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW();
 
 -- 4. Gallery downloads - tracks downloads for limits
 CREATE TABLE IF NOT EXISTS gallery_downloads (
@@ -74,6 +114,13 @@ CREATE TABLE IF NOT EXISTS gallery_downloads (
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
+ALTER TABLE gallery_downloads ADD COLUMN IF NOT EXISTS gallery_id UUID;
+ALTER TABLE gallery_downloads ADD COLUMN IF NOT EXISTS image_id UUID;
+ALTER TABLE gallery_downloads ADD COLUMN IF NOT EXISTS session_id VARCHAR(255);
+ALTER TABLE gallery_downloads ADD COLUMN IF NOT EXISTS ip_address VARCHAR(45);
+ALTER TABLE gallery_downloads ADD COLUMN IF NOT EXISTS download_type VARCHAR(50);
+ALTER TABLE gallery_downloads ADD COLUMN IF NOT EXISTS created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW();
+
 -- 5. Gallery access log - audit trail
 CREATE TABLE IF NOT EXISTS gallery_access_log (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -85,6 +132,14 @@ CREATE TABLE IF NOT EXISTS gallery_access_log (
   user_agent TEXT,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
+
+ALTER TABLE gallery_access_log ADD COLUMN IF NOT EXISTS gallery_id UUID;
+ALTER TABLE gallery_access_log ADD COLUMN IF NOT EXISTS access_code VARCHAR(50);
+ALTER TABLE gallery_access_log ADD COLUMN IF NOT EXISTS password_attempt BOOLEAN;
+ALTER TABLE gallery_access_log ADD COLUMN IF NOT EXISTS success BOOLEAN;
+ALTER TABLE gallery_access_log ADD COLUMN IF NOT EXISTS ip_address VARCHAR(45);
+ALTER TABLE gallery_access_log ADD COLUMN IF NOT EXISTS user_agent TEXT;
+ALTER TABLE gallery_access_log ADD COLUMN IF NOT EXISTS created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW();
 
 -- Indexes for performance
 CREATE INDEX IF NOT EXISTS idx_galleries_access_code ON galleries(access_code);
