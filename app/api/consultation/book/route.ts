@@ -53,14 +53,26 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Validate date is not in the past
+    // Validate date/time is not in the past (allow same-day if time is still ahead in CST)
     const bookingDate = new Date(date)
-    const today = new Date()
-    today.setHours(0, 0, 0, 0)
+    const tz = 'America/Chicago'
+    const nowCST = new Date(
+      new Intl.DateTimeFormat('en-US', {
+        timeZone: tz,
+        year: 'numeric', month: '2-digit', day: '2-digit',
+        hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+      }).format(new Date())
+      .replace(
+        /(\d{2})\/(\d{2})\/(\d{4}),\s(\d{2}):(\d{2}):(\d{2})/,
+        '$3-$1-$2T$4:$5:$6'
+      ) + ':00'
+    )
+    const todayCST = new Date(new Intl.DateTimeFormat('en-US', { timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date()).replace(/(\d{2})\/(\d{2})\/(\d{4})/, '$3-$1-$2'))
     
-    if (bookingDate < today) {
+    // If booking date is strictly before today (CST), block
+    if (bookingDate < todayCST) {
       return NextResponse.json(
-        { error: 'Cannot book consultations in the past' },
+        { error: 'Selected date is in the past. Please choose today or a future date.' },
         { status: 400 }
       )
     }
@@ -84,7 +96,7 @@ export async function POST(request: NextRequest) {
     if (ampm === 'PM' && hour !== 12) hour += 12
     if (ampm === 'AM' && hour === 12) hour = 0
     
-    // Check business hours
+  // Check business hours
     if (isWeekend) {
       // Weekend: 12pm - 11pm (12:00 - 23:00)
       if (hour < 12 || hour >= 23) {
@@ -132,6 +144,17 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { error: 'This time slot is no longer available' },
         { status: 409 }
+      )
+    }
+
+    // Combine date and time to ensure same-day time is in the future (CST)
+    const selectedTimeMinutes = hour * 60 + minute
+    const nowCSTMinutes = nowCST.getHours() * 60 + nowCST.getMinutes()
+    const isSameDayCST = bookingDate.toLocaleDateString('en-US', { timeZone: tz }) === nowCST.toLocaleDateString('en-US', { timeZone: tz })
+    if (isSameDayCST && selectedTimeMinutes <= nowCSTMinutes) {
+      return NextResponse.json(
+        { error: 'Selected time has already passed. Please choose a later time today or another date.' },
+        { status: 400 }
       )
     }
 
