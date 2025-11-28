@@ -1,7 +1,7 @@
 /**
  * Unified AI Client for Studio37
  * 
- * Provides consistent Gemini 2.0 Flash integration across all features:
+ * Provides consistent Gemini 2.0 integration across all features:
  * - Chatbot conversations
  * - Blog post generation
  * - Image analysis & alt text
@@ -15,27 +15,26 @@ import { createLogger } from "./logger";
 
 const log = createLogger("lib/ai-client");
 
-// Resolve default model from env with safe fallbacks (prefers Gemini 3 Pro Preview)
+// Resolve default model from env with safe fallbacks (prefers Gemini 2.0)
 const ENV_MODEL =
   process.env.GOOGLE_GENAI_MODEL ||
   process.env.GEMINI_MODEL ||
   process.env.AI_MODEL ||
-  "gemini-3-pro-preview";
+  "gemini-2.0-flash-exp";
 
-// Known good fallbacks in descending preference
+// Known good fallbacks in descending preference (actual available models)
 export const MODEL_FALLBACKS = [
   ENV_MODEL,
-  // Preview variant (primary)
-  "gemini-3-pro-preview",
-  // Stable version
-  "gemini-3-pro",
-  // Preview variants (minor versioned and alias forms)
-  "gemini-3.0-pro-preview",
-  // Prior generations
-  "gemini-2.5-pro",
+  // Gemini 2.0 (latest, fastest)
   "gemini-2.0-flash-exp",
+  "gemini-2.0-flash-thinking-exp-1219",
+  // Gemini 1.5 (stable, widely available)
   "gemini-1.5-flash",
+  "gemini-1.5-flash-latest",
+  "gemini-1.5-pro",
   "gemini-1.5-pro-latest",
+  // Older fallbacks
+  "gemini-1.0-pro",
 ];
 
 // Model configurations for different use cases
