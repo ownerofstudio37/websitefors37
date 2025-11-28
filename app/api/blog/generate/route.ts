@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
-import { GoogleGenerativeAI } from "@google/generative-ai";
 import { supabase } from "@/lib/supabase";
+import { createAIClient } from "@/lib/ai-client";
+import { createLogger } from "@/lib/logger";
+
+const log = createLogger("api/blog/generate");
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 60; // Increase timeout to 60 seconds for blog generation
@@ -81,82 +84,16 @@ export async function POST(req: Request) {
         });
       }
     } catch (contextError) {
-      console.error("Error fetching site context:", contextError);
+      log.warn("Error fetching site context", undefined, contextError as Error);
       // Continue without context if fetch fails
     }
 
-    const apiKey = process.env.GOOGLE_API_KEY || process.env.GEMINI_API_KEY;
-    if (!apiKey) {
-      console.error("Missing Google API Key - check environment variables");
+    // Use unified AI client with automatic retry and fallback
+    const aiClient = createAIClient();
+    if (!aiClient) {
+      log.error("AI client initialization failed - check GOOGLE_API_KEY or GEMINI_API_KEY");
       return NextResponse.json(
         { error: "AI service not configured. Missing API key." },
-        { status: 503 }
-      );
-    }
-
-    const preferredModel =
-      process.env.GOOGLE_GENAI_MODEL ||
-      process.env.GEMINI_MODEL ||
-      process.env.AI_MODEL ||
-      "gemini-3-pro";
-    console.log(`Initializing Gemini API with model: ${preferredModel}`);
-    const genAI = new GoogleGenerativeAI(apiKey);
-    
-    // Try multiple models in order of preference (includes preview + stable fallbacks)
-    const modelsToTry = [
-      preferredModel,
-      "gemini-3-pro",
-      "gemini-3.0-pro-preview",
-      "gemini-3-pro-preview",
-      "gemini-2.5-pro",
-      "gemini-2.0-flash-exp",
-      "gemini-1.5-pro-latest",
-      "gemini-1.5-flash",
-    ];
-    
-    let model;
-    let modelUsed = "";
-    
-    for (const modelName of modelsToTry) {
-      try {
-        model = genAI.getGenerativeModel({ 
-          model: modelName,
-          generationConfig: {
-            maxOutputTokens: 4096,
-            temperature: 0.7,
-          },
-          safetySettings: [
-            {
-              category: "HARM_CATEGORY_HARASSMENT",
-              threshold: "BLOCK_ONLY_HIGH",
-            },
-            {
-              category: "HARM_CATEGORY_HATE_SPEECH",
-              threshold: "BLOCK_ONLY_HIGH",
-            },
-            {
-              category: "HARM_CATEGORY_SEXUALLY_EXPLICIT",
-              threshold: "BLOCK_ONLY_HIGH",
-            },
-            {
-              category: "HARM_CATEGORY_DANGEROUS_CONTENT",
-              threshold: "BLOCK_ONLY_HIGH",
-            },
-          ],
-        });
-        modelUsed = modelName;
-        console.log(`Using model: ${modelName}`);
-        break;
-      } catch (modelError) {
-        console.warn(`Failed to initialize model ${modelName}, trying next...`);
-        continue;
-      }
-    }
-    
-    if (!model) {
-      console.error("All models failed to initialize");
-      return NextResponse.json(
-        { error: "Could not initialize AI model. Please check API key and model availability." },
         { status: 503 }
       );
     }
@@ -223,81 +160,87 @@ Return the response in this exact JSON format (no markdown code blocks):
   "category": "suggested category"
 }`;
 
+    // Use unified AI client with automatic retry logic
+    log.info("Generating blog post", { topic, tone, wordCount });
+    
+    const result = await aiClient.generateStructuredContent(
+      prompt,
+      {
+        title: "string",
+        metaDescription: "string",
+        content: "string",
+        excerpt: "string",
+        suggestedTags: "array",
+        category: "string"
+      },
+      {
+        temperature: 0.7,
+        maxOutputTokens: 4096,
+      }
+    );
 
-    let result, response;
-    try {
-      console.log("Generating content with Gemini API...");
-      result = await model.generateContent(prompt);
-      response = result.response;
-      console.log("Content generation successful");
-    } catch (aiError: any) {
-      console.error("Gemini API error details:", {
-        message: aiError?.message,
-        status: aiError?.status,
-        statusText: aiError?.statusText,
-        code: aiError?.code,
-        name: aiError?.name,
-        stack: aiError?.stack?.split('\n').slice(0, 3).join('\n')
-      });
-      
-      const msg = String(aiError?.message || aiError || "");
-      
-      // Check for specific error types
-      if (msg.includes("404") || msg.includes("not found") || msg.includes("does not exist")) {
-        return NextResponse.json(
-          { error: "Model not available. Using gemini-1.5-pro - if this persists, check Google AI Studio for available models.", code: "MODEL_NOT_FOUND" },
-          { status: 503 }
-        );
-      }
-      
-      if (msg.includes("reported as leaked") || msg.includes("403") || msg.includes("PERMISSION_DENIED")) {
-        return NextResponse.json(
-          { error: "API key issue. Please check the key is valid and not leaked. Rotate in Netlify if needed.", code: "API_KEY_INVALID" },
-          { status: 403 }
-        );
-      }
-      
-      if (msg.includes("quota") || msg.includes("RESOURCE_EXHAUSTED")) {
-        return NextResponse.json(
-          { error: "API quota exceeded. Please try again later or check your Google AI quota.", code: "QUOTA_EXCEEDED" },
-          { status: 429 }
-        );
-      }
-      
+    if (!result.success || !result.data) {
+      log.error("AI generation failed", { error: result.error });
       return NextResponse.json(
-        { error: `AI service error: ${aiError?.message || "Unknown error"}`, code: "AI_ERROR" },
+        { error: result.error || "Failed to generate content" },
         { status: 502 }
       );
     }
 
-    // Check if response exists
-    if (!response) {
-      console.error("No response from AI model");
-      return NextResponse.json(
-        { error: "No response from AI model" },
-        { status: 500 }
-      );
-    }
+    const blogPost = result.data;
+    log.info("Blog post generated successfully", { title: blogPost.title });
 
-    // Check for safety/content filtering
-    const candidates = (result as any)?.candidates;
-    if (candidates && candidates.length > 0) {
-      const candidate = candidates[0];
-      if (candidate.finishReason && candidate.finishReason !== 'STOP') {
-        console.error("Content was blocked:", {
-          finishReason: candidate.finishReason,
-          safetyRatings: candidate.safetyRatings
-        });
-        return NextResponse.json(
-          { error: `Content generation blocked: ${candidate.finishReason}. Try adjusting your topic or keywords.` },
-          { status: 400 }
-        );
+    // Ensure content has proper structure
+    const ensureSectionHeadings = (md: string): string => {
+      const required = [
+        "## 🎯 Vision & Purpose",
+        "## 🎨 Style & Aesthetic",
+        "## 🤝 Client Experience & Collaboration",
+        "## 💰 Investment & Value",
+        "## 📍 Local Advantage (Pinehurst, TX)"
+      ];
+      let out = md || "";
+      const present = required.filter(h => out.includes(h));
+      if (present.length === 0) {
+        out = required.map(h => `${h}\n\n`).join("") + out;
       }
-    }
+      return out;
+    };
 
-    let responseText;
-    try {
-      responseText = response.text().trim();
+    // Ensure proper internal links
+    const ensureLinks = (md: string): string => {
+      let out = md || "";
+      
+      // CRITICAL: Remove any references to competitor sites
+      out = out.replace(/www\.studio37photography\.com/gi, "www.studio37.cc");
+      out = out.replace(/studio37photography\.com/gi, "www.studio37.cc");
+      out = out.replace(/\[([^\]]+)\]\(https?:\/\/(?!www\.studio37\.cc)[^)]+\)/gi, "$1");
+      
+      // Link brand mention
+      if (!/\[Studio37 Photography\]\(/.test(out) && out.includes("Studio37 Photography")) {
+        out = out.replace(/Studio37 Photography/g, "[Studio37 Photography](https://www.studio37.cc/services)");
+      }
+      
+      // Add CTA if missing
+      if (!/book-a-session/.test(out) && !/\/contact/.test(out)) {
+        out += "\n\n---\n\n**Ready to create something beautiful?** [Book a session with Studio37](https://www.studio37.cc/book-a-session) or [contact us](https://www.studio37.cc/contact) to discuss your photography needs.";
+      }
+      
+      return out;
+    };
+
+    // Process content
+    blogPost.content = ensureLinks(ensureSectionHeadings(blogPost.content || ""));
+
+    return NextResponse.json(blogPost);
+  } catch (err: any) {
+    log.error("Blog post generation failed", undefined, err);
+    return NextResponse.json(
+      { error: err?.message || "Blog post generation failed" },
+      { status: 500 }
+    );
+  }
+}
     } catch (textError: any) {
       console.error("Error extracting text from response:", textError);
       console.error("Response object:", JSON.stringify(response, null, 2));
