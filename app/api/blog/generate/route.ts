@@ -12,6 +12,8 @@ export async function POST(req: Request) {
   try {
     const { topic, keywords, tone, wordCount } = await req.json();
 
+    log.info("Blog generation request received", { topic, keywords, tone, wordCount });
+
     if (!topic) {
       return NextResponse.json({ error: "Topic is required" }, { status: 400 });
     }
@@ -32,6 +34,16 @@ export async function POST(req: Request) {
       // ignore settings read errors
     }
 
+    // Check for API key
+    const hasApiKey = !!(process.env.GOOGLE_API_KEY || process.env.GEMINI_API_KEY);
+    if (!hasApiKey) {
+      log.error("API key not found in environment");
+      return NextResponse.json(
+        { error: "AI service not configured. Missing API key in server environment." },
+        { status: 503 }
+      );
+    }
+
     // Parse keywords
     const keywordArray = typeof keywords === "string" 
       ? keywords.split(",").map((k: string) => k.trim()).filter(Boolean)
@@ -39,9 +51,13 @@ export async function POST(req: Request) {
       ? keywords 
       : ["photography", "Studio37", "Pinehurst TX"];
 
-    // Use unified AI client - generateBlogPost handles retries and fallbacks
-    log.info("Generating blog post", { topic, tone, wordCount });
-    
+    log.info("Calling generateBlogPost", { 
+      topic, 
+      keywordCount: keywordArray.length,
+      wordCount: wordCount || 800,
+      tone: tone || "professional and friendly"
+    });
+
     try {
       const blogPost = await generateBlogPost(
         topic,
@@ -50,7 +66,18 @@ export async function POST(req: Request) {
         tone || "professional and friendly"
       );
 
-      log.info("Blog post generated successfully", { title: blogPost.title });
+      if (!blogPost || !blogPost.content) {
+        log.error("Generated blog post is empty or missing content", { blogPost });
+        return NextResponse.json(
+          { error: "AI returned empty content. Please try again." },
+          { status: 502 }
+        );
+      }
+
+      log.info("Blog post generated successfully", { 
+        title: blogPost.title,
+        contentLength: blogPost.content?.length || 0
+      });
 
       // Post-process content to ensure proper links
       const ensureLinks = (md: string): string => {
@@ -84,20 +111,31 @@ export async function POST(req: Request) {
         category: blogPost.category || "Photography Tips",
       });
     } catch (aiError: any) {
-      log.error("AI generation failed", undefined, aiError);
+      log.error("AI generation failed with error", { 
+        error: aiError.message,
+        stack: aiError.stack,
+        name: aiError.name
+      });
       
       // Provide helpful error messages
       if (aiError.message?.includes("API key")) {
         return NextResponse.json(
-          { error: "AI service not configured. Missing API key." },
+          { error: "AI service not configured. Check server API key configuration." },
           { status: 503 }
         );
       }
       
-      if (aiError.message?.includes("quota")) {
+      if (aiError.message?.includes("quota") || aiError.message?.includes("rate limit")) {
         return NextResponse.json(
           { error: "AI service quota exceeded. Please try again later." },
           { status: 429 }
+        );
+      }
+
+      if (aiError.message?.includes("Empty response")) {
+        return NextResponse.json(
+          { error: "AI service returned empty response. The model may be unavailable. Try again in a moment." },
+          { status: 502 }
         );
       }
       
@@ -107,7 +145,10 @@ export async function POST(req: Request) {
       );
     }
   } catch (err: any) {
-    log.error("Blog post generation failed", undefined, err);
+    log.error("Blog post generation failed", { 
+      error: err.message,
+      stack: err.stack
+    });
     return NextResponse.json(
       { error: err?.message || "Blog post generation failed" },
       { status: 500 }
