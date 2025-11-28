@@ -241,40 +241,7 @@ Return the response in this exact JSON format (no markdown code blocks):
     );
   }
 }
-    } catch (textError: any) {
-      console.error("Error extracting text from response:", textError);
-      console.error("Response object:", JSON.stringify(response, null, 2));
-      
-      // Check if it was blocked
-      if (candidates && candidates.length > 0) {
-        const candidate = candidates[0];
-        console.error("Candidate info:", {
-          finishReason: candidate.finishReason,
-          safetyRatings: candidate.safetyRatings
-        });
-      }
-      
-      return NextResponse.json(
-        { error: `Failed to extract response: ${textError.message}. The content may have been blocked by safety filters.` },
-        { status: 500 }
-      );
-    }
 
-    // Check if response is empty
-    if (!responseText) {
-      console.error("Empty response from AI model");
-      console.error("Result candidates:", candidates);
-      return NextResponse.json(
-        { error: "AI returned empty response. Try different keywords or a simpler topic." },
-        { status: 500 }
-      );
-    }
-
-    // Clean up response if it has markdown code blocks
-    responseText = responseText
-      .replace(/^```json\n?/i, "")
-      .replace(/\n?```$/i, "")
-      .trim();
 
     // Helpers to clean and normalize AI text output
     const decodeBasicEntities = (s: string): string => {
