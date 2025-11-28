@@ -330,10 +330,7 @@ Generate SEO suggestions as JSON:
   "improvements": ["specific improvement 1", "specific improvement 2", "specific improvement 3"]
 }`;
 
-  return generateJSON<SEOSuggestions>(prompt, {
-    ...options,
-    config: AI_CONFIGS.creative,
-  });
+  return generateJSON<SEOSuggestions>(prompt, options);
 }
 
 /**
@@ -366,9 +363,9 @@ Requirements:
 - Focus on photography business context (Studio37)
 - Include actionable tips and insights
 
-You must respond with valid JSON only. No markdown formatting, no code blocks, no explanations - just the raw JSON object.
+IMPORTANT: Respond with ONLY a valid JSON object. No markdown, no code blocks, no extra text.
 
-Required JSON structure:
+JSON structure:
 {
   "title": "compelling SEO title (50-60 chars)",
   "metaDescription": "meta description (150-160 chars)",
@@ -378,16 +375,50 @@ Required JSON structure:
   "excerpt": "brief 2-sentence summary for preview"
 }`;
 
-  return generateJSON<BlogPost>(prompt, {
+  // Use direct model call with strict JSON mode
+  const model = createAIClient({
     ...options,
     config: {
-      temperature: 0.8,
-      topP: 0.95,
+      temperature: 0.7,
+      topP: 0.9,
       topK: 40,
       maxOutputTokens: 4096,
       responseMimeType: "application/json",
     },
   });
+
+  try {
+    log.info("Generating blog post with model", { topic, model: options.model || "default" });
+    
+    const result = await model.generateContent(prompt);
+    const text = result.response.text().trim();
+    
+    // Log for debugging
+    log.info("Blog post generation response", { 
+      length: text.length,
+      preview: text.substring(0, 150) 
+    });
+    
+    // Parse and validate
+    const blogPost = JSON.parse(text) as BlogPost;
+    
+    if (!blogPost.title || !blogPost.content) {
+      throw new Error("Generated blog post missing required fields");
+    }
+    
+    return blogPost;
+  } catch (error: any) {
+    log.error("Blog post generation failed", { 
+      error: error?.message,
+      stack: error?.stack 
+    });
+    
+    if (error instanceof SyntaxError) {
+      throw new Error("Invalid JSON response from AI");
+    }
+    
+    throw error;
+  }
 }
 
 /**
