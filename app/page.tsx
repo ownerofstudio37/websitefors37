@@ -240,14 +240,6 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
           </p>
         </div>
       </div>
-      {/* Two Photographers Announcement */}
-      <div className="bg-primary-50 border-b border-primary-200">
-        <div className="container mx-auto px-4 py-3">
-          <p className="text-center text-sm md:text-base text-primary-800 font-medium">
-            Two photographers on site — for the price of one. More coverage, more moments, same rate.
-          </p>
-        </div>
-      </div>
       <LazyMount minHeight={400}>
         <PortraitHighlightGallery />
       </LazyMount>
