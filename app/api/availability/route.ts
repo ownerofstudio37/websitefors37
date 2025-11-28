@@ -71,18 +71,32 @@ export async function GET(request: NextRequest) {
 
       const bookings = bookingsPerDay[dateStr] || 0
       
-      // Assume max 2 sessions per day (can be adjusted)
-      const maxSlots = isWeekend ? 2 : 1
+      // Max sessions per day:
+      // Weekends: 4 full photo sessions + consultation slots (12pm-11pm = 22 slots of 30min)
+      // Weekdays: 1 full photo session + consultation slots (4:30pm-11pm = 13 slots of 30min)
+      let maxSlots = isWeekend ? 4 : 1
+      
+      // Add consultation time slots
+      // Weekends: 12pm to 11pm = 11 hours = 22 thirty-minute slots
+      // Weekdays: 4:30pm to 11pm = 6.5 hours = 13 thirty-minute slots
+      const consultationSlots = isWeekend ? 22 : 13
+      maxSlots += consultationSlots
+      
       const availableSlots = Math.max(0, maxSlots - bookings)
       
-      // Determine urgency
+      // Determine urgency based on photo session availability (not consultation slots)
+      // Focus on the primary booking slots for urgency calculation
+      const photoSessionSlots = isWeekend ? 4 : 1
+      const photoSessionsBooked = Math.min(bookings, photoSessionSlots)
+      const photoSessionsAvailable = photoSessionSlots - photoSessionsBooked
+      
       let urgency: 'low' | 'medium' | 'high' = 'low'
-      if (availableSlots === 1 && maxSlots === 2) {
-        urgency = 'medium'
-      } else if (availableSlots === 1 && maxSlots === 1) {
-        urgency = 'high'
-      } else if (availableSlots === 0) {
-        urgency = 'high'
+      if (photoSessionsAvailable === 0) {
+        urgency = 'high' // All photo sessions booked (consultations may still be available)
+      } else if (photoSessionsAvailable === 1 && photoSessionSlots > 1) {
+        urgency = 'medium' // Last photo session slot
+      } else if (availableSlots <= 5) {
+        urgency = 'medium' // Running low on total availability
       }
 
       availableDates.push({

@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { Calendar as CalendarIcon, Clock, AlertCircle, CheckCircle2 } from 'lucide-react'
+import { Calendar as CalendarIcon, Clock, AlertCircle, CheckCircle2, XCircle } from 'lucide-react'
 import toast from 'react-hot-toast'
 
 interface AvailableDate {
@@ -102,35 +102,53 @@ export default function AvailabilityCalendar({ serviceType = 'all' }: { serviceT
         textColor = 'text-gray-300'
       }
       
+      // Calculate photo sessions and consultation slots
+      const maxPhotoSessions = isWeekend ? 4 : 1
+      const maxConsultationSlots = isWeekend ? 22 : 13
+      const bookedCount = availableDate?.booked || 0
+      const photoSessionsAvailable = Math.max(0, maxPhotoSessions - Math.min(bookedCount, maxPhotoSessions))
+      const consultationSlotsAvailable = maxConsultationSlots // Simplified - assumes consultations tracked separately
+      
       days.push(
         <div
           key={day}
           className={`p-2 border ${borderColor} ${bgColor} ${
             !isPast && availableDate ? 'cursor-pointer' : 'cursor-default'
-          } rounded-lg transition-all relative min-h-[60px]`}
+          } rounded-lg transition-all relative min-h-[80px]`}
           onClick={() => {
             if (!isPast && availableDate) {
               toast.success(`Selected ${dateStr}. Contact us to book!`)
             }
           }}
         >
-          <div className={`text-sm ${textColor}`}>{day}</div>
+          <div className={`text-sm ${textColor} font-semibold`}>{day}</div>
           {isWeekend && !isPast && (
             <div className="absolute top-1 right-1">
               <div className="w-2 h-2 bg-primary-500 rounded-full" title="Weekend" />
             </div>
           )}
           {availableDate && !isPast && (
-            <div className="mt-1">
-              <div className="text-xs text-gray-600">
-                {availableDate.slots > 0 ? (
-                  <span className="flex items-center gap-1">
-                    <CheckCircle2 className="h-3 w-3" />
-                    {availableDate.slots === 1 ? 'Last slot' : `${availableDate.slots} slots`}
+            <div className="mt-1 space-y-0.5">
+              {/* Photo Sessions */}
+              <div className="text-[10px] leading-tight">
+                {photoSessionsAvailable > 0 ? (
+                  <span className="flex items-center gap-1 text-gray-700">
+                    <CheckCircle2 className="h-2.5 w-2.5 text-green-600" />
+                    <span className="font-medium">{photoSessionsAvailable}</span> photo
                   </span>
                 ) : (
-                  <span className="text-red-600 text-[10px]">Fully booked</span>
+                  <span className="text-red-600 flex items-center gap-1">
+                    <XCircle className="h-2.5 w-2.5" />
+                    Photos full
+                  </span>
                 )}
+              </div>
+              {/* Consultation Slots */}
+              <div className="text-[10px] leading-tight text-blue-700">
+                <span className="flex items-center gap-1">
+                  <Clock className="h-2.5 w-2.5" />
+                  <span className="font-medium">{consultationSlotsAvailable}</span> consult
+                </span>
               </div>
             </div>
           )}
@@ -165,15 +183,35 @@ export default function AvailabilityCalendar({ serviceType = 'all' }: { serviceT
             <CalendarIcon className="h-6 w-6 text-primary-600" />
             Check Availability
           </h2>
-          <p className="text-sm text-gray-600 mt-1">Find your perfect date</p>
+          <p className="text-sm text-gray-600 mt-1">Photo sessions & consultation slots</p>
         </div>
         
         {availability && (
           <div className="text-right">
             <div className="text-2xl font-bold text-primary-600">{availability.bookedCount}</div>
-            <div className="text-xs text-gray-600">sessions this month</div>
+            <div className="text-xs text-gray-600">bookings this month</div>
           </div>
         )}
+      </div>
+
+      {/* Booking Hours Info */}
+      <div className="mb-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
+        <h3 className="font-semibold text-blue-900 mb-2 flex items-center gap-2">
+          <Clock className="h-4 w-4" />
+          Booking Hours
+        </h3>
+        <div className="grid md:grid-cols-2 gap-3 text-sm text-blue-800">
+          <div>
+            <div className="font-medium">Weekdays (Mon-Fri)</div>
+            <div className="text-xs">• Photo Sessions: 1 per day</div>
+            <div className="text-xs">• Consultations: 4:30 PM - 11:00 PM CST (15-min calls)</div>
+          </div>
+          <div>
+            <div className="font-medium">Weekends (Sat-Sun)</div>
+            <div className="text-xs">• Photo Sessions: 4 per day</div>
+            <div className="text-xs">• Consultations: 12:00 PM - 11:00 PM CST (15-min calls)</div>
+          </div>
+        </div>
       </div>
 
       {/* Urgency Banner */}
@@ -215,6 +253,18 @@ export default function AvailabilityCalendar({ serviceType = 'all' }: { serviceT
       {/* Legend */}
       <div className="flex flex-wrap gap-4 mb-4 text-xs">
         <div className="flex items-center gap-2">
+          <CheckCircle2 className="h-3.5 w-3.5 text-green-600" />
+          <span className="text-gray-600">Photo sessions</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <Clock className="h-3.5 w-3.5 text-blue-600" />
+          <span className="text-gray-600">Consultation slots</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="w-2 h-2 bg-primary-500 rounded-full" />
+          <span className="text-gray-600">Weekend</span>
+        </div>
+        <div className="flex items-center gap-2">
           <div className="w-4 h-4 bg-green-50 border border-green-300 rounded" />
           <span className="text-gray-600">Available</span>
         </div>
@@ -225,10 +275,6 @@ export default function AvailabilityCalendar({ serviceType = 'all' }: { serviceT
         <div className="flex items-center gap-2">
           <div className="w-4 h-4 bg-red-50 border border-red-300 rounded" />
           <span className="text-gray-600">Almost full</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="w-2 h-2 bg-primary-500 rounded-full" />
-          <span className="text-gray-600">Weekend</span>
         </div>
       </div>
 
