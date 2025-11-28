@@ -358,9 +358,25 @@ export default function CommercialPhotographyPage() {
             >
               View Commercial Portfolio
             </Link>
+            {/* Digital Marketing CTA */}
+            <Link
+              href="/digital-marketing"
+              className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-primary-600 transition-colors"
+            >
+              Grow with Digital Marketing
+            </Link>
           </div>
         </div>
       </section>
+
+      {/* Two Photographers Announcement */}
+      <div className="bg-primary-50 border-y border-primary-200">
+        <div className="container mx-auto px-4 py-4">
+          <p className="text-center text-primary-800 font-medium">
+            Two photographers on site — for the price of one. More coverage, more moments, same rate.
+          </p>
+        </div>
+      </div>
     </div>
   )
 }

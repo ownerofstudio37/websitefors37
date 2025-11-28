@@ -156,6 +156,41 @@ export default function Navigation() {
 
           <div className="hidden md:flex items-center space-x-8" suppressHydrationWarning>
             {navItems.map((item) => {
+              // Normalize hrefs to prevent duplicated segments like /services/services
+              const normalizeHref = (href: string, parentHref?: string) => {
+                try {
+                  // Leave absolute URLs alone
+                  if (/^https?:\/\//i.test(href)) return href
+                  // Trim spaces
+                  let out = (href || '').trim()
+                  // Ensure leading slash
+                  if (!out.startsWith('/')) out = `/${out}`
+                  // Collapse duplicate slashes
+                  out = out.replace(/\/+/g, '/').replace(/\/+$/g, '')
+                  // If parent provided, avoid repeating immediate segment (e.g., /services/services)
+                  if (parentHref && parentHref !== '/' && out.startsWith(parentHref)) {
+                    // Remove exact duplicated parent segment once, e.g., /services/services -> /services
+                    const parts = out.split('/').filter(Boolean)
+                    const dedup: string[] = []
+                    for (const p of parts) {
+                      if (dedup.length === 0 || dedup[dedup.length - 1] !== p) dedup.push(p)
+                    }
+                    out = '/' + dedup.join('/')
+                  } else {
+                    // Generic consecutive segment de-duplication
+                    const parts = out.split('/').filter(Boolean)
+                    const dedup: string[] = []
+                    for (const p of parts) {
+                      if (dedup.length === 0 || dedup[dedup.length - 1] !== p) dedup.push(p)
+                    }
+                    out = '/' + dedup.join('/')
+                  }
+                  return out || '/'
+                } catch {
+                  return href || '/'
+                }
+              }
+
               // Dropdown menu item
               if (item.children && item.children.length > 0) {
                 const isDropdownOpen = dropdownStates[item.id] || false
@@ -207,7 +242,7 @@ export default function Navigation() {
                         {item.children.map((child) => (
                           <Link
                             key={child.id}
-                            href={child.href}
+                            href={normalizeHref(child.href, normalizeHref(item.href))}
                             className="block px-4 py-2 text-amber-900 hover:bg-amber-50 transition-colors"
                           >
                             {child.label}
@@ -223,7 +258,7 @@ export default function Navigation() {
               return (
                 <Link
                   key={item.id}
-                  href={item.href}
+                  href={normalizeHref(item.href)}
                   className={`transition-colors font-medium px-2 py-1 rounded ${
                     item.highlighted
                       ? scrolled
@@ -270,6 +305,32 @@ export default function Navigation() {
           >
             <div className="flex flex-col space-y-4">
               {navItems.map((item) => {
+                const normalizeHref = (href: string, parentHref?: string) => {
+                  try {
+                    if (/^https?:\/\//i.test(href)) return href
+                    let out = (href || '').trim()
+                    if (!out.startsWith('/')) out = `/${out}`
+                    out = out.replace(/\/+/g, '/').replace(/\/+$/g, '')
+                    if (parentHref && parentHref !== '/' && out.startsWith(parentHref)) {
+                      const parts = out.split('/').filter(Boolean)
+                      const dedup: string[] = []
+                      for (const p of parts) {
+                        if (dedup.length === 0 || dedup[dedup.length - 1] !== p) dedup.push(p)
+                      }
+                      out = '/' + dedup.join('/')
+                    } else {
+                      const parts = out.split('/').filter(Boolean)
+                      const dedup: string[] = []
+                      for (const p of parts) {
+                        if (dedup.length === 0 || dedup[dedup.length - 1] !== p) dedup.push(p)
+                      }
+                      out = '/' + dedup.join('/')
+                    }
+                    return out || '/'
+                  } catch {
+                    return href || '/'
+                  }
+                }
                 // Mobile dropdown menu item
                 if (item.children && item.children.length > 0) {
                   const isMobileDropdownOpen = mobileDropdownStates[item.id] || false
@@ -291,7 +352,7 @@ export default function Navigation() {
                           {item.children.map((child) => (
                             <Link
                               key={child.id}
-                              href={child.href}
+                              href={normalizeHref(child.href, normalizeHref(item.href))}
                               className="block transition-colors text-amber-900 px-2 py-1 rounded hover:text-amber-600 focus:text-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2"
                               onClick={() => setIsOpen(false)}
                             >
@@ -308,7 +369,7 @@ export default function Navigation() {
                 return (
                   <Link
                     key={item.id}
-                    href={item.href}
+                    href={normalizeHref(item.href)}
                     className={`transition-colors font-medium text-amber-900 px-2 py-1 rounded ${
                       item.highlighted
                         ? 'btn-primary w-fit'

@@ -323,6 +323,15 @@ export default function EventPhotographyPage() {
         </div>
       </section>
 
+      {/* Two Photographers Announcement */}
+      <div className="bg-primary-50 border-y border-primary-200">
+        <div className="container mx-auto px-4 py-4">
+          <p className="text-center text-primary-800 font-medium">
+            Two photographers on site — for the price of one. More coverage, more moments, same rate.
+          </p>
+        </div>
+      </div>
+
       {/* CTA Section */}
       <section className="py-16 bg-gradient-to-r from-primary-600 to-green-600 text-white">
         <div className="container mx-auto px-4 text-center">
