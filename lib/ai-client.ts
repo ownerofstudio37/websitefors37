@@ -15,22 +15,25 @@ import { createLogger } from "./logger";
 
 const log = createLogger("lib/ai-client");
 
-// Resolve default model from env with safe fallbacks (prefers stable Gemini 1.5)
+// Resolve default model from env with safe fallbacks (new nomenclature)
 const ENV_MODEL =
   process.env.GOOGLE_GENAI_MODEL ||
   process.env.GEMINI_MODEL ||
   process.env.AI_MODEL ||
-  "gemini-1.5-flash-latest";
+  "gemini-flash-latest";
 
-// Known good fallbacks in descending preference (stable models first)
+// Known good fallbacks in descending preference (using new model names)
 export const MODEL_FALLBACKS = [
   ENV_MODEL,
-  // Gemini 1.5 (stable, widely available, proven)
+  // New nomenclature (stable, widely available)
+  "gemini-flash-latest",
+  "gemini-pro-latest",
+  // Legacy names (fallbacks)
   "gemini-1.5-flash-latest",
   "gemini-1.5-flash",
   "gemini-1.5-pro-latest",
   "gemini-1.5-pro",
-  // Gemini 2.0 (experimental, may not be available)
+  // Experimental
   "gemini-2.0-flash-exp",
   "gemini-2.0-flash-thinking-exp-1219",
   // Older fallbacks
