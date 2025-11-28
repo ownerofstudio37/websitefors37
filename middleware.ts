@@ -24,8 +24,15 @@ export function middleware(req: NextRequest) {
   const res = NextResponse.next()
   res.headers.set('X-DNS-Prefetch-Control', 'on')
   res.headers.set('X-Content-Type-Options', 'nosniff')
-  res.headers.set('Referrer-Policy', 'origin-when-cross-origin')
+  res.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin')
   res.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()')
+  
+  // Content Security Policy - Allow Google Tag Manager images
+  res.headers.set(
+    'Content-Security-Policy',
+    "img-src 'self' data: blob: https://res.cloudinary.com https://images.unsplash.com https://*.supabase.co https://www.googletagmanager.com;"
+  )
+  
   return res
 }
 

@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
-import { cookies } from 'next/headers'
+import { createClient } from '@supabase/supabase-js'
 import { createLogger } from '@/lib/logger'
 
 const log = createLogger('api/availability')
@@ -12,7 +11,15 @@ export async function GET(request: NextRequest) {
     const year = parseInt(searchParams.get('year') || String(new Date().getFullYear()))
     const serviceType = searchParams.get('service') || 'all'
 
-    const supabase = createServerComponentClient({ cookies })
+    // Use anon client for public read access (no cookies needed)
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    
+    if (!supabaseUrl || !supabaseAnonKey) {
+      throw new Error('Supabase configuration missing')
+    }
+
+    const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
     // Get start and end dates for the month
     const startDate = new Date(year, month - 1, 1)
