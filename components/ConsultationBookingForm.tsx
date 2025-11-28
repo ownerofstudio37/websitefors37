@@ -47,7 +47,9 @@ const ConsultationBookingForm = () => {
   useEffect(() => {
     const fetchAvailability = async () => {
       try {
-        const response = await fetch(`/api/availability?month=${selectedMonth}&year=${selectedYear}`)
+        // API expects month 1-12, but selectedMonth is 0-11
+        const apiMonth = selectedMonth + 1
+        const response = await fetch(`/api/availability?month=${apiMonth}&year=${selectedYear}`)
         if (response.ok) {
           const data = await response.json()
           setAvailability(data.dates || [])
@@ -155,7 +157,8 @@ const ConsultationBookingForm = () => {
       let borderColor = 'border-gray-200'
       let cursor = 'cursor-not-allowed'
       
-      if (!isPast && availableDate) {
+      // Allow selection of all future dates (not just those in availability data)
+      if (!isPast) {
         cursor = 'cursor-pointer'
         bgColor = 'bg-green-50 hover:bg-green-100'
         borderColor = 'border-green-300'
@@ -176,9 +179,9 @@ const ConsultationBookingForm = () => {
       days.push(
         <button
           key={day}
-          disabled={isPast || !availableDate}
+          disabled={isPast}
           onClick={() => {
-            if (!isPast && availableDate) {
+            if (!isPast) {
               setSelectedDate(dateStr)
             }
           }}

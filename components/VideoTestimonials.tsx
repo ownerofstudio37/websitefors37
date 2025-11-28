@@ -17,30 +17,12 @@ interface VideoTestimonial {
 const testimonials: VideoTestimonial[] = [
   {
     id: '1',
-    name: 'Sarah & Michael',
-    service: 'Wedding Photography',
-    videoUrl: 'https://res.cloudinary.com/dmjxho2rl/video/upload/v1234567890/testimonial-1.mp4', // Placeholder
-    thumbnailUrl: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=600&h=400&fit=crop',
-    quote: 'Studio37 captured our wedding day perfectly. Every moment was preserved beautifully.',
-    duration: '0:45'
-  },
-  {
-    id: '2',
-    name: 'Jennifer Martinez',
-    service: 'Family Portrait',
-    videoUrl: 'https://res.cloudinary.com/dmjxho2rl/video/upload/v1234567890/testimonial-2.mp4', // Placeholder
-    thumbnailUrl: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=600&h=400&fit=crop',
-    quote: 'The team made us feel so comfortable. Our kids had a blast and the photos are amazing!',
-    duration: '0:38'
-  },
-  {
-    id: '3',
-    name: 'David Thompson',
-    service: 'Commercial Photography',
-    videoUrl: 'https://res.cloudinary.com/dmjxho2rl/video/upload/v1234567890/testimonial-3.mp4', // Placeholder
-    thumbnailUrl: 'https://images.unsplash.com/photo-1556761175-4b46a572b786?w=600&h=400&fit=crop',
-    quote: 'Professional, creative, and delivered ahead of schedule. Perfect for our brand launch.',
-    duration: '0:52'
+    name: 'Coming Soon!',
+    service: 'Video Testimonials',
+    videoUrl: 'https://res.cloudinary.com/dmjxho2rl/video/upload/v1764358053/Untitled_Project_video-converter.com_j8vgtz.mp4',
+    thumbnailUrl: 'https://res.cloudinary.com/dmjxho2rl/video/upload/v1764358053/Untitled_Project_video-converter.com_j8vgtz.jpg',
+    quote: 'In Production - Coming soon! Here\'s a video I made over a beat I produced to hold you over! 🎵🎬',
+    duration: '2:30'
   }
 ]
 
@@ -125,15 +107,18 @@ export default function VideoTestimonials() {
     <section className="py-16 bg-gradient-to-br from-gray-50 to-white">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
+          <div className="inline-block px-4 py-2 bg-yellow-100 border border-yellow-300 rounded-full text-yellow-800 font-semibold text-sm mb-4">
+            🎬 In Production - Coming Soon!
+          </div>
           <h2 className="text-4xl font-bold text-gray-900 mb-4">
-            Hear From Our Clients
+            Video Testimonials
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Real stories from real clients about their experience with Studio37
+            We're currently filming client testimonials. In the meantime, enjoy this creative video!
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+        <div className="grid md:grid-cols-1 gap-8 max-w-3xl mx-auto">{/* Changed to single column centered */}
           {testimonials.map((testimonial, index) => (
             <div
               key={testimonial.id}
@@ -231,12 +216,12 @@ export default function VideoTestimonials() {
 
         {/* CTA */}
         <div className="text-center mt-12">
-          <p className="text-gray-600 mb-4">Ready to create your own success story?</p>
+          <p className="text-gray-600 mb-4">Excited to work with us?</p>
           <a
             href="/contact"
             className="inline-flex items-center gap-2 px-8 py-4 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors font-semibold"
           >
-            Start Your Journey
+            Let's Create Together
             <Play className="h-5 w-5" />
           </a>
         </div>
