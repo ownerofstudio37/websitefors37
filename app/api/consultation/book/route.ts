@@ -165,7 +165,7 @@ export async function POST(request: NextRequest) {
 
     // Create the consultation booking
     // Convert date and time to start_time and end_time timestamps
-    const [datePart] = date.split('T')
+    // Reuse datePart from above
     const appointmentDateTime = new Date(`${datePart}T${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}:00`)
     const startTime = appointmentDateTime.toISOString()
     const endTime = new Date(appointmentDateTime.getTime() + 30 * 60 * 1000).toISOString() // 30 min consultation
