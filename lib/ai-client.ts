@@ -363,7 +363,9 @@ Requirements:
 - Focus on photography business context (Studio37)
 - Include actionable tips and insights
 
-Return as JSON:
+You must respond with valid JSON only. No markdown formatting, no code blocks, no explanations - just the raw JSON object.
+
+Required JSON structure:
 {
   "title": "compelling SEO title (50-60 chars)",
   "metaDescription": "meta description (150-160 chars)",
@@ -375,7 +377,13 @@ Return as JSON:
 
   return generateJSON<BlogPost>(prompt, {
     ...options,
-    config: AI_CONFIGS.creative,
+    config: {
+      temperature: 0.8,
+      topP: 0.95,
+      topK: 40,
+      maxOutputTokens: 4096,
+      responseMimeType: "application/json",
+    },
   });
 }
 
