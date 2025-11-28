@@ -1,0 +1,246 @@
+'use client'
+
+import React, { useState, useRef, useEffect } from 'react'
+import { Play, Pause, Volume2, VolumeX, Quote } from 'lucide-react'
+import Image from 'next/image'
+
+interface VideoTestimonial {
+  id: string
+  name: string
+  service: string
+  videoUrl: string
+  thumbnailUrl: string
+  quote: string
+  duration: string
+}
+
+const testimonials: VideoTestimonial[] = [
+  {
+    id: '1',
+    name: 'Sarah & Michael',
+    service: 'Wedding Photography',
+    videoUrl: 'https://res.cloudinary.com/dmjxho2rl/video/upload/v1234567890/testimonial-1.mp4', // Placeholder
+    thumbnailUrl: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=600&h=400&fit=crop',
+    quote: 'Studio37 captured our wedding day perfectly. Every moment was preserved beautifully.',
+    duration: '0:45'
+  },
+  {
+    id: '2',
+    name: 'Jennifer Martinez',
+    service: 'Family Portrait',
+    videoUrl: 'https://res.cloudinary.com/dmjxho2rl/video/upload/v1234567890/testimonial-2.mp4', // Placeholder
+    thumbnailUrl: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=600&h=400&fit=crop',
+    quote: 'The team made us feel so comfortable. Our kids had a blast and the photos are amazing!',
+    duration: '0:38'
+  },
+  {
+    id: '3',
+    name: 'David Thompson',
+    service: 'Commercial Photography',
+    videoUrl: 'https://res.cloudinary.com/dmjxho2rl/video/upload/v1234567890/testimonial-3.mp4', // Placeholder
+    thumbnailUrl: 'https://images.unsplash.com/photo-1556761175-4b46a572b786?w=600&h=400&fit=crop',
+    quote: 'Professional, creative, and delivered ahead of schedule. Perfect for our brand launch.',
+    duration: '0:52'
+  }
+]
+
+export default function VideoTestimonials() {
+  const [activeVideo, setActiveVideo] = useState<string | null>(null)
+  const [isMuted, setIsMuted] = useState(true)
+  const [isPlaying, setIsPlaying] = useState<Record<string, boolean>>({})
+  const videoRefs = useRef<Record<string, HTMLVideoElement | null>>({})
+
+  useEffect(() => {
+    // Set up Intersection Observer for auto-play on scroll
+    const observers: IntersectionObserver[] = []
+
+    testimonials.forEach(testimonial => {
+      const videoEl = videoRefs.current[testimonial.id]
+      if (!videoEl) return
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
+              // Auto-play when 50% visible
+              if (activeVideo === testimonial.id) {
+                videoEl.play()
+                setIsPlaying(prev => ({ ...prev, [testimonial.id]: true }))
+              }
+            } else {
+              // Pause when out of view
+              videoEl.pause()
+              setIsPlaying(prev => ({ ...prev, [testimonial.id]: false }))
+            }
+          })
+        },
+        { threshold: [0.5] }
+      )
+
+      observer.observe(videoEl)
+      observers.push(observer)
+    })
+
+    return () => {
+      observers.forEach(observer => observer.disconnect())
+    }
+  }, [activeVideo])
+
+  const togglePlay = (id: string) => {
+    const videoEl = videoRefs.current[id]
+    if (!videoEl) return
+
+    if (isPlaying[id]) {
+      videoEl.pause()
+      setIsPlaying(prev => ({ ...prev, [id]: false }))
+    } else {
+      // Pause all other videos
+      Object.keys(videoRefs.current).forEach(key => {
+        if (key !== id && videoRefs.current[key]) {
+          videoRefs.current[key]!.pause()
+          setIsPlaying(prev => ({ ...prev, [key]: false }))
+        }
+      })
+      
+      videoEl.play()
+      setIsPlaying(prev => ({ ...prev, [id]: true }))
+      setActiveVideo(id)
+    }
+  }
+
+  const toggleMute = (id: string) => {
+    const videoEl = videoRefs.current[id]
+    if (!videoEl) return
+
+    videoEl.muted = !videoEl.muted
+    setIsMuted(videoEl.muted)
+  }
+
+  const handleVideoClick = (id: string) => {
+    setActiveVideo(id)
+    togglePlay(id)
+  }
+
+  return (
+    <section className="py-16 bg-gradient-to-br from-gray-50 to-white">
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-12">
+          <h2 className="text-4xl font-bold text-gray-900 mb-4">
+            Hear From Our Clients
+          </h2>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Real stories from real clients about their experience with Studio37
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+          {testimonials.map((testimonial, index) => (
+            <div
+              key={testimonial.id}
+              className="group relative bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300"
+            >
+              {/* Video Container */}
+              <div className="relative aspect-video bg-gray-900 overflow-hidden">
+                {activeVideo !== testimonial.id ? (
+                  // Thumbnail View
+                  <>
+                    <Image
+                      src={testimonial.thumbnailUrl}
+                      alt={`${testimonial.name} testimonial`}
+                      fill
+                      className="object-cover"
+                    />
+                    <div className="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors" />
+                    <button
+                      onClick={() => handleVideoClick(testimonial.id)}
+                      className="absolute inset-0 flex items-center justify-center z-10"
+                      aria-label={`Play testimonial from ${testimonial.name}`}
+                    >
+                      <div className="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <Play className="h-8 w-8 text-primary-600 ml-1" />
+                      </div>
+                    </button>
+                    <div className="absolute bottom-3 right-3 bg-black/70 text-white text-xs px-2 py-1 rounded">
+                      {testimonial.duration}
+                    </div>
+                  </>
+                ) : (
+                  // Video Player
+                  <>
+                    <video
+                      ref={(el) => { videoRefs.current[testimonial.id] = el }}
+                      src={testimonial.videoUrl}
+                      className="w-full h-full object-cover"
+                      loop
+                      muted={isMuted}
+                      playsInline
+                      onEnded={() => setIsPlaying(prev => ({ ...prev, [testimonial.id]: false }))}
+                    />
+                    
+                    {/* Video Controls */}
+                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+                      <div className="flex items-center justify-between">
+                        <button
+                          onClick={() => togglePlay(testimonial.id)}
+                          className="w-10 h-10 bg-white/90 rounded-full flex items-center justify-center hover:bg-white transition-colors"
+                          aria-label={isPlaying[testimonial.id] ? 'Pause' : 'Play'}
+                        >
+                          {isPlaying[testimonial.id] ? (
+                            <Pause className="h-5 w-5 text-gray-900" />
+                          ) : (
+                            <Play className="h-5 w-5 text-gray-900 ml-0.5" />
+                          )}
+                        </button>
+                        
+                        <button
+                          onClick={() => toggleMute(testimonial.id)}
+                          className="w-10 h-10 bg-white/90 rounded-full flex items-center justify-center hover:bg-white transition-colors"
+                          aria-label={isMuted ? 'Unmute' : 'Mute'}
+                        >
+                          {isMuted ? (
+                            <VolumeX className="h-5 w-5 text-gray-900" />
+                          ) : (
+                            <Volume2 className="h-5 w-5 text-gray-900" />
+                          )}
+                        </button>
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
+
+              {/* Content */}
+              <div className="p-6">
+                <div className="flex items-start gap-3 mb-3">
+                  <Quote className="h-8 w-8 text-primary-600 flex-shrink-0 opacity-50" />
+                  <p className="text-gray-700 leading-relaxed italic">
+                    "{testimonial.quote}"
+                  </p>
+                </div>
+                
+                <div className="border-t border-gray-100 pt-4">
+                  <h4 className="font-semibold text-gray-900 mb-1">
+                    {testimonial.name}
+                  </h4>
+                  <p className="text-sm text-gray-600">{testimonial.service}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* CTA */}
+        <div className="text-center mt-12">
+          <p className="text-gray-600 mb-4">Ready to create your own success story?</p>
+          <a
+            href="/contact"
+            className="inline-flex items-center gap-2 px-8 py-4 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors font-semibold"
+          >
+            Start Your Journey
+            <Play className="h-5 w-5" />
+          </a>
+        </div>
+      </div>
+    </section>
+  )
+}

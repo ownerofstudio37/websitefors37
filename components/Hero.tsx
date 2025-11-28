@@ -87,11 +87,11 @@ export default function Hero() {
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link
-              href="/book-a-session"
+              href="/get-quote"
               className="btn-primary text-lg px-8 py-4 inline-flex items-center focus:outline-none focus:ring-4 focus:ring-amber-500 focus:ring-offset-2"
-              aria-label="Book your photography session"
+              aria-label="Get instant photography quote"
             >
-              Book Your Session
+              Get Instant Quote
               <ArrowRight className="ml-2 h-5 w-5" aria-hidden="true" />
             </Link>
 
