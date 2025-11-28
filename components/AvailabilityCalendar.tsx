@@ -7,11 +7,14 @@ import toast from 'react-hot-toast'
 interface AvailableDate {
   date: string
   slots: number
+  photoSessions?: number
+  consultationSlots?: number
+  booked?: number
   urgency: 'low' | 'medium' | 'high'
 }
 
 interface AvailabilityData {
-  availableDates: AvailableDate[]
+  dates: AvailableDate[]
   bookedCount: number
   urgentMonths: string[]
   stats: {
@@ -75,7 +78,7 @@ export default function AvailabilityCalendar({ serviceType = 'all' }: { serviceT
     // Actual days
     for (let day = 1; day <= daysInMonth; day++) {
       const dateStr = `${selectedYear}-${String(selectedMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`
-      const availableDate = availability?.availableDates.find(d => d.date === dateStr)
+      const availableDate = availability?.dates.find(d => d.date === dateStr)
       const isPast = new Date(dateStr) < new Date()
       const isWeekend = new Date(dateStr).getDay() === 0 || new Date(dateStr).getDay() === 6
       
@@ -103,11 +106,9 @@ export default function AvailabilityCalendar({ serviceType = 'all' }: { serviceT
       }
       
       // Calculate photo sessions and consultation slots
-      const maxPhotoSessions = isWeekend ? 4 : 1
-      const maxConsultationSlots = isWeekend ? 22 : 13
-      const bookedCount = availableDate?.booked || 0
-      const photoSessionsAvailable = Math.max(0, maxPhotoSessions - Math.min(bookedCount, maxPhotoSessions))
-      const consultationSlotsAvailable = maxConsultationSlots // Simplified - assumes consultations tracked separately
+      // Use API data if available, otherwise calculate from max capacity
+      const photoSessionsAvailable = availableDate?.photoSessions ?? (isWeekend ? 4 : 1)
+      const consultationSlotsAvailable = availableDate?.consultationSlots ?? (isWeekend ? 22 : 13)
       
       days.push(
         <div

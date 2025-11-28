@@ -28,9 +28,10 @@ export async function GET(request: NextRequest) {
     // Fetch appointments for this month
     let query = supabase
       .from('appointments')
-      .select('appointment_date, service_type')
+      .select('appointment_date, service_type, booking_type')
       .gte('appointment_date', startDate.toISOString().split('T')[0])
       .lte('appointment_date', endDate.toISOString().split('T')[0])
+      .eq('status', 'confirmed')
 
     if (serviceType !== 'all') {
       query = query.eq('service_type', serviceType)
@@ -43,11 +44,20 @@ export async function GET(request: NextRequest) {
       throw error
     }
 
-    // Count bookings per day
-    const bookingsPerDay: Record<string, number> = {}
+    // Count bookings per day, separated by type
+    const bookingsPerDay: Record<string, { photo: number; consultation: number; total: number }> = {}
     appointments?.forEach(apt => {
       const dateKey = apt.appointment_date
-      bookingsPerDay[dateKey] = (bookingsPerDay[dateKey] || 0) + 1
+      if (!bookingsPerDay[dateKey]) {
+        bookingsPerDay[dateKey] = { photo: 0, consultation: 0, total: 0 }
+      }
+      
+      if (apt.booking_type === 'consultation') {
+        bookingsPerDay[dateKey].consultation++
+      } else {
+        bookingsPerDay[dateKey].photo++
+      }
+      bookingsPerDay[dateKey].total++
     })
 
     // Generate available dates for the month
@@ -69,31 +79,28 @@ export async function GET(request: NextRequest) {
       const isWeekend = date.getDay() === 0 || date.getDay() === 6
       if (isWeekend) weekendCount++
 
-      const bookings = bookingsPerDay[dateStr] || 0
+      const dayBookings = bookingsPerDay[dateStr] || { photo: 0, consultation: 0, total: 0 }
       
-      // Max sessions per day:
-      // Weekends: 4 full photo sessions + consultation slots (12pm-11pm = 22 slots of 30min)
-      // Weekdays: 1 full photo session + consultation slots (4:30pm-11pm = 13 slots of 30min)
-      let maxSlots = isWeekend ? 4 : 1
+      // Max photo sessions per day
+      const maxPhotoSessions = isWeekend ? 4 : 1
       
-      // Add consultation time slots
+      // Max consultation slots per day
       // Weekends: 12pm to 11pm = 11 hours = 22 thirty-minute slots
       // Weekdays: 4:30pm to 11pm = 6.5 hours = 13 thirty-minute slots
-      const consultationSlots = isWeekend ? 22 : 13
-      maxSlots += consultationSlots
+      const maxConsultationSlots = isWeekend ? 22 : 13
       
-      const availableSlots = Math.max(0, maxSlots - bookings)
+      // Calculate available slots for each type
+      const availablePhotoSessions = Math.max(0, maxPhotoSessions - dayBookings.photo)
+      const availableConsultationSlots = Math.max(0, maxConsultationSlots - dayBookings.consultation)
+      
+      // Total available slots
+      const availableSlots = availablePhotoSessions + availableConsultationSlots
       
       // Determine urgency based on photo session availability (not consultation slots)
-      // Focus on the primary booking slots for urgency calculation
-      const photoSessionSlots = isWeekend ? 4 : 1
-      const photoSessionsBooked = Math.min(bookings, photoSessionSlots)
-      const photoSessionsAvailable = photoSessionSlots - photoSessionsBooked
-      
       let urgency: 'low' | 'medium' | 'high' = 'low'
-      if (photoSessionsAvailable === 0) {
+      if (availablePhotoSessions === 0) {
         urgency = 'high' // All photo sessions booked (consultations may still be available)
-      } else if (photoSessionsAvailable === 1 && photoSessionSlots > 1) {
+      } else if (availablePhotoSessions === 1 && maxPhotoSessions > 1) {
         urgency = 'medium' // Last photo session slot
       } else if (availableSlots <= 5) {
         urgency = 'medium' // Running low on total availability
@@ -102,6 +109,9 @@ export async function GET(request: NextRequest) {
       availableDates.push({
         date: dateStr,
         slots: availableSlots,
+        photoSessions: availablePhotoSessions,
+        consultationSlots: availableConsultationSlots,
+        booked: dayBookings.total,
         urgency
       })
     }
@@ -120,7 +130,7 @@ export async function GET(request: NextRequest) {
     ]
 
     return NextResponse.json({
-      availableDates,
+      dates: availableDates,
       bookedCount,
       urgentMonths: weekendsLeft <= 3 ? [monthNames[month - 1]] : [],
       stats: {

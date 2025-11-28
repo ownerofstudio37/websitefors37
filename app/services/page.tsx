@@ -285,15 +285,24 @@ export default function ServicesPage() {
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Book Your Session?</h2>
           <p className="text-xl max-w-2xl mx-auto mb-8">
-            Contact us today to discuss your photography needs and schedule a consultation with our professional team.
+            Schedule a free 15-minute consultation to discuss your photography needs, or contact us directly to get started.
           </p>
-          <Link 
-            href="/contact" 
-            className="bg-white text-primary-700 hover:bg-gray-100 px-8 py-3 rounded-lg font-medium inline-flex items-center text-lg"
-          >
-            Contact Us
-            <ArrowRight className="ml-2 h-5 w-5" />
-          </Link>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link 
+              href="/book-consultation" 
+              className="bg-white text-primary-700 hover:bg-gray-100 px-8 py-3 rounded-lg font-medium inline-flex items-center justify-center text-lg transition-colors"
+            >
+              Schedule Free Consultation
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Link>
+            <Link 
+              href="/contact" 
+              className="bg-primary-700 text-white hover:bg-primary-800 border-2 border-white px-8 py-3 rounded-lg font-medium inline-flex items-center justify-center text-lg transition-colors"
+            >
+              Contact Us
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Link>
+          </div>
         </div>
       </section>
     </div>
