@@ -12,19 +12,8 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET
 })
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-}
-
-async function parseMultipartForm(request: NextRequest): Promise<FormData> {
-  const contentType = request.headers.get('content-type') || ''
-  if (!contentType.includes('multipart/form-data')) {
-    throw new Error('Invalid content type')
-  }
-  return await request.formData()
-}
+// Force dynamic rendering for file uploads
+export const dynamic = 'force-dynamic'
 
 // POST - Upload images to gallery
 export async function POST(
@@ -32,7 +21,7 @@ export async function POST(
   { params }: { params: { id: string } }
 ) {
   try {
-    const formData = await parseMultipartForm(request)
+    const formData = await request.formData()
     const files = formData.getAll('images') as File[]
 
     if (!files || files.length === 0) {

@@ -123,12 +123,17 @@ export async function POST(request: NextRequest) {
   const supabase = getSupabaseAdmin()
 
     // Check for existing bookings at this time
+    // Build start/end time for the time slot
+    const [datePart] = date.split('T')
+    const slotStartTime = new Date(`${datePart}T${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}:00`).toISOString()
+    const slotEndTime = new Date(new Date(slotStartTime).getTime() + 30 * 60 * 1000).toISOString()
+    
     const { data: existingBookings, error: checkError } = await supabase
       .from('appointments')
       .select('*')
-      .eq('appointment_date', date)
-      .eq('appointment_time', time)
-      .eq('status', 'confirmed')
+      .gte('start_time', slotStartTime)
+      .lt('start_time', slotEndTime)
+      .in('status', ['scheduled', 'confirmed'])
 
     if (checkError) {
       log.error('Error checking existing bookings', { error: checkError })
@@ -159,17 +164,23 @@ export async function POST(request: NextRequest) {
     }
 
     // Create the consultation booking
+    // Convert date and time to start_time and end_time timestamps
+    const [datePart] = date.split('T')
+    const appointmentDateTime = new Date(`${datePart}T${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}:00`)
+    const startTime = appointmentDateTime.toISOString()
+    const endTime = new Date(appointmentDateTime.getTime() + 30 * 60 * 1000).toISOString() // 30 min consultation
+    
     const { data: booking, error: insertError } = await supabase
       .from('appointments')
       .insert({
-        client_name: name,
-        client_email: email,
-        client_phone: phone,
-        appointment_date: date,
-        appointment_time: time,
-        service_type: 'consultation',
-        booking_type: 'consultation',
-        status: 'confirmed',
+        name: name,
+        email: email,
+        phone: phone,
+        type: 'consultation',
+        duration_minutes: 30,
+        start_time: startTime,
+        end_time: endTime,
+        status: 'scheduled',
         notes: notes || ''
       })
       .select()
@@ -185,8 +196,7 @@ export async function POST(request: NextRequest) {
 
     log.info('Consultation booked successfully', {
       bookingId: booking.id,
-      date,
-      time,
+      startTime: booking.start_time,
       email
     })
 
@@ -243,10 +253,10 @@ export async function POST(request: NextRequest) {
         success: true,
         booking: {
           id: booking.id,
-          date: booking.appointment_date,
-          time: booking.appointment_time,
-          name: booking.client_name,
-          email: booking.client_email
+          date: date,
+          time: time,
+          name: booking.name,
+          email: booking.email
         },
         message: 'Consultation booked successfully! Check your email for confirmation.'
       },
@@ -278,11 +288,17 @@ export async function GET(request: NextRequest) {
     const supabase = getSupabaseAdmin()
 
     // Get all bookings for this date
+    const startOfDay = new Date(date)
+    startOfDay.setHours(0, 0, 0, 0)
+    const endOfDay = new Date(date)
+    endOfDay.setHours(23, 59, 59, 999)
+    
     const { data: bookings, error } = await supabase
       .from('appointments')
-      .select('appointment_time, booking_type')
-      .eq('appointment_date', date)
-      .eq('status', 'confirmed')
+      .select('start_time, type')
+      .gte('start_time', startOfDay.toISOString())
+      .lte('start_time', endOfDay.toISOString())
+      .in('status', ['scheduled', 'confirmed'])
 
     if (error) {
       log.error('Error fetching bookings', { error })
@@ -299,7 +315,15 @@ export async function GET(request: NextRequest) {
     const endHour = 23
 
     const availableSlots: string[] = []
-    const bookedTimes = bookings?.map(b => b.appointment_time) || []
+    // Convert booking start_times to display times for comparison
+    const bookedTimes = bookings?.map(b => {
+      const bookingTime = new Date(b.start_time)
+      const h = bookingTime.getHours()
+      const m = bookingTime.getMinutes()
+      const displayHour = h > 12 ? h - 12 : h === 0 ? 12 : h
+      const ampm = h >= 12 ? 'PM' : 'AM'
+      return `${displayHour}:${m.toString().padStart(2, '0')} ${ampm}`
+    }) || []
 
     for (let hour = startHour; hour < endHour; hour += 0.5) {
       const h = Math.floor(hour)
