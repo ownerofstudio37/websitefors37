@@ -163,16 +163,14 @@ export async function POST(request: NextRequest) {
       .from('appointments')
       .insert({
         client_name: name,
-        email: email,
-        phone: phone,
+        client_email: email,
+        client_phone: phone,
         appointment_date: date,
         appointment_time: time,
         service_type: 'consultation',
         booking_type: 'consultation',
         status: 'confirmed',
-        notes: notes || '',
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
+        notes: notes || ''
       })
       .select()
       .single()
@@ -180,8 +178,8 @@ export async function POST(request: NextRequest) {
     if (insertError) {
       log.error('Error creating booking', { error: insertError })
       return NextResponse.json(
-        { error: 'Failed to create booking' },
-        { status: 500 }
+        { error: `Failed to create booking: ${insertError?.message || insertError}` },
+        { status: 400 }
       )
     }
 
@@ -248,7 +246,7 @@ export async function POST(request: NextRequest) {
           date: booking.appointment_date,
           time: booking.appointment_time,
           name: booking.client_name,
-          email: booking.email
+          email: booking.client_email
         },
         message: 'Consultation booked successfully! Check your email for confirmation.'
       },
@@ -277,7 +275,7 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    const supabase = createClient()
+    const supabase = getSupabaseAdmin()
 
     // Get all bookings for this date
     const { data: bookings, error } = await supabase
