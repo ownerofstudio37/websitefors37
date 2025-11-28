@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@/lib/supabase'
+import { getSupabaseAdmin } from '@/lib/supabaseAdmin'
 import { rateLimit, getClientIp } from '@/lib/rateLimit'
 import { createLogger } from '@/lib/logger'
 
@@ -107,8 +107,8 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Create Supabase client
-    const supabase = createClient()
+  // Server-side admin client (RLS bypass for trusted API route)
+  const supabase = getSupabaseAdmin()
 
     // Check for existing bookings at this time
     const { data: existingBookings, error: checkError } = await supabase
@@ -171,10 +171,10 @@ export async function POST(request: NextRequest) {
 
     // Create Google Calendar event (non-blocking - don't fail booking if this fails)
     try {
-      const { createClient: createSupabaseClient } = await import('@/lib/supabaseAdmin')
+  const { getSupabaseAdmin } = await import('@/lib/supabaseAdmin')
       const { setCredentials, createConsultationEvent } = await import('@/lib/googleCalendar')
       
-      const supabaseAdmin = createSupabaseClient()
+  const supabaseAdmin = getSupabaseAdmin()
       const { data: settings } = await supabaseAdmin
         .from('settings')
         .select('value')

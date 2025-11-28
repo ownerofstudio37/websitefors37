@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@/lib/supabaseAdmin'
+import { getSupabaseAdmin } from '@/lib/supabaseAdmin'
 import { setCredentials, getBusyTimes } from '@/lib/googleCalendar'
 import { createLogger } from '@/lib/logger'
 
@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
     }
     
     // Get stored Google Calendar tokens
-    const supabase = createClient()
+  const supabase = getSupabaseAdmin()
     const { data: settings, error: settingsError } = await supabase
       .from('settings')
       .select('value')

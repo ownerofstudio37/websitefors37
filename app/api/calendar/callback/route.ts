@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getTokensFromCode } from '@/lib/googleCalendar'
-import { createClient } from '@/lib/supabaseAdmin'
+import { getSupabaseAdmin } from '@/lib/supabaseAdmin'
 import { createLogger } from '@/lib/logger'
 
 const log = createLogger('api/calendar/callback')
@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
     const tokens = await getTokensFromCode(code)
     
     // Store tokens in database (settings table)
-    const supabase = createClient()
+  const supabase = getSupabaseAdmin()
     const { error: dbError } = await supabase
       .from('settings')
       .upsert({
