@@ -375,6 +375,18 @@ export default function AdminDashboard() {
                   </div>
                 </Link>
 
+                <Link href="/admin/galleries" className="block w-full text-left p-4 rounded-lg border-2 border-dashed border-gray-200 hover:border-indigo-300 hover:bg-indigo-50 transition-colors group">
+                  <div className="flex items-center gap-3">
+                    <div className="bg-indigo-100 group-hover:bg-indigo-200 p-2 rounded-lg">
+                      <Camera className="h-5 w-5 text-indigo-600" />
+                    </div>
+                    <div>
+                      <p className="font-medium text-gray-900">Client Galleries</p>
+                      <p className="text-sm text-gray-600">Create & manage private client galleries</p>
+                    </div>
+                  </div>
+                </Link>
+
                 <Link href="/admin/page-builder" className="block w-full text-left p-4 rounded-lg border-2 border-dashed border-gray-200 hover:border-amber-300 hover:bg-amber-50 transition-colors group">
                   <div className="flex items-center gap-3">
                     <div className="bg-amber-100 group-hover:bg-amber-200 p-2 rounded-lg">
