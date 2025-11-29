@@ -35,21 +35,18 @@ All API routes in `app/api/admin/galleries/` and `app/api/galleries/` have been 
 
 ### Step 1: Run the Database Migrations
 
-Go to your **Supabase Dashboard** → **SQL Editor** and run these two migrations in order:
+Go to your **Supabase Dashboard** → **SQL Editor** and run these migrations:
 
-#### Migration 1: Client Galleries
+#### Migration 1: Client Galleries (REQUIRED)
 ```sql
 -- Copy and paste the contents of:
 -- supabase/migrations/2025-11-29_client_galleries_system.sql
 ```
 
-#### Migration 2: Client Portal System  
-```sql
--- Copy and paste the contents of:
--- supabase/migrations/2025-11-29_client_portal_system.sql
-```
+#### Migration 2: Client Portal System (SKIP - Already Exists!)
+**⚠️ DO NOT RUN** - The `client_portal_users`, `client_projects`, and `client_messages` tables already exist from the `2025-11-11_marketing_portal.sql` migration. Running this would cause conflicts.
 
-#### Migration 3: Helper Functions
+#### Migration 3: Helper Functions (REQUIRED)
 ```sql
 -- Copy and paste the contents of:
 -- supabase/migrations/20251128_gallery_functions.sql
