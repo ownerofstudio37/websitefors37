@@ -387,14 +387,14 @@ export default function AdminDashboard() {
                   </div>
                 </Link>
 
-                <Link href="/admin/client-portals/new-project" className="block w-full text-left p-4 rounded-lg border-2 border-dashed border-green-300 hover:border-green-400 hover:bg-green-50 transition-colors group">
+                <Link href="/admin/projects" className="block w-full text-left p-4 rounded-lg border-2 border-dashed border-green-300 hover:border-green-400 hover:bg-green-50 transition-colors group">
                   <div className="flex items-center gap-3">
                     <div className="bg-green-100 group-hover:bg-green-200 p-2 rounded-lg">
                       <Star className="h-5 w-5 text-green-600" />
                     </div>
                     <div>
-                      <p className="font-medium text-gray-900">Start New Project</p>
-                      <p className="text-sm text-gray-600">Quickly create a new client project</p>
+                      <p className="font-medium text-gray-900">Projects</p>
+                      <p className="text-sm text-gray-600">View & start new client projects</p>
                     </div>
                   </div>
                 </Link>
