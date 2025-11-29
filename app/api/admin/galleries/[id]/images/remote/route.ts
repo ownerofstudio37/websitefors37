@@ -62,35 +62,44 @@ export async function POST(
       const url = String(rawUrl).trim()
       if (!url) continue
       try {
-        const resp = await fetch(url)
-        if (!resp.ok) {
-          log.warn('Skip URL fetch failed', { url, status: resp.status })
-          continue
+        // Prefer Cloudinary remote URL upload (no server fetch)
+        let uploadResult: any
+        try {
+          uploadResult = await cloudinary.uploader.upload(url, {
+            folder: `galleries/${params.id}`,
+            resource_type: 'image',
+            transformation: [{ width: 2000, height: 2000, crop: 'limit', quality: 'auto' }]
+          })
+        } catch (primaryError) {
+          // Fallback: fetch bytes and stream
+          try {
+            const resp = await fetch(url)
+            if (!resp.ok) throw new Error(`HTTP ${resp.status}`)
+            const contentTypeHeader = resp.headers.get('content-type') || ''
+            if (!contentTypeHeader.startsWith('image/')) throw new Error(`Not an image: ${contentTypeHeader}`)
+            const arrayBuffer = await resp.arrayBuffer()
+            const buffer = Buffer.from(arrayBuffer)
+            uploadResult = await new Promise<any>((resolve, reject) => {
+              const uploadStream = cloudinary.uploader.upload_stream(
+                {
+                  folder: `galleries/${params.id}`,
+                  resource_type: 'image',
+                  transformation: [
+                    { width: 2000, height: 2000, crop: 'limit', quality: 'auto' }
+                  ]
+                },
+                (error, result) => {
+                  if (error) reject(error)
+                  else resolve(result)
+                }
+              )
+              uploadStream.end(buffer)
+            })
+          } catch (fallbackError) {
+            log.error('Both remote upload and fetch-stream failed', { url, primaryError, fallbackError })
+            continue
+          }
         }
-        const contentTypeHeader = resp.headers.get('content-type') || ''
-        if (!contentTypeHeader.startsWith('image/')) {
-          log.warn('Skip non-image URL', { url, contentTypeHeader })
-          continue
-        }
-        const arrayBuffer = await resp.arrayBuffer()
-        const buffer = Buffer.from(arrayBuffer)
-
-        const uploadResult = await new Promise<any>((resolve, reject) => {
-          const uploadStream = cloudinary.uploader.upload_stream(
-            {
-              folder: `galleries/${params.id}`,
-              resource_type: 'image',
-              transformation: [
-                { width: 2000, height: 2000, crop: 'limit', quality: 'auto' }
-              ]
-            },
-            (error, result) => {
-              if (error) reject(error)
-              else resolve(result)
-            }
-          )
-          uploadStream.end(buffer)
-        })
 
         const thumbnailUrl = cloudinary.url(uploadResult.public_id, {
           width: 400,
@@ -167,7 +176,10 @@ export async function POST(
 
     log.info('Remote images ingested', { galleryId: params.id, count: results.length })
 
-    return NextResponse.json({ success: true, images: results, count: results.length })
+    if (results.length === 0) {
+      return NextResponse.json({ success: false, error: 'No valid images were uploaded from provided URLs' }, { status: 400 })
+    }
+    return NextResponse.json({ success: true, images: results, count: results.length }, { status: 201 })
   } catch (error: any) {
     log.error('Unexpected remote ingestion error', { error })
     return NextResponse.json({ success: false, error: 'Failed remote URL upload' }, { status: 500 })

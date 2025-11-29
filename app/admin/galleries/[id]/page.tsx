@@ -232,6 +232,10 @@ export default function GalleryManagePage() {
                         const text = await res.text()
                         let data: any = null
                         try { data = JSON.parse(text) } catch { console.error('Non-JSON response', text) }
+                        if (!res.ok) {
+                          console.error('Remote upload failed', data?.error || text)
+                          return
+                        }
                         if (data?.success && Array.isArray(data.images)) {
                           setImages(prev => [...prev, ...data.images.map((img: any) => ({
                             id: img.id,
