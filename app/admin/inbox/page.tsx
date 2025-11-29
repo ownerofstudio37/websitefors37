@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { supabase as sharedSupabase } from '@/lib/supabase'
 import { MessageSquare, Send, Search, Archive, Tag, Phone, User } from 'lucide-react'
 
 interface Conversation {
@@ -26,7 +26,8 @@ interface Message {
 }
 
 export default function InboxPage() {
-  const supabase = createClientComponentClient()
+  // Use shared singleton Supabase client to avoid multiple GoTrue instances
+  const supabase = sharedSupabase
   const [conversations, setConversations] = useState<Conversation[]>([])
   const [selectedConversation, setSelectedConversation] = useState<Conversation | null>(null)
   const [messages, setMessages] = useState<Message[]>([])

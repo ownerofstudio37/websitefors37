@@ -1,12 +1,13 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { supabase as sharedSupabase } from '@/lib/supabase'
 import EnhancedContentManagement from '@/components/EnhancedContentManagement'
 import { RefreshCw } from 'lucide-react'
 
 export default function ContentAdminUnified() {
-  const supabase = createClientComponentClient()
+  // Use the shared singleton Supabase client for reads
+  const supabase = sharedSupabase
 
   // Booking background image URL setting (from basic content page)
   const [bookingBgUrl, setBookingBgUrl] = useState('')

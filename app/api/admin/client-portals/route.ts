@@ -1,16 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
+import { getSupabaseAdmin } from '@/lib/supabaseAdmin'
 import bcrypt from 'bcryptjs'
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
 
 export const dynamic = 'force-dynamic'
 
 // GET all client portal users
 export async function GET() {
   try {
-    const supabase = createClient(supabaseUrl, supabaseServiceKey)
+    const supabase = getSupabaseAdmin()
 
     const { data: users, error } = await supabase
       .from('client_portal_users')
@@ -60,7 +57,7 @@ export async function GET() {
 // POST to create a new client portal user
 export async function POST(request: NextRequest) {
   try {
-    const supabase = createClient(supabaseUrl, supabaseServiceKey)
+    const supabase = getSupabaseAdmin()
     const body = await request.json()
 
     // Hash password if provided
