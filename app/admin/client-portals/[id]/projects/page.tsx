@@ -102,6 +102,12 @@ function formatDate(dateString: string | null): string {
   })
 }
 
+function normalizeTags(tags: unknown): string[] {
+  if (Array.isArray(tags)) return tags.filter((t): t is string => typeof t === 'string')
+  if (typeof tags === 'string') return tags.split(',').map((s) => s.trim()).filter(Boolean)
+  return []
+}
+
 export default async function ClientProjectsPage({
   params
 }: {
@@ -264,9 +270,9 @@ export default async function ClientProjectsPage({
                       </div>
                     )}
 
-                    {project.tags && project.tags.length > 0 && (
+                    {normalizeTags(project.tags).length > 0 && (
                       <div className="mt-3 flex flex-wrap gap-2">
-                        {project.tags.map((tag, idx) => (
+                        {normalizeTags(project.tags).map((tag, idx) => (
                           <span 
                             key={idx}
                             className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs"
