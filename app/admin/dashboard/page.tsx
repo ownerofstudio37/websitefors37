@@ -192,11 +192,19 @@ export default function AdminDashboard() {
               </p>
             </div>
             <div className="flex items-center gap-3">
-              <Link href="/admin/galleries" className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 shadow-sm transition-colors">
+              <Link
+                href="/admin/galleries"
+                aria-label="Create a new client gallery"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 shadow-sm transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2"
+              >
                 <Camera className="h-4 w-4" />
                 Create Gallery
               </Link>
-              <Link href="/admin/blog" className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 shadow-sm transition-colors">
+              <Link
+                href="/admin/blog"
+                aria-label="Create a new blog post"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 shadow-sm transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-2"
+              >
                 <FileText className="h-4 w-4" />
                 New Blog Post
               </Link>
@@ -342,7 +350,11 @@ export default function AdminDashboard() {
                 <h2 className="text-lg font-semibold text-gray-900">Quick Actions</h2>
               </div>
               <div className="p-6 space-y-4">
-                <Link href="/admin/content" className="block w-full text-left p-4 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50 transition-colors group">
+                <Link
+                  href="/admin/content"
+                  aria-label="Manage content in the Enhanced CMS"
+                  className="block w-full text-left p-4 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50 transition-colors group focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300"
+                >
                   <div className="flex items-center gap-3">
                     <div className="bg-primary-100 group-hover:bg-primary-200 p-2 rounded-lg">
                       <FileText className="h-5 w-5 text-primary-600" />
@@ -353,7 +365,11 @@ export default function AdminDashboard() {
                     </div>
                   </div>
                 </Link>
-                <Link href="/admin/leads" className="block w-full text-left p-4 rounded-xl border border-slate-200 hover:border-blue-300 hover:bg-blue-50 transition-colors group">
+                <Link
+                  href="/admin/leads"
+                  aria-label="View and manage all leads"
+                  className="block w-full text-left p-4 rounded-xl border border-slate-200 hover:border-blue-300 hover:bg-blue-50 transition-colors group focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-300"
+                >
                   <div className="flex items-center gap-3">
                     <div className="bg-blue-100 group-hover:bg-blue-200 p-2 rounded-lg">
                       <Users className="h-5 w-5 text-blue-600" />
@@ -365,7 +381,11 @@ export default function AdminDashboard() {
                   </div>
                 </Link>
 
-                <Link href="/admin/bookings" className="block w-full text-left p-4 rounded-xl border border-slate-200 hover:border-green-300 hover:bg-green-50 transition-colors group">
+                <Link
+                  href="/admin/bookings"
+                  aria-label="Manage bookings and schedule"
+                  className="block w-full text-left p-4 rounded-xl border border-slate-200 hover:border-green-300 hover:bg-green-50 transition-colors group focus:outline-none focus-visible:ring-2 focus-visible:ring-green-300"
+                >
                   <div className="flex items-center gap-3">
                     <div className="bg-green-100 group-hover:bg-green-200 p-2 rounded-lg">
                       <Calendar className="h-5 w-5 text-green-600" />
@@ -377,7 +397,11 @@ export default function AdminDashboard() {
                   </div>
                 </Link>
 
-                <Link href="/admin/gallery" className="block w-full text-left p-4 rounded-xl border border-slate-200 hover:border-purple-300 hover:bg-purple-50 transition-colors group">
+                <Link
+                  href="/admin/gallery"
+                  aria-label="Update public gallery"
+                  className="block w-full text-left p-4 rounded-xl border border-slate-200 hover:border-purple-300 hover:bg-purple-50 transition-colors group focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-300"
+                >
                   <div className="flex items-center gap-3">
                     <div className="bg-purple-100 group-hover:bg-purple-200 p-2 rounded-lg">
                       <Camera className="h-5 w-5 text-purple-600" />
@@ -389,7 +413,11 @@ export default function AdminDashboard() {
                   </div>
                 </Link>
 
-                <Link href="/admin/galleries" className="block w-full text-left p-4 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50 transition-colors group">
+                <Link
+                  href="/admin/galleries"
+                  aria-label="Open client galleries management"
+                  className="block w-full text-left p-4 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50 transition-colors group focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300"
+                >
                   <div className="flex items-center gap-3">
                     <div className="bg-indigo-100 group-hover:bg-indigo-200 p-2 rounded-lg">
                       <Camera className="h-5 w-5 text-indigo-600" />
@@ -401,7 +429,11 @@ export default function AdminDashboard() {
                   </div>
                 </Link>
 
-                <Link href="/admin/projects" className="block w-full text-left p-4 rounded-xl border border-slate-200 hover:border-green-400 hover:bg-green-50 transition-colors group">
+                <Link
+                  href="/admin/projects"
+                  aria-label="Open projects list"
+                  className="block w-full text-left p-4 rounded-xl border border-slate-200 hover:border-green-400 hover:bg-green-50 transition-colors group focus:outline-none focus-visible:ring-2 focus-visible:ring-green-300"
+                >
                   <div className="flex items-center gap-3">
                     <div className="bg-green-100 group-hover:bg-green-200 p-2 rounded-lg">
                       <Star className="h-5 w-5 text-green-600" />
@@ -413,7 +445,11 @@ export default function AdminDashboard() {
                   </div>
                 </Link>
 
-                <Link href="/admin/page-builder" className="block w-full text-left p-4 rounded-xl border border-slate-200 hover:border-amber-300 hover:bg-amber-50 transition-colors group">
+                <Link
+                  href="/admin/page-builder"
+                  aria-label="Open visual page builder"
+                  className="block w-full text-left p-4 rounded-xl border border-slate-200 hover:border-amber-300 hover:bg-amber-50 transition-colors group focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300"
+                >
                   <div className="flex items-center gap-3">
                     <div className="bg-amber-100 group-hover:bg-amber-200 p-2 rounded-lg">
                       <Sparkles className="h-5 w-5 text-amber-600" />
