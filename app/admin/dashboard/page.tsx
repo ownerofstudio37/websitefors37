@@ -178,22 +178,36 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 lg:ml-64">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 lg:ml-64">
       <div className="p-6">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">
-            Welcome back, {user?.name || 'Admin'}! 👋
-          </h1>
-          <p className="text-gray-600 mt-1">
-            Here's what's happening with Studio37 Photography today.
-          </p>
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900">
+                Welcome back, {user?.name || 'Admin'}! 👋
+              </h1>
+              <p className="text-gray-600 mt-1">
+                Here's what's happening with Studio37 Photography today.
+              </p>
+            </div>
+            <div className="flex items-center gap-3">
+              <Link href="/admin/galleries" className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 shadow-sm transition-colors">
+                <Camera className="h-4 w-4" />
+                Create Gallery
+              </Link>
+              <Link href="/admin/blog" className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 shadow-sm transition-colors">
+                <FileText className="h-4 w-4" />
+                New Blog Post
+              </Link>
+            </div>
+          </div>
         </div>
 
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {/* Total Leads */}
-          <div className="bg-white rounded-lg shadow-sm p-6 border border-gray-200 hover:shadow-md transition-shadow">
+          <div className="bg-white rounded-2xl shadow-sm p-6 border border-slate-200 hover:shadow-md transition-shadow">
             <div className="flex items-center justify-between">
               <div className="flex-1">
                 <p className="text-sm font-medium text-gray-600">Total Leads</p>
@@ -273,8 +287,8 @@ export default function AdminDashboard() {
         <div className="grid lg:grid-cols-3 gap-6">
           {/* Recent Activity */}
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200">
-              <div className="p-6 border-b border-gray-200">
+            <div className="bg-white rounded-2xl shadow-sm border border-slate-200">
+              <div className="p-6 border-b border-slate-200">
                 <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
                   <Activity className="h-5 w-5 text-blue-600" />
                   Recent Activity
@@ -311,9 +325,9 @@ export default function AdminDashboard() {
                     ))}
                   </div>
                 ) : (
-                  <div className="text-center py-8">
-                    <Activity className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-                    <p className="text-gray-500">No recent activity</p>
+                  <div className="text-center py-12">
+                    <Activity className="h-12 w-12 text-slate-300 mx-auto mb-4" />
+                    <p className="text-slate-500">No recent activity</p>
                   </div>
                 )}
               </div>
@@ -323,12 +337,12 @@ export default function AdminDashboard() {
           {/* Quick Actions */}
           <div className="space-y-6">
             {/* Quick Actions Card */}
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200">
-              <div className="p-6 border-b border-gray-200">
+            <div className="bg-white rounded-2xl shadow-sm border border-slate-200">
+              <div className="p-6 border-b border-slate-200">
                 <h2 className="text-lg font-semibold text-gray-900">Quick Actions</h2>
               </div>
               <div className="p-6 space-y-4">
-                <Link href="/admin/content" className="block w-full text-left p-4 rounded-lg border-2 border-dashed border-gray-200 hover:border-primary-300 hover:bg-primary-50 transition-colors group">
+                <Link href="/admin/content" className="block w-full text-left p-4 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50 transition-colors group">
                   <div className="flex items-center gap-3">
                     <div className="bg-primary-100 group-hover:bg-primary-200 p-2 rounded-lg">
                       <FileText className="h-5 w-5 text-primary-600" />
@@ -339,7 +353,7 @@ export default function AdminDashboard() {
                     </div>
                   </div>
                 </Link>
-                <Link href="/admin/leads" className="block w-full text-left p-4 rounded-lg border-2 border-dashed border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-colors group">
+                <Link href="/admin/leads" className="block w-full text-left p-4 rounded-xl border border-slate-200 hover:border-blue-300 hover:bg-blue-50 transition-colors group">
                   <div className="flex items-center gap-3">
                     <div className="bg-blue-100 group-hover:bg-blue-200 p-2 rounded-lg">
                       <Users className="h-5 w-5 text-blue-600" />
@@ -351,7 +365,7 @@ export default function AdminDashboard() {
                   </div>
                 </Link>
 
-                <Link href="/admin/bookings" className="block w-full text-left p-4 rounded-lg border-2 border-dashed border-gray-200 hover:border-green-300 hover:bg-green-50 transition-colors group">
+                <Link href="/admin/bookings" className="block w-full text-left p-4 rounded-xl border border-slate-200 hover:border-green-300 hover:bg-green-50 transition-colors group">
                   <div className="flex items-center gap-3">
                     <div className="bg-green-100 group-hover:bg-green-200 p-2 rounded-lg">
                       <Calendar className="h-5 w-5 text-green-600" />
@@ -363,7 +377,7 @@ export default function AdminDashboard() {
                   </div>
                 </Link>
 
-                <Link href="/admin/gallery" className="block w-full text-left p-4 rounded-lg border-2 border-dashed border-gray-200 hover:border-purple-300 hover:bg-purple-50 transition-colors group">
+                <Link href="/admin/gallery" className="block w-full text-left p-4 rounded-xl border border-slate-200 hover:border-purple-300 hover:bg-purple-50 transition-colors group">
                   <div className="flex items-center gap-3">
                     <div className="bg-purple-100 group-hover:bg-purple-200 p-2 rounded-lg">
                       <Camera className="h-5 w-5 text-purple-600" />
@@ -375,7 +389,7 @@ export default function AdminDashboard() {
                   </div>
                 </Link>
 
-                <Link href="/admin/galleries" className="block w-full text-left p-4 rounded-lg border-2 border-dashed border-gray-200 hover:border-indigo-300 hover:bg-indigo-50 transition-colors group">
+                <Link href="/admin/galleries" className="block w-full text-left p-4 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50 transition-colors group">
                   <div className="flex items-center gap-3">
                     <div className="bg-indigo-100 group-hover:bg-indigo-200 p-2 rounded-lg">
                       <Camera className="h-5 w-5 text-indigo-600" />
@@ -387,7 +401,7 @@ export default function AdminDashboard() {
                   </div>
                 </Link>
 
-                <Link href="/admin/projects" className="block w-full text-left p-4 rounded-lg border-2 border-dashed border-green-300 hover:border-green-400 hover:bg-green-50 transition-colors group">
+                <Link href="/admin/projects" className="block w-full text-left p-4 rounded-xl border border-slate-200 hover:border-green-400 hover:bg-green-50 transition-colors group">
                   <div className="flex items-center gap-3">
                     <div className="bg-green-100 group-hover:bg-green-200 p-2 rounded-lg">
                       <Star className="h-5 w-5 text-green-600" />
@@ -399,7 +413,7 @@ export default function AdminDashboard() {
                   </div>
                 </Link>
 
-                <Link href="/admin/page-builder" className="block w-full text-left p-4 rounded-lg border-2 border-dashed border-gray-200 hover:border-amber-300 hover:bg-amber-50 transition-colors group">
+                <Link href="/admin/page-builder" className="block w-full text-left p-4 rounded-xl border border-slate-200 hover:border-amber-300 hover:bg-amber-50 transition-colors group">
                   <div className="flex items-center gap-3">
                     <div className="bg-amber-100 group-hover:bg-amber-200 p-2 rounded-lg">
                       <Sparkles className="h-5 w-5 text-amber-600" />
