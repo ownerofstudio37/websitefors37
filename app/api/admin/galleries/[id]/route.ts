@@ -11,39 +11,47 @@ export async function GET(
 ) {
   try {
     const supabase = getSupabaseAdmin()
-    
-    const { data: gallery, error } = await supabase
+    // Fetch gallery base record first
+    const { data: gallery, error: galleryError } = await supabase
       .from('galleries')
-      .select(`
-        *,
-        gallery_images (
-          id,
-          cloudinary_public_id,
-          cloudinary_url,
-          thumbnail_url,
-          watermarked_url,
-          filename,
-          caption,
-          display_order,
-          view_count,
-          favorite_count,
-          download_count,
-          is_featured,
-          created_at
-        )
-      `)
+      .select('*')
       .eq('id', params.id)
       .single()
 
-    if (error) {
-      log.error('Failed to fetch gallery', { error, id: params.id })
+    if (galleryError || !gallery) {
+      log.error('Failed to fetch gallery', { error: galleryError, id: params.id })
       return NextResponse.json(
         { success: false, error: 'Gallery not found' },
         { status: 404 }
       )
     }
 
-    return NextResponse.json({ success: true, gallery })
+    // Fetch images explicitly (FK relationship might not be registered yet)
+    const { data: images, error: imagesError } = await supabase
+      .from('gallery_images')
+      .select(`
+        id,
+        cloudinary_public_id,
+        cloudinary_url,
+        thumbnail_url,
+        watermarked_url,
+        filename,
+        caption,
+        display_order,
+        view_count,
+        favorite_count,
+        download_count,
+        is_featured,
+        created_at
+      `)
+      .eq('gallery_id', params.id)
+      .order('display_order', { ascending: true })
+
+    if (imagesError) {
+      log.warn('Failed to fetch gallery images', { error: imagesError, id: params.id })
+    }
+
+    return NextResponse.json({ success: true, gallery: { ...gallery, gallery_images: images || [] } })
   } catch (error) {
     log.error('Unexpected error', { error })
     return NextResponse.json(

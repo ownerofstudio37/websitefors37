@@ -75,7 +75,31 @@ export default function GalleryManagePage() {
       })
       const data = await res.json()
       if (data.success) {
-        fetchGallery()
+        // Optimistically append new images; fall back to refetch for consistency
+        if (Array.isArray(data.images) && data.images.length > 0) {
+          setImages(prev => [
+            ...prev,
+            ...data.images.map((img: any) => ({
+              id: img.id,
+              cloudinary_url: img.cloudinary_url,
+              thumbnail_url: img.thumbnail_url,
+              watermarked_url: img.watermarked_url,
+              filename: img.filename,
+              caption: img.caption || null,
+              display_order: img.display_order || prev.length,
+              view_count: img.view_count || 0,
+              favorite_count: img.favorite_count || 0,
+              download_count: img.download_count || 0,
+              is_featured: img.is_featured || false
+            }))
+          ])
+        }
+        // Schedule a silent refresh to sync counts/order
+        setTimeout(() => {
+          fetchGallery()
+        }, 500)
+      } else {
+        console.error('Upload failed', data.error)
       }
     } catch (error) {
       console.error('Failed to upload images:', error)
