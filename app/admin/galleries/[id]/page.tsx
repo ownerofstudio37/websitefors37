@@ -38,6 +38,9 @@ export default function GalleryManagePage() {
   const [images, setImages] = useState<GalleryImage[]>([])
   const [loading, setLoading] = useState(true)
   const [uploading, setUploading] = useState(false)
+  const [showUrlUpload, setShowUrlUpload] = useState(false)
+  const [urlInput, setUrlInput] = useState('')
+  const [urlUploading, setUrlUploading] = useState(false)
 
   useEffect(() => {
     fetchGallery()
@@ -194,6 +197,71 @@ export default function GalleryManagePage() {
           {/* Upload Section */}
           <div className="bg-white rounded-xl shadow-lg p-8 mb-8">
             <h2 className="text-xl font-bold text-gray-900 mb-4">Upload Photos</h2>
+            <div className="flex items-center gap-4 mb-4">
+              <button
+                onClick={() => setShowUrlUpload(false)}
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${!showUrlUpload ? 'bg-indigo-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
+              >Files</button>
+              <button
+                onClick={() => setShowUrlUpload(true)}
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${showUrlUpload ? 'bg-indigo-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
+              >Remote URLs</button>
+            </div>
+            {showUrlUpload ? (
+              <div className="space-y-4">
+                <textarea
+                  value={urlInput}
+                  onChange={(e) => setUrlInput(e.target.value)}
+                  placeholder="Paste one image URL per line (https://...)"
+                  className="w-full h-40 resize-none px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm font-mono"
+                />
+                <div className="flex items-center justify-between">
+                  <p className="text-xs text-gray-500">Max 25 URLs per upload. Non-image URLs will be skipped.</p>
+                  <button
+                    disabled={urlUploading || !urlInput.trim()}
+                    onClick={async () => {
+                      const urls = urlInput.split(/\n|\r/).map(u => u.trim()).filter(Boolean)
+                      if (urls.length === 0) return
+                      setUrlUploading(true)
+                      try {
+                        const res = await fetch(`/api/admin/galleries/${params.id}/images/remote`, {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({ urls })
+                        })
+                        const text = await res.text()
+                        let data: any = null
+                        try { data = JSON.parse(text) } catch { console.error('Non-JSON response', text) }
+                        if (data?.success && Array.isArray(data.images)) {
+                          setImages(prev => [...prev, ...data.images.map((img: any) => ({
+                            id: img.id,
+                            cloudinary_url: img.cloudinary_url,
+                            thumbnail_url: img.thumbnail_url,
+                            watermarked_url: img.watermarked_url,
+                            filename: img.filename,
+                            caption: null,
+                            display_order: img.display_order || prev.length,
+                            view_count: img.view_count || 0,
+                            favorite_count: img.favorite_count || 0,
+                            download_count: img.download_count || 0,
+                            is_featured: img.is_featured || false
+                          }))])
+                          setUrlInput('')
+                          setTimeout(() => { fetchGallery() }, 600)
+                        } else {
+                          console.error('Remote upload failed', data?.error)
+                        }
+                      } catch (err) {
+                        console.error('Remote URL upload error', err)
+                      } finally {
+                        setUrlUploading(false)
+                      }
+                    }}
+                    className={`px-5 py-2 rounded-lg text-sm font-medium flex items-center gap-2 ${urlUploading ? 'bg-indigo-400 text-white cursor-not-allowed' : 'bg-indigo-600 text-white hover:bg-indigo-700'}`}
+                  >{urlUploading ? 'Uploading...' : 'Import URLs'}</button>
+                </div>
+              </div>
+            ) : (
             <label className="flex flex-col items-center justify-center w-full h-64 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-indigo-500 hover:bg-indigo-50 transition-all">
               <div className="flex flex-col items-center justify-center">
                 {uploading ? (
@@ -218,6 +286,7 @@ export default function GalleryManagePage() {
                 disabled={uploading}
               />
             </label>
+            )}
           </div>
 
           {/* Images Grid */}
