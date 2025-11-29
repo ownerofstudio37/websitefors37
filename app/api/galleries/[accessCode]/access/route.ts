@@ -23,7 +23,7 @@ export async function POST(
 
     // Fetch gallery by access code
     const { data: gallery, error: galleryError } = await supabase
-      .from('galleries')
+      .from('client_galleries')
       .select('*')
       .eq('access_code', params.accessCode)
       .eq('status', 'active')
@@ -71,16 +71,16 @@ export async function POST(
 
     // Increment views count
     await supabase
-      .from('galleries')
+      .from('client_galleries')
       .update({ views_count: (gallery.views_count || 0) + 1 })
       .eq('id', gallery.id)
 
     // Fetch gallery images
     const { data: images, error: imagesError } = await supabase
-      .from('gallery_images')
-      .select('id, cloudinary_url, thumbnail_url, watermarked_url, caption, is_featured, display_order')
+      .from('client_gallery_images')
+      .select('id, cloudinary_url, thumbnail_url, watermarked_url, caption, is_featured, sequence_number')
       .eq('gallery_id', gallery.id)
-      .order('display_order', { ascending: true })
+      .order('sequence_number', { ascending: true })
       .order('created_at', { ascending: true })
 
     if (imagesError) {
