@@ -72,7 +72,7 @@ function getStatusBadgeColor(status: string): string {
     delivered: 'bg-teal-100 text-teal-800',
     archived: 'bg-gray-100 text-gray-800'
   }
-  return colors[status] || 'bg-gray-100 text-gray-800'
+  return colors[status || 'pending'] || 'bg-gray-100 text-gray-800'
 }
 
 function getPaymentStatusBadgeColor(status: string): string {
@@ -82,7 +82,7 @@ function getPaymentStatusBadgeColor(status: string): string {
     paid: 'bg-green-100 text-green-800',
     refunded: 'bg-gray-100 text-gray-800'
   }
-  return colors[status] || 'bg-gray-100 text-gray-800'
+  return colors[status || 'pending'] || 'bg-gray-100 text-gray-800'
 }
 
 function formatCurrency(cents: number | null): string {
@@ -203,7 +203,7 @@ export default async function ClientProjectsPage({
                           {project.name}
                         </h3>
                         <p className="text-sm text-gray-500 capitalize">
-                          {project.type.replace('-', ' ')}
+                          {(project.type || 'unspecified').replace('-', ' ')}
                         </p>
                       </div>
                     </div>
@@ -215,15 +215,15 @@ export default async function ClientProjectsPage({
                     <div className="flex flex-wrap gap-4 text-sm">
                       <div>
                         <span className="text-gray-500">Status:</span>{' '}
-                        <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${getStatusBadgeColor(project.status)}`}>
-                          {project.status.replace('-', ' ')}
+                        <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${getStatusBadgeColor(project.status || 'pending')}`}>
+                          {(project.status || 'pending').replace('-', ' ')}
                         </span>
                       </div>
                       
                       <div>
                         <span className="text-gray-500">Payment:</span>{' '}
-                        <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${getPaymentStatusBadgeColor(project.payment_status)}`}>
-                          {project.payment_status}
+                        <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${getPaymentStatusBadgeColor(project.payment_status || 'pending')}`}>
+                          {project.payment_status || 'pending'}
                         </span>
                       </div>
                       
@@ -255,11 +255,11 @@ export default async function ClientProjectsPage({
                       </div>
                     )}
 
-                    {project.total_amount_cents && (
+                    {project.total_amount_cents != null && (
                       <div className="mt-2 text-sm">
                         <span className="text-gray-500">Amount:</span>{' '}
                         <span className="text-gray-900 font-medium">
-                          {formatCurrency(project.paid_amount_cents)} / {formatCurrency(project.total_amount_cents)}
+                          {formatCurrency(project.paid_amount_cents ?? 0)} / {formatCurrency(project.total_amount_cents)}
                         </span>
                       </div>
                     )}
