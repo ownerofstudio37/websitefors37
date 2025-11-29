@@ -169,38 +169,81 @@ ALTER TABLE gallery_downloads ENABLE ROW LEVEL SECURITY;
 ALTER TABLE gallery_access_log ENABLE ROW LEVEL SECURITY;
 
 -- Public read access for galleries (password protected at app level)
-CREATE POLICY "Public can view active galleries"
-  ON galleries FOR SELECT
-  USING (status = 'active' AND (expires_at IS NULL OR expires_at > NOW()));
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies
+    WHERE polname = 'Public can view active galleries'
+      AND schemaname = 'public'
+      AND tablename = 'galleries'
+  ) THEN
+    EXECUTE 'CREATE POLICY "Public can view active galleries" ON galleries FOR SELECT USING (status = ''active'' AND (expires_at IS NULL OR expires_at > NOW()))';
+  END IF;
+END $$;
 
 -- Public can view images from their gallery
-CREATE POLICY "Public can view gallery images"
-  ON gallery_images FOR SELECT
-  USING (EXISTS (
-    SELECT 1 FROM galleries
-    WHERE galleries.id = gallery_images.gallery_id
-    AND galleries.status = 'active'
-    AND (galleries.expires_at IS NULL OR galleries.expires_at > NOW())
-  ));
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies
+    WHERE polname = 'Public can view gallery images'
+      AND schemaname = 'public'
+      AND tablename = 'gallery_images'
+  ) THEN
+    EXECUTE 'CREATE POLICY "Public can view gallery images" ON gallery_images FOR SELECT USING (EXISTS ( SELECT 1 FROM galleries WHERE galleries.id = gallery_images.gallery_id AND galleries.status = ''active'' AND (galleries.expires_at IS NULL OR galleries.expires_at > NOW()) ))';
+  END IF;
+END $$;
 
 -- Public can add favorites
-CREATE POLICY "Public can add favorites"
-  ON gallery_favorites FOR INSERT
-  WITH CHECK (true);
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies
+    WHERE polname = 'Public can add favorites'
+      AND schemaname = 'public'
+      AND tablename = 'gallery_favorites'
+  ) THEN
+    EXECUTE 'CREATE POLICY "Public can add favorites" ON gallery_favorites FOR INSERT WITH CHECK (true)';
+  END IF;
+END $$;
 
-CREATE POLICY "Public can view favorites"
-  ON gallery_favorites FOR SELECT
-  USING (true);
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies
+    WHERE polname = 'Public can view favorites'
+      AND schemaname = 'public'
+      AND tablename = 'gallery_favorites'
+  ) THEN
+    EXECUTE 'CREATE POLICY "Public can view favorites" ON gallery_favorites FOR SELECT USING (true)';
+  END IF;
+END $$;
 
 -- Public can record downloads
-CREATE POLICY "Public can record downloads"
-  ON gallery_downloads FOR INSERT
-  WITH CHECK (true);
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies
+    WHERE polname = 'Public can record downloads'
+      AND schemaname = 'public'
+      AND tablename = 'gallery_downloads'
+  ) THEN
+    EXECUTE 'CREATE POLICY "Public can record downloads" ON gallery_downloads FOR INSERT WITH CHECK (true)';
+  END IF;
+END $$;
 
 -- Public can log access attempts
-CREATE POLICY "Public can log access"
-  ON gallery_access_log FOR INSERT
-  WITH CHECK (true);
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies
+    WHERE polname = 'Public can log access'
+      AND schemaname = 'public'
+      AND tablename = 'gallery_access_log'
+  ) THEN
+    EXECUTE 'CREATE POLICY "Public can log access" ON gallery_access_log FOR INSERT WITH CHECK (true)';
+  END IF;
+END $$;
 
 -- Update calendar_event_id column to appointments if it doesn't exist
 DO $$ 
