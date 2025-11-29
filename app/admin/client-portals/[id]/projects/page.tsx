@@ -1,5 +1,6 @@
 import { supabaseAdmin } from '@/lib/supabaseAdmin'
 import Link from 'next/link'
+import CreateProjectButton from '@/components/CreateProjectButton'
 
 export const dynamic = 'force-dynamic'
 
@@ -165,12 +166,10 @@ export default async function ClientProjectsPage({
             <p className="text-gray-600 mb-4">
               This client doesn't have any projects yet.
             </p>
-            <Link 
-              href={`/admin/client-portals/${params.id}`}
-              className="inline-block px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
-            >
-              Create First Project
-            </Link>
+            <CreateProjectButton
+              clientUserId={params.id}
+              onCreated={() => { /* after create, refresh by redirecting to details or reloading */ }}
+            />
           </div>
         ) : (
           <div className="space-y-4">
