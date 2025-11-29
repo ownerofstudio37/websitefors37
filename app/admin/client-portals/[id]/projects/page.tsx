@@ -1,5 +1,5 @@
-import { supabaseAdmin } from '@/lib/supabaseAdmin'
 import Link from 'next/link'
+import { headers } from 'next/headers'
 import CreateProjectButton from '@/components/CreateProjectButton'
 
 export const dynamic = 'force-dynamic'
@@ -31,25 +31,35 @@ interface ClientUser {
 }
 
 async function getClientUser(userId: string): Promise<ClientUser | null> {
-  const { data, error } = await supabaseAdmin
-    .from('client_portal_users')
-    .select('id, email, first_name, last_name')
-    .eq('id', userId)
-    .single()
-  
-  if (error || !data) return null
-  return data
+  const h = headers()
+  const host = h.get('x-forwarded-host') || h.get('host')
+  const proto = h.get('x-forwarded-proto') || 'https'
+  const baseUrl = `${proto}://${host}`
+  try {
+    const res = await fetch(`${baseUrl}/api/admin/client-portals/${userId}`, { cache: 'no-store' })
+    if (!res.ok) return null
+    const data = await res.json()
+    const u = data?.user
+    if (!u) return null
+    return { id: u.id, email: u.email, first_name: u.first_name, last_name: u.last_name }
+  } catch {
+    return null
+  }
 }
 
 async function getClientProjects(userId: string): Promise<Project[]> {
-  const { data, error } = await supabaseAdmin
-    .from('client_projects')
-    .select('*')
-    .eq('client_user_id', userId)
-    .order('created_at', { ascending: false })
-  
-  if (error || !data) return []
-  return data
+  const h = headers()
+  const host = h.get('x-forwarded-host') || h.get('host')
+  const proto = h.get('x-forwarded-proto') || 'https'
+  const baseUrl = `${proto}://${host}`
+  try {
+    const res = await fetch(`${baseUrl}/api/admin/client-portals/${userId}/projects`, { cache: 'no-store' })
+    if (!res.ok) return []
+    const data = await res.json()
+    return data?.projects || []
+  } catch {
+    return []
+  }
 }
 
 function getStatusBadgeColor(status: string): string {

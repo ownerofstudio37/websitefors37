@@ -1,9 +1,11 @@
 "use client"
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 export default function CreateProjectButton({ clientUserId, onCreated }: { clientUserId: string, onCreated?: (project: any) => void }) {
   const [loading, setLoading] = useState(false)
+  const router = useRouter()
 
   const handleClick = async () => {
     if (loading) return
@@ -21,6 +23,8 @@ export default function CreateProjectButton({ clientUserId, onCreated }: { clien
         return
       }
       onCreated?.(data.project)
+      // Trigger a refresh so the Server Component re-fetches and shows the new project
+      router.refresh()
     } catch (err) {
       console.error('Create project error', err)
       alert('Failed to create project')
