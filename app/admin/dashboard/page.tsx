@@ -87,11 +87,33 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true)
   const [user, setUser] = useState<any>(null)
   const [timeRange, setTimeRange] = useState<'7d' | '30d' | '90d'>('30d')
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('theme') as 'light' | 'dark' | null
+      return saved || 'light'
+    }
+    return 'light'
+  })
 
   useEffect(() => {
     fetchDashboardData()
     getCurrentUser()
   }, [])
+
+  // Apply theme to document
+  useEffect(() => {
+    if (typeof document !== 'undefined') {
+      const root = document.documentElement
+      if (theme === 'dark') {
+        root.classList.add('dark')
+      } else {
+        root.classList.remove('dark')
+      }
+      localStorage.setItem('theme', theme)
+    }
+  }, [theme])
+
+  const toggleTheme = () => setTheme(prev => (prev === 'light' ? 'dark' : 'light'))
 
   const getCurrentUser = async () => {
     const { data: { session } } = await supabase.auth.getSession()
@@ -178,7 +200,7 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 lg:ml-64">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-slate-900 dark:via-slate-950 dark:to-slate-900 lg:ml-64">
       <div className="p-6">
         {/* Header */}
         <div className="mb-8">
@@ -187,7 +209,7 @@ export default function AdminDashboard() {
               <h1 className="text-3xl font-bold text-gray-900">
                 Welcome back, {user?.name || 'Admin'}! 👋
               </h1>
-              <p className="text-gray-600 mt-1">
+              <p className="text-gray-600 dark:text-gray-300 mt-1">
                 Here's what's happening with Studio37 Photography today.
               </p>
             </div>
@@ -208,6 +230,18 @@ export default function AdminDashboard() {
                 <FileText className="h-4 w-4" />
                 New Blog Post
               </Link>
+              <button
+                type="button"
+                onClick={toggleTheme}
+                aria-label="Toggle dark mode"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-200 text-slate-900 hover:bg-slate-300 shadow-sm transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-2 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700"
+              >
+                {theme === 'dark' ? (
+                  <span>🌙 Dark</span>
+                ) : (
+                  <span>☀️ Light</span>
+                )}
+              </button>
             </div>
           </div>
         </div>
@@ -215,20 +249,20 @@ export default function AdminDashboard() {
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {/* Total Leads */}
-          <div className="bg-white rounded-2xl shadow-sm p-6 border border-slate-200 hover:shadow-md transition-shadow">
+          <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm p-6 border border-slate-200 dark:border-slate-700 hover:shadow-md transition-shadow">
             <div className="flex items-center justify-between">
               <div className="flex-1">
-                <p className="text-sm font-medium text-gray-600">Total Leads</p>
-                <p className="text-2xl font-bold text-gray-900 mt-1">{stats.totalLeads}</p>
+                <p className="text-sm font-medium text-gray-600 dark:text-gray-300">Total Leads</p>
+                <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">{stats.totalLeads}</p>
                 <div className="flex items-center gap-2 mt-2">
-                  <p className="text-xs text-gray-500">
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
                     {stats.newLeads} new this month
                   </p>
                   <TrendIndicator value={stats.leadsTrend} />
                 </div>
               </div>
-              <div className="bg-blue-100 p-3 rounded-lg">
-                <Users className="h-6 w-6 text-blue-600" />
+              <div className="bg-blue-100 dark:bg-blue-900/40 p-3 rounded-lg">
+                <Users className="h-6 w-6 text-blue-600 dark:text-blue-400" />
               </div>
             </div>
           </div>
@@ -295,8 +329,8 @@ export default function AdminDashboard() {
         <div className="grid lg:grid-cols-3 gap-6">
           {/* Recent Activity */}
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-2xl shadow-sm border border-slate-200">
-              <div className="p-6 border-b border-slate-200">
+            <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700">
+              <div className="p-6 border-b border-slate-200 dark:border-slate-700">
                 <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
                   <Activity className="h-5 w-5 text-blue-600" />
                   Recent Activity
@@ -306,7 +340,7 @@ export default function AdminDashboard() {
                 {recentActivity.length > 0 ? (
                   <div className="space-y-4">
                     {recentActivity.map((item) => (
-                      <div key={item.id} className="flex items-start gap-4 p-4 bg-gray-50 rounded-lg">
+                      <div key={item.id} className="flex items-start gap-4 p-4 bg-gray-50 dark:bg-slate-800 rounded-lg">
                         <div className={`p-2 rounded-lg ${
                           item.type === 'lead' ? 'bg-blue-100' :
                           item.type === 'booking' ? 'bg-green-100' :
@@ -317,15 +351,15 @@ export default function AdminDashboard() {
                           {item.type === 'communication' && <MessageSquare className="h-4 w-4 text-purple-600" />}
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="text-sm font-medium text-gray-900">{item.title}</p>
-                          <p className="text-sm text-gray-600">{item.description}</p>
-                          <p className="text-xs text-gray-500 mt-1 flex items-center gap-1">
+                          <p className="text-sm font-medium text-gray-900 dark:text-white">{item.title}</p>
+                          <p className="text-sm text-gray-600 dark:text-gray-300">{item.description}</p>
+                          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 flex items-center gap-1">
                             <Clock className="h-3 w-3" />
                             {new Date(item.timestamp).toLocaleDateString()}
                           </p>
                         </div>
                         {item.priority === 'high' && (
-                          <div className="bg-red-100 text-red-800 px-2 py-1 rounded-full text-xs font-medium">
+                          <div className="bg-red-100 dark:bg-red-900/40 text-red-800 dark:text-red-300 px-2 py-1 rounded-full text-xs font-medium">
                             High Priority
                           </div>
                         )}
@@ -334,8 +368,8 @@ export default function AdminDashboard() {
                   </div>
                 ) : (
                   <div className="text-center py-12">
-                    <Activity className="h-12 w-12 text-slate-300 mx-auto mb-4" />
-                    <p className="text-slate-500">No recent activity</p>
+                    <Activity className="h-12 w-12 text-slate-300 dark:text-slate-600 mx-auto mb-4" />
+                    <p className="text-slate-500 dark:text-slate-400">No recent activity</p>
                   </div>
                 )}
               </div>
