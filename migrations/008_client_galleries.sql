@@ -173,7 +173,7 @@ DO $$
 BEGIN
   IF NOT EXISTS (
     SELECT 1 FROM pg_policies
-    WHERE polname = 'Public can view active galleries'
+    WHERE policyname = 'Public can view active galleries'
       AND schemaname = 'public'
       AND tablename = 'galleries'
   ) THEN
@@ -186,7 +186,7 @@ DO $$
 BEGIN
   IF NOT EXISTS (
     SELECT 1 FROM pg_policies
-    WHERE polname = 'Public can view gallery images'
+    WHERE policyname = 'Public can view gallery images'
       AND schemaname = 'public'
       AND tablename = 'gallery_images'
   ) THEN
@@ -199,7 +199,7 @@ DO $$
 BEGIN
   IF NOT EXISTS (
     SELECT 1 FROM pg_policies
-    WHERE polname = 'Public can add favorites'
+    WHERE policyname = 'Public can add favorites'
       AND schemaname = 'public'
       AND tablename = 'gallery_favorites'
   ) THEN
@@ -211,7 +211,7 @@ DO $$
 BEGIN
   IF NOT EXISTS (
     SELECT 1 FROM pg_policies
-    WHERE polname = 'Public can view favorites'
+    WHERE policyname = 'Public can view favorites'
       AND schemaname = 'public'
       AND tablename = 'gallery_favorites'
   ) THEN
@@ -224,7 +224,7 @@ DO $$
 BEGIN
   IF NOT EXISTS (
     SELECT 1 FROM pg_policies
-    WHERE polname = 'Public can record downloads'
+    WHERE policyname = 'Public can record downloads'
       AND schemaname = 'public'
       AND tablename = 'gallery_downloads'
   ) THEN
@@ -237,7 +237,7 @@ DO $$
 BEGIN
   IF NOT EXISTS (
     SELECT 1 FROM pg_policies
-    WHERE polname = 'Public can log access'
+    WHERE policyname = 'Public can log access'
       AND schemaname = 'public'
       AND tablename = 'gallery_access_log'
   ) THEN
