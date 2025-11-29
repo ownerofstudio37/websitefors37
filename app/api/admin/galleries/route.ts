@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
     const supabase = getSupabaseAdmin()
     
     const { data: galleries, error } = await supabase
-      .from('galleries')
+      .from('client_galleries')
       .select('*')
       .order('created_at', { ascending: false })
 
@@ -75,7 +75,7 @@ export async function POST(request: NextRequest) {
     const supabase = getSupabaseAdmin()
     
     const { data: gallery, error } = await supabase
-      .from('galleries')
+      .from('client_galleries')
       .insert({
         client_name,
         client_email,
