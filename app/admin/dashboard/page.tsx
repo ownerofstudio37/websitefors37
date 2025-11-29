@@ -201,10 +201,10 @@ export default function AdminDashboard() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-slate-900 dark:via-slate-950 dark:to-slate-900 lg:ml-64">
-      <div className="p-6">
+  <div className="p-4 sm:p-6">
         {/* Header */}
         <div className="mb-8">
-          <div className="flex items-start justify-between gap-4">
+          <div className="flex items-start justify-between gap-4 flex-col sm:flex-row">
             <div>
               <h1 className="text-3xl font-bold text-gray-900">
                 Welcome back, {user?.name || 'Admin'}! 👋
@@ -213,11 +213,11 @@ export default function AdminDashboard() {
                 Here's what's happening with Studio37 Photography today.
               </p>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto">
               <Link
                 href="/admin/galleries"
                 aria-label="Create a new client gallery"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 shadow-sm transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 shadow-sm transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 flex-1 sm:flex-none justify-center"
               >
                 <Camera className="h-4 w-4" />
                 Create Gallery
@@ -225,7 +225,7 @@ export default function AdminDashboard() {
               <Link
                 href="/admin/blog"
                 aria-label="Create a new blog post"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 shadow-sm transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-2"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 shadow-sm transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-2 flex-1 sm:flex-none justify-center"
               >
                 <FileText className="h-4 w-4" />
                 New Blog Post
@@ -234,7 +234,7 @@ export default function AdminDashboard() {
                 type="button"
                 onClick={toggleTheme}
                 aria-label="Toggle dark mode"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-200 text-slate-900 hover:bg-slate-300 shadow-sm transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-2 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-200 text-slate-900 hover:bg-slate-300 shadow-sm transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-2 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700 flex-1 sm:flex-none justify-center"
               >
                 {theme === 'dark' ? (
                   <span>🌙 Dark</span>
@@ -247,7 +247,7 @@ export default function AdminDashboard() {
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
           {/* Total Leads */}
           <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm p-6 border border-slate-200 dark:border-slate-700 hover:shadow-md transition-shadow">
             <div className="flex items-center justify-between">
@@ -326,7 +326,7 @@ export default function AdminDashboard() {
         </div>
 
         {/* Main Content Grid */}
-        <div className="grid lg:grid-cols-3 gap-6">
+  <div className="grid lg:grid-cols-3 gap-4 sm:gap-6">
           {/* Recent Activity */}
           <div className="lg:col-span-2">
             <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700">
@@ -336,7 +336,7 @@ export default function AdminDashboard() {
                   Recent Activity
                 </h2>
               </div>
-              <div className="p-6">
+              <div className="p-4 sm:p-6">
                 {recentActivity.length > 0 ? (
                   <div className="space-y-4">
                     {recentActivity.map((item) => (
@@ -383,11 +383,11 @@ export default function AdminDashboard() {
               <div className="p-6 border-b border-slate-200">
                 <h2 className="text-lg font-semibold text-gray-900">Quick Actions</h2>
               </div>
-              <div className="p-6 space-y-4">
+              <div className="p-4 sm:p-6 space-y-3 sm:space-y-4">
                 <Link
                   href="/admin/content"
                   aria-label="Manage content in the Enhanced CMS"
-                  className="block w-full text-left p-4 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50 transition-colors group focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300"
+                  className="block w-full text-left p-3 sm:p-4 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50 transition-colors group focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300"
                 >
                   <div className="flex items-center gap-3">
                     <div className="bg-primary-100 group-hover:bg-primary-200 p-2 rounded-lg">
@@ -402,7 +402,7 @@ export default function AdminDashboard() {
                 <Link
                   href="/admin/leads"
                   aria-label="View and manage all leads"
-                  className="block w-full text-left p-4 rounded-xl border border-slate-200 hover:border-blue-300 hover:bg-blue-50 transition-colors group focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-300"
+                  className="block w-full text-left p-3 sm:p-4 rounded-xl border border-slate-200 hover:border-blue-300 hover:bg-blue-50 transition-colors group focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-300"
                 >
                   <div className="flex items-center gap-3">
                     <div className="bg-blue-100 group-hover:bg-blue-200 p-2 rounded-lg">
@@ -418,7 +418,7 @@ export default function AdminDashboard() {
                 <Link
                   href="/admin/bookings"
                   aria-label="Manage bookings and schedule"
-                  className="block w-full text-left p-4 rounded-xl border border-slate-200 hover:border-green-300 hover:bg-green-50 transition-colors group focus:outline-none focus-visible:ring-2 focus-visible:ring-green-300"
+                  className="block w-full text-left p-3 sm:p-4 rounded-xl border border-slate-200 hover:border-green-300 hover:bg-green-50 transition-colors group focus:outline-none focus-visible:ring-2 focus-visible:ring-green-300"
                 >
                   <div className="flex items-center gap-3">
                     <div className="bg-green-100 group-hover:bg-green-200 p-2 rounded-lg">
@@ -434,7 +434,7 @@ export default function AdminDashboard() {
                 <Link
                   href="/admin/gallery"
                   aria-label="Update public gallery"
-                  className="block w-full text-left p-4 rounded-xl border border-slate-200 hover:border-purple-300 hover:bg-purple-50 transition-colors group focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-300"
+                  className="block w-full text-left p-3 sm:p-4 rounded-xl border border-slate-200 hover:border-purple-300 hover:bg-purple-50 transition-colors group focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-300"
                 >
                   <div className="flex items-center gap-3">
                     <div className="bg-purple-100 group-hover:bg-purple-200 p-2 rounded-lg">
@@ -450,7 +450,7 @@ export default function AdminDashboard() {
                 <Link
                   href="/admin/galleries"
                   aria-label="Open client galleries management"
-                  className="block w-full text-left p-4 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50 transition-colors group focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300"
+                  className="block w-full text-left p-3 sm:p-4 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50 transition-colors group focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300"
                 >
                   <div className="flex items-center gap-3">
                     <div className="bg-indigo-100 group-hover:bg-indigo-200 p-2 rounded-lg">
@@ -466,7 +466,7 @@ export default function AdminDashboard() {
                 <Link
                   href="/admin/projects"
                   aria-label="Open projects list"
-                  className="block w-full text-left p-4 rounded-xl border border-slate-200 hover:border-green-400 hover:bg-green-50 transition-colors group focus:outline-none focus-visible:ring-2 focus-visible:ring-green-300"
+                  className="block w-full text-left p-3 sm:p-4 rounded-xl border border-slate-200 hover:border-green-400 hover:bg-green-50 transition-colors group focus:outline-none focus-visible:ring-2 focus-visible:ring-green-300"
                 >
                   <div className="flex items-center gap-3">
                     <div className="bg-green-100 group-hover:bg-green-200 p-2 rounded-lg">
@@ -482,7 +482,7 @@ export default function AdminDashboard() {
                 <Link
                   href="/admin/page-builder"
                   aria-label="Open visual page builder"
-                  className="block w-full text-left p-4 rounded-xl border border-slate-200 hover:border-amber-300 hover:bg-amber-50 transition-colors group focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300"
+                  className="block w-full text-left p-3 sm:p-4 rounded-xl border border-slate-200 hover:border-amber-300 hover:bg-amber-50 transition-colors group focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300"
                 >
                   <div className="flex items-center gap-3">
                     <div className="bg-amber-100 group-hover:bg-amber-200 p-2 rounded-lg">
