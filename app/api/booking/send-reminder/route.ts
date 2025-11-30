@@ -2,44 +2,65 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin'
 import { rateLimit, getClientIp } from '@/lib/rateLimit'
 import { createLogger } from '@/lib/logger'
+// Prefer official Resend SDK when available
+let ResendSDK: any = null
+try {
+  // Lazy import to avoid build issues if dependency isn't installed
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  ResendSDK = require('resend').Resend
+} catch {}
 
 const log = createLogger('api/booking/send-reminder')
 
 // Email service integration (using Resend or existing email service)
-async function sendBookingEmail(to: string, subject: string, content: string) {
-  // If you have Resend configured
+async function sendBookingEmail(to: string, subject: string, html: string) {
   const RESEND_API_KEY = process.env.RESEND_API_KEY
-  if (RESEND_API_KEY) {
+  const FROM = process.env.EMAIL_FROM || 'studio@studio37.com'
+  const REPLY_TO = process.env.EMAIL_REPLY_TO || FROM
+
+  if (!RESEND_API_KEY) {
+    log.warn('RESEND_API_KEY missing; email not sent')
+    return { id: undefined, _skipped: true }
+  }
+
+  // Try official SDK first
+  if (ResendSDK) {
     try {
-      const response = await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${RESEND_API_KEY}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          from: process.env.EMAIL_FROM || 'studio@studio37.com',
-          to: [to],
-          subject,
-          html: content,
-        }),
-      })
-      
-      if (!response.ok) {
-        const error = await response.text()
-        throw new Error(`Resend error: ${error}`)
-      }
-      
-      return await response.json()
-    } catch (error) {
-      log.error('Failed to send email via Resend', { error, to })
-      throw error
+      const resend = new ResendSDK(RESEND_API_KEY)
+      const { data, error } = await resend.emails.send({
+        from: FROM,
+        to: to,
+        subject,
+        html,
+        reply_to: REPLY_TO,
+      } as any)
+      if (error) throw error
+      return { id: data?.id }
+    } catch (err: any) {
+      log.error('Resend SDK send failed', { err: String(err), to })
+      // Fall through to REST
     }
   }
-  
-  // Fallback: log that email would be sent
-  log.info('Email service not configured, would send email:', { to, subject })
-  return { id: 'mock-email-id' }
+
+  // Fallback to REST API
+  try {
+    const response = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${RESEND_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ from: FROM, to: [to], subject, html, reply_to: REPLY_TO }),
+    })
+    if (!response.ok) {
+      const text = await response.text()
+      throw new Error(text || `HTTP ${response.status}`)
+    }
+    return await response.json()
+  } catch (error) {
+    log.error('Resend REST send failed', { error: String(error), to })
+    throw error
+  }
 }
 
 // SMS service integration (using Twilio)
@@ -261,12 +282,16 @@ export async function POST(request: NextRequest) {
       notes,
     })
     
-    let emailResult
+    let emailResult: any
     try {
       emailResult = await sendBookingEmail(email, emailSubject, emailContent)
-      log.info('Email sent successfully', { leadId, email, type })
-    } catch (emailError) {
-      log.error('Email send failed', { error: emailError, leadId, email })
+      if (emailResult?.id) {
+        log.info('Email sent successfully', { leadId, email, type, id: emailResult.id })
+      } else {
+        log.warn('Email send skipped or no id returned', { leadId, email, type })
+      }
+    } catch (emailError: any) {
+      log.error('Email send failed', { error: String(emailError), leadId, email })
       // Continue even if email fails - we'll still try SMS and log the communication
     }
 
@@ -297,7 +322,7 @@ export async function POST(request: NextRequest) {
       direction: 'outbound',
       subject: emailSubject,
       content: emailContent,
-      status: emailResult ? 'sent' : 'failed',
+  status: emailResult?.id ? 'sent' : 'failed',
       metadata: {
         reminderType: type,
         sessionDate,
