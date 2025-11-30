@@ -28,6 +28,16 @@ export default function LeadsPage() {
   const [creating, setCreating] = useState(false)
   const [toast, setToast] = useState<string | null>(null)
   const [createError, setCreateError] = useState<string | null>(null)
+  const [showReminderModal, setShowReminderModal] = useState(false)
+  const [reminderType, setReminderType] = useState<'reminder' | 'confirmation'>('reminder')
+  const [reminderData, setReminderData] = useState({
+    sessionDate: '',
+    sessionTime: '',
+    sessionType: '',
+    location: '',
+    notes: ''
+  })
+  const [sendingReminder, setSendingReminder] = useState(false)
 
   type NewLeadForm = {
     name: string
@@ -171,6 +181,55 @@ export default function LeadsPage() {
       setCreateError(e.message || 'Failed to create lead')
     } finally {
       setCreating(false)
+    }
+  }
+
+  const sendBookingReminder = async () => {
+    if (!selectedLead || !reminderData.sessionDate || !reminderData.sessionTime) {
+      alert('Please fill in session date and time')
+      return
+    }
+
+    setSendingReminder(true)
+    try {
+      const response = await fetch('/api/booking/send-reminder', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          leadId: selectedLead.id,
+          type: reminderType,
+          sessionDate: reminderData.sessionDate,
+          sessionTime: reminderData.sessionTime,
+          sessionType: reminderData.sessionType,
+          location: reminderData.location,
+          notes: reminderData.notes,
+          email: selectedLead.email,
+          phone: selectedLead.phone,
+          name: selectedLead.name
+        })
+      })
+
+      const result = await response.json()
+      
+      if (result.success) {
+        setToast(`${reminderType === 'reminder' ? 'Reminder' : 'Confirmation'} sent successfully!`)
+        setShowReminderModal(false)
+        setReminderData({ sessionDate: '', sessionTime: '', sessionType: '', location: '', notes: '' })
+        
+        // Log the communication
+        await logCommunication(
+          selectedLead,
+          'email',
+          `Sent booking ${reminderType} for ${reminderData.sessionDate} at ${reminderData.sessionTime}`
+        )
+      } else {
+        throw new Error(result.error || 'Failed to send reminder')
+      }
+    } catch (error: any) {
+      console.error('Send reminder error:', error)
+      alert(error.message || 'Failed to send reminder')
+    } finally {
+      setSendingReminder(false)
     }
   }
 
@@ -622,20 +681,20 @@ export default function LeadsPage() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="flex items-center space-x-2">
-                    <Mail className="h-4 w-4 text-gray-400" />
-                    <div>
+                <div className="space-y-3">
+                  <div className="flex items-start space-x-2">
+                    <Mail className="h-4 w-4 text-gray-400 flex-shrink-0 mt-0.5" />
+                    <div className="flex-1 min-w-0">
                       <label className="text-sm font-medium text-gray-500">Email</label>
-                      <p>{selectedLead.email}</p>
+                      <p className="break-words">{selectedLead.email}</p>
                     </div>
                   </div>
                   {selectedLead.phone && (
-                    <div className="flex items-center space-x-2">
-                      <Phone className="h-4 w-4 text-gray-400" />
-                      <div>
+                    <div className="flex items-start space-x-2">
+                      <Phone className="h-4 w-4 text-gray-400 flex-shrink-0 mt-0.5" />
+                      <div className="flex-1 min-w-0">
                         <label className="text-sm font-medium text-gray-500">Phone</label>
-                        <p>{selectedLead.phone}</p>
+                        <p className="break-words">{selectedLead.phone}</p>
                       </div>
                     </div>
                   )}
@@ -745,7 +804,7 @@ export default function LeadsPage() {
               >
                 {isDeleting === selectedLead.id ? 'Deleting...' : 'Delete Lead'}
               </button>
-              <div className="flex space-x-3">
+              <div className="flex flex-wrap gap-3">
                 <button
                   onClick={() => setShowLeadModal(false)}
                   className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
@@ -768,6 +827,16 @@ export default function LeadsPage() {
                 >
                   Send Email
                 </a>
+                <button
+                  onClick={() => {
+                    setReminderType('reminder')
+                    setShowReminderModal(true)
+                  }}
+                  className="px-4 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 flex items-center gap-2"
+                >
+                  <Calendar className="h-4 w-4" />
+                  Send Reminder
+                </button>
               </div>
             </div>
           </div>
@@ -1075,6 +1144,134 @@ export default function LeadsPage() {
           </div>
         </div>
       )}
+
+      {/* Booking Reminder/Confirmation Modal */}
+      {showReminderModal && selectedLead && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl font-semibold">Send Booking {reminderType === 'reminder' ? 'Reminder' : 'Confirmation'}</h3>
+              <button
+                onClick={() => setShowReminderModal(false)}
+                className="text-gray-400 hover:text-gray-500"
+                aria-label="Close reminder modal"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            <div className="mb-4 p-3 bg-blue-50 rounded-lg">
+              <p className="text-sm text-blue-800">
+                <strong>Sending to:</strong> {selectedLead.name} ({selectedLead.email})
+              </p>
+            </div>
+
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-2">Type</label>
+              <div className="flex gap-4">
+                <button
+                  onClick={() => setReminderType('reminder')}
+                  className={`flex-1 px-4 py-2 rounded-lg border-2 transition-colors ${
+                    reminderType === 'reminder'
+                      ? 'border-amber-500 bg-amber-50 text-amber-900'
+                      : 'border-gray-300 hover:border-gray-400'
+                  }`}
+                >
+                  <Calendar className="h-5 w-5 mx-auto mb-1" />
+                  Reminder
+                </button>
+                <button
+                  onClick={() => setReminderType('confirmation')}
+                  className={`flex-1 px-4 py-2 rounded-lg border-2 transition-colors ${
+                    reminderType === 'confirmation'
+                      ? 'border-green-500 bg-green-50 text-green-900'
+                      : 'border-gray-300 hover:border-gray-400'
+                  }`}
+                >
+                  <CheckCircle className="h-5 w-5 mx-auto mb-1" />
+                  Confirmation
+                </button>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Session Date *</label>
+                  <input
+                    type="date"
+                    value={reminderData.sessionDate}
+                    onChange={(e) => setReminderData({ ...reminderData, sessionDate: e.target.value })}
+                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Session Time *</label>
+                  <input
+                    type="time"
+                    value={reminderData.sessionTime}
+                    onChange={(e) => setReminderData({ ...reminderData, sessionTime: e.target.value })}
+                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Session Type</label>
+                <input
+                  type="text"
+                  value={reminderData.sessionType}
+                  onChange={(e) => setReminderData({ ...reminderData, sessionType: e.target.value })}
+                  className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  placeholder="e.g., Portrait Session, Wedding, Family Photos"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Location</label>
+                <input
+                  type="text"
+                  value={reminderData.location}
+                  onChange={(e) => setReminderData({ ...reminderData, location: e.target.value })}
+                  className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  placeholder="Studio address or meeting location"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Additional Notes</label>
+                <textarea
+                  value={reminderData.notes}
+                  onChange={(e) => setReminderData({ ...reminderData, notes: e.target.value })}
+                  className="w-full h-24 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  placeholder="What to bring, parking info, etc."
+                />
+              </div>
+            </div>
+
+            <div className="mt-6 flex justify-end space-x-3">
+              <button
+                onClick={() => setShowReminderModal(false)}
+                className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={sendBookingReminder}
+                disabled={sendingReminder}
+                className={`px-4 py-2 text-white rounded-lg hover:opacity-90 disabled:opacity-50 ${
+                  reminderType === 'reminder' ? 'bg-amber-600' : 'bg-green-600'
+                }`}
+              >
+                {sendingReminder ? 'Sending...' : `Send ${reminderType === 'reminder' ? 'Reminder' : 'Confirmation'}`}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
+
