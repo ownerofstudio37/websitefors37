@@ -43,9 +43,10 @@ export default async function BlogPage() {
   try {
     const resp = await supabase
       .from('blog_posts')
-      .select('*')
+      .select('id,title,slug,excerpt,featured_image,published,published_at,created_at,author')
       .eq('published', true)
-      .order('published_at', { ascending: false })
+      .order('published_at', { ascending: false, nullsLast: true })
+      .order('created_at', { ascending: false })
     posts = resp.data || []
     error = resp.error || null
   } catch (e) {
@@ -68,10 +69,12 @@ export default async function BlogPage() {
         {error ? (
           <div className="text-center py-12">
             <p className="text-red-600">Error loading blog posts</p>
+            <p className="text-sm text-gray-500 mt-2">{typeof error === 'string' ? error : (error?.message || 'Unknown error')}</p>
           </div>
-        ) : !posts || posts.length === 0 ? (
+        ) : (!posts || posts.length === 0) ? (
           <div className="text-center py-12">
             <p className="text-gray-500">No blog posts yet. Check back soon!</p>
+            <p className="text-sm text-gray-400 mt-2">Tip: Ensure posts have published=true and pass Row Level Security for anon reads.</p>
           </div>
         ) : (
           <div className="grid lg:grid-cols-4 gap-10">
