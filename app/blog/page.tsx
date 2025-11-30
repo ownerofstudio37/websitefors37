@@ -1,5 +1,5 @@
 // Use anon supabase client to enable ISR caching (no cookies dependency)
-import { supabase } from '@/lib/supabase'
+// Fetch via server API to avoid RLS-related failures; API uses service role and returns only published fields
 import Link from 'next/link'
 import Image from 'next/image'
 import { Suspense } from 'react'
@@ -41,16 +41,19 @@ export default async function BlogPage() {
   let posts: any[] = []
   let error: any = null
   try {
-    const resp = await supabase
-      .from('blog_posts')
-      .select('id,title,slug,excerpt,featured_image,published,published_at,created_at,author')
-      .eq('published', true)
-      .order('published_at', { ascending: false, nullsLast: true })
-      .order('created_at', { ascending: false })
-    posts = resp.data || []
-    error = resp.error || null
-  } catch (e) {
-    console.error('Blog fetch failed:', e)
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'https://studio37.cc'}/api/blog/list`, {
+      // This runs on the server; respect ISR revalidation
+      next: { revalidate: 600 },
+      headers: { 'Accept': 'application/json' },
+    })
+    if (!res.ok) {
+      const text = await res.text()
+      throw new Error(text || `HTTP ${res.status}`)
+    }
+    const json = await res.json()
+    posts = json.posts || []
+  } catch (e: any) {
+    console.error('Blog fetch via API failed:', e)
     error = e
   }
 
