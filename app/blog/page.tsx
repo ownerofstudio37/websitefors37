@@ -23,12 +23,35 @@ export const metadata = generateSEOMetadata({
 // Cache this page for 10 minutes; blog posts are read-mostly
 export const revalidate = 600
 
+// Helper to validate remote image domains to avoid Next/Image throwing on unknown hosts
+function isAllowedImageDomain(url: string): boolean {
+  try {
+    const u = new URL(url)
+    if (['res.cloudinary.com', 'images.unsplash.com'].includes(u.hostname)) return true
+    if (u.hostname.endsWith('.supabase.co')) return true
+    // Allow same-origin images
+    if (u.hostname === new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://studio37.cc').hostname) return true
+    return false
+  } catch {
+    return false
+  }
+}
+
 export default async function BlogPage() {
-  const { data: posts, error } = await supabase
-    .from('blog_posts')
-    .select('*')
-    .eq('published', true)
-    .order('published_at', { ascending: false })
+  let posts: any[] = []
+  let error: any = null
+  try {
+    const resp = await supabase
+      .from('blog_posts')
+      .select('*')
+      .eq('published', true)
+      .order('published_at', { ascending: false })
+    posts = resp.data || []
+    error = resp.error || null
+  } catch (e) {
+    console.error('Blog fetch failed:', e)
+    error = e
+  }
 
   return (
     <div className="min-h-screen pt-16">
@@ -59,7 +82,7 @@ export default async function BlogPage() {
                   href={`/blog/${post.slug}`}
                   className="group block bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow"
                 >
-                  {post.featured_image && (
+                  {post.featured_image && isAllowedImageDomain(post.featured_image) && (
                     <div className="relative h-48 w-full">
                       <Image
                         src={post.featured_image}

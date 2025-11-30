@@ -11,17 +11,20 @@ declare global {
   var __supabase: SupabaseClient | undefined
 }
 
+// Adjust auth persistence for Server Components / ISR builds.
+// Persisting sessions & auto-refreshing tokens isn't needed for public, read-only queries
+// and can trigger localStorage access on the server, causing render failures.
+const clientOptions = {
+  auth: {
+    storageKey: 'sb-public-anon',
+    autoRefreshToken: typeof window !== 'undefined',
+    persistSession: typeof window !== 'undefined',
+    detectSessionInUrl: false,
+  },
+} as const
+
 export const supabase: SupabaseClient =
-  globalThis.__supabase ?? createClient(supabaseUrl, supabaseAnonKey, {
-    auth: {
-      // Use a distinct storage key so this public client doesn't clash
-      // with the authenticated client used in admin routes.
-      storageKey: 'sb-public-anon',
-      autoRefreshToken: true,
-      persistSession: true,
-      detectSessionInUrl: false,
-    },
-  })
+  globalThis.__supabase ?? createClient(supabaseUrl, supabaseAnonKey, clientOptions)
 
 if (typeof window !== 'undefined') {
   globalThis.__supabase = supabase
