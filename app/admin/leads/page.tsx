@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react'
 import { Loader2, Mail, Phone, MessageCircle, Edit, Settings, Calendar, DollarSign, MessageSquare, X, Plus, PhoneCall, Trash2, ChevronLeft, ChevronRight } from 'lucide-react'
+import { CheckCircle } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
 import type { Lead, CommunicationLog } from '@/lib/supabase'
 
