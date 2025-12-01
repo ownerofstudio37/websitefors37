@@ -39,6 +39,8 @@ export default function BlogManagementPage() {
     keywords: "",
     tone: "professional",
     wordCount: 800,
+    thinkingLevel: "basic" as "basic" | "advanced" | "expert",
+    mediaResolution: "medium" as "low" | "medium" | "high",
   });
   const [postForm, setPostForm] = useState({
     title: "",
@@ -1020,10 +1022,56 @@ export default function BlogManagementPage() {
                   </div>
                 </div>
 
+                {/* Gemini 3 Advanced Options */}
+                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 border-2 border-indigo-200 rounded-lg p-4">
+                  <h3 className="font-semibold text-indigo-900 mb-3 flex items-center gap-2">
+                    <Sparkles className="h-4 w-4" />
+                    Gemini 3 Advanced Options
+                  </h3>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-indigo-700 mb-2">
+                        Thinking Level
+                      </label>
+                      <select
+                        value={aiForm.thinkingLevel}
+                        onChange={(e) =>
+                          setAiForm({ ...aiForm, thinkingLevel: e.target.value as any })
+                        }
+                        className="w-full px-3 py-2 border border-indigo-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white"
+                      >
+                        <option value="basic">Basic - Fast, standard reasoning</option>
+                        <option value="advanced">Advanced - Deeper analysis</option>
+                        <option value="expert">Expert - Maximum reasoning depth</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-indigo-700 mb-2">
+                        Media Resolution
+                      </label>
+                      <select
+                        value={aiForm.mediaResolution}
+                        onChange={(e) =>
+                          setAiForm({ ...aiForm, mediaResolution: e.target.value as any })
+                        }
+                        className="w-full px-3 py-2 border border-indigo-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white"
+                      >
+                        <option value="low">Low - Faster, less detail</option>
+                        <option value="medium">Medium - Balanced</option>
+                        <option value="high">High - Maximum fidelity</option>
+                      </select>
+                    </div>
+                  </div>
+                  <p className="text-xs text-indigo-600 mt-2">
+                    💡 Higher settings improve quality but may increase generation time and cost.
+                  </p>
+                </div>
+
                 <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
                   <h3 className="font-semibold text-purple-900 mb-2 flex items-center gap-2">
                     <Sparkles className="h-4 w-4" />
-                    What you'll get:
+                    What you'll get with Gemini 3:
                   </h3>
                   <ul className="text-sm text-purple-700 space-y-1">
                     <li>• SEO-optimized title & meta description</li>
@@ -1031,6 +1079,7 @@ export default function BlogManagementPage() {
                     <li>• Photography tips and insights</li>
                     <li>• Call-to-action for Studio37</li>
                     <li>• Suggested tags and category</li>
+                    <li>• Enhanced reasoning with Gemini 3's advanced capabilities</li>
                   </ul>
                 </div>
 

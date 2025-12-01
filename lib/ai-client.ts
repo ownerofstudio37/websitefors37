@@ -396,6 +396,8 @@ JSON structure:
       topK: 40,
       maxOutputTokens: 4096,
       responseMimeType: "application/json",
+      thinkingLevel: (options as any).thinkingLevel,
+      mediaResolution: (options as any).mediaResolution,
     },
   });
 

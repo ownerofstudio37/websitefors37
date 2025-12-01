@@ -10,6 +10,8 @@ import {
   Calendar,
   DollarSign,
   Camera,
+  Image as ImageIcon,
+  Paperclip,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -135,6 +137,7 @@ export default function EnhancedChatBot() {
     eventDate: "",
     additionalNotes: "",
   });
+  const [attachedImage, setAttachedImage] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Avoid hydration issues by only rendering after client mount
@@ -203,6 +206,32 @@ export default function EnhancedChatBot() {
     setMessages((prev) => [...prev, userMessage]);
   };
 
+  // Handle image attachment
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      alert("Please select an image file");
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      alert("Image must be under 5MB");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const base64 = reader.result as string;
+      // Remove data URL prefix to get just the base64 data
+      const base64Data = base64.split(",")[1];
+      setAttachedImage(base64Data);
+      addUserMessage(`[Shared an image]`);
+    };
+    reader.readAsDataURL(file);
+  };
+
   const handleAIResponse = async (userMessage: string) => {
     setIsTyping(true);
 
@@ -217,8 +246,14 @@ export default function EnhancedChatBot() {
             .map((m) => `${m.sender}: ${m.text}`)
             .join("\n"),
           leadData,
+          imageData: attachedImage,
         }),
       });
+
+      // Clear attached image after sending
+      if (attachedImage) {
+        setAttachedImage(null);
+      }
 
       if (res.ok) {
         const data = await res.json();
@@ -724,7 +759,30 @@ ${conversationSummary}`;
               onSubmit={handleSubmit}
               className="p-4 bg-white border-t"
             >
+              {attachedImage && (
+                <div className="mb-2 flex items-center gap-2 px-3 py-2 bg-purple-50 rounded-lg text-sm text-purple-700">
+                  <ImageIcon className="h-4 w-4" />
+                  <span>Image attached</span>
+                  <button
+                    type="button"
+                    onClick={() => setAttachedImage(null)}
+                    className="ml-auto text-purple-400 hover:text-purple-600"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                </div>
+              )}
               <div className="flex gap-2">
+                <label className="cursor-pointer p-3 text-gray-400 hover:text-purple-600 hover:bg-purple-50 rounded-xl transition-colors">
+                  <Paperclip className="h-5 w-5" />
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    className="hidden"
+                    disabled={isTyping}
+                  />
+                </label>
                 <input
                   type="text"
                   value={inputValue}
@@ -735,7 +793,7 @@ ${conversationSummary}`;
                 />
                 <button
                   type="submit"
-                  disabled={!inputValue.trim() || isTyping}
+                  disabled={(!inputValue.trim() && !attachedImage) || isTyping}
                   className="bg-gradient-to-r from-purple-600 to-pink-600 text-white p-3 rounded-xl hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isTyping ? (

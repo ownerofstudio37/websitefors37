@@ -12,6 +12,9 @@ const BodySchema = z.object({
   message: z.string().min(1, "message is required").max(2000),
   context: z.string().max(4000).optional(),
   leadData: z.record(z.any()).optional(),
+  imageData: z.string().optional(), // Base64 encoded image for multimodal support
+  thinkingLevel: z.enum(["basic", "advanced", "expert"]).optional(),
+  mediaResolution: z.enum(["low", "medium", "high"]).optional(),
 });
 
 export async function POST(req: Request) {
@@ -43,7 +46,7 @@ export async function POST(req: Request) {
         { status: 400 }
       );
     }
-    const { message, context, leadData } = parsed.data;
+    const { message, context, leadData, imageData, thinkingLevel, mediaResolution } = parsed.data;
 
     // message presence already enforced by zod
 
@@ -219,11 +222,39 @@ ${context ? `**Recent conversation:**\n${context}` : ""}
   - Blog: [read our blog](https://studio37.cc/blog)
 
 Respond now:`;
+
+    // Add image analysis context if image is provided
+    let imageAnalysisContext = "";
+    if (imageData) {
+      try {
+        const { analyzeImage } = await import("@/lib/ai-client");
+        const imageAnalysis = await analyzeImage(
+          imageData,
+          "Describe this image in detail, focusing on photography style, composition, lighting, and any relevant details for a photography consultation.",
+          {
+            config: "concise",
+            thinkingLevel: thinkingLevel || "basic",
+            mediaResolution: mediaResolution || "medium",
+          }
+        );
+        imageAnalysisContext = `\n\n**Customer shared an image:** ${imageAnalysis}`;
+        prompt += imageAnalysisContext;
+      } catch (error) {
+        log.warn("Image analysis failed", { error });
+      }
+    }
+
     let response = "";
     try {
       // Use precise preset for chatbot; higher temperature is set locally to keep conversational feel
       response = await generateText(prompt, {
-        config: { ...AI_CONFIGS.precise, temperature: 0.8, maxOutputTokens: 2048 },
+        config: { 
+          ...AI_CONFIGS.precise, 
+          temperature: 0.8, 
+          maxOutputTokens: 2048,
+          thinkingLevel: thinkingLevel || "basic",
+          mediaResolution: mediaResolution || "medium",
+        },
         // retries & fallbacks handled internally
       });
     } catch (aiError: any) {
