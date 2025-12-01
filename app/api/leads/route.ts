@@ -125,6 +125,38 @@ export async function OPTIONS(req: NextRequest) {
   return new NextResponse(null, { status: 204, headers: corsHeaders })
 }
 
+export async function GET(req: NextRequest) {
+  try {
+    const { searchParams } = new URL(req.url)
+    const limit = parseInt(searchParams.get('limit') || '50')
+    const offset = parseInt(searchParams.get('offset') || '0')
+    const status = searchParams.get('status')
+
+    // Build query
+    let query = supabaseAdmin
+      .from('leads')
+      .select('*')
+      .order('created_at', { ascending: false })
+      .range(offset, offset + limit - 1)
+
+    if (status) {
+      query = query.eq('status', status)
+    }
+
+    const { data: leads, error } = await query
+
+    if (error) {
+      log.error('Failed to fetch leads', undefined, error)
+      return NextResponse.json({ error: 'Failed to fetch leads' }, { status: 500 })
+    }
+
+    return NextResponse.json({ leads: leads || [] })
+  } catch (e: any) {
+    log.error('GET leads error', undefined, e)
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+  }
+}
+
 export async function POST(req: NextRequest) {
   try {
     // Rate limit: 5 form posts per 5 minutes per IP
