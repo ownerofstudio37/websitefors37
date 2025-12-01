@@ -167,7 +167,10 @@ export default function NewProjectPage() {
       if (res.ok) {
         router.push(`/admin/projects/${data.project.id}`)
       } else {
-        alert(`Error: ${data.error || 'Failed to create project'}`)
+        const errorMsg = data.error || 'Failed to create project'
+        const errorDetails = data.details ? `\n\nDetails: ${data.details}` : ''
+        alert(`Error: ${errorMsg}${errorDetails}`)
+        console.error('Project creation error:', data)
       }
     } catch (error) {
       console.error('Failed to create project:', error)

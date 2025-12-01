@@ -143,7 +143,11 @@ export async function POST(request: NextRequest) {
 
     if (projectError) {
       log.error('Failed to create project', { error: projectError.message })
-      return NextResponse.json({ error: 'Failed to create project' }, { status: 500 })
+      return NextResponse.json({ 
+        error: 'Failed to create project', 
+        details: projectError.message,
+        hint: projectError.hint || 'Make sure the database migration has been run'
+      }, { status: 500 })
     }
 
     // If workflow_id is provided, create phases and tasks from template
