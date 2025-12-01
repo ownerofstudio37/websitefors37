@@ -20,23 +20,21 @@ const ENV_MODEL =
   process.env.GOOGLE_GENAI_MODEL ||
   process.env.GEMINI_MODEL ||
   process.env.AI_MODEL ||
-  "gemini-flash-latest";
+  "gemini-3-pro-preview";
 
 // Known good fallbacks in descending preference (using new model names)
 export const MODEL_FALLBACKS = [
   ENV_MODEL,
-  // New nomenclature (stable, widely available)
+  "gemini-3-pro-preview",
+  "gemini-3-pro",
   "gemini-flash-latest",
   "gemini-pro-latest",
-  // Legacy names (fallbacks)
   "gemini-1.5-flash-latest",
   "gemini-1.5-flash",
   "gemini-1.5-pro-latest",
   "gemini-1.5-pro",
-  // Experimental
   "gemini-2.0-flash-exp",
   "gemini-2.0-flash-thinking-exp-1219",
-  // Older fallbacks
   "gemini-1.0-pro",
 ];
 
@@ -56,6 +54,9 @@ interface GenerationConfig {
   topK?: number;
   maxOutputTokens?: number;
   responseMimeType?: string;
+  thinkingLevel?: "basic" | "advanced" | "expert";
+  mediaResolution?: "low" | "medium" | "high";
+  thoughtSignature?: string;
 }
 
 // Preset configs for common scenarios
@@ -111,11 +112,22 @@ export function createAIClient(options: AIClientOptions = {}): GenerativeModel {
   }
 
   const genAI = new GoogleGenerativeAI(apiKey);
-  
+
   // Resolve config preset or use custom config
-  const config = typeof options.config === "string" 
+  let config = typeof options.config === "string"
     ? AI_CONFIGS[options.config]
     : options.config || AI_CONFIGS.precise;
+
+  // Add Gemini 3 API parameters if present in options
+  if (options.hasOwnProperty('thinkingLevel')) {
+    config = { ...config, thinkingLevel: (options as any).thinkingLevel };
+  }
+  if (options.hasOwnProperty('mediaResolution')) {
+    config = { ...config, mediaResolution: (options as any).mediaResolution };
+  }
+  if (options.hasOwnProperty('thoughtSignature')) {
+    config = { ...config, thoughtSignature: (options as any).thoughtSignature };
+  }
 
   const modelParams: any = {
     model: options.model || AI_MODELS.FLASH,
