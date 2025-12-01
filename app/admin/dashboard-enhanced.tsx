@@ -56,6 +56,16 @@ const DASHBOARD_CARDS: DashboardCard[] = [
     featured: true,
   },
   {
+    id: "projects",
+    title: "Project Management",
+    description: "Track projects from booking to delivery",
+    icon: "📋",
+    href: "/admin/projects",
+    badge: "NEW",
+    color: "indigo",
+    featured: true,
+  },
+  {
     id: "gallery",
     title: "Gallery",
     description: "Manage photo gallery",

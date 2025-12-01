@@ -18,7 +18,8 @@ import {
   Bell,
   Target,
   Briefcase,
-  Palette
+  Palette,
+  FolderKanban
 } from 'lucide-react'
 import NotificationCenter from './NotificationCenter'
 
@@ -46,6 +47,7 @@ export default function AdminMobileNav() {
     { href: '/admin/calendar', icon: Calendar, label: 'Calendar View' },
     { href: '/admin/leads', icon: MessageSquare, label: 'Leads & Messages' },
     { href: '/admin/lead-scoring', icon: Target, label: 'Lead Scoring' },
+    { href: '/admin/projects', icon: FolderKanban, label: 'Projects' },
     { href: '/admin/client-portals', icon: Briefcase, label: 'Client Portals' },
     { href: '/admin/email-templates', icon: Mail, label: 'Email Templates' },
     { href: '/admin/analytics', icon: BarChart3, label: 'Analytics' },
