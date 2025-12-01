@@ -66,43 +66,21 @@ export default function NewProjectPage() {
 
   async function fetchWorkflows() {
     try {
-      // For now, we'll use the project type to filter workflows
-      // In a full implementation, this would be an API call
-      const mockWorkflows: Workflow[] = [
-        {
-          id: 'wedding-1',
-          name: 'Wedding Photography Standard',
-          description: 'Standard workflow for wedding photography projects',
-          project_type: 'wedding',
-          estimated_duration_days: 45
-        },
-        {
-          id: 'portrait-1',
-          name: 'Portrait Session Standard',
-          description: 'Standard workflow for portrait photography sessions',
-          project_type: 'portrait',
-          estimated_duration_days: 10
-        },
-        {
-          id: 'event-1',
-          name: 'Event Coverage Standard',
-          description: 'Standard workflow for event photography',
-          project_type: 'event',
-          estimated_duration_days: 14
-        },
-        {
-          id: 'commercial-1',
-          name: 'Commercial Project Standard',
-          description: 'Standard workflow for commercial photography projects',
-          project_type: 'commercial',
-          estimated_duration_days: 30
+      const res = await fetch('/api/workflows?active=true')
+      if (res.ok) {
+        const data = await res.json()
+        const workflows = data.workflows || []
+        setWorkflows(workflows)
+        
+        // Auto-select first workflow matching project type if available
+        const matchingWorkflow = workflows.find((w: Workflow) => w.project_type === formData.project_type)
+        if (matchingWorkflow) {
+          setFormData(prev => ({ ...prev, workflow_id: matchingWorkflow.id }))
+        } else if (workflows.length > 0) {
+          setFormData(prev => ({ ...prev, workflow_id: workflows[0].id }))
         }
-      ]
-      setWorkflows(mockWorkflows)
-      
-      // Auto-select first workflow if available
-      if (mockWorkflows.length > 0) {
-        setFormData(prev => ({ ...prev, workflow_id: mockWorkflows[0].id }))
+      } else {
+        console.error('Failed to fetch workflows')
       }
     } catch (error) {
       console.error('Failed to fetch workflows:', error)
