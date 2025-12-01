@@ -156,10 +156,20 @@ export default function NewProjectPage() {
     setLoading(true)
 
     try {
+      // Clean up empty strings to null for database
+      const cleanedData = {
+        ...formData,
+        session_date: formData.session_date || null,
+        client_phone: formData.client_phone || null,
+        description: formData.description || null,
+        workflow_id: formData.workflow_id || null,
+        lead_id: formData.lead_id || null
+      }
+
       const res = await fetch('/api/projects', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(cleanedData)
       })
 
       const data = await res.json()
