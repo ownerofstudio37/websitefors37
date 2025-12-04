@@ -63,13 +63,8 @@ function addMinutes(date: Date, mins: number) {
 function availabilityWindows(date: Date): Array<{ start: Date; end: Date }> {
   const day = new Date(date.getFullYear(), date.getMonth(), date.getDate())
   const mk = (h: number, m = 0) => new Date(day.getFullYear(), day.getMonth(), day.getDate(), h, m)
-  if (isWeekend(day)) {
-    return [{ start: mk(9, 0), end: mk(21, 0) }]
-  }
-  return [
-    { start: mk(6, 0), end: mk(8, 0) },
-    { start: mk(17, 30), end: mk(21, 0) },
-  ]
+  // Studio37 is now full-time: 8am to 9pm every day
+  return [{ start: mk(8, 0), end: mk(21, 0) }]
 }
 
 function overlaps(aStart: Date, aEnd: Date, bStart: Date, bEnd: Date) {
@@ -557,7 +552,7 @@ export default function BookSessionPageEnhanced() {
                       {validationErrors.date && <p className="text-red-500 text-xs mt-1">{validationErrors.date}</p>}
                       <p className="text-xs text-gray-500 mt-2">
                         <Clock className="inline h-3 w-3 mr-1" />
-                        Weekdays: 6-8am, 5:30-9pm • Weekends: 9am-9pm
+                        Available 7 days a week: 8am-9pm CST
                       </p>
                     </div>
                     <div>

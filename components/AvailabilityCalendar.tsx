@@ -199,18 +199,18 @@ export default function AvailabilityCalendar({ serviceType = 'all' }: { serviceT
       <div className="mb-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
         <h3 className="font-semibold text-blue-900 mb-2 flex items-center gap-2">
           <Clock className="h-4 w-4" />
-          Booking Hours
+          Booking Hours - Now Full-Time!
         </h3>
         <div className="grid md:grid-cols-2 gap-3 text-sm text-blue-800">
           <div>
-            <div className="font-medium">Weekdays (Mon-Fri)</div>
-            <div className="text-xs">• Photo Sessions: 1 per day</div>
-            <div className="text-xs">• Consultations: 4:30 PM - 11:00 PM CST (15-min calls)</div>
+            <div className="font-medium">Every Day (7 Days a Week)</div>
+            <div className="text-xs">• Photo Sessions: 8:00 AM - 9:00 PM CST</div>
+            <div className="text-xs">• Consultations: 8:00 AM - 9:00 PM CST (15-min calls)</div>
           </div>
           <div>
-            <div className="font-medium">Weekends (Sat-Sun)</div>
-            <div className="text-xs">• Photo Sessions: 4 per day</div>
-            <div className="text-xs">• Consultations: 12:00 PM - 11:00 PM CST (15-min calls)</div>
+            <div className="font-medium">Daily Capacity</div>
+            <div className="text-xs">• Photo Sessions: Up to 4 per day</div>
+            <div className="text-xs">• Consultation Slots: 26 available per day</div>
           </div>
         </div>
       </div>

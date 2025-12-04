@@ -172,13 +172,8 @@ function addMinutes(date: Date, mins: number) {
 function availabilityWindows(date: Date): Array<{ start: Date; end: Date }> {
   const day = new Date(date.getFullYear(), date.getMonth(), date.getDate())
   const mk = (h: number, m = 0) => new Date(day.getFullYear(), day.getMonth(), day.getDate(), h, m)
-  if (isWeekend(day)) {
-    return [{ start: mk(9, 0), end: mk(21, 0) }]
-  }
-  return [
-    { start: mk(6, 0), end: mk(8, 0) },
-    { start: mk(17, 30), end: mk(21, 0) },
-  ]
+  // Studio37 is now full-time: 8am to 9pm every day
+  return [{ start: mk(8, 0), end: mk(21, 0) }]
 }
 
 function overlaps(aStart: Date, aEnd: Date, bStart: Date, bEnd: Date) {
@@ -830,7 +825,7 @@ export default function BookSessionPage() {
                   <div>
                     <label htmlFor="date" className="block text-sm text-gray-600 mb-1">Date</label>
                     <input id="date" name="date" aria-label="Choose date" type="date" className="w-full border rounded px-3 py-2" value={selectedDate} onChange={(e)=>{setSelectedDate(e.target.value); setSelectedTime('')}} />
-                    <p className="text-xs text-gray-500 mt-2">Weekdays: 6-8am, 5:30-9pm. Weekends: 9am-9pm.</p>
+                    <p className="text-xs text-gray-500 mt-2">Available 7 days a week: 8am-9pm CST</p>
                   </div>
                   <div>
                     <label className="block text-sm text-gray-600 mb-1">Time</label>

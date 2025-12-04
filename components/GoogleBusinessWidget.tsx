@@ -12,7 +12,7 @@ export default function GoogleBusinessWidget({ className = "" }: GoogleBusinessP
     reviewCount: 47,
     address: "1701 Goodson Loop Unit 80, Pinehurst, TX 77362",
     phone: "(832) 713-9944",
-    hours: "Mon-Fri: 9AM-6PM, Sat: 10AM-4PM, Sun: Closed",
+    hours: "7 Days a Week: 8AM-9PM CST",
     services: ["Wedding Photography", "Portrait Photography", "Event Photography", "Commercial Photography"]
   }
 

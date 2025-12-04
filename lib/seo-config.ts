@@ -46,13 +46,13 @@ export const businessInfo = {
     twitter: 'https://twitter.com/studio37photo'
   },
   businessHours: {
-    monday: '9:00-18:00',
-    tuesday: '9:00-18:00',
-    wednesday: '9:00-18:00',
-    thursday: '9:00-18:00',
-    friday: '9:00-18:00',
-    saturday: '10:00-16:00',
-    sunday: 'Closed'
+    monday: '8:00-21:00',
+    tuesday: '8:00-21:00',
+    wednesday: '8:00-21:00',
+    thursday: '8:00-21:00',
+    friday: '8:00-21:00',
+    saturday: '8:00-21:00',
+    sunday: '8:00-21:00'
   }
 }
 

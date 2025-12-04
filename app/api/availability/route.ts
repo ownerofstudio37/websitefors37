@@ -118,17 +118,15 @@ export async function GET(request: NextRequest) {
       const isGoogleBusy = googleBusyDates.has(dateStr)
       
       // Max photo sessions per day
-      let maxPhotoSessions = isWeekend ? 4 : 1
+      let maxPhotoSessions = 4  // 4 sessions per day, every day (full-time operation)
       
       // If Google Calendar shows busy, mark all photo sessions as booked
       if (isGoogleBusy) {
         maxPhotoSessions = 0
       }
       
-      // Max consultation slots per day
-      // Weekends: 12pm to 11pm = 11 hours = 22 thirty-minute slots
-      // Weekdays: 4:30pm to 11pm = 6.5 hours = 13 thirty-minute slots
-      const maxConsultationSlots = isWeekend ? 22 : 13
+      // Max consultation slots per day (8am to 9pm = 13 hours = 26 thirty-minute slots)
+      const maxConsultationSlots = 26
       
       // Calculate available slots for each type
       const availablePhotoSessions = Math.max(0, maxPhotoSessions - dayBookings.photo)

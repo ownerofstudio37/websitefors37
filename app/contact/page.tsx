@@ -96,7 +96,7 @@ export default async function ContactPage() {
                       {businessInfo.contact.phone}
                     </a>
                     <p className="text-gray-200 mt-1">
-                      Available Monday-Friday, 9AM-6PM CST
+                      Available 7 days a week, 8AM-9PM CST
                     </p>
                   </div>
                 </div>

@@ -1,4 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server'
+...GET...GET[Symbol]...GET[Symbol]0
+0..import { NextRequest, NextResponse } from 'next/server'
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin'
 import bcrypt from 'bcryptjs'
 
@@ -96,3 +97,6 @@ export async function POST(request: NextRequest) {
     )
   }
 }
+0
+.toExponential~...GET.apply.apply.apply.apply.apply.apply.apply.apply.apply.apply.apply.apply.apply.apply.apply.apply.apply.apply.apply.apply.apply.apply.apply.apply.apply.apply.apply.apply.apply.apply.apply.apply.apply.apply.apply.name0.``      ```````````````````````````````````````````````````````````0. `0
+0.0
