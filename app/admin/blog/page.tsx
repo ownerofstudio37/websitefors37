@@ -1,30 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-// Suggestion type for AI modal
-type BlogSuggestions = {
-  topics: string[];
-  keywords: string[];
-  about: string;
-  services: string;
-};
-  // Suggestions for AI modal
-  const [suggestions, setSuggestions] = useState<BlogSuggestions | null>(null);
-  const [loadingSuggestions, setLoadingSuggestions] = useState(false);
-  // Fetch blog topic/keyword suggestions for AI modal
-  const fetchSuggestions = async () => {
-    setLoadingSuggestions(true);
-    try {
-      const res = await fetch('/api/blog/suggestions');
-      if (!res.ok) throw new Error('Failed to fetch suggestions');
-      const data = await res.json();
-      setSuggestions(data.suggestions);
-    } catch (err) {
-      setSuggestions(null);
-    } finally {
-      setLoadingSuggestions(false);
-    }
-  };
 import {
   Loader2,
   Plus,
@@ -50,6 +26,14 @@ const MarkdownEditor = dynamic(() => import("@/components/MarkdownEditor"), {
 import { supabase } from "@/lib/supabase";
 import type { BlogPost } from "@/lib/supabase";
 import { revalidateBlog } from "@/lib/revalidate";
+
+// Suggestion type for AI modal
+type BlogSuggestions = {
+  topics: string[];
+  keywords: string[];
+  about: string;
+  services: string;
+};
 
 export default function BlogManagementPage() {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
@@ -87,6 +71,24 @@ export default function BlogManagementPage() {
   const [tagInput, setTagInput] = useState("");
   // Raw AI response for debugging
   const [rawPreview, setRawPreview] = useState<string>("");
+  // Suggestions for AI modal
+  const [suggestions, setSuggestions] = useState<BlogSuggestions | null>(null);
+  const [loadingSuggestions, setLoadingSuggestions] = useState(false);
+
+  // Fetch blog topic/keyword suggestions for AI modal
+  const fetchSuggestions = async () => {
+    setLoadingSuggestions(true);
+    try {
+      const res = await fetch('/api/blog/suggestions');
+      if (!res.ok) throw new Error('Failed to fetch suggestions');
+      const data = await res.json();
+      setSuggestions(data.suggestions);
+    } catch (err) {
+      setSuggestions(null);
+    } finally {
+      setLoadingSuggestions(false);
+    }
+  };
 
   // Fetch blog posts
   const fetchBlogPosts = async () => {
