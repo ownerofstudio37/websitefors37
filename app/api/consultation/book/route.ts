@@ -298,11 +298,9 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    // Generate all possible time slots
-    const bookingDate = new Date(date)
-    const isWeekend = bookingDate.getDay() === 0 || bookingDate.getDay() === 6
-    const startHour = isWeekend ? 12 : 16.5
-    const endHour = 23
+    // Generate all possible time slots (10am - 10pm, 7 days a week)
+    const startHour = 10
+    const endHour = 22
 
     const availableSlots: string[] = []
     // Convert booking start_times to display times for comparison
@@ -333,9 +331,8 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({
       date,
-      isWeekend,
       availableSlots,
-      totalSlots: isWeekend ? 22 : 13,
+      totalSlots: 24,  // 10am-10pm = 12 hours = 24 thirty-minute slots
       availableCount: availableSlots.length
     })
 
