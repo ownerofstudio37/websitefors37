@@ -946,6 +946,23 @@ export default function BlogManagementPage() {
                   </div>
                 )}
 
+                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
+                  <h3 className="font-semibold text-yellow-900 mb-2 flex items-center gap-2">
+                    <Sparkles className="h-4 w-4" />
+                    AI Output Format
+                  </h3>
+                  <p className="text-sm text-yellow-700">
+                    <strong>All AI-generated blog posts will be formatted in Markdown.</strong> <br />
+                    <span>
+                      <ul className="list-disc ml-6 mt-2">
+                        <li>Use <code>#</code> for headings, <code>**bold**</code> for emphasis, and <code>-</code> or <code>*</code> for lists.</li>
+                        <li>Do <strong>not</strong> use HTML tags.</li>
+                        <li>All output must be valid markdown for best results.</li>
+                      </ul>
+                    </span>
+                  </p>
+                </div>
+
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
                     What should we write about? *
