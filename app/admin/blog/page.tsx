@@ -138,7 +138,7 @@ export default function BlogManagementPage() {
         content: postForm.content,
         featured_image: postForm.featured_image,
         meta_description: postForm.meta_description,
-        meta_keywords: postForm.meta_keywords.split(",").map((k) => k.trim()),
+        meta_keywords: postForm.meta_keywords,  // Can be string or array
         author: postForm.author,
         category: postForm.category,
         tags: postForm.tags,
@@ -146,41 +146,31 @@ export default function BlogManagementPage() {
         published_at: postForm.published ? new Date().toISOString() : null,
       };
 
+      // Use the new save API endpoint (uses service role for RLS bypass)
+      const response = await fetch('/api/blog/save', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: isNewPost ? undefined : selectedPost?.id,
+          ...postData,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to save post');
+      }
+
+      const { post } = await response.json();
+
+      // Update local state
       if (isNewPost) {
-        // Create new post
-        const { data, error } = await supabase
-          .from("blog_posts")
-          .insert([postData])
-          .select();
-
-        if (error) throw error;
-
-        // Add to local state
-        if (data) setBlogPosts([data[0], ...blogPosts]);
+        setBlogPosts([post, ...blogPosts]);
       } else {
-        // Update existing post
-        const { error } = await supabase
-          .from("blog_posts")
-          .update({
-            ...postData,
-            updated_at: new Date().toISOString(),
-          })
-          .eq("id", selectedPost!.id);
-
-        if (error) throw error;
-
-        // Update local state
         setBlogPosts(
-          blogPosts.map((post) =>
-            post.id === selectedPost!.id
-              ? {
-                  ...post,
-                  ...postData,
-                  updated_at: new Date().toISOString(),
-                  published_at: postData.published_at || undefined,
-                }
-              : post
-          )
+          blogPosts.map((p) => (p.id === post.id ? post : p))
         );
       }
 
@@ -214,15 +204,20 @@ export default function BlogManagementPage() {
     }
 
     try {
-      const { error } = await supabase.from("blog_posts").delete().eq("id", id);
+      const response = await fetch(`/api/blog/save?id=${id}`, {
+        method: 'DELETE',
+      });
 
-      if (error) throw error;
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to delete post');
+      }
 
       // Update local state
       setBlogPosts(blogPosts.filter((post) => post.id !== id));
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error deleting post:", error);
-      alert("Failed to delete post");
+      alert(error.message || "Failed to delete post");
     }
   };
 
