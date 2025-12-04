@@ -1,6 +1,30 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+// Suggestion type for AI modal
+type BlogSuggestions = {
+  topics: string[];
+  keywords: string[];
+  about: string;
+  services: string;
+};
+  // Suggestions for AI modal
+  const [suggestions, setSuggestions] = useState<BlogSuggestions | null>(null);
+  const [loadingSuggestions, setLoadingSuggestions] = useState(false);
+  // Fetch blog topic/keyword suggestions for AI modal
+  const fetchSuggestions = async () => {
+    setLoadingSuggestions(true);
+    try {
+      const res = await fetch('/api/blog/suggestions');
+      if (!res.ok) throw new Error('Failed to fetch suggestions');
+      const data = await res.json();
+      setSuggestions(data.suggestions);
+    } catch (err) {
+      setSuggestions(null);
+    } finally {
+      setLoadingSuggestions(false);
+    }
+  };
 import {
   Loader2,
   Plus,
@@ -87,6 +111,11 @@ export default function BlogManagementPage() {
   useEffect(() => {
     fetchBlogPosts();
   }, []);
+
+  // Fetch suggestions when AI modal opens
+  useEffect(() => {
+    if (showAIGenerator) fetchSuggestions();
+  }, [showAIGenerator]);
 
   // Generate slug from title
   const generateSlug = (title: string) => {
@@ -963,6 +992,7 @@ export default function BlogManagementPage() {
                   </p>
                 </div>
 
+
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
                     What should we write about? *
@@ -976,6 +1006,22 @@ export default function BlogManagementPage() {
                     className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                     placeholder="e.g., How to prepare for your wedding photoshoot"
                   />
+                  {/* Topic suggestions */}
+                  {suggestions && suggestions.topics.length > 0 && (
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      <span className="text-xs text-gray-500 mr-2">Suggestions:</span>
+                      {suggestions.topics.map((topic, i) => (
+                        <button
+                          key={i}
+                          type="button"
+                          className="bg-gray-100 hover:bg-purple-100 text-xs px-2 py-1 rounded border border-gray-200 transition-colors"
+                          onClick={() => setAiForm({ ...aiForm, topic })}
+                        >
+                          {topic.length > 40 ? topic.slice(0, 40) + '…' : topic}
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
                 <div>
@@ -991,6 +1037,22 @@ export default function BlogManagementPage() {
                     className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                     placeholder="e.g., wedding photography, bridal photos, engagement shoot"
                   />
+                  {/* Keyword suggestions */}
+                  {suggestions && suggestions.keywords.length > 0 && (
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      <span className="text-xs text-gray-500 mr-2">Popular:</span>
+                      {suggestions.keywords.map((kw, i) => (
+                        <button
+                          key={i}
+                          type="button"
+                          className="bg-gray-100 hover:bg-pink-100 text-xs px-2 py-1 rounded border border-gray-200 transition-colors"
+                          onClick={() => setAiForm({ ...aiForm, keywords: kw })}
+                        >
+                          {kw}
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
