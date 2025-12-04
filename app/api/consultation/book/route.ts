@@ -99,10 +99,10 @@ export async function POST(request: NextRequest) {
     // Check business hours
     // Consultations: 10am - 10pm (10:00 - 22:00), 7 days a week
     const timeInMinutes = hour * 60 + minute
-    const startTime = 10 * 60 // 10:00 AM
-    const endTime = 22 * 60 // 10:00 PM
+    const openingTimeMinutes = 10 * 60 // 10:00 AM
+    const closingTimeMinutes = 22 * 60 // 10:00 PM
     
-    if (timeInMinutes < startTime || timeInMinutes >= endTime) {
+    if (timeInMinutes < openingTimeMinutes || timeInMinutes >= closingTimeMinutes) {
       return NextResponse.json(
         { error: 'Consultations are available from 10:00 AM to 10:00 PM CST, 7 days a week' },
         { status: 400 }

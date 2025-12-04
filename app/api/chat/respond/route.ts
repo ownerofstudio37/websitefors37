@@ -238,7 +238,6 @@ Respond now:`;
           }
         );
         imageAnalysisContext = `\n\n**Customer shared an image:** ${imageAnalysis}`;
-        prompt += imageAnalysisContext;
       } catch (error) {
         log.warn("Image analysis failed", { error });
       }
