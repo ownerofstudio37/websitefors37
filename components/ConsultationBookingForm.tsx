@@ -83,14 +83,9 @@ const ConsultationBookingForm = () => {
         }))
         setTimeSlots(slots)
       } else {
-        // Fallback: generate slots client-side
-        const date = new Date(dateStr)
-        const isWeekend = date.getDay() === 0 || date.getDay() === 6
-        const startHour = isWeekend ? 12 : 16.5
-        const endHour = 23
-        
+        // Fallback: generate slots client-side (10am to 10pm, 30-min intervals)
         const slots: TimeSlot[] = []
-        for (let hour = startHour; hour < endHour; hour += 0.5) {
+        for (let hour = 10; hour < 22; hour += 0.5) {
           const h = Math.floor(hour)
           const m = (hour % 1) * 60
           const displayHour = h > 12 ? h - 12 : h === 0 ? 12 : h

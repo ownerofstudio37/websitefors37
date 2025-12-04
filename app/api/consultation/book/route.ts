@@ -96,27 +96,17 @@ export async function POST(request: NextRequest) {
     if (ampm === 'PM' && hour !== 12) hour += 12
     if (ampm === 'AM' && hour === 12) hour = 0
     
-  // Check business hours
-    if (isWeekend) {
-      // Weekend: 12pm - 11pm (12:00 - 23:00)
-      if (hour < 12 || hour >= 23) {
-        return NextResponse.json(
-          { error: 'Weekend consultations are available from 12:00 PM to 11:00 PM CST' },
-          { status: 400 }
-        )
-      }
-    } else {
-      // Weekday: 4:30pm - 11pm (16:30 - 23:00)
-      const timeInMinutes = hour * 60 + minute
-      const startTime = 16 * 60 + 30 // 4:30 PM
-      const endTime = 23 * 60 // 11:00 PM
-      
-      if (timeInMinutes < startTime || timeInMinutes >= endTime) {
-        return NextResponse.json(
-          { error: 'Weekday consultations are available from 4:30 PM to 11:00 PM CST' },
-          { status: 400 }
-        )
-      }
+    // Check business hours
+    // Consultations: 10am - 10pm (10:00 - 22:00), 7 days a week
+    const timeInMinutes = hour * 60 + minute
+    const startTime = 10 * 60 // 10:00 AM
+    const endTime = 22 * 60 // 10:00 PM
+    
+    if (timeInMinutes < startTime || timeInMinutes >= endTime) {
+      return NextResponse.json(
+        { error: 'Consultations are available from 10:00 AM to 10:00 PM CST, 7 days a week' },
+        { status: 400 }
+      )
     }
 
   // Server-side admin client (RLS bypass for trusted API route)

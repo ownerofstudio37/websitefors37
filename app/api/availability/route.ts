@@ -125,8 +125,8 @@ export async function GET(request: NextRequest) {
         maxPhotoSessions = 0
       }
       
-      // Max consultation slots per day (8am to 9pm = 13 hours = 26 thirty-minute slots)
-      const maxConsultationSlots = 26
+      // Max consultation slots per day (10am to 10pm = 12 hours = 24 thirty-minute slots)
+      const maxConsultationSlots = 24
       
       // Calculate available slots for each type
       const availablePhotoSessions = Math.max(0, maxPhotoSessions - dayBookings.photo)
