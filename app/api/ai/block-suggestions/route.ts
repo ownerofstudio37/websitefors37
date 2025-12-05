@@ -107,11 +107,11 @@ Return JSON array of ${maxSuggestions} suggestions in this format:
 
 Return ONLY valid JSON, no markdown or additional text.`
 
-    // Generate suggestions with Gemini 2.5 Pro (page builder needs accuracy & bug-free code)
+    // Generate suggestions with Gemini 2.5 Flash (fast and reliable)
     let response: string
     try {
       response = await generateText(prompt, {
-        model: "gemini-2.5-pro",
+        model: "gemini-2.5-flash",
         temperature: 0.8, // Higher creativity for varied suggestions
         maxOutputTokens: 2000
       })

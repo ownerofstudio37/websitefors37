@@ -395,11 +395,11 @@ JSON structure:
 }`;
 
   try {
-    log.info("Generating blog post with gemini-2.5-pro (with fallbacks)", { topic, wordCount, keywordsCount: keywords.length });
+    log.info("Generating blog post with gemini-2.5-flash (with fallbacks)", { topic, wordCount, keywordsCount: keywords.length });
     
     // Use generateJSON which has retry/fallback logic built-in
     const blogPost = await generateJSON<BlogPost>(prompt, {
-      model: "gemini-2.5-pro", // Prefer gemini-2.5-pro for blog writing
+      model: "gemini-2.5-flash", // Use gemini-2.5-flash for fast, reliable blog writing
       retries: 3,
       retryDelayMs: 2000,
       ...options
