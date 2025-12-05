@@ -379,36 +379,26 @@ JSON structure:
   "excerpt": "brief 2-sentence summary for preview"
 }`;
 
-  // Use direct model call with strict JSON mode (Gemini 2.5 compatible)
-  const model = createAIClient({
-    model: "gemini-2.5-pro", // Use gemini-2.5-pro for blog writing
-    config: {
-      temperature: 0.7,
-      topP: 0.9,
-      topK: 40,
-      maxOutputTokens: 4096,
-      responseMimeType: "application/json",
-    },
-  });
-
   try {
-    log.info("Generating blog post with gemini-2.5-pro", { topic });
+    log.info("Generating blog post with gemini-2.5-pro (with fallbacks)", { topic });
     
-    const result = await model.generateContent(prompt);
-    const text = result.response.text().trim();
-    
-    // Log for debugging
-    log.info("Blog post generation response", { 
-      length: text.length,
-      preview: text.substring(0, 150) 
+    // Use generateJSON which has retry/fallback logic built-in
+    const blogPost = await generateJSON<BlogPost>(prompt, {
+      model: "gemini-2.5-pro", // Prefer gemini-2.5-pro for blog writing
+      retries: 3,
+      retryDelayMs: 2000,
+      ...options
     });
     
-    // Parse and validate
-    const blogPost = JSON.parse(text) as BlogPost;
-    
+    // Validate required fields
     if (!blogPost.title || !blogPost.content) {
-      throw new Error("Generated blog post missing required fields");
+      throw new Error("Generated blog post missing required fields (title or content)");
     }
+    
+    log.info("Blog post generated successfully", { 
+      title: blogPost.title?.substring(0, 50),
+      contentLength: blogPost.content?.length || 0
+    });
     
     return blogPost;
   } catch (error: any) {
@@ -417,8 +407,9 @@ JSON structure:
       stack: error?.stack 
     });
     
-    if (error instanceof SyntaxError) {
-      throw new Error("Invalid JSON response from AI");
+    // Re-throw with more context
+    if (error?.message?.includes("Empty response")) {
+      throw new Error("AI service returned empty response. The model may be temporarily unavailable.");
     }
     
     throw error;
