@@ -397,15 +397,36 @@ JSON structure:
   try {
     log.info("Generating blog post with gemini-2.5-flash (with fallbacks)", { topic, wordCount, keywordsCount: keywords.length });
     
-    // Use generateJSON which has retry/fallback logic built-in
-    const blogPost = await generateJSON<BlogPost>(prompt, {
-      model: "gemini-2.5-flash", // Use gemini-2.5-flash for fast, reliable blog writing
+    // Use generateText with JSON mode instead of generateJSON (which limits to 1024 tokens)
+    const response = await generateText(prompt, {
+      model: "gemini-2.5-flash",
+      config: {
+        temperature: 0.7,
+        topP: 0.9,
+        topK: 40,
+        maxOutputTokens: 4096, // Blog posts need more tokens than structured config allows
+        responseMimeType: "application/json",
+      },
       retries: 3,
       retryDelayMs: 2000,
       ...options
     });
     
-    log.info("Blog post JSON received", { 
+    log.info("Blog post response received", { 
+      responseLength: response?.length || 0,
+      responsePreview: response?.substring(0, 150)
+    });
+    
+    // Parse JSON response
+    let blogPost: BlogPost;
+    try {
+      blogPost = JSON.parse(response);
+    } catch (parseError: any) {
+      log.error("Failed to parse blog post JSON", { response: response?.substring(0, 500), error: parseError?.message });
+      throw new Error("Invalid JSON response from AI");
+    }
+    
+    log.info("Blog post JSON parsed", { 
       hasTitle: !!blogPost?.title, 
       hasContent: !!blogPost?.content,
       titlePreview: blogPost?.title?.substring(0, 50),
