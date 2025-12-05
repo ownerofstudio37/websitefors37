@@ -120,12 +120,14 @@ Focus suggestions on:
 
 Keep suggestions specific, actionable, and prioritized by impact.`;
 
+    // Use gemini-2.5-flash for SEO tools (fast analysis of large amounts of text)
     const aiAnalysis = await generateJSON<{
       seoScore: number;
       suggestions: string[];
       titleSuggestions: string[];
       metaSuggestions: string[];
     }>(prompt, {
+      model: "gemini-2.5-flash",
       config: "creative",
     });
 

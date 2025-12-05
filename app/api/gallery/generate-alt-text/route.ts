@@ -60,12 +60,12 @@ Write a concise, SEO-optimized alt text (50-125 characters) that:
 
 Return ONLY the alt text, no backticks or commentary.`;
 
-    log.info("Generating alt text with Gemini 3", { category, thinkingLevel, mediaResolution });
+    log.info("Generating alt text with gemini-2.5-flash", { category });
 
+    // Use gemini-2.5-flash for fast alt text generation (reading large amounts of text efficiently)
     const altTextRaw = await generateText(prompt, {
+      model: "gemini-2.5-flash",
       config: "concise",
-      thinkingLevel: thinkingLevel || "basic",
-      mediaResolution: mediaResolution || "medium",
     });
 
     const altText = altTextRaw.trim().replace(/^"|"$/g, "");

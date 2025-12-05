@@ -126,8 +126,9 @@ Alt text should:
 
 Return ONLY valid JSON.`;
 
+    // Use gemini-2.5-flash for image analysis (fast vision processing)
     const analysis = await generateJSON<ImageAnalysis>(prompt, {
-      // Use default model (env-configurable, Gemini 3 Pro Preview by default)
+      model: "gemini-2.5-flash",
       config: "creative",
     });
 
@@ -192,8 +193,9 @@ export async function PUT(req: NextRequest) {
 
         const prompt = `Analyze this image and return JSON with: altText, suggestedCategory, suggestedTags, qualityScore, qualityNotes, dominantColors, composition, seoKeywords.`;
         
+        // Use gemini-2.5-flash for batch image analysis (fast, efficient)
         const analysis = await generateJSON<ImageAnalysis>(prompt, {
-          // Use default model (env-configurable)
+          model: "gemini-2.5-flash"
         });
 
         await supabase

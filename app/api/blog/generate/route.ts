@@ -10,9 +10,9 @@ export const maxDuration = 60;
 
 export async function POST(req: Request) {
   try {
-    const { topic, keywords, tone, wordCount, thinkingLevel, mediaResolution } = await req.json();
+    const { topic, keywords, tone, wordCount } = await req.json();
 
-    log.info("Blog generation request received", { topic, keywords, tone, wordCount, thinkingLevel, mediaResolution });
+    log.info("Blog generation request received", { topic, keywords, tone, wordCount });
 
     if (!topic) {
       return NextResponse.json({ error: "Topic is required" }, { status: 400 });
@@ -51,7 +51,7 @@ export async function POST(req: Request) {
       ? keywords 
       : ["photography", "Studio37", "Pinehurst TX"];
 
-    log.info("Calling generateBlogPost", { 
+    log.info("Calling generateBlogPost with gemini-2.5-pro", { 
       topic, 
       keywordCount: keywordArray.length,
       wordCount: wordCount || 800,
@@ -63,11 +63,7 @@ export async function POST(req: Request) {
         topic,
         keywordArray,
         wordCount || 800,
-        tone || "professional and friendly",
-        {
-          thinkingLevel: thinkingLevel || "basic",
-          mediaResolution: mediaResolution || "medium",
-        }
+        tone || "professional and friendly"
       );
 
       if (!blogPost || !blogPost.content) {

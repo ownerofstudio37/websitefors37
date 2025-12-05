@@ -15,27 +15,23 @@ import { createLogger } from "./logger";
 
 const log = createLogger("lib/ai-client");
 
-// Resolve default model from env with safe fallbacks (new nomenclature)
+// Resolve default model from env with safe fallbacks (Gemini 2.5 models)
 const ENV_MODEL =
   process.env.GOOGLE_GENAI_MODEL ||
   process.env.GEMINI_MODEL ||
   process.env.AI_MODEL ||
-  "gemini-3-pro-preview";
+  "gemini-2.5-flash";
 
-// Known good fallbacks in descending preference (using new model names)
+// Known good fallbacks in descending preference (Gemini 2.5 focus)
 export const MODEL_FALLBACKS = [
   ENV_MODEL,
-  "gemini-3-pro-preview",
-  "gemini-3-pro",
-  "gemini-flash-latest",
-  "gemini-pro-latest",
+  "gemini-2.5-flash",
+  "gemini-2.5-pro",
+  "gemini-2.5-flash-lite",
   "gemini-1.5-flash-latest",
   "gemini-1.5-flash",
   "gemini-1.5-pro-latest",
   "gemini-1.5-pro",
-  "gemini-2.0-flash-exp",
-  "gemini-2.0-flash-thinking-exp-1219",
-  "gemini-1.0-pro",
 ];
 
 // Model configurations for different use cases
@@ -54,9 +50,6 @@ interface GenerationConfig {
   topK?: number;
   maxOutputTokens?: number;
   responseMimeType?: string;
-  thinkingLevel?: "basic" | "advanced" | "expert";
-  mediaResolution?: "low" | "medium" | "high";
-  thoughtSignature?: string;
 }
 
 // Preset configs for common scenarios
@@ -387,22 +380,20 @@ JSON structure:
   "excerpt": "brief 2-sentence summary for preview"
 }`;
 
-  // Use direct model call with strict JSON mode
+  // Use direct model call with strict JSON mode (Gemini 2.5 compatible)
   const model = createAIClient({
-    ...options,
+    model: "gemini-2.5-pro", // Use gemini-2.5-pro for blog writing
     config: {
       temperature: 0.7,
       topP: 0.9,
       topK: 40,
       maxOutputTokens: 4096,
       responseMimeType: "application/json",
-      thinkingLevel: (options as any).thinkingLevel,
-      mediaResolution: (options as any).mediaResolution,
     },
   });
 
   try {
-    log.info("Generating blog post with model", { topic, model: options.model || "default" });
+    log.info("Generating blog post with gemini-2.5-pro", { topic });
     
     const result = await model.generateContent(prompt);
     const text = result.response.text().trim();

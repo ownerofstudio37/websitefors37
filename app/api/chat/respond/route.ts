@@ -13,8 +13,6 @@ const BodySchema = z.object({
   context: z.string().max(4000).optional(),
   leadData: z.record(z.any()).optional(),
   imageData: z.string().optional(), // Base64 encoded image for multimodal support
-  thinkingLevel: z.enum(["basic", "advanced", "expert"]).optional(),
-  mediaResolution: z.enum(["low", "medium", "high"]).optional(),
 });
 
 export async function POST(req: Request) {
@@ -46,7 +44,7 @@ export async function POST(req: Request) {
         { status: 400 }
       );
     }
-    const { message, context, leadData, imageData, thinkingLevel, mediaResolution } = parsed.data;
+    const { message, context, leadData, imageData } = parsed.data;
 
     // message presence already enforced by zod
 
@@ -231,11 +229,7 @@ Respond now:`;
         const imageAnalysis = await analyzeImage(
           imageData,
           "Describe this image in detail, focusing on photography style, composition, lighting, and any relevant details for a photography consultation.",
-          {
-            config: "concise",
-            thinkingLevel: thinkingLevel || "basic",
-            mediaResolution: mediaResolution || "medium",
-          }
+          { config: "concise" }
         );
         imageAnalysisContext = `\n\n**Customer shared an image:** ${imageAnalysis}`;
       } catch (error) {
@@ -245,14 +239,13 @@ Respond now:`;
 
     let response = "";
     try {
-      // Use precise preset for chatbot; higher temperature is set locally to keep conversational feel
+      // Use precise preset for chatbot with gemini-2.5-flash (fast, low latency)
       response = await generateText(prompt, {
+        model: "gemini-2.5-flash",
         config: { 
           ...AI_CONFIGS.precise, 
           temperature: 0.8, 
           maxOutputTokens: 2048,
-          thinkingLevel: thinkingLevel || "basic",
-          mediaResolution: mediaResolution || "medium",
         },
         // retries & fallbacks handled internally
       });
