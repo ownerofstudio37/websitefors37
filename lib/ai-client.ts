@@ -417,12 +417,34 @@ JSON structure:
       responsePreview: response?.substring(0, 150)
     });
     
-    // Parse JSON response
+      // Clean response - remove markdown code blocks if present
+      let cleanedResponse = response.trim();
+    
+      // Remove markdown code fences (```json ... ``` or ``` ... ```)
+      if (cleanedResponse.startsWith('```')) {
+        cleanedResponse = cleanedResponse
+          .replace(/^```(?:json)?\s*\n?/i, '') // Remove opening fence
+          .replace(/\n?```\s*$/, ''); // Remove closing fence
+      }
+    
+      // Remove any leading/trailing whitespace again
+      cleanedResponse = cleanedResponse.trim();
+    
+      log.info("Cleaned response", { 
+        hadCodeFence: cleanedResponse !== response,
+        cleanedLength: cleanedResponse.length,
+        cleanedPreview: cleanedResponse.substring(0, 150)
+      });
+    
+      // Parse JSON response
     let blogPost: BlogPost;
     try {
-      blogPost = JSON.parse(response);
+        blogPost = JSON.parse(cleanedResponse);
     } catch (parseError: any) {
-      log.error("Failed to parse blog post JSON", { response: response?.substring(0, 500), error: parseError?.message });
+        log.error("Failed to parse blog post JSON", { 
+          cleanedResponse: cleanedResponse?.substring(0, 500), 
+          error: parseError?.message 
+        });
       throw new Error("Invalid JSON response from AI");
     }
     
