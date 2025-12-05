@@ -257,6 +257,12 @@ export default function EnhancedChatBot() {
 
       if (res.ok) {
         const data = await res.json();
+        console.log("Chat response received:", { 
+          hasResponse: !!data.response, 
+          responseLength: data.response?.length,
+          responsePreview: data.response?.substring(0, 100),
+          hasDetectedInfo: !!data.detectedInfo
+        });
 
         // Update lead data with detected info
         if (data.detectedInfo) {
@@ -292,6 +298,12 @@ export default function EnhancedChatBot() {
         addBotMessage(data.response, quickReplies);
       } else {
         // Fallback response
+        const errorText = await res.text();
+        console.error("Chat API error:", { 
+          status: res.status, 
+          statusText: res.statusText,
+          errorText 
+        });
         addBotMessage(
           "I'm here to help! Our team can answer any questions. Would you like to book a consultation or learn about our services?",
           ["Book consultation", "View services", "Pricing info"]

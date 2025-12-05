@@ -240,13 +240,20 @@ Respond now:`;
     let response = "";
     try {
       // Use precise preset for chatbot with gemini-2.5-flash (fast, low latency)
+      log.info("Calling generateText", { 
+        promptLength: prompt.length,
+        model: "gemini-2.5-flash",
+        trainingExamplesCount: trainingExamples.length 
+      });
       response = await generateText(prompt, {
         model: "gemini-2.5-flash",
         config: "precise",
         // retries & fallbacks handled internally
       });
+      log.info("AI response generated", { length: response.length, responsePreview: response.substring(0, 100) });
     } catch (aiError: any) {
       const msg = String(aiError?.message || aiError || "");
+      log.error("generateText threw error", { error: msg, stack: aiError?.stack });
       if (msg.includes("API key configuration error") || msg.includes("reported as leaked")) {
         return NextResponse.json({ error: "API key was reported as leaked or misconfigured. Rotate key and redeploy.", code: "API_KEY_LEAKED" }, { status: 403 });
       }
@@ -346,6 +353,7 @@ Respond now:`;
       } catch {}
     }
 
+    log.info("About to return response", { responseLength: response.length, hasDetectedInfo: !!detectedInfo });
     return NextResponse.json({
       response,
       detectedInfo: Object.keys(detectedInfo).length > 0 ? detectedInfo : null,
