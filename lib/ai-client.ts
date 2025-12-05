@@ -155,7 +155,22 @@ export async function generateText(
       try {
         const model = createAIClient({ ...options, model: candidate });
         const result = await model.generateContent(prompt);
-        const text = result.response.text().trim();
+        
+        // Handle different response formats (text vs JSON mode)
+        let text: string;
+        try {
+          text = result.response.text().trim();
+        } catch (textError: any) {
+          // If text() fails, try getting candidates directly (JSON mode behavior)
+          log.warn("Failed to get text(), trying candidates", { error: textError?.message });
+          const candidates = result.response.candidates;
+          if (candidates && candidates[0]?.content?.parts?.[0]?.text) {
+            text = candidates[0].content.parts[0].text.trim();
+          } else {
+            throw new Error("Could not extract text from response");
+          }
+        }
+        
         if (!text) throw new Error("Empty response from AI");
         if (candidate !== (options.model || AI_MODELS.FLASH)) {
           log.info("Model fallback used", { candidate });
@@ -380,7 +395,7 @@ JSON structure:
 }`;
 
   try {
-    log.info("Generating blog post with gemini-2.5-pro (with fallbacks)", { topic });
+    log.info("Generating blog post with gemini-2.5-pro (with fallbacks)", { topic, wordCount, keywordsCount: keywords.length });
     
     // Use generateJSON which has retry/fallback logic built-in
     const blogPost = await generateJSON<BlogPost>(prompt, {
@@ -390,8 +405,16 @@ JSON structure:
       ...options
     });
     
+    log.info("Blog post JSON received", { 
+      hasTitle: !!blogPost?.title, 
+      hasContent: !!blogPost?.content,
+      titlePreview: blogPost?.title?.substring(0, 50),
+      contentLength: blogPost?.content?.length || 0
+    });
+    
     // Validate required fields
-    if (!blogPost.title || !blogPost.content) {
+    if (!blogPost || !blogPost.title || !blogPost.content) {
+      log.error("Blog post validation failed", { blogPost: JSON.stringify(blogPost)?.substring(0, 200) });
       throw new Error("Generated blog post missing required fields (title or content)");
     }
     
