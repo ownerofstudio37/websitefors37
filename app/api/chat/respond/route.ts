@@ -242,11 +242,7 @@ Respond now:`;
       // Use precise preset for chatbot with gemini-2.5-flash (fast, low latency)
       response = await generateText(prompt, {
         model: "gemini-2.5-flash",
-        config: { 
-          ...AI_CONFIGS.precise, 
-          temperature: 0.8, 
-          maxOutputTokens: 2048,
-        },
+        config: "precise",
         // retries & fallbacks handled internally
       });
     } catch (aiError: any) {

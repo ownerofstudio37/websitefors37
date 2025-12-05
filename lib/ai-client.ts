@@ -24,7 +24,6 @@ const ENV_MODEL =
 
 // Known good fallbacks in descending preference (Gemini 2.5 focus)
 export const MODEL_FALLBACKS = [
-  ENV_MODEL,
   "gemini-2.5-flash",
   "gemini-2.5-pro",
   "gemini-2.5-flash-lite",
