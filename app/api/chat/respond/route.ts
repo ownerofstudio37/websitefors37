@@ -12,7 +12,7 @@ const BodySchema = z.object({
   message: z.string().min(1, "message is required").max(2000),
   context: z.string().max(4000).optional(),
   leadData: z.record(z.any()).optional(),
-  imageData: z.string().optional(), // Base64 encoded image for multimodal support
+  imageData: z.string().nullish(), // Base64 encoded image for multimodal support (can be null or undefined)
 });
 
 export async function POST(req: Request) {
