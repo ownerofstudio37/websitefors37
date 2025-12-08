@@ -397,7 +397,8 @@ JSON structure:
   try {
     log.info("Generating blog post with gemini-2.5-flash (with fallbacks)", { topic, wordCount, keywordsCount: keywords.length });
     
-    // Use generateText with JSON mode instead of generateJSON (which limits to 1024 tokens)
+    // Use generateText in text mode (not JSON mode which causes wrapping issues)
+    // We'll clean and parse the JSON manually with better error handling
     const response = await generateText(prompt, {
       model: "gemini-2.5-flash",
       config: {
@@ -405,7 +406,6 @@ JSON structure:
         topP: 0.9,
         topK: 40,
         maxOutputTokens: 4096, // Blog posts need more tokens than structured config allows
-        responseMimeType: "application/json",
       },
       retries: 3,
       retryDelayMs: 2000,
