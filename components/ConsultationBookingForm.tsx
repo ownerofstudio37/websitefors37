@@ -348,7 +348,7 @@ const ConsultationBookingForm = () => {
               Pick Your Time
             </h2>
             <p className="text-gray-600 mb-6">
-              Available times on {new Date(selectedDate).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
+              Available times on {new Date(selectedDate + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
             </p>
 
             {isLoadingSlots ? (
