@@ -2,8 +2,11 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin'
 import { rateLimit, getClientIp } from '@/lib/rateLimit'
 import { createLogger } from '@/lib/logger'
+import { Resend } from 'resend'
+import { renderEmail } from '@/lib/emailRenderer'
 
 const log = createLogger('api/consultation/book')
+const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null
 
 interface BookingRequest {
   date: string
@@ -234,7 +237,59 @@ export async function POST(request: NextRequest) {
       })
     }
 
-    // TODO: Send confirmation email
+    // Send confirmation emails to customer and CEO
+    if (resend) {
+      try {
+        const emailHtml = await renderEmail('booking-confirmation', {
+          clientName: name,
+          serviceName: 'Photography Consultation',
+          date: date,
+          time: time,
+          location: 'Studio37, Pinehurst, TX',
+          notes: notes || '',
+          phone: phone,
+          bookingId: booking.id
+        })
+
+        // Send to customer
+        await resend.emails.send({
+          from: 'Studio37 Photography <bookings@studio37.cc>',
+          to: email,
+          subject: 'Consultation Confirmed - Studio37 Photography',
+          html: emailHtml
+        })
+
+        // Send notification to CEO
+        await resend.emails.send({
+          from: 'Studio37 Bookings <bookings@studio37.cc>',
+          to: 'ceo@studio37.cc',
+          subject: `New Booking: ${name} - ${time} on ${date}`,
+          html: `
+            <h2>New Consultation Booking</h2>
+            <p><strong>Client:</strong> ${name}</p>
+            <p><strong>Email:</strong> ${email}</p>
+            <p><strong>Phone:</strong> ${phone}</p>
+            <p><strong>Date:</strong> ${date}</p>
+            <p><strong>Time:</strong> ${time}</p>
+            <p><strong>Notes:</strong> ${notes || 'None'}</p>
+            <p><strong>Booking ID:</strong> ${booking.id}</p>
+            <hr>
+            <p><a href="https://www.studio37.cc/admin/bookings">View in Admin Dashboard</a></p>
+          `
+        })
+
+        log.info('Confirmation emails sent', { bookingId: booking.id, email })
+      } catch (emailError: any) {
+        log.error('Failed to send confirmation emails', { 
+          error: emailError.message,
+          bookingId: booking.id 
+        })
+        // Don't fail the booking if email fails
+      }
+    } else {
+      log.warn('Resend API key not configured, skipping confirmation emails')
+    }
+
     // TODO: Send calendar invite
     // TODO: Add to CRM/leads if needed
 
