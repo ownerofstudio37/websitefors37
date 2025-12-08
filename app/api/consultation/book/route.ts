@@ -3,7 +3,7 @@ import { getSupabaseAdmin } from '@/lib/supabaseAdmin'
 import { rateLimit, getClientIp } from '@/lib/rateLimit'
 import { createLogger } from '@/lib/logger'
 import { Resend } from 'resend'
-import { renderEmail } from '@/lib/emailRenderer'
+import { renderEmailTemplate } from '@/lib/emailRenderer'
 
 const log = createLogger('api/consultation/book')
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null
@@ -240,7 +240,7 @@ export async function POST(request: NextRequest) {
     // Send confirmation emails to customer and CEO
     if (resend) {
       try {
-        const emailHtml = await renderEmail('booking-confirmation', {
+        const emailHtml = await renderEmailTemplate('booking-confirmation', {
           clientName: name,
           serviceName: 'Photography Consultation',
           date: date,
@@ -290,8 +290,62 @@ export async function POST(request: NextRequest) {
       log.warn('Resend API key not configured, skipping confirmation emails')
     }
 
+    // Create lead record in CRM
+    try {
+      const { data: existingLead } = await supabase
+        .from('leads')
+        .select('id')
+        .eq('email', email)
+        .maybeSingle()
+
+      if (!existingLead) {
+        // Create new lead
+        const { data: newLead, error: leadError } = await supabase
+          .from('leads')
+          .insert({
+            name: name,
+            email: email,
+            phone: phone,
+            service_interest: 'consultation',
+            source: 'consultation-booking',
+            status: 'new',
+            message: notes || 'Booked consultation for ' + date + ' at ' + time
+          })
+          .select()
+          .single()
+
+        if (!leadError && newLead) {
+          // Link lead to appointment
+          await supabase
+            .from('appointments')
+            .update({ lead_id: newLead.id })
+            .eq('id', booking.id)
+
+          log.info('Lead created and linked to booking', { 
+            leadId: newLead.id, 
+            bookingId: booking.id 
+          })
+        } else {
+          log.error('Failed to create lead', { error: leadError })
+        }
+      } else {
+        // Link existing lead to appointment
+        await supabase
+          .from('appointments')
+          .update({ lead_id: existingLead.id })
+          .eq('id', booking.id)
+
+        log.info('Existing lead linked to booking', { 
+          leadId: existingLead.id, 
+          bookingId: booking.id 
+        })
+      }
+    } catch (leadError: any) {
+      log.error('Error handling lead creation', { error: leadError.message })
+      // Don't fail the booking if lead creation fails
+    }
+
     // TODO: Send calendar invite
-    // TODO: Add to CRM/leads if needed
 
     return NextResponse.json(
       {
