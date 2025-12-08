@@ -13,8 +13,8 @@ import { businessInfo } from '@/lib/seo-config'
 
 const isValidSlug = (s: string) => /^[a-z0-9-]{1,200}$/.test(s) // Increased from 64 to 200 chars for longer blog titles
 
-// Enable ISR caching for blog posts - 60 seconds for faster updates during content editing
-export const revalidate = 60
+// Enable ISR caching for blog posts
+export const revalidate = 600
 
 // Generate metadata dynamically based on blog post
 export async function generateMetadata({ params }: { params: { slug: string } }) {
