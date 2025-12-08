@@ -11,7 +11,7 @@ import rehypeRaw from 'rehype-raw'
 import { generateSEOMetadata, generateArticleSchema } from '@/lib/seo-helpers'
 import { businessInfo } from '@/lib/seo-config'
 
-const isValidSlug = (s: string) => /^[a-z0-9-]{1,64}$/.test(s)
+const isValidSlug = (s: string) => /^[a-z0-9-]{1,200}$/.test(s) // Increased from 64 to 200 chars for longer blog titles
 
 // Enable ISR caching for blog posts
 export const revalidate = 600
