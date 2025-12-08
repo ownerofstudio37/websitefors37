@@ -1,8 +1,8 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-// Use anon client for ISR caching
-import { supabase } from '@/lib/supabase'
+// Use admin client for blog posts to bypass RLS (blog list also uses admin)
+import { getSupabaseAdmin } from '@/lib/supabaseAdmin'
 import { notFound } from 'next/navigation'
 import { Calendar, User, Tag, ArrowLeft } from 'lucide-react'
 import { MDXRemote } from 'next-mdx-remote/rsc'
@@ -25,6 +25,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     }
   }
   
+  const supabase = getSupabaseAdmin()
   const { data: post } = await supabase
     .from('blog_posts')
     .select('title, meta_description, excerpt, meta_keywords')
@@ -53,6 +54,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
     notFound()
   }
   
+  const supabase = getSupabaseAdmin()
   const { data: post, error } = await supabase
     .from('blog_posts')
     .select('*')
@@ -64,7 +66,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
     notFound()
   }
   
-  // Get related posts
+  // Get related posts using same admin client
   const { data: relatedPosts } = await supabase
     .from('blog_posts')
     .select('id, title, slug, published_at')
