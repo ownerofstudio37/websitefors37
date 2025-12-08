@@ -241,14 +241,14 @@ export async function POST(request: NextRequest) {
     if (resend) {
       try {
         const emailHtml = await renderEmailTemplate('booking-confirmation', {
-          clientName: name,
-          serviceName: 'Photography Consultation',
-          date: date,
-          time: time,
+          firstName: name,
+          sessionType: 'Photography Consultation',
+          sessionDate: date,
+          sessionTime: time,
           location: 'Studio37, Pinehurst, TX',
-          notes: notes || '',
-          phone: phone,
-          bookingId: booking.id
+          duration: '2 hours',
+          photographer: 'Studio37 Team',
+          // Optionally add: packageName, totalAmount, depositAmount if available
         })
 
         // Send to customer
