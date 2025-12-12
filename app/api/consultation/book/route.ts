@@ -325,6 +325,32 @@ export async function POST(request: NextRequest) {
             leadId: newLead.id, 
             bookingId: booking.id 
           })
+          // Send admin notification about the new lead (non-blocking)
+          try {
+            const adminHtml = `
+              <h2>New Lead from Consultation Booking</h2>
+              <p><strong>Name:</strong> ${newLead.name || '—'}</p>
+              <p><strong>Email:</strong> ${newLead.email || '—'}</p>
+              <p><strong>Phone:</strong> ${newLead.phone || '—'}</p>
+              <p><strong>Notes:</strong> ${newLead.message ? newLead.message.replace(/</g, '&lt;') : '—'}</p>
+              <p><a href="${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.studio37.cc'}/admin/leads">View lead in admin</a></p>
+            `
+
+            fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.studio37.cc'}/api/marketing/email/send`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                to: 'ceo@studio37.cc',
+                subject: `New Lead (Booking): ${newLead.name || newLead.email || 'Contact'}`,
+                html: adminHtml,
+                leadId: newLead.id
+              })
+            }).then(res => {
+              if (!res.ok) log.warn('Admin booking-lead notification failed', { status: res.status })
+            }).catch(err => log.error('Failed to POST booking admin notification', err))
+          } catch (err) {
+            log.error('Error sending booking admin notification', { error: err })
+          }
         } else {
           log.error('Failed to create lead', { error: leadError })
         }
