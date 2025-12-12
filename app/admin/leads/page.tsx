@@ -5,6 +5,7 @@ import { Loader2, Mail, Phone, MessageCircle, Edit, Settings, Calendar, DollarSi
 import { CheckCircle } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
 import type { Lead, CommunicationLog } from '@/lib/supabase'
+import MarkdownEditor from '@/components/MarkdownEditor'
 
 export default function LeadsPage() {
   const [leads, setLeads] = useState<Lead[]>([])
@@ -400,7 +401,13 @@ export default function LeadsPage() {
   const openComposeModal = (lead: Lead) => {
     setComposeRecipient(lead.email || '')
     setComposeSubject(`Hello ${lead.name || ''} — Quick note from Studio37`)
-    setComposeHtml(`<p>Hi ${lead.name || ''},</p><p>Thanks for reaching out — I wanted to follow up about your ${lead.service_interest || 'inquiry'}.</p><p>Best,<br/>Studio37</p>`)
+    // Initialize with Markdown instead of HTML
+    setComposeHtml(`Hi ${lead.name || ''},
+
+Thanks for reaching out — I wanted to follow up about your ${lead.service_interest || 'inquiry'}.
+
+Best,
+Studio37`)
     setComposeResult(null)
     setShowComposeModal(true)
   }
@@ -413,13 +420,54 @@ export default function LeadsPage() {
     setComposeSending(true)
     setComposeResult(null)
     try {
+      // Convert Markdown to HTML before sending if needed, or let the API handle it if it supports markdown.
+      // Assuming the API expects HTML, we might need a simple conversion or just send as is if the API handles it.
+      // For now, we'll send the markdown content as 'html' but wrapped in paragraphs if it looks like plain text,
+      // or rely on the MarkdownEditor's output if it was HTML.
+      // Actually, MarkdownEditor returns the raw markdown string.
+      // We should probably convert it to HTML here or on the server.
+      // Since we don't have a markdown-to-html converter imported here easily without adding more deps,
+      // let's check if we can import one or if the API handles it.
+      // The API /api/marketing/email/send takes 'html'.
+      // Let's use a simple conversion or just send it as text if we can't convert.
+      // Wait, we have 'react-markdown' in the project, but that's a component.
+      // We can use 'marked' if available, or just simple replacement for now.
+      
+      // Better approach: The MarkdownEditor is for editing. The content is markdown.
+      // We should send it as 'text' or convert to HTML.
+      // Let's try to send it as 'html' but with simple formatting for now, 
+      // or better, let's import 'marked' if we can.
+      
+      // Checking package.json, we have 'react-markdown'.
+      // We don't have 'marked' or 'showdown'.
+      // Let's just wrap lines in <p> for now as a poor man's markdown-to-html
+      // or just send it as is if the recipient client renders it.
+      
+      // Simple Markdown to HTML conversion
+      let htmlContent = composeHtml
+        // Escape HTML characters first to prevent XSS if we were rendering user content, 
+        // but here we are the admin authoring it. Still good practice.
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        // Bold
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        // Italic
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        // Links
+        .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2">$1</a>')
+        // Convert newlines to paragraphs
+        .split('\n')
+        .map(line => line.trim() ? `<p>${line}</p>` : '<br/>')
+        .join('')
+
       const res = await fetch('/api/marketing/email/send', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           to: composeRecipient.split(',').map(s => s.trim()).filter(Boolean),
           subject: composeSubject || 'Message from Studio37',
-          html: composeHtml || '<p></p>',
+          html: htmlContent,
           from: 'Studio37 <sales@studio37.cc>'
         })
       })
@@ -1048,13 +1096,16 @@ export default function LeadsPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">HTML Body</label>
-                <textarea
+                <label className="block text-sm font-medium text-gray-700 mb-1">Message Body</label>
+                <MarkdownEditor
                   value={composeHtml}
-                  onChange={(e) => setComposeHtml(e.target.value)}
-                  rows={8}
-                  className="w-full px-3 py-2 border rounded-lg"
+                  onChange={setComposeHtml}
+                  minHeight="300px"
+                  placeholder="Write your email content here..."
                 />
+                <p className="text-xs text-gray-500 mt-1">
+                  Supports Markdown formatting. Will be converted to HTML when sent.
+                </p>
               </div>
 
               {composeResult && (

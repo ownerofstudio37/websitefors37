@@ -79,8 +79,51 @@ const { data } = await supabase.from('table').select('*')
 - `next/image` with `unoptimized: true` on Netlify.
 - **Cloudinary**: `lib/cloudinary.ts` for optimization.
 
+### CRM & Marketing Features
+- **Email campaigns**: Use `@react-email/components` templates in `emails/` directory. Send via Resend API (`/api/marketing/email/send`).
+- **One-off Emails**: Use `/api/marketing/email/send` with `html` body for ad-hoc messages (e.g., Admin "Compose" modal). Always log to `communication_logs`.
+- **SMS campaigns**: Twilio integration via `/api/marketing/sms/send`. Auto-formats US phone numbers, calculates costs.
+- **Lead scoring**: `/api/leads/score` uses AI to score leads 0-100 with priority levels and next action recommendations.
+- **Email templates**: React Email components (BookingConfirmation, SessionReminder, PhotosReady, etc.) rendered via `lib/emailRenderer.ts`.
+- **Pattern**: Variable substitution `{{firstName}}`, `{{sessionDate}}` in templates. Store campaigns in `email_campaigns`/`sms_campaigns` tables.
+
+### Admin Dashboard Structure & Completion Status
+**Location**: `app/admin/` directory. All pages use `force-dynamic` because they depend on sessions/cookies.
+
+**COMPLETED & Functional** ✅
+- **Dashboard** (`/admin/dashboard`) — Main hub, analytics overview
+- **CRM Features** (`/admin/leads`, `/admin/bookings`, `/admin/calendar`) — Full lead management (including "Compose" email), appointment booking, SMS inbox
+- **Content Management** (`/admin/content`, `/admin/blog`) — Page/blog editor with MDX
+- **Gallery** (`/admin/galleries`) — Image management, bulk operations, Cloudinary integration
+- **Email & SMS** (`/admin/marketing`, `/admin/email-templates`) — Campaign creation, template editor, Resend/Twilio
+- **Client Portals** (`/admin/client-portals`) — Client account creation, project/gallery access management
+- **AI Tools** (`/admin/chatbot-training`, `/admin/ai-site-builder`) — Chatbot content import, AI page suggestions
+
+**NEEDS COMPLETION** 🟡 (Priority Order)
+- **Lead Scoring Dashboard** (`/admin/lead-scoring`) — Display AI scores, filter by priority, bulk actions. Wire to `/api/leads/score` endpoint.
+- **Setup/Onboarding** (`/admin/setup-tenant`) — Create new tenants for client duplication (name, slug, branding). Required for SaaS launch.
+- **System Settings** (`/admin/settings`) — Tenant-wide config (brand colors, features, billing). Currently uses global settings.
+- **Database Audit** (`/admin/database-migrations`) — UI to run pending migrations (security fixes, schema updates).
+
+**Pattern**: All admin features must query with `tenant_id` filter. Use `getSupabaseAdmin()` in `/api/**` routes, NEVER in components.
+
+### SEO & PWA
+- `app/robots.ts`, `app/sitemap.ts` for SEO.
+- `public/manifest.webmanifest`, icons in `public/icons/` for PWA.
+
 ## Gotchas (Avoid Footguns!)
 - **Service Role Key**: NEVER import `lib/supabaseAdmin.ts` in client components. Use only in `app/api/**`.
 - **Admin Pages**: Must use `force-dynamic` if using cookies/sessions.
 - **Root Dependencies**: The root `package.json` relies on hoisted dependencies from workspaces. Do not be alarmed if `next` is missing from root `dependencies`.
 - **Database Migrations**: Must enable RLS on all public tables.
+
+## Quick References
+- **ISR example**: `app/blog/page.tsx` (anon Supabase + revalidate export)
+- **MDX rendering**: `app/[slug]/page.tsx`, `components/BuilderRuntime.tsx`
+- **Auth flow**: `app/api/auth/login/route.ts`, `app/api/auth/session/route.ts`, `middleware.ts`, `components/AdminProtected.tsx`
+- **Config files**: `next.config.js`, `netlify.toml`, `tailwind.config.js`, `tsconfig.json`
+- **Database**: `supabase/migrations/` for schema changes with RLS policies
+- **Utility libs**: `lib/cache.ts` (in-memory cache), `lib/logger.ts` (structured logging), `lib/rateLimit.ts` (IP-based), `lib/authSession.ts` (session management)
+- **Additional context**: `README_ECOSYSTEM.md` (monorepo plan), `README.md` (features/quickstart)
+
+Apply changes consistent with these patterns. When in doubt, grep for existing examples before creating new patterns.
