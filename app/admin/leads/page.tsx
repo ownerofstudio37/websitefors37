@@ -39,6 +39,13 @@ export default function LeadsPage() {
     notes: ''
   })
   const [sendingReminder, setSendingReminder] = useState(false)
+  // Compose email modal state
+  const [showComposeModal, setShowComposeModal] = useState(false)
+  const [composeRecipient, setComposeRecipient] = useState('')
+  const [composeSubject, setComposeSubject] = useState('')
+  const [composeHtml, setComposeHtml] = useState('')
+  const [composeSending, setComposeSending] = useState(false)
+  const [composeResult, setComposeResult] = useState<string | null>(null)
 
   type NewLeadForm = {
     name: string
@@ -390,6 +397,53 @@ export default function LeadsPage() {
     await fetchCommunicationLogs(lead.id)
   }
 
+  const openComposeModal = (lead: Lead) => {
+    setComposeRecipient(lead.email || '')
+    setComposeSubject(`Hello ${lead.name || ''} — Quick note from Studio37`)
+    setComposeHtml(`<p>Hi ${lead.name || ''},</p><p>Thanks for reaching out — I wanted to follow up about your ${lead.service_interest || 'inquiry'}.</p><p>Best,<br/>Studio37</p>`)
+    setComposeResult(null)
+    setShowComposeModal(true)
+  }
+
+  const sendComposeEmail = async (lead?: Lead) => {
+    if (!composeRecipient.trim()) {
+      setComposeResult('Recipient email is required')
+      return
+    }
+    setComposeSending(true)
+    setComposeResult(null)
+    try {
+      const res = await fetch('/api/marketing/email/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          to: composeRecipient.split(',').map(s => s.trim()).filter(Boolean),
+          subject: composeSubject || 'Message from Studio37',
+          html: composeHtml || '<p></p>',
+          from: 'Studio37 <sales@studio37.cc>'
+        })
+      })
+
+      const data = await res.json()
+      if (!res.ok) throw new Error(data?.error || JSON.stringify(data))
+
+      setComposeResult('Sent successfully')
+      // Log communication
+      if (lead) {
+        await logCommunication(lead, 'email', `Sent one-off email: ${composeSubject}`)
+      }
+      // Close modal after short delay
+      setTimeout(() => {
+        setShowComposeModal(false)
+      }, 800)
+    } catch (err: any) {
+      console.error('Compose send failed', err)
+      setComposeResult('Send failed: ' + (err?.message || String(err)))
+    } finally {
+      setComposeSending(false)
+    }
+  }
+
   const openNotesModal = (lead: Lead) => {
     setSelectedLead(lead)
     setNotes(lead.notes || '')
@@ -598,14 +652,14 @@ export default function LeadsPage() {
                         >
                           <Settings className="h-4 w-4" />
                         </button>
-                        <a
-                          href={`mailto:${lead.email}`}
-                          className="text-blue-600 hover:text-blue-900"
-                          title="Send email"
-                          onClick={() => logCommunication(lead, 'email', 'Sent email')}
+                        <button
+                          onClick={() => openComposeModal(lead)}
+                          className="text-white bg-primary-600 hover:bg-primary-700 px-2 py-1 rounded-md flex items-center"
+                          title="Compose email"
                         >
-                          <Mail className="h-4 w-4" />
-                        </a>
+                          <Mail className="h-4 w-4 mr-1" />
+                          <span className="text-sm">Compose</span>
+                        </button>
                         {lead.phone && (
                           <>
                             <a
@@ -949,6 +1003,79 @@ export default function LeadsPage() {
               >
                 Add Log
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Compose Email Modal */}
+      {showComposeModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl font-semibold">Compose Email</h3>
+              <button
+                onClick={() => setShowComposeModal(false)}
+                className="text-gray-400 hover:text-gray-500"
+                aria-label="Close compose modal"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">From</label>
+                <p className="text-sm text-gray-600">Studio37 &lt;sales@studio37.cc&gt;</p>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">To</label>
+                <input
+                  value={composeRecipient}
+                  onChange={(e) => setComposeRecipient(e.target.value)}
+                  className="w-full px-3 py-2 border rounded-lg"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Subject</label>
+                <input
+                  value={composeSubject}
+                  onChange={(e) => setComposeSubject(e.target.value)}
+                  className="w-full px-3 py-2 border rounded-lg"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">HTML Body</label>
+                <textarea
+                  value={composeHtml}
+                  onChange={(e) => setComposeHtml(e.target.value)}
+                  rows={8}
+                  className="w-full px-3 py-2 border rounded-lg"
+                />
+              </div>
+
+              {composeResult && (
+                <div className="text-sm text-gray-700">{composeResult}</div>
+              )}
+
+              <div className="flex justify-end gap-3">
+                <button
+                  onClick={() => setShowComposeModal(false)}
+                  className="px-4 py-2 border rounded-lg"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => sendComposeEmail(selectedLead || undefined)}
+                  disabled={composeSending}
+                  className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 disabled:opacity-50"
+                >
+                  {composeSending ? 'Sending…' : 'Send Email'}
+                </button>
+              </div>
             </div>
           </div>
         </div>
