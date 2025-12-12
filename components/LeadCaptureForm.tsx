@@ -169,10 +169,6 @@ export default function LeadCaptureForm() {
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             >
               <option value="">Select a package</option>
-              <option value="mini-reel">Mini Reel - Starting at $75</option>
-              <option value="full-episode">Full Episode - Starting at $150</option>
-              <option value="movie-premier">Movie Premier - Starting at $300</option>
-              <option value="hourly">Hourly Rate</option>
               <option value="custom">Custom Package</option>
             </select>
           </div>
