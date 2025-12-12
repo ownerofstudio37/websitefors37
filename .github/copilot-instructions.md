@@ -81,7 +81,7 @@ const { data } = await supabase.from('table').select('*')
 
 ### CRM & Marketing Features
 - **Email campaigns**: Use `@react-email/components` templates in `emails/` directory. Send via Resend API (`/api/marketing/email/send`).
-- **One-off Emails**: Use `/api/marketing/email/send` with `html` body for ad-hoc messages (e.g., Admin "Compose" modal). Always log to `communication_logs`.
+- **One-off Emails**: Use `/api/marketing/email/send` with `html` body for ad-hoc messages. Admin "Compose" modal supports both Simple (Markdown) and Visual (Drag-and-Drop) editors via `components/EmailBuilder.tsx`. Always log to `communication_logs`.
 - **SMS campaigns**: Twilio integration via `/api/marketing/sms/send`. Auto-formats US phone numbers, calculates costs.
 - **Lead scoring**: `/api/leads/score` uses AI to score leads 0-100 with priority levels and next action recommendations.
 - **Email templates**: React Email components (BookingConfirmation, SessionReminder, PhotosReady, etc.) rendered via `lib/emailRenderer.ts`.
@@ -92,7 +92,7 @@ const { data } = await supabase.from('table').select('*')
 
 **COMPLETED & Functional** ✅
 - **Dashboard** (`/admin/dashboard`) — Main hub, analytics overview
-- **CRM Features** (`/admin/leads`, `/admin/bookings`, `/admin/calendar`) — Full lead management (including "Compose" email), appointment booking, SMS inbox
+- **CRM Features** (`/admin/leads`, `/admin/bookings`, `/admin/calendar`) — Full lead management (including "Compose" email with Visual Builder), appointment booking, SMS inbox
 - **Content Management** (`/admin/content`, `/admin/blog`) — Page/blog editor with MDX
 - **Gallery** (`/admin/galleries`) — Image management, bulk operations, Cloudinary integration
 - **Email & SMS** (`/admin/marketing`, `/admin/email-templates`) — Campaign creation, template editor, Resend/Twilio
