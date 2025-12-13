@@ -28,6 +28,7 @@ import FilterableGalleryClient from './blocks/FilterableGalleryClient'
 import TabbedContentClient from './blocks/TabbedContentClient'
 import AccordionClient from './blocks/AccordionClient'
 import ModalLightboxClient from './blocks/ModalLightboxClient'
+import ThumbtackWidget from './ThumbtackWidget'
 // Import client-only LeadSignupBlock and create a local binding so MDXBuilderComponents can reference it safely.
 import LeadSignupBlockClient from './blocks/LeadSignupBlockClient'
 const LeadSignupBlock = LeadSignupBlockClient
@@ -1174,7 +1175,23 @@ export function PricingTableBlock({ plansB64, heading, subheading, columns = '3'
   )
 }
 
+export function ThumbtackBlock({
+  _overrides
+}: {
+  _overrides?: Record<string, any> | null
+}) {
+  return (
+    <section className="py-16 bg-white">
+      <div className="container mx-auto px-4 max-w-4xl">
+        <EditableChrome label="Thumbtack Widget" block="ThumbtackBlock" />
+        <ThumbtackWidget />
+      </div>
+    </section>
+  )
+}
+
 export const MDXBuilderComponents = {
+  ThumbtackBlock,
   LogoBlock,
   HeroBlock,
   TextBlock,

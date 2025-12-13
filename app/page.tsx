@@ -42,6 +42,10 @@ const DiscountNewsletterModal = dynamic(
   }
 );
 
+const ThumbtackWidget = dynamic(() => import("@/components/ThumbtackWidget"), {
+  loading: () => <div className="h-48 bg-white" />,
+});
+
 export const metadata = generateSEOMetadata({
   title: "Professional Photography Services in Pinehurst, TX",
   description:
@@ -222,6 +226,11 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
         <LazyMount minHeight={400}>
           <Testimonials />
         </LazyMount>
+        <section className="py-16 bg-white">
+          <div className="container mx-auto px-4 max-w-4xl">
+            <ThumbtackWidget />
+          </div>
+        </section>
         <DiscountNewsletterModal />
       </>
     )
