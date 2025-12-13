@@ -1056,6 +1056,33 @@ interface BookingsTickerComponent extends BaseComponent {
   };
 }
 
+// ...existing code...
+interface FullFrameBadgeComponent extends BaseComponent {
+  type: "fullFrameBadge";
+  data: {
+    size?: "sm" | "md" | "lg";
+    alignment?: "left" | "center" | "right";
+    linkUrl?: string;
+  };
+}
+
+interface PPALogoComponent extends BaseComponent {
+  type: "ppaLogo";
+  data: {
+    variant?: "color" | "bw" | "white";
+    size?: "sm" | "md" | "lg";
+    alignment?: "left" | "center" | "right";
+    linkUrl?: string;
+  };
+}
+
+interface TrustBadgesCombinedComponent extends BaseComponent {
+  type: "trustBadgesCombined";
+  data: {
+    alignment?: "left" | "center" | "right";
+  };
+}
+// ...existing code...
 type PageComponent =
   | HeroComponent
   | TextComponent
@@ -3662,6 +3689,33 @@ export default function VisualEditor({
                   >
                     <DollarSign className="h-4 w-4" />
                     <span>Pricing Table</span>
+                  </button>
+                  )}
+                  {filterComponents('fullFrameBadge') && (
+                  <button
+                    onClick={() => addComponent("fullFrameBadge")}
+                    className="w-full flex items-center gap-2 p-2 bg-white hover:bg-gray-100 rounded transition text-sm"
+                  >
+                    <Award className="h-4 w-4" />
+                    <span>FullFrame Badge</span>
+                  </button>
+                  )}
+                  {filterComponents('ppaLogo') && (
+                  <button
+                    onClick={() => addComponent("ppaLogo")}
+                    className="w-full flex items-center gap-2 p-2 bg-white hover:bg-gray-100 rounded transition text-sm"
+                  >
+                    <Award className="h-4 w-4" />
+                    <span>PPA Logo</span>
+                  </button>
+                  )}
+                  {filterComponents('trustBadgesCombined') && (
+                  <button
+                    onClick={() => addComponent("trustBadgesCombined")}
+                    className="w-full flex items-center gap-2 p-2 bg-white hover:bg-gray-100 rounded transition text-sm"
+                  >
+                    <Award className="h-4 w-4" />
+                    <span>Trust Badges (Combined)</span>
                   </button>
                   )}
                 </div>
