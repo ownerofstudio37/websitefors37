@@ -1,8 +1,7 @@
 import React from 'react'
 import { Metadata } from 'next'
 import AdminProtected from '@/components/AdminProtected'
-import AdminMobileNav from '@/components/AdminMobileNav'
-import AdminDesktopSidebar from '@/components/AdminDesktopSidebar'
+import AdminLayoutShell from '@/components/AdminLayoutShell'
 
 export const metadata: Metadata = {
   title: 'Admin Panel | Studio37 Photography',
@@ -19,20 +18,9 @@ export default function AdminLayout({
 }) {
   return (
     <AdminProtected>
-      <div className="bg-gray-50 min-h-screen">
-        {/* Mobile Navigation */}
-        <AdminMobileNav />
-        
-        {/* Desktop Sidebar */}
-        <AdminDesktopSidebar />
-        
-        {/* Offset for fixed mobile nav and public navigation bar */}
-        <main className="min-h-screen pt-16 lg:pt-0 lg:pl-64">
-          {/* Cloudinary Media Library is only needed in admin */}
-          <script src="https://media-library.cloudinary.com/global/all.js" defer />
-          {children}
-        </main>
-      </div>
+      <AdminLayoutShell>
+        {children}
+      </AdminLayoutShell>
     </AdminProtected>
   )
 }

@@ -15,11 +15,17 @@ import {
   Target,
   Briefcase,
   Palette,
-  FolderKanban
+  FolderKanban,
+  ChevronLeft
 } from 'lucide-react'
 import NotificationCenter from './NotificationCenter'
 
-export default function AdminDesktopSidebar() {
+interface AdminDesktopSidebarProps {
+  isOpen: boolean
+  onToggle: () => void
+}
+
+export default function AdminDesktopSidebar({ isOpen, onToggle }: AdminDesktopSidebarProps) {
   const pathname = usePathname()
   const router = useRouter()
 
@@ -58,13 +64,26 @@ export default function AdminDesktopSidebar() {
   }
 
   return (
-    <aside className="hidden lg:flex flex-col w-64 fixed inset-y-0 left-0 bg-white border-r border-gray-200 z-40">
+    <aside 
+      className={`hidden lg:flex flex-col w-64 fixed inset-y-0 left-0 bg-white border-r border-gray-200 z-40 transition-transform duration-300 ease-in-out ${
+        isOpen ? 'translate-x-0' : '-translate-x-full'
+      }`}
+    >
       {/* Header */}
-      <div className="h-16 flex items-center justify-between px-6 border-b border-gray-200">
-        <Link href="/admin" className="text-xl font-bold text-gray-900">
+      <div className="h-16 flex items-center justify-between px-4 border-b border-gray-200">
+        <Link href="/admin" className="text-xl font-bold text-gray-900 truncate">
           Studio37 Admin
         </Link>
-        <NotificationCenter dropdownAlign="sidebar" />
+        <div className="flex items-center gap-1">
+          <NotificationCenter dropdownAlign="sidebar" />
+          <button 
+            onClick={onToggle}
+            className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-500 transition-colors"
+            aria-label="Collapse Sidebar"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+        </div>
       </div>
 
       {/* Navigation */}

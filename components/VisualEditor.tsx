@@ -9527,6 +9527,150 @@ function buildSaaSTemplate(): PageComponent[] {
   return components;
 }
 
+// Build Project Showcase Template
+function buildProjectShowcaseTemplate(): PageComponent[] {
+  const id = () =>
+    `component-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+  const components: PageComponent[] = [];
+
+  // Hero
+  components.push({
+    id: id(),
+    type: "hero",
+    data: {
+      title: "Our Selected Works",
+      subtitle: "A curated collection of our finest photography projects",
+      backgroundImage: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=1600&h=900&fit=crop",
+      alignment: "center",
+      overlay: 50,
+      titleColor: "text-white",
+      subtitleColor: "text-gray-200",
+      fullBleed: true,
+    },
+  } as HeroComponent);
+
+  // Project Grid
+  const sampleProjects = [
+    {
+      image: "https://images.unsplash.com/photo-1511285560982-1356c11d4606?w=800&h=600&fit=crop",
+      title: "Mountain Wedding",
+      snippet: "An intimate ceremony in the Swiss Alps captured in natural light.",
+      link: "/projects/mountain-wedding",
+      category: "Wedding",
+      date: "Oct 2023"
+    },
+    {
+      image: "https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=800&h=600&fit=crop",
+      title: "Urban Fashion Editorial",
+      snippet: "Street style photography for a leading fashion brand's summer collection.",
+      link: "/projects/urban-fashion",
+      category: "Fashion",
+      date: "Sep 2023"
+    },
+    {
+      image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=600&fit=crop",
+      title: "Tech Office Lifestyle",
+      snippet: "Documenting the culture and workspace of a fast-growing startup.",
+      link: "/projects/tech-office",
+      category: "Commercial",
+      date: "Aug 2023"
+    }
+  ];
+
+  components.push({
+    id: id(),
+    type: "projectShowcaseGrid",
+    data: {
+      heading: "Featured Projects",
+      subheading: "Explore our diverse portfolio across different styles and industries",
+      projectsB64: Buffer.from(JSON.stringify(sampleProjects)).toString('base64'),
+      columns: 3
+    },
+  } as any);
+
+  // CTA
+  components.push({
+    id: id(),
+    type: "ctaBanner",
+    data: {
+      heading: "Ready to start your project?",
+      subheading: "Let's discuss how we can bring your vision to life",
+      primaryButtonText: "Get in Touch",
+      primaryButtonLink: "/contact",
+      backgroundColor: "#111827",
+      textColor: "text-white",
+      fullBleed: true,
+    },
+  } as CTABannerComponent);
+
+  return components;
+}
+
+// Build Project Detail Template
+function buildProjectDetailTemplate(): PageComponent[] {
+  const id = () =>
+    `component-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+  const components: PageComponent[] = [];
+
+  // Project Header
+  components.push({
+    id: id(),
+    type: "projectHeader",
+    data: {
+      title: "Mountain Wedding",
+      subtitle: "An intimate ceremony in the Swiss Alps captured in natural light",
+      category: "Wedding",
+      date: "October 2023",
+      backgroundImage: "https://images.unsplash.com/photo-1511285560982-1356c11d4606?w=1600&h=900&fit=crop"
+    },
+  } as any);
+
+  // Project Details
+  const sampleServices = ["Photography", "Videography", "Drone Coverage"];
+  components.push({
+    id: id(),
+    type: "projectDetails",
+    data: {
+      content: "<p>This beautiful wedding took place in the heart of the Swiss Alps. The couple wanted a natural, candid approach to their wedding photography, focusing on the raw emotions and the stunning landscape.</p><p>We spent two days with them, capturing the rehearsal dinner and the main ceremony. The lighting was perfect, and the mountain backdrop provided a dramatic setting for their vows.</p>",
+      client: "Sarah & James",
+      location: "Zermatt, Switzerland",
+      year: "2023",
+      servicesB64: Buffer.from(JSON.stringify(sampleServices)).toString('base64')
+    },
+  } as any);
+
+  // Gallery
+  components.push({
+    id: id(),
+    type: "gallery",
+    data: {
+      heading: "Project Gallery",
+      layout: "masonry",
+      columns: 3,
+      images: [
+        { url: "https://images.unsplash.com/photo-1519741497674-611481863552?w=800&h=600&fit=crop", alt: "Ceremony" },
+        { url: "https://images.unsplash.com/photo-1511285560982-1356c11d4606?w=800&h=600&fit=crop", alt: "Couple" },
+        { url: "https://images.unsplash.com/photo-1520854221256-17451cc330e7?w=800&h=600&fit=crop", alt: "Details" },
+        { url: "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=800&h=600&fit=crop", alt: "Reception" },
+      ]
+    },
+  } as GalleryComponent);
+
+  // Navigation
+  components.push({
+    id: id(),
+    type: "projectNavigation",
+    data: {
+      prevLink: "/projects/previous",
+      prevTitle: "Previous Project",
+      nextLink: "/projects/next",
+      nextTitle: "Next Project"
+    },
+  } as any);
+
+  return components;
+}
+
 // Build Interactive Quiz/Calculator Page
 function buildQuizTemplate(): PageComponent[] {
   const id = () =>
