@@ -15,7 +15,7 @@ interface BlockDefinition {
   label: string
   icon: string
   description: string
-  category: 'content' | 'media' | 'social' | 'conversion' | 'layout' | 'enhanced' | 'interactive'
+  category: 'content' | 'media' | 'social' | 'conversion' | 'layout' | 'enhanced' | 'interactive' | 'project'
 }
 
 const AVAILABLE_BLOCKS: BlockDefinition[] = [
@@ -24,6 +24,12 @@ const AVAILABLE_BLOCKS: BlockDefinition[] = [
   { type: 'TextBlock', label: 'Text', icon: '📝', description: 'Rich text content', category: 'content' },
   { type: 'HeadingBlock', label: 'Heading', icon: '📰', description: 'Section heading', category: 'content' },
   
+  // Project Blocks
+  { type: 'ProjectGridBlock', label: 'Project Grid', icon: '🍱', description: 'Grid of project highlights', category: 'project' },
+  { type: 'ProjectHeaderBlock', label: 'Project Header', icon: '🎬', description: 'Hero for project pages', category: 'project' },
+  { type: 'ProjectDetailsBlock', label: 'Project Details', icon: '📝', description: 'Content with sidebar', category: 'project' },
+  { type: 'ProjectNavigationBlock', label: 'Project Nav', icon: '↔️', description: 'Next/Prev project links', category: 'project' },
+
   // Media Blocks
   { type: 'ImageBlock', label: 'Image', icon: '🖼️', description: 'Single image with caption', category: 'media' },
   { type: 'GalleryHighlightsBlock', label: 'Gallery', icon: '🎨', description: 'Image gallery grid', category: 'media' },
@@ -78,6 +84,7 @@ const CATEGORY_LABELS: Record<string, string> = {
   conversion: 'Conversion',
   enhanced: 'Enhanced',
   interactive: 'Interactive',
+  project: 'Project Showcase',
 }
 
 function DraggableBlock({ block }: { block: BlockDefinition }) {

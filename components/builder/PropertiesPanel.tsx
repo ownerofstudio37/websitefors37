@@ -339,6 +339,32 @@ function getPropsForBlockType(blockType: string): PropDefinition[] {
         ],
       },
     ],
+    ProjectGridBlock: [
+      { key: 'heading', label: 'Heading', type: 'text' },
+      { key: 'subheading', label: 'Subheading', type: 'text' },
+      { key: 'columns', label: 'Columns', type: 'select', options: [{ value: '2', label: '2' }, { value: '3', label: '3' }, { value: '4', label: '4' }] },
+      { key: 'projectsB64', label: 'Projects Data (Base64 JSON)', type: 'textarea', description: 'Base64 encoded JSON array of projects' },
+    ],
+    ProjectHeaderBlock: [
+      { key: 'title', label: 'Title', type: 'text' },
+      { key: 'subtitle', label: 'Subtitle', type: 'text' },
+      { key: 'category', label: 'Category', type: 'text' },
+      { key: 'date', label: 'Date', type: 'text' },
+      { key: 'backgroundImage', label: 'Background Image', type: 'url' },
+    ],
+    ProjectDetailsBlock: [
+      { key: 'content', label: 'Content (HTML)', type: 'textarea' },
+      { key: 'client', label: 'Client', type: 'text' },
+      { key: 'location', label: 'Location', type: 'text' },
+      { key: 'year', label: 'Year', type: 'text' },
+      { key: 'servicesB64', label: 'Services (Base64 JSON)', type: 'textarea' },
+    ],
+    ProjectNavigationBlock: [
+      { key: 'prevLink', label: 'Previous Link', type: 'url' },
+      { key: 'prevTitle', label: 'Previous Title', type: 'text' },
+      { key: 'nextLink', label: 'Next Link', type: 'url' },
+      { key: 'nextTitle', label: 'Next Title', type: 'text' },
+    ],
   }
 
   return blockProps[blockType] || commonProps
@@ -351,6 +377,10 @@ function getBlockIcon(blockType: string): string {
     ImageBlock: '🖼️',
     CTABannerBlock: '📣',
     ButtonBlock: '🔘',
+    ProjectGridBlock: '🍱',
+    ProjectHeaderBlock: '🎬',
+    ProjectDetailsBlock: '📝',
+    ProjectNavigationBlock: '↔️',
   }
   return icons[blockType] || '📦'
 }

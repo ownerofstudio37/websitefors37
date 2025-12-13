@@ -3296,6 +3296,12 @@ export default function VisualEditor({
                     case "saas":
                       newComponents = buildSaaSTemplate();
                       break;
+                    case "project-showcase":
+                      newComponents = buildProjectShowcaseTemplate();
+                      break;
+                    case "project-detail":
+                      newComponents = buildProjectDetailTemplate();
+                      break;
                   }
 
                   if (newComponents.length > 0) {
@@ -3326,6 +3332,8 @@ export default function VisualEditor({
                 <option value="real-estate">🏠 Real Estate Photography</option>
                 <option value="restaurant">🍽️ Restaurant & Food</option>
                 <option value="saas">💼 SaaS & Brand Photography</option>
+                <option value="project-showcase">🍱 Project Showcase</option>
+                <option value="project-detail">🎬 Project Detail Page</option>
               </select>
             </div>
           </div>

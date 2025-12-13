@@ -1190,6 +1190,213 @@ export function ThumbtackBlock({
   )
 }
 
+// Project Showcase Blocks
+export function ProjectGridBlock({ projectsB64, heading, subheading, columns = '3', _overrides }: {
+  projectsB64?: string
+  heading?: string
+  subheading?: string
+  columns?: string | number
+  _overrides?: Record<string, any> | null
+}) {
+  const ov = _overrides || {}
+  const finalHeading = ov.heading ?? heading
+  const finalSubheading = ov.subheading ?? subheading
+  const finalProjectsB64 = ov.projectsB64 ?? projectsB64
+  const finalColumns = ov.columns ?? columns
+
+  const json = finalProjectsB64 ? Buffer.from(finalProjectsB64, 'base64').toString('utf-8') : '[]'
+  let projects: Array<{ image: string; title: string; snippet: string; link: string; category?: string; date?: string }> = []
+  try { projects = JSON.parse(json || '[]') } catch { projects = [] }
+
+  const gridCols = Number(finalColumns) === 2 ? 'md:grid-cols-2' : Number(finalColumns) === 4 ? 'md:grid-cols-2 lg:grid-cols-4' : 'md:grid-cols-2 lg:grid-cols-3'
+
+  return (
+    <section className="py-16 md:py-20 px-6 md:px-8 bg-white">
+      <div className="max-w-7xl mx-auto">
+        {(finalHeading || finalSubheading) && (
+          <div className="text-center mb-12">
+            {finalHeading && <h2 className="text-3xl font-bold text-gray-900 mb-2">{finalHeading}</h2>}
+            {finalSubheading && <p className="text-lg text-gray-600">{finalSubheading}</p>}
+          </div>
+        )}
+        <div className={`grid grid-cols-1 ${gridCols} gap-8`}>
+          {projects.map((project, i) => (
+            <Link key={i} href={project.link || '#'} className="group block bg-gray-50 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
+              {project.image && (
+                <div className="aspect-[4/3] relative overflow-hidden">
+                  <Image src={project.image} alt={project.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                  {project.category && (
+                    <span className="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 text-xs font-bold uppercase tracking-wider text-gray-900 rounded-sm">
+                      {project.category}
+                    </span>
+                  )}
+                </div>
+              )}
+              <div className="p-6">
+                <div className="flex justify-between items-start mb-2">
+                  <h3 className="text-xl font-bold text-gray-900 group-hover:text-primary-600 transition-colors">{project.title}</h3>
+                  {project.date && <span className="text-sm text-gray-500">{project.date}</span>}
+                </div>
+                <p className="text-gray-600 line-clamp-3">{project.snippet}</p>
+                <span className="inline-block mt-4 text-primary-600 font-medium group-hover:translate-x-1 transition-transform">
+                  View Project &rarr;
+                </span>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+export function ProjectHeaderBlock({ title, subtitle, category, date, backgroundImage, _overrides }: {
+  title?: string
+  subtitle?: string
+  category?: string
+  date?: string
+  backgroundImage?: string
+  _overrides?: Record<string, any> | null
+}) {
+  const ov = _overrides || {}
+  const finalTitle = ov.title ?? title
+  const finalSubtitle = ov.subtitle ?? subtitle
+  const finalCategory = ov.category ?? category
+  const finalDate = ov.date ?? date
+  const finalBg = ov.backgroundImage ?? backgroundImage
+
+  return (
+    <section className="relative py-24 md:py-32 px-6 md:px-8 bg-gray-900 text-white overflow-hidden">
+      {finalBg && (
+        <div className="absolute inset-0 z-0">
+          <Image src={finalBg} alt={finalTitle || 'Project Header'} fill className="object-cover opacity-40" priority />
+          <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent" />
+        </div>
+      )}
+      <div className="relative z-10 max-w-4xl mx-auto text-center">
+        <div className="flex items-center justify-center gap-4 mb-6 text-sm font-medium uppercase tracking-wider text-gray-300">
+          {finalCategory && <span>{finalCategory}</span>}
+          {finalCategory && finalDate && <span>&bull;</span>}
+          {finalDate && <span>{finalDate}</span>}
+        </div>
+        <h1 className="text-4xl md:text-6xl font-bold mb-6">{finalTitle}</h1>
+        {finalSubtitle && <p className="text-xl md:text-2xl text-gray-200 max-w-2xl mx-auto">{finalSubtitle}</p>}
+      </div>
+    </section>
+  )
+}
+
+export function ProjectDetailsBlock({ content, client, location, servicesB64, year, _overrides }: {
+  content?: string
+  client?: string
+  location?: string
+  servicesB64?: string
+  year?: string
+  _overrides?: Record<string, any> | null
+}) {
+  const ov = _overrides || {}
+  const finalContent = ov.content ?? content
+  const finalClient = ov.client ?? client
+  const finalLocation = ov.location ?? location
+  const finalYear = ov.year ?? year
+  const finalServicesB64 = ov.servicesB64 ?? servicesB64
+
+  const servicesJson = finalServicesB64 ? Buffer.from(finalServicesB64, 'base64').toString('utf-8') : '[]'
+  let services: string[] = []
+  try { services = JSON.parse(servicesJson || '[]') } catch { services = [] }
+
+  return (
+    <section className="py-16 md:py-20 px-6 md:px-8 bg-white">
+      <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12">
+        <div className="lg:col-span-8 prose prose-lg max-w-none">
+          <div dangerouslySetInnerHTML={{ __html: finalContent || '' }} />
+        </div>
+        <div className="lg:col-span-4 space-y-8">
+          <div className="bg-gray-50 p-8 rounded-lg border border-gray-100">
+            <h3 className="text-lg font-bold text-gray-900 mb-6 border-b pb-2">Project Info</h3>
+            <div className="space-y-4">
+              {finalClient && (
+                <div>
+                  <span className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Client</span>
+                  <span className="text-gray-900">{finalClient}</span>
+                </div>
+              )}
+              {finalLocation && (
+                <div>
+                  <span className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Location</span>
+                  <span className="text-gray-900">{finalLocation}</span>
+                </div>
+              )}
+              {finalYear && (
+                <div>
+                  <span className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Year</span>
+                  <span className="text-gray-900">{finalYear}</span>
+                </div>
+              )}
+              {services.length > 0 && (
+                <div>
+                  <span className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Services</span>
+                  <ul className="list-disc list-inside text-gray-900">
+                    {services.map((s, i) => <li key={i}>{s}</li>)}
+                  </ul>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+export function ProjectNavigationBlock({ prevLink, prevTitle, nextLink, nextTitle, _overrides }: {
+  prevLink?: string
+  prevTitle?: string
+  nextLink?: string
+  nextTitle?: string
+  _overrides?: Record<string, any> | null
+}) {
+  const ov = _overrides || {}
+  const finalPrevLink = ov.prevLink ?? prevLink
+  const finalPrevTitle = ov.prevTitle ?? prevTitle
+  const finalNextLink = ov.nextLink ?? nextLink
+  const finalNextTitle = ov.nextTitle ?? nextTitle
+
+  return (
+    <section className="py-12 px-6 md:px-8 bg-gray-50 border-t border-gray-200">
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+        {finalPrevLink ? (
+          <Link href={finalPrevLink} className="group flex items-center gap-4 text-left">
+            <div className="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center group-hover:border-primary-500 group-hover:text-primary-600 transition-colors">
+              &larr;
+            </div>
+            <div>
+              <span className="block text-xs text-gray-500 uppercase tracking-wider mb-1">Previous Project</span>
+              <span className="font-bold text-gray-900 group-hover:text-primary-600 transition-colors">{finalPrevTitle || 'Previous'}</span>
+            </div>
+          </Link>
+        ) : <div />}
+        
+        <Link href="/portfolio" className="text-sm font-medium text-gray-500 hover:text-gray-900">
+          View All Projects
+        </Link>
+
+        {finalNextLink ? (
+          <Link href={finalNextLink} className="group flex items-center gap-4 text-right flex-row-reverse md:flex-row">
+            <div>
+              <span className="block text-xs text-gray-500 uppercase tracking-wider mb-1">Next Project</span>
+              <span className="font-bold text-gray-900 group-hover:text-primary-600 transition-colors">{finalNextTitle || 'Next'}</span>
+            </div>
+            <div className="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center group-hover:border-primary-500 group-hover:text-primary-600 transition-colors">
+              &rarr;
+            </div>
+          </Link>
+        ) : <div />}
+      </div>
+    </section>
+  )
+}
+
 export const MDXBuilderComponents = {
   ThumbtackBlock,
   LogoBlock,
@@ -1226,6 +1433,11 @@ export const MDXBuilderComponents = {
   FilterableGalleryBlock,
   TabbedContentBlock,
   EnhancedAccordionBlock,
+  // Project Showcase
+  ProjectGridBlock,
+  ProjectHeaderBlock,
+  ProjectDetailsBlock,
+  ProjectNavigationBlock,
 }
 
 // Pricing Calculator wrapper for page builder
