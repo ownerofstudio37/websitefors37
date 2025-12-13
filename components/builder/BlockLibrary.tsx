@@ -58,6 +58,7 @@ const AVAILABLE_BLOCKS: BlockDefinition[] = [
   { type: 'TimelineBlock', label: 'Timeline', icon: '📅', description: 'Process timeline', category: 'enhanced' },
   { type: 'InteractiveMapBlock', label: 'Map', icon: '🗺️', description: 'Google Maps embed', category: 'enhanced' },
   { type: 'WidgetEmbedBlock', label: 'Widget', icon: '🔌', description: 'Third-party widgets', category: 'enhanced' },
+  { type: 'ThumbtackBlock', label: 'Thumbtack', icon: '📌', description: 'Thumbtack reviews widget', category: 'social' },
   
   // Interactive Elements
   { type: 'FAQBlock', label: 'FAQ', icon: '❓', description: 'Frequently asked questions', category: 'interactive' },

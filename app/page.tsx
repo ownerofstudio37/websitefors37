@@ -154,6 +154,11 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
           }}
           components={wrappedComponents as any}
         />
+        <section className="py-16 bg-white">
+          <div className="container mx-auto px-4 max-w-4xl">
+            <ThumbtackWidget />
+          </div>
+        </section>
       </div>
     );
   }
