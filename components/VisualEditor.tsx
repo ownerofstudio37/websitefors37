@@ -161,7 +161,10 @@ type ComponentType =
   | "logoCarousel"
   | "liveCounter"
   | "bookingsTicker"
-  | "fullFrameBadge";
+  | "fullFrameBadge"
+  | "ppaLogo"
+  | "trustBadgesCombined"
+  | "projectShowcase";
 
 interface BaseComponent {
   id: string;
@@ -1079,7 +1082,24 @@ interface PPALogoComponent extends BaseComponent {
 interface TrustBadgesCombinedComponent extends BaseComponent {
   type: "trustBadgesCombined";
   data: {
-    alignment?: "left" | "center" | "right";
+    direction: "row" | "column";
+    gap: "sm" | "md" | "lg" | "xl";
+    alignment: "left" | "center" | "right";
+    animation?: "none" | "fade-in" | "slide-up" | "zoom";
+  };
+}
+
+interface ProjectShowcaseComponent extends BaseComponent {
+  type: "projectShowcase";
+  data: {
+    title: string;
+    description: string;
+    image: string;
+    link: string;
+    buttonText: string;
+    layout: "card" | "featured" | "minimal";
+    alignment: "left" | "center" | "right";
+    animation?: "none" | "fade-in" | "slide-up" | "zoom";
   };
 }
 // ...existing code...
@@ -1145,7 +1165,8 @@ type PageComponent =
   | BookingsTickerComponent
   | FullFrameBadgeComponent
   | PPALogoComponent
-  | TrustBadgesCombinedComponent;
+  | TrustBadgesCombinedComponent
+  | ProjectShowcaseComponent;
 
 interface VisualEditorProps {
   initialComponents?: PageComponent[];
@@ -3597,6 +3618,15 @@ export default function VisualEditor({
                   >
                     <BringToFront className="h-4 w-4" />
                     <span>Logo</span>
+                  </button>
+                  )}
+                  {filterComponents('projectShowcase') && (
+                  <button
+                    onClick={() => addComponent("projectShowcase")}
+                    className="w-full flex items-center gap-2 p-2 bg-white hover:bg-gray-100 rounded transition text-sm"
+                  >
+                    <LayoutGrid className="h-4 w-4" />
+                    <span>Project Showcase</span>
                   </button>
                   )}
                 </div>

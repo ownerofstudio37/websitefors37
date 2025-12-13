@@ -1,4 +1,5 @@
 import Image from 'next/image'
+
 import React from 'react'
 import Link from 'next/link'
 import LocalBusinessSchema from './LocalBusinessSchema'
@@ -1561,6 +1562,131 @@ export function TrustBadgesCombinedBlock({
   )
 }
 
+export function ProjectShowcaseBlock({
+  title,
+  description,
+  image,
+  link,
+  buttonText,
+  layout = 'card',
+  alignment = 'left',
+  mobileHidden,
+  _overrides
+}: {
+  title?: string
+  description?: string
+  image?: string
+  link?: string
+  buttonText?: string
+  layout?: 'card' | 'featured' | 'minimal'
+  alignment?: 'left' | 'center' | 'right'
+  mobileHidden?: boolean | string
+  _overrides?: Record<string, any> | null
+}) {
+  const ov = _overrides || {}
+  const finalTitle = ov.title ?? title
+  const finalDescription = ov.description ?? description
+  const finalImage = ov.image ?? image
+  const finalLink = ov.link ?? link
+  const finalButtonText = ov.buttonText ?? buttonText
+  const finalLayout = ov.layout ?? layout
+  const finalAlignment = ov.alignment ?? alignment
+
+  const responsiveClasses = getResponsiveVisibility({ 
+    mobileHidden: String(mobileHidden) === 'true' 
+  })
+
+  const alignmentClasses = {
+    left: 'text-left',
+    center: 'text-center',
+    right: 'text-right'
+  }
+
+  const alignClass = alignmentClasses[finalAlignment as keyof typeof alignmentClasses] || 'text-left'
+
+  if (finalLayout === 'featured') {
+    return (
+      <div className={`py-12 ${responsiveClasses}`}>
+        <div className="relative rounded-xl overflow-hidden shadow-xl group">
+          <div className="aspect-video w-full relative">
+            {finalImage && (
+              <img 
+                src={finalImage} 
+                alt={finalTitle} 
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+            )}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex flex-col justify-end p-8">
+              <h3 className="text-3xl font-bold text-white mb-2">{finalTitle}</h3>
+              <p className="text-gray-200 mb-6 max-w-2xl">{finalDescription}</p>
+              {finalLink && (
+                <a 
+                  href={finalLink}
+                  className="inline-block bg-white text-gray-900 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors w-fit"
+                >
+                  {finalButtonText || 'View Project'}
+                </a>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  if (finalLayout === 'minimal') {
+    return (
+      <div className={`py-8 ${responsiveClasses} ${alignClass}`}>
+        <a href={finalLink} className="group block">
+          <div className="aspect-[4/3] rounded-lg overflow-hidden mb-4">
+            {finalImage && (
+              <img 
+                src={finalImage} 
+                alt={finalTitle} 
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+            )}
+          </div>
+          <h3 className="text-xl font-bold text-gray-900 group-hover:text-primary-600 transition-colors mb-2">
+            {finalTitle}
+          </h3>
+          <p className="text-gray-600">{finalDescription}</p>
+        </a>
+      </div>
+    )
+  }
+
+  // Default Card Layout
+  return (
+    <div className={`py-8 ${responsiveClasses}`}>
+      <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow">
+        <div className="aspect-[16/9] relative overflow-hidden">
+          {finalImage && (
+            <img 
+              src={finalImage} 
+              alt={finalTitle} 
+              className="w-full h-full object-cover"
+            />
+          )}
+        </div>
+        <div className={`p-6 ${alignClass}`}>
+          <h3 className="text-xl font-bold text-gray-900 mb-2">{finalTitle}</h3>
+          <p className="text-gray-600 mb-4">{finalDescription}</p>
+          {finalLink && (
+            <a 
+              href={finalLink}
+              className="text-primary-600 font-medium hover:text-primary-700 inline-flex items-center gap-1"
+            >
+              {finalButtonText || 'View Project'}
+              <span>→</span>
+            </a>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export const MDXBuilderComponents = {
   ThumbtackBlock,
   LogoBlock,
@@ -1605,6 +1731,7 @@ export const MDXBuilderComponents = {
   FullFrameBadgeBlock,
   PPALogoBlock,
   TrustBadgesCombinedBlock,
+  ProjectShowcaseBlock,
 }
 
 // Pricing Calculator wrapper for page builder
