@@ -96,18 +96,35 @@ export default async function DynamicPage({ params, searchParams }: { params: { 
       getPageLayout(currentPath, useDraft)
     ])
 
+    let finalBlocks = layout?.blocks || [];
+
+    // Fallback: Check for simple page config (Visual Editor format)
+    if (!finalBlocks.length) {
+      const { data: simpleConfig } = await supabase
+        .from('page_configs')
+        .select('data')
+        .eq('slug', params.slug)
+        .maybeSingle();
+      
+      if (simpleConfig?.data?.components) {
+        finalBlocks = simpleConfig.data.components;
+      }
+    }
+
     // If a persisted layout exists for this path, render from it instead of MDX
-    if (layout && Array.isArray(layout.blocks) && layout.blocks.length > 0) {
+    if (finalBlocks.length > 0) {
       return (
         <PageWrapper showNav={showNav} className={`min-h-screen ${showNav ? 'pt-16' : ''}`}>
-          {layout.blocks.map((blk, i) => {
+          {finalBlocks.map((blk: any, i: number) => {
             const Comp: any = (MDXBuilderComponents as any)[blk.type]
             if (!Comp) return null
             const override = blk.id ? configs.get(blk.id) : undefined
+            // Handle both 'props' (standard) and 'data' (Visual Editor) formats
+            const props = blk.props || blk.data || {};
             return (
               <div key={blk.id || i} className="relative">
                 <EditableChrome label={String(blk.type).replace(/Block$/, '').replace(/([a-z])([A-Z])/g,'$1 $2')} block={blk.type} anchorId={blk.id} />
-                <Comp {...(blk.props || {})} _overrides={selectProps(override as any, useDraft)} />
+                <Comp {...props} _overrides={selectProps(override as any, useDraft)} />
               </div>
             )
           })}
