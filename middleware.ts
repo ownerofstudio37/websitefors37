@@ -27,10 +27,10 @@ export function middleware(req: NextRequest) {
   res.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin')
   res.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()')
   
-  // Content Security Policy - Allow Google Tag Manager images
+  // Content Security Policy - Allow Google Tag Manager and Thumbtack images
   res.headers.set(
     'Content-Security-Policy',
-    "img-src 'self' data: blob: https://res.cloudinary.com https://images.unsplash.com https://*.supabase.co https://www.googletagmanager.com;"
+    "img-src 'self' data: blob: https://res.cloudinary.com https://images.unsplash.com https://*.supabase.co https://www.googletagmanager.com https://cdn.thumbtackstatic.com;"
   )
   
   return res
