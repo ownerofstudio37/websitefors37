@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { Menu, X, Camera, ChevronDown } from '@/icons'
 import Image from 'next/image'
 import { supabase } from '@/lib/supabase'
@@ -17,6 +18,7 @@ interface NavigationItem {
 }
 
 export default function Navigation() {
+  const pathname = usePathname()
   const [isMounted, setIsMounted] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
@@ -37,6 +39,11 @@ export default function Navigation() {
   useEffect(() => {
     setIsMounted(true)
   }, [])
+
+  // Hide navigation on admin pages
+  if (pathname?.startsWith('/admin')) {
+    return null
+  }
 
   useEffect(() => {
     if (!isMounted) return

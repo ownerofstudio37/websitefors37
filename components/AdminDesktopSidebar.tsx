@@ -18,7 +18,6 @@ import {
   FolderKanban,
   ChevronLeft
 } from 'lucide-react'
-import NotificationCenter from './NotificationCenter'
 
 interface AdminDesktopSidebarProps {
   isOpen: boolean
