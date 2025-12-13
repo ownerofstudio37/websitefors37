@@ -12329,6 +12329,34 @@ const ComponentPropertiesInner = React.memo(function ComponentPropertiesInner({
           onUpdate={onUpdate}
         />
       );
+    case "fullFrameBadge":
+      return (
+        <FullFrameBadgeProperties
+          data={component.data as FullFrameBadgeComponent["data"]}
+          onUpdate={onUpdate}
+        />
+      );
+    case "ppaLogo":
+      return (
+        <PPALogoProperties
+          data={component.data as PPALogoComponent["data"]}
+          onUpdate={onUpdate}
+        />
+      );
+    case "trustBadgesCombined":
+      return (
+        <TrustBadgesCombinedProperties
+          data={component.data as TrustBadgesCombinedComponent["data"]}
+          onUpdate={onUpdate}
+        />
+      );
+    case "projectShowcase":
+      return (
+        <ProjectShowcaseProperties
+          data={component.data as ProjectShowcaseComponent["data"]}
+          onUpdate={onUpdate}
+        />
+      );
     case "teamMembers":
       return (
         <TeamMembersProperties
