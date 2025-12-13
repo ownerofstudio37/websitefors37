@@ -82,29 +82,6 @@ export default function AdminPage() {
             <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
               Studio37 Admin Dashboard
             </h1>
-            <div className="hidden lg:flex items-center gap-3">
-              <NotificationCenter />
-              <Link
-                href="/admin/chatbot-training"
-                className="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700 transition duration-200"
-                title="Train your AI assistant with examples and personality settings"
-              >
-                🧠 AI Training
-              </Link>
-              <Link
-                href="/admin/ai-site-builder"
-                className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 transition duration-200"
-                title="Generate full page layouts from a prompt"
-              >
-                ⚙️ AI Site Builder
-              </Link>
-              <button
-                onClick={handleLogout}
-                className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition duration-200"
-              >
-                Logout
-              </button>
-            </div>
           </div>
         </div>
       </div>

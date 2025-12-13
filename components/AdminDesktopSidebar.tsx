@@ -75,7 +75,6 @@ export default function AdminDesktopSidebar({ isOpen, onToggle }: AdminDesktopSi
           Studio37 Admin
         </Link>
         <div className="flex items-center gap-1">
-          <NotificationCenter dropdownAlign="sidebar" />
           <button 
             onClick={onToggle}
             className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-500 transition-colors"
