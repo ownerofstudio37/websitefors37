@@ -222,6 +222,18 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
         <LazyMount minHeight={400}>
           <Testimonials />
         </LazyMount>
+        
+        {/* Full Frame Insurance Badge */}
+        <div className="py-8 bg-white flex justify-center">
+          <a href="https://www.fullframeinsurance.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-90 transition-opacity">
+            <img 
+              src="https://app.fullframeinsurance.com/media/site_seals/0001/06/3b90b57044c80c69bd9c02042952a0a33dce7681.png" 
+              alt="Full Frame Insurance Seal" 
+              className="h-32 w-auto"
+            />
+          </a>
+        </div>
+
         <DiscountNewsletterModal />
       </>
     )
@@ -266,6 +278,18 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
       <LazyMount minHeight={400}>
         <Testimonials />
       </LazyMount>
+
+      {/* Full Frame Insurance Badge */}
+      <div className="py-8 bg-white flex justify-center">
+        <a href="https://www.fullframeinsurance.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-90 transition-opacity">
+          <img 
+            src="https://app.fullframeinsurance.com/media/site_seals/0001/06/3b90b57044c80c69bd9c02042952a0a33dce7681.png" 
+            alt="Full Frame Insurance Seal" 
+            className="h-32 w-auto"
+          />
+        </a>
+      </div>
+
       <DiscountNewsletterModal />
     </>
   );

@@ -572,7 +572,7 @@ export function BadgesBlock({ badgesB64, alignment = 'center', size = 'md', styl
         )
       case 'camera':
         return (
-          <svg className={cls} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 3l2 2h2l2-2h3a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h4z" /><circle cx="12" cy="13" r="4" fill="currentColor" /></svg>
+          <svg className={cls} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 3l2 2h2l2-2h3a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h4z" /><circle cx="12" cy="13" r="4" fill="currentColor"/></svg>
         )
       case 'check':
         return (
@@ -1397,6 +1397,27 @@ export function ProjectNavigationBlock({ prevLink, prevTitle, nextLink, nextTitl
   )
 }
 
+export function FullFrameBadgeBlock({ alignment = 'center', _overrides }: { alignment?: 'left' | 'center' | 'right', _overrides?: any }) {
+  const ov = _overrides || {}
+  const finalAlignment = ov.alignment ?? alignment
+  
+  return (
+    <div className={`flex w-full py-6 ${
+      finalAlignment === 'left' ? 'justify-start' : 
+      finalAlignment === 'right' ? 'justify-end' : 
+      'justify-center'
+    }`}>
+      <a href="https://www.fullframeinsurance.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-90 transition-opacity">
+        <img 
+          src="https://app.fullframeinsurance.com/media/site_seals/0001/06/3b90b57044c80c69bd9c02042952a0a33dce7681.png" 
+          alt="Full Frame Insurance Seal" 
+          className="h-32 w-auto"
+        />
+      </a>
+    </div>
+  )
+}
+
 export const MDXBuilderComponents = {
   ThumbtackBlock,
   LogoBlock,
@@ -1438,6 +1459,7 @@ export const MDXBuilderComponents = {
   ProjectHeaderBlock,
   ProjectDetailsBlock,
   ProjectNavigationBlock,
+  FullFrameBadgeBlock,
 }
 
 // Pricing Calculator wrapper for page builder

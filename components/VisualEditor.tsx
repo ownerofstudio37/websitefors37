@@ -72,6 +72,9 @@ import {
   Volume2,
   Package,
   Bell,
+  AlignLeft,
+  AlignCenter,
+  AlignRight,
 } from "lucide-react";
 import Image from "next/image";
 import ImageUploader from "./ImageUploader";
@@ -157,7 +160,8 @@ type ComponentType =
   | "pdfEmbed"
   | "logoCarousel"
   | "liveCounter"
-  | "bookingsTicker";
+  | "bookingsTicker"
+  | "fullFrameBadge";
 
 interface BaseComponent {
   id: string;
@@ -1111,7 +1115,8 @@ type PageComponent =
   | PDFEmbedComponent
   | LogoCarouselComponent
   | LiveCounterComponent
-  | BookingsTickerComponent;
+  | BookingsTickerComponent
+  | FullFrameBadgeComponent;
 
 interface VisualEditorProps {
   initialComponents?: PageComponent[];
