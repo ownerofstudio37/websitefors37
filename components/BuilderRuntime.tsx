@@ -1729,9 +1729,13 @@ export const MDXBuilderComponents = {
   ProjectDetailsBlock,
   ProjectNavigationBlock,
   FullFrameBadgeBlock,
+  fullFrameBadge: FullFrameBadgeBlock,
   PPALogoBlock,
+  ppaLogo: PPALogoBlock,
   TrustBadgesCombinedBlock,
+  trustBadgesCombined: TrustBadgesCombinedBlock,
   ProjectShowcaseBlock,
+  projectShowcase: ProjectShowcaseBlock,
 }
 
 // Pricing Calculator wrapper for page builder
