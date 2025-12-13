@@ -1418,6 +1418,69 @@ export function FullFrameBadgeBlock({ alignment = 'center', _overrides }: { alig
   )
 }
 
+export function PPALogoBlock({ variant = 'color', alignment = 'center', width = '300', _overrides }: { variant?: 'color' | 'black', alignment?: 'left' | 'center' | 'right', width?: string, _overrides?: any }) {
+  const ov = _overrides || {}
+  const finalVariant = ov.variant ?? variant
+  const finalAlignment = ov.alignment ?? alignment
+  const finalWidth = ov.width ?? width
+  
+  const src = finalVariant === 'black' 
+    ? "https://ppa.com/assets/images/pages/PPA_logo1_BLACK_RGB.png"
+    : "https://ppa.com/assets/images/pages/PPA_logo1_COLOR_RGB_Meta.png"
+    
+  const alt = finalVariant === 'black'
+    ? "Professional Photographers of America Black and White Logo"
+    : "Professional Photographers of America Color Logo"
+
+  return (
+    <div className={`flex w-full py-4 ${
+      finalAlignment === 'left' ? 'justify-start' : 
+      finalAlignment === 'right' ? 'justify-end' : 
+      'justify-center'
+    }`}>
+      <a href="https://ppa.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-90 transition-opacity">
+        <img 
+          src={src} 
+          alt={alt} 
+          width={finalWidth}
+          className="h-auto"
+        />
+      </a>
+    </div>
+  )
+}
+
+export function TrustBadgesCombinedBlock({ alignment = 'center', _overrides }: { alignment?: 'left' | 'center' | 'right', _overrides?: any }) {
+  const ov = _overrides || {}
+  const finalAlignment = ov.alignment ?? alignment
+
+  return (
+    <div className={`flex flex-wrap w-full py-8 gap-8 items-center ${
+      finalAlignment === 'left' ? 'justify-start' : 
+      finalAlignment === 'right' ? 'justify-end' : 
+      'justify-center'
+    }`}>
+      {/* PPA Logo */}
+      <a href="https://ppa.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-90 transition-opacity">
+        <img 
+          src="https://ppa.com/assets/images/pages/PPA_logo1_COLOR_RGB_Meta.png" 
+          alt="Professional Photographers of America" 
+          className="h-16 md:h-20 w-auto object-contain"
+        />
+      </a>
+      
+      {/* Full Frame Insurance Seal */}
+      <a href="https://www.fullframeinsurance.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-90 transition-opacity">
+        <img 
+          src="https://app.fullframeinsurance.com/media/site_seals/0001/06/3b90b57044c80c69bd9c02042952a0a33dce7681.png" 
+          alt="Full Frame Insurance Seal" 
+          className="h-24 md:h-32 w-auto object-contain"
+        />
+      </a>
+    </div>
+  )
+}
+
 export const MDXBuilderComponents = {
   ThumbtackBlock,
   LogoBlock,
@@ -1460,6 +1523,8 @@ export const MDXBuilderComponents = {
   ProjectDetailsBlock,
   ProjectNavigationBlock,
   FullFrameBadgeBlock,
+  PPALogoBlock,
+  TrustBadgesCombinedBlock,
 }
 
 // Pricing Calculator wrapper for page builder

@@ -210,6 +210,28 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
+
+      {/* Trust Badges */}
+      <section className="py-12 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-wrap justify-center gap-8 items-center">
+            <a href="https://ppa.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-90 transition-opacity">
+              <img 
+                src="https://ppa.com/assets/images/pages/PPA_logo1_COLOR_RGB_Meta.png" 
+                alt="Professional Photographers of America" 
+                className="h-16 md:h-20 w-auto object-contain"
+              />
+            </a>
+            <a href="https://www.fullframeinsurance.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-90 transition-opacity">
+              <img 
+                src="https://app.fullframeinsurance.com/media/site_seals/0001/06/3b90b57044c80c69bd9c02042952a0a33dce7681.png" 
+                alt="Full Frame Insurance Seal" 
+                className="h-24 md:h-32 w-auto object-contain"
+              />
+            </a>
+          </div>
+        </div>
+      </section>
     </div>
   )
 }

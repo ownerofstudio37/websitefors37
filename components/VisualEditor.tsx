@@ -1116,7 +1116,9 @@ type PageComponent =
   | LogoCarouselComponent
   | LiveCounterComponent
   | BookingsTickerComponent
-  | FullFrameBadgeComponent;
+  | FullFrameBadgeComponent
+  | PPALogoComponent
+  | TrustBadgesCombinedComponent;
 
 interface VisualEditorProps {
   initialComponents?: PageComponent[];
