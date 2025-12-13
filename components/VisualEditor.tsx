@@ -79,6 +79,12 @@ import {
 import Image from "next/image";
 import ImageUploader from "./ImageUploader";
 import MobilePreviewToggle from "./MobilePreviewToggle";
+import {
+  FullFrameBadgeBlock,
+  PPALogoBlock,
+  TrustBadgesCombinedBlock,
+  ProjectShowcaseBlock
+} from "./BuilderRuntime";
 
 // Lazy load theme controls to reduce initial bundle
 const ThemeControls = dynamic(() => import('./editor/ThemeControls').then(mod => ({
@@ -1996,6 +2002,12 @@ export default function VisualEditor({
     logoCarousel: { name: 'Logo Carousel', category: 'social', keywords: ['clients', 'partners', 'brands', 'carousel'] },
     liveCounter: { name: 'Live Counter', category: 'social', keywords: ['stats', 'animated', 'numbers', 'metrics'] },
     bookingsTicker: { name: 'Bookings Ticker', category: 'social', keywords: ['notifications', 'social proof', 'recent', 'activity'] },
+    
+    // NEW BADGE COMPONENTS
+    fullFrameBadge: { name: 'FullFrame Badge', category: 'marketing', keywords: ['insurance', 'badge', 'trust', 'fullframe'] },
+    ppaLogo: { name: 'PPA Logo', category: 'marketing', keywords: ['ppa', 'photographer', 'association', 'badge'] },
+    trustBadgesCombined: { name: 'Trust Badges (Combined)', category: 'marketing', keywords: ['trust', 'badges', 'ppa', 'fullframe', 'insurance'] },
+    projectShowcase: { name: 'Project Showcase', category: 'content', keywords: ['portfolio', 'project', 'case study', 'work'] },
   };
 
   // Filter components based on search query
@@ -7009,6 +7021,14 @@ function ComponentRenderer({ component }: { component: PageComponent }) {
       return <WidgetEmbedRenderer data={(component as any).data} />;
     case "badges":
       return <BadgesRenderer data={(component as any).data} />;
+    case "fullFrameBadge":
+      return <FullFrameBadgeBlock {...(component as any).data} />;
+    case "ppaLogo":
+      return <PPALogoBlock {...(component as any).data} />;
+    case "trustBadgesCombined":
+      return <TrustBadgesCombinedBlock {...(component as any).data} />;
+    case "projectShowcase":
+      return <ProjectShowcaseBlock {...(component as any).data} />;
     case "servicesGrid":
       return <ServicesGridRenderer data={(component as any).data} />;
     case "stats":
@@ -14801,300 +14821,13 @@ function PricingTableProperties({
   );
 }
 
-// FullFrame Badge Properties
-function FullFrameBadgeProperties({
-  data,
-  onUpdate,
-}: {
-  data: FullFrameBadgeComponent["data"];
-  onUpdate: (data: any) => void;
-}) {
-  return (
-    <div className="space-y-4">
-      <div>
-        <label className="block text-xs font-medium text-gray-700 mb-1">
-          Variant
-        </label>
-        <select
-          value={data.variant || "standard"}
-          onChange={(e) => onUpdate({ variant: e.target.value })}
-          className="w-full px-3 py-2 border rounded text-sm"
-        >
-          <option value="standard">Standard</option>
-          <option value="dark">Dark</option>
-          <option value="light">Light</option>
-          <option value="monochrome">Monochrome</option>
-        </select>
-      </div>
-      <div>
-        <label className="block text-xs font-medium text-gray-700 mb-1">
-          Size
-        </label>
-        <select
-          value={data.size || "md"}
-          onChange={(e) => onUpdate({ size: e.target.value })}
-          className="w-full px-3 py-2 border rounded text-sm"
-        >
-          <option value="sm">Small</option>
-          <option value="md">Medium</option>
-          <option value="lg">Large</option>
-        </select>
-      </div>
-      <div>
-        <label className="block text-xs font-medium text-gray-700 mb-1">
-          Alignment
-        </label>
-        <div className="flex border rounded overflow-hidden">
-          {["left", "center", "right"].map((align) => (
-            <button
-              key={align}
-              onClick={() => onUpdate({ alignment: align })}
-              className={`flex-1 py-2 text-xs ${
-                data.alignment === align
-                  ? "bg-primary-50 text-primary-600 font-medium"
-                  : "bg-white text-gray-600 hover:bg-gray-50"
-              }`}
-            >
-              {align.charAt(0).toUpperCase() + align.slice(1)}
-            </button>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
 
-// PPA Logo Properties
-function PPALogoProperties({
-  data,
-  onUpdate,
-}: {
-  data: PPALogoComponent["data"];
-  onUpdate: (data: any) => void;
-}) {
-  return (
-    <div className="space-y-4">
-      <div>
-        <label className="block text-xs font-medium text-gray-700 mb-1">
-          Variant
-        </label>
-        <select
-          value={data.variant || "standard"}
-          onChange={(e) => onUpdate({ variant: e.target.value })}
-          className="w-full px-3 py-2 border rounded text-sm"
-        >
-          <option value="standard">Standard</option>
-          <option value="white">White</option>
-          <option value="black">Black</option>
-        </select>
-      </div>
-      <div>
-        <label className="block text-xs font-medium text-gray-700 mb-1">
-          Size
-        </label>
-        <select
-          value={data.size || "md"}
-          onChange={(e) => onUpdate({ size: e.target.value })}
-          className="w-full px-3 py-2 border rounded text-sm"
-        >
-          <option value="sm">Small</option>
-          <option value="md">Medium</option>
-          <option value="lg">Large</option>
-        </select>
-      </div>
-      <div>
-        <label className="block text-xs font-medium text-gray-700 mb-1">
-          Alignment
-        </label>
-        <div className="flex border rounded overflow-hidden">
-          {["left", "center", "right"].map((align) => (
-            <button
-              key={align}
-              onClick={() => onUpdate({ alignment: align })}
-              className={`flex-1 py-2 text-xs ${
-                data.alignment === align
-                  ? "bg-primary-50 text-primary-600 font-medium"
-                  : "bg-white text-gray-600 hover:bg-gray-50"
-              }`}
-            >
-              {align.charAt(0).toUpperCase() + align.slice(1)}
-            </button>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
 
-// Trust Badges Combined Properties
-function TrustBadgesCombinedProperties({
-  data,
-  onUpdate,
-}: {
-  data: TrustBadgesCombinedComponent["data"];
-  onUpdate: (data: any) => void;
-}) {
-  return (
-    <div className="space-y-4">
-      <div>
-        <label className="block text-xs font-medium text-gray-700 mb-1">
-          Direction
-        </label>
-        <select
-          value={data.direction || "row"}
-          onChange={(e) => onUpdate({ direction: e.target.value })}
-          className="w-full px-3 py-2 border rounded text-sm"
-        >
-          <option value="row">Horizontal (Row)</option>
-          <option value="column">Vertical (Column)</option>
-        </select>
-      </div>
-      <div>
-        <label className="block text-xs font-medium text-gray-700 mb-1">
-          Gap
-        </label>
-        <select
-          value={data.gap || "md"}
-          onChange={(e) => onUpdate({ gap: e.target.value })}
-          className="w-full px-3 py-2 border rounded text-sm"
-        >
-          <option value="sm">Small</option>
-          <option value="md">Medium</option>
-          <option value="lg">Large</option>
-          <option value="xl">Extra Large</option>
-        </select>
-      </div>
-      <div>
-        <label className="block text-xs font-medium text-gray-700 mb-1">
-          Alignment
-        </label>
-        <div className="flex border rounded overflow-hidden">
-          {["left", "center", "right"].map((align) => (
-            <button
-              key={align}
-              onClick={() => onUpdate({ alignment: align })}
-              className={`flex-1 py-2 text-xs ${
-                data.alignment === align
-                  ? "bg-primary-50 text-primary-600 font-medium"
-                  : "bg-white text-gray-600 hover:bg-gray-50"
-              }`}
-            >
-              {align.charAt(0).toUpperCase() + align.slice(1)}
-            </button>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
 
-// Project Showcase Properties
-function ProjectShowcaseProperties({
-  data,
-  onUpdate,
-}: {
-  data: ProjectShowcaseComponent["data"];
-  onUpdate: (data: any) => void;
-}) {
-  return (
-    <div className="space-y-4">
-      <div>
-        <label className="block text-xs font-medium text-gray-700 mb-1">
-          Title
-        </label>
-        <input
-          type="text"
-          value={data.title}
-          onChange={(e) => onUpdate({ title: e.target.value })}
-          className="w-full px-3 py-2 border rounded text-sm"
-        />
-      </div>
-      <div>
-        <label className="block text-xs font-medium text-gray-700 mb-1">
-          Description (Short Story)
-        </label>
-        <textarea
-          value={data.description}
-          onChange={(e) => onUpdate({ description: e.target.value })}
-          className="w-full px-3 py-2 border rounded text-sm h-24"
-        />
-      </div>
-      <div>
-        <label className="block text-xs font-medium text-gray-700 mb-1">
-          Image
-        </label>
-        <div className="flex gap-2">
-          <input
-            type="text"
-            value={data.image}
-            onChange={(e) => onUpdate({ image: e.target.value })}
-            className="flex-1 px-3 py-2 border rounded text-sm"
-          />
-          <ImageUploader
-            onImageUrl={(url) => onUpdate({ image: url })}
-          />
-        </div>
-      </div>
-      <div>
-        <label className="block text-xs font-medium text-gray-700 mb-1">
-          Link URL
-        </label>
-        <input
-          type="text"
-          value={data.link}
-          onChange={(e) => onUpdate({ link: e.target.value })}
-          className="w-full px-3 py-2 border rounded text-sm"
-          placeholder="/portfolio/project-name"
-        />
-      </div>
-      <div>
-        <label className="block text-xs font-medium text-gray-700 mb-1">
-          Button Text
-        </label>
-        <input
-          type="text"
-          value={data.buttonText}
-          onChange={(e) => onUpdate({ buttonText: e.target.value })}
-          className="w-full px-3 py-2 border rounded text-sm"
-        />
-      </div>
-      <div>
-        <label className="block text-xs font-medium text-gray-700 mb-1">
-          Layout
-        </label>
-        <select
-          value={data.layout || "card"}
-          onChange={(e) => onUpdate({ layout: e.target.value })}
-          className="w-full px-3 py-2 border rounded text-sm"
-        >
-          <option value="card">Card</option>
-          <option value="featured">Featured (Large)</option>
-          <option value="minimal">Minimal</option>
-        </select>
-      </div>
-      <div>
-        <label className="block text-xs font-medium text-gray-700 mb-1">
-          Alignment
-        </label>
-        <div className="flex border rounded overflow-hidden">
-          {["left", "center", "right"].map((align) => (
-            <button
-              key={align}
-              onClick={() => onUpdate({ alignment: align })}
-              className={`flex-1 py-2 text-xs ${
-                data.alignment === align
-                  ? "bg-primary-50 text-primary-600 font-medium"
-                  : "bg-white text-gray-600 hover:bg-gray-50"
-              }`}
-            >
-              {align.charAt(0).toUpperCase() + align.slice(1)}
-            </button>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
+
+
+
+
 
 // Gallery Highlights Properties
 function GalleryHighlightsProperties({
