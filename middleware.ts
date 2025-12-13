@@ -30,7 +30,7 @@ export function middleware(req: NextRequest) {
   // Content Security Policy - Allow Google Tag Manager, Thumbtack, PPA, and Full Frame Insurance images
   res.headers.set(
     'Content-Security-Policy',
-    "img-src 'self' data: blob: https://res.cloudinary.com https://images.unsplash.com https://*.supabase.co https://www.googletagmanager.com https://cdn.thumbtackstatic.com https://ppa.com https://app.fullframeinsurance.com;"
+    "img-src 'self' data: blob: https://res.cloudinary.com https://images.unsplash.com https://*.supabase.co https://www.googletagmanager.com https://cdn.thumbtackstatic.com https://ppa.com https://www.ppa.com https://app.fullframeinsurance.com;"
   )
   
   return res

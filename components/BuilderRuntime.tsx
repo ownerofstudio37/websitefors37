@@ -1397,79 +1397,159 @@ export function ProjectNavigationBlock({ prevLink, prevTitle, nextLink, nextTitl
   )
 }
 
-export function FullFrameBadgeBlock({ alignment = 'center', _overrides }: { alignment?: 'left' | 'center' | 'right', _overrides?: any }) {
-  const ov = _overrides || {}
-  const finalAlignment = ov.alignment ?? alignment
-  
-  return (
-    <div className={`flex w-full py-6 ${
-      finalAlignment === 'left' ? 'justify-start' : 
-      finalAlignment === 'right' ? 'justify-end' : 
-      'justify-center'
-    }`}>
-      <a href="https://www.fullframeinsurance.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-90 transition-opacity">
-        <img 
-          src="https://app.fullframeinsurance.com/media/site_seals/0001/06/3b90b57044c80c69bd9c02042952a0a33dce7681.png" 
-          alt="Full Frame Insurance Seal" 
-          className="h-32 w-auto"
-        />
-      </a>
-    </div>
-  )
-}
-
-export function PPALogoBlock({ variant = 'color', alignment = 'center', width = '300', _overrides }: { variant?: 'color' | 'black', alignment?: 'left' | 'center' | 'right', width?: string, _overrides?: any }) {
+// PPA Logo Block
+export function PPALogoBlock({
+  variant = 'color',
+  size = 'md',
+  alignment = 'center',
+  linkUrl = 'https://ppa.com',
+  mobileHidden,
+  _overrides
+}: {
+  variant?: 'color' | 'bw' | 'white'
+  size?: 'sm' | 'md' | 'lg'
+  alignment?: 'left' | 'center' | 'right'
+  linkUrl?: string
+  mobileHidden?: boolean | string
+  _overrides?: Record<string, any> | null
+}) {
   const ov = _overrides || {}
   const finalVariant = ov.variant ?? variant
+  const finalSize = ov.size ?? size
   const finalAlignment = ov.alignment ?? alignment
-  const finalWidth = ov.width ?? width
-  
-  const src = finalVariant === 'black' 
-    ? "https://ppa.com/assets/images/pages/PPA_logo1_BLACK_RGB.png"
-    : "https://ppa.com/assets/images/pages/PPA_logo1_COLOR_RGB_Meta.png"
-    
-  const alt = finalVariant === 'black'
-    ? "Professional Photographers of America Black and White Logo"
-    : "Professional Photographers of America Color Logo"
+  const finalLinkUrl = ov.linkUrl ?? linkUrl
+
+  const sizeClasses = {
+    sm: 'h-12',
+    md: 'h-20',
+    lg: 'h-32'
+  }
+
+  const alignmentClasses = {
+    left: 'justify-start',
+    center: 'justify-center',
+    right: 'justify-end'
+  }
+
+  const responsiveClasses = getResponsiveVisibility({ 
+    mobileHidden: String(mobileHidden) === 'true' 
+  })
+
+  // Using the specific PPA logo URL provided
+  const logoUrl = "https://www.ppa.com/assets/images/pages/PPA_logo1_COLOR_RGB_Meta.png"
+
+  const content = (
+    <div className={`flex ${alignmentClasses[finalAlignment as keyof typeof alignmentClasses] || 'justify-center'}`}>
+      <img 
+        src={logoUrl} 
+        alt="Professional Photographers of America" 
+        className={`${sizeClasses[finalSize as keyof typeof sizeClasses] || 'h-20'} w-auto object-contain ${finalVariant === 'bw' ? 'grayscale' : ''} ${finalVariant === 'white' ? 'brightness-0 invert' : ''}`}
+      />
+    </div>
+  )
 
   return (
-    <div className={`flex w-full py-4 ${
-      finalAlignment === 'left' ? 'justify-start' : 
-      finalAlignment === 'right' ? 'justify-end' : 
-      'justify-center'
-    }`}>
-      <a href="https://ppa.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-90 transition-opacity">
-        <img 
-          src={src} 
-          alt={alt} 
-          width={finalWidth}
-          className="h-auto"
-        />
-      </a>
+    <div className={`py-4 ${responsiveClasses}`}>
+      {finalLinkUrl ? (
+        <a href={finalLinkUrl} target="_blank" rel="noopener noreferrer" className="hover:opacity-90 transition-opacity block">
+          {content}
+        </a>
+      ) : content}
     </div>
   )
 }
 
-export function TrustBadgesCombinedBlock({ alignment = 'center', _overrides }: { alignment?: 'left' | 'center' | 'right', _overrides?: any }) {
+// Full Frame Insurance Badge Block
+export function FullFrameBadgeBlock({
+  size = 'md',
+  alignment = 'center',
+  linkUrl = 'https://www.fullframeinsurance.com',
+  mobileHidden,
+  _overrides
+}: {
+  size?: 'sm' | 'md' | 'lg'
+  alignment?: 'left' | 'center' | 'right'
+  linkUrl?: string
+  mobileHidden?: boolean | string
+  _overrides?: Record<string, any> | null
+}) {
+  const ov = _overrides || {}
+  const finalSize = ov.size ?? size
+  const finalAlignment = ov.alignment ?? alignment
+  const finalLinkUrl = ov.linkUrl ?? linkUrl
+
+  const sizeClasses = {
+    sm: 'h-20',
+    md: 'h-32',
+    lg: 'h-48'
+  }
+
+  const alignmentClasses = {
+    left: 'justify-start',
+    center: 'justify-center',
+    right: 'justify-end'
+  }
+
+  const responsiveClasses = getResponsiveVisibility({ 
+    mobileHidden: String(mobileHidden) === 'true' 
+  })
+
+  // Using the specific Full Frame Insurance seal URL provided
+  const badgeUrl = "https://app.fullframeinsurance.com/media/site_seals/0001/06/3b90b57044c80c69bd9c02042952a0a33dce7681.png"
+
+  const content = (
+    <div className={`flex ${alignmentClasses[finalAlignment as keyof typeof alignmentClasses] || 'justify-center'}`}>
+      <img 
+        src={badgeUrl} 
+        alt="Full Frame Insurance Seal" 
+        className={`${sizeClasses[finalSize as keyof typeof sizeClasses] || 'h-32'} w-auto object-contain`}
+      />
+    </div>
+  )
+
+  return (
+    <div className={`py-4 ${responsiveClasses}`}>
+      {finalLinkUrl ? (
+        <a href={finalLinkUrl} target="_blank" rel="noopener noreferrer" className="hover:opacity-90 transition-opacity block">
+          {content}
+        </a>
+      ) : content}
+    </div>
+  )
+}
+
+// Combined Trust Badges Block
+export function TrustBadgesCombinedBlock({
+  alignment = 'center',
+  mobileHidden,
+  _overrides
+}: {
+  alignment?: 'left' | 'center' | 'right'
+  mobileHidden?: boolean | string
+  _overrides?: Record<string, any> | null
+}) {
   const ov = _overrides || {}
   const finalAlignment = ov.alignment ?? alignment
 
+  const alignmentClasses = {
+    left: 'justify-start',
+    center: 'justify-center',
+    right: 'justify-end'
+  }
+
+  const responsiveClasses = getResponsiveVisibility({ 
+    mobileHidden: String(mobileHidden) === 'true' 
+  })
+
   return (
-    <div className={`flex flex-wrap w-full py-8 gap-8 items-center ${
-      finalAlignment === 'left' ? 'justify-start' : 
-      finalAlignment === 'right' ? 'justify-end' : 
-      'justify-center'
-    }`}>
-      {/* PPA Logo */}
+    <div className={`py-8 bg-white flex flex-wrap ${alignmentClasses[finalAlignment as keyof typeof alignmentClasses] || 'justify-center'} gap-8 items-center ${responsiveClasses}`}>
       <a href="https://ppa.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-90 transition-opacity">
         <img 
-          src="https://ppa.com/assets/images/pages/PPA_logo1_COLOR_RGB_Meta.png" 
+          src="https://www.ppa.com/assets/images/pages/PPA_logo1_COLOR_RGB_Meta.png" 
           alt="Professional Photographers of America" 
           className="h-16 md:h-20 w-auto object-contain"
         />
       </a>
-      
-      {/* Full Frame Insurance Seal */}
       <a href="https://www.fullframeinsurance.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-90 transition-opacity">
         <img 
           src="https://app.fullframeinsurance.com/media/site_seals/0001/06/3b90b57044c80c69bd9c02042952a0a33dce7681.png" 
