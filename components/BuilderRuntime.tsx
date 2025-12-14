@@ -1758,6 +1758,7 @@ export const MDXBuilderComponents = {
   faq: FAQBlock,
   pricingTable: PricingTableBlock,
   pricingCalculator: PricingCalculatorBlock,
+  gallery: GalleryBlock,
   videoHero: VideoHeroBlock,
   beforeAfter: BeforeAfterSliderBlock,
   timeline: TimelineBlock,
@@ -2017,6 +2018,7 @@ export function TimelineBlock({
 // Masonry Gallery Block
 export function MasonryGalleryBlock({
   imagesB64,
+  images,
   heading,
   subheading,
   columns = '3',
@@ -2027,6 +2029,7 @@ export function MasonryGalleryBlock({
   _overrides
 }: {
   imagesB64?: string
+  images?: Array<{ url: string; alt: string; title?: string; category?: string; aspectRatio?: number }>
   heading?: string
   subheading?: string
   columns?: string | number
@@ -2038,12 +2041,18 @@ export function MasonryGalleryBlock({
 }) {
   const ov = _overrides || {}
   const finalImagesB64 = ov.imagesB64 ?? imagesB64
+  const finalImages = ov.images ?? images
   const finalHeading = ov.heading ?? heading
   const finalSubheading = ov.subheading ?? subheading
 
-  const json = finalImagesB64 ? Buffer.from(finalImagesB64, 'base64').toString('utf-8') : '[]'
-  let images: Array<{ url: string; alt: string; title?: string; category?: string; aspectRatio?: number }> = []
-  try { images = JSON.parse(json || '[]') } catch { images = [] }
+  let parsedImages: Array<{ url: string; alt: string; title?: string; category?: string; aspectRatio?: number }> = []
+  
+  if (finalImages && Array.isArray(finalImages)) {
+    parsedImages = finalImages
+  } else {
+    const json = finalImagesB64 ? Buffer.from(finalImagesB64, 'base64').toString('utf-8') : '[]'
+    try { parsedImages = JSON.parse(json || '[]') } catch { parsedImages = [] }
+  }
 
   const animClass = animation === 'fade-in' ? 'animate-fadeIn' : animation === 'slide-up' ? 'animate-slideUp' : animation === 'zoom' ? 'animate-zoom' : ''
   
@@ -2062,7 +2071,7 @@ export function MasonryGalleryBlock({
           </div>
         )}
         <MasonryGalleryClient
-          images={images}
+          images={parsedImages}
           columns={Math.min(Math.max(Number(columns), 2), 4) as any}
           gap={Number(gap)}
         />
@@ -2379,5 +2388,15 @@ export function EnhancedAccordionBlock({
       </div>
     </section>
   )
+}
+
+// GalleryBlock component that wraps MasonryGalleryBlock. This handles the 'gallery' component type used in the Project Detail template.
+export function GalleryBlock({
+  layout = 'masonry',
+  ...props
+}: any) {
+  // Currently defaults to MasonryGalleryBlock for all layouts
+  // Can be expanded to support 'grid', 'carousel', etc.
+  return <MasonryGalleryBlock {...props} />
 }
 
