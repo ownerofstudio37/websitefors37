@@ -1287,11 +1287,12 @@ export function ProjectHeaderBlock({ title, subtitle, category, date, background
   )
 }
 
-export function ProjectDetailsBlock({ content, client, location, servicesB64, year, _overrides }: {
+export function ProjectDetailsBlock({ content, client, location, servicesB64, services, year, _overrides }: {
   content?: string
   client?: string
   location?: string
   servicesB64?: string
+  services?: string[]
   year?: string
   _overrides?: Record<string, any> | null
 }) {
@@ -1301,10 +1302,15 @@ export function ProjectDetailsBlock({ content, client, location, servicesB64, ye
   const finalLocation = ov.location ?? location
   const finalYear = ov.year ?? year
   const finalServicesB64 = ov.servicesB64 ?? servicesB64
+  const finalServices = ov.services ?? services
 
-  const servicesJson = finalServicesB64 ? Buffer.from(finalServicesB64, 'base64').toString('utf-8') : '[]'
-  let services: string[] = []
-  try { services = JSON.parse(servicesJson || '[]') } catch { services = [] }
+  let parsedServices: string[] = []
+  if (finalServices && Array.isArray(finalServices)) {
+    parsedServices = finalServices
+  } else {
+    const servicesJson = finalServicesB64 ? Buffer.from(finalServicesB64, 'base64').toString('utf-8') : '[]'
+    try { parsedServices = JSON.parse(servicesJson || '[]') } catch { parsedServices = [] }
+  }
 
   return (
     <section className="py-16 md:py-20 px-6 md:px-8 bg-white">
@@ -1334,12 +1340,16 @@ export function ProjectDetailsBlock({ content, client, location, servicesB64, ye
                   <span className="text-gray-900">{finalYear}</span>
                 </div>
               )}
-              {services.length > 0 && (
+              {parsedServices.length > 0 && (
                 <div>
                   <span className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Services</span>
-                  <ul className="list-disc list-inside text-gray-900">
-                    {services.map((s, i) => <li key={i}>{s}</li>)}
-                  </ul>
+                  <div className="flex flex-wrap gap-2">
+                    {parsedServices.map((service, i) => (
+                      <span key={i} className="inline-block px-2 py-1 bg-white border border-gray-200 rounded text-xs font-medium text-gray-600">
+                        {service}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               )}
             </div>
@@ -1350,6 +1360,7 @@ export function ProjectDetailsBlock({ content, client, location, servicesB64, ye
   )
 }
 
+// Project Navigation Block
 export function ProjectNavigationBlock({ prevLink, prevTitle, nextLink, nextTitle, _overrides }: {
   prevLink?: string
   prevTitle?: string

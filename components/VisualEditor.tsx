@@ -83,7 +83,11 @@ import {
   FullFrameBadgeBlock,
   PPALogoBlock,
   TrustBadgesCombinedBlock,
-  ProjectShowcaseBlock
+  ProjectShowcaseBlock,
+  ProjectHeaderBlock,
+  ProjectDetailsBlock,
+  GalleryBlock,
+  ProjectNavigationBlock
 } from "./BuilderRuntime";
 
 // Lazy load theme controls to reduce initial bundle
@@ -148,6 +152,10 @@ type ComponentType =
   | "clientPortal"
   | "stickyCTA"
   | "exitPopup"
+  | "projectHeader"
+  | "projectDetails"
+  | "gallery"
+  | "projectNavigation"
   | "progressSteps"
   | "calendarWidget"
   | "trustBadges"
