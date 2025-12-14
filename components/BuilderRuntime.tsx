@@ -1607,8 +1607,8 @@ export function ProjectShowcaseBlock({
   if (finalLayout === 'featured') {
     return (
       <div className={`py-12 ${responsiveClasses}`}>
-        <div className="relative rounded-xl overflow-hidden shadow-xl group">
-          <div className="aspect-video w-full relative">
+        <div className="relative rounded-xl overflow-hidden shadow-xl group bg-gray-900">
+          <div className="aspect-[16/9] w-full relative">
             {finalImage && (
               <img 
                 src={finalImage} 
@@ -1616,12 +1616,12 @@ export function ProjectShowcaseBlock({
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
             )}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex flex-col justify-end p-8">
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent flex flex-col justify-end p-8 z-10">
               <h3 className="text-3xl font-bold text-white mb-2">{finalTitle}</h3>
               <p className="text-gray-200 mb-6 max-w-2xl">{finalDescription}</p>
-              {finalLink && (
+              {(finalLink || finalButtonText) && (
                 <a 
-                  href={finalLink}
+                  href={finalLink || '#'}
                   className="inline-block bg-white text-gray-900 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors w-fit"
                 >
                   {finalButtonText || 'View Project'}
@@ -1637,8 +1637,8 @@ export function ProjectShowcaseBlock({
   if (finalLayout === 'minimal') {
     return (
       <div className={`py-8 ${responsiveClasses} ${alignClass}`}>
-        <a href={finalLink} className="group block">
-          <div className="aspect-[4/3] rounded-lg overflow-hidden mb-4">
+        <a href={finalLink || '#'} className="group block">
+          <div className="aspect-[4/3] rounded-lg overflow-hidden mb-4 bg-gray-100">
             {finalImage && (
               <img 
                 src={finalImage} 
@@ -1660,7 +1660,7 @@ export function ProjectShowcaseBlock({
   return (
     <div className={`py-8 ${responsiveClasses}`}>
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow">
-        <div className="aspect-[16/9] relative overflow-hidden">
+        <div className="aspect-[16/9] relative overflow-hidden bg-gray-100">
           {finalImage && (
             <img 
               src={finalImage} 
@@ -1672,9 +1672,9 @@ export function ProjectShowcaseBlock({
         <div className={`p-6 ${alignClass}`}>
           <h3 className="text-xl font-bold text-gray-900 mb-2">{finalTitle}</h3>
           <p className="text-gray-600 mb-4">{finalDescription}</p>
-          {finalLink && (
+          {(finalLink || finalButtonText) && (
             <a 
-              href={finalLink}
+              href={finalLink || '#'}
               className="text-primary-600 font-medium hover:text-primary-700 inline-flex items-center gap-1"
             >
               {finalButtonText || 'View Project'}
