@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { headers } from 'next/headers'
 import CreateProjectButton from '@/components/CreateProjectButton'
+import ClientProjectsList from '@/components/admin/ClientProjectsList'
 
 export const dynamic = 'force-dynamic'
 
@@ -164,137 +165,19 @@ export default async function ClientProjectsPage({
         </div>
 
         {projects.length === 0 ? (
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-12 text-center">
-            <svg 
-              className="w-16 h-16 text-gray-400 mx-auto mb-4" 
-              fill="none" 
-              stroke="currentColor" 
-              viewBox="0 0 24 24"
-            >
-              <path 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                strokeWidth={2} 
-                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" 
-              />
-            </svg>
-            <h2 className="text-xl font-semibold text-gray-900 mb-2">No Projects Yet</h2>
-            <p className="text-gray-600 mb-4">
-              This client doesn't have any projects yet.
-            </p>
-            <CreateProjectButton
-              clientUserId={params.id}
-              onCreated={() => { /* after create, refresh by redirecting to details or reloading */ }}
-            />
+          <div className="text-center py-12 bg-white rounded-lg border border-gray-200">
+            <h3 className="mt-2 text-sm font-semibold text-gray-900">No projects</h3>
+            <p className="mt-1 text-sm text-gray-500">Get started by creating a new project for this client.</p>
+            <div className="mt-6">
+              <CreateProjectButton clientId={params.id} />
+            </div>
           </div>
         ) : (
-          <div className="space-y-4">
-            {projects.map((project) => (
-              <div 
-                key={project.id}
-                className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow"
-              >
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-2">
-                      {project.cover_image_url && (
-                        <img 
-                          src={project.cover_image_url}
-                          alt={project.name}
-                          className="w-16 h-16 rounded object-cover"
-                        />
-                      )}
-                      <div>
-                        <h3 className="text-lg font-semibold text-gray-900">
-                          {project.name}
-                        </h3>
-                        <p className="text-sm text-gray-500 capitalize">
-                          {(project.type || 'unspecified').replace('-', ' ')}
-                        </p>
-                      </div>
-                    </div>
-                    
-                    {project.description && (
-                      <p className="text-gray-600 mb-3">{project.description}</p>
-                    )}
-
-                    <div className="flex flex-wrap gap-4 text-sm">
-                      <div>
-                        <span className="text-gray-500">Status:</span>{' '}
-                        <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${getStatusBadgeColor(project.status || 'pending')}`}>
-                          {(project.status || 'pending').replace('-', ' ')}
-                        </span>
-                      </div>
-                      
-                      <div>
-                        <span className="text-gray-500">Payment:</span>{' '}
-                        <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${getPaymentStatusBadgeColor(project.payment_status || 'pending')}`}>
-                          {project.payment_status || 'pending'}
-                        </span>
-                      </div>
-                      
-                      {project.session_date && (
-                        <div>
-                          <span className="text-gray-500">Session:</span>{' '}
-                          <span className="text-gray-900 font-medium">
-                            {formatDate(project.session_date)}
-                          </span>
-                        </div>
-                      )}
-                      
-                      {project.due_date && (
-                        <div>
-                          <span className="text-gray-500">Due:</span>{' '}
-                          <span className="text-gray-900 font-medium">
-                            {formatDate(project.due_date)}
-                          </span>
-                        </div>
-                      )}
-                    </div>
-
-                    {project.package_name && (
-                      <div className="mt-2 text-sm">
-                        <span className="text-gray-500">Package:</span>{' '}
-                        <span className="text-gray-900 font-medium">
-                          {project.package_name}
-                        </span>
-                      </div>
-                    )}
-
-                    {project.total_amount_cents != null && (
-                      <div className="mt-2 text-sm">
-                        <span className="text-gray-500">Amount:</span>{' '}
-                        <span className="text-gray-900 font-medium">
-                          {formatCurrency(project.paid_amount_cents ?? 0)} / {formatCurrency(project.total_amount_cents)}
-                        </span>
-                      </div>
-                    )}
-
-                    {normalizeTags(project.tags).length > 0 && (
-                      <div className="mt-3 flex flex-wrap gap-2">
-                        {normalizeTags(project.tags).map((tag, idx) => (
-                          <span 
-                            key={idx}
-                            className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs"
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="flex gap-2">
-                    <button className="px-3 py-1 text-sm text-blue-600 hover:bg-blue-50 rounded">
-                      View
-                    </button>
-                    <button className="px-3 py-1 text-sm text-gray-600 hover:bg-gray-50 rounded">
-                      Edit
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
+          <div className="space-y-6">
+            <div className="flex justify-end">
+              <CreateProjectButton clientId={params.id} />
+            </div>
+            <ClientProjectsList projects={projects} />
           </div>
         )}
       </div>
