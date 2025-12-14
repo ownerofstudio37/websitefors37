@@ -7037,6 +7037,14 @@ function ComponentRenderer({ component }: { component: PageComponent }) {
       return <TrustBadgesCombinedBlock {...(component as any).data} />;
     case "projectShowcase":
       return <ProjectShowcaseBlock {...(component as any).data} />;
+    case "projectHeader":
+      return <ProjectHeaderBlock {...(component as any).data} />;
+    case "projectDetails":
+      return <ProjectDetailsBlock {...(component as any).data} />;
+    case "gallery":
+      return <GalleryBlock {...(component as any).data} />;
+    case "projectNavigation":
+      return <ProjectNavigationBlock {...(component as any).data} />;
     case "servicesGrid":
       return <ServicesGridRenderer data={(component as any).data} />;
     case "stats":
