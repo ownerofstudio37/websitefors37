@@ -326,8 +326,9 @@ export function HeroBlock({
   )
 }
 
-export function TextBlock({ contentB64, alignment = 'left', size = 'md', animation = 'none', mobileHidden, mobileTextSize, mobileAlignment, _overrides }: {
+export function TextBlock({ contentB64, content, alignment = 'left', size = 'md', animation = 'none', mobileHidden, mobileTextSize, mobileAlignment, _overrides }: {
   contentB64?: string
+  content?: string
   alignment?: 'left' | 'center' | 'right'
   size?: 'sm' | 'md' | 'lg' | 'xl'
   animation?: string
@@ -344,10 +345,17 @@ export function TextBlock({ contentB64, alignment = 'left', size = 'md', animati
   }
   const ov = _overrides || {}
   const finalContentB64 = ov.contentB64 ?? contentB64
+  const finalContent = ov.content ?? content
   const finalAlignment = ov.alignment ?? alignment
   const finalSize = ov.size ?? size
   const finalAnimation = ov.animation ?? animation
-  const content = finalContentB64 ? Buffer.from(finalContentB64, 'base64').toString('utf-8') : ''
+  
+  let htmlContent = ''
+  if (finalContent) {
+    htmlContent = finalContent
+  } else if (finalContentB64) {
+    htmlContent = Buffer.from(finalContentB64, 'base64').toString('utf-8')
+  }
   
   // Phase 4: Responsive utilities
   const responsiveClasses = getResponsiveVisibility({ 
@@ -358,7 +366,7 @@ export function TextBlock({ contentB64, alignment = 'left', size = 'md', animati
   
   return (
     <div className={`py-12 md:py-16 px-6 md:px-8 bg-white ${responsiveText} ${responsiveAlign} ${finalAnimation === 'fade-in' ? 'animate-fadeIn' : finalAnimation === 'slide-up' ? 'animate-slideUp' : finalAnimation === 'zoom' ? 'animate-zoom' : ''} ${responsiveClasses}`}>
-      {content && <div className="max-w-4xl mx-auto" dangerouslySetInnerHTML={{ __html: content }} />}
+      {htmlContent && <div className="max-w-4xl mx-auto" dangerouslySetInnerHTML={{ __html: htmlContent }} />}
     </div>
   )
 }
@@ -489,9 +497,16 @@ export function ButtonBlock({ text, link = '#', style = 'primary', alignment = '
   )
 }
 
-export function ColumnsBlock({ columnsB64, animation = 'none' }: { columnsB64?: string, animation?: string }) {
-  const decoded = columnsB64 ? Buffer.from(columnsB64, 'base64').toString('utf-8') : '[]'
-  const cols: Array<{ content?: string; image?: string }> = JSON.parse(decoded || '[]')
+export function ColumnsBlock({ columnsB64, columns, animation = 'none' }: { columnsB64?: string, columns?: Array<any>, animation?: string }) {
+  let cols: Array<{ content?: string; image?: string }> = []
+  
+  if (columns && Array.isArray(columns)) {
+    cols = columns
+  } else {
+    const decoded = columnsB64 ? Buffer.from(columnsB64, 'base64').toString('utf-8') : '[]'
+    try { cols = JSON.parse(decoded || '[]') } catch { cols = [] }
+  }
+
   const count = Math.min(Math.max(cols.length || 2, 1), 4)
   const gridClass =
     count === 1
@@ -524,8 +539,14 @@ export function SpacerBlock({ height = 'md' }: { height?: 'sm' | 'md' | 'lg' | '
   return <div className={heights[height] || heights.md} />
 }
 
-export function SeoFooterBlock({ contentB64, includeSchema = 'true' }: { contentB64?: string, includeSchema?: string }) {
-  const html = contentB64 ? Buffer.from(contentB64, 'base64').toString('utf-8') : ''
+export function SeoFooterBlock({ contentB64, content, includeSchema = 'true' }: { contentB64?: string, content?: string, includeSchema?: string }) {
+  let html = ''
+  if (content) {
+    html = content
+  } else if (contentB64) {
+    html = Buffer.from(contentB64, 'base64').toString('utf-8')
+  }
+  
   const withSchema = String(includeSchema) === 'true'
   return (
     <footer className="bg-white border-t mt-auto">
@@ -538,16 +559,22 @@ export function SeoFooterBlock({ contentB64, includeSchema = 'true' }: { content
 }
 
 // Badges block
-export function BadgesBlock({ badgesB64, alignment = 'center', size = 'md', style = 'pill', animation = 'fade-in' }: {
+export function BadgesBlock({ badgesB64, badges, alignment = 'center', size = 'md', style = 'pill', animation = 'fade-in' }: {
   badgesB64?: string
+  badges?: Array<any>
   alignment?: 'left' | 'center' | 'right' | string
   size?: 'sm' | 'md' | 'lg' | string
   style?: 'solid' | 'outline' | 'pill' | string
   animation?: string
 }) {
-  const json = badgesB64 ? Buffer.from(badgesB64, 'base64').toString('utf-8') : '[]'
-  let badges: Array<{ icon: 'star'|'thumbtack'|'shield'|'camera'|'check'|'yelp'|'google'; label: string; sublabel?: string; href?: string; color?: string }> = []
-  try { badges = JSON.parse(json || '[]') } catch { badges = [] }
+  let badgesList: Array<{ icon: 'star'|'thumbtack'|'shield'|'camera'|'check'|'yelp'|'google'; label: string; sublabel?: string; href?: string; color?: string }> = []
+  
+  if (badges && Array.isArray(badges)) {
+    badgesList = badges
+  } else {
+    const json = badgesB64 ? Buffer.from(badgesB64, 'base64').toString('utf-8') : '[]'
+    try { badgesList = JSON.parse(json || '[]') } catch { badgesList = [] }
+  }
 
   const sizeClasses: Record<string,string> = { sm: 'text-xs px-2 py-1', md: 'text-sm px-3 py-1.5', lg: 'text-base px-4 py-2' }
   const alignClass = alignment === 'left' ? 'justify-start' : alignment === 'right' ? 'justify-end' : 'justify-center'
@@ -586,8 +613,8 @@ export function BadgesBlock({ badgesB64, alignment = 'center', size = 'md', styl
 
   return (
     <div className={`py-12 md:py-16 px-6 md:px-8 bg-white ${animClass}`}>
-      <div className="flex flex-wrap gap-3 ${alignClass}">
-        {badges.map((b, i) => {
+      <div className={`flex flex-wrap gap-3 ${alignClass}`}>
+        {badgesList.map((b, i) => {
           const styleColor = b.color && b.color.startsWith('#') ? { color: b.color } as React.CSSProperties : undefined
           const colorClass = b.color && b.color.startsWith('text-') ? b.color : ''
           const content = (
@@ -613,6 +640,7 @@ export function BadgesBlock({ badgesB64, alignment = 'center', size = 'md', styl
 // Slideshow hero with multiple images and interval
 export function SlideshowHeroBlock({
   slidesB64,
+  slides,
   intervalMs = '5000',
   overlay = '60',
   title,
@@ -627,6 +655,7 @@ export function SlideshowHeroBlock({
   fullBleed = 'true'
 }: {
   slidesB64?: string
+  slides?: Array<any>
   intervalMs?: string | number
   overlay?: string | number
   title?: string
@@ -640,14 +669,20 @@ export function SlideshowHeroBlock({
   buttonAnimation?: string
   fullBleed?: string | boolean
 }) {
-  const json = slidesB64 ? Buffer.from(slidesB64, 'base64').toString('utf-8') : '[]'
-  let slides: Array<{ image: string; category?: string; title?: string }> = []
-  try { slides = JSON.parse(json || '[]') } catch { slides = [] }
+  let slidesList: Array<{ image: string; category?: string; title?: string }> = []
+  
+  if (slides && Array.isArray(slides)) {
+    slidesList = slides
+  } else {
+    const json = slidesB64 ? Buffer.from(slidesB64, 'base64').toString('utf-8') : '[]'
+    try { slidesList = JSON.parse(json || '[]') } catch { slidesList = [] }
+  }
+  
   const isFullBleed = String(fullBleed) === 'true'
 
   const node = (
     <SlideshowHeroClient
-      slides={slides}
+      slides={slidesList}
       intervalMs={Number(intervalMs || 5000)}
       overlay={Number(overlay || 60)}
       heading={title}
@@ -673,22 +708,31 @@ export function SlideshowHeroBlock({
 }
 
 // Testimonials simple client carousel
-export function TestimonialsBlock({ testimonialsB64, animation = 'fade-in' }: { testimonialsB64?: string, animation?: string }) {
-  const json = testimonialsB64 ? Buffer.from(testimonialsB64, 'base64').toString('utf-8') : '[]'
-  let testimonials: Array<{ quote: string; author?: string; subtext?: string; avatar?: string }> = []
-  try { testimonials = JSON.parse(json || '[]') } catch { testimonials = [] }
+export function TestimonialsBlock({ testimonialsB64, testimonials, animation = 'fade-in' }: { testimonialsB64?: string, testimonials?: Array<any>, animation?: string }) {
+  let testimonialsList: Array<{ quote: string; author?: string; subtext?: string; avatar?: string }> = []
+  
+  if (testimonials && Array.isArray(testimonials)) {
+    testimonialsList = testimonials
+  } else {
+    const json = testimonialsB64 ? Buffer.from(testimonialsB64, 'base64').toString('utf-8') : '[]'
+    try { testimonialsList = JSON.parse(json || '[]') } catch { testimonialsList = [] }
+  }
+  
   return (
     <div className={`py-12 md:py-16 px-6 md:px-10 bg-white ${animation === 'fade-in' ? 'animate-fadeIn' : animation === 'slide-up' ? 'animate-slideUp' : animation === 'zoom' ? 'animate-zoom' : ''}`}>
-      <TestimonialsClient testimonials={testimonials} />
+      <TestimonialsClient testimonials={testimonialsList} />
     </div>
   )
 }
 
 // Gallery highlights, fetches featured images by categories (if provided)
-export async function GalleryHighlightsBlock({ categoriesB64, collectionsB64, tagsB64, group, featuredOnly = 'true', limit = '6', limitPerCategory, sortBy = 'display_order', sortDir = 'asc', animation = 'fade-in' }: {
+export async function GalleryHighlightsBlock({ categoriesB64, categories: categoriesProp, collectionsB64, collections: collectionsProp, tagsB64, tags: tagsProp, group, featuredOnly = 'true', limit = '6', limitPerCategory, sortBy = 'display_order', sortDir = 'asc', animation = 'fade-in' }: {
   categoriesB64?: string,
+  categories?: string[],
   collectionsB64?: string,
+  collections?: string[],
   tagsB64?: string,
+  tags?: string[],
   group?: string,
   featuredOnly?: string | boolean,
   limit?: string | number,
@@ -705,13 +749,22 @@ export async function GalleryHighlightsBlock({ categoriesB64, collectionsB64, ta
   let categories: string[] = []
   let collections: string[] = []
   let tags: string[] = []
-  if (categoriesB64) {
+  
+  if (categoriesProp && Array.isArray(categoriesProp)) {
+    categories = categoriesProp
+  } else if (categoriesB64) {
     try { categories = JSON.parse(Buffer.from(categoriesB64, 'base64').toString('utf-8') || '[]') } catch {}
   }
-  if (collectionsB64) {
+  
+  if (collectionsProp && Array.isArray(collectionsProp)) {
+    collections = collectionsProp
+  } else if (collectionsB64) {
     try { collections = JSON.parse(Buffer.from(collectionsB64, 'base64').toString('utf-8') || '[]') } catch {}
   }
-  if (tagsB64) {
+  
+  if (tagsProp && Array.isArray(tagsProp)) {
+    tags = tagsProp
+  } else if (tagsB64) {
     try { tags = JSON.parse(Buffer.from(tagsB64, 'base64').toString('utf-8') || '[]') } catch {}
   }
 
@@ -769,27 +822,36 @@ export async function GalleryHighlightsBlock({ categoriesB64, collectionsB64, ta
 }
 
 // Generic third-party widget embed with style isolation
-export function WidgetEmbedBlock({ htmlB64, scriptSrcsB64, provider = 'custom', styleReset = 'true' }: {
+export function WidgetEmbedBlock({ htmlB64, html, scriptSrcsB64, scriptSrcs, provider = 'custom', styleReset = 'true' }: {
   htmlB64?: string
+  html?: string
   scriptSrcsB64?: string
+  scriptSrcs?: string[]
   provider?: string
   styleReset?: string | boolean
 }) {
-  const html = htmlB64 ? Buffer.from(htmlB64, 'base64').toString('utf-8') : ''
-  let scriptSrcs: string[] = []
-  if (scriptSrcsB64) {
-    try { scriptSrcs = JSON.parse(Buffer.from(scriptSrcsB64, 'base64').toString('utf-8') || '[]') } catch { scriptSrcs = [] }
+  let finalHtml = html || ''
+  if (!finalHtml && htmlB64) {
+    finalHtml = Buffer.from(htmlB64, 'base64').toString('utf-8')
+  }
+  
+  let finalScriptSrcs: string[] = []
+  if (scriptSrcs && Array.isArray(scriptSrcs)) {
+    finalScriptSrcs = scriptSrcs
+  } else if (scriptSrcsB64) {
+    try { finalScriptSrcs = JSON.parse(Buffer.from(scriptSrcsB64, 'base64').toString('utf-8') || '[]') } catch { finalScriptSrcs = [] }
   }
   return (
     <div className="py-12 md:py-16 px-6 md:px-8 bg-white">
-      <WidgetEmbedClient html={html} scriptSrcs={scriptSrcs} provider={provider} styleReset={String(styleReset) !== 'false'} />
+      <WidgetEmbedClient html={finalHtml} scriptSrcs={finalScriptSrcs} provider={provider} styleReset={String(styleReset) !== 'false'} />
     </div>
   )
 }
 
 // Services Grid - displays services with images and feature lists
-export function ServicesGridBlock({ servicesB64, heading, subheading, columns = '3', animation = 'fade-in', mobileHidden, tabletColumns, mobileColumns }: {
+export function ServicesGridBlock({ servicesB64, services, heading, subheading, columns = '3', animation = 'fade-in', mobileHidden, tabletColumns, mobileColumns }: {
   servicesB64?: string
+  services?: Array<any>
   heading?: string
   subheading?: string
   columns?: string | number
@@ -798,9 +860,14 @@ export function ServicesGridBlock({ servicesB64, heading, subheading, columns = 
   tabletColumns?: string
   mobileColumns?: string
 }) {
-  const json = servicesB64 ? Buffer.from(servicesB64, 'base64').toString('utf-8') : '[]'
-  let services: Array<{ image: string; title: string; description: string; features: string[]; link?: string }> = []
-  try { services = JSON.parse(json || '[]') } catch { services = [] }
+  let servicesList: Array<{ image: string; title: string; description: string; features: string[]; link?: string }> = []
+  
+  if (services && Array.isArray(services)) {
+    servicesList = services
+  } else {
+    const json = servicesB64 ? Buffer.from(servicesB64, 'base64').toString('utf-8') : '[]'
+    try { servicesList = JSON.parse(json || '[]') } catch { servicesList = [] }
+  }
 
   const animClass = animation === 'fade-in' ? 'animate-fadeIn' : animation === 'slide-up' ? 'animate-slideUp' : animation === 'zoom' ? 'animate-zoom' : ''
   
@@ -822,7 +889,7 @@ export function ServicesGridBlock({ servicesB64, heading, subheading, columns = 
           </div>
         )}
         <div className={`${gridClasses} gap-8`}>
-          {services.map((service, i) => {
+          {servicesList.map((service, i) => {
             const CardContent = (
               <>
                 {service.image && (
@@ -870,8 +937,9 @@ export function ServicesGridBlock({ servicesB64, heading, subheading, columns = 
 }
 
 // Stats Block - displays statistics with icons and numbers
-export function StatsBlock({ statsB64, heading, columns = '3', style = 'default', animation = 'fade-in', mobileHidden, tabletColumns, mobileColumns }: {
+export function StatsBlock({ statsB64, stats, heading, columns = '3', style = 'default', animation = 'fade-in', mobileHidden, tabletColumns, mobileColumns }: {
   statsB64?: string
+  stats?: Array<any>
   heading?: string
   columns?: string | number
   style?: 'default' | 'cards' | 'minimal' | string
@@ -880,9 +948,14 @@ export function StatsBlock({ statsB64, heading, columns = '3', style = 'default'
   tabletColumns?: string
   mobileColumns?: string
 }) {
-  const json = statsB64 ? Buffer.from(statsB64, 'base64').toString('utf-8') : '[]'
-  let stats: Array<{ icon: string; number: string; label: string; suffix?: string }> = []
-  try { stats = JSON.parse(json || '[]') } catch { stats = [] }
+  let statsList: Array<{ icon: string; number: string; label: string; suffix?: string }> = []
+  
+  if (stats && Array.isArray(stats)) {
+    statsList = stats
+  } else {
+    const json = statsB64 ? Buffer.from(statsB64, 'base64').toString('utf-8') : '[]'
+    try { statsList = JSON.parse(json || '[]') } catch { statsList = [] }
+  }
 
   const styleClasses: Record<string, string> = {
     default: '',
@@ -906,7 +979,7 @@ export function StatsBlock({ statsB64, heading, columns = '3', style = 'default'
           <h2 className="text-3xl font-bold text-gray-900 text-center mb-12">{heading}</h2>
         )}
         <div className={`${gridClasses} gap-8`}>
-          {stats.map((stat, i) => (
+          {statsList.map((stat, i) => (
             <div key={i} className={`text-center ${styleClasses[style] || ''}`}>
               {stat.icon && (
                 <div className="text-4xl mb-3">{stat.icon}</div>
@@ -1192,8 +1265,9 @@ export function ThumbtackBlock({
 }
 
 // Project Showcase Blocks
-export function ProjectGridBlock({ projectsB64, heading, subheading, columns = '3', _overrides }: {
+export function ProjectGridBlock({ projectsB64, projects, heading, subheading, columns = '3', _overrides }: {
   projectsB64?: string
+  projects?: Array<any>
   heading?: string
   subheading?: string
   columns?: string | number
@@ -1203,11 +1277,17 @@ export function ProjectGridBlock({ projectsB64, heading, subheading, columns = '
   const finalHeading = ov.heading ?? heading
   const finalSubheading = ov.subheading ?? subheading
   const finalProjectsB64 = ov.projectsB64 ?? projectsB64
+  const finalProjects = ov.projects ?? projects
   const finalColumns = ov.columns ?? columns
 
-  const json = finalProjectsB64 ? Buffer.from(finalProjectsB64, 'base64').toString('utf-8') : '[]'
-  let projects: Array<{ image: string; title: string; snippet: string; link: string; category?: string; date?: string }> = []
-  try { projects = JSON.parse(json || '[]') } catch { projects = [] }
+  let projectsList: Array<{ image: string; title: string; snippet: string; link: string; category?: string; date?: string }> = []
+  
+  if (finalProjects && Array.isArray(finalProjects)) {
+    projectsList = finalProjects
+  } else {
+    const json = finalProjectsB64 ? Buffer.from(finalProjectsB64, 'base64').toString('utf-8') : '[]'
+    try { projectsList = JSON.parse(json || '[]') } catch { projectsList = [] }
+  }
 
   const gridCols = Number(finalColumns) === 2 ? 'md:grid-cols-2' : Number(finalColumns) === 4 ? 'md:grid-cols-2 lg:grid-cols-4' : 'md:grid-cols-2 lg:grid-cols-3'
 
@@ -1221,7 +1301,7 @@ export function ProjectGridBlock({ projectsB64, heading, subheading, columns = '
           </div>
         )}
         <div className={`grid grid-cols-1 ${gridCols} gap-8`}>
-          {projects.map((project, i) => (
+          {projectsList.map((project, i) => (
             <Link key={i} href={project.link || '#'} className="group block bg-gray-50 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
               {project.image && (
                 <div className="aspect-[4/3] relative overflow-hidden">
