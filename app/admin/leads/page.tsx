@@ -1,12 +1,13 @@
 'use client'
 
 import React, { useState, useEffect, useCallback } from 'react'
-import { Loader2, Mail, Phone, MessageCircle, Edit, Settings, Calendar, DollarSign, MessageSquare, X, Plus, PhoneCall, Trash2, ChevronLeft, ChevronRight } from 'lucide-react'
+import { Loader2, Mail, Phone, MessageCircle, Edit, Settings, Calendar, DollarSign, MessageSquare, X, Plus, PhoneCall, Trash2, ChevronLeft, ChevronRight, Upload } from 'lucide-react'
 import { CheckCircle } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
 import type { Lead, CommunicationLog } from '@/lib/supabase'
 import MarkdownEditor from '@/components/MarkdownEditor'
 import EmailBuilder, { EmailBlock, renderEmailHtml } from '@/components/EmailBuilder'
+import ContactImporter from '@/components/admin/ContactImporter'
 
 export default function LeadsPage() {
   const [leads, setLeads] = useState<Lead[]>([])
@@ -28,6 +29,7 @@ export default function LeadsPage() {
     direction: 'outbound' as CommunicationLog['direction']
   })
   const [showCreateModal, setShowCreateModal] = useState(false)
+  const [showImportModal, setShowImportModal] = useState(false)
   const [creating, setCreating] = useState(false)
   const [toast, setToast] = useState<string | null>(null)
   const [createError, setCreateError] = useState<string | null>(null)
@@ -552,6 +554,14 @@ Studio37`)
             </svg>
           </button>
           <button
+            onClick={() => setShowImportModal(true)}
+            className="px-3 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 flex items-center gap-1"
+            title="Import contacts"
+          >
+            <Upload className="h-4 w-4" />
+            Import
+          </button>
+          <button
             onClick={() => { setShowCreateModal(true); setCreateError(null) }}
             className="px-3 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 flex items-center gap-1"
             title="Add new lead"
@@ -826,6 +836,42 @@ Studio37`)
                     <label className="text-sm font-medium text-gray-500">Message</label>
                   </div>
                   <p className="bg-gray-50 p-3 rounded-lg">{selectedLead.message}</p>
+                </div>
+
+                <div>
+                  <div className="flex items-center space-x-2 mb-2">
+                    <Upload className="h-4 w-4 text-gray-400" />
+                    <label className="text-sm font-medium text-gray-500">Files</label>
+                  </div>
+                  {/* File list */}
+                  <div className="space-y-2">
+                    {selectedLead.files && selectedLead.files.length > 0 ? (
+                      selectedLead.files.map((file) => (
+                        <div key={file.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                          <div className="flex items-center space-x-2">
+                            <PaperClip className="h-5 w-5 text-gray-400" />
+                            <a 
+                              href={file.url} 
+                              target="_blank" 
+                              rel="noopener noreferrer" 
+                              className="text-sm font-medium text-gray-900 hover:underline"
+                            >
+                              {file.name}
+                            </a>
+                          </div>
+                          <button
+                            onClick={() => handleFileDelete(file.id)}
+                            className="text-red-600 hover:text-red-900"
+                            title="Delete file"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </button>
+                        </div>
+                      ))
+                    ) : (
+                      <p className="text-gray-500 text-sm">No files uploaded</p>
+                    )}
+                  </div>
                 </div>
 
                 <div>
@@ -1467,6 +1513,13 @@ Studio37`)
             </div>
           </div>
         </div>
+      )}
+
+      {showImportModal && (
+        <ContactImporter
+          onImportComplete={fetchLeads}
+          onClose={() => setShowImportModal(false)}
+        />
       )}
     </div>
   )
