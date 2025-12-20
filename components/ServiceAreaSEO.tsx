@@ -43,7 +43,7 @@ export default function ServiceAreaSEO() {
             <p className="text-gray-600 mb-4 text-sm">
               Elevate your brand with high-end product photography, architectural shots, and business branding content.
             </p>
-            <Link href="/commercial-photography" className="text-primary-600 font-medium text-sm hover:underline">
+            <Link href="/services/commercial-photography" className="text-primary-600 font-medium text-sm hover:underline">
               View Commercial Services &rarr;
             </Link>
           </div>
@@ -57,7 +57,7 @@ export default function ServiceAreaSEO() {
             <p className="text-gray-600 mb-4 text-sm">
               Timeless wedding coverage that captures every emotion. From engagement sessions to full-day celebrations.
             </p>
-            <Link href="/wedding-photography" className="text-primary-600 font-medium text-sm hover:underline">
+            <Link href="/services/wedding-photography" className="text-primary-600 font-medium text-sm hover:underline">
               View Wedding Packages &rarr;
             </Link>
           </div>
@@ -71,7 +71,7 @@ export default function ServiceAreaSEO() {
             <p className="text-gray-600 mb-4 text-sm">
               Professional headshots, family portraits, and senior pictures. Studio and on-location options available.
             </p>
-            <Link href="/portrait-photography" className="text-primary-600 font-medium text-sm hover:underline">
+            <Link href="/services/portrait-photography" className="text-primary-600 font-medium text-sm hover:underline">
               Book a Session &rarr;
             </Link>
           </div>
@@ -85,7 +85,7 @@ export default function ServiceAreaSEO() {
             <p className="text-gray-600 mb-4 text-sm">
               Comprehensive coverage for corporate events, galas, parties, and community gatherings.
             </p>
-            <Link href="/event-photography" className="text-primary-600 font-medium text-sm hover:underline">
+            <Link href="/services/event-photography" className="text-primary-600 font-medium text-sm hover:underline">
               Learn More &rarr;
             </Link>
           </div>
