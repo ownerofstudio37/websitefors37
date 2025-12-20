@@ -15,10 +15,9 @@ import rehypeHighlight from "rehype-highlight";
 const Services = dynamic(() => import("@/components/Services"), {
   loading: () => <div className="h-96 bg-gray-50" style={{ contentVisibility: 'auto' }} />,
 });
-const CommercialHighlightGallery = dynamic(
-  () => import("@/components/CommercialHighlightGallery"),
+const ServiceAreaSEO = dynamic(
+  () => import("@/components/ServiceAreaSEO"),
   {
-    ssr: false,
     loading: () => <div className="h-96 bg-white" style={{ contentVisibility: 'auto' }} />,
   }
 );
@@ -203,7 +202,7 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
           <Services />
         </LazyMount>
         <LazyMount minHeight={400}>
-          <CommercialHighlightGallery />
+          <ServiceAreaSEO />
         </LazyMount>
         <section className="py-16 bg-gray-50">
           <div className="container mx-auto px-4">
@@ -266,7 +265,7 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
         <Services />
       </LazyMount>
       <LazyMount minHeight={400}>
-        <CommercialHighlightGallery />
+        <ServiceAreaSEO />
       </LazyMount>
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
