@@ -1070,16 +1070,21 @@ export function CTABannerBlock({ heading, subheading, primaryButtonText, primary
 }
 
 // Icon Features - small feature cards with icon, title, and description
-export function IconFeaturesBlock({ featuresB64, heading, subheading, columns = '4', animation = 'fade-in' }: {
+export function IconFeaturesBlock({ featuresB64, features, heading, subheading, columns = '4', animation = 'fade-in' }: {
   featuresB64?: string
+  features?: any[]
   heading?: string
   subheading?: string
   columns?: string | number
   animation?: string
 }) {
-  const json = featuresB64 ? Buffer.from(featuresB64, 'base64').toString('utf-8') : '[]'
-  let features: Array<{ icon: string; title: string; description: string }> = []
-  try { features = JSON.parse(json || '[]') } catch { features = [] }
+  let finalFeatures: Array<{ icon: string; title: string; description: string }> = []
+  if (features && Array.isArray(features)) {
+    finalFeatures = features
+  } else {
+    const json = featuresB64 ? Buffer.from(featuresB64, 'base64').toString('utf-8') : '[]'
+    try { finalFeatures = JSON.parse(json || '[]') } catch { finalFeatures = [] }
+  }
 
   const gridCols: Record<string, string> = {
     '2': 'md:grid-cols-2',
@@ -1098,7 +1103,7 @@ export function IconFeaturesBlock({ featuresB64, heading, subheading, columns = 
           </div>
         )}
         <div className={`grid grid-cols-1 ${gridCols[String(columns)] || 'md:grid-cols-4'} gap-8`}>
-          {features.map((feature, i) => (
+          {finalFeatures.map((feature, i) => (
             <div key={i} className="text-center p-6">
               {feature.icon && (
                 <div className="text-5xl mb-4">{feature.icon}</div>
@@ -1145,22 +1150,29 @@ export function NewsletterBlock({ heading, subheading, disclaimer, style = 'card
 }
 
 // FAQ block - collapsible Q&A list, supports 1-2 columns
-export function FAQBlock({ itemsB64, heading, columns = '1', animation = 'fade-in', _overrides }: { itemsB64?: string, heading?: string, columns?: string | number, animation?: string, _overrides?: Record<string, any> | null }) {
+export function FAQBlock({ itemsB64, items, heading, columns = '1', animation = 'fade-in', _overrides }: { itemsB64?: string, items?: any[], heading?: string, columns?: string | number, animation?: string, _overrides?: Record<string, any> | null }) {
   const ov = _overrides || {}
   const finalItemsB64 = ov.itemsB64 ?? itemsB64
+  const finalItemsRaw = ov.items ?? items
   const finalHeading = ov.heading ?? heading
   const finalColumns = ov.columns ?? columns
   const finalAnimation = ov.animation ?? animation
-  const json = finalItemsB64 ? Buffer.from(finalItemsB64, 'base64').toString('utf-8') : '[]'
-  let items: Array<{ question: string; answer: string }> = []
-  try { items = JSON.parse(json || '[]') } catch { items = [] }
+
+  let qaItems: Array<{ question: string; answer: string }> = []
+  if (finalItemsRaw && Array.isArray(finalItemsRaw)) {
+    qaItems = finalItemsRaw
+  } else {
+    const json = finalItemsB64 ? Buffer.from(finalItemsB64, 'base64').toString('utf-8') : '[]'
+    try { qaItems = JSON.parse(json || '[]') } catch { qaItems = [] }
+  }
+
   const cols = Math.min(Math.max(Number(finalColumns || 1), 1), 2)
-  const mid = Math.ceil(items.length / cols)
-  const col1 = items.slice(0, cols === 2 ? mid : items.length)
-  const col2 = cols === 2 ? items.slice(mid) : []
+  const mid = Math.ceil(qaItems.length / cols)
+  const col1 = qaItems.slice(0, cols === 2 ? mid : qaItems.length)
+  const col2 = cols === 2 ? qaItems.slice(mid) : []
   const animClass = finalAnimation === 'fade-in' ? 'animate-fadeIn' : finalAnimation === 'slide-up' ? 'animate-slideUp' : finalAnimation === 'zoom' ? 'animate-zoom' : ''
 
-  const renderCol = (arr: typeof items) => (
+  const renderCol = (arr: typeof qaItems) => (
     <div className="space-y-3">
       {arr.map((qa, i) => (
         <details key={i} className="group bg-white border rounded-lg p-4">
@@ -1188,10 +1200,16 @@ export function FAQBlock({ itemsB64, heading, columns = '1', animation = 'fade-i
 }
 
 // Pricing Table block - plan cards with features
-export function PricingTableBlock({ plansB64, heading, subheading, columns = '3', animation = 'fade-in', style = 'light', variant = 'card', showFeatureChecks = 'true' }: { plansB64?: string, heading?: string, subheading?: string, columns?: string | number, animation?: string, style?: 'light' | 'dark' | string, variant?: 'card' | 'flat' | string, showFeatureChecks?: boolean | string }) {
-  const json = plansB64 ? Buffer.from(plansB64, 'base64').toString('utf-8') : '[]'
-  let plans: Array<{ title: string; price: string; period?: string; features: string[]; ctaText?: string; ctaLink?: string; highlight?: boolean }> = []
-  try { plans = JSON.parse(json || '[]') } catch { plans = [] }
+export function PricingTableBlock({ plansB64, plans, heading, subheading, columns = '3', animation = 'fade-in', style = 'light', variant = 'card', showFeatureChecks = 'true' }: { plansB64?: string, plans?: any[], heading?: string, subheading?: string, columns?: string | number, animation?: string, style?: 'light' | 'dark' | string, variant?: 'card' | 'flat' | string, showFeatureChecks?: boolean | string }) {
+  let finalPlans: Array<{ title: string; price: string; period?: string; features: string[]; ctaText?: string; ctaLink?: string; highlight?: boolean }> = []
+  
+  if (plans && Array.isArray(plans)) {
+    finalPlans = plans
+  } else {
+    const json = plansB64 ? Buffer.from(plansB64, 'base64').toString('utf-8') : '[]'
+    try { finalPlans = JSON.parse(json || '[]') } catch { finalPlans = [] }
+  }
+
   const gridCols: Record<string, string> = { '2': 'md:grid-cols-2', '3': 'md:grid-cols-3', '4': 'md:grid-cols-4' }
   const animClass = animation === 'fade-in' ? 'animate-fadeIn' : animation === 'slide-up' ? 'animate-slideUp' : animation === 'zoom' ? 'animate-zoom' : ''
   const colClass = gridCols[String(columns)] || 'md:grid-cols-3'
@@ -1216,7 +1234,7 @@ export function PricingTableBlock({ plansB64, heading, subheading, columns = '3'
           </div>
         )}
         <div className={`grid grid-cols-1 ${colClass} gap-8`}>
-          {plans.map((plan, i) => (
+          {finalPlans.map((plan, i) => (
             <div key={i} className={`${planBase} ${plan.highlight ? (isDark ? 'ring-1 ring-primary-700/40 bg-primary-900/20' : 'ring-1 ring-primary-200 bg-primary-50/30') : ''} p-6 flex flex-col`}>
               <div className="mb-4">
                 <h3 className={`text-xl font-bold ${isDark ? 'text-slate-100' : 'text-gray-900'}`}>{plan.title}</h3>
