@@ -212,34 +212,64 @@ export async function POST(req: NextRequest) {
       })
     }
 
-    // Send admin notification (fire and forget)
+    // Send admin notification (fire and forget with improved error handling)
     try {
       const adminHtml = `
-        <h2>New Lead Received</h2>
+        <h2>🔔 New Lead Received</h2>
         <p><strong>Name:</strong> ${insertedLead.name || '—'}</p>
         <p><strong>Email:</strong> ${insertedLead.email || '—'}</p>
         <p><strong>Phone:</strong> ${insertedLead.phone || '—'}</p>
         <p><strong>Service Interest:</strong> ${insertedLead.service_interest || '—'}</p>
-        <p><strong>Message:</strong> ${insertedLead.message ? insertedLead.message.replace(/</g, '&lt;') : '—'}</p>
+        <p><strong>Budget:</strong> ${insertedLead.budget_range || '—'}</p>
+        <p><strong>Event Date:</strong> ${insertedLead.event_date || '—'}</p>
+        <p><strong>Message:</strong></p>
+        <p>${insertedLead.message ? insertedLead.message.replace(/</g, '&lt;').replace(/\n/g, '<br>') : '—'}</p>
         <p><strong>Source:</strong> ${insertedLead.source || payload.source || 'web-form'}</p>
-        <p><a href="${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.studio37.cc'}/admin/leads">View lead in admin</a></p>
+        <p><strong>Submitted:</strong> ${new Date().toLocaleString('en-US', { timeZone: 'America/New_York' })}</p>
+        <p style="margin-top: 20px;"><a href="${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.studio37.cc'}/admin/leads" style="background: #3B82F6; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">View Lead in Admin →</a></p>
       `
 
+      const adminEmail = process.env.ADMIN_EMAIL || 'ceo@studio37.cc'
+      
       // POST to marketing email send endpoint so all send logic (Resend + templates) stays centralized
       fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.studio37.cc'}/api/marketing/email/send`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          to: 'ceo@studio37.cc',
-          subject: `New Lead: ${insertedLead.name || insertedLead.email || 'New contact'}`,
+          to: adminEmail,
+          subject: `🔔 New Lead: ${insertedLead.name || insertedLead.email || 'New contact'}`,
           html: adminHtml,
           leadId: insertedLead.id
         })
-      }).then(res => {
-        if (!res.ok) log.warn('Admin notification send failed', { status: res.status })
-      }).catch(err => log.error('Failed to POST admin notification', err))
+      })
+      .then(async res => {
+        const responseData = await res.json().catch(() => ({}))
+        if (!res.ok) {
+          log.error('Admin notification send failed', { 
+            status: res.status, 
+            leadId: insertedLead.id,
+            adminEmail,
+            error: responseData.error || 'Unknown error',
+            responseBody: responseData
+          })
+        } else {
+          log.info('Admin notification sent successfully', { 
+            leadId: insertedLead.id, 
+            adminEmail,
+            messageId: responseData.results?.[0]?.messageId
+          })
+        }
+      })
+      .catch(err => {
+        log.error('Failed to POST admin notification', { 
+          leadId: insertedLead.id,
+          adminEmail,
+          errorMessage: err.message,
+          errorStack: err.stack
+        })
+      })
     } catch (err) {
-      log.error('Admin notification error', undefined, err)
+      log.error('Admin notification error', { leadId: insertedLead.id }, err)
     }
 
     // Send auto-response email (fire and forget - don't block response)

@@ -33,36 +33,42 @@
 - **Path alias**: Import with `@/*` per `tsconfig.json`.
 
 ## 🚨 BLOCKING ISSUES (Finish These First)
-**Current Status (Dec 12, 2025)**: System is maturing. Lead scoring is implemented.
+**Current Status (Dec 30, 2025)**: Core platform features are implemented. Focus on SaaS-readiness and tenant onboarding.
 
-### High Priority
-1. **Lead Deduplication** (6-8 hrs) — Unique constraints on `leads(email, phone)` + merge UI.
-2. **Security Migration** (pending) — Apply `20251202_fix_security_issues.sql` to enable RLS on all public tables. **Must complete before SaaS launch**.
+### High Priority (SaaS Launch Blockers)
+1. **Tenant Onboarding UI** (`/admin/setup-tenant`) — Admin interface to create new tenants (name, slug, branding, features). **Critical for client duplication**.
+2. **Security Migration** (pending) — Apply RLS policies on all public tables. **Must complete before SaaS launch**.
+3. **Lead Deduplication** (6-8 hrs) — Unique constraints on `leads(email, phone)` + merge UI.
 
 ### Medium Priority
-3. **Admin Lead Scoring Dashboard** — View AI scores (`/admin/lead-scoring`).
-4. **Campaign Generation** — Auto-generate marketing emails/SMS.
-5. **Client Portal Improvements** — Gallery permission controls.
+4. **Lead Scoring Dashboard** (`/admin/lead-scoring`) — View AI scores, filter by priority, bulk actions.
+5. **Campaign Generation** — Auto-generate marketing emails/SMS from AI suggestions.
+6. **Client Portal Enhancements** — Gallery permission controls, download limits.
 
 ## Patterns You'll Reuse
 
-### Public Pages with ISR
-Export `revalidate` constant. Use anon Supabase client.
+### Public Pages with ISR (Incremental Static Regeneration)
+Export `revalidate` constant in page components. Use anon Supabase client from `lib/supabase.ts`.
 ```typescript
 export const revalidate = 600 // 10 minutes
+const supabase = createClient(url, anonKey) // lib/supabase.ts
 const { data } = await supabase.from('table').select('*')
 ```
+**Examples**: [app/blog/page.tsx](app/blog/page.tsx#L24), [app/[slug]/page.tsx](app/[slug]/page.tsx#L55), [app/gallery/page.tsx](app/gallery/page.tsx#L21).
 
 ### MDX Pages & Visual Blocks
-- `app/[slug]/page.tsx` renders MDX.
-- Visual blocks in `components/BuilderRuntime.tsx`.
-- **Enhanced blocks**: VideoHero, BeforeAfterSlider, Timeline, MasonryGallery, AnimatedCounterStats.
+- `app/[slug]/page.tsx` renders MDX from `content_pages` table.
+- Visual blocks defined in `components/BuilderRuntime.tsx` (imported by VisualEditor).
+- **Enhanced blocks**: VideoHero, BeforeAfterSlider, Timeline, MasonryGallery, AnimatedCounterStats, IconFeaturesBlock, PricingTableBlock, ServicesGridBlock.
+- **Pattern**: Blocks accept props + render with Tailwind. Editable via admin Visual Editor at `/admin/page-builder`.
 
 ### AI Features Integration
-- **Unified AI client**: `lib/ai-client.ts`.
-- **Model**: Defaults to `gemini-2.5-flash` (via `GOOGLE_GENAI_MODEL`).
-- **Pattern**: Import `createAIClient` from `lib/ai-client.ts`.
-- **Endpoints**: `/api/leads/score` (Implemented), `/api/blog/generate`, `/api/gallery/analyze`.
+- **Unified AI client**: `lib/ai-client.ts` provides `createAIClient()` function.
+- **Model**: Defaults to `gemini-2.5-flash` (via `GOOGLE_GENAI_MODEL` env var).
+- **Configs**: Use `AI_CONFIGS.creative` (blog), `AI_CONFIGS.precise` (chatbot), `AI_CONFIGS.structured` (lead scoring), `AI_CONFIGS.concise` (alt text).
+- **Pattern**: Import `createAIClient` + `AI_CONFIGS` from `lib/ai-client.ts`.
+- **Implemented endpoints**: `/api/leads/score`, `/api/blog/generate`, `/api/gallery/analyze`, `/api/ai/generate-seo`, `/api/chat/respond`.
+- **Error handling**: Falls back through `MODEL_FALLBACKS` array if primary model fails.
 
 ### Admin Authentication
 - **Login**: `app/api/auth/login/route.ts`.
@@ -113,9 +119,12 @@ const { data } = await supabase.from('table').select('*')
 
 ## Gotchas (Avoid Footguns!)
 - **Service Role Key**: NEVER import `lib/supabaseAdmin.ts` in client components. Use only in `app/api/**`.
-- **Admin Pages**: Must use `force-dynamic` if using cookies/sessions.
+  - Root `lib/supabaseAdmin.ts` uses **lazy singleton pattern** via `getSupabaseAdmin()` to avoid build issues.
+  - `apps/web/lib/supabaseAdmin.ts` is a stub used during workspace builds via webpack alias.
+- **Admin Pages**: Must use `export const dynamic = 'force-dynamic'` if using cookies/sessions.
 - **Root Dependencies**: The root `package.json` relies on hoisted dependencies from workspaces. Do not be alarmed if `next` is missing from root `dependencies`.
-- **Database Migrations**: Must enable RLS on all public tables.
+- **Monorepo Structure**: Main app lives in root `app/` directory, NOT in `apps/web/`. Workspace apps (`apps/workflow`, `apps/portal`, `apps/web`) provide dependencies.
+- **Database Migrations**: Apply RLS policies on all public tables before SaaS launch (security blocker).
 
 ## Quick References
 - **ISR example**: `app/blog/page.tsx` (anon Supabase + revalidate export)
