@@ -194,11 +194,25 @@ export default function WeddingPhotographyPage() {
               'Magnolia, TX',
               'Conroe, TX',
               'Houston, TX'
-            ].map((area) => (
-              <div key={area} className="bg-white p-6 rounded-lg shadow-sm text-center">
-                <h3 className="font-semibold text-gray-800">{area}</h3>
-              </div>
-            ))}
+            ].map((area) => {
+              const slug = area.startsWith('Pinehurst')
+                ? '/local-photographer-pinehurst-tx'
+                : area.startsWith('Magnolia')
+                ? '/magnolia'
+                : null
+
+              return (
+                <div key={area} className="bg-white p-6 rounded-lg shadow-sm text-center">
+                  {slug ? (
+                    <Link href={slug} className="font-semibold text-gray-800 hover:text-primary-600">
+                      {area}
+                    </Link>
+                  ) : (
+                    <h3 className="font-semibold text-gray-800">{area}</h3>
+                  )}
+                </div>
+              )
+            })}
           </div>
         </div>
       </section>

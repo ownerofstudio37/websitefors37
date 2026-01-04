@@ -82,6 +82,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
+    // Magnolia is managed by the CMS - ensure a published content_page with slug 'magnolia' exists so it is included dynamically
+
     // Portfolio and content pages
     {
       url: `${baseUrl}/gallery`,
