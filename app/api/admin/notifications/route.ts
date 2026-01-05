@@ -8,6 +8,12 @@ const supabase = createClient(
 
 export async function GET() {
   try {
+    // Guard: ensure service role key is configured - if not, return a safe, empty response
+    if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
+      console.warn('Notifications API: SUPABASE_SERVICE_ROLE_KEY is not configured')
+      return NextResponse.json({ success: false, notifications: [], unreadCount: 0 })
+    }
+
     // Fetch recent leads and appointments for notifications
     const [leadsRes, appointmentsRes] = await Promise.all([
       supabase

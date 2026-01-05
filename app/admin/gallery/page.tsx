@@ -12,6 +12,7 @@ import {
   Sparkles,
   Keyboard,
   X,
+  Check,
 } from "lucide-react";
 import EnhancedGalleryEditor from "@/components/EnhancedGalleryEditor";
 import GalleryHighlightsEditor from "@/components/GalleryHighlightsEditor";
@@ -146,19 +147,67 @@ export default function AdminGalleryPage() {
       // If none provided (fallback), apply nothing
       if (updatesById.size === 0) return;
 
-      const promises = Array.from(updatesById.entries()).map(
-        async ([id, update]) => {
-          const image = allImages.find((img) => img.id === id);
-          if (!image) return;
-          const updatedImage = { ...image, ...update };
-          await saveImage(updatedImage);
-        }
-      );
+      // Prepare updates array
+      const updates = Array.from(updatesById.entries()).map(([id, update]) => ({ id, ...update }));
 
-      await Promise.all(promises);
-      setSelectedIds(new Set());
+      // Try batch endpoint for performance
+      try {
+        const res = await fetch('/api/admin/gallery-images/bulk', {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ updates })
+        });
+
+        if (!res.ok) {
+          // Fallback to per-image upsert if batch fails
+          console.warn('Batch update failed, falling back to per-image updates');
+          throw new Error('Batch update failed')
+        }
+
+        const data = await res.json().catch(() => ({} as any));
+        const updatedRows = data?.updated || [];
+
+        if (updatedRows.length > 0) {
+          // Merge updated rows into local state
+          setAllImages((prev) => {
+            const map = new Map(prev.map((p) => [p.id, p]));
+            for (const row of updatedRows) {
+              map.set(row.id, { ...(map.get(row.id) || {}), ...row });
+            }
+            return Array.from(map.values());
+          });
+
+          setFilteredImages((prev) => {
+            const map = new Map(prev.map((p) => [p.id, p]));
+            for (const row of updatedRows) {
+              if (map.has(row.id)) map.set(row.id, { ...(map.get(row.id) || {}), ...row });
+            }
+            return Array.from(map.values());
+          });
+        } else {
+          // If server did not return rows, refresh list
+          await fetchImages();
+        }
+
+        setSelectedIds(new Set());
+        return;
+      } catch (batchError) {
+        console.warn('Batch error, using legacy per-image upserts', batchError);
+        // legacy fallback: perform per-image save
+        const promises = Array.from(updatesById.entries()).map(
+          async ([id, update]) => {
+            const image = allImages.find((img) => img.id === id);
+            if (!image) return;
+            const updatedImage = { ...image, ...update };
+            await saveImage(updatedImage);
+          }
+        );
+
+        await Promise.all(promises);
+        setSelectedIds(new Set());
+      }
     } catch (err) {
-      console.error("Error in bulk update:", err);
+      console.error('Error in bulk update:', err);
       throw err;
     }
   };
@@ -346,6 +395,43 @@ export default function AdminGalleryPage() {
           >
             <Upload className="h-4 w-4" />
             Upload
+          </button>
+
+          {/* Save All Visible Changes (quick bulk save) */}
+          <button
+            onClick={async () => {
+              // Confirm before saving many changes
+              const confirmed = confirm('Save ALL visible changes for these images? This will persist current edits to the server.');
+              if (!confirmed) return;
+
+              // Map filteredImages to update payload (id + mutable fields)
+              const updates = filteredImages.map((img) => ({
+                id: img.id,
+                title: img.title,
+                description: img.description,
+                alt_text: img.alt_text,
+                category: img.category,
+                tags: img.tags,
+                featured: img.featured,
+                order_index: img.order_index,
+                display_order: img.display_order,
+                image_url: img.image_url,
+                thumbnail_url: img.thumbnail_url
+              }));
+
+              try {
+                await handleBulkUpdate(updates);
+                alert('Saved visible changes');
+              } catch (err) {
+                console.error('Save all failed', err);
+                alert('Failed to save changes. See console for details.');
+              }
+            }}
+            className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 flex items-center gap-2"
+            title="Save all changes for visible images"
+          >
+            <Check className="h-4 w-4" />
+            Save All
           </button>
         </div>
       </div>

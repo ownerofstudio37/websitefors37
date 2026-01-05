@@ -11,6 +11,7 @@ import Navigation from "@/components/Navigation";
 import QueryProvider from "@/components/QueryProvider";
 import { businessInfo, generateLocalBusinessSchema } from "@/lib/seo-config";
 import GoogleAnalyticsScript from "@/components/GoogleAnalyticsScript";
+import SimpleAnalyticsScript from "@/components/SimpleAnalyticsScript";
 import Analytics from "@/components/Analytics";
 import ClientErrorBoundary from "@/components/ClientErrorBoundary";
 import ToasterClient from "@/components/ToasterClient";
@@ -156,6 +157,10 @@ export default function RootLayout({
         </a>
         {/* Google Analytics 4 - Loaded via client component to avoid server → client function prop issues */}
         <GoogleAnalyticsScript />
+        {/* Simple Analytics - load safely (no-op on failure) */}
+        {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+        {/* @ts-ignore */}
+        <SimpleAnalyticsScript />
         <QueryProvider>
           <Suspense fallback={null}>
             <Analytics />

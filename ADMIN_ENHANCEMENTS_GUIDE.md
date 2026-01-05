@@ -334,6 +334,8 @@ All new features use existing dependencies:
 - [ ] Delete an image
 - [ ] Switch between grid and list views
 
+**Note:** A server-side batch PATCH endpoint `/api/admin/gallery-images/bulk` is available to apply many edits in a single request. Use the **Save All** button in the Admin Gallery to persist visible edits quickly; the UI falls back to per-image saves if the batch request fails.
+
 ### Gallery Highlights
 
 - [ ] Open Highlights view mode

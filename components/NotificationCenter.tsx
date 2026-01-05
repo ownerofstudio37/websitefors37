@@ -70,21 +70,22 @@ export default function NotificationCenter({ dropdownAlign = 'right' }: Notifica
       if (!isMountedRef.current) return
       
       const response = await fetch('/api/admin/notifications')
-      if (!response.ok) throw new Error('Failed to fetch')
+      if (!response.ok) {
+        const text = await response.text().catch(() => '')
+        console.warn('Notifications API non-ok response:', response.status, text)
+        return
+      }
       
       const data = await response.json()
       
-      if (data.success && isMountedRef.current) {
-        setNotifications(data.notifications)
-        setUnreadCount(data.unreadCount)
+      if (data && data.success && isMountedRef.current) {
+        setNotifications(data.notifications || [])
+        setUnreadCount(data.unreadCount || 0)
       }
     } catch (error) {
       console.error('Failed to fetch notifications:', error)
-      // Stop polling on persistent errors
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current)
-        intervalRef.current = null
-      }
+      // Keep polling for transient failures and retry - don't clear the interval here
+      // If you want exponential backoff for persistent issues, implement a retry counter.
     }
   }
 
