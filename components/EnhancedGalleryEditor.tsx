@@ -161,6 +161,11 @@ export default function EnhancedGalleryEditor({
       img.id === id ? { ...img, [field]: value } : img
     );
     onUpdate(updated);
+
+    // Keep the properties sidebar in sync if the edited image is selected
+    if (selectedImage && selectedImage.id === id) {
+      setSelectedImage({ ...selectedImage, [field]: value });
+    }
   };
 
   // Toggle featured status
