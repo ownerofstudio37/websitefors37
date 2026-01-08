@@ -26,11 +26,23 @@
   3. ⚠️ **TODO**: Admin UI to create new tenants (`/admin/setup-tenant`).
   4. ⚠️ **TODO**: Verify all new admin features filter by `tenant_id`.
 
-## Dev Workflow
-- **Scripts**: `npm run dev` (runs `next dev` in root). `npm run repo:dev` (runs turbo).
-- **Env**: `.env.local` for secrets. `NEXT_PUBLIC_SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `GOOGLE_GENAI_MODEL`.
-- **Netlify**: Uses `@netlify/plugin-nextjs`. Images unoptimized when `NETLIFY=true`.
-- **Path alias**: Import with `@/*` per `tsconfig.json`.
+## Dev workflow & quick start
+- **Quick commands**:
+  - `npm run repo:dev` — start all workspaces (turbo)
+  - `npm run dev` — run Next app from repo root
+  - `npm run build` — build production
+  - `npm run lint` / `npm run typecheck`
+  - `npm run import:training` — run scripts/import-website-content.ts
+- **Environment**: Put envs in `.env.local`. Key vars: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `GOOGLE_GENAI_MODEL`, `RESEND_API_KEY`, `NEXT_PUBLIC_CLOUDINARY_*`.
+- **Project layout (what to know fast)**:
+  - Root `app/` is the primary Next 14 App Router application.
+  - Workspaces: `apps/*` (workflow, portal, web) and `packages/*` for shared code.
+  - CI/hosting: `netlify.toml` + `@netlify/plugin-nextjs`; images are unoptimized on Netlify builds.
+- **Important conventions**:
+  - Use `lib/supabase.ts` (anon) for client pages and `getSupabaseAdmin()` from `lib/supabaseAdmin.ts` for server-only admin actions.
+  - Admin pages that depend on sessions MUST set `export const dynamic = 'force-dynamic'`.
+  - Always filter admin reads/writes by `tenant_id`.
+  - Use `export const revalidate = <seconds>` for ISR pages that read from Supabase.
 
 ## 🚨 BLOCKING ISSUES (Finish These First)
 **Current Status (Dec 30, 2025)**: Core platform features are implemented. Focus on SaaS-readiness and tenant onboarding.
@@ -125,6 +137,20 @@ const { data } = await supabase.from('table').select('*')
 - **Root Dependencies**: The root `package.json` relies on hoisted dependencies from workspaces. Do not be alarmed if `next` is missing from root `dependencies`.
 - **Monorepo Structure**: Main app lives in root `app/` directory, NOT in `apps/web/`. Workspace apps (`apps/workflow`, `apps/portal`, `apps/web`) provide dependencies.
 - **Database Migrations**: Apply RLS policies on all public tables before SaaS launch (security blocker).
+
+### Integrations & envs to verify
+- AI: `GOOGLE_GENAI_MODEL` / `GEMINI_API_KEY` (check `lib/ai-client.ts` + `MODEL_FALLBACKS`).
+- Email/SMS: `RESEND_API_KEY`, `TWILIO_*` — use `/api/test-email` to validate keys at runtime.
+- Cloudinary: `NEXT_PUBLIC_CLOUDINARY_*` for image uploads/transformations.
+
+### Migrations & RLS (what to watch for)
+- Migrations live under `supabase/migrations/` (e.g., `2025-11-04_app_ecosystem_schema.sql`, `20251202_fix_security_issues.sql`).
+- If admin writes fail: check `SUPABASE_SERVICE_ROLE_KEY`, RLS policies for the target table, and related migration files.
+
+### Fast debugging checklist
+- Reproduce locally with `npm run dev` or `npm run repo:dev`.
+- Check the browser console → API response → server logs (`lib/logger.ts`) → Supabase logs.
+- For RLS failures: ensure server route uses `getSupabaseAdmin()` and that `SUPABASE_SERVICE_ROLE_KEY` is present in the environment where the route runs.
 
 ## Quick References
 - **ISR example**: `app/blog/page.tsx` (anon Supabase + revalidate export)

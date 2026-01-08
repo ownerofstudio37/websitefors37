@@ -55,21 +55,21 @@ const PACKAGES: Record<Exclude<PackageKey, 'consultation'>, Package> = {
   portrait_mini: {
     name: 'Portrait Mini Session',
     duration: 30,
-    priceCents: 20000,
+    priceCents: 25000,
     description: '30 minute session, 15+ edited photos, digital gallery',
     category: 'Portrait'
   },
   portrait_standard: {
     name: 'Portrait Standard Session',
     duration: 60,
-    priceCents: 35000,
+    priceCents: 40000,
     description: '60 minute session, 30+ edited photos, multiple outfits/looks, digital gallery',
     category: 'Portrait'
   },
   portrait_extended: {
     name: 'Portrait Extended Session',
     duration: 90,
-    priceCents: 50000,
+    priceCents: 55000,
     description: '90 minute session, 50+ edited photos, multiple locations, print release',
     category: 'Portrait'
   },

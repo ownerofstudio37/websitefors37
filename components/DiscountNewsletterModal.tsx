@@ -39,7 +39,7 @@ export default function DiscountNewsletterModal() {
           email,
           phone,
           service_interest: 'newsletter',
-          message: 'Subscribed via newsletter modal for 15% discount offer',
+          message: 'Subscribed via newsletter modal for 10% discount offer',
           source: 'newsletter-modal'
         })
       });
@@ -72,11 +72,11 @@ export default function DiscountNewsletterModal() {
         {submitted ? (
           <div className="text-center">
             <h2 className="text-2xl font-bold mb-2 text-green-600">Thank you!</h2>
-            <p className="text-gray-700 mb-4">You're entered for 15% off and our weekly giveaways!</p>
+            <p className="text-gray-700 mb-4">You're entered for 10% off and our weekly giveaways!</p>
           </div>
         ) : (
           <>
-            <h2 className="text-2xl font-bold mb-2 text-amber-600">Get 15% Off Your First Shoot!</h2>
+            <h2 className="text-2xl font-bold mb-2 text-amber-600">Get 10% Off Your First Shoot!</h2>
             <p className="text-gray-700 mb-4">
               Join our weekly newsletter for a chance to win discounts, giveaways, and free shoots.
             </p>

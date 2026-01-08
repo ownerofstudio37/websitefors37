@@ -3026,7 +3026,7 @@ export default function VisualEditor({
       
       case "alertBanner":
         return {
-          message: "📸 Special offer: Book your session this month and save 15%!",
+          message: "📸 Special offer: Book your session this month and save 10%!",
           type: "info",
           dismissible: true,
           linkText: "Learn More",

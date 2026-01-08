@@ -7,7 +7,7 @@ import Link from "next/link"
 // Assumptions (easy to tweak):
 // - All types: $400/hr (minimum $100)
 // - Family (6+): $50 per person over 5 (flat session surcharge)
-// - Packages (deals): 30m $200, 60m $350, 90m $500
+// - Packages (deals): 30m $250, 60m $400, 90m $550
 // - Duration billed pro‑rata by minutes
 
 export type PortraitCategory = "solo" | "couple" | "family"
@@ -30,9 +30,9 @@ const RATES = {
 }
 
 const PACKAGES = [
-  { key: "mini", name: "Mini Session", minutes: 30, priceCents: 200_00 },
-  { key: "standard", name: "Standard Session", minutes: 60, priceCents: 350_00 },
-  { key: "extended", name: "Extended Session", minutes: 90, priceCents: 500_00 },
+  { key: "mini", name: "Mini Session", minutes: 30, priceCents: 250_00 },
+  { key: "standard", name: "Standard Session", minutes: 60, priceCents: 400_00 },
+  { key: "extended", name: "Extended Session", minutes: 90, priceCents: 550_00 },
 ] as const
 
 function formatUsd(cents: number) {

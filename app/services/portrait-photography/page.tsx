@@ -326,7 +326,7 @@ export default function PortraitPhotographyPage() {
           <div className="text-center mb-8">
             <h2 className="text-3xl font-bold mb-3">Not sure which option is best?</h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              Use our instant calculator to compare custom hourly pricing against our portrait packages. For example, the Standard Session at $350 is a $25 savings vs. $375/hr.
+              Use our instant calculator to compare custom hourly pricing against our portrait packages. For example, the Standard Session at $400 is a straightforward 60-minute option at our $400/hr rate.
             </p>
           </div>
           <PricingCalculator className="max-w-5xl mx-auto" />
