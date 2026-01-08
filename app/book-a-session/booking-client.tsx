@@ -660,9 +660,9 @@ export default function BookSessionPage() {
                           onChange={(e) => setSelectedType(e.target.value as PackageKey)}
                         >
                           <optgroup label="Portrait Photography">
-                            <option value="portrait_mini">Portrait Mini - $200 (30 min)</option>
-                            <option value="portrait_standard">Portrait Standard - $350 (60 min)</option>
-                            <option value="portrait_extended">Portrait Extended - $500 (90 min)</option>
+                            <option value="portrait_mini">Portrait Mini - $250 (30 min)</option>
+                            <option value="portrait_standard">Portrait Standard - $400 (60 min)</option>
+                            <option value="portrait_extended">Portrait Extended - $550 (90 min)</option>
                           </optgroup>
                           <optgroup label="Wedding Photography">
                             <option value="wedding_essential">Wedding Essential - $1,500 (4 hrs)</option>

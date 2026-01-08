@@ -240,7 +240,7 @@ export default function PortraitPhotographyPage() {
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-white p-8 rounded-lg shadow-lg">
               <h3 className="text-xl font-bold mb-4">Mini Session</h3>
-              <p className="text-3xl font-bold text-primary-600 mb-4">$200</p>
+              <p className="text-3xl font-bold text-primary-600 mb-4">$250</p>
               <ul className="space-y-2 mb-6">
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-600" />
@@ -267,7 +267,7 @@ export default function PortraitPhotographyPage() {
                 </span>
               </div>
               <h3 className="text-xl font-bold mb-4">Standard Session</h3>
-              <p className="text-3xl font-bold text-primary-600 mb-4">$350</p>
+              <p className="text-3xl font-bold text-primary-600 mb-4">$400</p>
               <ul className="space-y-2 mb-6">
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-600" />
@@ -293,7 +293,7 @@ export default function PortraitPhotographyPage() {
             
             <div className="bg-white p-8 rounded-lg shadow-lg">
               <h3 className="text-xl font-bold mb-4">Extended Session</h3>
-              <p className="text-3xl font-bold text-primary-600 mb-4">$500</p>
+              <p className="text-3xl font-bold text-primary-600 mb-4">$550</p>
               <ul className="space-y-2 mb-6">
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-600" />
