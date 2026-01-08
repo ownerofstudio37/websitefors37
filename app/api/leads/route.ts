@@ -277,7 +277,8 @@ export async function POST(req: NextRequest) {
       log.error('Auto-response email failed', { leadId: insertedLead.id }, err)
     })
 
-    return NextResponse.json({ success: true }, { headers: corsHeaders })
+    // Return success and lead id so caller can link to booking flows
+    return NextResponse.json({ success: true, leadId: insertedLead.id }, { headers: corsHeaders })
   } catch (e: any) {
     log.error('Lead submission failed', undefined, e)
     return NextResponse.json({ error: 'Internal server error' }, { 
