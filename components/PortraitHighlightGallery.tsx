@@ -14,7 +14,41 @@ export default function PortraitHighlightGallery() {
     ascending: false,
   })
 
-  if (!images || images.length === 0) return null
+  // Static Cloudinary images to replace stock on homepage
+  const staticImages: Pick<GalleryImage, 'id' | 'title' | 'description' | 'image_url'>[] = [
+    {
+      id: 'cloudinary-1',
+      title: 'Portfolio Highlight 1',
+      description: 'Studio37 featured work',
+      image_url: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255715/PS374317_mqqiyv.jpg',
+    },
+    {
+      id: 'cloudinary-2',
+      title: 'Portfolio Highlight 2',
+      description: 'Studio37 featured work',
+      image_url: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255713/D9E4E5AE-12BE-498B-B7C1-9CDE7FFC1B59_qiaj3v.jpg',
+    },
+    {
+      id: 'cloudinary-3',
+      title: 'Portfolio Highlight 3',
+      description: 'Studio37 featured work',
+      image_url: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255711/PS372952_gkvxjl.jpg',
+    },
+    {
+      id: 'cloudinary-4',
+      title: 'Portfolio Highlight 4',
+      description: 'Studio37 featured work',
+      image_url: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255706/PS373287_d7fl9k.jpg',
+    },
+    {
+      id: 'cloudinary-5',
+      title: 'Portfolio Highlight 5',
+      description: 'Studio37 featured work',
+      image_url: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255672/PS379781_kttvv3.jpg',
+    },
+  ]
+
+  const renderImages = (images && images.length > 0) ? images : staticImages
 
   return (
     <section className="py-16 bg-white">
@@ -26,11 +60,11 @@ export default function PortraitHighlightGallery() {
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {images.map((image) => (
+          {renderImages.map((image) => (
             <Link href="/gallery" key={image.id} className="relative group overflow-hidden rounded-lg shadow-lg flex items-center justify-center bg-gray-100">
               <OptimizedImage
                 src={image.image_url}
-                alt={image.title}
+                alt={image.alt_text || image.title}
                 width={600}
                 height={400}
                 className="object-contain w-full h-[300px] bg-gray-100 transition-transform duration-300 group-hover:scale-105"
