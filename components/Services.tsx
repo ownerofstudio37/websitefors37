@@ -21,7 +21,7 @@ const services = [
 			],
 			category: 'wedding',
 			slug: 'wedding-photography',
-			image: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=800&q=80',
+			image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255715/PS374317_mqqiyv.jpg',
 		},
 		{
 			icon: Users,
@@ -36,7 +36,7 @@ const services = [
 			],
 			category: 'professional portraits',
 			slug: 'portrait-photography',
-			image: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=800&q=80',
+			image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255713/D9E4E5AE-12BE-498B-B7C1-9CDE7FFC1B59_qiaj3v.jpg',
 		},
 		{
 			icon: Camera,
@@ -51,7 +51,7 @@ const services = [
 			],
 			category: 'event',
 			slug: 'event-photography',
-			image: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&q=80',
+			image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255711/PS372952_gkvxjl.jpg',
 		},
 		{
 			icon: Building,
@@ -66,7 +66,7 @@ const services = [
 			],
 			category: 'product photography',
 			slug: 'commercial-photography',
-			image: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=800&q=80',
+			image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255706/PS373287_d7fl9k.jpg',
 		},
 ]
 
