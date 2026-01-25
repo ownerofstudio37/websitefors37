@@ -3,7 +3,6 @@
 import React from 'react'
 import { useGalleryImages } from '@/hooks/useGalleryImages'
 import type { GalleryImage } from '@/lib/supabase'
-import OptimizedImage from './OptimizedImage'
 import Link from 'next/link'
 
 export default function PortraitHighlightGallery() {
@@ -62,12 +61,11 @@ export default function PortraitHighlightGallery() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {renderImages.map((image) => (
             <Link href="/gallery" key={image.id} className="relative group overflow-hidden rounded-lg shadow-lg flex items-center justify-center bg-gray-100">
-              <OptimizedImage
+              <img
                 src={image.image_url}
                 alt={image.alt_text || image.title}
-                width={600}
-                height={400}
-                className="object-contain w-full h-[300px] bg-gray-100 transition-transform duration-300 group-hover:scale-105"
+                className="object-cover w-full h-[300px] transition-transform duration-300 group-hover:scale-105"
+                loading="lazy"
               />
               <div className="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
                 <div className="p-4 w-full text-white">
