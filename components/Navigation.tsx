@@ -71,17 +71,37 @@ export default function Navigation() {
     let mounted = true
     ;(async () => {
       try {
-        const { data } = await supabase.from('settings').select('logo_url, navigation_items').single()
-        if (!mounted) return
-        setDbLogoUrl((data && data.logo_url) ? String(data.logo_url) : null)
+        const { data, error } = await supabase.from('settings').select('logo_url, navigation_items').maybeSingle()
         
-        // Load navigation items
-        const items = (data?.navigation_items || []) as NavigationItem[]
-        const visibleItems = items
-          .filter(item => item.visible)
-          .sort((a, b) => a.order - b.order)
-        setNavItems(visibleItems)
-      } catch {
+        if (error) {
+          console.warn('[Navigation] Settings query error:', error.message)
+          throw error
+        }
+        
+        if (!mounted) return
+        
+        // Safe null checks for data
+        if (data) {
+          setDbLogoUrl(data.logo_url ? String(data.logo_url) : null)
+          
+          // Load navigation items with safe null check
+          if (data.navigation_items && Array.isArray(data.navigation_items)) {
+            const items = data.navigation_items as NavigationItem[]
+            const visibleItems = items
+              .filter(item => item.visible)
+              .sort((a, b) => a.order - b.order)
+            setNavItems(visibleItems)
+          } else {
+            // No navigation items in DB, use fallback
+            throw new Error('No navigation_items found')
+          }
+        } else {
+          // No settings row exists, use fallback
+          throw new Error('No settings found')
+        }
+      } catch (err) {
+        // Log error for debugging but don't crash - use fallback navigation
+        console.warn('[Navigation] Using fallback navigation:', err instanceof Error ? err.message : 'Unknown error')
         if (mounted) {
           setDbLogoUrl(null)
           // Fallback to default navigation if DB fails
