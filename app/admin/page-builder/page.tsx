@@ -14,7 +14,7 @@ export default function PageBuilderPage() {
   const [saving, setSaving] = useState(false)
   const searchParams = useSearchParams()
   const [slug, setSlug] = useState('new-landing-page')
-  const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
+  const [message, setMessage] = useState<{ type: 'success' | 'error' | 'warning'; text: string } | null>(null)
   const [lastPublishedSlug, setLastPublishedSlug] = useState<string | null>(null)
   const [showSEOModal, setShowSEOModal] = useState(false)
   const [seoSuggestions, setSeoSuggestions] = useState<any>(null)
@@ -683,20 +683,41 @@ export default function PageBuilderPage() {
       if (error) throw error
 
       // Trigger revalidation of the published page via API route
+      let revalidated = false
       try {
         const revalResponse = await fetch('/api/admin/revalidate-page', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ path: `/${cleanSlug}` })
+          body: JSON.stringify({ path: `/${cleanSlug}` }),
+          credentials: 'include' // Include cookies for admin session
         })
-        if (!revalResponse.ok) {
-          console.warn('Revalidation request returned non-OK status:', revalResponse.status)
+        
+        if (revalResponse.ok) {
+          const result = await revalResponse.json()
+          revalidated = result.revalidated
+          console.log('✅ Page cache cleared successfully')
+        } else {
+          const errorData = await revalResponse.json().catch(() => ({ error: 'Unknown error' }))
+          console.error('Revalidation failed:', revalResponse.status, errorData)
+          setMessage({ 
+            type: 'warning', 
+            text: `Published to /${cleanSlug}, but cache couldn't be cleared. Changes may take up to 10 minutes to appear. Error: ${errorData.error || 'Unknown'}` 
+          })
+          return
         }
       } catch (revalError) {
-        console.warn('Revalidation failed (page will be cached for up to 10 minutes):', revalError)
+        console.error('Revalidation request failed:', revalError)
+        setMessage({ 
+          type: 'warning', 
+          text: `Published to /${cleanSlug}, but cache couldn't be cleared. Changes may take up to 10 minutes to appear.` 
+        })
+        return
       }
 
-      setMessage({ type: 'success', text: `Published to /${cleanSlug}.` })
+      setMessage({ 
+        type: 'success', 
+        text: `Published to /${cleanSlug}${revalidated ? ' - Cache cleared! Changes are live.' : ''}` 
+      })
       setLastPublishedSlug(cleanSlug)
     } catch (e) {
       console.error('Failed to publish:', e)
@@ -1009,21 +1030,55 @@ export default function PageBuilderPage() {
       {/* Editor Container */}
       <div className="flex-1 relative">
         {message && (
-          <div className={`m-4 rounded border px-3 py-2 text-sm ${message.type === 'success' ? 'bg-green-50 border-green-200 text-green-800' : 'bg-red-50 border-red-200 text-red-800'}`}>
+          <div className={`m-4 rounded border px-3 py-2 text-sm ${
+            message.type === 'success' ? 'bg-green-50 border-green-200 text-green-800' : 
+            message.type === 'warning' ? 'bg-yellow-50 border-yellow-200 text-yellow-800' :
+            'bg-red-50 border-red-200 text-red-800'
+          }`}>
             <div className="flex items-center justify-between gap-2 flex-wrap">
               <span>{message.text}</span>
-              {message.type === 'success' && lastPublishedSlug && (
+              {(message.type === 'success' || message.type === 'warning') && lastPublishedSlug && (
                 <div className="flex items-center gap-2">
-                  <Link href={`/${lastPublishedSlug}`} target="_blank" className="underline text-green-800 hover:text-green-900">
+                  <Link href={`/${lastPublishedSlug}`} target="_blank" className={`underline hover:opacity-80 ${
+                    message.type === 'warning' ? 'text-yellow-800' : 'text-green-800'
+                  }`}>
                     View Page
                   </Link>
                   <button
                     onClick={() => navigator.clipboard.writeText(`${window.location.origin}/${lastPublishedSlug}`)}
-                    className="px-2 py-1 border rounded text-green-800 hover:bg-green-100"
+                    className={`px-2 py-1 border rounded ${
+                      message.type === 'warning' ? 'text-yellow-800 hover:bg-yellow-100' : 'text-green-800 hover:bg-green-100'
+                    }`}
                     title="Copy public URL"
                   >
                     Copy Link
                   </button>
+                  {message.type === 'warning' && (
+                    <button
+                      onClick={async () => {
+                        try {
+                          const res = await fetch('/api/admin/revalidate-page', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ path: `/${lastPublishedSlug}` }),
+                            credentials: 'include'
+                          })
+                          if (res.ok) {
+                            setMessage({ type: 'success', text: `Cache cleared for /${lastPublishedSlug}! Changes are now live.` })
+                          } else {
+                            const err = await res.json().catch(() => ({}))
+                            alert(`Failed to clear cache: ${err.error || 'Unknown error'}`)
+                          }
+                        } catch (e) {
+                          alert('Failed to clear cache. Please try again.')
+                        }
+                      }}
+                      className="px-3 py-1 bg-yellow-600 text-white rounded hover:bg-yellow-700"
+                      title="Try to clear cache again"
+                    >
+                      Clear Cache Now
+                    </button>
+                  )}
                 </div>
               )}
             </div>

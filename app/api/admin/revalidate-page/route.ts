@@ -20,25 +20,28 @@ export async function POST(req: NextRequest) {
     const sessionCookie = cookieStore.get('admin_session')
     
     if (!sessionCookie?.value) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      log.warn('Revalidation denied: No admin session cookie')
+      return NextResponse.json({ error: 'Unauthorized - No session cookie' }, { status: 401 })
     }
 
     // Validate session exists and is not expired
-    const { data: session } = await supabaseAdmin
+    const { data: session, error: sessionError } = await supabaseAdmin
       .from('admin_sessions')
       .select('*')
       .eq('id', sessionCookie.value)
       .gt('expires_at', new Date().toISOString())
       .single()
 
-    if (!session) {
-      return NextResponse.json({ error: 'Invalid or expired session' }, { status: 401 })
+    if (sessionError || !session) {
+      log.warn('Revalidation denied: Invalid/expired session', { error: sessionError?.message })
+      return NextResponse.json({ error: 'Unauthorized - Invalid or expired session' }, { status: 401 })
     }
 
     const body = await req.json()
     const { path } = body
 
     if (!path || typeof path !== 'string') {
+      log.warn('Revalidation denied: Invalid path', { path })
       return NextResponse.json({ error: 'Invalid path parameter' }, { status: 400 })
     }
 
@@ -46,9 +49,9 @@ export async function POST(req: NextRequest) {
     revalidatePath(path)
     log.info('Admin revalidated path', { path, adminId: session.admin_id })
     
-    return NextResponse.json({ revalidated: true, path })
+    return NextResponse.json({ revalidated: true, path, timestamp: new Date().toISOString() })
   } catch (err) {
     log.error('Admin revalidation failed', undefined, err)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    return NextResponse.json({ error: 'Internal server error', details: err instanceof Error ? err.message : String(err) }, { status: 500 })
   }
 }

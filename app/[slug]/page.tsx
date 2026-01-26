@@ -51,8 +51,8 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   }
 }
 
-// Revalidate CMS-driven pages every 10 minutes
-export const revalidate = 600
+// Revalidate CMS-driven pages every 2 minutes (can be overridden by on-demand revalidation)
+export const revalidate = 120
 
 // Renamed function to avoid naming conflict with the imported ContentPage type
 export default async function DynamicPage({ params, searchParams }: { params: { slug: string }, searchParams?: Record<string, string | string[]> }) {
