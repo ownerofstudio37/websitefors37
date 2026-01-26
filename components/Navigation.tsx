@@ -104,9 +104,9 @@ export default function Navigation() {
             { id: 'home', label: 'Home', href: '/', order: 1, visible: true },
             { id: 'gallery', label: 'Gallery', href: '/gallery', order: 2, visible: true },
             {
-              id: 'locations',
-              label: 'Locations',
-              href: '/locations',
+              id: 'service-areas',
+              label: 'Service Areas',
+              href: '/service-area',
               order: 3,
               visible: true,
               children: [
@@ -262,7 +262,8 @@ export default function Navigation() {
                     onMouseEnter={handleEnter}
                     onMouseLeave={handleLeave}
                   >
-                    <button
+                    <Link
+                      href={normalizeHref(item.href)}
                       className={`transition-colors font-medium px-2 py-1 rounded flex items-center gap-1 ${
                         scrolled ? 'text-amber-900 hover:text-amber-600' : 'text-white hover:text-amber-200'
                       } focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2`}
@@ -272,7 +273,7 @@ export default function Navigation() {
                     >
                       {item.label}
                       <ChevronDown className="h-4 w-4" aria-hidden="true" />
-                    </button>
+                    </Link>
                     
                     {isDropdownOpen && (
                       <div
