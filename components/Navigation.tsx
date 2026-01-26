@@ -40,9 +40,37 @@ export default function Navigation() {
     setIsMounted(true)
   }, [])
 
-  // Hide navigation on admin pages
-  if (pathname?.startsWith('/admin')) {
+  // Hide navigation on admin pages - do this early to prevent hydration issues
+  const isAdminPage = pathname?.startsWith('/admin')
+  
+  if (isAdminPage) {
     return null
+  }
+
+  // Don't render navigation until mounted to avoid hydration mismatch
+  if (!isMounted) {
+    return (
+      <nav 
+        id="site-navigation"
+        className="fixed w-full z-50 bg-transparent"
+        role="navigation"
+        aria-label="Main navigation"
+      >
+        <div className="container mx-auto px-4">
+          <div className="flex justify-between items-center h-16">
+            {/* Placeholder during SSR to prevent layout shift */}
+            <div className="flex items-center space-x-2" aria-hidden="true">
+              <div className="rounded-full p-1 bg-white/20">
+                <Camera className="h-8 w-8 text-amber-200" aria-hidden="true" />
+              </div>
+              <span className="text-xl font-serif font-bold text-white">Studio 37</span>
+            </div>
+            <div className="hidden md:flex items-center space-x-8" aria-hidden="true"></div>
+            <div className="md:hidden" aria-hidden="true"></div>
+          </div>
+        </div>
+      </nav>
+    )
   }
 
   useEffect(() => {

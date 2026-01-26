@@ -21,8 +21,13 @@ export default class ClientErrorBoundary extends React.Component<Props, State> {
   }
 
   componentDidCatch(error: any, info: any) {
-    // Avoid user PII. Log minimal info to console; integrate with real logger if available
-    console.error("ClientErrorBoundary:", this.props.label || "section", error, info);
+    // Log errors in development, but keep production logs minimal to avoid PII
+    if (process.env.NODE_ENV === 'development') {
+      console.error(`[ErrorBoundary: ${this.props.label || 'component'}]`, error, info);
+    } else {
+      // Production: minimal logging
+      console.warn(`[ErrorBoundary: ${this.props.label || 'component'}] Error caught`);
+    }
   }
 
   render() {

@@ -13,19 +13,17 @@ export default function SimpleAnalyticsScript() {
         id="simple-analytics"
         src="https://scripts.simpleanalyticscdn.com/latest.js"
         strategy="lazyOnload"
-        onError={(e) => {
-          // Don't let analytics failures break the app
-          // eslint-disable-next-line no-console
-          console.warn('SimpleAnalytics script failed to load:', e)
+        onError={() => {
+          // Silently fail - analytics should never break the app
+          // Script may be blocked by adblockers or network issues
         }}
       />
       <Script
         id="simple-analytics-auto"
         src="https://scripts.simpleanalyticscdn.com/auto-events.js"
         strategy="lazyOnload"
-        onError={(e) => {
-          // eslint-disable-next-line no-console
-          console.warn('SimpleAnalytics auto-events failed to load:', e)
+        onError={() => {
+          // Silently fail - analytics should never break the app
         }}
       />
     </>
