@@ -9,7 +9,7 @@ import PricingCalculator from '@/components/PricingCalculator'
 
 export const metadata = generateSEOMetadata({
   title: 'Portrait Photography Pinehurst TX - Professional Portrait Sessions Studio37',
-  description: 'Professional portrait photography in Pinehurst, Texas. Family portraits, senior photos, headshots, and maternity sessions. Serving Montgomery County, The Woodlands, and Houston area.',
+  description: 'Capture life\'s precious moments with award-winning portrait photography in Pinehurst, TX. Family sessions, senior photos, headshots & maternity. Serving Montgomery County & Houston. Book now!',
   keywords: [
     'portrait photography Pinehurst TX',
     'family photographer Texas',

@@ -532,7 +532,7 @@ export default function BookSessionPage() {
         {bgUrl && (
           <Image
             src={bgUrl}
-            alt=""
+            alt="Book a photography session background"
             fill
             className="object-cover"
             loading="lazy"

@@ -7,7 +7,7 @@ import { Camera, Calendar, Users, Clock, CheckCircle, ArrowRight } from 'lucide-
 
 export const metadata = generateSEOMetadata({
   title: 'Event Photography Pinehurst TX - Professional Event Photographer Studio37',
-  description: 'Professional event photography in Pinehurst, Texas. Corporate events, parties, celebrations, and special occasions. Serving Montgomery County, The Woodlands, and Houston area.',
+  description: 'Make your special event unforgettable! Corporate events, parties, celebrations captured with professional photography in Pinehurst, TX. Serving Montgomery County & Houston. Book today!',
   keywords: [
     'event photography Pinehurst TX',
     'corporate photographer Texas',

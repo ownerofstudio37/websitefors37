@@ -2,6 +2,7 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { generateSEOMetadata, generateFAQSchema } from '@/lib/seo-helpers'
+import { generateOfferSchema } from '@/lib/enhanced-seo-helpers'
 import { generateServiceSchema } from '@/lib/seo-config'
 import { Heart, Camera, Clock, Star, CheckCircle, ArrowRight } from 'lucide-react'
 import FAQSection from '@/components/FAQSection'
@@ -68,6 +69,21 @@ export default function WeddingPhotographyPage() {
   )
 
   const faqSchema = generateFAQSchema(weddingFAQs)
+  
+  // Add Offer schemas for pricing packages
+  const essentialOfferSchema = generateOfferSchema({
+    name: 'Essential Wedding Package',
+    price: '350',
+    description: '2 hours coverage, 50+ edited photos, digital gallery, perfect for intimate ceremonies and elopements',
+    availability: 'https://schema.org/InStock'
+  })
+  
+  const standardOfferSchema = generateOfferSchema({
+    name: 'Standard Wedding Package',
+    price: '950',
+    description: '6 hours coverage, 200+ edited photos, engagement session, digital gallery with print release',
+    availability: 'https://schema.org/InStock'
+  })
 
   return (
     <div className="pt-16">
@@ -79,6 +95,14 @@ export default function WeddingPhotographyPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(essentialOfferSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(standardOfferSchema) }}
       />
 
       {/* Hero Section */}

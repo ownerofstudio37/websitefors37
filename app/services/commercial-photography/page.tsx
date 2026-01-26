@@ -8,7 +8,7 @@ import { Building2, Camera, Users, Briefcase, CheckCircle, ArrowRight } from 'lu
 
 export const metadata = generateSEOMetadata({
   title: 'Commercial Photography Pinehurst TX - Business Photography Studio37',
-  description: 'Professional commercial photography in Pinehurst, Texas. Product photography, headshots, corporate branding, and business marketing photos. Serving Montgomery County, The Woodlands, and Houston.',
+  description: 'Elevate your brand with professional commercial photography in Pinehurst, TX. Product shots, headshots, corporate branding & marketing photos. Serving Montgomery County & Houston. Get a quote!',
   keywords: [
     'commercial photography Pinehurst TX',
     'business photographer Texas',
