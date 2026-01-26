@@ -78,65 +78,71 @@ export default function EventPhotographyPage() {
           </div>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="text-center p-6 bg-gray-50 rounded-lg">
-              <div className="bg-primary-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+            <Link href="/corporate-events" className="group text-center p-6 bg-gray-50 rounded-lg transition-colors hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-primary-300">
+              <div className="bg-primary-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-105 transition-transform">
                 <Users className="h-8 w-8 text-primary-600" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Corporate Events</h3>
+              <h3 className="text-xl font-semibold mb-2 group-hover:text-primary-700">Corporate Events</h3>
               <p className="text-gray-600">
                 Professional documentation of conferences, meetings, product launches, and corporate celebrations.
               </p>
-            </div>
+              <span className="inline-flex items-center gap-1 mt-3 text-sm font-medium text-primary-600 group-hover:underline">View Corporate Events <ArrowRight className="h-4 w-4" /></span>
+            </Link>
             
-            <div className="text-center p-6 bg-gray-50 rounded-lg">
-              <div className="bg-primary-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+            <Link href="/birthday-party" className="group text-center p-6 bg-gray-50 rounded-lg transition-colors hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-primary-300">
+              <div className="bg-primary-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-105 transition-transform">
                 <Calendar className="h-8 w-8 text-primary-600" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Birthday Parties</h3>
+              <h3 className="text-xl font-semibold mb-2 group-hover:text-primary-700">Birthday Parties</h3>
               <p className="text-gray-600">
                 Capture the joy and excitement of birthday celebrations with candid and posed photography.
               </p>
-            </div>
+              <span className="inline-flex items-center gap-1 mt-3 text-sm font-medium text-primary-600 group-hover:underline">View Birthday Party Photography <ArrowRight className="h-4 w-4" /></span>
+            </Link>
             
-            <div className="text-center p-6 bg-gray-50 rounded-lg">
-              <div className="bg-primary-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+            <Link href="/graduation" className="group text-center p-6 bg-gray-50 rounded-lg transition-colors hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-primary-300">
+              <div className="bg-primary-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-105 transition-transform">
                 <Camera className="h-8 w-8 text-primary-600" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Graduations</h3>
+              <h3 className="text-xl font-semibold mb-2 group-hover:text-primary-700">Graduations</h3>
               <p className="text-gray-600">
                 Document this important milestone with professional graduation ceremony and party photography.
               </p>
-            </div>
+              <span className="inline-flex items-center gap-1 mt-3 text-sm font-medium text-primary-600 group-hover:underline">View Graduation Photography <ArrowRight className="h-4 w-4" /></span>
+            </Link>
             
-            <div className="text-center p-6 bg-gray-50 rounded-lg">
-              <div className="bg-primary-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+            <Link href="/fundraiser" className="group text-center p-6 bg-gray-50 rounded-lg transition-colors hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-primary-300">
+              <div className="bg-primary-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-105 transition-transform">
                 <Users className="h-8 w-8 text-primary-600" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Fundraisers</h3>
+              <h3 className="text-xl font-semibold mb-2 group-hover:text-primary-700">Fundraisers</h3>
               <p className="text-gray-600">
                 Professional coverage of charity events, galas, and fundraising activities.
               </p>
-            </div>
+              <span className="inline-flex items-center gap-1 mt-3 text-sm font-medium text-primary-600 group-hover:underline">View Fundraiser Photography <ArrowRight className="h-4 w-4" /></span>
+            </Link>
             
-            <div className="text-center p-6 bg-gray-50 rounded-lg">
-              <div className="bg-primary-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+            <Link href="/anniversary-party" className="group text-center p-6 bg-gray-50 rounded-lg transition-colors hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-primary-300">
+              <div className="bg-primary-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-105 transition-transform">
                 <Calendar className="h-8 w-8 text-primary-600" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Anniversary Parties</h3>
+              <h3 className="text-xl font-semibold mb-2 group-hover:text-primary-700">Anniversary Parties</h3>
               <p className="text-gray-600">
                 Celebrate love and commitment with beautiful anniversary party photography.
               </p>
-            </div>
+              <span className="inline-flex items-center gap-1 mt-3 text-sm font-medium text-primary-600 group-hover:underline">View Anniversary Photography <ArrowRight className="h-4 w-4" /></span>
+            </Link>
             
-            <div className="text-center p-6 bg-gray-50 rounded-lg">
-              <div className="bg-primary-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+            <Link href="/holiday-party" className="group text-center p-6 bg-gray-50 rounded-lg transition-colors hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-primary-300">
+              <div className="bg-primary-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-105 transition-transform">
                 <Camera className="h-8 w-8 text-primary-600" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Holiday Parties</h3>
+              <h3 className="text-xl font-semibold mb-2 group-hover:text-primary-700">Holiday Parties</h3>
               <p className="text-gray-600">
                 Capture the festive spirit of holiday celebrations and seasonal events.
               </p>
-            </div>
+              <span className="inline-flex items-center gap-1 mt-3 text-sm font-medium text-primary-600 group-hover:underline">View Holiday Party Photography <ArrowRight className="h-4 w-4" /></span>
+            </Link>
           </div>
         </div>
       </section>
