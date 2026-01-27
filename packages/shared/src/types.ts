@@ -199,6 +199,7 @@ export interface Lead {
   service_interest?: string
   budget_range?: string
   event_date?: string
+  lead_cost?: number
 }
 
 export interface GalleryImage {

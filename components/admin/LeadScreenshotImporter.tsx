@@ -132,6 +132,8 @@ export default function LeadScreenshotImporter({ onImported, onClose }: LeadScre
       return
     }
 
+    const defaultLeadCost = 18.48
+
     setSaving(true)
     try {
       const res = await fetch('/api/leads', {
@@ -145,6 +147,7 @@ export default function LeadScreenshotImporter({ onImported, onClose }: LeadScre
           event_date: form.event_date?.trim() || undefined,
           budget_range: form.budget_range?.trim() || undefined,
           message: preparedMessage,
+          lead_cost: defaultLeadCost,
           source: form.source?.trim() || sourceHint || 'screenshot-import'
         })
       })

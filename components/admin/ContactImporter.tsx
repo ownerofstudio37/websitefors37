@@ -13,6 +13,7 @@ interface ImportedContact {
   source?: string
   status?: string
   message?: string
+  lead_cost?: number
 }
 
 interface ContactImporterProps {
@@ -148,7 +149,8 @@ export default function ContactImporter({ onImportComplete, onClose }: ContactIm
           service_interest: 'General',
           source: 'import-csv',
           status: 'new',
-          message: 'Imported via CSV'
+          message: 'Imported via CSV',
+          lead_cost: 18.48
         })
       }
     }
@@ -191,7 +193,8 @@ export default function ContactImporter({ onImportComplete, onClose }: ContactIm
           service_interest: 'General',
           source: 'import-vcard',
           status: 'new',
-          message: 'Imported via VCard'
+          message: 'Imported via VCard',
+          lead_cost: 18.48
         })
       }
     }

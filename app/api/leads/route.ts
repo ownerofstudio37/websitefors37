@@ -16,6 +16,10 @@ const LeadSchema = z.object({
   service_interest: z.string().min(1),
   budget_range: z.string().optional(),
   event_date: z.string().optional(),
+  lead_cost: z.preprocess((val) => {
+    const num = typeof val === 'string' ? parseFloat(val) : typeof val === 'number' ? val : undefined
+    return isNaN(Number(num)) ? 18.48 : num
+  }, z.number().nonnegative().optional()),
   message: z.string().min(10).max(5000),
   source: z.string().optional().default('web-form')
 })
@@ -198,6 +202,10 @@ export async function POST(req: NextRequest) {
       normalizedEventDate = isValid ? parsedDate.toISOString().split('T')[0] : null
     }
 
+    const normalizedLeadCost = typeof payload.lead_cost === 'number'
+      ? Number(payload.lead_cost.toFixed(2))
+      : 18.48
+
     // Insert the lead
     const { data: insertedLead, error } = await supabaseAdmin.from('leads').insert([
       {
@@ -207,6 +215,7 @@ export async function POST(req: NextRequest) {
         service_interest: payload.service_interest,
         budget_range: payload.budget_range || null,
         event_date: normalizedEventDate,
+        lead_cost: normalizedLeadCost,
         message: payload.message,
         status: 'new',
         source: payload.source || 'web-form'

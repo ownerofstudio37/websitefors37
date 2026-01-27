@@ -62,6 +62,7 @@ export default function LeadsPage() {
     service_interest: string
     budget_range?: string
     event_date?: string
+    lead_cost?: string
     message: string
     source?: string
   }
@@ -72,6 +73,7 @@ export default function LeadsPage() {
     service_interest: '',
     budget_range: '',
     event_date: '',
+    lead_cost: '18.48',
     message: '',
     source: 'admin-manual',
   })
@@ -164,6 +166,8 @@ export default function LeadsPage() {
 
     setCreating(true)
     try {
+      const parsedLeadCost = newLead.lead_cost ? parseFloat(newLead.lead_cost) : undefined
+
       const res = await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -174,6 +178,7 @@ export default function LeadsPage() {
           service_interest: newLead.service_interest.trim(),
           budget_range: newLead.budget_range?.trim() || undefined,
           event_date: newLead.event_date || undefined,
+          lead_cost: isNaN(Number(parsedLeadCost)) ? undefined : parsedLeadCost,
           message: newLead.message.trim(),
           source: newLead.source || 'admin-manual',
         })
@@ -188,7 +193,7 @@ export default function LeadsPage() {
       await fetchLeads()
       setShowCreateModal(false)
       setNewLead({
-        name: '', email: '', phone: '', service_interest: '', budget_range: '', event_date: '', message: '', source: 'admin-manual'
+        name: '', email: '', phone: '', service_interest: '', budget_range: '', event_date: '', lead_cost: '18.48', message: '', source: 'admin-manual'
       })
       setToast('Lead created successfully')
       setTimeout(() => setToast(null), 3000)
@@ -522,7 +527,7 @@ Studio37`)
       return
     }
 
-    const headers = ['Name', 'Email', 'Phone', 'Service Interest', 'Budget Range', 'Event Date', 'Status', 'Priority', 'Source', 'Created At', 'Notes']
+    const headers = ['Name', 'Email', 'Phone', 'Service Interest', 'Budget Range', 'Event Date', 'Lead Cost', 'Status', 'Priority', 'Source', 'Created At', 'Notes']
     
     const rows = leads.map(lead => [
       lead.name || '',
@@ -531,6 +536,7 @@ Studio37`)
       lead.service_interest || '',
       lead.budget_range || '',
       lead.event_date || '',
+      typeof lead.lead_cost === 'number' ? lead.lead_cost.toFixed(2) : '',
       lead.status || '',
       lead.priority || '',
       lead.source || '',
@@ -1394,6 +1400,18 @@ Studio37`)
                   onChange={(e) => setNewLead({ ...newLead, budget_range: e.target.value })}
                   className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
                   placeholder="$2,000 - $4,000"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Lead Cost (optional)</label>
+                <input
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  value={newLead.lead_cost}
+                  onChange={(e) => setNewLead({ ...newLead, lead_cost: e.target.value })}
+                  className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  placeholder="18.48"
                 />
               </div>
               <div>
