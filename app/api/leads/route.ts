@@ -187,6 +187,14 @@ export async function POST(req: NextRequest) {
 
     const payload = parsed.data
 
+    // Normalize event_date: accept partial strings like "Feb 14" by storing null when not a full date
+    let normalizedEventDate: string | null = null
+    if (payload.event_date) {
+      const parsedDate = new Date(payload.event_date)
+      const isValid = !isNaN(parsedDate.getTime())
+      normalizedEventDate = isValid ? parsedDate.toISOString().split('T')[0] : null
+    }
+
     // Insert the lead
     const { data: insertedLead, error } = await supabaseAdmin.from('leads').insert([
       {
@@ -195,7 +203,7 @@ export async function POST(req: NextRequest) {
         phone: payload.phone || null,
         service_interest: payload.service_interest,
         budget_range: payload.budget_range || null,
-        event_date: payload.event_date || null,
+        event_date: normalizedEventDate,
         message: payload.message,
         status: 'new',
         source: payload.source || 'web-form'
