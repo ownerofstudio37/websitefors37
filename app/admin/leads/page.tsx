@@ -892,6 +892,18 @@ Studio37`)
                       </div>
                     </div>
                   )}
+                  {selectedLead.lead_cost !== undefined && (
+                    <div>
+                      <label className="text-sm font-medium text-gray-500">Lead Cost</label>
+                      <p className="font-semibold">${(selectedLead.lead_cost || 0).toFixed(2)}</p>
+                    </div>
+                  )}
+                  {selectedLead.revenue_generated !== undefined && (
+                    <div>
+                      <label className="text-sm font-medium text-gray-500">Revenue Generated</label>
+                      <p className="font-semibold text-green-600">${(selectedLead.revenue_generated || 0).toFixed(2)}</p>
+                    </div>
+                  )}
                 </div>
 
                 <div>
@@ -1009,7 +1021,28 @@ Studio37`)
               >
                 {isDeleting === selectedLead.id ? 'Deleting...' : 'Delete Lead'}
               </button>
-              <div className="flex flex-wrap gap-3">
+              <div className="flex flex-wrap gap-3 items-center">
+                <div className="flex items-center gap-2">
+                  <label className="text-sm font-medium text-gray-700">Revenue:</label>
+                  <input
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    defaultValue={selectedLead.revenue_generated || 0}
+                    onBlur={(e) => {
+                      const newRevenue = parseFloat(e.target.value) || 0
+                      if (newRevenue !== (selectedLead.revenue_generated || 0)) {
+                        supabase.from('leads').update({ revenue_generated: newRevenue }).eq('id', selectedLead.id).then(() => {
+                          setSelectedLead({ ...selectedLead, revenue_generated: newRevenue })
+                          setToast('Revenue updated')
+                          setTimeout(() => setToast(null), 3000)
+                        })
+                      }
+                    }}
+                    className="w-24 px-2 py-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+                    placeholder="0.00"
+                  />
+                </div>
                 <button
                   onClick={() => setShowLeadModal(false)}
                   className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"

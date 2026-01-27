@@ -51,6 +51,7 @@ export interface Lead {
   budget_range?: string
   event_date?: string
   lead_cost?: number
+  revenue_generated?: number
 }
 
 export interface CommunicationLog {
