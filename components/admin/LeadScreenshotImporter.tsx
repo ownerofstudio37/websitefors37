@@ -194,9 +194,29 @@ export default function LeadScreenshotImporter({ onImported, onClose }: LeadScre
             </div>
 
             <div
-              className={`border-2 border-dashed rounded-lg p-6 text-center ${
+              className={`border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors ${
                 file ? 'border-primary-300 bg-primary-50' : 'border-gray-300 hover:border-gray-400'
               }`}
+              onDragOver={(e) => {
+                e.preventDefault()
+                e.stopPropagation()
+              }}
+              onDragEnter={(e) => {
+                e.preventDefault()
+                e.stopPropagation()
+              }}
+              onDragLeave={(e) => {
+                e.preventDefault()
+                e.stopPropagation()
+              }}
+              onDrop={(e) => {
+                e.preventDefault()
+                e.stopPropagation()
+                const droppedFile = e.dataTransfer.files?.[0]
+                if (droppedFile) {
+                  handleFileChange(droppedFile)
+                }
+              }}
             >
               {previewUrl ? (
                 <div className="space-y-3">
