@@ -36,6 +36,8 @@ interface DashboardStats {
   completedSessions: number
   galleryImages: number
   websiteViews: number
+  totalLeadCost: number
+  roi: number
   // Trend data (comparing to last period)
   leadsTrend?: number
   revenueTrend?: number
@@ -79,6 +81,8 @@ export default function AdminDashboard() {
     completedSessions: 0,
     galleryImages: 0,
     websiteViews: 0,
+    totalLeadCost: 0,
+    roi: 0,
     leadsTrend: 0,
     revenueTrend: 0,
     conversionTrend: 0
@@ -132,7 +136,7 @@ export default function AdminDashboard() {
       // Fetch leads statistics
       const { data: leadsData, error: leadsError } = await supabase
         .from('leads')
-        .select('status, expected_value, created_at')
+        .select('status, expected_value, created_at, lead_cost')
 
       if (leadsError) throw leadsError
 
@@ -145,6 +149,11 @@ export default function AdminDashboard() {
         .reduce((sum, lead) => sum + (lead.expected_value || 0), 0) || 0
       const avgDealSize = convertedLeads > 0 ? totalRevenue / convertedLeads : 0
       const conversionRate = totalLeads > 0 ? (convertedLeads / totalLeads) * 100 : 0
+      
+      // Calculate cost analytics
+      const totalLeadCost = leadsData?.reduce((sum, lead) => sum + (lead.lead_cost || 0), 0) || 0
+      const totalProfit = totalRevenue - totalLeadCost
+      const roi = totalLeadCost > 0 ? (totalProfit / totalLeadCost) * 100 : 0
 
       // Fetch gallery stats
       const { data: galleryData } = await supabase
@@ -177,7 +186,9 @@ export default function AdminDashboard() {
         activeBookings: 0, // You can implement bookings later
         completedSessions: 0,
         galleryImages: galleryData?.length || 0,
-        websiteViews: 1247 // Mock data - implement analytics later
+        websiteViews: 1247, // Mock data - implement analytics later
+        totalLeadCost,
+        roi
       })
 
       setRecentActivity(activity)
@@ -287,6 +298,32 @@ export default function AdminDashboard() {
               </div>
             </div>
           </div>
+
+          {/* Cost & Revenue */}
+          <Link
+            href="/admin/lead-cost-analytics"
+            className="bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 rounded-lg shadow-sm p-6 border border-emerald-200 dark:border-emerald-700 hover:shadow-md transition-all hover:scale-[1.02] block"
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex-1">
+                <div className="flex items-center gap-2">
+                  <p className="text-sm font-medium text-gray-600 dark:text-gray-300">Cost & Revenue</p>
+                  <span className="bg-emerald-600 text-white text-xs px-2 py-0.5 rounded-full font-medium">NEW</span>
+                </div>
+                <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
+                  {stats.roi >= 0 ? '+' : ''}{stats.roi.toFixed(0)}% ROI
+                </p>
+                <div className="flex items-center gap-2 mt-2">
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                    ${stats.totalLeadCost.toFixed(0)} cost
+                  </p>
+                </div>
+              </div>
+              <div className="bg-emerald-100 dark:bg-emerald-900/40 p-3 rounded-lg">
+                <BarChart3 className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
+              </div>
+            </div>
+          </Link>
 
           {/* Average Deal Size */}
           <div className="bg-white rounded-lg shadow-sm p-6 border border-gray-200 hover:shadow-md transition-shadow">
