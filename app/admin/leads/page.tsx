@@ -1,13 +1,14 @@
 'use client'
 
 import React, { useState, useEffect, useCallback } from 'react'
-import { Loader2, Mail, Phone, MessageCircle, Edit, Settings, Calendar, DollarSign, MessageSquare, X, Plus, PhoneCall, Trash2, ChevronLeft, ChevronRight, Upload } from 'lucide-react'
+import { Loader2, Mail, Phone, MessageCircle, Edit, Settings, Calendar, DollarSign, MessageSquare, X, Plus, PhoneCall, Trash2, ChevronLeft, ChevronRight, Upload, Scan } from 'lucide-react'
 import { CheckCircle } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
 import type { Lead, CommunicationLog } from '@/lib/supabase'
 import MarkdownEditor from '@/components/MarkdownEditor'
 import EmailBuilder, { EmailBlock, renderEmailHtml } from '@/components/EmailBuilder'
 import ContactImporter from '@/components/admin/ContactImporter'
+import LeadScreenshotImporter from '@/components/admin/LeadScreenshotImporter'
 
 export default function LeadsPage() {
   const [leads, setLeads] = useState<Lead[]>([])
@@ -30,6 +31,7 @@ export default function LeadsPage() {
   })
   const [showCreateModal, setShowCreateModal] = useState(false)
   const [showImportModal, setShowImportModal] = useState(false)
+  const [showScreenshotModal, setShowScreenshotModal] = useState(false)
   const [creating, setCreating] = useState(false)
   const [toast, setToast] = useState<string | null>(null)
   const [createError, setCreateError] = useState<string | null>(null)
@@ -560,6 +562,14 @@ Studio37`)
           >
             <Upload className="h-4 w-4" />
             Import
+          </button>
+          <button
+            onClick={() => setShowScreenshotModal(true)}
+            className="px-3 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 flex items-center gap-1"
+            title="Import from screenshot"
+          >
+            <Scan className="h-4 w-4" />
+            Scan Screenshot
           </button>
           <button
             onClick={() => { setShowCreateModal(true); setCreateError(null) }}
@@ -1519,6 +1529,17 @@ Studio37`)
         <ContactImporter
           onImportComplete={fetchLeads}
           onClose={() => setShowImportModal(false)}
+        />
+      )}
+
+      {showScreenshotModal && (
+        <LeadScreenshotImporter
+          onImported={() => {
+            fetchLeads()
+            setToast('Lead created from screenshot')
+            setShowScreenshotModal(false)
+          }}
+          onClose={() => setShowScreenshotModal(false)}
         />
       )}
     </div>
