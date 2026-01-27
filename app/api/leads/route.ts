@@ -205,8 +205,8 @@ export async function POST(req: NextRequest) {
       .single()
 
     if (error) {
-      log.error('Lead insert error', { email: payload.email, service: payload.service_interest }, error)
-      return NextResponse.json({ error: 'Failed to submit lead' }, { 
+      log.error('Lead insert error', { email: payload.email, service: payload.service_interest, details: error }, error)
+      return NextResponse.json({ error: 'Failed to submit lead', details: error?.message || error?.hint || error }, { 
         status: 500,
         headers: corsHeaders
       })
