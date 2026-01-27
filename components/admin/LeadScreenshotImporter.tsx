@@ -89,7 +89,7 @@ export default function LeadScreenshotImporter({ onImported, onClose }: LeadScre
       const extracted = json.extracted as LeadForm
       setForm({
         name: extracted.name || '',
-        email: extracted.email || '',
+        email: extracted.email || 'lead@example.com',
         phone: extracted.phone || '',
         service_interest: extracted.service_interest || 'General inquiry',
         event_date: extracted.event_date || '',
