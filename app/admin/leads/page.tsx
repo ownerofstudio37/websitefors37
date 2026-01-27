@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect, useCallback } from 'react'
-import { Loader2, Mail, Phone, MessageCircle, Edit, Settings, Calendar, DollarSign, MessageSquare, X, Plus, PhoneCall, Trash2, ChevronLeft, ChevronRight, Upload, Scan } from 'lucide-react'
+import { Loader2, Mail, Phone, MessageCircle, Edit, Settings, Calendar, DollarSign, MessageSquare, X, Plus, PhoneCall, Trash2, ChevronLeft, ChevronRight, Upload, Scan, Download } from 'lucide-react'
 import { CheckCircle } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
 import type { Lead, CommunicationLog } from '@/lib/supabase'
@@ -516,6 +516,46 @@ Studio37`)
     }
   }
 
+  const exportToCSV = () => {
+    if (leads.length === 0) {
+      alert('No leads to export')
+      return
+    }
+
+    const headers = ['Name', 'Email', 'Phone', 'Service Interest', 'Budget Range', 'Event Date', 'Status', 'Priority', 'Source', 'Created At', 'Notes']
+    
+    const rows = leads.map(lead => [
+      lead.name || '',
+      lead.email || '',
+      lead.phone || '',
+      lead.service_interest || '',
+      lead.budget_range || '',
+      lead.event_date || '',
+      lead.status || '',
+      lead.priority || '',
+      lead.source || '',
+      lead.created_at ? new Date(lead.created_at).toLocaleDateString() : '',
+      (lead.notes || '').replace(/"/g, '""')
+    ])
+
+    const csv = [
+      headers.join(','),
+      ...rows.map(row => row.map(cell => `"${cell}"`).join(','))
+    ].join('\n')
+
+    const blob = new Blob([csv], { type: 'text/csv' })
+    const url = window.URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `leads-${new Date().toISOString().split('T')[0]}.csv`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    window.URL.revokeObjectURL(url)
+    setToast('Leads exported to CSV')
+    setTimeout(() => setToast(null), 3000)
+  }
+
   const filteredLeads = filter === 'all' 
     ? leads 
     : leads.filter(lead => lead.status === filter)
@@ -570,6 +610,14 @@ Studio37`)
           >
             <Scan className="h-4 w-4" />
             Scan Screenshot
+          </button>
+          <button
+            onClick={exportToCSV}
+            className="px-3 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 flex items-center gap-1"
+            title="Export leads to CSV"
+          >
+            <Download className="h-4 w-4" />
+            Export CSV
           </button>
           <button
             onClick={() => { setShowCreateModal(true); setCreateError(null) }}
