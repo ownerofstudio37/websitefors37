@@ -8,7 +8,10 @@ const log = createLogger('api/leads')
 
 const LeadSchema = z.object({
   name: z.string().min(2).max(120),
-  email: z.string().email(),
+  email: z.preprocess((val) => {
+    const email = typeof val === 'string' ? val.trim() : ''
+    return email || 'lead@example.com'
+  }, z.string().email()),
   phone: z.string().optional(),
   service_interest: z.string().min(1),
   budget_range: z.string().optional(),
