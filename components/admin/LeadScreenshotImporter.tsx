@@ -119,7 +119,11 @@ export default function LeadScreenshotImporter({ onImported, onClose }: LeadScre
       setError('Name looks too short. Please confirm the lead name.')
       return
     }
-    if (!form.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+    const preparedEmail = form.email && form.email.trim()
+      ? form.email.trim()
+      : 'lead@example.com'
+
+    if (!preparedEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(preparedEmail)) {
       setError('A valid email is required before saving to the CRM.')
       return
     }
@@ -135,7 +139,7 @@ export default function LeadScreenshotImporter({ onImported, onClose }: LeadScre
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name: form.name.trim(),
-          email: form.email.trim(),
+          email: preparedEmail,
           phone: form.phone?.trim() || undefined,
           service_interest: form.service_interest?.trim() || 'General inquiry',
           event_date: form.event_date?.trim() || undefined,
