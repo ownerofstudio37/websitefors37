@@ -11,7 +11,7 @@ const testimonials = [
 		service: 'Portrait Photography',
 		rating: 5,
 		text: 'Working with Catie and Christian was such a wonderful experience. They are the kindest couple, and we clicked with them right away. Despite our shoot being very last minute, they were incredibly flexible and accommodating. They truly listened to what we wanted and made the whole experience relaxed and fun. We\'re so excited to see the final photos.',
-		image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&fit=crop&crop=face',
+		image: 'https://images.unsplash.com/photo-1494787867049-a267d08ade32?w=100&h=100&fit=crop&crop=face',
 		source: 'Thumbtack',
 		sourceUrl: 'https://www.thumbtack.com/tx/pinehurst/event-photographers/studio-37/service/552295631777284097'
 	},
