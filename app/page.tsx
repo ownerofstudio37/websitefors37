@@ -4,6 +4,7 @@ import Hero from "@/components/Hero";
 import LeadCaptureForm from "@/components/LeadCaptureForm";
 import LocalBusinessSchema from "@/components/LocalBusinessSchema";
 import LazyMount from "@/components/LazyMount";
+import { PressCredentialsBlock } from "@/components/BuilderRuntime";
 import { generateSEOMetadata } from "@/lib/seo-helpers";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
@@ -222,23 +223,13 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
           <Testimonials />
         </LazyMount>
         
-        {/* Trust Badges */}
-        <div className="py-8 bg-white flex flex-wrap justify-center gap-8 items-center">
-          <a href="https://ppa.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-90 transition-opacity">
-            <img 
-              src="https://www.ppa.com/assets/images/pages/PPA_logo1_COLOR_RGB_Meta.png" 
-              alt="Professional Photographers of America" 
-              className="h-16 md:h-20 w-auto object-contain"
-            />
-          </a>
-          <a href="https://www.fullframeinsurance.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-90 transition-opacity">
-            <img 
-              src="https://app.fullframeinsurance.com/media/site_seals/0001/06/3b90b57044c80c69bd9c02042952a0a33dce7681.png" 
-              alt="Full Frame Insurance Seal" 
-              className="h-24 md:h-32 w-auto object-contain"
-            />
-          </a>
-        </div>
+        {/* Press & Credentials Section */}
+        <PressCredentialsBlock 
+          title="Featured In & Professional Credentials"
+          subtitle="Award-winning photographer recognized by leading industry organizations"
+          showBadges={true}
+          showPress={true}
+        />
 
         <DiscountNewsletterModal />
       </>
@@ -285,23 +276,13 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
         <Testimonials />
       </LazyMount>
 
-      {/* Trust Badges */}
-      <div className="py-8 bg-white flex flex-wrap justify-center gap-8 items-center">
-        <a href="https://ppa.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-90 transition-opacity">
-          <img 
-            src="https://www.ppa.com/assets/images/pages/PPA_logo1_COLOR_RGB_Meta.png" 
-            alt="Professional Photographers of America" 
-            className="h-16 md:h-20 w-auto object-contain"
-          />
-        </a>
-        <a href="https://www.fullframeinsurance.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-90 transition-opacity">
-          <img 
-            src="https://app.fullframeinsurance.com/media/site_seals/0001/06/3b90b57044c80c69bd9c02042952a0a33dce7681.png" 
-            alt="Full Frame Insurance Seal" 
-            className="h-24 md:h-32 w-auto object-contain"
-          />
-        </a>
-      </div>
+      {/* Press & Credentials Section */}
+      <PressCredentialsBlock 
+        title="Featured In & Professional Credentials"
+        subtitle="Award-winning photographer recognized by leading industry organizations"
+        showBadges={true}
+        showPress={true}
+      />
 
       <DiscountNewsletterModal />
     </>
