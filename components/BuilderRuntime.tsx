@@ -1671,6 +1671,145 @@ export function TrustBadgesCombinedBlock({
   )
 }
 
+// Press & Credentials Block - Combines badges with press features
+export function PressCredentialsBlock({
+  title = 'Featured In & Credentials',
+  subtitle,
+  showBadges = 'true',
+  showPress = 'true',
+  pressFeatures,
+  alignment = 'center',
+  backgroundColor = 'bg-gray-50',
+  _overrides
+}: {
+  title?: string
+  subtitle?: string
+  showBadges?: string | boolean
+  showPress?: string | boolean
+  pressFeatures?: Array<{
+    name: string
+    logo: string
+    link: string
+    description?: string
+  }>
+  alignment?: 'left' | 'center' | 'right'
+  backgroundColor?: string
+  _overrides?: Record<string, any> | null
+}) {
+  const ov = _overrides || {}
+  const finalTitle = ov.title ?? title
+  const finalSubtitle = ov.subtitle ?? subtitle
+  const finalShowBadges = String(ov.showBadges ?? showBadges) === 'true'
+  const finalShowPress = String(ov.showPress ?? showPress) === 'true'
+  const finalPressFeatures = ov.pressFeatures ?? pressFeatures ?? [
+    {
+      name: 'Voyage Houston Magazine',
+      logo: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1769586862/huston3_upslnu.png',
+      link: 'https://voyagehouston.com/interview/rising-stars-meet-christian-combest-of-pinehurst/',
+      description: 'Featured in "Rising Stars: Meet Christian Combest of Pinehurst"'
+    }
+  ]
+  const finalAlignment = ov.alignment ?? alignment
+  const finalBackgroundColor = ov.backgroundColor ?? backgroundColor
+
+  const alignmentClasses = {
+    left: 'text-left items-start',
+    center: 'text-center items-center',
+    right: 'text-right items-end'
+  }
+
+  return (
+    <section className={`${finalBackgroundColor} py-16 md:py-24`}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
+        <div className={`flex flex-col ${alignmentClasses[finalAlignment as keyof typeof alignmentClasses] || 'text-center items-center'} mb-12 md:mb-16`}>
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">{finalTitle}</h2>
+          {finalSubtitle && <p className="text-lg text-gray-600 max-w-2xl">{finalSubtitle}</p>}
+        </div>
+
+        {/* Credentials Badges */}
+        {finalShowBadges && (
+          <div className="mb-16 md:mb-20">
+            <div className="flex flex-wrap justify-center gap-8 md:gap-12 items-center">
+              {/* PPA Badge */}
+              <a 
+                href="https://ppa.com" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="group hover:scale-110 transition-transform"
+                title="Professional Photographers of America"
+              >
+                <img 
+                  src="https://www.ppa.com/assets/images/pages/PPA_logo1_COLOR_RGB_Meta.png" 
+                  alt="Professional Photographers of America" 
+                  className="h-16 md:h-24 w-auto object-contain"
+                />
+              </a>
+              
+              {/* Full Frame Insurance Badge */}
+              <a 
+                href="https://www.fullframeinsurance.com" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="group hover:scale-110 transition-transform"
+                title="Full Frame Insurance"
+              >
+                <img 
+                  src="https://app.fullframeinsurance.com/media/site_seals/0001/06/3b90b57044c80c69bd9c02042952a0a33dce7681.png" 
+                  alt="Full Frame Insurance Seal" 
+                  className="h-24 md:h-32 w-auto object-contain"
+                />
+              </a>
+            </div>
+          </div>
+        )}
+
+        {/* Press Features */}
+        {finalShowPress && finalPressFeatures && finalPressFeatures.length > 0 && (
+          <div>
+            <h3 className="text-xl md:text-2xl font-semibold text-gray-900 mb-8 text-center">Featured In</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+              {finalPressFeatures.map((feature, idx) => (
+                <a
+                  key={idx}
+                  href={feature.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group"
+                >
+                  <div className="bg-white rounded-lg shadow-sm hover:shadow-md transition-all p-6 h-full flex flex-col justify-between border border-gray-200 group-hover:border-primary-300">
+                    <div className="mb-4">
+                      {feature.logo && (
+                        <img 
+                          src={feature.logo} 
+                          alt={feature.name} 
+                          className="h-12 md:h-16 w-auto object-contain mb-4"
+                        />
+                      )}
+                      <h4 className="text-lg font-semibold text-gray-900 group-hover:text-primary-600 transition-colors mb-2">
+                        {feature.name}
+                      </h4>
+                    </div>
+                    {feature.description && (
+                      <p className="text-sm text-gray-600 line-clamp-3">{feature.description}</p>
+                    )}
+                    <div className="mt-4 text-primary-600 font-medium text-sm flex items-center gap-2 group-hover:translate-x-1 transition-transform">
+                      Read Article
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </div>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </section>
+  )
+}
+
 export function ProjectShowcaseBlock({
   title,
   description,
@@ -1843,6 +1982,8 @@ export const MDXBuilderComponents = {
   ppaLogo: PPALogoBlock,
   TrustBadgesCombinedBlock,
   trustBadgesCombined: TrustBadgesCombinedBlock,
+  PressCredentialsBlock,
+  pressCredentials: PressCredentialsBlock,
   ProjectShowcaseBlock,
   projectShowcase: ProjectShowcaseBlock,
   // Mappings for Visual Editor types (camelCase) to Block components
