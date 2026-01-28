@@ -19,7 +19,8 @@ import {
   ArrowUpRight,
   ArrowDownRight,
   Sparkles,
-  BarChart3
+  BarChart3,
+  FileText
 } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
 import ProgressBar from '@/components/ProgressBar'
