@@ -160,19 +160,8 @@ const testimonials = [
 ]
 
 export default function Testimonials() {
-		source: 'Thumbtack',
-		sourceUrl: 'https://www.thumbtack.com/tx/pinehurst/event-photographers/studio-37/service/552295631777284097'
-	},
-	{
-		id: 6,
-		name: 'Mansher G.',
-		service: 'Portrait Photography',
-		rating: 5,
-		text: 'This was our first time doing a family shoot, and the folks over at Studio 37 nailed it! They worked with us on short notice, brought lighting and other equipment to help us get the best-quality shots, and made the experience very seamless. I definitely intend to work with them again on future family shoots.',
-		image: 'https://images.unsplash.com/photo-1506683333227-59290aa7a0f0?w=100&h=100&fit=crop&crop=face',
-		source: 'Thumbtack',
-		sourceUrl: 'https://www.thumbtack.com/tx/pinehurst/event-photographers/studio-37/service/552295631777284097'
-	},
+	const [visibleItems, setVisibleItems] = useState<Set<number>>(new Set())
+	const observerRef = useRef<IntersectionObserver | null>(null)
 	{
 		id: 7,
 		name: 'Lane G.',
