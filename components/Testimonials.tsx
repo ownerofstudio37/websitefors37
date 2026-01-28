@@ -162,61 +162,6 @@ const testimonials = [
 export default function Testimonials() {
 	const [visibleItems, setVisibleItems] = useState<Set<number>>(new Set())
 	const observerRef = useRef<IntersectionObserver | null>(null)
-	{
-		id: 7,
-		name: 'Lane G.',
-		service: 'Professional Headshot',
-		rating: 5,
-		text: 'Great and enjoyable time. Very responsive to our wants and needs. They really took the time to get to know us and what we were looking for. Also brought their own ideas to the table that helped us create our vision.',
-		image: 'https://images.unsplash.com/photo-1507539803528-65805bbb0ca9?w=100&h=100&fit=crop&crop=face',
-		source: 'Thumbtack',
-		sourceUrl: 'https://www.thumbtack.com/tx/pinehurst/event-photographers/studio-37/service/552295631777284097'
-	},
-	{
-		id: 8,
-		name: 'Ally F.',
-		service: 'Family or Children\'s Portrait',
-		rating: 5,
-		text: 'Wonderful experience! Catie and Christian were so nice and easy to work with. :)',
-		image: 'https://images.unsplash.com/photo-1519915212116-7cfef71f0d2e?w=100&h=100&fit=crop&crop=face',
-		source: 'Thumbtack',
-		sourceUrl: 'https://www.thumbtack.com/tx/pinehurst/event-photographers/studio-37/service/552295631777284097'
-	},
-	{
-		id: 9,
-		name: 'Ese O.',
-		service: 'Family or Children\'s Portrait',
-		rating: 5,
-		text: 'They were able to distract my 2 little ones and even expedited the delivery of the pictures. Pictures turned out great.',
-		image: 'https://images.unsplash.com/photo-1519046904884-53103b34b206?w=100&h=100&fit=crop&crop=face',
-		source: 'Thumbtack',
-		sourceUrl: 'https://www.thumbtack.com/tx/pinehurst/event-photographers/studio-37/service/552295631777284097'
-	},
-	{
-		id: 10,
-		name: 'Alexandra S.',
-		service: 'Family Milestones',
-		rating: 5,
-		text: 'Working with Caitie has been such an amazing experience! We\'ve used Studio 37 for a lot of our family milestones and they never disappoint. They\'re easy to work with and I could also count on them for a quick response. She\'s also GREAT with getting the best pictures of my toddlers and making it fun for everyone!',
-		image: 'https://images.unsplash.com/photo-1510228240019-c15931d9b611?w=100&h=100&fit=crop&crop=face',
-		source: 'Thumbtack',
-		sourceUrl: 'https://www.thumbtack.com/tx/pinehurst/event-photographers/studio-37/service/552295631777284097'
-	},
-	{
-		id: 11,
-		name: 'David V.',
-		service: 'Marketing/Corporate Photography',
-		rating: 5,
-		text: 'You couldn\'t ask for a more dedicated team. I would recommend them 100 times over.',
-		image: 'https://images.unsplash.com/photo-1513258917313-52581002a659?w=100&h=100&fit=crop&crop=face',
-		source: 'Thumbtack',
-		sourceUrl: 'https://www.thumbtack.com/tx/pinehurst/event-photographers/studio-37/service/552295631777284097'
-	}
-]
-
-export default function Testimonials() {
-	const [visibleItems, setVisibleItems] = useState<Set<number>>(new Set())
-	const observerRef = useRef<IntersectionObserver | null>(null)
 
 	useEffect(() => {
 		observerRef.current = new IntersectionObserver(
