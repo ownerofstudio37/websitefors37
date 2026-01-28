@@ -156,13 +156,10 @@ const testimonials = [
 		image: 'https://images.unsplash.com/photo-1519915212116-7cfef71f0d2e?w=100&h=100&fit=crop&crop=face',
 		source: 'Google',
 		sourceUrl: 'https://share.google/QzdIYuD9QZX4CMgUk'
-	{
-		id: 5,
-		name: 'Jade B.',
-		service: 'Family or Children\'s Portrait',
-		rating: 5,
-		text: 'Christian at Studio 37 responded promptly and with exceptional customer service! I am looking forward to booking with him in the future.',
-		image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=face',
+	}
+]
+
+export default function Testimonials() {
 		source: 'Thumbtack',
 		sourceUrl: 'https://www.thumbtack.com/tx/pinehurst/event-photographers/studio-37/service/552295631777284097'
 	},
