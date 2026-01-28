@@ -1785,17 +1785,6 @@ export function PressCredentialsBlock({
                             src={feature.logo} 
                             alt={feature.name} 
                             className="h-12 md:h-16 w-auto object-contain"
-                            onError={(e) => {
-                              // Fallback: hide image and show text badge
-                              const parent = e.currentTarget.parentElement
-                              if (parent) {
-                                e.currentTarget.style.display = 'none'
-                                const badge = document.createElement('span')
-                                badge.className = 'text-white text-sm font-semibold'
-                                badge.textContent = feature.name
-                                parent.appendChild(badge)
-                              }
-                            }}
                           />
                         )}
                       </div>
