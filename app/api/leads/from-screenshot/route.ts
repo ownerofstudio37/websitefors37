@@ -16,6 +16,7 @@ type ExtractedLead = {
   budget_range?: string
   message: string
   source: string
+  location?: string
 }
 
 export async function POST(req: NextRequest) {
@@ -61,6 +62,7 @@ Return ONLY valid JSON with this exact shape:
   "service_interest": string | null,
   "event_date": string | null,
   "budget_range": string | null,
+  "location": string | null, // city, state, venue, or address
   "message": string, // at least 12 words summarizing the request/quote details
   "source": string // e.g., thumbtack, bark, weddingwire, facebook, screenshot-import
 }
@@ -113,6 +115,7 @@ Rules:
       service_interest: (parsed.service_interest || parsed.service || '').toString().trim(),
       event_date: (parsed.event_date || parsed.date || '').toString().trim(),
       budget_range: (parsed.budget_range || parsed.budget || '').toString().trim(),
+      location: (parsed.location || parsed.city || parsed.venue || '').toString().trim(),
       message: (parsed.message || '').toString().trim(),
       source: (parsed.source || sourceHint || 'screenshot-import').toString().trim() || 'screenshot-import'
     }

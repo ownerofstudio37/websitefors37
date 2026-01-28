@@ -12,6 +12,7 @@ interface LeadForm {
   budget_range?: string
   message: string
   source: string
+  location?: string
 }
 
 interface LeadScreenshotImporterProps {
@@ -94,6 +95,7 @@ export default function LeadScreenshotImporter({ onImported, onClose }: LeadScre
         service_interest: extracted.service_interest || 'General inquiry',
         event_date: extracted.event_date || '',
         budget_range: extracted.budget_range || '',
+        location: extracted.location || '',
         message: extracted.message || `Imported from ${sourceHint || 'screenshot'}`,
         source: extracted.source || sourceHint || 'screenshot-import'
       })
@@ -146,6 +148,7 @@ export default function LeadScreenshotImporter({ onImported, onClose }: LeadScre
           service_interest: form.service_interest?.trim() || 'General inquiry',
           event_date: form.event_date?.trim() || undefined,
           budget_range: form.budget_range?.trim() || undefined,
+          location: form.location?.trim() || undefined,
           message: preparedMessage,
           lead_cost: defaultLeadCost,
           source: form.source?.trim() || sourceHint || 'screenshot-import'
@@ -373,6 +376,15 @@ export default function LeadScreenshotImporter({ onImported, onClose }: LeadScre
                   onChange={(e) => updateField('budget_range', e.target.value)}
                   className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
                   placeholder="$500 - $1,200"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Location</label>
+                <input
+                  value={form.location || ''}
+                  onChange={(e) => updateField('location', e.target.value)}
+                  className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  placeholder="Houston, TX or venue name"
                 />
               </div>
             </div>

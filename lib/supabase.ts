@@ -52,6 +52,7 @@ export interface Lead {
   event_date?: string
   lead_cost?: number
   revenue_generated?: number
+  location?: string
 }
 
 export interface CommunicationLog {
