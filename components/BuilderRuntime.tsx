@@ -1704,7 +1704,7 @@ export function PressCredentialsBlock({
   const finalPressFeatures = ov.pressFeatures ?? pressFeatures ?? [
     {
       name: 'Voyage Houston Magazine',
-      logo: 'https://voyagehouston.com/assets/logos/voyage-houston-wordmark-color.png',
+      logo: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1769586862/huston3_upslnu.png',
       link: 'https://voyagehouston.com/interview/rising-stars-meet-christian-combest-of-pinehurst/',
       description: 'Featured in "Rising Stars: Meet Christian Combest of Pinehurst"'
     }
@@ -1779,7 +1779,7 @@ export function PressCredentialsBlock({
                 >
                   <div className="bg-white rounded-lg shadow-sm hover:shadow-md transition-all p-6 h-full flex flex-col justify-between border border-gray-200 group-hover:border-primary-300">
                     <div className="mb-4">
-                      <div className="relative h-16 mb-4 flex items-center justify-start">
+                      <div className="relative mb-4 bg-gray-900 rounded-lg p-4 flex items-center justify-center min-h-16">
                         {feature.logo && (
                           <img 
                             src={feature.logo} 
@@ -1791,7 +1791,7 @@ export function PressCredentialsBlock({
                               if (parent) {
                                 e.currentTarget.style.display = 'none'
                                 const badge = document.createElement('span')
-                                badge.className = 'inline-block bg-primary-100 text-primary-700 px-3 py-1 rounded-full text-sm font-semibold'
+                                badge.className = 'text-white text-sm font-semibold'
                                 badge.textContent = feature.name
                                 parent.appendChild(badge)
                               }
