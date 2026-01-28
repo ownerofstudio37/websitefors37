@@ -11,7 +11,7 @@ const testimonials = [
 		service: 'Portrait Photography',
 		rating: 5,
 		text: 'Working with Catie and Christian was such a wonderful experience. They are the kindest couple, and we clicked with them right away. Despite our shoot being very last minute, they were incredibly flexible and accommodating. They truly listened to what we wanted and made the whole experience relaxed and fun. We\'re so excited to see the final photos.',
-		image: 'https://ui-avatars.com/api/?name=A+S&background=0D8ABC&color=fff&bold=true&size=100&rounded=true',
+		image: 'https://api.dicebear.com/7.x/initials/svg?seed=AS&backgroundColor=0D8ABC',
 		source: 'Thumbtack',
 		sourceUrl: 'https://www.thumbtack.com/tx/pinehurst/event-photographers/studio-37/service/552295631777284097'
 	},
@@ -21,7 +21,7 @@ const testimonials = [
 		service: 'Portrait Photography',
 		rating: 5,
 		text: 'Christian and Caitie were incredible to work with! They captured beautiful generational photos of our family with so much care. They were flexible when we had cancellations with other vendors and took the time to bring our vision to life. Highly recommend!',
-		image: 'https://ui-avatars.com/api/?name=K+R&background=7B68EE&color=fff&bold=true&size=100&rounded=true',
+		image: 'https://api.dicebear.com/7.x/initials/svg?seed=KR&backgroundColor=7B68EE',
 		source: 'Thumbtack',
 		sourceUrl: 'https://www.thumbtack.com/tx/pinehurst/event-photographers/studio-37/service/552295631777284097'
 	},
@@ -31,7 +31,7 @@ const testimonials = [
 		service: 'Portrait Photography',
 		rating: 5,
 		text: 'Very impressive team work. They guided us through the session and it felt flawless. I will use this company again.',
-		image: 'https://ui-avatars.com/api/?name=D+B&background=FF6B6B&color=fff&bold=true&size=100&rounded=true',
+		image: 'https://api.dicebear.com/7.x/initials/svg?seed=DB&backgroundColor=FF6B6B',
 		source: 'Thumbtack',
 		sourceUrl: 'https://www.thumbtack.com/tx/pinehurst/event-photographers/studio-37/service/552295631777284097'
 	},
@@ -41,7 +41,7 @@ const testimonials = [
 		service: 'Portrait Photography',
 		rating: 5,
 		text: 'They were absolutely amazing! Gave us much more value than we imagined and definitely more than what we paid for. Made the photoshoot a wonderful experience for the whole family. We would use them again.',
-		image: 'https://ui-avatars.com/api/?name=B+I&background=4ECDC4&color=fff&bold=true&size=100&rounded=true',
+		image: 'https://api.dicebear.com/7.x/initials/svg?seed=BI&backgroundColor=4ECDC4',
 		source: 'Thumbtack',
 		sourceUrl: 'https://www.thumbtack.com/tx/pinehurst/event-photographers/studio-37/service/552295631777284097'
 	},
@@ -51,7 +51,7 @@ const testimonials = [
 		service: 'Family or Children\'s Portrait',
 		rating: 5,
 		text: 'Christian at Studio 37 responded promptly and with exceptional customer service! I am looking forward to booking with him in the future.',
-		image: 'https://ui-avatars.com/api/?name=J+B&background=95E1D3&color=fff&bold=true&size=100&rounded=true',
+		image: 'https://api.dicebear.com/7.x/initials/svg?seed=JB&backgroundColor=95E1D3',
 		source: 'Thumbtack',
 		sourceUrl: 'https://www.thumbtack.com/tx/pinehurst/event-photographers/studio-37/service/552295631777284097'
 	},
@@ -61,7 +61,7 @@ const testimonials = [
 		service: 'Portrait Photography',
 		rating: 5,
 		text: 'This was our first time doing a family shoot, and the folks over at Studio 37 nailed it! They worked with us on short notice, brought lighting and other equipment to help us get the best-quality shots, and made the experience very seamless. I definitely intend to work with them again on future family shoots.',
-		image: 'https://ui-avatars.com/api/?name=M+G&background=F38181&color=fff&bold=true&size=100&rounded=true',
+		image: 'https://api.dicebear.com/7.x/initials/svg?seed=MG&backgroundColor=F38181',
 		source: 'Thumbtack',
 		sourceUrl: 'https://www.thumbtack.com/tx/pinehurst/event-photographers/studio-37/service/552295631777284097'
 	},
@@ -71,7 +71,7 @@ const testimonials = [
 		service: 'Professional Headshot',
 		rating: 5,
 		text: 'Great and enjoyable time. Very responsive to our wants and needs. They really took the time to get to know us and what we were looking for. Also brought their own ideas to the table that helped us create our vision.',
-		image: 'https://ui-avatars.com/api/?name=L+G&background=AA96DA&color=fff&bold=true&size=100&rounded=true',
+		image: 'https://api.dicebear.com/7.x/initials/svg?seed=LG&backgroundColor=AA96DA',
 		source: 'Thumbtack',
 		sourceUrl: 'https://www.thumbtack.com/tx/pinehurst/event-photographers/studio-37/service/552295631777284097'
 	},
@@ -81,7 +81,7 @@ const testimonials = [
 		service: 'Family or Children\'s Portrait',
 		rating: 5,
 		text: 'Wonderful experience! Catie and Christian were so nice and easy to work with. :)',
-		image: 'https://ui-avatars.com/api/?name=A+F&background=FCBAD3&color=fff&bold=true&size=100&rounded=true',
+		image: 'https://api.dicebear.com/7.x/initials/svg?seed=AF&backgroundColor=FCBAD3',
 		source: 'Thumbtack',
 		sourceUrl: 'https://www.thumbtack.com/tx/pinehurst/event-photographers/studio-37/service/552295631777284097'
 	},
@@ -91,7 +91,7 @@ const testimonials = [
 		service: 'Family or Children\'s Portrait',
 		rating: 5,
 		text: 'They were able to distract my 2 little ones and even expedited the delivery of the pictures. Pictures turned out great.',
-		image: 'https://ui-avatars.com/api/?name=E+O&background=A8D8EA&color=fff&bold=true&size=100&rounded=true',
+		image: 'https://api.dicebear.com/7.x/initials/svg?seed=EO&backgroundColor=A8D8EA',
 		source: 'Thumbtack',
 		sourceUrl: 'https://www.thumbtack.com/tx/pinehurst/event-photographers/studio-37/service/552295631777284097'
 	},
@@ -101,7 +101,7 @@ const testimonials = [
 		service: 'Family Milestones',
 		rating: 5,
 		text: 'Working with Caitie has been such an amazing experience! We\'ve used Studio 37 for a lot of our family milestones and they never disappoint. They\'re easy to work with and I could also count on them for a quick response. She\'s also GREAT with getting the best pictures of my toddlers and making it fun for everyone!',
-		image: 'https://ui-avatars.com/api/?name=A+S&background=FFD93D&color=fff&bold=true&size=100&rounded=true',
+		image: 'https://api.dicebear.com/7.x/initials/svg?seed=AS&backgroundColor=FFD93D',
 		source: 'Thumbtack',
 		sourceUrl: 'https://www.thumbtack.com/tx/pinehurst/event-photographers/studio-37/service/552295631777284097'
 	},
@@ -111,7 +111,7 @@ const testimonials = [
 		service: 'Marketing/Corporate Photography',
 		rating: 5,
 		text: 'You couldn\'t ask for a more dedicated team. I would recommend them 100 times over.',
-		image: 'https://ui-avatars.com/api/?name=D+V&background=6BCB77&color=fff&bold=true&size=100&rounded=true',
+		image: 'https://api.dicebear.com/7.x/initials/svg?seed=DV&backgroundColor=6BCB77',
 		source: 'Thumbtack',
 		sourceUrl: 'https://www.thumbtack.com/tx/pinehurst/event-photographers/studio-37/service/552295631777284097'
 	},
@@ -123,7 +123,7 @@ const testimonials = [
 		service: 'Professional Photography',
 		rating: 5,
 		text: 'My experience working with studio 37 namely Christian and Catie was fantastic! Both Christian and Catie were pleasure to work with, they are genuine, competent, solid, creative, and professional individuals. I hired them for shots for my private business website. Everything went smooth I found Christian and Catie in tune throughout the process with each other and with the namely, adapting and creating the relaxed atmosphere making me feel at ease and I had a lot of fun getting my pictures taken. The photo shoot took place at my house and that was an added bonus. It was truly a privilege and pleasure to get to know them and do business with them I am grateful to have found them and excited to book again, with different photo shoot setting, soon.',
-		image: 'https://ui-avatars.com/api/?name=I+M&background=4D96FF&color=fff&bold=true&size=100&rounded=true',
+		image: 'https://api.dicebear.com/7.x/initials/svg?seed=IM&backgroundColor=4D96FF',
 		source: 'Google',
 		sourceUrl: 'https://share.google/QzdIYuD9QZX4CMgUk'
 	},
@@ -133,7 +133,7 @@ const testimonials = [
 		service: 'Professional Photography',
 		rating: 5,
 		text: 'Christian and his partner were both great in getting the shots and angles I wanted. They were very easy to work with and speak to when it came to grabbing the image I wanted. They definitely go above and beyond to get you the pictures you need, and even some you didn\'t realize you wanted! Definitely recommend them if you\'re wanting perfectly crafted and memorable photos.',
-		image: 'https://ui-avatars.com/api/?name=J+G&background=6BCB77&color=fff&bold=true&size=100&rounded=true',
+		image: 'https://api.dicebear.com/7.x/initials/svg?seed=JG&backgroundColor=6BCB77',
 		source: 'Google',
 		sourceUrl: 'https://share.google/QzdIYuD9QZX4CMgUk'
 	},
@@ -143,7 +143,7 @@ const testimonials = [
 		service: 'Family Portraits',
 		rating: 5,
 		text: 'Christian and the Studio37 team were amazing to work with for our family portraits! We chose the outdoor on-location setup, and the images are stunning—truly professional quality. The dual-photographer approach meant we got candid moments and beautifully posed shots all at once. The process was smooth, and the prints we ordered were absolutely perfect. Highly recommend!',
-		image: 'https://ui-avatars.com/api/?name=K+K&background=FF6B9D&color=fff&bold=true&size=100&rounded=true',
+		image: 'https://api.dicebear.com/7.x/initials/svg?seed=KK&backgroundColor=FF6B9D',
 		source: 'Google',
 		sourceUrl: 'https://share.google/QzdIYuD9QZX4CMgUk'
 	},
@@ -153,7 +153,7 @@ const testimonials = [
 		service: 'Generational Family Photos',
 		rating: 5,
 		text: 'Studio 37 were incredible to work with! They captured beautiful generational photos of our family with so much care. They were flexible when we had cancellations with other vendors and took the time to bring our vision to life. Highly recommend!',
-		image: 'https://ui-avatars.com/api/?name=K+R&background=C490E4&color=fff&bold=true&size=100&rounded=true',
+		image: 'https://api.dicebear.com/7.x/initials/svg?seed=KR&backgroundColor=C490E4',
 		source: 'Google',
 		sourceUrl: 'https://share.google/QzdIYuD9QZX4CMgUk'
 	}
