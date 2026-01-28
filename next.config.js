@@ -47,7 +47,7 @@ const nextConfig = {
     imageSizes: [16, 32, 48, 64, 96, 128, 256], // Optimized sizes
     minimumCacheTTL: 31536000, // 1 year cache
     contentSecurityPolicy:
-      "default-src 'self'; img-src 'self' blob: data: https://*.cloudinary.com https://*.unsplash.com;",
+      "default-src 'self'; img-src 'self' blob: data: https://*.cloudinary.com https://*.unsplash.com https://api.dicebear.com;",
     remotePatterns: [
       {
         protocol: "https",
@@ -149,7 +149,7 @@ const nextConfig = {
               // Next.js requires unsafe-inline for React hydration; unsafe-eval only in dev
               "script-src 'self' 'unsafe-inline' " + (process.env.NODE_ENV === 'development' ? "'unsafe-eval' " : "") + "https://www.googletagmanager.com https://www.google-analytics.com https://scripts.simpleanalyticscdn.com",
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-              "img-src 'self' data: blob: https://res.cloudinary.com https://images.unsplash.com https://*.supabase.co https://www.googletagmanager.com https://cdn.thumbtackstatic.com https://ppa.com https://www.ppa.com https://app.fullframeinsurance.com",
+              "img-src 'self' data: blob: https://res.cloudinary.com https://images.unsplash.com https://api.dicebear.com https://*.supabase.co https://www.googletagmanager.com https://cdn.thumbtackstatic.com https://ppa.com https://www.ppa.com https://app.fullframeinsurance.com",
               "font-src 'self' data: https://fonts.gstatic.com",
               "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://www.google-analytics.com https://res.cloudinary.com https://queue.simpleanalyticscdn.com",
               "frame-ancestors 'self'",
