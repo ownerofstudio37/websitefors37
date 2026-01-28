@@ -45,8 +45,8 @@ export async function POST(req: NextRequest) {
 
     const model = createAIClient({
       model: AI_MODELS.VISION,
-      config: { ...AI_CONFIGS.structured, responseMimeType: 'application/json', maxOutputTokens: 800 },
-      systemInstruction: 'You are a careful data-entry assistant. Extract only real lead/contact details visible in the screenshot and respond with JSON only.'
+      config: { ...AI_CONFIGS.structured, responseMimeType: 'application/json', maxOutputTokens: 1500 },
+      systemInstruction: 'You are a careful data-entry assistant. Extract only real lead/contact details visible in the screenshot and respond with COMPLETE valid JSON only. Do not truncate or omit fields.'
     })
 
     const prompt = `Extract lead/contact details from the provided screenshot of a lead platform.
@@ -87,8 +87,23 @@ Rules:
     try {
       parsed = JSON.parse(raw)
     } catch (error) {
-      log.warn('Failed to parse AI JSON', { raw })
-      return NextResponse.json({ error: 'Could not read data from screenshot. Please try again.' }, { status: 500 })
+      // Try to fix incomplete JSON by closing any open structures
+      log.warn('Failed to parse AI JSON, attempting repair', { raw, error: String(error) })
+      
+      let repaired = raw
+      // Close any unclosed objects
+      if (raw.includes('{') && !raw.endsWith('}')) {
+        const openBraces = (raw.match(/{/g) || []).length
+        const closeBraces = (raw.match(/}/g) || []).length
+        repaired = raw + '}'.repeat(openBraces - closeBraces)
+      }
+      
+      try {
+        parsed = JSON.parse(repaired)
+      } catch (retryError) {
+        log.error('Failed to repair and parse AI JSON', { raw, repaired }, retryError)
+        return NextResponse.json({ error: 'Could not read data from screenshot. The AI response was incomplete. Please try again.' }, { status: 500 })
+      }
     }
 
     const extracted: ExtractedLead = {
