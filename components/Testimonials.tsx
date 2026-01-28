@@ -27,7 +27,6 @@ const testimonials = [
 	},
 	{
 		id: 3,
-<<<<<<< HEAD
 		name: 'Deborah B.',
 		service: 'Portrait Photography',
 		rating: 5,
@@ -142,12 +141,7 @@ const testimonials = [
 		id: 14,
 		name: 'Kolton Kidd',
 		service: 'Family Portraits',
-=======
-		name: 'Deborah B.',
-		service: 'Portrait Photography',
->>>>>>> 4d747a0a55543a643d863342b75714d811e2a8a3
 		rating: 5,
-<<<<<<< HEAD
 		text: 'Christian and the Studio37 team were amazing to work with for our family portraits! We chose the outdoor on-location setup, and the images are stunning—truly professional quality. The dual-photographer approach meant we got candid moments and beautifully posed shots all at once. The process was smooth, and the prints we ordered were absolutely perfect. Highly recommend!',
 		image: 'https://images.unsplash.com/photo-1506683333227-59290aa7a0f0?w=100&h=100&fit=crop&crop=face',
 		source: 'Google',
@@ -162,22 +156,6 @@ const testimonials = [
 		image: 'https://images.unsplash.com/photo-1519915212116-7cfef71f0d2e?w=100&h=100&fit=crop&crop=face',
 		source: 'Google',
 		sourceUrl: 'https://share.google/QzdIYuD9QZX4CMgUk'
-=======
-		text: 'Very impressive team work. They guided us through the session and it felt flawless. I will use this company again.',
-		image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face',
-		source: 'Thumbtack',
-		sourceUrl: 'https://www.thumbtack.com/tx/pinehurst/event-photographers/studio-37/service/552295631777284097'
-	},
-	{
-		id: 4,
-		name: 'Bate I.',
-		service: 'Portrait Photography',
-		rating: 5,
-		text: 'They were absolutely amazing! Gave us much more value than we imagined and definitely more than what we paid for. Made the photoshoot a wonderful experience for the whole family. We would use them again.',
-		image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face',
-		source: 'Thumbtack',
-		sourceUrl: 'https://www.thumbtack.com/tx/pinehurst/event-photographers/studio-37/service/552295631777284097'
-	},
 	{
 		id: 5,
 		name: 'Jade B.',
@@ -247,7 +225,6 @@ const testimonials = [
 		image: 'https://images.unsplash.com/photo-1513258917313-52581002a659?w=100&h=100&fit=crop&crop=face',
 		source: 'Thumbtack',
 		sourceUrl: 'https://www.thumbtack.com/tx/pinehurst/event-photographers/studio-37/service/552295631777284097'
->>>>>>> 4d747a0a55543a643d863342b75714d811e2a8a3
 	}
 ]
 
