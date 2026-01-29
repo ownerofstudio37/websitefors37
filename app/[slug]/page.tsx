@@ -56,26 +56,27 @@ export const revalidate = 120
 
 // Renamed function to avoid naming conflict with the imported ContentPage type
 export default async function DynamicPage({ params, searchParams }: { params: { slug: string }, searchParams?: Record<string, string | string[]> }) {
-  // Short-circuit static asset-like requests or invalid slugs
-  if (!isValidSlug(params.slug)) {
-    notFound()
-  }
-  
-  const { data: page, error } = await supabase
-    .from('content_pages')
-    .select('*')
-    .eq('slug', params.slug)
-    .eq('published', true)
-    .maybeSingle()
-  
-  // Treat 406 from PostgREST as not found; avoid leaking errors
-  if (!page || (error && (error as any).status === 406)) {
-    notFound()
-  }
-  
-  // Log content for debugging
-  console.log(`Rendering page: ${params.slug}`)
-  console.log('Content preview:', page.content?.substring(0, 200))
+  try {
+    // Short-circuit static asset-like requests or invalid slugs
+    if (!isValidSlug(params.slug)) {
+      notFound()
+    }
+    
+    const { data: page, error } = await supabase
+      .from('content_pages')
+      .select('*')
+      .eq('slug', params.slug)
+      .eq('published', true)
+      .maybeSingle()
+    
+    // Treat 406 from PostgREST as not found; avoid leaking errors
+    if (!page || (error && (error as any).status === 406)) {
+      notFound()
+    }
+    
+    // Log content for debugging
+    console.log(`Rendering page: ${params.slug}`)
+    console.log('Content preview:', page.content?.substring(0, 200))
   
   // Detect if content uses builder blocks (contains custom JSX components)
   // vs traditional markdown/prose content
@@ -83,18 +84,19 @@ export default async function DynamicPage({ params, searchParams }: { params: { 
   const showNav = page.show_navbar !== false // Default to true if not specified
   
   if (isBuilderPage) {
-    // Dynamic import of MDX components for builder pages only.
-    const { MDXBuilderComponents } = await import('@/components/BuilderRuntime')
-    const { getPageConfigs, selectProps, getPageLayout } = await import('@/lib/pageConfigs')
-    const EditableChrome = (await import('@/components/editor/EditableChrome')).default
+    try {
+      // Dynamic import of MDX components for builder pages only.
+      const { MDXBuilderComponents } = await import('@/components/BuilderRuntime')
+      const { getPageConfigs, selectProps, getPageLayout } = await import('@/lib/pageConfigs')
+      const EditableChrome = (await import('@/components/editor/EditableChrome')).default
 
-    // Fetch page-level overrides for current path
-    const currentPath = `/${params.slug}`
-    const useDraft = (searchParams?.edit === '1')
-    const [configs, layout] = await Promise.all([
-      getPageConfigs(currentPath),
-      getPageLayout(currentPath, useDraft)
-    ])
+      // Fetch page-level overrides for current path
+      const currentPath = `/${params.slug}`
+      const useDraft = (searchParams?.edit === '1')
+      const [configs, layout] = await Promise.all([
+        getPageConfigs(currentPath),
+        getPageLayout(currentPath, useDraft)
+      ])
 
     let finalBlocks = layout?.blocks || [];
 
@@ -174,6 +176,19 @@ export default async function DynamicPage({ params, searchParams }: { params: { 
         )}
       </PageWrapper>
     )
+    } catch (builderError) {
+      console.error(`Builder page rendering error for ${params.slug}:`, builderError)
+      return (
+        <PageWrapper showNav={showNav} className="min-h-screen pt-16">
+          <div className="container mx-auto px-4 py-12">
+            <h1 className="text-2xl font-bold text-red-600">Page Error</h1>
+            <p className="text-gray-600 mt-4">
+              We encountered an error rendering this page. Please try again later.
+            </p>
+          </div>
+        </PageWrapper>
+      )
+    }
   }
   
   // Traditional CMS/article page: use prose wrapper for nice typography
