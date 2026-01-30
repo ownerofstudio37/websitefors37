@@ -38,7 +38,7 @@ const weddingFAQs = [
   },
   {
     question: "What's included in your wedding photography packages?",
-    answer: "All packages include professional editing, high-resolution digital gallery, and personal usage rights. Our Complete and Premium packages also include engagement sessions, and the Premium package includes a wedding album. We can customize packages to fit your specific needs."
+    answer: "All packages include professional editing, high-resolution digital gallery, and personal usage rights. Our Complete and Premium packages also include engagement sessions, and the Premium package includes two photographers. We can customize packages to fit your specific needs."
   },
   {
     question: "How many photos will we receive from our wedding?",
@@ -323,7 +323,7 @@ export default function WeddingPhotographyPage() {
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>Wedding album</span>
+                  <span>Two photographers</span>
                 </li>
               </ul>
               <Link href="/contact" className="btn-secondary w-full text-center block">
