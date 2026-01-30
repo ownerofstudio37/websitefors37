@@ -206,7 +206,6 @@ export default async function DynamicPage({ params, searchParams }: { params: { 
                     : [[rehypeHighlight, {}] as any]
                 }
               }}
-              components={MDXBuilderComponents as any}
             />
           ) : (
             <div className="text-gray-600">This page has no content yet.</div>
@@ -215,4 +214,8 @@ export default async function DynamicPage({ params, searchParams }: { params: { 
       </div>
     </PageWrapper>
   )
+} catch (error) {
+    console.error(`Error rendering page ${params.slug}:`, error)
+    notFound()
+  }
 }
