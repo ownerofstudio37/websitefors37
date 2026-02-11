@@ -88,7 +88,8 @@ export default function LeadScreenshotImporter({ onImported, onClose, mode = 'sc
 
       const json = await res.json()
       if (!res.ok) {
-        throw new Error(json.error || 'Failed to extract lead details')
+        const detail = json?.details ? ` (${json.details})` : ''
+        throw new Error((json.error || 'Failed to extract lead details') + detail)
       }
 
       const extracted = json.extracted as LeadForm
