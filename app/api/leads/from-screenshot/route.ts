@@ -31,6 +31,8 @@ export async function POST(req: NextRequest) {
     const file = formData.get('file')
     const sourceHint = String(formData.get('source') || 'screenshot-import')
     const notes = String(formData.get('notes') || '')
+    const mode = String(formData.get('mode') || 'screenshot')
+    const isBusinessCard = mode === 'business-card'
 
     if (!(file instanceof File)) {
       return NextResponse.json({ error: 'Image file is required.' }, { status: 400 })
@@ -50,7 +52,31 @@ export async function POST(req: NextRequest) {
       systemInstruction: 'You are a careful data-entry assistant. Extract only real lead/contact details visible in the screenshot and respond with COMPLETE valid JSON only. Do not truncate or omit fields.'
     })
 
-    const prompt = `Extract lead/contact details from the provided screenshot of a lead platform.
+    const prompt = isBusinessCard
+      ? `Extract contact details from the provided business card photo.
+Source hint: ${sourceHint}
+Additional context from the admin: ${notes || 'None provided'}
+
+Return ONLY valid JSON with this exact shape:
+{
+  "name": string | null,
+  "email": string | null,
+  "phone": string | null,
+  "company": string | null,
+  "title": string | null,
+  "website": string | null,
+  "location": string | null, // address or city/state
+  "message": string, // short summary of the contact + company
+  "source": string // e.g., business-card, referral, event
+}
+
+Rules:
+- Do not fabricate contact info that is not visible.
+- Normalize phone numbers to digits and symbols only (e.g., +1-212-555-1234).
+- Keep values concise without labels.
+- If a field is not visible, return null.
+- message should briefly describe who the contact is and where the card came from.`
+      : `Extract lead/contact details from the provided screenshot of a lead platform.
 Source hint: ${sourceHint}
 Additional context from the admin: ${notes || 'None provided'}
 
@@ -115,13 +141,29 @@ Rules:
       service_interest: (parsed.service_interest || parsed.service || '').toString().trim(),
       event_date: (parsed.event_date || parsed.date || '').toString().trim(),
       budget_range: (parsed.budget_range || parsed.budget || '').toString().trim(),
-      location: (parsed.location || parsed.city || parsed.venue || '').toString().trim(),
+      location: (parsed.location || parsed.city || parsed.venue || parsed.address || '').toString().trim(),
       message: (parsed.message || '').toString().trim(),
       source: (parsed.source || sourceHint || 'screenshot-import').toString().trim() || 'screenshot-import'
     }
 
     if (!extracted.message || extracted.message.length < 12) {
-      extracted.message = `Imported from screenshot (${extracted.source}).` + (notes ? ` Notes: ${notes}` : '')
+      if (isBusinessCard) {
+        const company = (parsed.company || parsed.organization || parsed.business || '').toString().trim()
+        const title = (parsed.title || parsed.role || parsed.position || '').toString().trim()
+        const website = (parsed.website || parsed.url || parsed.site || '').toString().trim()
+
+        const parts = ['Business card']
+        if (extracted.name) parts.push(`from ${extracted.name}`)
+        if (company) parts.push(`at ${company}`)
+        if (title) parts.push(`(${title})`)
+        if (website) parts.push(`Website: ${website}.`)
+        if (notes) parts.push(`Notes: ${notes}`)
+
+        extracted.message = parts.join(' ')
+        extracted.source = extracted.source || 'business-card'
+      } else {
+        extracted.message = `Imported from screenshot (${extracted.source}).` + (notes ? ` Notes: ${notes}` : '')
+      }
     }
 
     log.info('Lead data extracted from screenshot', {

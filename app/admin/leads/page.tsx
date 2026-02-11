@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect, useCallback } from 'react'
-import { Loader2, Mail, Phone, MessageCircle, Edit, Settings, Calendar, DollarSign, MessageSquare, X, Plus, PhoneCall, Trash2, ChevronLeft, ChevronRight, Upload, Scan, Download } from 'lucide-react'
+import { Loader2, Mail, Phone, MessageCircle, Edit, Settings, Calendar, DollarSign, MessageSquare, X, Plus, PhoneCall, Trash2, ChevronLeft, ChevronRight, Upload, Scan, Download, CreditCard } from 'lucide-react'
 import { CheckCircle } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
 import type { Lead, CommunicationLog } from '@/lib/supabase'
@@ -32,6 +32,7 @@ export default function LeadsPage() {
   const [showCreateModal, setShowCreateModal] = useState(false)
   const [showImportModal, setShowImportModal] = useState(false)
   const [showScreenshotModal, setShowScreenshotModal] = useState(false)
+  const [showBusinessCardModal, setShowBusinessCardModal] = useState(false)
   const [creating, setCreating] = useState(false)
   const [toast, setToast] = useState<string | null>(null)
   const [createError, setCreateError] = useState<string | null>(null)
@@ -616,6 +617,14 @@ Studio37`)
           >
             <Scan className="h-4 w-4" />
             Scan Screenshot
+          </button>
+          <button
+            onClick={() => setShowBusinessCardModal(true)}
+            className="px-3 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 flex items-center gap-1"
+            title="Import from business card"
+          >
+            <CreditCard className="h-4 w-4" />
+            Scan Business Card
           </button>
           <button
             onClick={exportToCSV}
@@ -1639,6 +1648,18 @@ Studio37`)
             setShowScreenshotModal(false)
           }}
           onClose={() => setShowScreenshotModal(false)}
+        />
+      )}
+
+      {showBusinessCardModal && (
+        <LeadScreenshotImporter
+          mode="business-card"
+          onImported={() => {
+            fetchLeads()
+            setToast('Lead created from business card')
+            setShowBusinessCardModal(false)
+          }}
+          onClose={() => setShowBusinessCardModal(false)}
         />
       )}
     </div>

@@ -18,17 +18,20 @@ interface LeadForm {
 interface LeadScreenshotImporterProps {
   onImported: () => void
   onClose: () => void
+  mode?: 'screenshot' | 'business-card'
 }
 
-export default function LeadScreenshotImporter({ onImported, onClose }: LeadScreenshotImporterProps) {
+export default function LeadScreenshotImporter({ onImported, onClose, mode = 'screenshot' }: LeadScreenshotImporterProps) {
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const isBusinessCard = mode === 'business-card'
+  const defaultSourceHint = isBusinessCard ? 'business-card' : 'thumbtack'
   const [file, setFile] = useState<File | null>(null)
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
   const [extracting, setExtracting] = useState(false)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState<string | null>(null)
-  const [sourceHint, setSourceHint] = useState('thumbtack')
+  const [sourceHint, setSourceHint] = useState(defaultSourceHint)
   const [notes, setNotes] = useState('')
   const [form, setForm] = useState<LeadForm>({
     name: '',
@@ -38,7 +41,7 @@ export default function LeadScreenshotImporter({ onImported, onClose }: LeadScre
     event_date: '',
     budget_range: '',
     message: '',
-    source: 'screenshot-import'
+    source: isBusinessCard ? 'business-card' : 'screenshot-import'
   })
 
   useEffect(() => {
@@ -75,6 +78,7 @@ export default function LeadScreenshotImporter({ onImported, onClose }: LeadScre
       const formData = new FormData()
       formData.append('file', file)
       formData.append('source', sourceHint || 'screenshot-import')
+      formData.append('mode', mode)
       if (notes.trim()) formData.append('notes', notes.trim())
 
       const res = await fetch('/api/leads/from-screenshot', {
@@ -96,7 +100,7 @@ export default function LeadScreenshotImporter({ onImported, onClose }: LeadScre
         event_date: extracted.event_date || '',
         budget_range: extracted.budget_range || '',
         location: extracted.location || '',
-        message: extracted.message || `Imported from ${sourceHint || 'screenshot'}`,
+        message: extracted.message || (isBusinessCard ? 'Imported from business card.' : `Imported from ${sourceHint || 'screenshot'}`),
         source: extracted.source || sourceHint || 'screenshot-import'
       })
       setSuccess('Details extracted. Review and save to CRM.')
@@ -179,8 +183,14 @@ export default function LeadScreenshotImporter({ onImported, onClose }: LeadScre
       <div className="bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
         <div className="px-6 py-4 border-b flex items-center justify-between">
           <div>
-            <h2 className="text-lg font-semibold text-gray-900">Import lead from screenshot</h2>
-            <p className="text-sm text-gray-500">Upload a Thumbtack, Bark, WeddingWire, or chat screenshot. AI will extract the contact details.</p>
+            <h2 className="text-lg font-semibold text-gray-900">
+              {isBusinessCard ? 'Import lead from business card' : 'Import lead from screenshot'}
+            </h2>
+            <p className="text-sm text-gray-500">
+              {isBusinessCard
+                ? 'Upload a clear photo of a business card. AI will extract the contact details.'
+                : 'Upload a Thumbtack, Bark, WeddingWire, or chat screenshot. AI will extract the contact details.'}
+            </p>
           </div>
           <button onClick={onClose} className="text-gray-500 hover:text-gray-700" aria-label="Close importer">
             <X className="h-6 w-6" />
@@ -226,7 +236,11 @@ export default function LeadScreenshotImporter({ onImported, onClose }: LeadScre
             >
               {previewUrl ? (
                 <div className="space-y-3">
-                  <img src={previewUrl} alt="Screenshot preview" className="mx-auto max-h-80 rounded-lg border" />
+                  <img
+                    src={previewUrl}
+                    alt={isBusinessCard ? 'Business card preview' : 'Screenshot preview'}
+                    className="mx-auto max-h-80 rounded-lg border"
+                  />
                   <div className="flex justify-center gap-3">
                     <button
                       onClick={() => handleFileChange(null)}
@@ -249,7 +263,9 @@ export default function LeadScreenshotImporter({ onImported, onClose }: LeadScre
                     <ImageIcon className="h-6 w-6 text-gray-500" />
                   </div>
                   <p className="text-base font-medium text-gray-800">Drop an image or click to upload</p>
-                  <p className="text-sm text-gray-500">PNG, JPG, or web screenshots up to 8MB</p>
+                  <p className="text-sm text-gray-500">
+                    {isBusinessCard ? 'PNG, JPG, or HEIC photos up to 8MB' : 'PNG, JPG, or web screenshots up to 8MB'}
+                  </p>
                 </div>
               )}
               <input
@@ -267,7 +283,7 @@ export default function LeadScreenshotImporter({ onImported, onClose }: LeadScre
                 <input
                   value={sourceHint}
                   onChange={(e) => setSourceHint(e.target.value)}
-                  placeholder="thumbtack, bark, weddingwire"
+                  placeholder={isBusinessCard ? 'business-card, referral' : 'thumbtack, bark, weddingwire'}
                   className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
                 />
               </div>
