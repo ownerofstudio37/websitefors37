@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Buffer } from 'buffer'
-import { AI_CONFIGS, AI_MODELS, createAIClient } from '@/lib/ai-client'
+import { AI_CONFIGS, AI_MODELS, MODEL_FALLBACKS, createAIClient } from '@/lib/ai-client'
 import { createLogger } from '@/lib/logger'
 import { getClientIp, rateLimit } from '@/lib/rateLimit'
 
 const log = createLogger('api/leads/from-screenshot')
 const MAX_FILE_SIZE = 8 * 1024 * 1024 // 8 MB guardrail for screenshots
+const MAX_RETRIES = 2
 
 type ExtractedLead = {
   name: string
@@ -17,6 +18,77 @@ type ExtractedLead = {
   message: string
   source: string
   location?: string
+}
+
+const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
+
+async function generateVisionJSON(params: {
+  prompt: string
+  base64: string
+  mimeType: string
+  systemInstruction: string
+}) {
+  const candidates = [AI_MODELS.VISION, ...MODEL_FALLBACKS].filter(
+    (v, i, arr) => !!v && arr.indexOf(v) === i
+  )
+
+  let lastError: any
+
+  for (const candidate of candidates) {
+    for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+      try {
+        const model = createAIClient({
+          model: candidate,
+          config: { ...AI_CONFIGS.structured, responseMimeType: 'application/json', maxOutputTokens: 1500 },
+          systemInstruction: params.systemInstruction
+        })
+
+        const result = await model.generateContent([
+          { text: params.prompt },
+          {
+            inlineData: {
+              data: params.base64,
+              mimeType: params.mimeType
+            }
+          }
+        ])
+
+        const raw = result.response.text().trim()
+        if (candidate !== AI_MODELS.VISION) {
+          log.info('Vision model fallback used', { candidate })
+        }
+        return raw
+      } catch (error: any) {
+        lastError = error
+        const errorMsg = String(error?.message || error || '')
+
+        if (
+          error?.status === 404 ||
+          /model(.+)?not (found|available|supported)/i.test(errorMsg)
+        ) {
+          log.warn('Vision model unavailable, trying next fallback', { candidate, error: errorMsg })
+          break
+        }
+
+        if ((error?.status === 429 || /rate limit/i.test(errorMsg)) && attempt < MAX_RETRIES) {
+          const waitTime = 800 * Math.pow(2, attempt - 1)
+          await sleep(waitTime)
+          continue
+        }
+
+        if ((error?.status >= 500 || /timeout/i.test(errorMsg)) && attempt < MAX_RETRIES) {
+          const waitTime = 800 * Math.pow(2, attempt - 1)
+          await sleep(waitTime)
+          continue
+        }
+
+        log.error('Vision extraction failed', { candidate, error: errorMsg })
+        break
+      }
+    }
+  }
+
+  throw lastError || new Error('AI vision extraction failed')
 }
 
 export async function POST(req: NextRequest) {
@@ -46,11 +118,7 @@ export async function POST(req: NextRequest) {
     const buffer = Buffer.from(await file.arrayBuffer())
     const base64 = buffer.toString('base64')
 
-    const model = createAIClient({
-      model: AI_MODELS.VISION,
-      config: { ...AI_CONFIGS.structured, responseMimeType: 'application/json', maxOutputTokens: 1500 },
-      systemInstruction: 'You are a careful data-entry assistant. Extract only real lead/contact details visible in the screenshot and respond with COMPLETE valid JSON only. Do not truncate or omit fields.'
-    })
+    const systemInstruction = 'You are a careful data-entry assistant. Extract only real lead/contact details visible in the image and respond with COMPLETE valid JSON only. Do not truncate or omit fields.'
 
     const prompt = isBusinessCard
       ? `Extract contact details from the provided business card photo.
@@ -99,17 +167,12 @@ Rules:
 - Keep values concise without labels.
 - message must summarize what the lead wants (service type, timing, budget hints if present).`
 
-    const result = await model.generateContent([
-      { text: prompt },
-      {
-        inlineData: {
-          data: base64,
-          mimeType
-        }
-      }
-    ])
-
-    const raw = result.response.text().trim()
+    const raw = await generateVisionJSON({
+      prompt,
+      base64,
+      mimeType,
+      systemInstruction
+    })
 
     let parsed: any
     try {
@@ -174,7 +237,13 @@ Rules:
 
     return NextResponse.json({ extracted, raw })
   } catch (error: any) {
+    const errorMsg = String(error?.message || error || '')
     log.error('Screenshot extraction failed', undefined, error)
+
+    if (/Missing GOOGLE_API_KEY|Missing GEMINI_API_KEY/i.test(errorMsg)) {
+      return NextResponse.json({ error: 'AI service is not configured. Please set the Gemini API key.' }, { status: 500 })
+    }
+
     return NextResponse.json({ error: 'Failed to extract lead data', details: error?.message }, { status: 500 })
   }
 }
