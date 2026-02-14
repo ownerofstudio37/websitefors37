@@ -395,17 +395,17 @@ JSON structure:
 }`;
 
   try {
-    log.info("Generating blog post with gemini-2.5-flash (with fallbacks)", { topic, wordCount, keywordsCount: keywords.length });
+    log.info("Generating blog post with Gemini 3 Flash/Pro (with fallbacks)", { topic, wordCount, keywordsCount: keywords.length });
     
-    // Use generateText in text mode (not JSON mode which causes wrapping issues)
-    // We'll clean and parse the JSON manually with better error handling
+    // Request strict JSON and use model fallbacks from generateText
     const response = await generateText(prompt, {
-      model: "gemini-2.5-flash",
+      model: AI_MODELS.FLASH,
       config: {
         temperature: 0.7,
         topP: 0.9,
         topK: 40,
-        maxOutputTokens: 4096, // Blog posts need more tokens than structured config allows
+        maxOutputTokens: 4096,
+        responseMimeType: "application/json",
       },
       retries: 3,
       retryDelayMs: 2000,
@@ -441,11 +441,28 @@ JSON structure:
     try {
         blogPost = JSON.parse(cleanedResponse);
     } catch (parseError: any) {
-        log.error("Failed to parse blog post JSON", { 
-          cleanedResponse: cleanedResponse?.substring(0, 500), 
-          error: parseError?.message 
-        });
-      throw new Error("Invalid JSON response from AI");
+        // Attempt to salvage JSON by extracting the first object block
+        const start = cleanedResponse.indexOf('{');
+        const end = cleanedResponse.lastIndexOf('}');
+        if (start !== -1 && end !== -1 && end > start) {
+          const candidate = cleanedResponse.slice(start, end + 1).trim();
+          try {
+            blogPost = JSON.parse(candidate);
+          } catch (retryError: any) {
+            log.error("Failed to parse blog post JSON", { 
+              cleanedResponse: cleanedResponse?.substring(0, 500),
+              candidate: candidate?.substring(0, 500),
+              error: retryError?.message 
+            });
+            throw new Error("Invalid JSON response from AI");
+          }
+        } else {
+          log.error("Failed to parse blog post JSON", { 
+            cleanedResponse: cleanedResponse?.substring(0, 500), 
+            error: parseError?.message 
+          });
+          throw new Error("Invalid JSON response from AI");
+        }
     }
     
     log.info("Blog post JSON parsed", { 
