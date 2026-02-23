@@ -20,6 +20,19 @@ const PRIORITIES = {
   blogPostsOld: 0.5,     // Older blog posts
 } as const
 
+// Exclude verification/utility slugs from sitemap
+const EXCLUDED_PAGE_SLUGS = new Set([
+  'algolia-verification',
+  'bing-site-auth',
+  'google-site-verification',
+  'yandex-verification',
+])
+
+const EXCLUDED_PAGE_PATTERNS: RegExp[] = [
+  /verification/i,
+  /^a[0-9a-f]{30,}$/i,
+]
+
 // Helper to determine priority based on post age
 function getBlogPostPriority(publishedAt: string | null, updatedAt: string): number {
   if (!publishedAt && !updatedAt) return PRIORITIES.blogPostsOld
@@ -139,7 +152,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       .eq('published', true)
     
     if (pages) {
-      const contentRoutes = pages.map(page => ({
+      const filteredPages = pages.filter(page => {
+        if (EXCLUDED_PAGE_SLUGS.has(page.slug)) {
+          return false
+        }
+        return !EXCLUDED_PAGE_PATTERNS.some((pattern) => pattern.test(page.slug))
+      })
+
+      const contentRoutes = filteredPages.map(page => ({
         url: `${baseUrl}/${page.slug}`,
         lastModified: new Date(page.updated_at),
         changeFrequency: 'weekly' as const,
