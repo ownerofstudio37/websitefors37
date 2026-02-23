@@ -62,14 +62,6 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
-## Removed /portfolio redirect - now serving as a separate page
-## If you want it back, uncomment:
-# [[redirects]]
-#   from = "/portfolio"
-#   to = "/gallery"
-#   status = 301
-#   force = true
-
 # Serve .well-known files for domain verification
 [[headers]]
   for = "/.well-known/*"
