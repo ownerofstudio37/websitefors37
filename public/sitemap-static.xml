@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- 
-DEPRECATED: Dynamic sitemap is now generated at app/sitemap.ts
-This static file should be deleted. If you're seeing this, delete public/sitemap-static.xml
-The dynamic generator at app/sitemap.ts now handles all blog indexing with smart prioritization.
--->
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-</urlset>
