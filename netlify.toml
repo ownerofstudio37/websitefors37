@@ -16,6 +16,7 @@
   from = "/sitemap.xml"
   to = "/api/sitemap.xml"
   status = 200
+  force = true
 
 # Security headers for all pages (CSP defined in next.config.js)
 [[headers]]
