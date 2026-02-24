@@ -75,3 +75,10 @@
     Content-Type = "text/plain"
 
 
+
+[[headers]]
+  for = "/sitemap.xml"
+  [headers.values]
+    Content-Type = "application/xml; charset=utf-8"
+    Cache-Control = "public, max-age=3600"
+    X-Content-Type-Options = "nosniff"
