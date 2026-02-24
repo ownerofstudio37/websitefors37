@@ -61,6 +61,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const supabase = createClient(supabaseUrl, supabaseKey)
   const currentDate = new Date()
   
+  console.log('[Sitemap] Starting sitemap generation...')
+  
   // Static routes - Main pages optimized for local SEO and user journey
   const routes: MetadataRoute.Sitemap = [
     // Homepage - Highest priority
@@ -103,6 +105,30 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: PRIORITIES.servicePages,
     },
     {
+      url: `${baseUrl}/services/family-photography`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly',
+      priority: PRIORITIES.servicePages,
+    },
+    {
+      url: `${baseUrl}/services/senior-portraits`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly',
+      priority: PRIORITIES.servicePages,
+    },
+    {
+      url: `${baseUrl}/services/professional-headshots`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly',
+      priority: PRIORITIES.servicePages,
+    },
+    {
+      url: `${baseUrl}/services/maternity-sessions`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly',
+      priority: PRIORITIES.servicePages,
+    },
+    {
       url: `${baseUrl}/book-a-session`,
       lastModified: currentDate,
       changeFrequency: 'weekly',
@@ -114,15 +140,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'monthly',
       priority: PRIORITIES.mainPages,
     },
-    // Local SEO landing page
+    // Local SEO landing pages
     {
       url: `${baseUrl}/local-photographer-pinehurst-tx`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
-    // Magnolia is managed by the CMS - ensure a published content_page with slug 'magnolia' exists so it is included dynamically
-
+    {
+      url: `${baseUrl}/local-photographer-magnolia-tx`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly',
+      priority: PRIORITIES.servicePages,
+    },
     // Portfolio and content pages
     {
       url: `${baseUrl}/gallery`,
@@ -144,43 +174,59 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ]
   
-  // Add all published content pages
+  console.log(`[Sitemap] Added ${routes.length} static routes`)
+  
+  // Add all published content pages (excluding verification pages)
   try {
-    const { data: pages } = await supabase
+    const { data: pages, error } = await supabase
       .from('content_pages')
       .select('slug, updated_at')
       .eq('published', true)
     
-    if (pages) {
+    if (error) {
+      console.error('[Sitemap] Error fetching content pages:', error)
+    } else if (pages) {
+      console.log(`[Sitemap] Fetched ${pages.length} content pages from database`)
+      
       const filteredPages = pages.filter(page => {
-        if (EXCLUDED_PAGE_SLUGS.has(page.slug)) {
+        const isExcluded = EXCLUDED_PAGE_SLUGS.has(page.slug)
+        const matchesPattern = EXCLUDED_PAGE_PATTERNS.some((pattern) => pattern.test(page.slug))
+        
+        if (isExcluded || matchesPattern) {
+          console.log(`[Sitemap] Excluding page: ${page.slug}`)
           return false
         }
-        return !EXCLUDED_PAGE_PATTERNS.some((pattern) => pattern.test(page.slug))
+        return true
       })
+      
+      console.log(`[Sitemap] Including ${filteredPages.length} content pages after filtering`)
 
       const contentRoutes = filteredPages.map(page => ({
         url: `${baseUrl}/${page.slug}`,
         lastModified: new Date(page.updated_at),
         changeFrequency: 'weekly' as const,
-        priority: 0.7,
+        priority: PRIORITIES.contentPages,
       }))
       
       routes.push(...contentRoutes)
     }
   } catch (error) {
-    console.error('Error fetching content pages for sitemap:', error)
+    console.error('[Sitemap] Exception fetching content pages:', error)
   }
   
   // Add all published blog posts with enhanced metadata for better indexing
   try {
-    const { data: posts } = await supabase
+    const { data: posts, error } = await supabase
       .from('blog_posts')
       .select('slug, updated_at, published_at, featured_image, excerpt, title, category')
       .eq('published', true)
       .order('published_at', { ascending: false, nullsLast: true })
     
-    if (posts && posts.length > 0) {
+    if (error) {
+      console.error('[Sitemap] Error fetching blog posts:', error)
+    } else if (posts && posts.length > 0) {
+      console.log(`[Sitemap] Fetched ${posts.length} blog posts from database`)
+      
       const blogRoutes = posts.map((post: any) => {
         const priority = getBlogPostPriority(post.published_at, post.updated_at)
         const changeFrequency = getBlogPostChangeFrequency(post.published_at, post.updated_at)
@@ -226,11 +272,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         routes.push(...categoryRoutes)
       }
       
-      console.log(`Sitemap: Added ${blogRoutes.length} blog posts and ${categories.size} blog categories`)
+      console.log(`[Sitemap] Added ${blogRoutes.length} blog posts and ${categories.size} blog categories`)
+    } else {
+      console.log('[Sitemap] No blog posts found or posts array is empty')
     }
   } catch (error) {
-    console.error('Error fetching blog posts for sitemap:', error)
+    console.error('[Sitemap] Exception fetching blog posts:', error)
   }
   
+  console.log(`[Sitemap] Total routes in sitemap: ${routes.length}`)
   return routes
 }
