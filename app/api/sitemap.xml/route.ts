@@ -7,6 +7,18 @@ const baseUrl = 'https://www.studio37.cc'
 
 export const revalidate = 1800
 
+const EXCLUDED_PAGE_SLUGS = new Set([
+  'algolia-verification',
+  'bing-site-auth',
+  'google-site-verification',
+  'yandex-verification',
+])
+
+const EXCLUDED_PAGE_PATTERNS: RegExp[] = [
+  /verification/i,
+  /^a[0-9a-f]{30,}$/i,
+]
+
 export async function GET() {
   try {
     const supabase = createClient(supabaseUrl, supabaseKey)
@@ -42,6 +54,34 @@ export async function GET() {
       xml += `    <changefreq>${item.frequency}</changefreq>\n`
       xml += `    <priority>${item.priority}</priority>\n`
       xml += `  </url>\n`
+    }
+
+    // Content pages (exclude verification/utility slugs)
+    try {
+      const { data: pages } = await supabase
+        .from('content_pages')
+        .select('slug, updated_at')
+        .eq('published', true)
+
+      if (pages && pages.length > 0) {
+        const filteredPages = pages.filter(page => {
+          if (EXCLUDED_PAGE_SLUGS.has(page.slug)) {
+            return false
+          }
+          return !EXCLUDED_PAGE_PATTERNS.some((pattern) => pattern.test(page.slug))
+        })
+
+        for (const page of filteredPages) {
+          xml += `  <url>\n`
+          xml += `    <loc>${escapeXml(`${baseUrl}/${page.slug}`)}</loc>\n`
+          xml += `    <lastmod>${new Date(page.updated_at).toISOString()}</lastmod>\n`
+          xml += `    <changefreq>weekly</changefreq>\n`
+          xml += `    <priority>0.7</priority>\n`
+          xml += `  </url>\n`
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching content pages:', error)
     }
     
     // Blog posts
@@ -80,7 +120,7 @@ export async function GET() {
       console.error('Error fetching blog posts:', error)
     }
     
-    xml += '</urlset>'
+    xml += '</urlset>\n'
     
     return new NextResponse(xml, {
       headers: {
