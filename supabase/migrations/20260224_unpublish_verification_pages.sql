@@ -1,21 +1,13 @@
--- Unpublish verification and utility pages from public sitemap
--- These pages are needed for site verification but shouldn't appear in sitemap.xml
+-- Unpublish verification pages so they don't appear in sitemap
+-- These pages should only be accessible for search engine verification
 
-UPDATE content_pages 
-SET published = false 
+UPDATE content_pages
+SET published = false
 WHERE slug IN (
   'algolia-verification',
+  'a41a3d624e3ac9cb94868de50be953d2',
   'bing-site-auth',
   'google-site-verification',
   'yandex-verification'
-) 
-OR slug ~ '^a[0-9a-f]{30,}$'; -- Match hexadecimal verification strings
-
--- Log the changes
-DO $$
-DECLARE
-  affected_count INTEGER;
-BEGIN
-  GET DIAGNOSTICS affected_count = ROW_COUNT;
-  RAISE NOTICE 'Unpublished % verification pages from sitemap', affected_count;
-END $$;
+)
+OR slug ~ '^[a-f0-9]{30,}$'; -- Matches any long hex string (Google verification format)
