@@ -24,8 +24,9 @@ export async function GET() {
     const supabase = createClient(supabaseUrl, supabaseKey)
     const currentDate = new Date().toISOString()
     
-    let xml = '<?xml version="1.0" encoding="UTF-8"?>\n'
-    xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n'
+    const lines: string[] = []
+    lines.push('<?xml version="1.0" encoding="UTF-8"?>')
+    lines.push('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">')
     
     // Static URLs
     const staticUrls = [
@@ -48,12 +49,12 @@ export async function GET() {
     ]
     
     for (const item of staticUrls) {
-      xml += `  <url>\n`
-      xml += `    <loc>${escapeXml(item.url)}</loc>\n`
-      xml += `    <lastmod>${currentDate}</lastmod>\n`
-      xml += `    <changefreq>${item.frequency}</changefreq>\n`
-      xml += `    <priority>${item.priority}</priority>\n`
-      xml += `  </url>\n`
+      lines.push('  <url>')
+      lines.push(`    <loc>${escapeXml(item.url)}</loc>`)
+      lines.push(`    <lastmod>${currentDate}</lastmod>`)
+      lines.push(`    <changefreq>${item.frequency}</changefreq>`)
+      lines.push(`    <priority>${item.priority}</priority>`)
+      lines.push('  </url>')
     }
 
     // Content pages (exclude verification/utility slugs)
@@ -72,12 +73,12 @@ export async function GET() {
         })
 
         for (const page of filteredPages) {
-          xml += `  <url>\n`
-          xml += `    <loc>${escapeXml(`${baseUrl}/${page.slug}`)}</loc>\n`
-          xml += `    <lastmod>${new Date(page.updated_at).toISOString()}</lastmod>\n`
-          xml += `    <changefreq>weekly</changefreq>\n`
-          xml += `    <priority>0.7</priority>\n`
-          xml += `  </url>\n`
+          lines.push('  <url>')
+          lines.push(`    <loc>${escapeXml(`${baseUrl}/${page.slug}`)}</loc>`)
+          lines.push(`    <lastmod>${new Date(page.updated_at).toISOString()}</lastmod>`)
+          lines.push('    <changefreq>weekly</changefreq>')
+          lines.push('    <priority>0.7</priority>')
+          lines.push('  </url>')
         }
       }
     } catch (error) {
@@ -97,30 +98,31 @@ export async function GET() {
           const priority = getBlogPriority(post.published_at, post.updated_at)
           const frequency = getBlogFrequency(post.published_at, post.updated_at)
           
-          xml += `  <url>\n`
-          xml += `    <loc>${escapeXml(`${baseUrl}/blog/${post.slug}`)}</loc>\n`
-          xml += `    <lastmod>${post.updated_at}</lastmod>\n`
-          xml += `    <changefreq>${frequency}</changefreq>\n`
-          xml += `    <priority>${priority}</priority>\n`
+          lines.push('  <url>')
+          lines.push(`    <loc>${escapeXml(`${baseUrl}/blog/${post.slug}`)}</loc>`)
+          lines.push(`    <lastmod>${post.updated_at}</lastmod>`)
+          lines.push(`    <changefreq>${frequency}</changefreq>`)
+          lines.push(`    <priority>${priority}</priority>`)
           
           if (post.featured_image) {
-            xml += `    <image:image>\n`
-            xml += `      <image:loc>${escapeXml(post.featured_image)}</image:loc>\n`
-            xml += `      <image:title>${escapeXml(post.title)}</image:title>\n`
+            lines.push('    <image:image>')
+            lines.push(`      <image:loc>${escapeXml(post.featured_image)}</image:loc>`)
+            lines.push(`      <image:title>${escapeXml(post.title)}</image:title>`)
             if (post.excerpt) {
-              xml += `      <image:caption>${escapeXml(post.excerpt)}</image:caption>\n`
+              lines.push(`      <image:caption>${escapeXml(post.excerpt)}</image:caption>`)
             }
-            xml += `    </image:image>\n`
+            lines.push('    </image:image>')
           }
           
-          xml += `  </url>\n`
+          lines.push('  </url>')
         }
       }
     } catch (error) {
       console.error('Error fetching blog posts:', error)
     }
     
-    xml += '</urlset>\n'
+    lines.push('</urlset>')
+    const xml = `${lines.join('\n')}\n`
     
     return new NextResponse(xml, {
       headers: {
