@@ -12,6 +12,11 @@
 [[plugins]]
   package = "@netlify/plugin-nextjs"
 
+[[redirects]]
+  from = "/sitemap.xml"
+  to = "/api/sitemap.xml"
+  status = 200
+
 # Security headers for all pages (CSP defined in next.config.js)
 [[headers]]
   for = "/*"
