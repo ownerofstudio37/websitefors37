@@ -1,7 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import Services from '@/components/Services'
+import dynamic from 'next/dynamic'
 import { CheckCircle, ArrowRight } from 'lucide-react'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 import { generateServiceSchema } from '@/lib/seo-config'
@@ -25,6 +25,32 @@ export const metadata = generateSEOMetadata({
 
 // Static marketing page; revalidate daily
 export const revalidate = 86400
+
+const Services = dynamic(() => import('@/components/Services'), {
+  ssr: false,
+  loading: () => (
+    <section className="py-20 bg-white">
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl font-bold mb-4">Our Photography Services</h2>
+          <p className="text-xl text-gray-700 max-w-2xl mx-auto">
+            From intimate portraits to grand celebrations, we offer comprehensive photography services tailored to your unique needs.
+          </p>
+        </div>
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {[1, 2, 3, 4].map((item) => (
+            <div key={item} className="bg-gray-50 p-8 rounded-lg border-2 border-gray-100">
+              <div className="h-36 bg-gray-200 rounded-lg mb-6" />
+              <div className="h-5 bg-gray-200 rounded w-3/4 mx-auto mb-3" />
+              <div className="h-4 bg-gray-200 rounded w-full mb-2" />
+              <div className="h-4 bg-gray-200 rounded w-5/6" />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  ),
+})
 
 export default function ServicesPage() {
   const serviceSchema = generateServiceSchema(
