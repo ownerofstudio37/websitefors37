@@ -68,18 +68,18 @@ export default function PortraitHighlightGallery() {
             >
               {/* Aspect ratio container with 4:3 ratio */}
               <div className="relative w-full bg-gray-200" style={{ paddingBottom: '75%' }}>
-                <OptimizedImage
-                  src={image.image_url}
-                  alt={image.alt_text || image.title}
-                  width={400}
-                  height={300}
-                  fill
-                  className="absolute inset-0"
-                  imgClassName="object-cover w-full h-full group-hover:scale-110 transition-transform duration-500"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  quality={80}
-                  priority={false}
-                />
+                <div className="absolute inset-0">
+                  <OptimizedImage
+                    src={image.image_url}
+                    alt={image.alt_text || image.title}
+                    width={400}
+                    height={300}
+                    className="w-full h-full"
+                    imgClassName="object-cover w-full h-full group-hover:scale-110 transition-transform duration-500"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    quality={80}
+                  />
+                </div>
                 
                 {/* Gradient overlay - more polished */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-60 transition-opacity duration-300" />
