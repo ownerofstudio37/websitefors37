@@ -102,7 +102,7 @@ export default function Navigation() {
           // Fallback to default navigation if DB fails
           setNavItems([
             { id: 'home', label: 'Home', href: '/', order: 1, visible: true },
-            { id: 'gallery', label: 'Gallery', href: '/gallery', order: 2, visible: true },
+            { id: 'gallery', label: 'Gallery', href: 'https://gallery.studio37.cc', order: 2, visible: true },
             {
               id: 'service-areas',
               label: 'Service Areas',

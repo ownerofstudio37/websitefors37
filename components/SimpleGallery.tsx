@@ -56,31 +56,48 @@ export default function SimpleGallery() {
 
       {/* Grid */}
       {isLoading ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {Array.from({ length: 9 }).map((_, i) => (
-            <div key={i} className="h-64 bg-gray-100 animate-pulse rounded-lg" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {Array.from({ length: 12 }).map((_, i) => (
+            <div key={i} className="aspect-[4/3] bg-gray-200 animate-pulse rounded-xl" />
           ))}
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filtered.map((image: GalleryImage) => (
             <div
               key={image.id}
-              className="relative group overflow-hidden rounded-lg shadow-lg"
+              className="group relative block overflow-hidden rounded-xl shadow-md hover:shadow-2xl transition-all duration-300 cursor-pointer"
             >
-              <OptimizedImage
-                src={image.image_url}
-                alt={image.alt_text || image.title}
-                fill
-                className="w-full h-[260px] md:h-[300px]"
-                imgClassName="object-contain"
-              />
-              <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <div className="pointer-events-none absolute bottom-0 left-0 right-0 p-4 text-white">
-                <h3 className="text-lg font-semibold mb-1">{image.title}</h3>
-                {image.description && (
-                  <p className="text-sm opacity-90 line-clamp-2">{image.description}</p>
-                )}
+              {/* Aspect ratio container - 4:3 */}
+              <div className="relative w-full bg-gray-200" style={{ paddingBottom: '75%' }}>
+                <div className="absolute inset-0">
+                  <OptimizedImage
+                    src={image.image_url}
+                    alt={image.alt_text || image.title}
+                    width={400}
+                    height={300}
+                    className="w-full h-full"
+                    imgClassName="object-cover w-full h-full group-hover:scale-110 transition-transform duration-500"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+                    quality={80}
+                  />
+                </div>
+                
+                {/* Gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                
+                {/* Text content */}
+                <div className="absolute bottom-0 left-0 right-0 p-4 text-white transform translate-y-2 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                  <h3 className="text-base font-semibold leading-tight line-clamp-1">{image.title}</h3>
+                  {image.description && (
+                    <p className="text-xs mt-1 opacity-90 line-clamp-2">{image.description}</p>
+                  )}
+                  {image.category && (
+                    <span className="inline-block mt-2 px-2 py-0.5 bg-white/20 backdrop-blur-sm rounded text-xs">
+                      {image.category}
+                    </span>
+                  )}
+                </div>
               </div>
             </div>
           ))}
