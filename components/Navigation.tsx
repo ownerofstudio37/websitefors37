@@ -202,6 +202,11 @@ export default function Navigation() {
               // Normalize hrefs to prevent duplicated segments like /services/services
               const normalizeHref = (href: string, parentHref?: string) => {
                 try {
+                  // Override gallery link to point to external subdomain
+                  if (href === '/gallery' || href === 'gallery') {
+                    return 'https://gallery.studio37.cc'
+                  }
+                  
                   // Leave absolute URLs alone
                   if (/^https?:\/\//i.test(href)) return href
                   // Trim spaces
