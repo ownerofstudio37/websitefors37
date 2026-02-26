@@ -54,29 +54,41 @@ export default function PortraitHighlightGallery() {
     <section className="py-16 bg-white">
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto text-center mb-12">
-                    <h2 className="text-3xl font-bold mb-4">Featured Portfolio</h2>
+          <h2 className="text-3xl font-bold mb-4">Featured Portfolio</h2>
           <p className="text-lg text-gray-700">
             A curated selection of our favorite work
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {renderImages.map((image) => (
-            <Link href="/gallery" key={image.id} className="relative group overflow-hidden rounded-lg shadow-lg flex items-center justify-center bg-gray-100">
-              <OptimizedImage
-                src={image.image_url}
-                alt={image.alt_text || image.title}
-                width={400}
-                height={300}
-                className="w-full h-[300px] group-hover:scale-105 transition-transform duration-300"
-                imgClassName="object-cover"
-                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                quality={80}
-              />
-              <div className="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
-                <div className="p-4 w-full text-white">
-                  <h3 className="text-lg font-semibold mb-1">{image.title}</h3>
+            <Link 
+              href="/gallery" 
+              key={image.id} 
+              className="group relative block overflow-hidden rounded-xl shadow-md hover:shadow-xl transition-all duration-300"
+            >
+              {/* Aspect ratio container with 4:3 ratio */}
+              <div className="relative w-full bg-gray-200" style={{ paddingBottom: '75%' }}>
+                <OptimizedImage
+                  src={image.image_url}
+                  alt={image.alt_text || image.title}
+                  width={400}
+                  height={300}
+                  fill
+                  className="absolute inset-0"
+                  imgClassName="object-cover w-full h-full group-hover:scale-110 transition-transform duration-500"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  quality={80}
+                  priority={false}
+                />
+                
+                {/* Gradient overlay - more polished */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-60 transition-opacity duration-300" />
+                
+                {/* Text content - positioned at bottom */}
+                <div className="absolute bottom-0 left-0 right-0 p-4 text-white transform translate-y-2 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                  <h3 className="text-base font-semibold leading-tight">{image.title}</h3>
                   {image.description && (
-                    <p className="text-sm opacity-90">{image.description}</p>
+                    <p className="text-xs mt-1 opacity-90">{image.description}</p>
                   )}
                 </div>
               </div>
