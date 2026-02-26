@@ -1,11 +1,10 @@
 'use client'
 
 import React, { useEffect, useState, useRef } from 'react'
-import Image from 'next/image'
 import Link from 'next/link'
 import { useGalleryImages } from '@/hooks/useGalleryImages'
 import { Camera, Users, Building, Heart, ArrowRight } from 'lucide-react'
-import { optimizeCloudinaryUrl } from '@/lib/cloudinaryOptimizer'
+import OptimizedImage from './OptimizedImage'
 
 const services = [
 		{
@@ -146,14 +145,14 @@ export default function Services() {
 
 					{/* Static service image - optimized for performance */}
 					<div className="mb-6 aspect-[4/3] relative rounded-lg overflow-hidden">
-						<Image
+						<OptimizedImage
 							src={service.image}
 							alt={service.title}
 							fill
 							sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
-							loading={index < 2 ? "eager" : "lazy"}
-							quality={65}
-							className="object-cover group-hover:scale-105 transition-transform duration-500"
+							priority={index < 2}
+							quality={70}
+							imgClassName="object-cover group-hover:scale-105 transition-transform duration-500"
 						/>
 					</div>
 					<h3 className="text-xl font-semibold mb-4 text-center group-hover:text-primary-600 transition-colors duration-300">
