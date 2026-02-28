@@ -2154,68 +2154,6 @@ export function VideoHeroBlock({
   )
 }
 
-// Before/After Slider Block
-export function BeforeAfterSliderBlock({
-  beforeImage,
-  afterImage,
-  beforeLabel = 'Before',
-  afterLabel = 'After',
-  initialPosition = '50',
-  orientation = 'horizontal',
-  showLabels = 'true',
-  heading,
-  subheading,
-  mobileHidden,
-  _overrides
-}: {
-  beforeImage?: string
-  afterImage?: string
-  beforeLabel?: string
-  afterLabel?: string
-  initialPosition?: string | number
-  orientation?: 'horizontal' | 'vertical' | string
-  showLabels?: string | boolean
-  heading?: string
-  subheading?: string
-  mobileHidden?: boolean | string
-  _overrides?: Record<string, any> | null
-}) {
-  const ov = _overrides || {}
-  const finalBeforeImage = ov.beforeImage ?? beforeImage
-  const finalAfterImage = ov.afterImage ?? afterImage
-  const finalHeading = ov.heading ?? heading
-  const finalSubheading = ov.subheading ?? subheading
-
-  if (!finalBeforeImage || !finalAfterImage) return null
-  
-  // Phase 4: Responsive utilities
-  const responsiveClasses = getResponsiveVisibility({ 
-    mobileHidden: String(mobileHidden) === 'true' 
-  })
-
-  return (
-    <section className={`py-16 md:py-20 px-6 md:px-8 bg-white ${responsiveClasses}`}>
-      <div className="max-w-5xl mx-auto">
-        {(finalHeading || finalSubheading) && (
-          <div className="text-center mb-12">
-            {finalHeading && <h2 className="text-3xl font-bold text-gray-900 mb-2">{finalHeading}</h2>}
-            {finalSubheading && <p className="text-lg text-gray-600">{finalSubheading}</p>}
-          </div>
-        )}
-        <BeforeAfterSliderClient
-          beforeImage={finalBeforeImage}
-          afterImage={finalAfterImage}
-          beforeLabel={beforeLabel}
-          afterLabel={afterLabel}
-          initialPosition={Number(initialPosition)}
-          orientation={orientation as any}
-          showLabels={String(showLabels) !== 'false'}
-        />
-      </div>
-    </section>
-  )
-}
-
 // Timeline Block
 export function TimelineBlock({
   itemsB64,
