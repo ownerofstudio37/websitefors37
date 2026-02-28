@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import toast from 'react-hot-toast'
+import { Check, AlertCircle, Loader2 } from 'lucide-react'
 import ThankYouWithSMS from './ThankYouWithSMS'
 
 const leadSchema = z.object({
@@ -22,15 +23,35 @@ type LeadFormData = z.infer<typeof leadSchema>
 export default function LeadCaptureForm() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [showThankYou, setShowThankYou] = useState(false)
+  const [validFieldsSet, setValidFieldsSet] = useState<Set<string>>(new Set())
 
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    watch,
+    trigger,
+    formState: { errors, isValidating },
   } = useForm<LeadFormData>({
     resolver: zodResolver(leadSchema),
+    mode: 'onBlur',
   })
+
+  const watchedFields = watch()
+
+  // Track valid fields for inline success indicators
+  const handleFieldBlur = async (fieldName: keyof LeadFormData) => {
+    const isValid = await trigger(fieldName)
+    if (isValid) {
+      setValidFieldsSet(prev => new Set([...prev, fieldName]))
+    } else {
+      setValidFieldsSet(prev => {
+        const updated = new Set(prev)
+        updated.delete(fieldName)
+        return updated
+      })
+    }
+  }
 
   const onSubmit = async (data: LeadFormData) => {
     setIsSubmitting(true)
@@ -47,11 +68,15 @@ export default function LeadCaptureForm() {
         throw new Error(body?.error || 'Submission failed')
       }
 
-      toast.success('Thank you! We\'ll be in touch soon.')
+      toast.success('✨ Thank you! We\'ll be in touch soon.', {
+        duration: 4,
+        icon: '✨',
+      })
       setShowThankYou(true)
+      setValidFieldsSet(new Set())
       reset()
     } catch (error) {
-      toast.error('Something went wrong. Please try again.')
+      toast.error(error instanceof Error ? error.message : 'Something went wrong. Please try again.')
       console.error('Error:', error)
     } finally {
       setIsSubmitting(false)
@@ -88,16 +113,31 @@ export default function LeadCaptureForm() {
             <label htmlFor="name-input" className="block text-sm font-medium text-gray-700 mb-2">
               Full Name *
             </label>
-            <input
-              {...register('name')}
-              id="name-input"
-              aria-invalid={!!errors.name || undefined}
-              aria-required="true"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-              placeholder="Your full name"
-            />
+            <div className="relative">
+              <input
+                {...register('name')}
+                id="name-input"
+                aria-invalid={!!errors.name || undefined}
+                aria-required="true"
+                onBlur={() => handleFieldBlur('name')}
+                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:border-transparent transition ${
+                  errors.name ? 'border-red-300 focus:ring-red-500' : 
+                  validFieldsSet.has('name') ? 'border-green-300 focus:ring-green-500 bg-green-50' :
+                  'border-gray-300 focus:ring-primary-500'
+                }`}
+                placeholder="Your full name"
+              />
+              {validFieldsSet.has('name') && !errors.name && (
+                <Check className="absolute right-3 top-3.5 w-5 h-5 text-green-600" />
+              )}
+              {errors.name && (
+                <AlertCircle className="absolute right-3 top-3.5 w-5 h-5 text-red-600" />
+              )}
+            </div>
             {errors.name && (
-              <p className="text-red-500 text-sm mt-1" id="name-error" role="alert">{errors.name.message}</p>
+              <p className="text-red-500 text-sm mt-1 flex items-center gap-1" id="name-error" role="alert">
+                <AlertCircle className="w-4 h-4" /> {errors.name.message}
+              </p>
             )}
           </div>
 
@@ -105,17 +145,32 @@ export default function LeadCaptureForm() {
             <label htmlFor="email-input" className="block text-sm font-medium text-gray-700 mb-2">
               Email Address *
             </label>
-            <input
-              {...register('email')}
-              id="email-input"
-              type="email"
-              aria-invalid={!!errors.email || undefined}
-              aria-required="true"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-              placeholder="your@email.com"
-            />
+            <div className="relative">
+              <input
+                {...register('email')}
+                id="email-input"
+                type="email"
+                aria-invalid={!!errors.email || undefined}
+                aria-required="true"
+                onBlur={() => handleFieldBlur('email')}
+                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:border-transparent transition ${
+                  errors.email ? 'border-red-300 focus:ring-red-500' : 
+                  validFieldsSet.has('email') ? 'border-green-300 focus:ring-green-500 bg-green-50' :
+                  'border-gray-300 focus:ring-primary-500'
+                }`}
+                placeholder="your@email.com"
+              />
+              {validFieldsSet.has('email') && !errors.email && (
+                <Check className="absolute right-3 top-3.5 w-5 h-5 text-green-600" />
+              )}
+              {errors.email && (
+                <AlertCircle className="absolute right-3 top-3.5 w-5 h-5 text-red-600" />
+              )}
+            </div>
             {errors.email && (
-              <p className="text-red-500 text-sm mt-1" id="email-error" role="alert">{errors.email.message}</p>
+              <p className="text-red-500 text-sm mt-1 flex items-center gap-1" id="email-error" role="alert">
+                <AlertCircle className="w-4 h-4" /> {errors.email.message}
+              </p>
             )}
           </div>
         </div>
@@ -138,22 +193,37 @@ export default function LeadCaptureForm() {
             <label htmlFor="service-select" className="block text-sm font-medium text-gray-700 mb-2">
               Service Interest *
             </label>
-            <select
-              {...register('service_interest')}
-              id="service-select"
-              aria-invalid={!!errors.service_interest || undefined}
-              aria-required="true"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-            >
-              <option value="">Select a service</option>
-              <option value="wedding">Wedding Photography</option>
-              <option value="portrait">Portrait Session</option>
-              <option value="event">Event Photography</option>
-              <option value="commercial">Commercial Photography</option>
-              <option value="other">Other</option>
-            </select>
+            <div className="relative">
+              <select
+                {...register('service_interest')}
+                id="service-select"
+                aria-invalid={!!errors.service_interest || undefined}
+                aria-required="true"
+                onBlur={() => handleFieldBlur('service_interest')}
+                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:border-transparent transition ${
+                  errors.service_interest ? 'border-red-300 focus:ring-red-500' : 
+                  validFieldsSet.has('service_interest') ? 'border-green-300 focus:ring-green-500 bg-green-50' :
+                  'border-gray-300 focus:ring-primary-500'
+                }`}
+              >
+                <option value="">Select a service</option>
+                <option value="wedding">Wedding Photography</option>
+                <option value="portrait">Portrait Session</option>
+                <option value="event">Event Photography</option>
+                <option value="commercial">Commercial Photography</option>
+                <option value="other">Other</option>
+              </select>
+              {validFieldsSet.has('service_interest') && !errors.service_interest && (
+                <Check className="absolute right-3 top-3.5 w-5 h-5 text-green-600" />
+              )}
+              {errors.service_interest && (
+                <AlertCircle className="absolute right-3 top-3.5 w-5 h-5 text-red-600" />
+              )}
+            </div>
             {errors.service_interest && (
-              <p className="text-red-500 text-sm mt-1" id="service-error" role="alert">{errors.service_interest.message}</p>
+              <p className="text-red-500 text-sm mt-1 flex items-center gap-1" id="service-error" role="alert">
+                <AlertCircle className="w-4 h-4" /> {errors.service_interest.message}
+              </p>
             )}
           </div>
         </div>
@@ -190,27 +260,49 @@ export default function LeadCaptureForm() {
           <label htmlFor="message-textarea" className="block text-sm font-medium text-gray-700 mb-2">
             Message *
           </label>
-          <textarea
-            {...register('message')}
-            id="message-textarea"
-            rows={4}
-            aria-invalid={!!errors.message || undefined}
-            aria-required="true"
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-            placeholder="Tell us about your photography needs..."
-          />
+          <div className="relative">
+            <textarea
+              {...register('message')}
+              id="message-textarea"
+              rows={4}
+              aria-invalid={!!errors.message || undefined}
+              aria-required="true"
+              onBlur={() => handleFieldBlur('message')}
+              className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:border-transparent transition resize-none ${
+                errors.message ? 'border-red-300 focus:ring-red-500' : 
+                validFieldsSet.has('message') ? 'border-green-300 focus:ring-green-500 bg-green-50' :
+                'border-gray-300 focus:ring-primary-500'
+              }`}
+              placeholder="Tell us about your photography needs..."
+            />
+            <div className="absolute bottom-2 right-2 text-xs text-gray-500">
+              {watchedFields.message?.length || 0}/100
+            </div>
+          </div>
           {errors.message && (
-            <p className="text-red-500 text-sm mt-1" id="message-error" role="alert">{errors.message.message}</p>
+            <p className="text-red-500 text-sm mt-1 flex items-center gap-1" id="message-error" role="alert">
+              <AlertCircle className="w-4 h-4" /> {errors.message.message}
+            </p>
           )}
         </div>
 
         <button
           type="submit"
-          disabled={isSubmitting}
+          disabled={isSubmitting || isValidating}
           aria-busy={isSubmitting || undefined}
-          className="w-full btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full btn-primary disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 transition"
         >
-          {isSubmitting ? 'Sending...' : 'Get Your Quote'}
+          {isSubmitting ? (
+            <>
+              <Loader2 className="w-4 h-4 animate-spin" />
+              Sending...
+            </>
+          ) : (
+            <>
+              <Check className="w-4 h-4" />
+              Get Your Quote
+            </>
+          )}
         </button>
       </form>
     </div>

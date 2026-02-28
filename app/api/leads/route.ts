@@ -28,6 +28,43 @@ const LeadSchema = z.object({
  * Send auto-response email based on form type
  * Determines template based on service_interest and source
  */
+async function scheduleFollowUps(leadId: string) {
+  try {
+    const now = new Date()
+    const followUps = [
+      {
+        lead_id: leadId,
+        sequence_type: 'day1',
+        scheduled_for: new Date(now.getTime() + 1 * 60 * 60 * 1000), // 1 hour from now
+        status: 'pending'
+      },
+      {
+        lead_id: leadId,
+        sequence_type: 'day3',
+        scheduled_for: new Date(now.getTime() + 3 * 24 * 60 * 60 * 1000), // 3 days from now
+        status: 'pending'
+      },
+      {
+        lead_id: leadId,
+        sequence_type: 'day7',
+        scheduled_for: new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000), // 7 days from now
+        status: 'pending'
+      }
+    ]
+
+    const { error } = await supabaseAdmin.from('lead_follow_ups').insert(followUps)
+
+    if (error) {
+      log.error('Failed to schedule follow-ups', { leadId, error })
+      return
+    }
+
+    log.info('Follow-ups scheduled', { leadId, count: followUps.length })
+  } catch (err) {
+    log.error('Error scheduling follow-ups', { leadId }, err)
+  }
+}
+
 async function sendAutoResponseEmail(lead: any, payload: any) {
   try {
     // Check if Resend is configured
@@ -295,6 +332,11 @@ export async function POST(req: NextRequest) {
     // Send auto-response email (fire and forget - don't block response)
     sendAutoResponseEmail(insertedLead, payload).catch(err => {
       log.error('Auto-response email failed', { leadId: insertedLead.id }, err)
+    })
+
+    // Schedule automated follow-up emails (Day 1, Day 3, Day 7)
+    scheduleFollowUps(insertedLead.id).catch(err => {
+      log.error('Follow-up scheduling failed', { leadId: insertedLead.id }, err)
     })
 
     // Return success and lead id so caller can link to booking flows
