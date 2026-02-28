@@ -17,7 +17,8 @@ import {
   Palette,
   FolderKanban,
   ChevronLeft,
-  TrendingUp
+  TrendingUp,
+  Bell
 } from 'lucide-react'
 
 interface AdminDesktopSidebarProps {
@@ -52,6 +53,7 @@ export default function AdminDesktopSidebar({ isOpen, onToggle }: AdminDesktopSi
     { href: '/admin/projects', icon: FolderKanban, label: 'Projects' },
     { href: '/admin/client-portals', icon: Briefcase, label: 'Client Portals' },
     { href: '/admin/email-templates', icon: Mail, label: 'Email Templates' },
+    { href: '/admin/appointment-reminders', icon: Bell, label: 'Appointment Reminders' },
     { href: '/admin/analytics', icon: BarChart3, label: 'Analytics' },
     { href: '/admin/theme-customizer', icon: Palette, label: 'Theme Customizer' },
     { href: '/admin/settings', icon: Settings, label: 'Settings' },
