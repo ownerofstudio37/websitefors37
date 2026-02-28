@@ -19,18 +19,7 @@ CREATE INDEX idx_lead_follow_ups_scheduled_for ON lead_follow_ups(scheduled_for)
 -- Enable RLS
 ALTER TABLE lead_follow_ups ENABLE ROW LEVEL SECURITY;
 
--- Admin can view all follow-ups
-CREATE POLICY lead_follow_ups_admin_view ON lead_follow_ups
-  FOR SELECT
-  USING (auth.role() = 'authenticated' AND (SELECT role FROM admin_users WHERE user_id = auth.uid()) = 'admin');
-
--- Admin can manage follow-ups
-CREATE POLICY lead_follow_ups_admin_manage ON lead_follow_ups
-  FOR UPDATE
-  USING (auth.role() = 'authenticated' AND (SELECT role FROM admin_users WHERE user_id = auth.uid()) = 'admin')
-  WITH CHECK (auth.role() = 'authenticated' AND (SELECT role FROM admin_users WHERE user_id = auth.uid()) = 'admin');
-
--- Service role has full access
+-- Service role (backend API) has full access
 CREATE POLICY lead_follow_ups_service_role ON lead_follow_ups
   FOR ALL
   USING (auth.role() = 'service_role')
