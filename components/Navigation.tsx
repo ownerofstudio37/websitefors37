@@ -349,13 +349,18 @@ export default function Navigation() {
 
         {isOpen && (
           <div 
-            className="md:hidden py-4 border-t border-amber-200/20" 
+            className="md:hidden py-4 pb-20 border-t border-amber-200/20 overflow-y-auto max-h-[calc(100vh-80px)]" 
             id="mobile-menu"
           >
-            <div className="flex flex-col space-y-4">
+            <div className="flex flex-col space-y-4 px-4">
               {navItems.map((item) => {
                 const normalizeHref = (href: string, parentHref?: string) => {
                   try {
+                    // Override gallery link to point to external subdomain (matches desktop behavior)
+                    if (href === '/gallery' || href === 'gallery') {
+                      return 'https://gallery.studio37.cc'
+                    }
+                    
                     if (/^https?:\/\//i.test(href)) return href
                     let out = (href || '').trim()
                     if (!out.startsWith('/')) out = `/${out}`
@@ -402,8 +407,8 @@ export default function Navigation() {
                             <Link
                               key={child.id}
                               href={normalizeHref(child.href, normalizeHref(item.href))}
-                              className="block transition-colors text-amber-900 px-2 py-1 rounded hover:text-amber-600 focus:text-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2"
-                              onClick={() => setIsOpen(false)}
+                              className="block transition-colors text-amber-900 px-2 py-2 rounded hover:text-amber-600 focus:text-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2 touch-target"
+                              onClick={() => { setIsOpen(false); }}
                             >
                               {child.label}
                             </Link>
@@ -419,12 +424,12 @@ export default function Navigation() {
                   <Link
                     key={item.id}
                     href={normalizeHref(item.href)}
-                    className={`transition-colors font-medium text-amber-900 px-2 py-1 rounded ${
+                    className={`transition-colors font-medium text-amber-900 px-2 py-2 rounded touch-target ${
                       item.highlighted
                         ? 'btn-primary w-fit'
                         : 'hover:text-amber-600 focus:text-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2'
                     }`}
-                    onClick={() => setIsOpen(false)}
+                    onClick={() => { setIsOpen(false); }}
                   >
                     {item.label}
                   </Link>
