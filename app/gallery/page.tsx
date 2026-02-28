@@ -1,5 +1,7 @@
 import React from 'react'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
+import Schema from '@/components/Schema'
+import { generateOrganizationSchema } from '@/lib/schema'
 import SimpleGallery from '@/components/SimpleGallery'
 
 export const metadata = generateSEOMetadata({
@@ -23,6 +25,7 @@ export const revalidate = 300
 export default function GalleryPage() {
   return (
     <div className="pt-16 min-h-screen bg-gradient-to-b from-gray-50 to-white">
+      <Schema schema={generateOrganizationSchema()} />
       {/* Hero Header */}
       <div className="relative bg-gradient-to-br from-gray-900 via-gray-800 to-primary-900 py-20 px-4 text-center text-white overflow-hidden">
         {/* Decorative Elements */}

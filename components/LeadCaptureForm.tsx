@@ -1,11 +1,12 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import toast from 'react-hot-toast'
 import { Check, AlertCircle, Loader2 } from 'lucide-react'
+import { trackFormSubmit, trackLeadCapture } from '@/lib/analytics'
 import ThankYouWithSMS from './ThankYouWithSMS'
 
 const leadSchema = z.object({
@@ -57,6 +58,9 @@ export default function LeadCaptureForm() {
     setIsSubmitting(true)
     
     try {
+      // Track form submission
+      trackFormSubmit('lead-capture', Object.keys(data))
+      
       const res = await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -67,6 +71,9 @@ export default function LeadCaptureForm() {
         const body = await res.json().catch(() => ({}))
         throw new Error(body?.error || 'Submission failed')
       }
+
+      // Track successful lead capture
+      trackLeadCapture('web-form', data.service_interest)
 
       toast.success('✨ Thank you! We\'ll be in touch soon.', {
         duration: 4,

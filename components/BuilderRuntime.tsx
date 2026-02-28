@@ -2652,3 +2652,130 @@ export function GalleryBlock({
   return <MasonryGalleryBlock {...props} />
 }
 
+// VideoTestimonialCarouselBlock - Embed customer video testimonials with automatic carousel
+export function VideoTestimonialCarouselBlock({
+  heading,
+  subheading,
+  testimonialsB64,
+  autoplay = true,
+  autoplayInterval = 6000,
+  showQuote = true,
+  animation = 'fade-in',
+  mobileHidden = false,
+  _overrides = null
+}: {
+  heading?: string
+  subheading?: string
+  testimonialsB64?: string
+  autoplay?: boolean | string
+  autoplayInterval?: number | string
+  showQuote?: boolean | string
+  animation?: string
+  mobileHidden?: boolean | string
+  _overrides?: Record<string, any> | null
+}) {
+  const ov = _overrides || {}
+  const finalHeading = ov.heading ?? heading
+  const finalSubheading = ov.subheading ?? subheading
+  const finalTestimonialsB64 = ov.testimonialsB64 ?? testimonialsB64
+
+  // Decode testimonials from base64
+  const json = finalTestimonialsB64 ? Buffer.from(finalTestimonialsB64, 'base64').toString('utf-8') : '[]'
+  let testimonials: Array<{ id: string; name: string; title: string; youtubeUrl: string; quote: string; image?: string }> = []
+  try { testimonials = JSON.parse(json || '[]') } catch { testimonials = [] }
+
+  const animClass = animation === 'fade-in' ? 'animate-fadeIn' : animation === 'slide-up' ? 'animate-slideUp' : animation === 'zoom' ? 'animate-zoom' : ''
+  const responsiveClasses = getResponsiveVisibility({ mobileHidden: String(mobileHidden) === 'true' })
+
+  const { VideoTestimonialCarousel } = require('./VideoTestimonialCarousel') as typeof import('./VideoTestimonialCarousel')
+
+  return (
+    <section className={`py-16 md:py-20 px-6 md:px-8 bg-gradient-to-br from-gray-50 to-white ${animClass} ${responsiveClasses}`}>
+      <div className="max-w-6xl mx-auto">
+        {(finalHeading || finalSubheading) && (
+          <div className="text-center mb-12">
+            {finalHeading && <h2 className="text-3xl font-bold text-gray-900 mb-2">{finalHeading}</h2>}
+            {finalSubheading && <p className="text-lg text-gray-600">{finalSubheading}</p>}
+          </div>
+        )}
+        {testimonials.length > 0 ? (
+          <VideoTestimonialCarousel
+            testimonials={testimonials}
+            autoplay={String(autoplay) !== 'false'}
+            autoplayInterval={Number(autoplayInterval)}
+            showQuote={String(showQuote) !== 'false'}
+          />
+        ) : (
+          <div className="text-center text-gray-500 py-12">No testimonials available</div>
+        )}
+      </div>
+    </section>
+  )
+}
+
+// BeforeAfterSliderBlock - Image comparison slider for before/after photography
+export function BeforeAfterSliderBlock({
+  heading,
+  subheading,
+  beforeImage,
+  afterImage,
+  beforeLabel = 'Before',
+  afterLabel = 'After',
+  animation = 'fade-in',
+  mobileHidden = false,
+  _overrides = null
+}: {
+  heading?: string
+  subheading?: string
+  beforeImage?: string
+  afterImage?: string
+  beforeLabel?: string
+  afterLabel?: string
+  animation?: string
+  mobileHidden?: boolean | string
+  _overrides?: Record<string, any> | null
+}) {
+  const ov = _overrides || {}
+  const finalHeading = ov.heading ?? heading
+  const finalSubheading = ov.subheading ?? subheading
+  const finalBeforeImage = ov.beforeImage ?? beforeImage
+  const finalAfterImage = ov.afterImage ?? afterImage
+  const finalBeforeLabel = ov.beforeLabel ?? beforeLabel
+  const finalAfterLabel = ov.afterLabel ?? afterLabel
+
+  const animClass = animation === 'fade-in' ? 'animate-fadeIn' : animation === 'slide-up' ? 'animate-slideUp' : animation === 'zoom' ? 'animate-zoom' : ''
+  const responsiveClasses = getResponsiveVisibility({ mobileHidden: String(mobileHidden) === 'true' })
+
+  const { default: BeforeAfterSlider } = require('./BeforeAfterSlider') as typeof import('./BeforeAfterSlider')
+
+  if (!finalBeforeImage || !finalAfterImage) {
+    return (
+      <section className={`py-16 md:py-20 px-6 md:px-8 bg-white ${responsiveClasses}`}>
+        <div className="text-center text-gray-500">
+          Before and after images required for this block
+        </div>
+      </section>
+    )
+  }
+
+  return (
+    <section className={`py-16 md:py-20 px-6 md:px-8 bg-white ${animClass} ${responsiveClasses}`}>
+      <div className="max-w-4xl mx-auto">
+        {(finalHeading || finalSubheading) && (
+          <div className="text-center mb-8">
+            {finalHeading && <h2 className="text-3xl font-bold text-gray-900 mb-2">{finalHeading}</h2>}
+            {finalSubheading && <p className="text-lg text-gray-600">{finalSubheading}</p>}
+          </div>
+        )}
+        <BeforeAfterSlider
+          beforeImage={finalBeforeImage}
+          afterImage={finalAfterImage}
+          beforeLabel={finalBeforeLabel}
+          afterLabel={finalAfterLabel}
+          className="w-full"
+        />
+      </div>
+    </section>
+  )
+}
+

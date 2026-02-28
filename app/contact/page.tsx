@@ -4,7 +4,9 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import Image from 'next/image'
 import LeadCaptureForm from '@/components/LeadCaptureForm'
+import Schema from '@/components/Schema'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
+import { generateContactPageSchema, generateOrganizationSchema } from '@/lib/schema'
 import { businessInfo } from '@/lib/seo-config'
 
 // Use server component to fetch settings
@@ -43,6 +45,7 @@ export default async function ContactPage() {
   
   return (
     <div className="relative min-h-screen flex flex-col">
+      <Schema schema={[generateContactPageSchema(), generateOrganizationSchema()]} />
       {/* True Full-Page Background Image, fixed and always behind content */}
       <div className="fixed top-0 left-0 w-screen h-screen -z-10 pointer-events-none">
         <Image

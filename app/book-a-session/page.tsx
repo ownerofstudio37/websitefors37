@@ -1,5 +1,7 @@
 import React, { Suspense } from 'react'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
+import Schema from '@/components/Schema'
+import { generateBookingPageSchema, generateOrganizationSchema } from '@/lib/schema'
 import BookSessionPage from './booking-client'
 
 export const metadata = generateSEOMetadata({
@@ -31,8 +33,7 @@ function BookingFallback() {
 
 export default function BookingPage() {
   return (
-    <Suspense fallback={<BookingFallback />}>
-      <BookSessionPage />
+    <Suspense fallback={<BookingFallback />}>      <Schema schema={[generateBookingPageSchema(), generateOrganizationSchema()]} />      <BookSessionPage />
     </Suspense>
   )
 }

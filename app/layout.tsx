@@ -16,6 +16,7 @@ import Analytics from "@/components/Analytics";
 import ClientErrorBoundary from "@/components/ClientErrorBoundary";
 import ToasterClient from "@/components/ToasterClient";
 import ChatBotMount from "@/components/ChatBotMount";
+import AnalyticsSetup from "@/components/AnalyticsSetup";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -165,6 +166,7 @@ export default function RootLayout({
           <Suspense fallback={null}>
             <Analytics />
           </Suspense>
+          <AnalyticsSetup />
           <WebVitals />
           {/* Wrap dynamic/client sections in an error boundary to avoid hard crashes from runtime errors */}
           {/** Using a dynamic import here would not help with errors during render; instead, use a client error boundary. */}
