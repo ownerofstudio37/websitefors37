@@ -28,14 +28,10 @@ export async function GET(request: NextRequest) {
     // Fetch appointments for this month
     let query = supabase
       .from('appointments')
-      .select('appointment_date, service_type, booking_type')
-      .gte('appointment_date', startDate.toISOString().split('T')[0])
-      .lte('appointment_date', endDate.toISOString().split('T')[0])
-      .eq('status', 'confirmed')
-
-    if (serviceType !== 'all') {
-      query = query.eq('service_type', serviceType)
-    }
+      .select('start_time, type')
+      .gte('start_time', startDate.toISOString())
+      .lte('start_time', endDate.toISOString())
+      .in('status', ['scheduled', 'confirmed'])
 
     const { data: appointments, error } = await query
 
@@ -47,12 +43,13 @@ export async function GET(request: NextRequest) {
     // Count bookings per day, separated by type
     const bookingsPerDay: Record<string, { photo: number; consultation: number; total: number }> = {}
     appointments?.forEach(apt => {
-      const dateKey = apt.appointment_date
+      const appointmentDate = new Date(apt.start_time)
+      const dateKey = appointmentDate.toISOString().split('T')[0]
       if (!bookingsPerDay[dateKey]) {
         bookingsPerDay[dateKey] = { photo: 0, consultation: 0, total: 0 }
       }
       
-      if (apt.booking_type === 'consultation') {
+      if (apt.type === 'consultation') {
         bookingsPerDay[dateKey].consultation++
       } else {
         bookingsPerDay[dateKey].photo++
