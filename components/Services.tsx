@@ -144,15 +144,17 @@ export default function Services() {
 									</div>
 
 					{/* Static service image - optimized for performance */}
-					<div className="mb-6 aspect-[4/3] relative rounded-lg overflow-hidden">
-						<OptimizedImage
-							src={service.image}
-							alt={service.title}
-							fill
-							sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
-							priority={index < 2}
-							quality={70}
-							imgClassName="object-cover group-hover:scale-105 transition-transform duration-500"
+				<div className="mb-6 aspect-[4/3] relative rounded-lg overflow-hidden bg-gray-200">
+					<OptimizedImage
+						src={service.image}
+						alt={service.title}
+						width={400}
+						height={300}
+						className="w-full h-full"
+						imgClassName="object-cover group-hover:scale-105 transition-transform duration-500"
+						priority={index < 2}
+						quality={70}
+						sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
 						/>
 					</div>
 					<h3 className="text-xl font-semibold mb-4 text-center group-hover:text-primary-600 transition-colors duration-300">
