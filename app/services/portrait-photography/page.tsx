@@ -240,7 +240,7 @@ export default function PortraitPhotographyPage() {
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-white p-8 rounded-lg shadow-lg">
               <h3 className="text-xl font-bold mb-4">Mini Session</h3>
-              <p className="text-3xl font-bold text-primary-600 mb-4">Starting at $350</p>
+              <p className="text-2xl font-semibold text-amber-700 mb-4">Starting at $350</p>
               <ul className="space-y-2 mb-6">
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-600" />
@@ -248,11 +248,19 @@ export default function PortraitPhotographyPage() {
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>15+ edited photos</span>
+                  <span>10+ edited photos</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-600" />
                   <span>Digital gallery</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-600" />
+                  <span>Style &amp; Prep Guide (PDF)</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-600" />
+                  <span>24-hour sneak peek available as add-on</span>
                 </li>
               </ul>
               <Link href="/contact" className="btn-secondary w-full text-center block">
@@ -267,7 +275,7 @@ export default function PortraitPhotographyPage() {
                 </span>
               </div>
               <h3 className="text-xl font-bold mb-4">Standard Session</h3>
-              <p className="text-3xl font-bold text-primary-600 mb-4">Starting at $500</p>
+              <p className="text-2xl font-semibold text-amber-700 mb-4">Starting at $500</p>
               <ul className="space-y-2 mb-6">
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-600" />
@@ -275,7 +283,7 @@ export default function PortraitPhotographyPage() {
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>30+ edited photos</span>
+                  <span>20+ edited photos</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-600" />
@@ -285,6 +293,14 @@ export default function PortraitPhotographyPage() {
                   <CheckCircle className="h-5 w-5 text-green-600" />
                   <span>Digital gallery</span>
                 </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-600" />
+                  <span>Style &amp; Prep Guide (PDF)</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-600" />
+                  <span>Sneak peek within 24 hours</span>
+                </li>
               </ul>
               <Link href="/contact" className="btn-primary w-full text-center block">
                 Book Standard Session
@@ -293,7 +309,7 @@ export default function PortraitPhotographyPage() {
             
             <div className="bg-white p-8 rounded-lg shadow-lg">
               <h3 className="text-xl font-bold mb-4">Extended Session</h3>
-              <p className="text-3xl font-bold text-primary-600 mb-4">Starting at $750</p>
+              <p className="text-2xl font-semibold text-amber-700 mb-4">Starting at $750</p>
               <ul className="space-y-2 mb-6">
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-600" />
@@ -301,7 +317,7 @@ export default function PortraitPhotographyPage() {
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>50+ edited photos</span>
+                  <span>35+ edited photos</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-600" />
@@ -309,7 +325,15 @@ export default function PortraitPhotographyPage() {
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>Print release included</span>
+                  <span>Digital gallery</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-600" />
+                  <span>Style &amp; Prep Guide (PDF)</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-600" />
+                  <span>Sneak peek within 24 hours</span>
                 </li>
               </ul>
               <Link href="/contact" className="btn-secondary w-full text-center block">
@@ -326,7 +350,7 @@ export default function PortraitPhotographyPage() {
           <div className="text-center mb-8">
             <h2 className="text-3xl font-bold mb-3">Not sure which option is best?</h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              Use our instant calculator to compare custom hourly pricing against our portrait packages. For example, the Standard Session at $400 is a straightforward 60-minute option at our $400/hr rate.
+              Use our instant calculator to compare custom hourly pricing against our portrait packages. For example, the Standard Session starts at $500 and includes a 24-hour sneak peek plus a style &amp; prep guide.
             </p>
           </div>
           <PricingCalculator className="max-w-5xl mx-auto" />
