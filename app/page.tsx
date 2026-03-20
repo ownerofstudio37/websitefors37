@@ -14,23 +14,23 @@ import rehypeHighlight from "rehype-highlight";
 
 // Lazy load below-the-fold components for better initial page load
 const Services = dynamic(() => import("@/components/Services"), {
-  loading: () => <div className="h-96 bg-gray-50" style={{ contentVisibility: 'auto' }} />,
+  loading: () => <div className="h-96 bg-gray-50" />,
 });
 const ServiceAreaSEO = dynamic(
   () => import("@/components/ServiceAreaSEO"),
   {
-    loading: () => <div className="h-96 bg-white" style={{ contentVisibility: 'auto' }} />,
+    loading: () => <div className="h-96 bg-white" />,
   }
 );
 const PortraitHighlightGallery = dynamic(
   () => import("@/components/PortraitHighlightGallery"),
   {
     ssr: false,
-    loading: () => <div className="h-96 bg-gray-50" style={{ contentVisibility: 'auto' }} />,
+    loading: () => <div className="h-96 bg-gray-50" />,
   }
 );
 const Testimonials = dynamic(() => import("@/components/Testimonials"), {
-  loading: () => <div className="h-96 bg-white" style={{ contentVisibility: 'auto' }} />,
+  loading: () => <div className="h-96 bg-white" />,
 });
 
 // Defer newsletter modal - loads after page is interactive

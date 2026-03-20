@@ -195,7 +195,7 @@ export default function CommercialHighlightGallery() {
         {/* Gallery Grid */}
         <div
           className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12"
-          style={{ contain: 'layout style paint', contentVisibility: 'auto', containIntrinsicSize: '900px' as any }}
+          style={{ contain: 'layout style paint' }}
         >
           {commercialHighlights.map((image, index) => (
             <div

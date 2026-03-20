@@ -220,7 +220,7 @@ export default function Testimonials() {
 					<span className="font-semibold text-red-600">Google</span>
 				</div>
 					className="grid md:grid-cols-3 gap-8"
-					style={{ contain: 'layout style paint', contentVisibility: 'auto', containIntrinsicSize: '800px' as any }}
+					style={{ contain: 'layout style paint' }}
 				>
 					{testimonials.map((testimonial, index) => (
 						<div

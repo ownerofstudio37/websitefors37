@@ -36,7 +36,7 @@ export default function LazyMount({ children, minHeight = 300, rootMargin = '300
   }, [rootMargin, threshold, visible])
 
   return (
-    <div ref={ref} className={className} style={{ minHeight, contentVisibility: visible ? 'visible' : 'auto' as any }}>
+    <div ref={ref} className={className} style={{ minHeight: visible ? undefined : minHeight }}>
       {visible ? children : null}
     </div>
   )

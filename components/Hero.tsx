@@ -66,7 +66,7 @@ export default function Hero() {
 
       <div className="relative z-20 container mx-auto px-4 text-center">
         <div className="max-w-4xl mx-auto">
-          <div className="inline-block p-2 border-4 border-amber-200/30 rounded-full mb-8" style={{ contentVisibility: 'auto' }}>
+          <div className="inline-block p-2 border-4 border-amber-200/30 rounded-full mb-8">
             <Camera className="h-16 w-16 text-amber-200" />
           </div>
 

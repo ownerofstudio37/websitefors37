@@ -116,7 +116,7 @@ export default function Gallery() {
 
         <div
           className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
-          style={{ contain: 'layout style paint', contentVisibility: 'auto', containIntrinsicSize: '800px' as any }}
+          style={{ contain: 'layout style paint' }}
         >
           {filteredImages.map((image, index) => (
             <div
