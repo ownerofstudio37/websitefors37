@@ -5,9 +5,9 @@ import { Calculator, Users, Clock, Info, Sparkles, ChevronRight } from "lucide-r
 import Link from "next/link"
 
 // Assumptions (easy to tweak):
-// - All types: $400/hr (minimum $100)
+// - All types: $500/hr (minimum $100)
 // - Family (6+): $50 per person over 5 (flat session surcharge)
-// - Packages (deals): 30m $250, 60m $400, 90m $550
+// - Packages (deals): 30m $350, 60m $500, 90m $750
 // - Duration billed pro‑rata by minutes
 
 export type PortraitCategory = "solo" | "couple" | "family"
@@ -21,18 +21,18 @@ export interface PricingCalculatorProps {
 }
 
 const RATES = {
-  solo: 400_00, // cents per hour
-  couple: 400_00,
-  family_3_5: 400_00,
-  family_6_plus: 400_00,
+  solo: 500_00, // cents per hour
+  couple: 500_00,
+  family_3_5: 500_00,
+  family_6_plus: 500_00,
   extraPersonOver5: 50_00, // flat session surcharge per person over 5
   min: 100_00, // minimum charge in cents
 }
 
 const PACKAGES = [
-  { key: "mini", name: "Mini Session", minutes: 30, priceCents: 250_00 },
-  { key: "standard", name: "Standard Session", minutes: 60, priceCents: 400_00 },
-  { key: "extended", name: "Extended Session", minutes: 90, priceCents: 550_00 },
+  { key: "mini", name: "Mini Session", minutes: 30, priceCents: 350_00 },
+  { key: "standard", name: "Standard Session", minutes: 60, priceCents: 500_00 },
+  { key: "extended", name: "Extended Session", minutes: 90, priceCents: 750_00 },
 ] as const
 
 function formatUsd(cents: number) {

@@ -262,6 +262,10 @@ export default function PortraitPhotographyPage() {
                   <CheckCircle className="h-5 w-5 text-green-600" />
                   <span>24-hour sneak peek available as add-on</span>
                 </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-600" />
+                  <span>Two-photographer coverage</span>
+                </li>
               </ul>
               <Link href="/contact" className="btn-secondary w-full text-center block">
                 Book Mini Session
@@ -301,6 +305,10 @@ export default function PortraitPhotographyPage() {
                   <CheckCircle className="h-5 w-5 text-green-600" />
                   <span>Sneak peek within 24 hours</span>
                 </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-600" />
+                  <span>Two-photographer coverage</span>
+                </li>
               </ul>
               <Link href="/contact" className="btn-primary w-full text-center block">
                 Book Standard Session
@@ -334,6 +342,10 @@ export default function PortraitPhotographyPage() {
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-600" />
                   <span>Sneak peek within 24 hours</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-600" />
+                  <span>Two-photographer coverage</span>
                 </li>
               </ul>
               <Link href="/contact" className="btn-secondary w-full text-center block">
