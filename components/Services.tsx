@@ -26,7 +26,7 @@ const services = [
 		{
 			icon: Users,
 			title: 'Portrait Sessions',
-			startingPrice: 'Starting at $299',
+			startingPrice: 'Starting at $350',
 			description:
 				'Professional headshots, family portraits, and individual sessions in studio or on location.',
 			features: [
