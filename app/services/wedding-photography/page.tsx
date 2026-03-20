@@ -252,9 +252,9 @@ export default function WeddingPhotographyPage() {
           </div>
           
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-gray-50 p-8 rounded-lg">
+            <div className="bg-white p-8 rounded-lg shadow-lg">
               <h3 className="text-xl font-bold mb-4">Essential</h3>
-              <p className="text-3xl font-bold text-primary-600 mb-4">$1,500</p>
+              <p className="font-semibold mb-4"><span className="text-base text-black italic">Starting at </span><span className="text-3xl text-orange-600 not-italic">$1,500</span></p>
               <ul className="space-y-2 mb-6">
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-600" />
@@ -274,14 +274,14 @@ export default function WeddingPhotographyPage() {
               </Link>
             </div>
             
-            <div className="bg-primary-50 p-8 rounded-lg border-2 border-primary-200 relative">
+            <div className="bg-white p-8 rounded-lg shadow-lg border-2 border-primary-200 relative">
               <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
                 <span className="bg-primary-600 text-white px-4 py-1 rounded-full text-sm font-medium">
                   Most Popular
                 </span>
               </div>
               <h3 className="text-xl font-bold mb-4">Complete</h3>
-              <p className="text-3xl font-bold text-primary-600 mb-4">$2,500</p>
+              <p className="font-semibold mb-4"><span className="text-base text-black italic">Starting at </span><span className="text-3xl text-orange-600 not-italic">$2,500</span></p>
               <ul className="space-y-2 mb-6">
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-600" />
@@ -305,9 +305,9 @@ export default function WeddingPhotographyPage() {
               </Link>
             </div>
             
-            <div className="bg-gray-50 p-8 rounded-lg">
+            <div className="bg-white p-8 rounded-lg shadow-lg">
               <h3 className="text-xl font-bold mb-4">Premium</h3>
-              <p className="text-3xl font-bold text-primary-600 mb-4">$3,500</p>
+              <p className="font-semibold mb-4"><span className="text-base text-black italic">Starting at </span><span className="text-3xl text-orange-600 not-italic">$3,500</span></p>
               <ul className="space-y-2 mb-6">
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-600" />
@@ -329,6 +329,58 @@ export default function WeddingPhotographyPage() {
               <Link href="/contact" className="btn-secondary w-full text-center block">
                 Choose Premium
               </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold mb-4">Want a Custom Wedding Collection?</h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Book a consultation and we&apos;ll build coverage around your timeline, venue plans, and must-have moments.
+            </p>
+          </div>
+
+          <div className="max-w-4xl mx-auto">
+            <div className="bg-white p-8 rounded-lg shadow-lg border-2 border-primary-200 relative">
+              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                <span className="bg-primary-600 text-white px-4 py-1 rounded-full text-sm font-medium">
+                  Custom Collection
+                </span>
+              </div>
+              <div className="grid md:grid-cols-2 gap-8 items-center">
+                <div>
+                  <h3 className="text-2xl font-bold mb-4">Create a Wedding Package That Fits Your Day</h3>
+                  <p className="text-gray-600 mb-6">
+                    Ideal for multi-day celebrations, custom timelines, engagement add-ons, or unique venue logistics.
+                  </p>
+                  <ul className="space-y-2">
+                    <li className="flex items-center gap-2">
+                      <CheckCircle className="h-5 w-5 text-green-600" />
+                      <span>Coverage tailored to your timeline</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle className="h-5 w-5 text-green-600" />
+                      <span>Flexible add-ons and deliverables</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle className="h-5 w-5 text-green-600" />
+                      <span>Guidance on planning and priorities</span>
+                    </li>
+                  </ul>
+                </div>
+                <div className="bg-primary-50 rounded-lg p-6 border border-primary-100">
+                  <p className="text-sm uppercase tracking-wide text-primary-700 font-semibold mb-2">Built around your day</p>
+                  <p className="text-gray-700 mb-6">
+                    We&apos;ll help you map out the right amount of coverage and create a collection that matches your wedding plans.
+                  </p>
+                  <Link href="/book-consultation" className="btn-primary w-full text-center block">
+                    Book a Consultation
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
         </div>
