@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation'
 import { Menu, X, Camera, ChevronDown } from '@/icons'
 import Image from 'next/image'
 import { supabase } from '@/lib/supabase'
+import { Phone } from 'lucide-react'
 
 interface NavigationItem {
   id: string
@@ -322,6 +323,17 @@ export default function Navigation() {
                 </Link>
               )
             })}
+            {/* Phone click-to-call */}
+            <a
+              href="tel:+18327139944"
+              className={`hidden lg:flex items-center gap-1.5 font-medium transition-colors hover:text-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2 ${
+                scrolled ? 'text-amber-900' : 'text-amber-200'
+              }`}
+              aria-label="Call Studio37 at (832) 713-9944"
+            >
+              <Phone className="h-4 w-4 flex-shrink-0" aria-hidden="true" />
+              <span>(832) 713-9944</span>
+            </a>
             <Link
               href="/admin"
               className={`focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2 transition-colors ${
@@ -435,6 +447,16 @@ export default function Navigation() {
                   </Link>
                 )
               })}
+              {/* Phone click-to-call */}
+              <a
+                href="tel:+18327139944"
+                className="flex items-center gap-2 font-medium text-amber-900 hover:text-amber-600 px-2 py-2 focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2"
+                onClick={() => setIsOpen(false)}
+                aria-label="Call Studio37 at (832) 713-9944"
+              >
+                <Phone className="h-4 w-4" aria-hidden="true" />
+                (832) 713-9944
+              </a>
               <Link
                 href="/admin"
                 className="btn-primary w-fit focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2"

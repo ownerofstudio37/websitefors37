@@ -3,6 +3,19 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Star, Quote } from 'lucide-react'
 
+const AVATAR_COLORS = [
+	'bg-amber-500', 'bg-blue-500', 'bg-emerald-500', 'bg-purple-500',
+	'bg-pink-500', 'bg-teal-500', 'bg-orange-500', 'bg-indigo-500',
+]
+
+function getAvatarColor(name: string): string {
+	return AVATAR_COLORS[name.charCodeAt(0) % AVATAR_COLORS.length]
+}
+
+function getInitials(name: string): string {
+	return name.split(' ').map(p => p[0]).join('').slice(0, 2).toUpperCase()
+}
+
 const testimonials = [
 	// Thumbtack Reviews
 	{
@@ -190,9 +203,22 @@ export default function Testimonials() {
 					<p className="text-xl text-gray-600 max-w-2xl mx-auto">
 						Don&apos;t just take our word for it. Here&apos;s what our satisfied clients have to say about their experience with Studio 37.
 					</p>
-				</div>
-
 				<div
+					className="flex flex-wrap items-center justify-center gap-2 mt-6 bg-amber-50 border border-amber-200 rounded-full px-6 py-3 w-fit mx-auto"
+					aria-label="5 out of 5 stars from 15 verified reviews"
+				>
+					<div className="flex" aria-hidden="true">
+						{[...Array(5)].map((_, i) => (
+							<Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
+						))}
+					</div>
+					<span className="font-bold text-gray-900">5.0 / 5.0</span>
+					<span className="text-gray-400">·</span>
+					<span className="text-gray-700">15 verified reviews on</span>
+					<span className="font-semibold text-blue-700">Thumbtack</span>
+					<span className="text-gray-400">&amp;</span>
+					<span className="font-semibold text-red-600">Google</span>
+				</div>
 					className="grid md:grid-cols-3 gap-8"
 					style={{ contain: 'layout style paint', contentVisibility: 'auto', containIntrinsicSize: '800px' as any }}
 				>

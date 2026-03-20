@@ -14,7 +14,7 @@ export const metadata = generateSEOMetadata({
     'photography availability',
     'Studio37 booking'
   ],
-  canonicalUrl: 'https://studio37.cc/get-quote',
+  canonicalUrl: 'https://www.studio37.cc/get-quote',
   pageType: 'service'
 })
 

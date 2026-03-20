@@ -19,7 +19,7 @@ export const metadata = generateSEOMetadata({
     'engagement photography',
     'bridal photography Pinehurst'
   ],
-  canonicalUrl: 'https://studio37.cc/services',
+  canonicalUrl: 'https://www.studio37.cc/services',
   pageType: 'service'
 })
 
@@ -27,7 +27,6 @@ export const metadata = generateSEOMetadata({
 export const revalidate = 86400
 
 const Services = dynamic(() => import('@/components/Services'), {
-  ssr: false,
   loading: () => (
     <section className="py-20 bg-white">
       <div className="container mx-auto px-4">

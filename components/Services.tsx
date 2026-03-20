@@ -10,6 +10,7 @@ const services = [
 		{
 			icon: Heart,
 			title: 'Wedding Photography',
+			startingPrice: 'Starting at $1,200',
 			description:
 				'Capture your special day with romantic and timeless images that tell your love story.',
 			features: [
@@ -25,6 +26,7 @@ const services = [
 		{
 			icon: Users,
 			title: 'Portrait Sessions',
+			startingPrice: 'Starting at $299',
 			description:
 				'Professional headshots, family portraits, and individual sessions in studio or on location.',
 			features: [
@@ -40,6 +42,7 @@ const services = [
 		{
 			icon: Camera,
 			title: 'Event Photography',
+			startingPrice: 'Starting at $499',
 			description:
 				'Document your corporate events, parties, and celebrations with candid and posed shots.',
 			features: [
@@ -55,6 +58,7 @@ const services = [
 		{
 			icon: Building,
 			title: 'Commercial Photography',
+			startingPrice: 'Starting at $599',
 			description:
 				'Product photography, business headshots, and marketing materials for your brand.',
 			features: [
@@ -157,9 +161,12 @@ export default function Services() {
 						sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
 						/>
 					</div>
-					<h3 className="text-xl font-semibold mb-4 text-center group-hover:text-primary-600 transition-colors duration-300">
+					<h3 className="text-xl font-semibold mb-1 text-center group-hover:text-primary-600 transition-colors duration-300">
 						{service.title}
 					</h3>
+					<p className="text-center text-sm font-semibold text-primary-600 mb-4">
+						{service.startingPrice}
+					</p>
 									<p className="text-gray-700 mb-6 text-center flex-grow">
 										{service.description}
 									</p>

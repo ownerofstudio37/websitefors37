@@ -36,7 +36,7 @@ export const metadata = generateSEOMetadata({
     'photography inquiry Texas',
     'book photographer Montgomery County'
   ],
-  canonicalUrl: 'https://studio37.cc/contact',
+  canonicalUrl: 'https://www.studio37.cc/contact',
   pageType: 'contact'
 })
 
@@ -46,8 +46,24 @@ export default async function ContactPage() {
   return (
     <div className="relative min-h-screen flex flex-col">
       <Schema schema={[generateContactPageSchema(), generateOrganizationSchema()]} />
-      {/* True Full-Page Background Image, fixed and always behind content */}
-      <div className="fixed top-0 left-0 w-screen h-screen -z-10 pointer-events-none">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'FAQPage',
+            mainEntity: [
+              { '@type': 'Question', name: 'How far in advance should I book my photography session?', acceptedAnswer: { '@type': 'Answer', text: 'For wedding photography, we recommend booking 6-12 months in advance. For portrait sessions and other events, 2-4 weeks notice is typically sufficient, but availability may vary during peak seasons.' } },
+              { '@type': 'Question', name: 'What is your payment policy?', acceptedAnswer: { '@type': 'Answer', text: 'We require a 50% deposit to secure your booking date, with the remaining balance due one week before the session or event. For wedding photography, we offer payment plans.' } },
+              { '@type': 'Question', name: 'How many photos will I receive?', acceptedAnswer: { '@type': 'Answer', text: 'The number of photos varies by package and session length. Typically, portrait sessions yield 20-40 edited images, while weddings can range from 300-800 photos. We focus on quality over quantity to deliver the best representation of your event.' } },
+              { '@type': 'Question', name: 'How long until I receive my photos?', acceptedAnswer: { '@type': 'Answer', text: "Portrait sessions are typically delivered within 1-2 weeks. Wedding and event photography can take 4-6 weeks. We'll provide select preview images within days of your session." } },
+              { '@type': 'Question', name: 'Do you travel for photography sessions?', acceptedAnswer: { '@type': 'Answer', text: 'Yes, we travel locally and internationally. Local travel within 30 miles is included in our standard rates. For destinations beyond that, additional travel fees apply.' } }
+            ]
+          })
+        }}
+      />
+      {/* Background image — absolute positioning for scroll performance */}
+      <div className="absolute top-0 left-0 w-full h-full -z-10 pointer-events-none">
         <Image
           src="https://images.unsplash.com/photo-1423666639041-f56000c27a9a"
           alt="Contact background"
@@ -170,17 +186,23 @@ export default async function ContactPage() {
         <div className="container mx-auto px-4">
           <div className="flex flex-wrap justify-center gap-8 items-center">
             <a href="https://ppa.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-90 transition-opacity">
-              <img 
-                src="https://www.ppa.com/assets/images/pages/PPA_logo1_COLOR_RGB_Meta.png" 
-                alt="Professional Photographers of America" 
+              <Image
+                src="https://www.ppa.com/assets/images/pages/PPA_logo1_COLOR_RGB_Meta.png"
+                alt="Professional Photographers of America"
+                width={160}
+                height={80}
                 className="h-16 md:h-20 w-auto object-contain"
+                unoptimized
               />
             </a>
             <a href="https://www.fullframeinsurance.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-90 transition-opacity">
-              <img 
-                src="https://app.fullframeinsurance.com/media/site_seals/0001/06/3b90b57044c80c69bd9c02042952a0a33dce7681.png" 
-                alt="Full Frame Insurance Seal" 
+              <Image
+                src="https://app.fullframeinsurance.com/media/site_seals/0001/06/3b90b57044c80c69bd9c02042952a0a33dce7681.png"
+                alt="Full Frame Insurance Seal"
+                width={150}
+                height={128}
                 className="h-24 md:h-32 w-auto object-contain"
+                unoptimized
               />
             </a>
           </div>

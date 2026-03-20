@@ -60,7 +60,7 @@ export const businessInfo = {
 export function generateLocalBusinessSchema() {
   return {
     '@context': 'https://schema.org',
-    '@type': 'LocalBusiness',
+    '@type': 'Photographer',
     '@id': businessInfo.contact.website,
     name: businessInfo.legalName,
     alternateName: businessInfo.name,
@@ -94,6 +94,13 @@ export function generateLocalBusinessSchema() {
     })).filter(hours => hours.opens),
     sameAs: Object.values(businessInfo.socialMedia),
     priceRange: '$$',
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: '5.0',
+      reviewCount: '15',
+      bestRating: '5',
+      worstRating: '1'
+    },
     paymentAccepted: 'Cash, Credit Card, Check, PayPal',
     currenciesAccepted: 'USD'
   }

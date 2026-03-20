@@ -293,6 +293,11 @@ export default function LeadCaptureForm() {
           )}
         </div>
 
+        {/* Social proof */}
+        <p className="text-center text-sm text-gray-500">
+          <span aria-hidden="true">⭐⭐⭐⭐⭐</span>{' '}
+          <strong className="text-gray-700">5.0 stars</strong> · 15 verified reviews · Response within 24 hours
+        </p>
         <button
           type="submit"
           disabled={isSubmitting || isValidating}
