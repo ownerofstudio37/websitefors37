@@ -3,7 +3,7 @@
 import React, { useEffect, useState, useRef } from 'react'
 import Link from 'next/link'
 import { useGalleryImages } from '@/hooks/useGalleryImages'
-import { Camera, Users, Building, Heart, ArrowRight } from 'lucide-react'
+import { Camera, Users, Building, Heart, Megaphone, ArrowRight } from 'lucide-react'
 import OptimizedImage from './OptimizedImage'
 
 const services = [
@@ -42,7 +42,7 @@ const services = [
 		{
 			icon: Camera,
 			title: 'Event Photography',
-			startingPrice: 'Starting at $499',
+			startingPrice: 'Starting at $600',
 			description:
 				'Document your corporate events, parties, and celebrations with candid and posed shots.',
 			features: [
@@ -70,6 +70,22 @@ const services = [
 			category: 'product photography',
 			slug: 'commercial-photography',
 			image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255706/PS373287_d7fl9k.jpg',
+		},
+		{
+			icon: Megaphone,
+			title: 'Branding & Marketing',
+			startingPrice: 'White-glove retainers',
+			description:
+				'Full-service growth support including brand content, web development, SEO, PPC, and social media management.',
+			features: [
+				'Brand content + video',
+				'Website & landing pages',
+				'SEO + PPC management',
+				'Social media growth',
+			],
+			category: 'branding marketing',
+			slug: 'branding-marketing',
+			image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop',
 		},
 ]
 
@@ -129,7 +145,7 @@ export default function Services() {
 				</div>
 
 				<div
-					className="grid md:grid-cols-2 lg:grid-cols-4 gap-8"
+					className="grid md:grid-cols-2 lg:grid-cols-5 gap-8"
 					style={{ contain: 'layout style paint' }}
 				>
 					{services.map((service, index) => {

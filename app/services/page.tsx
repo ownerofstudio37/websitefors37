@@ -118,7 +118,7 @@ export default function ServicesPage() {
             </p>
           </div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6">
             <Link 
               href="/services/wedding-photography" 
               className="group p-6 bg-gradient-to-br from-rose-50 to-amber-50 rounded-lg border border-rose-200 hover:border-rose-300 transition-all duration-300 hover:shadow-lg"
@@ -181,6 +181,23 @@ export default function ServicesPage() {
                 <h3 className="text-xl font-semibold mb-2 text-gray-800">Commercial Photography</h3>
                 <p className="text-gray-600 mb-4">Business branding, product shots, and corporate imagery</p>
                 <div className="flex items-center justify-center text-gray-600 group-hover:text-gray-700">
+                  <span className="font-medium">Learn More</span>
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </div>
+              </div>
+            </Link>
+
+            <Link 
+              href="/services/branding-marketing" 
+              className="group p-6 bg-gradient-to-br from-violet-50 to-fuchsia-50 rounded-lg border border-violet-200 hover:border-violet-300 transition-all duration-300 hover:shadow-lg"
+            >
+              <div className="text-center">
+                <div className="bg-violet-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-violet-200 transition-colors">
+                  <span className="text-3xl">📈</span>
+                </div>
+                <h3 className="text-xl font-semibold mb-2 text-gray-800">Branding &amp; Marketing</h3>
+                <p className="text-gray-600 mb-4">White-glove growth support for content, web, SEO, PPC, and social</p>
+                <div className="flex items-center justify-center text-violet-700 group-hover:text-violet-800">
                   <span className="font-medium">Learn More</span>
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </div>

@@ -36,6 +36,7 @@ export async function GET() {
       { url: `${baseUrl}/services/portrait-photography`, priority: 0.8, frequency: 'monthly' },
       { url: `${baseUrl}/services/commercial-photography`, priority: 0.8, frequency: 'monthly' },
       { url: `${baseUrl}/services/event-photography`, priority: 0.8, frequency: 'monthly' },
+      { url: `${baseUrl}/services/branding-marketing`, priority: 0.8, frequency: 'monthly' },
       { url: `${baseUrl}/services/family-photography`, priority: 0.8, frequency: 'monthly' },
       { url: `${baseUrl}/services/senior-portraits`, priority: 0.8, frequency: 'monthly' },
       { url: `${baseUrl}/services/professional-headshots`, priority: 0.8, frequency: 'monthly' },
