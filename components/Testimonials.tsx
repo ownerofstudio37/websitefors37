@@ -203,7 +203,7 @@ export default function Testimonials() {
 					<p className="text-xl text-gray-600 max-w-2xl mx-auto">
 						Don&apos;t just take our word for it. Here&apos;s what our satisfied clients have to say about their experience with Studio 37.
 					</p>
-				<div
+					<div
 					className="flex flex-wrap items-center justify-center gap-2 mt-6 bg-amber-50 border border-amber-200 rounded-full px-6 py-3 w-fit mx-auto"
 					aria-label="5 out of 5 stars from 15 verified reviews"
 				>
@@ -218,10 +218,10 @@ export default function Testimonials() {
 					<span className="font-semibold text-blue-700">Thumbtack</span>
 					<span className="text-gray-400">&amp;</span>
 					<span className="font-semibold text-red-600">Google</span>
+					</div>
 				</div>
-					className="grid md:grid-cols-3 gap-8"
-					style={{ contain: 'layout style paint' }}
-				>
+
+				<div className="grid md:grid-cols-3 gap-8" style={{ contain: 'layout style paint' }}>
 					{testimonials.map((testimonial, index) => (
 						<div
 							key={testimonial.id}
@@ -243,14 +243,12 @@ export default function Testimonials() {
 							
 							<div className="flex items-center justify-between">
 								<div className="flex items-center flex-1">
-									<img
-										src={testimonial.image}
-										alt={testimonial.name}
-										width="48"
-										height="48"
-										className="w-12 h-12 rounded-full mr-4 object-cover"
-										loading="lazy"
-									/>
+									<div
+										className={`w-12 h-12 rounded-full mr-4 flex items-center justify-center text-white font-bold text-sm ${getAvatarColor(testimonial.name)}`}
+										aria-hidden="true"
+									>
+										{getInitials(testimonial.name)}
+									</div>
 									<div>
 										<h4 className="font-semibold text-gray-900">{testimonial.name}</h4>
 										<p className="text-sm text-gray-700">{testimonial.service}</p>
