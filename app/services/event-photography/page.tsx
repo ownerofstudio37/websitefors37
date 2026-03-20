@@ -257,23 +257,27 @@ export default function EventPhotographyPage() {
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-white p-8 rounded-lg shadow-lg">
               <h3 className="text-xl font-bold mb-4">Basic Coverage</h3>
-              <p className="font-semibold mb-4"><span className="text-base text-black italic">Starting at </span><span className="text-3xl text-orange-600 not-italic">$400</span></p>
+              <p className="font-semibold mb-4"><span className="text-base text-black italic">Starting at </span><span className="text-3xl text-orange-600 not-italic">$600</span></p>
               <ul className="space-y-2 mb-6">
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>2 hours coverage</span>
+                  <span>2 Hours of Event Coverage</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>50+ edited photos</span>
+                  <span>Signature Duo Coverage: Two lead photographers for every shot.</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>Digital gallery</span>
+                  <span>50+ High-Resolution Edited Photos: Curated for quality over quantity.</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>1 week delivery</span>
+                  <span>72-Hour Highlights Preview: See your best shots while the event is still trending.</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-600" />
+                  <span>Private Digital Gallery: Easy downloading and social sharing.</span>
                 </li>
               </ul>
               <Link href="/contact" className="btn-secondary w-full text-center block">
@@ -288,23 +292,31 @@ export default function EventPhotographyPage() {
                 </span>
               </div>
               <h3 className="text-xl font-bold mb-4">Standard Coverage</h3>
-              <p className="font-semibold mb-4"><span className="text-base text-black italic">Starting at </span><span className="text-3xl text-orange-600 not-italic">$700</span></p>
+              <p className="font-semibold mb-4"><span className="text-base text-black italic">Starting at </span><span className="text-3xl text-orange-600 not-italic">$1,000</span></p>
               <ul className="space-y-2 mb-6">
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>4 hours coverage</span>
+                  <span>4 Hours of Event Coverage</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>100+ edited photos</span>
+                  <span>Signature Duo Coverage: One of us focuses on the action, the other on the reactions.</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>Digital gallery</span>
+                  <span>125+ High-Resolution Edited Photos: Complete storytelling from start to finish.</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>Event timeline planning</span>
+                  <span>24-Hour Sneak Peek: A selection of best-of shots delivered the very next day.</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-600" />
+                  <span>Timeline &amp; Logistics Consultation: We help you plan the flow to maximize your photo ops.</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-600" />
+                  <span>Private Digital Gallery</span>
                 </li>
               </ul>
               <Link href="/contact" className="btn-primary w-full text-center block">
@@ -314,23 +326,23 @@ export default function EventPhotographyPage() {
             
             <div className="bg-white p-8 rounded-lg shadow-lg">
               <h3 className="text-xl font-bold mb-4">Premium Coverage</h3>
-              <p className="font-semibold mb-4"><span className="text-base text-black italic">Starting at </span><span className="text-3xl text-orange-600 not-italic">$1,200</span></p>
+              <p className="font-semibold mb-4"><span className="text-base text-black italic">Starting at </span><span className="text-3xl text-orange-600 not-italic">$1,800</span></p>
               <ul className="space-y-2 mb-6">
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>8 hours coverage</span>
+                  <span>Up to 8 Hours of Full-Day Coverage</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>200+ edited photos</span>
+                  <span>Signature Duo Coverage: 360-degree coverage so no handshake or hug is missed.</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>Two photographers</span>
+                  <span>250+ High-Resolution Edited Photos: A massive, comprehensive gallery.</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>USB drive included</span>
+                  <span>Custom Mobile Gallery App: Carry your event memories in your pocket.</span>
                 </li>
               </ul>
               <Link href="/contact" className="btn-secondary w-full text-center block">
