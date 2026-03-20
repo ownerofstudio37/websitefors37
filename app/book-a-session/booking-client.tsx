@@ -55,22 +55,22 @@ const PACKAGES: Record<Exclude<PackageKey, 'consultation'>, Package> = {
   portrait_mini: {
     name: 'Portrait Mini Session',
     duration: 30,
-    priceCents: 25000,
-    description: '30 minute session, 15+ edited photos, digital gallery',
+    priceCents: 35000,
+    description: '30 minute session, 10+ edited photos, digital gallery, style & prep guide, two-photographer coverage',
     category: 'Portrait'
   },
   portrait_standard: {
     name: 'Portrait Standard Session',
     duration: 60,
-    priceCents: 40000,
-    description: '60 minute session, 30+ edited photos, multiple outfits/looks, digital gallery',
+    priceCents: 50000,
+    description: '60 minute session, 20+ edited photos, multiple outfits/looks, digital gallery, 24-hour sneak peek, two-photographer coverage',
     category: 'Portrait'
   },
   portrait_extended: {
     name: 'Portrait Extended Session',
     duration: 90,
-    priceCents: 55000,
-    description: '90 minute session, 50+ edited photos, multiple locations, print release',
+    priceCents: 75000,
+    description: '90 minute session, 35+ edited photos, multiple locations, digital gallery, 24-hour sneak peek, two-photographer coverage',
     category: 'Portrait'
   },
   // Wedding Photography
@@ -121,22 +121,22 @@ const PACKAGES: Record<Exclude<PackageKey, 'consultation'>, Package> = {
   event_basic: {
     name: 'Event Basic Coverage',
     duration: 120,
-    priceCents: 40000,
-    description: '2 hours coverage, 50+ edited photos, digital gallery, 1 week delivery',
+    priceCents: 60000,
+    description: '2 hours coverage, signature duo coverage, 50+ high-resolution edited photos, 72-hour highlights preview, private digital gallery',
     category: 'Event'
   },
   event_standard: {
     name: 'Event Standard Coverage',
     duration: 240,
-    priceCents: 70000,
-    description: '4 hours coverage, 100+ edited photos, digital gallery, event timeline planning',
+    priceCents: 100000,
+    description: '4 hours coverage, signature duo coverage, 125+ high-resolution edited photos, 24-hour sneak peek, timeline & logistics consultation, private digital gallery',
     category: 'Event'
   },
   event_premium: {
     name: 'Event Premium Coverage',
     duration: 480,
-    priceCents: 120000,
-    description: '8 hours coverage, 200+ edited photos, two photographers, USB drive included',
+    priceCents: 180000,
+    description: 'Up to 8 hours full-day coverage, signature duo coverage, 250+ high-resolution edited photos, custom mobile gallery app',
     category: 'Event'
   }
 }
@@ -250,7 +250,7 @@ export default function BookSessionPage() {
     if (bookingOption === 'consultation') return 0
     if (bookingOption === 'custom') {
       // Custom pricing formula - match PricingCalculator.tsx logic
-      const hourlyRate = 400_00 // $400/hr for all types
+      const hourlyRate = 500_00 // $500/hr for all types
       const proratedBase = Math.round((hourlyRate * customDuration) / 60)
       
       // Family group surcharge: $50 per person over 5
@@ -660,9 +660,9 @@ export default function BookSessionPage() {
                           onChange={(e) => setSelectedType(e.target.value as PackageKey)}
                         >
                           <optgroup label="Portrait Photography">
-                            <option value="portrait_mini">Portrait Mini - $250 (30 min)</option>
-                            <option value="portrait_standard">Portrait Standard - $400 (60 min)</option>
-                            <option value="portrait_extended">Portrait Extended - $550 (90 min)</option>
+                            <option value="portrait_mini">Portrait Mini - $350 (30 min)</option>
+                            <option value="portrait_standard">Portrait Standard - $500 (60 min)</option>
+                            <option value="portrait_extended">Portrait Extended - $750 (90 min)</option>
                           </optgroup>
                           <optgroup label="Wedding Photography">
                             <option value="wedding_essential">Wedding Essential - $1,500 (4 hrs)</option>
@@ -675,9 +675,9 @@ export default function BookSessionPage() {
                             <option value="commercial_enterprise">Commercial Enterprise - $2,000 (Full day)</option>
                           </optgroup>
                           <optgroup label="Event Photography">
-                            <option value="event_basic">Event Basic - $400 (2 hrs)</option>
-                            <option value="event_standard">Event Standard - $700 (4 hrs)</option>
-                            <option value="event_premium">Event Premium - $1,200 (8 hrs)</option>
+                            <option value="event_basic">Event Basic - $600 (2 hrs)</option>
+                            <option value="event_standard">Event Standard - $1,000 (4 hrs)</option>
+                            <option value="event_premium">Event Premium - $1,800 (8 hrs)</option>
                           </optgroup>
                         </select>
                         {selectedType !== 'consultation' && (
