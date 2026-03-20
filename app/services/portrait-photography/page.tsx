@@ -240,7 +240,7 @@ export default function PortraitPhotographyPage() {
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-white p-8 rounded-lg shadow-lg">
               <h3 className="text-xl font-bold mb-4">Mini Session</h3>
-              <p className="text-2xl font-semibold text-orange-600 italic mb-4">Starting at $350</p>
+              <p className="text-2xl font-semibold mb-4"><span className="text-black italic">Starting at </span><span className="text-orange-600 not-italic">$350</span></p>
               <ul className="space-y-2 mb-6">
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-600" />
@@ -279,7 +279,7 @@ export default function PortraitPhotographyPage() {
                 </span>
               </div>
               <h3 className="text-xl font-bold mb-4">Standard Session</h3>
-              <p className="text-2xl font-semibold text-orange-600 italic mb-4">Starting at $500</p>
+              <p className="text-2xl font-semibold mb-4"><span className="text-black italic">Starting at </span><span className="text-orange-600 not-italic">$500</span></p>
               <ul className="space-y-2 mb-6">
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-600" />
@@ -317,7 +317,7 @@ export default function PortraitPhotographyPage() {
             
             <div className="bg-white p-8 rounded-lg shadow-lg">
               <h3 className="text-xl font-bold mb-4">Extended Session</h3>
-              <p className="text-2xl font-semibold text-orange-600 italic mb-4">Starting at $750</p>
+              <p className="text-2xl font-semibold mb-4"><span className="text-black italic">Starting at </span><span className="text-orange-600 not-italic">$750</span></p>
               <ul className="space-y-2 mb-6">
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-600" />
