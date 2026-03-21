@@ -58,9 +58,9 @@ const services = [
 		{
 			icon: Building,
 			title: 'Commercial Photography',
-			startingPrice: 'Starting at $599',
+			startingPrice: 'Starting at $500',
 			description:
-				'Product photography, business headshots, and marketing materials for your brand.',
+				'Brand imagery, product photography, and business content captured by our Two-Pro Production Team — more coverage, same rate.',
 			features: [
 				'Product shots',
 				'Brand imagery',

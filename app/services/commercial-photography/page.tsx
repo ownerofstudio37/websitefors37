@@ -3,21 +3,22 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 import { generateServiceSchema } from '@/lib/seo-config'
+import { generateOfferSchema } from '@/lib/enhanced-seo-helpers'
 import CommercialHighlightGallery from '@/components/CommercialHighlightGallery'
-import { Building2, Camera, Users, Briefcase, CheckCircle, ArrowRight } from 'lucide-react'
+import { Building2, Camera, Users, Briefcase, CheckCircle, ArrowRight, Star } from 'lucide-react'
 
 export const metadata = generateSEOMetadata({
-  title: 'Commercial Photography Pinehurst TX - Business Photography Studio37',
-  description: 'Elevate your brand with professional commercial photography in Pinehurst, TX. Product shots, headshots, corporate branding & marketing photos. Serving Montgomery County & Houston. Get a quote!',
+  title: 'Commercial Photography Pinehurst TX – Duo Production Team | Studio37',
+  description: 'Two-Pro Production Team commercial photography in Pinehurst, TX. Brand imagery, product photography, corporate headshots & marketing content starting at $500. Serving Montgomery County & Houston.',
   keywords: [
     'commercial photography Pinehurst TX',
     'business photographer Texas',
     'product photography Montgomery County',
     'corporate headshots The Woodlands',
     'marketing photography Pinehurst',
-    'business photography Texas',
-    'professional commercial photography Montgomery County',
-    'brand photography Houston area'
+    'brand photography Houston area',
+    'two photographer commercial session Texas',
+    'duo production team photography'
   ],
   canonicalUrl: 'https://www.studio37.cc/services/commercial-photography',
   pageType: 'service'
@@ -29,8 +30,43 @@ export const revalidate = 86400
 export default function CommercialPhotographyPage() {
   const serviceSchema = generateServiceSchema(
     'Commercial Photography',
-    'Professional commercial photography services in Pinehurst, Texas. Specializing in product photography, corporate headshots, and business marketing imagery.'
+    'Professional commercial photography services in Pinehurst, Texas. Two-Pro Production Team specializing in brand imagery, product photography, corporate headshots, and business marketing content.'
   )
+
+  const offerSchemas = [
+    generateOfferSchema({
+      name: 'Business Express',
+      description: 'One-hour commercial shoot with our Duo Production Team. 15+ edited images delivered in 48 hours with full commercial usage rights.',
+      price: 500,
+      priceCurrency: 'USD',
+      url: 'https://www.studio37.cc/services/commercial-photography',
+      seller: 'Studio37',
+    }),
+    generateOfferSchema({
+      name: 'Brand Starter',
+      description: 'Two-hour commercial session with our Duo Production Team. 30+ edited images, brand consultation, 48-hr Fast-Track delivery, and full commercial license.',
+      price: 850,
+      priceCurrency: 'USD',
+      url: 'https://www.studio37.cc/services/commercial-photography',
+      seller: 'Studio37',
+    }),
+    generateOfferSchema({
+      name: 'Content Library',
+      description: 'Four-hour commercial production with our Duo Production Team. 75+ edited images, pre-shoot brand strategy session, 24-hr sneak-peek preview, and full commercial license.',
+      price: 1500,
+      priceCurrency: 'USD',
+      url: 'https://www.studio37.cc/services/commercial-photography',
+      seller: 'Studio37',
+    }),
+    generateOfferSchema({
+      name: 'Full Brand Story',
+      description: 'Full-day brand production with our Duo Production Team. 150+ edited images, branding audit, behind-the-scenes reel, and 5-day delivery with full commercial license.',
+      price: 2800,
+      priceCurrency: 'USD',
+      url: 'https://www.studio37.cc/services/commercial-photography',
+      seller: 'Studio37',
+    }),
+  ]
 
   return (
     <div className="pt-16">
@@ -39,9 +75,16 @@ export default function CommercialPhotographyPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
       />
+      {offerSchemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
 
       {/* Hero Section */}
-      <section className="relative h-96 bg-gradient-to-r from-gray-900 to-blue-900">
+      <section className="relative h-[480px] bg-gradient-to-r from-gray-900 to-blue-900">
         <div className="absolute inset-0 opacity-40">
           <Image
             src="https://images.unsplash.com/photo-1560472355-536de3962603?w=1200&h=600&fit=crop"
@@ -53,16 +96,19 @@ export default function CommercialPhotographyPage() {
         </div>
         <div className="relative z-10 container mx-auto px-4 h-full flex items-center">
           <div className="text-white max-w-2xl">
+            <p className="eyebrow text-white/80 mb-3">Two-Pro Production Team · Pinehurst, TX</p>
             <h1 className="text-5xl font-bold mb-4">Commercial Photography in Pinehurst, TX</h1>
-            <p className="text-xl mb-6">
-              Elevate your business with professional commercial photography. 
-              From product shots to corporate headshots, we help your brand shine.
+            <p className="text-xl mb-3 text-white/90">
+              We don&apos;t just take photos; we build your brand&apos;s visual identity. With our Two-Pro Production Team, we capture more content in less time, so you can get back to business.
+            </p>
+            <p className="text-base mb-8 text-white/70">
+              Starting at $500 — full commercial usage license included on every session.
             </p>
             <Link 
-              href="/contact" 
+              href="/book-consultation" 
               className="btn-primary text-lg px-8 py-4 inline-flex items-center"
             >
-              Start Your Project <ArrowRight className="ml-2 h-5 w-5" />
+              Book a Consultation <ArrowRight className="ml-2 h-5 w-5" />
             </Link>
           </div>
         </div>
@@ -172,38 +218,37 @@ export default function CommercialPhotographyPage() {
             
             <div>
               <h2 className="text-3xl font-bold mb-6">Why Choose Studio37 for Commercial Photography?</h2>
-              <p className="text-lg text-gray-600 mb-8">
-                Located in Pinehurst, Texas, we understand the unique needs of Montgomery County businesses. 
-                Our commercial photography helps you stand out in competitive markets.
+              <p className="text-lg text-stone-600 mb-8">
+                Located in Pinehurst, Texas, our Two-Pro Production Team brings double the coverage, perspective, and efficiency to every commercial shoot — all for the same rate as a single-photographer session.
               </p>
               
               <div className="space-y-4">
                 <div className="flex items-start gap-3">
                   <CheckCircle className="h-6 w-6 text-green-600 flex-shrink-0 mt-1" />
                   <div>
-                    <h3 className="font-semibold mb-1">Brand-Focused Approach</h3>
-                    <p className="text-gray-600">We understand your brand and create images that align with your identity</p>
+                    <h3 className="font-semibold mb-1">Two-Pro Production Team</h3>
+                    <p className="text-stone-600">Two photographers on every session — one leads creative direction while the second captures candid moments and detail shots simultaneously</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
                   <CheckCircle className="h-6 w-6 text-green-600 flex-shrink-0 mt-1" />
                   <div>
-                    <h3 className="font-semibold mb-1">High-End Equipment</h3>
-                    <p className="text-gray-600">Professional studio lighting and camera equipment for perfect results</p>
+                    <h3 className="font-semibold mb-1">Brand-First Approach</h3>
+                    <p className="text-stone-600">We study your brand guidelines and target audience before lifting a camera, so every image communicates your unique value proposition</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
                   <CheckCircle className="h-6 w-6 text-green-600 flex-shrink-0 mt-1" />
                   <div>
-                    <h3 className="font-semibold mb-1">Flexible Scheduling</h3>
-                    <p className="text-gray-600">On-location or studio sessions that work with your business schedule</p>
+                    <h3 className="font-semibold mb-1">Fast, Reliable Delivery</h3>
+                    <p className="text-stone-600">48-hour rush available on select tiers; all packages include web, print, social, and ad-ready file formats</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
                   <CheckCircle className="h-6 w-6 text-green-600 flex-shrink-0 mt-1" />
                   <div>
-                    <h3 className="font-semibold mb-1">Commercial Usage Rights</h3>
-                    <p className="text-gray-600">Full rights to use images across all your marketing channels</p>
+                    <h3 className="font-semibold mb-1">Full Commercial License on Every Session</h3>
+                    <p className="text-stone-600">No hidden licensing fees — every package includes unlimited commercial usage rights across all your marketing channels</p>
                   </div>
                 </div>
               </div>
@@ -257,98 +302,137 @@ export default function CommercialPhotographyPage() {
       </section>
 
       {/* Packages */}
-      <section className="py-16 bg-white">
+      <section className="section-shell bg-stone-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
+            <p className="eyebrow mb-2">Transparent Pricing</p>
             <h2 className="text-3xl font-bold mb-4">Commercial Photography Packages</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Professional commercial photography solutions for businesses in Pinehurst, TX
+            <p className="text-lg text-stone-600 max-w-2xl mx-auto">
+              Every tier includes our Two-Pro Production Team — two photographers, one rate, twice the coverage.
             </p>
           </div>
-          
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-white p-8 rounded-lg shadow-lg">
-              <h3 className="text-xl font-bold mb-4">Starter Package</h3>
-              <p className="font-semibold mb-4"><span className="text-base text-black italic">Starting at </span><span className="text-3xl text-orange-600 not-italic">$500</span></p>
-              <ul className="space-y-2 mb-6">
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>2 hour session</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>20+ edited images</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>High-resolution files</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>Commercial usage rights</span>
-                </li>
+
+          <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-8 items-start">
+
+            {/* Business Express */}
+            <div className="surface-panel p-8 flex flex-col h-full">
+              <div className="mb-4">
+                <p className="text-xs font-semibold uppercase tracking-widest text-stone-500 mb-1">Business Express</p>
+                <p className="text-4xl font-bold text-stone-900">$500</p>
+                <p className="text-sm text-stone-500 mt-1">1-hour session</p>
+              </div>
+              <ul className="space-y-2 mb-8 flex-1">
+                {[
+                  'The Duo Advantage: Two photographers working simultaneously to capture hero shots and behind-the-scenes action in a single hour.',
+                  '15+ professionally edited images',
+                  'High-resolution delivery files',
+                  'Full Commercial Usage License',
+                  '48-hour turnaround delivery',
+                  'Online private gallery + download portal',
+                ].map((item) => (
+                  <li key={item} className="flex items-start gap-2 text-sm text-stone-700">
+                    <CheckCircle className="h-4 w-4 text-green-600 flex-shrink-0 mt-0.5" />
+                    <span>{item}</span>
+                  </li>
+                ))}
               </ul>
-              <Link href="/contact" className="btn-secondary w-full text-center block">
-                Choose Starter
+              <Link href="/book-consultation" className="btn-secondary w-full text-center block">
+                Book Business Express
               </Link>
             </div>
-            
-            <div className="bg-white p-8 rounded-lg shadow-lg border-2 border-primary-200 relative">
-              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                <span className="bg-primary-600 text-white px-4 py-1 rounded-full text-sm font-medium">
-                  Most Popular
+
+            {/* Brand Starter */}
+            <div className="surface-panel p-8 flex flex-col h-full">
+              <div className="mb-4">
+                <p className="text-xs font-semibold uppercase tracking-widest text-stone-500 mb-1">Brand Starter</p>
+                <p className="text-4xl font-bold text-stone-900">$850</p>
+                <p className="text-sm text-stone-500 mt-1">2-hour session</p>
+              </div>
+              <ul className="space-y-2 mb-8 flex-1">
+                {[
+                  'The Duo Advantage: One photographer handles product and detail work while the second captures lifestyle and team moments — no need to pause and reset.',
+                  '30+ professionally edited images',
+                  'Brand style brief & shot list planning',
+                  'Full Commercial Usage License',
+                  '48-hr Fast-Track delivery',
+                  'Web, print & social media files',
+                  'Online private gallery + download portal',
+                ].map((item) => (
+                  <li key={item} className="flex items-start gap-2 text-sm text-stone-700">
+                    <CheckCircle className="h-4 w-4 text-green-600 flex-shrink-0 mt-0.5" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+              <Link href="/book-consultation" className="btn-secondary w-full text-center block">
+                Book Brand Starter
+              </Link>
+            </div>
+
+            {/* Content Library — Most Popular */}
+            <div className="surface-panel p-8 flex flex-col h-full border-2 border-primary-400 relative">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                <span className="bg-primary-600 text-white px-4 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
+                  <Star className="h-3 w-3" /> Most Popular
                 </span>
               </div>
-              <h3 className="text-xl font-bold mb-4">Professional Package</h3>
-              <p className="font-semibold mb-4"><span className="text-base text-black italic">Starting at </span><span className="text-3xl text-orange-600 not-italic">$1,000</span></p>
-              <ul className="space-y-2 mb-6">
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>4 hour session</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>50+ edited images</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>Multiple setups/locations</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>Brand consultation</span>
-                </li>
+              <div className="mb-4">
+                <p className="text-xs font-semibold uppercase tracking-widest text-primary-600 mb-1">Content Library</p>
+                <p className="text-4xl font-bold text-stone-900">$1,500</p>
+                <p className="text-sm text-stone-500 mt-1">4-hour session</p>
+              </div>
+              <ul className="space-y-2 mb-8 flex-1">
+                {[
+                  'The Duo Advantage: Dedicated coverage of your space, team, product, and brand lifestyle — all in one production block, with zero overlap in shot coverage.',
+                  '75+ professionally edited images',
+                  'Pre-shoot brand consultation & strategy',
+                  'Full Commercial Usage License',
+                  '24-hour sneak-peek preview gallery',
+                  'Final delivery in 5–7 business days',
+                  'Web, print, social & ad-ready files',
+                  'Online private gallery + download portal',
+                ].map((item) => (
+                  <li key={item} className="flex items-start gap-2 text-sm text-stone-700">
+                    <CheckCircle className="h-4 w-4 text-green-600 flex-shrink-0 mt-0.5" />
+                    <span>{item}</span>
+                  </li>
+                ))}
               </ul>
-              <Link href="/contact" className="btn-primary w-full text-center block">
-                Choose Professional
+              <Link href="/book-consultation" className="btn-primary w-full text-center block">
+                Book Content Library
               </Link>
             </div>
-            
-            <div className="bg-white p-8 rounded-lg shadow-lg">
-              <h3 className="text-xl font-bold mb-4">Enterprise Package</h3>
-              <p className="font-semibold mb-4"><span className="text-base text-black italic">Starting at </span><span className="text-3xl text-orange-600 not-italic">$2,000</span></p>
-              <ul className="space-y-2 mb-6">
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>Full day coverage</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>100+ edited images</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>Multiple photographers</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>Ongoing brand support</span>
-                </li>
+
+            {/* Full Brand Story */}
+            <div className="surface-panel p-8 flex flex-col h-full">
+              <div className="mb-4">
+                <p className="text-xs font-semibold uppercase tracking-widest text-stone-500 mb-1">Full Brand Story</p>
+                <p className="text-4xl font-bold text-stone-900">$2,800</p>
+                <p className="text-sm text-stone-500 mt-1">Full-day session (8 hrs)</p>
+              </div>
+              <ul className="space-y-2 mb-8 flex-1">
+                {[
+                  'The Duo Advantage: A full day with two photographers means every angle, every team member, every product SKU, and every brand moment is captured — guaranteed.',
+                  '150+ professionally edited images',
+                  'Pre-shoot branding audit & shot strategy',
+                  'Full Commercial Usage License',
+                  'Behind-the-scenes video reel included',
+                  '5-business-day delivery guarantee',
+                  'Web, print, social, OOH & ad-ready files',
+                  'Online private gallery + download portal',
+                  'Priority scheduling & dedicated account contact',
+                ].map((item) => (
+                  <li key={item} className="flex items-start gap-2 text-sm text-stone-700">
+                    <CheckCircle className="h-4 w-4 text-green-600 flex-shrink-0 mt-0.5" />
+                    <span>{item}</span>
+                  </li>
+                ))}
               </ul>
-              <Link href="/contact" className="btn-secondary w-full text-center block">
-                Choose Enterprise
+              <Link href="/book-consultation" className="btn-secondary w-full text-center block">
+                Book Full Brand Story
               </Link>
             </div>
+
           </div>
         </div>
       </section>
@@ -426,17 +510,17 @@ export default function CommercialPhotographyPage() {
       {/* CTA Section */}
       <section className="py-16 bg-gradient-to-r from-primary-600 to-gray-700 text-white">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-4">Ready to Elevate Your Business Photography?</h2>
+          <h2 className="text-3xl font-bold mb-4">Ready to Build Your Brand's Visual Identity?</h2>
           <p className="text-xl mb-8 max-w-2xl mx-auto">
-            Let's discuss your commercial photography needs and create compelling visuals that drive results. 
+            Let&apos;s plan your commercial shoot. Two photographers. One rate. Twice the content.
             Serving businesses throughout Pinehurst, Montgomery County, and beyond.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link 
-              href="/contact" 
+              href="/book-consultation" 
               className="bg-white text-primary-600 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
             >
-              Get Commercial Quote
+              Book a Consultation
             </Link>
             <Link 
               href="/gallery" 
@@ -459,7 +543,7 @@ export default function CommercialPhotographyPage() {
       <div className="bg-primary-50 border-y border-primary-200">
         <div className="container mx-auto px-4 py-4">
           <p className="text-center text-primary-800 font-medium">
-            Two photographers on site — for the price of one. More coverage, more moments, same rate.
+            Two-Pro Production Team on every commercial shoot — double the coverage, same competitive rate.
           </p>
         </div>
       </div>
