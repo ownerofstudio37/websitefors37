@@ -165,13 +165,12 @@ export default function Services() {
 									</div>
 
 					{/* Static service image - optimized for performance */}
-				<div className="mb-5 aspect-[4/3] relative rounded-2xl overflow-hidden bg-stone-200">
+				<div className="mb-5 aspect-[4/3] relative rounded-2xl overflow-hidden bg-stone-200 w-full">
 					<OptimizedImage
 						src={service.image}
 						alt={service.title}
-						width={400}
-						height={300}
-						className="w-full h-full"
+						fill
+						className="!relative w-full h-full"
 						imgClassName="object-cover group-hover:scale-105 transition-transform duration-500"
 						priority={index < 2}
 						quality={70}
