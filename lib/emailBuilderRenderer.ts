@@ -44,7 +44,7 @@ const BRAND = {
   facebook:   'https://www.facebook.com/studio37photography',
   bookingUrl: 'https://www.studio37.cc/book-consultation',
   logoLight:  'https://res.cloudinary.com/dmjxho2rl/image/upload/v1756077115/My%20Brand/IMG_2115_mtuowt.png',
-  logoDark:   'https://res.cloudinary.com/dmjxho2rl/image/upload/v1762887036/IMG_2115_mtuowt_wgubjf.png',
+  logoDark:   'https://res.cloudinary.com/dmjxho2rl/image/upload/v1762887052/IMG_2115_mtuowt_tayodz.png',
 }
 
 const FONT = '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Ubuntu,sans-serif'
