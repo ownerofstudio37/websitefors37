@@ -15,22 +15,24 @@ import { createLogger } from "./logger";
 
 const log = createLogger("lib/ai-client");
 
-// Resolve default model from env with safe fallbacks (Gemini 3 Flash/Pro primary, Gemini 2.5 secondary)
+// Resolve default model from env with safe fallbacks.
+// IMPORTANT: if GOOGLE_GENAI_MODEL is set to a deprecated/invalid ID the
+// fallback chain below is tried automatically.
 const ENV_MODEL =
   process.env.GOOGLE_GENAI_MODEL ||
   process.env.GEMINI_MODEL ||
   process.env.AI_MODEL ||
-  "gemini-3-flash-preview";
+  "gemini-3-flash";
 
-// Known good fallbacks in descending preference (Gemini 3 Flash/Pro primary)
+// Current live models as of March 2026 (from Google AI Studio).
+// Stable/production first, preview models at the end.
 export const MODEL_FALLBACKS = [
-  "gemini-3-flash-preview",
-  "gemini-3-pro-preview",
-  "gemini-2.5-flash",
-  "gemini-2.5-pro",
-  "gemini-2.5-flash-lite",
-  "gemini-1.5-flash-latest",
-  "gemini-1.5-flash",
+  "gemini-3-flash",        // Gemini 3 Flash — production, frontier-class
+  "gemini-2.5-flash",      // Gemini 2.5 Flash — best price/performance with reasoning
+  "gemini-2.5-flash-lite", // Gemini 2.5 Flash-Lite — fastest / cheapest
+  "gemini-2.5-pro",        // Gemini 2.5 Pro — complex tasks + deep reasoning
+  "gemini-3.1-pro-preview",     // Gemini 3.1 Pro — agentic / advanced (preview)
+  "gemini-3.1-flash-lite",      // Gemini 3.1 Flash-Lite (preview)
 ];
 
 // Model configurations for different use cases
@@ -180,12 +182,19 @@ export async function generateText(
         lastError = error;
         const errorMsg = String(error?.message || error || "");
 
-        // If model not found/unsupported, break to next candidate immediately
-        if (
-          error?.status === 404 ||
-          /model(.+)?not (found|available|supported)/i.test(errorMsg)
-        ) {
-          log.warn("Model unavailable, trying next fallback", { candidate, error: errorMsg });
+        // If model not found/unsupported, break to next candidate immediately.
+        // Cast status to number to handle both numeric and string representations.
+        const statusCode = Number(error?.status ?? error?.code ?? error?.httpErrorCode ?? 0);
+        const isModelUnavailable =
+          statusCode === 404 ||
+          statusCode === 400 ||
+          /model(.+)?(not found|does not exist|not available|not supported|invalid|deprecated)/i.test(errorMsg) ||
+          /is not found/i.test(errorMsg) ||
+          /unknown model/i.test(errorMsg) ||
+          /models\/.+is not/i.test(errorMsg);
+
+        if (isModelUnavailable) {
+          log.warn("Model unavailable, trying next fallback", { candidate, statusCode, error: errorMsg });
           break; // move to next candidate
         }
 

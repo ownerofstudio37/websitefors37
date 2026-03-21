@@ -346,3 +346,46 @@ Return strict JSON:
     return NextResponse.json({ success: false, error: error?.message || 'Assistant failed' }, { status: 500 })
   }
 }
+
+export async function GET(request: NextRequest) {
+  try {
+    const user = await requireAdminRole('editor')
+    const supabase = getSupabaseAdmin()
+
+    // Auth check
+    const authStatus = user ? 'ok' : 'failed'
+
+    // AI key check
+    const apiKey = process.env.GOOGLE_API_KEY || process.env.GEMINI_API_KEY || ''
+    const aiKeyStatus = apiKey.length > 10 ? 'ok' : 'missing'
+
+    // DB connectivity check
+    let dbStatus = 'ok'
+    let dbError: string | null = null
+    try {
+      const { error } = await supabase.from('blog_posts').select('id').limit(1)
+      if (error) { dbStatus = 'error'; dbError = error.message }
+    } catch (e: any) {
+      dbStatus = 'error'
+      dbError = e?.message || 'DB check failed'
+    }
+
+    return NextResponse.json({
+      ok: true,
+      user: { email: user.email, role: user.role },
+      diagnostics: {
+        auth: authStatus,
+        aiKey: aiKeyStatus,
+        aiKeyHint: apiKey ? `${apiKey.slice(0, 6)}...` : 'not set',
+        db: dbStatus,
+        dbError,
+        envModel: process.env.GOOGLE_GENAI_MODEL || process.env.GEMINI_MODEL || 'default (gemini-1.5-flash)',
+      },
+    })
+  } catch (error: any) {
+    if (error?.message === 'UNAUTHORIZED' || error?.message === 'FORBIDDEN') {
+      return authErrorResponse(error)
+    }
+    return NextResponse.json({ ok: false, error: error?.message || 'Health check failed' }, { status: 500 })
+  }
+}
