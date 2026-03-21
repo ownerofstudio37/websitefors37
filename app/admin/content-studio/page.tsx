@@ -102,15 +102,15 @@ const BLOCK_CATALOG: { type: BlockType; label: string; icon: string; desc: strin
 ]
 
 const DEFAULT_DATA: Record<BlockType, Record<string, any>> = {
-  cover:          { title: 'Your Guide Title', subtitle: 'A comprehensive guide to help you succeed', category: 'FREE GUIDE', author: 'Studio37', year: String(new Date().getFullYear()) },
-  'section-header': { number: '01', title: 'Section Title', description: 'What you\'ll learn in this section.' },
-  'body-text':    { content: 'Write your content here. Provide value-packed insights that readers can act on immediately.' },
-  bullets:        { heading: 'Key Takeaways', items: ['First important point to remember', 'Second key insight for success', 'Third actionable step to implement'] },
-  'feature-cards':{ heading: 'What\'s Included', cards: [{ icon: '✦', title: 'Feature One', description: 'Brief description.' }, { icon: '◆', title: 'Feature Two', description: 'Brief description.' }] },
-  'stats-row':    { stats: [{ value: '10K+', label: 'Clients Served' }, { value: '98%', label: 'Satisfaction' }, { value: '5★', label: 'Rating' }] },
-  'quote-callout':{ quote: 'An inspiring quote or key insight that deserves special attention.', author: 'Source' },
-  'tip-box':      { label: 'PRO TIP', content: 'An important tip your readers should pay special attention to.' },
-  cta:            { heading: 'Ready to Take Action?', subtext: 'Join thousands who have transformed their results.', buttonText: 'Book a Free Consultation', buttonUrl: 'https://studio37.cc/book-consultation' },
+  cover:          { title: 'Session Prep Guide', subtitle: 'Helpful steps to prepare and feel confident', category: 'FREE GUIDE', author: 'Studio37', year: String(new Date().getFullYear()) },
+  'section-header': { number: '01', title: 'Plan Ahead', description: 'Set expectations and prepare for a smooth experience.' },
+  'body-text':    { content: 'Use this section for clear, helpful guidance your audience can act on today.' },
+  bullets:        { heading: 'Checklist', items: ['What to bring', 'What to wear', 'How to prepare before your date'] },
+  'feature-cards':{ heading: 'What Matters Most', cards: [{ icon: '📍', title: 'Plan', description: 'Confirm timing and location details.' }, { icon: '✨', title: 'Prepare', description: 'Bring essentials and backup options.' }] },
+  'stats-row':    { stats: [{ value: '1', label: 'Prep Call' }, { value: '2', label: 'Outfit Options' }, { value: '24h', label: 'Preview Goal' }] },
+  'quote-callout':{ quote: 'Preparation creates confidence, and confidence creates better photos.', author: 'Studio37 Team' },
+  'tip-box':      { label: 'PRO TIP', content: 'Keep prep simple and focus on feeling comfortable and connected.' },
+  cta:            { heading: 'Ready to Plan Your Session?', subtext: 'We can help you map out everything step-by-step.', buttonText: 'Book a Consultation', buttonUrl: 'https://studio37.cc/book-consultation' },
   divider:        {},
   spacer:         { height: 40 },
 }
@@ -134,32 +134,32 @@ function BlockRenderer({ block, theme: t, isPDF }: { block: ContentBlock; theme:
 
     case 'section-header':
       return (
-        <div style={{ ...base, padding: '32px 48px 16px', borderBottom: `2px solid ${t.accent}40`, display: 'flex', alignItems: 'flex-start', gap: 16 }}>
-          <div style={{ minWidth: 40, height: 40, borderRadius: 8, background: t.accent, color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: 14, flexShrink: 0 }}>{data.number || '01'}</div>
+        <div style={{ ...base, padding: '26px 34px 18px', borderTop: `1px solid ${t.border}`, borderBottom: `1px solid ${t.border}`, background: t.surface, display: 'flex', alignItems: 'flex-start', gap: 14 }}>
+          <div style={{ minWidth: 44, height: 44, borderRadius: 10, background: t.accent, color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: 20, lineHeight: 1, flexShrink: 0, fontFamily: 'Georgia, serif' }}>{data.number || '01'}</div>
           <div>
-            <div style={{ fontSize: 22, fontWeight: 700, lineHeight: 1.2, marginBottom: 4 }}>{data.title}</div>
-            {data.description && <div style={{ fontSize: 13, color: t.muted, lineHeight: 1.5 }}>{data.description}</div>}
+            <div style={{ fontSize: 24, fontWeight: 700, lineHeight: 1.2, marginBottom: 4, fontFamily: 'Georgia, serif' }}>{data.title}</div>
+            {data.description && <div style={{ fontSize: 14, color: t.muted, lineHeight: 1.55 }}>{data.description}</div>}
           </div>
         </div>
       )
 
     case 'body-text':
       return (
-        <div style={{ ...base, padding: '20px 48px', fontSize: 14, lineHeight: 1.8, color: t.text }}>
+        <div style={{ ...base, padding: '22px 34px', fontSize: 16, lineHeight: 1.8, color: t.text }}>
           {(data.content || '').split('\n\n').map((p: string, i: number) => (
-            <p key={i} style={{ marginBottom: 12 }}>{p}</p>
+            <p key={i} style={{ marginBottom: 14 }}>{p}</p>
           ))}
         </div>
       )
 
     case 'bullets':
       return (
-        <div style={{ ...base, padding: '20px 48px' }}>
-          {data.heading && <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 12, color: t.accent }}>{data.heading}</div>}
+        <div style={{ ...base, padding: '24px 34px', background: t.surface, borderTop: `1px solid ${t.border}` }}>
+          {data.heading && <div style={{ fontSize: 33, fontWeight: 700, marginBottom: 14, color: t.accent, fontFamily: 'Georgia, serif' }}>{data.heading}</div>}
           <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 8 }}>
             {(data.items || []).map((item: string, i: number) => (
-              <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, fontSize: 13, lineHeight: 1.5 }}>
-                <span style={{ color: t.accent, fontSize: 16, flexShrink: 0, marginTop: 1 }}>✓</span>
+              <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 11, fontSize: 15, lineHeight: 1.6 }}>
+                <span style={{ color: t.accent, fontSize: 22, flexShrink: 0, marginTop: -1 }}>✓</span>
                 <span>{item}</span>
               </li>
             ))}
@@ -169,14 +169,14 @@ function BlockRenderer({ block, theme: t, isPDF }: { block: ContentBlock; theme:
 
     case 'feature-cards':
       return (
-        <div style={{ ...base, padding: '24px 48px' }}>
-          {data.heading && <div style={{ fontSize: 16, fontWeight: 700, marginBottom: 16, textAlign: 'center' }}>{data.heading}</div>}
-          <div style={{ display: 'grid', gridTemplateColumns: `repeat(${Math.min(data.cards?.length || 2, 3)}, 1fr)`, gap: 12 }}>
+        <div style={{ ...base, padding: '26px 34px', background: t.surface, borderTop: `1px solid ${t.border}` }}>
+          {data.heading && <div style={{ fontSize: 22, fontWeight: 700, marginBottom: 18, textAlign: 'center', fontFamily: 'Georgia, serif' }}>{data.heading}</div>}
+          <div style={{ display: 'grid', gridTemplateColumns: `repeat(${Math.min(data.cards?.length || 2, 3)}, 1fr)`, gap: 14 }}>
             {(data.cards || []).map((card: any, i: number) => (
-              <div key={i} style={{ background: t.surface, border: `1px solid ${t.border}`, borderRadius: 10, padding: '16px 14px', textAlign: 'center' }}>
-                <div style={{ fontSize: 24, marginBottom: 8 }}>{card.icon}</div>
-                <div style={{ fontSize: 13, fontWeight: 700, marginBottom: 4 }}>{card.title}</div>
-                <div style={{ fontSize: 11, color: t.muted, lineHeight: 1.4 }}>{card.description}</div>
+              <div key={i} style={{ background: '#fff', border: `1px solid ${t.border}`, borderRadius: 14, padding: '18px 16px', textAlign: 'center', minHeight: 210, boxShadow: '0 6px 16px rgba(15,23,42,0.05)' }}>
+                <div style={{ fontSize: 28, marginBottom: 10 }}>{card.icon}</div>
+                <div style={{ fontSize: 16, fontWeight: 700, marginBottom: 6, fontFamily: 'Georgia, serif' }}>{card.title}</div>
+                <div style={{ fontSize: 12, color: t.muted, lineHeight: 1.5 }}>{card.description}</div>
               </div>
             ))}
           </div>
@@ -185,11 +185,11 @@ function BlockRenderer({ block, theme: t, isPDF }: { block: ContentBlock; theme:
 
     case 'stats-row':
       return (
-        <div style={{ ...base, background: t.accentBg, padding: '28px 48px', display: 'flex', justifyContent: 'center', gap: 0 }}>
+        <div style={{ ...base, background: t.accentBg, padding: '30px 34px', display: 'flex', justifyContent: 'center', gap: 0, borderTop: `1px solid ${t.border}` }}>
           {(data.stats || []).map((stat: any, i: number, arr: any[]) => (
             <div key={i} style={{ flex: 1, textAlign: 'center', borderRight: i < arr.length - 1 ? `1px solid ${t.border}` : undefined, padding: '0 16px' }}>
-              <div style={{ fontSize: 32, fontWeight: 800, color: t.accent, lineHeight: 1 }}>{stat.value}</div>
-              <div style={{ fontSize: 11, color: t.muted, marginTop: 4, textTransform: 'uppercase', letterSpacing: '0.08em' }}>{stat.label}</div>
+              <div style={{ fontSize: 40, fontWeight: 800, color: t.accent, lineHeight: 1, fontFamily: 'Georgia, serif' }}>{stat.value}</div>
+              <div style={{ fontSize: 13, color: t.muted, marginTop: 6, textTransform: 'uppercase', letterSpacing: '0.08em' }}>{stat.label}</div>
             </div>
           ))}
         </div>
@@ -197,23 +197,23 @@ function BlockRenderer({ block, theme: t, isPDF }: { block: ContentBlock; theme:
 
     case 'quote-callout':
       return (
-        <div style={{ ...base, padding: '24px 48px' }}>
-          <div style={{ background: t.accentBg, borderLeft: `4px solid ${t.accent}`, borderRadius: '0 10px 10px 0', padding: '20px 24px' }}>
-            <div style={{ fontSize: 28, color: t.accent, lineHeight: 1, marginBottom: 8 }}>"</div>
-            <div style={{ fontSize: 15, fontStyle: 'italic', lineHeight: 1.6, color: t.text }}>{data.quote}</div>
-            {data.author && <div style={{ marginTop: 12, fontSize: 12, fontWeight: 600, color: t.muted }}>— {data.author}</div>}
+        <div style={{ ...base, padding: '24px 34px' }}>
+          <div style={{ background: t.accentBg, borderLeft: `5px solid ${t.accent}`, borderRadius: '0 14px 14px 0', padding: '22px 24px' }}>
+            <div style={{ fontSize: 34, color: t.accent, lineHeight: 1, marginBottom: 8, fontFamily: 'Georgia, serif' }}>“</div>
+            <div style={{ fontSize: 16, fontStyle: 'italic', lineHeight: 1.65, color: t.text, fontFamily: 'Georgia, serif' }}>{data.quote}</div>
+            {data.author && <div style={{ marginTop: 12, fontSize: 14, fontWeight: 600, color: t.muted }}>— {data.author}</div>}
           </div>
         </div>
       )
 
     case 'tip-box':
       return (
-        <div style={{ ...base, padding: '16px 48px' }}>
-          <div style={{ background: t.accentBg, border: `1px solid ${t.accent}40`, borderRadius: 10, padding: '16px 18px', display: 'flex', gap: 12, alignItems: 'flex-start' }}>
-            <span style={{ fontSize: 18 }}>💡</span>
+        <div style={{ ...base, padding: '16px 34px' }}>
+          <div style={{ background: t.accentBg, border: `1px solid ${t.accent}40`, borderRadius: 12, padding: '16px 18px', display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+            <span style={{ fontSize: 20 }}>💡</span>
             <div>
-              <div style={{ fontSize: 10, fontWeight: 800, letterSpacing: '0.12em', color: t.accentFg, marginBottom: 4, textTransform: 'uppercase' }}>{data.label || 'PRO TIP'}</div>
-              <div style={{ fontSize: 13, lineHeight: 1.5 }}>{data.content}</div>
+              <div style={{ fontSize: 12, fontWeight: 800, letterSpacing: '0.12em', color: t.accentFg, marginBottom: 4, textTransform: 'uppercase' }}>{data.label || 'PRO TIP'}</div>
+              <div style={{ fontSize: 16, lineHeight: 1.6 }}>{data.content}</div>
             </div>
           </div>
         </div>
@@ -221,10 +221,10 @@ function BlockRenderer({ block, theme: t, isPDF }: { block: ContentBlock; theme:
 
     case 'cta':
       return (
-        <div style={{ ...base, background: `linear-gradient(135deg, ${t.accent} 0%, ${t.accentFg} 100%)`, padding: '36px 48px', textAlign: 'center', color: '#fff' }}>
-          <div style={{ fontSize: 22, fontWeight: 800, marginBottom: 8, fontFamily: 'Georgia, serif' }}>{data.heading}</div>
-          {data.subtext && <div style={{ fontSize: 13, opacity: 0.85, marginBottom: 20 }}>{data.subtext}</div>}
-          <div style={{ display: 'inline-block', background: '#fff', color: t.accent, fontWeight: 700, fontSize: 13, padding: '10px 28px', borderRadius: 8 }}>{data.buttonText || 'Get Started'}</div>
+        <div style={{ ...base, background: `linear-gradient(135deg, ${t.accent} 0%, ${t.accentFg} 100%)`, padding: '42px 34px', textAlign: 'center', color: '#fff' }}>
+          <div style={{ fontSize: 34, fontWeight: 800, marginBottom: 10, fontFamily: 'Georgia, serif', lineHeight: 1.2 }}>{data.heading}</div>
+          {data.subtext && <div style={{ fontSize: 15, opacity: 0.9, marginBottom: 22, lineHeight: 1.55 }}>{data.subtext}</div>}
+          <div style={{ display: 'inline-block', background: '#fff', color: t.accent, fontWeight: 700, fontSize: 15, padding: '12px 30px', borderRadius: 10 }}>{data.buttonText || 'Get Started'}</div>
         </div>
       )
 

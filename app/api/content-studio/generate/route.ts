@@ -49,6 +49,8 @@ function buildGuideBlueprint(topic: string, audienceProfile: string, serviceCont
         title: 'Wedding Photography Planning Guide',
         subtitle: 'How to prepare, what to expect, and how to get timeless images',
         intro: `This guide helps ${audienceProfile} plan a smooth wedding photography experience from first consult to final gallery delivery.`,
+        sectionOneTitle: 'Plan with Intention',
+        sectionOneDesc: 'Start with priorities, timeline, and must-capture moments.',
         checklistHeading: 'Before You Book',
         checklist: [
           'Set priorities: candid moments, portraits, details, family formals',
@@ -72,6 +74,8 @@ function buildGuideBlueprint(topic: string, audienceProfile: string, serviceCont
         title: 'Family Portrait Session Prep Guide',
         subtitle: 'What to wear, how to prepare, and how to get natural photos',
         intro: `This guide helps ${audienceProfile} prepare for portrait sessions so everyone feels comfortable and photos look polished and authentic.`,
+        sectionOneTitle: 'Get Session-Ready',
+        sectionOneDesc: 'Set up outfits, timing, and essentials before photo day.',
         checklistHeading: 'Session Prep Checklist',
         checklist: [
           'Choose outfits with coordinated colors, not identical uniforms',
@@ -95,6 +99,8 @@ function buildGuideBlueprint(topic: string, audienceProfile: string, serviceCont
         title: 'Event Photography Coverage Guide',
         subtitle: 'How to plan shot coverage for smooth, high-impact event documentation',
         intro: `This guide helps ${audienceProfile} map event coverage so key moments, speakers, guests, and brand visuals are captured effectively.`,
+        sectionOneTitle: 'Define Coverage Priorities',
+        sectionOneDesc: 'List must-capture moments and assign timeline checkpoints.',
         checklistHeading: 'Pre-Event Checklist',
         checklist: [
           'Define must-capture moments and VIP priorities',
@@ -118,6 +124,8 @@ function buildGuideBlueprint(topic: string, audienceProfile: string, serviceCont
         title: 'Commercial Photo Production Guide',
         subtitle: 'Plan efficient shoot days for products, team, and brand assets',
         intro: `This guide helps ${audienceProfile} prepare commercial shoots that generate usable marketing assets across web, social, and ads.`,
+        sectionOneTitle: 'Prepare for Production',
+        sectionOneDesc: 'Align deliverables, shot list, and logistics before shoot day.',
         checklistHeading: 'Production Checklist',
         checklist: [
           'Define deliverables by channel (web, ads, social, print)',
@@ -141,6 +149,8 @@ function buildGuideBlueprint(topic: string, audienceProfile: string, serviceCont
         title: 'Branding & Marketing Growth Guide',
         subtitle: 'Clarify positioning, improve conversion, and scale predictable growth',
         intro: `This guide helps ${audienceProfile} turn brand strategy into measurable marketing execution with clear priorities and reporting.`,
+        sectionOneTitle: 'Set Your Growth Priorities',
+        sectionOneDesc: 'Align message, offer, and lead flow before scaling.',
         checklistHeading: 'Strategy Checklist',
         checklist: [
           'Clarify positioning and ideal customer profile',
@@ -164,6 +174,8 @@ function buildGuideBlueprint(topic: string, audienceProfile: string, serviceCont
         title: 'Client Strategy Guide',
         subtitle: 'Practical actions, clear priorities, and measurable outcomes',
         intro: `This guide helps ${audienceProfile} make smarter decisions and execute with clarity.`,
+        sectionOneTitle: 'Start with the Fundamentals',
+        sectionOneDesc: 'Clarify goals, audience, and success metrics first.',
         checklistHeading: 'Quick-Start Checklist',
         checklist: [
           'Define your top objective for the next 30 days',
@@ -257,15 +269,15 @@ function buildFallbackBlocks(topic: string, format: SupportedFormat, audiencePro
       {
         type: 'body-text',
         data: {
-          content: `${blueprint.intro}\n\nYou will get a simple framework, what-to-prepare checklist, and a rollout plan you can actually use.`,
+          content: `${blueprint.intro}\n\nInside you'll find practical checklists, clear expectations, and simple steps you can apply right away.`,
         },
       },
       {
         type: 'section-header',
         data: {
           number: '01',
-          title: 'Set Your Baseline',
-          description: 'Before changing anything, establish where performance stands today.',
+          title: blueprint.sectionOneTitle,
+          description: blueprint.sectionOneDesc,
         },
       },
       {
