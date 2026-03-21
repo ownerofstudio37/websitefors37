@@ -62,14 +62,28 @@ export async function POST(req: Request) {
       "seoFooter",
     ];
 
-    const sysPrompt = `You are an expert UX/UI landing page architect and professional copywriter for Studio37 Photography in Pinehurst, TX.
+    const sysPrompt = `You are an expert UX/UI landing page architect and professional copywriter.
 Your task is to design a high-converting, beautifully structured page based on the user's brief.
 
-CRITICAL: Return ONLY valid JSON (no markdown code fences, no commentary). 
+CRITICAL: Return ONLY valid JSON (no markdown code fences, no commentary).
+
+━━━ READ THE BRIEF FIRST ━━━
+The PAGE TOPIC and ALL CONTENT must be driven entirely by the user's brief.
+- If the brief says "SEO services" → write an SEO landing page
+- If the brief says "restaurant marketing" → write a restaurant marketing page
+- If the brief says "wedding photography" → write a wedding photography page
+- NEVER default to photography content unless the brief explicitly asks for it
+- The topic in the brief IS the product/service being promoted on this page
+
+PUBLISHER CONTEXT (separate from topic):
+- This page lives on Studio37's website (studio37.cc), a photography & marketing agency in Pinehurst, TX
+- Use Studio37's brand tone: ${style || "friendly, premium, trustworthy"}
+- Match CTAs to the topic (e.g. "Get an SEO Audit", "Start Your Campaign", "Request a Quote")
+- Internal link options: "/services", "/book-consultation", "/contact", "/gallery", "/about"
 
 JSON Schema:
 {
-  "title": "string - SEO optimized page title",
+  "title": "string - SEO optimized page title matching the brief topic",
   "suggestedSlug": "kebab-case-url-slug",
   "notes": "string - brief internal note about the page purpose",
   "components": [
@@ -79,11 +93,11 @@ JSON Schema:
       "id": "unique-id", 
       "type": "hero", 
       "data": { 
-        "title": "Compelling headline (5-8 words)", 
+        "title": "Compelling headline (5-8 words) SPECIFIC TO BRIEF TOPIC", 
         "subtitle": "Supporting subheadline that expands on the promise (15-25 words)", 
-        "backgroundImage": "https://images.unsplash.com/photo-[relevant-photography-id]", 
-        "buttonText": "Clear CTA verb + value", 
-        "buttonLink": "/book-a-session", 
+        "backgroundImage": "https://images.unsplash.com/photo-[relevant-to-topic-not-just-photography]", 
+        "buttonText": "CTA matching the brief topic", 
+        "buttonLink": "/contact", 
         "alignment": "left|center|right", 
         "overlay": 50-70 
       } 
@@ -251,24 +265,28 @@ CONTENT WRITING GUIDELINES:
 - Use benefit-focused language, not feature lists
 - Include specific details, numbers, and outcomes
 - Write for the target audience mentioned in the brief
-- Use power words and emotional triggers appropriate for photography
+- Use power words and emotional triggers appropriate for THE TOPIC
 - Every service/pricing tier should have 4-6 specific features/deliverables
 - Testimonials should feel authentic and detailed (not generic)
-- FAQs should address real objections and build trust
+- FAQs should address real objections specific to the topic
 - All copy should support the conversion goal
 
-BUSINESS CONTEXT:
-- Studio37 Photography, based in Pinehurst, TX
-- Serves Montgomery County, The Woodlands, Houston area
-- Specializes in: weddings, portraits, families, events, commercial work
-- Brand values: timeless quality, personal connection, artistic excellence
-- Use internal links: "/services", "/book-a-session", "/contact", "/gallery", "/about"
+BRIEF TOPIC RULES (CRITICAL):
+- The user's brief defines WHAT this page is about
+- Services, pricing, FAQs, testimonials — all must be relevant to THAT TOPIC
+- Only include photography/Studio37 services if the brief mentions them
+- For non-photography topics: write SEO/marketing/branding/etc. services and pricing
+
+PUBLISHER SITE CONTEXT:
+- Website: studio37.cc, Pinehurst, TX — a photography & marketing agency
+- Serves: Montgomery County, The Woodlands, Houston area
+- Available internal links: "/services", "/book-consultation", "/contact", "/gallery", "/about"
+- Adapt these links to the specific page context
 
 IMAGE SELECTION:
 - Choose high-quality Unsplash photography URLs
-- Match images to the specific service/content type
-- Use diverse, professional photography scenes
-- Hero images should be dramatic and engaging
+- Match images to THE SPECIFIC TOPIC in the brief (not generic photography)
+- Hero images should be dramatic and engaging for the topic
 
 STRUCTURE RULES:
 1. ALWAYS include: hero → intro text → services/offerings → social proof → pricing → final CTA
@@ -316,52 +334,52 @@ RESPOND WITH ONLY THE COMPLETE JSON - NO OTHER TEXT.`;
         // defaults by type
         switch (c.type) {
           case "hero":
-            c.data.title = c.data.title || "Professional Photography in Pinehurst, TX";
-            c.data.subtitle = c.data.subtitle || "Studio37 – Timeless visuals with local expertise";
-            c.data.backgroundImage = c.data.backgroundImage || "https://images.unsplash.com/photo-1507525428034-b723cf961d3e";
-            c.data.buttonText = c.data.buttonText || "Book a Session";
-            c.data.buttonLink = c.data.buttonLink || "/book-a-session";
+            c.data.title = c.data.title || "Your Headline Here";
+            c.data.subtitle = c.data.subtitle || "Supporting text that expands on your value proposition";
+            c.data.backgroundImage = c.data.backgroundImage || "https://images.unsplash.com/photo-1557804506-669a67965ba0";
+            c.data.buttonText = c.data.buttonText || "Get Started";
+            c.data.buttonLink = c.data.buttonLink || "/contact";
             c.data.alignment = c.data.alignment || "center";
             c.data.overlay = typeof c.data.overlay === "number" ? c.data.overlay : 55;
             break;
           case "text":
-            c.data.content = c.data.content || "<p>We blend artistic vision with technical precision to capture authentic stories.</p>";
+            c.data.content = c.data.content || "<p>We combine expertise with a client-first approach to deliver exceptional results.</p>";
             c.data.alignment = c.data.alignment || "left";
             c.data.size = c.data.size || "md";
             break;
           case "servicesGrid":
-            c.data.heading = c.data.heading || "Popular Services";
-            c.data.subheading = c.data.subheading || "Tailored for families, brands & events";
+            c.data.heading = c.data.heading || "Our Services";
+            c.data.subheading = c.data.subheading || "Tailored solutions for your goals";
             c.data.columns = c.data.columns || 2;
             c.data.services = Array.isArray(c.data.services) && c.data.services.length ? c.data.services : [
-              { image: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e", title: "Portrait Sessions", description: "Natural-light portraits.", features: ["Outdoor & studio"], link: "/services" },
-              { image: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee", title: "Event Coverage", description: "Document your milestones.", features: ["Candid + posed"], link: "/services" },
+              { image: "https://images.unsplash.com/photo-1557804506-669a67965ba0", title: "Service One", description: "Description of this service and its benefits.", features: ["Key feature 1", "Key feature 2"], link: "/services" },
+              { image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f", title: "Service Two", description: "Description of this service and its benefits.", features: ["Key feature 1", "Key feature 2"], link: "/services" },
             ];
             break;
           case "testimonials":
             c.data.testimonials = Array.isArray(c.data.testimonials) && c.data.testimonials.length ? c.data.testimonials : [
-              { quote: "Absolutely loved our photos!", author: "Happy Client", subtext: "Google Review" },
+              { quote: "Working with Studio37 exceeded every expectation. Highly recommend!", author: "Satisfied Client", subtext: "Google Review" },
             ];
             break;
           case "faq":
-            c.data.heading = c.data.heading || "FAQs";
+            c.data.heading = c.data.heading || "Frequently Asked Questions";
             c.data.items = Array.isArray(c.data.items) && c.data.items.length ? c.data.items : [
-              { question: "How do I book?", answer: "Use the \"Book a Session\" button or contact us." },
-              { question: "Do you help with posing?", answer: "Yes, we guide you into relaxed, natural poses." },
+              { question: "How do I get started?", answer: "Simply reach out via our contact page and we'll schedule a consultation." },
+              { question: "What does the process look like?", answer: "We start with a discovery call, then create a tailored plan for your specific needs." },
             ];
             break;
           case "pricingTable":
-            c.data.heading = c.data.heading || "Session Investment";
+            c.data.heading = c.data.heading || "Pricing & Packages";
             c.data.plans = Array.isArray(c.data.plans) && c.data.plans.length ? c.data.plans : [
-              { title: "Essentials", price: "$249", features: ["30 min", "15 edited images"], ctaText: "Book Essentials", ctaLink: "/book-a-session" },
-              { title: "Signature", price: "$449", features: ["60 min", "35 edited images"], ctaText: "Book Signature", ctaLink: "/book-a-session" },
+              { title: "Starter", price: "$499", features: ["Feature 1", "Feature 2", "Feature 3"], ctaText: "Get Started", ctaLink: "/contact" },
+              { title: "Professional", price: "$999", features: ["Everything in Starter", "Feature 4", "Feature 5", "Priority support"], ctaText: "Go Pro", ctaLink: "/contact" },
             ];
             c.data.columns = c.data.columns || 3;
             break;
           case "ctaBanner":
-            c.data.heading = c.data.heading || "Ready to create something beautiful?";
-            c.data.primaryButtonText = c.data.primaryButtonText || "Start Your Booking";
-            c.data.primaryButtonLink = c.data.primaryButtonLink || "/book-a-session";
+            c.data.heading = c.data.heading || "Ready to get started?";
+            c.data.primaryButtonText = c.data.primaryButtonText || "Contact Us Today";
+            c.data.primaryButtonLink = c.data.primaryButtonLink || "/contact";
             break;
           case "mapEmbed":
             c.data.address = c.data.address || "Pinehurst, TX";
@@ -373,7 +391,7 @@ RESPOND WITH ONLY THE COMPLETE JSON - NO OTHER TEXT.`;
             c.data.mapType = c.data.mapType || "roadmap";
             break;
           case "seoFooter":
-            c.data.content = c.data.content || "**Studio37 Photography – Pinehurst, TX**\nPortraits, families, branding & events. Book a session today.";
+            c.data.content = c.data.content || "<p><strong>Studio37 – Pinehurst, TX</strong></p><p>Professional services for businesses and individuals across Montgomery County and the Houston area.</p>";
             c.data.includeSchema = !!c.data.includeSchema;
             break;
         }
