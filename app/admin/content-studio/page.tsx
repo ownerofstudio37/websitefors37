@@ -416,22 +416,9 @@ export default function ContentStudioPage() {
 
   // ── Export PNG (html2canvas dynamic import) ────────────────────────────────
 
-  const handleExportPNG = async () => {
-    if (!canvasRef.current) return
-    setExporting(true)
-    try {
-      const html2canvas = (await import('html2canvas' as any)).default
-      const canvas = await html2canvas(canvasRef.current, { scale: 2, useCORS: true, backgroundColor: themeConfig.bg })
-      const link = document.createElement('a')
-      link.download = `${title.replace(/\s+/g, '-').toLowerCase()}.png`
-      link.href = canvas.toDataURL('image/png')
-      link.click()
-    } catch {
-      // html2canvas not installed — open print window as fallback
-      handleExportPDF()
-    } finally {
-      setExporting(false)
-    }
+  const handleExportPNG = () => {
+    // Use the same print-based export as PDF — works for social post formats too
+    handleExportPDF()
   }
 
   // ── Send via Email ─────────────────────────────────────────────────────────
