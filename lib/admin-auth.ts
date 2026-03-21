@@ -3,6 +3,8 @@ import { getAdminUser, type AdminUser } from '@/lib/auth'
 
 export type AdminRole = 'viewer' | 'marketer' | 'editor' | 'admin' | 'owner'
 
+const SINGLE_ADMIN_MODE = process.env.SINGLE_ADMIN_MODE === 'true'
+
 const ROLE_WEIGHT: Record<AdminRole, number> = {
   viewer: 10,
   marketer: 20,
@@ -12,6 +14,8 @@ const ROLE_WEIGHT: Record<AdminRole, number> = {
 }
 
 function normalizeRole(role: string | undefined | null): AdminRole {
+  if (SINGLE_ADMIN_MODE) return 'owner'
+
   const lower = (role || '').toLowerCase().trim()
   if (lower === 'owner') return 'owner'
   if (lower === 'admin') return 'admin'
@@ -24,6 +28,8 @@ function normalizeRole(role: string | undefined | null): AdminRole {
 }
 
 export function hasRole(userRole: string | undefined, requiredRole: AdminRole) {
+  if (SINGLE_ADMIN_MODE) return true
+
   const user = normalizeRole(userRole)
   return ROLE_WEIGHT[user] >= ROLE_WEIGHT[requiredRole]
 }
