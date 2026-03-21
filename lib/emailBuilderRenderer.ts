@@ -42,7 +42,9 @@ const BRAND = {
   website:    'https://www.studio37.cc',
   instagram:  'https://www.instagram.com/studio37photography',
   facebook:   'https://www.facebook.com/studio37photography',
-  bookingUrl: 'https://www.studio37.cc/book-a-session',
+  bookingUrl: 'https://www.studio37.cc/book-consultation',
+  logoLight:  'https://res.cloudinary.com/dmjxho2rl/image/upload/v1756077115/My%20Brand/IMG_2115_mtuowt.png',
+  logoDark:   'https://res.cloudinary.com/dmjxho2rl/image/upload/v1762887036/IMG_2115_mtuowt_wgubjf.png',
 }
 
 const FONT = '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Ubuntu,sans-serif'
@@ -51,9 +53,10 @@ function renderBlock(block: EmailBlock): string {
   switch (block.type) {
     case 'logo': {
       const tagline = block.content.tagline || ''
+      const logoUrl = block.content.logoUrl || BRAND.logoDark
       return `
 <div style="background:#ffffff;padding:22px 32px 18px;text-align:center;border-bottom:1px solid ${BRAND.border};">
-  <span style="color:${BRAND.gold};font-family:${FONT};font-size:26px;font-weight:800;letter-spacing:1px;">STUDIO</span><span style="color:${BRAND.dark};font-family:${FONT};font-size:26px;font-weight:800;letter-spacing:1px;">37</span>
+  <img src="${logoUrl}" alt="Studio37" style="display:block;margin:0 auto;max-width:220px;width:100%;height:auto;" />
   ${tagline ? `<p style="color:${BRAND.muted};font-family:${FONT};font-size:12px;letter-spacing:1.5px;text-transform:uppercase;margin:6px 0 0 0;">${tagline}</p>` : ''}
 </div>`
     }
