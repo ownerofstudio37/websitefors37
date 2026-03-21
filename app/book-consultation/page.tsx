@@ -1,16 +1,21 @@
-import { Metadata } from 'next'
 import ConsultationBookingForm from '@/components/ConsultationBookingForm'
 import { Phone, Mail, Clock, CheckCircle2 } from 'lucide-react'
+import { generateSEOMetadata } from '@/lib/seo-helpers'
 
-export const metadata: Metadata = {
-  title: 'Book a Free Consultation | Studio37 Photography',
-  description: 'Schedule a free 15-minute consultation call with our photography team. Discuss your vision, ask questions, and learn how we can bring your photography needs to life.',
-  openGraph: {
-    title: 'Book a Free Consultation | Studio37 Photography',
-    description: 'Schedule a free 15-minute consultation call with our photography team.',
-    type: 'website',
-  }
-}
+export const metadata = generateSEOMetadata({
+  title: 'Book a Free Photography Consultation',
+  description:
+    'Schedule a free 15-minute consultation with Studio37. Get expert recommendations for wedding, portrait, event, or commercial photography and a clear next-step plan.',
+  keywords: [
+    'free photography consultation',
+    'book photographer consultation',
+    'photography planning call',
+    'wedding consultation Pinehurst TX',
+    'portrait consultation Texas',
+  ],
+  canonicalUrl: 'https://www.studio37.cc/book-consultation',
+  pageType: 'service',
+})
 
 export default function BookConsultationPage() {
   return (

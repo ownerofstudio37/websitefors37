@@ -20,9 +20,10 @@ export function generateSEOMetadata({
   structuredData,
   pageType = 'website'
 }: SEOProps): Metadata {
-  const fullTitle = title.includes(businessInfo.name) 
-    ? title 
-    : `${title} | ${businessInfo.name} - Pinehurst, TX Photography`
+  const fullTitle = title
+  const resolvedTitle: Metadata['title'] = title.includes(businessInfo.name)
+    ? { absolute: title }
+    : title
   
   const defaultKeywords = [
     'photography',
@@ -45,7 +46,7 @@ export function generateSEOMetadata({
     : ogImage
 
   const metadata: Metadata = {
-    title: fullTitle,
+    title: resolvedTitle,
     description,
     keywords: allKeywords.join(', '),
     authors: [{ name: businessInfo.name }],
@@ -57,7 +58,7 @@ export function generateSEOMetadata({
       email: true
     },
     openGraph: {
-      title: fullTitle,
+      title,
       description,
       url: canonicalUrl || businessInfo.contact.website,
       siteName: businessInfo.name,
@@ -74,7 +75,7 @@ export function generateSEOMetadata({
     },
     twitter: {
       card: 'summary_large_image',
-      title: fullTitle,
+      title,
       description,
       images: [ogImageUrl],
       creator: '@studio37photo'

@@ -182,7 +182,7 @@ export async function POST(req: NextRequest) {
             }
 
             const template = FOLLOW_UP_TEMPLATES[followUp.sequence_type as keyof typeof FOLLOW_UP_TEMPLATES]
-            const bookingUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'https://studio37.cc'}/book-a-session`
+            const bookingUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.studio37.cc'}/book-a-session`
             const html = await generateFollowUpHTML(followUp.sequence_type, lead.name || 'friend', bookingUrl)
 
             // Send email via Resend

@@ -424,7 +424,7 @@ Studio37`)
     setComposeBlocks([
       { id: '1', type: 'hero', content: { title: 'Hello!', subtitle: `Hi ${lead.name || 'there'}, thanks for reaching out.`, buttonText: 'View Proposal', backgroundColor: '#f3f4f6' } },
       { id: '2', type: 'text', content: { text: `We received your inquiry about ${lead.service_interest || 'our services'}. We'd love to chat more.` } },
-      { id: '3', type: 'button', content: { text: 'Book a Call', url: 'https://studio37.cc/book', backgroundColor: '#000000', textColor: '#ffffff' } }
+      { id: '3', type: 'button', content: { text: 'Book a Call', url: 'https://www.studio37.cc/book', backgroundColor: '#000000', textColor: '#ffffff' } }
     ])
     setEditorMode('simple')
     setComposeResult(null)

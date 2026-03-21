@@ -13,10 +13,10 @@ export function generateOrganizationSchema(): SchemaType {
   return {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
-    '@id': 'https://studio37.cc',
+    '@id': 'https://www.studio37.cc',
     name: 'Studio37',
     description: 'Professional photography studio in Pinehurst, TX specializing in weddings, portraits, events, and commercial photography.',
-    url: 'https://studio37.cc',
+    url: 'https://www.studio37.cc',
     telephone: '+1-936-555-7337',
     email: 'hello@studio37.cc',
     address: {
@@ -38,7 +38,7 @@ export function generateOrganizationSchema(): SchemaType {
       'https://www.tiktok.com/@studio37'
     ],
     priceRange: '$$',
-    image: 'https://studio37.cc/og-image.jpg',
+    image: 'https://www.studio37.cc/og-image.jpg',
     areaServed: {
       '@type': 'City',
       name: 'Pinehurst, TX'
@@ -83,7 +83,7 @@ export function generateServiceSchema(serviceType: string, description: string):
     provider: {
       '@type': 'LocalBusiness',
       name: 'Studio37',
-      url: 'https://studio37.cc',
+      url: 'https://www.studio37.cc',
       telephone: '+1-936-555-7337'
     },
     areaServed: {
@@ -93,7 +93,7 @@ export function generateServiceSchema(serviceType: string, description: string):
     serviceType: service.name,
     offers: {
       '@type': 'Offer',
-      url: 'https://studio37.cc/book-a-session',
+      url: 'https://www.studio37.cc/book-a-session',
       priceCurrency: 'USD',
       availability: 'https://schema.org/InStock'
     }
@@ -127,7 +127,7 @@ export function generateBlogPostSchema(post: {
     '@type': 'BlogPosting',
     headline: post.title,
     description: post.description,
-    image: post.image || 'https://studio37.cc/og-image.jpg',
+    image: post.image || 'https://www.studio37.cc/og-image.jpg',
     datePublished: post.datePublished,
     dateModified: post.dateModified || post.datePublished,
     author: {
@@ -139,13 +139,13 @@ export function generateBlogPostSchema(post: {
       name: 'Studio37',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://studio37.cc/logo.png'
+        url: 'https://www.studio37.cc/logo.png'
       }
     },
-    url: `https://studio37.cc/blog/${post.slug}`,
+    url: `https://www.studio37.cc/blog/${post.slug}`,
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `https://studio37.cc/blog/${post.slug}`
+      '@id': `https://www.studio37.cc/blog/${post.slug}`
     }
   }
 }
@@ -221,7 +221,7 @@ export function generateContactPageSchema(): SchemaType {
     '@type': 'ContactPage',
     name: 'Contact Studio37',
     description: 'Get in touch with Studio37 for photography inquiries and bookings.',
-    url: 'https://studio37.cc/contact',
+    url: 'https://www.studio37.cc/contact',
     contactPoint: {
       '@type': 'ContactPoint',
       contactType: 'Customer Service',
@@ -238,7 +238,7 @@ export function generateBookingPageSchema(): SchemaType {
     '@context': 'https://schema.org',
     '@type': 'EventVenue',
     name: 'Studio37 Photography Studio',
-    url: 'https://studio37.cc/book-a-session',
+    url: 'https://www.studio37.cc/book-a-session',
     telephone: '+1-936-555-7337',
     address: {
       '@type': 'PostalAddress',

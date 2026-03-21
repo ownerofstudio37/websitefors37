@@ -16,7 +16,7 @@ export const metadata = generateSEOMetadata({
     'Texas photographer portfolio',
     'Montgomery County photography'
   ],
-  canonicalUrl: 'https://studio37.cc/gallery'
+  canonicalUrl: 'https://www.studio37.cc/gallery'
 })
 
 // Use ISR with a reasonable window; client will fetch fresh data

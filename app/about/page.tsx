@@ -16,7 +16,7 @@ export const metadata = generateSEOMetadata({
     'professional photographer Pinehurst',
     'award winning photographer Texas'
   ],
-  canonicalUrl: 'https://studio37.cc/about'
+  canonicalUrl: 'https://www.studio37.cc/about'
 })
 
 export default function AboutPage() {
@@ -192,11 +192,30 @@ export default function AboutPage() {
           <div className="max-w-4xl mx-auto">
             <h2 className="text-2xl font-bold text-gray-900 mb-4">About Studio37 — Pinehurst, TX Photography Team</h2>
             <p className="text-gray-700 leading-relaxed mb-4">
-              Studio37 Photography is owned and operated by Christian and Caitie, a husband-and-wife creative team based in Pinehurst, Texas. Together they've built Montgomery County's most sought-after photography studio, earning a 4.9-star average rating and serving more than 500 clients since 2020 across Pinehurst, Magnolia, Tomball, Spring, The Woodlands, Shenandoah, Oak Ridge North, Conroe, Montgomery, Willis, New Waverly, Huntsville, New Caney, Porter, Splendora, Cleveland, Hockley, Waller, Plantersville, Navasota, Bryan, College Station, Cypress, Kingwood, Humble, Atascocita, and Greater Houston. Christian brings a background in business strategy, marketing, and cinematography — making him uniquely positioned to deliver images that serve both artistic and commercial goals. Caitie's expertise in editorial post-processing and creative direction ensures every gallery has a cohesive, intentional look that clients love. As proud members of the Professional Photographers of America (PPA) and a fully insured studio, Studio37 holds itself to the highest standards of professionalism, safety, and creative excellence. Our specialty services include wedding photography with Signature Duo Coverage, family and lifestyle portrait sessions, senior and graduation portraits, newborn photography, corporate event documentation, commercial product and brand photography, and full-service digital marketing retainers. If you're looking for a photographer in Pinehurst TX, Montgomery County, or the Greater Houston area who treats every session as a creative collaboration — not just a job — Studio37 is the studio for you.
+              Studio37 Photography is owned and operated by Christian and Caitie, a husband-and-wife creative team based in Pinehurst, Texas. Together they've built Montgomery County's most sought-after photography studio, earning a 4.9-star average rating and serving more than 500 clients since 2020 across Pinehurst, The Woodlands, Conroe, Magnolia, Tomball, Spring, Montgomery, Willis, New Caney, Hockley, Huntsville, and Greater Houston. Christian brings a background in business strategy, marketing, and cinematography — making him uniquely positioned to deliver images that serve both artistic and commercial goals. Caitie's expertise in editorial post-processing and creative direction ensures every gallery has a cohesive, intentional look that clients love. As proud members of the Professional Photographers of America (PPA) and a fully insured studio, Studio37 holds itself to the highest standards of professionalism, safety, and creative excellence. Our specialty services include wedding photography with Signature Duo Coverage, family and lifestyle portrait sessions, senior and graduation portraits, newborn photography, corporate event documentation, commercial product and brand photography, and full-service digital marketing retainers. If you're looking for a photographer in Pinehurst TX, Montgomery County, or the Greater Houston area who treats every session as a creative collaboration — not just a job — Studio37 is the studio for you.
             </p>
             <p className="text-sm text-gray-500">
               Studio37 Photography · 1701 Goodson Loop Unit 80, Pinehurst, TX 77362 · (832) 713-9944 · sales@studio37.cc
             </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-10 bg-gray-50 border-y border-gray-200">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-2xl font-bold text-gray-900 mb-3">Explore Local Service Area Pages</h2>
+            <p className="text-gray-700 mb-4">
+              We created city-specific pages so clients can find local details faster.
+            </p>
+            <div className="flex flex-wrap gap-3 text-sm">
+              <Link href="/locations" className="px-3 py-2 rounded-full bg-white border border-gray-300 hover:border-primary-300">All Locations</Link>
+              <Link href="/the-woodlands" className="px-3 py-2 rounded-full bg-white border border-gray-300 hover:border-primary-300">The Woodlands</Link>
+              <Link href="/conroe" className="px-3 py-2 rounded-full bg-white border border-gray-300 hover:border-primary-300">Conroe</Link>
+              <Link href="/magnolia" className="px-3 py-2 rounded-full bg-white border border-gray-300 hover:border-primary-300">Magnolia</Link>
+              <Link href="/tomball" className="px-3 py-2 rounded-full bg-white border border-gray-300 hover:border-primary-300">Tomball</Link>
+              <Link href="/huntsville" className="px-3 py-2 rounded-full bg-white border border-gray-300 hover:border-primary-300">Huntsville</Link>
+            </div>
           </div>
         </div>
       </section>

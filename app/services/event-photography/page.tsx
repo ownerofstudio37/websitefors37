@@ -18,7 +18,7 @@ export const metadata = generateSEOMetadata({
     'professional event photography Montgomery County',
     'event photographer Houston area'
   ],
-  canonicalUrl: 'https://studio37.cc/services/event-photography',
+  canonicalUrl: 'https://www.studio37.cc/services/event-photography',
   pageType: 'service'
 })
 
@@ -420,10 +420,13 @@ export default function EventPhotographyPage() {
           <div className="max-w-4xl mx-auto">
             <h2 className="text-2xl font-bold text-gray-900 mb-4">Event Photography in Pinehurst, TX &amp; Greater Houston</h2>
             <p className="text-gray-700 leading-relaxed mb-4">
-              Studio37 delivers professional event photography for corporate conferences, galas, award ceremonies, birthday milestones, graduation celebrations, quinceañeras, holiday parties, and community events throughout Pinehurst, The Woodlands, Conroe, Willis, New Waverly, Huntsville, Spring, Tomball, Magnolia, Montgomery, New Caney, Porter, Splendora, Cleveland, Hockley, Waller, Plantersville, Navasota, Bryan, College Station, Cypress, Kingwood, Humble, Atascocita, and the Houston metro area. Our Signature Duo Coverage model deploys two photographers simultaneously — one capturing wide establishing shots of the venue and crowd, the other focused on candid expressions, key speakers, and detail moments — so your event story is complete from start to finish. We bring professional lighting rigs for indoor ballrooms, outdoor tents, and low-light venues, ensuring crisp, vibrant images regardless of conditions. Fast turnaround delivery means your brand can share highlight images on social media within 48 hours, while full galleries arrive within a week. Whether you're a corporate marketing team needing deliverables for your PR campaign or a family celebrating a milestone birthday, Studio37 elevates your event with the quality and reliability of a true professional photography partner. Request your custom event quote today.
+              Studio37 delivers professional event photography for corporate conferences, galas, award ceremonies, birthday milestones, graduation celebrations, quinceañeras, holiday parties, and community events throughout Pinehurst, The Woodlands, Conroe, Magnolia, Tomball, Spring, Montgomery, Willis, New Caney, Hockley, Huntsville, and the Houston metro area. Our Signature Duo Coverage model deploys two photographers simultaneously — one capturing wide establishing shots of the venue and crowd, the other focused on candid expressions, key speakers, and detail moments — so your event story is complete from start to finish. We bring professional lighting rigs for indoor ballrooms, outdoor tents, and low-light venues, ensuring crisp, vibrant images regardless of conditions. Fast turnaround delivery means your brand can share highlight images on social media within 48 hours, while full galleries arrive within a week. Whether you're a corporate marketing team needing deliverables for your PR campaign or a family celebrating a milestone birthday, Studio37 elevates your event with the quality and reliability of a true professional photography partner. Request your custom event quote today.
             </p>
             <p className="text-sm text-gray-500">
-              Serving: Pinehurst TX · Magnolia · Tomball · Spring · The Woodlands · Conroe · Montgomery · Willis · New Waverly · Huntsville · New Caney · Porter · Splendora · Cleveland · Hockley · Waller · Plantersville · Navasota · Bryan · College Station · Cypress · Kingwood · Humble · Atascocita · Houston · Harris County
+              Serving: Pinehurst TX · The Woodlands · Conroe · Magnolia · Tomball · Spring · Montgomery · Willis · New Caney · Hockley · Huntsville · Houston · Harris County
+            </p>
+            <p className="text-sm mt-2 text-primary-700">
+              Event coverage hubs: <Link href="/the-woodlands" className="hover:underline">The Woodlands</Link>, <Link href="/conroe" className="hover:underline">Conroe</Link>, <Link href="/huntsville" className="hover:underline">Huntsville</Link>, <Link href="/locations" className="hover:underline">all locations</Link>.
             </p>
           </div>
         </div>

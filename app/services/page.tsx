@@ -99,6 +99,26 @@ export default function ServicesPage() {
         <Services />
       </div>
 
+      <section className="py-12 bg-gray-50 border-y border-gray-200">
+        <div className="container mx-auto px-4">
+          <div className="max-w-5xl mx-auto">
+            <h2 className="text-2xl font-bold text-gray-900 mb-3">Find Services by City</h2>
+            <p className="text-gray-700 mb-6">
+              Browse local service pages for The Woodlands, Conroe, Magnolia, Tomball, Spring, Montgomery, Willis,
+              Huntsville, New Caney, Hockley, Bryan, and College Station.
+            </p>
+            <div className="flex flex-wrap gap-3 text-sm">
+              <Link href="/locations" className="px-3 py-2 rounded-full bg-white border border-gray-300 hover:border-primary-300">All Service Areas</Link>
+              <Link href="/the-woodlands" className="px-3 py-2 rounded-full bg-white border border-gray-300 hover:border-primary-300">The Woodlands</Link>
+              <Link href="/conroe" className="px-3 py-2 rounded-full bg-white border border-gray-300 hover:border-primary-300">Conroe</Link>
+              <Link href="/magnolia" className="px-3 py-2 rounded-full bg-white border border-gray-300 hover:border-primary-300">Magnolia</Link>
+              <Link href="/huntsville" className="px-3 py-2 rounded-full bg-white border border-gray-300 hover:border-primary-300">Huntsville</Link>
+              <Link href="/college-station" className="px-3 py-2 rounded-full bg-white border border-gray-300 hover:border-primary-300">College Station</Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Two Photographers Announcement */}
       <div className="bg-primary-50 border-y border-primary-200">
         <div className="container mx-auto px-4 py-4">

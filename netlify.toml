@@ -3,7 +3,7 @@
   publish = ".next"
 
 [build.environment]
-  NEXT_PUBLIC_SITE_URL = "https://studio37.cc"
+  NEXT_PUBLIC_SITE_URL = "https://www.studio37.cc"
   SECRETS_SCAN_SMART_DETECTION_ENABLED = "true"
   # Upgrade Node version to 20.x to align with supabase-js future support and remove deprecation warnings
   NODE_VERSION = "20"

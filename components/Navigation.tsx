@@ -107,12 +107,15 @@ export default function Navigation() {
             {
               id: 'service-areas',
               label: 'Service Areas',
-              href: '/service-area',
+              href: '/locations',
               order: 3,
               visible: true,
               children: [
-                { id: 'pinehurst', label: 'Pinehurst, TX', href: '/local-photographer-pinehurst-tx', order: 1, visible: true },
-                { id: 'magnolia', label: 'Magnolia, TX', href: '/magnolia', order: 2, visible: true },
+                { id: 'pinehurst', label: 'Pinehurst, TX', href: '/pinehurst', order: 1, visible: true },
+                { id: 'woodlands', label: 'The Woodlands, TX', href: '/the-woodlands', order: 2, visible: true },
+                { id: 'conroe', label: 'Conroe, TX', href: '/conroe', order: 3, visible: true },
+                { id: 'magnolia', label: 'Magnolia, TX', href: '/magnolia', order: 4, visible: true },
+                { id: 'huntsville', label: 'Huntsville, TX', href: '/huntsville', order: 5, visible: true },
               ],
             },
             {

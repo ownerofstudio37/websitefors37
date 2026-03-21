@@ -20,7 +20,7 @@ export const metadata = generateSEOMetadata({
     'professional portraits Montgomery County',
     'portrait photographer Houston area'
   ],
-  canonicalUrl: 'https://studio37.cc/services/portrait-photography',
+  canonicalUrl: 'https://www.studio37.cc/services/portrait-photography',
   pageType: 'service'
 })
 
@@ -436,10 +436,13 @@ export default function PortraitPhotographyPage() {
           <div className="max-w-4xl mx-auto">
             <h2 className="text-2xl font-bold text-gray-900 mb-4">Portrait Photography in Pinehurst, TX &amp; Montgomery County</h2>
             <p className="text-gray-700 leading-relaxed mb-4">
-              Studio37 is Pinehurst's premier portrait photography studio, serving families, seniors, newborns, and professionals throughout Montgomery County and high-opportunity nearby markets including The Woodlands, Conroe, Willis, New Waverly, Huntsville, Spring, Tomball, Magnolia, Montgomery, New Caney, Porter, Splendora, Cleveland, Hockley, Waller, Plantersville, Navasota, Bryan, College Station, Cypress, Kingwood, Humble, Atascocita, and Greater Houston. Our Signature Duo Coverage — two photographers on every session — means zero missed moments, more creative angles, and a richer gallery of memories delivered in every package. Whether you're looking for timeless family portraits in an outdoor setting, vibrant senior portraits at a location that reflects your personality, intimate newborn lifestyle sessions at home, or polished professional headshots for LinkedIn and corporate use, Studio37 brings artistic vision and technical precision to every frame. We blend warm, film-inspired tones with modern editing techniques to produce portraits that feel authentic, editorial, and built to last. Every session is custom-tailored to your vision — from wardrobe styling guidance and location scouting to final delivery of fully retouched, gallery-quality images. Book your portrait session with Studio37 today and experience the difference that two photographers and genuine passion make.
+              Studio37 is Pinehurst's premier portrait photography studio, serving families, seniors, newborns, and professionals throughout Montgomery County and core nearby markets including The Woodlands, Conroe, Magnolia, Tomball, Spring, Montgomery, Willis, New Caney, Hockley, and Huntsville. Our Signature Duo Coverage — two photographers on every session — means zero missed moments, more creative angles, and a richer gallery of memories delivered in every package. Whether you're looking for timeless family portraits in an outdoor setting, vibrant senior portraits at a location that reflects your personality, intimate newborn lifestyle sessions at home, or polished professional headshots for LinkedIn and corporate use, Studio37 brings artistic vision and technical precision to every frame. We blend warm, film-inspired tones with modern editing techniques to produce portraits that feel authentic, editorial, and built to last. Every session is custom-tailored to your vision — from wardrobe styling guidance and location scouting to final delivery of fully retouched, gallery-quality images. Book your portrait session with Studio37 today and experience the difference that two photographers and genuine passion make.
             </p>
             <p className="text-sm text-gray-500">
-              Serving: Pinehurst TX · Magnolia · Tomball · Spring · The Woodlands · Conroe · Montgomery · Willis · New Waverly · Huntsville · New Caney · Porter · Splendora · Cleveland · Hockley · Waller · Plantersville · Navasota · Bryan · College Station · Cypress · Kingwood · Humble · Atascocita · Houston
+              Serving: Pinehurst TX · The Woodlands · Conroe · Magnolia · Tomball · Spring · Montgomery · Willis · New Caney · Hockley · Huntsville · Houston
+            </p>
+            <p className="text-sm mt-2 text-primary-700">
+              Explore nearby city pages: <Link href="/the-woodlands" className="hover:underline">The Woodlands</Link>, <Link href="/conroe" className="hover:underline">Conroe</Link>, <Link href="/magnolia" className="hover:underline">Magnolia</Link>, <Link href="/locations" className="hover:underline">all locations</Link>.
             </p>
           </div>
         </div>

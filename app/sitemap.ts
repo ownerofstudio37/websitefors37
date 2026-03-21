@@ -1,6 +1,6 @@
 import { createClient } from '@supabase/supabase-js'
 import { MetadataRoute } from 'next'
-import { businessInfo } from '@/lib/seo-config'
+import { locationPages } from '@/lib/location-pages'
 
 // Cache sitemap generation for 30 minutes (more frequent for blog updates)
 export const revalidate = 1800
@@ -115,6 +115,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: PRIORITIES.mainPages,
     },
     {
+      url: `${baseUrl}/book-consultation`,
+      lastModified: currentDate,
+      changeFrequency: 'weekly',
+      priority: PRIORITIES.mainPages,
+    },
+    {
+      url: `${baseUrl}/get-quote`,
+      lastModified: currentDate,
+      changeFrequency: 'weekly',
+      priority: PRIORITIES.mainPages,
+    },
+    {
       url: `${baseUrl}/contact`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
@@ -148,7 +160,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'daily',
       priority: PRIORITIES.servicePages,
     },
+    {
+      url: `${baseUrl}/locations`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly',
+      priority: PRIORITIES.servicePages,
+    },
   ]
+
+  for (const location of locationPages) {
+    routes.push({
+      url: `${baseUrl}/${location.slug.replace(/-tx$/, '')}`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly',
+      priority: PRIORITIES.contentPages,
+    })
+  }
   
   // Add all published content pages
   try {

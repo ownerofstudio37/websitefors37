@@ -10,7 +10,7 @@ import { revalidatePath, revalidateTag } from 'next/cache'
 const log = createLogger('api/revalidate')
 
 const ALLOWED_ORIGINS = [
-  'https://studio37.cc',
+  'https://www.studio37.cc',
   'https://www.studio37.cc'
 ]
 
@@ -24,7 +24,7 @@ function corsHeaders(origin?: string) {
     }
   }
   return {
-    'Access-Control-Allow-Origin': 'https://studio37.cc',
+    'Access-Control-Allow-Origin': 'https://www.studio37.cc',
     'Access-Control-Allow-Credentials': 'true',
     'Access-Control-Allow-Methods': 'POST,OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type, Authorization'

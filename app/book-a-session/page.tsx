@@ -16,7 +16,7 @@ export const metadata = generateSEOMetadata({
     'photography appointment Pinehurst',
     'hire photographer Texas'
   ],
-  canonicalUrl: 'https://studio37.cc/book-a-session'
+  canonicalUrl: 'https://www.studio37.cc/book-a-session'
 })
 
 // Loading fallback

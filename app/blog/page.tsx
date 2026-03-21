@@ -17,7 +17,7 @@ export const metadata = generateSEOMetadata({
     'Studio37 blog',
     'photographer insights Pinehurst'
   ],
-  canonicalUrl: 'https://studio37.cc/blog'
+  canonicalUrl: 'https://www.studio37.cc/blog'
 })
 
 // Cache this page for 10 minutes; blog posts are read-mostly
@@ -30,7 +30,7 @@ function isAllowedImageDomain(url: string): boolean {
     if (['res.cloudinary.com', 'images.unsplash.com'].includes(u.hostname)) return true
     if (u.hostname.endsWith('.supabase.co')) return true
     // Allow same-origin images
-    if (u.hostname === new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://studio37.cc').hostname) return true
+    if (u.hostname === new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://www.studio37.cc').hostname) return true
     return false
   } catch {
     return false
@@ -41,7 +41,7 @@ export default async function BlogPage() {
   let posts: any[] = []
   let error: any = null
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'https://studio37.cc'}/api/blog/list`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.studio37.cc'}/api/blog/list`, {
       // This runs on the server; respect ISR revalidation
       next: { revalidate: 600 },
       headers: { 'Accept': 'application/json' },
@@ -129,10 +129,13 @@ export default async function BlogPage() {
           <div className="max-w-4xl mx-auto">
             <h2 className="text-2xl font-bold text-gray-900 mb-4">Photography Tips, Inspiration &amp; Insights from Studio37 in Pinehurst, TX</h2>
             <p className="text-gray-700 leading-relaxed mb-4">
-              Welcome to the Studio37 Photography blog — your resource for professional photography tips, wedding planning advice, portrait session preparation guides, and behind-the-scenes insights from Pinehurst, Texas's premier photography team. Our articles cover everything from how to choose the best outfit for your family portrait session to the top wedding venues in Montgomery County, TX, SEO strategies for local businesses using visual content, and how-to guides for getting the most out of your photography investment. Written by Christian and Caitie — the photographers and marketers behind Studio37 — each post draws on real-world experience serving clients across The Woodlands, Conroe, Willis, New Waverly, Huntsville, Spring, Tomball, Magnolia, Montgomery, New Caney, Porter, Splendora, Cleveland, Hockley, Waller, Plantersville, Navasota, Bryan, College Station, Cypress, Kingwood, Humble, Atascocita, and Greater Houston. Whether you're a soon-to-be bride researching wedding photographers in Pinehurst TX, a parent booking your teenager's senior portrait session, or a local business owner looking to improve your brand photography, you'll find actionable, honest guidance here. Explore our latest posts above, and when you're ready to book, contact Studio37 at (832) 713-9944 or visit studio37.cc.
+              Welcome to the Studio37 Photography blog — your resource for professional photography tips, wedding planning advice, portrait session preparation guides, and behind-the-scenes insights from Pinehurst, Texas's premier photography team. Our articles cover everything from how to choose the best outfit for your family portrait session to the top wedding venues in Montgomery County, TX, SEO strategies for local businesses using visual content, and how-to guides for getting the most out of your photography investment. Written by Christian and Caitie — the photographers and marketers behind Studio37 — each post draws on real-world experience serving clients across The Woodlands, Conroe, Magnolia, Tomball, Spring, Montgomery, Willis, New Caney, Hockley, Huntsville, and Greater Houston. Whether you're a soon-to-be bride researching wedding photographers in Pinehurst TX, a parent booking your teenager's senior portrait session, or a local business owner looking to improve your brand photography, you'll find actionable, honest guidance here. Explore our latest posts above, and when you're ready to book, contact Studio37 at (832) 713-9944 or visit www.studio37.cc.
             </p>
             <p className="text-sm text-gray-500">
-              Studio37 Photography Blog · Pinehurst, TX · Montgomery County · The Woodlands · Conroe · Willis · New Waverly · Huntsville · New Caney · Porter · Splendora · Cleveland · Hockley · Waller · Plantersville · Navasota · Bryan · College Station · Houston Area
+              Studio37 Photography Blog · Pinehurst, TX · Montgomery County · The Woodlands · Conroe · Magnolia · Tomball · Spring · Montgomery · Willis · New Caney · Hockley · Huntsville · Houston Area
+            </p>
+            <p className="text-sm mt-2">
+              Looking for city-specific details? <a href="/locations" className="text-primary-700 hover:underline">Browse service area pages</a>.
             </p>
           </div>
         </div>

@@ -11,7 +11,7 @@ export default function ServiceAreaSEO() {
             Professional Photography in Pinehurst & Montgomery County
           </h2>
           <p className="text-lg text-gray-700 leading-relaxed mb-8">
-            Studio37 is your premier photography studio serving <strong>Pinehurst, Magnolia, Tomball, Spring, The Woodlands, Conroe, Montgomery, Willis, New Waverly, Huntsville, New Caney, Porter, Splendora, Cleveland, Hockley, Waller, Plantersville, Navasota, Bryan, and College Station</strong>.
+            Studio37 is your premier photography studio serving <strong>Pinehurst, The Woodlands, Conroe, Magnolia, Tomball, Spring, Montgomery, Willis, New Caney, Hockley, and Huntsville</strong>.
             We focus on high-opportunity local markets across <strong>Montgomery County</strong>, the <strong>I-45 corridor</strong>, and North/Northwest Houston communities so your session gets true local availability with professional quality. Whether you need on-location shoots or studio sessions, our team brings creativity and technical excellence to every project.
           </p>
           
@@ -38,25 +38,7 @@ export default function ServiceAreaSEO() {
               <MapPin className="w-4 h-4 text-primary-600" /> New Caney
             </span>
             <span className="flex items-center gap-1 bg-gray-100 px-3 py-1 rounded-full">
-              <MapPin className="w-4 h-4 text-primary-600" /> Porter
-            </span>
-            <span className="flex items-center gap-1 bg-gray-100 px-3 py-1 rounded-full">
-              <MapPin className="w-4 h-4 text-primary-600" /> Splendora
-            </span>
-            <span className="flex items-center gap-1 bg-gray-100 px-3 py-1 rounded-full">
               <MapPin className="w-4 h-4 text-primary-600" /> Hockley
-            </span>
-            <span className="flex items-center gap-1 bg-gray-100 px-3 py-1 rounded-full">
-              <MapPin className="w-4 h-4 text-primary-600" /> Waller
-            </span>
-            <span className="flex items-center gap-1 bg-gray-100 px-3 py-1 rounded-full">
-              <MapPin className="w-4 h-4 text-primary-600" /> Plantersville
-            </span>
-            <span className="flex items-center gap-1 bg-gray-100 px-3 py-1 rounded-full">
-              <MapPin className="w-4 h-4 text-primary-600" /> Navasota
-            </span>
-            <span className="flex items-center gap-1 bg-gray-100 px-3 py-1 rounded-full">
-              <MapPin className="w-4 h-4 text-primary-600" /> Bryan / College Station
             </span>
             <span className="flex items-center gap-1 bg-gray-100 px-3 py-1 rounded-full">
               <MapPin className="w-4 h-4 text-primary-600" /> Montgomery County
@@ -64,6 +46,9 @@ export default function ServiceAreaSEO() {
             <span className="flex items-center gap-1 bg-gray-100 px-3 py-1 rounded-full">
               <MapPin className="w-4 h-4 text-primary-600" /> Greater Houston Area
             </span>
+            <Link href="/locations" className="flex items-center gap-1 bg-primary-50 border border-primary-200 px-3 py-1 rounded-full text-primary-700 hover:bg-primary-100 transition-colors">
+              <MapPin className="w-4 h-4" /> All Service Areas
+            </Link>
           </div>
         </div>
 

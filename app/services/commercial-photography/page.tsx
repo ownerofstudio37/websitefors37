@@ -19,7 +19,7 @@ export const metadata = generateSEOMetadata({
     'professional commercial photography Montgomery County',
     'brand photography Houston area'
   ],
-  canonicalUrl: 'https://studio37.cc/services/commercial-photography',
+  canonicalUrl: 'https://www.studio37.cc/services/commercial-photography',
   pageType: 'service'
 })
 
@@ -411,10 +411,13 @@ export default function CommercialPhotographyPage() {
           <div className="max-w-4xl mx-auto">
             <h2 className="text-2xl font-bold text-gray-900 mb-4">Commercial Photography for Businesses in Pinehurst, TX &amp; Montgomery County</h2>
             <p className="text-gray-700 leading-relaxed mb-4">
-              Studio37 provides full-service commercial photography for businesses of every size across Pinehurst, The Woodlands, Conroe, Willis, New Waverly, Huntsville, Spring, Tomball, Magnolia, Montgomery, New Caney, Porter, Splendora, Cleveland, Hockley, Waller, Plantersville, Navasota, Bryan, College Station, Cypress, Kingwood, Humble, Atascocita, and the Houston business corridor. Our commercial services include product photography, e-commerce catalog shoots, real estate and architectural photography, corporate headshots, executive portrait sessions, brand lifestyle content, food and beverage photography, industrial facility documentation, and trade show coverage. Every commercial project is approached with a creative brief process — we study your brand guidelines, target audience, and competitive landscape before lifting a camera, ensuring every image communicates your unique value proposition. With Signature Duo Coverage, complex shoots requiring simultaneous product and lifestyle content are handled in a single session, saving your team valuable time and production budget. We deliver print-ready, web-optimized, and social-media-formatted image assets to keep your marketing team moving fast. Our commercial clients include retailers, restaurants, health and wellness brands, tech startups, real estate agencies, and professional service firms throughout Greater Houston. Get your commercial photography quote today.
+              Studio37 provides full-service commercial photography for businesses of every size across Pinehurst, The Woodlands, Conroe, Magnolia, Tomball, Spring, Montgomery, Willis, New Caney, Hockley, Bryan, College Station, and the Houston business corridor. Our commercial services include product photography, e-commerce catalog shoots, real estate and architectural photography, corporate headshots, executive portrait sessions, brand lifestyle content, food and beverage photography, industrial facility documentation, and trade show coverage. Every commercial project is approached with a creative brief process — we study your brand guidelines, target audience, and competitive landscape before lifting a camera, ensuring every image communicates your unique value proposition. With Signature Duo Coverage, complex shoots requiring simultaneous product and lifestyle content are handled in a single session, saving your team valuable time and production budget. We deliver print-ready, web-optimized, and social-media-formatted image assets to keep your marketing team moving fast. Our commercial clients include retailers, restaurants, health and wellness brands, tech startups, real estate agencies, and professional service firms throughout Greater Houston. Get your commercial photography quote today.
             </p>
             <p className="text-sm text-gray-500">
-              Serving: Pinehurst TX · Magnolia · Tomball · Spring · The Woodlands · Conroe · Montgomery · Willis · New Waverly · Huntsville · New Caney · Porter · Splendora · Cleveland · Hockley · Waller · Plantersville · Navasota · Bryan · College Station · Cypress · Kingwood · Humble · Atascocita · Houston
+              Serving: Pinehurst TX · The Woodlands · Conroe · Magnolia · Tomball · Spring · Montgomery · Willis · New Caney · Hockley · Bryan · College Station · Houston
+            </p>
+            <p className="text-sm mt-2 text-primary-700">
+              Commercial area pages: <Link href="/the-woodlands" className="hover:underline">The Woodlands</Link>, <Link href="/bryan" className="hover:underline">Bryan</Link>, <Link href="/college-station" className="hover:underline">College Station</Link>, <Link href="/locations" className="hover:underline">all locations</Link>.
             </p>
           </div>
         </div>

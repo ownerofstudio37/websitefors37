@@ -37,6 +37,7 @@ export default function SEOFooter() {
             <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-300 mb-3">Quick Links</h3>
             <ul className="space-y-2 text-sm">
               <li><Link href="/services" className="hover:text-white transition-colors">Services</Link></li>
+              <li><Link href="/locations" className="hover:text-white transition-colors">Service Areas</Link></li>
               <li><Link href="/services/branding-marketing" className="hover:text-white transition-colors">Branding &amp; Marketing</Link></li>
               <li><Link href="/book-consultation" className="hover:text-white transition-colors">Book Consultation</Link></li>
               <li><Link href="/contact" className="hover:text-white transition-colors">Contact</Link></li>

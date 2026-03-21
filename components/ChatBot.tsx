@@ -94,7 +94,7 @@ const CHAT_FLOW: Record<string, ChatFlowStep> = {
     next: 'service'
   },
   service: {
-    text: "Nice to meet you! What type of photography service are you looking for? You can also [view our gallery](https://studio37.cc/gallery) for inspiration.",
+    text: "Nice to meet you! What type of photography service are you looking for? You can also [view our gallery](https://www.studio37.cc/gallery) for inspiration.",
     field: 'service',
     options: ['Wedding', 'Portrait', 'Event', 'Commercial', 'Other'],
     next: 'budget'
@@ -127,7 +127,7 @@ const CHAT_FLOW: Record<string, ChatFlowStep> = {
     next: 'complete'
   },
   complete: {
-    text: "Thank you! We'll be in touch within 24 hours with a personalized quote. In the meantime, check out [our services](https://studio37.cc/services) or [book a consultation](https://studio37.cc/book-a-session).",
+    text: "Thank you! We'll be in touch within 24 hours with a personalized quote. In the meantime, check out [our services](https://www.studio37.cc/services) or [book a consultation](https://www.studio37.cc/book-a-session).",
     field: null,
     next: null
   }

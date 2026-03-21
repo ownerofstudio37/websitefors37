@@ -50,7 +50,7 @@ export default function PerformancePage() {
     };
   }, []);
 
-  const siteUrl = typeof window !== 'undefined' ? window.location.origin : 'https://studio37.cc';
+  const siteUrl = typeof window !== 'undefined' ? window.location.origin : 'https://www.studio37.cc';
   const psUrl = `https://pagespeed.web.dev/report?url=${encodeURIComponent(siteUrl)}`;
 
   return (

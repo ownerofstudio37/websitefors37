@@ -22,15 +22,15 @@ export const metadata = generateSEOMetadata({
     'local photographer Pinehurst',
     'portrait photographer Texas'
   ],
-  canonicalUrl: 'https://studio37.cc/local-photographer-pinehurst-tx',
+  canonicalUrl: 'https://www.studio37.cc/local-photographer-pinehurst-tx',
   pageType: 'service'
 })
 
 export default function LocalPhotographerPage() {
   const localBusinessSchema = generateEnhancedLocalBusinessSchema()
   const breadcrumbSchema = generateBreadcrumbSchema([
-    { name: 'Home', url: 'https://studio37.cc' },
-    { name: 'Local Photographer Pinehurst TX', url: 'https://studio37.cc/local-photographer-pinehurst-tx' }
+    { name: 'Home', url: 'https://www.studio37.cc' },
+    { name: 'Local Photographer Pinehurst TX', url: 'https://www.studio37.cc/local-photographer-pinehurst-tx' }
   ])
 
   return (

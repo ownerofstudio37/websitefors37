@@ -466,7 +466,7 @@ ${conversationSummary}`;
     } catch (error) {
       console.error("Error saving quote request:", error);
       addBotMessage(
-        "I had trouble submitting your quote request. Please try again or [contact us directly](https://studio37.cc/contact)."
+        "I had trouble submitting your quote request. Please try again or [contact us directly](https://www.studio37.cc/contact)."
       );
     }
   };

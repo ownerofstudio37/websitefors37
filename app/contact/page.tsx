@@ -187,11 +187,30 @@ export default async function ContactPage() {
           <div className="max-w-4xl mx-auto">
             <h2 className="text-2xl font-bold text-gray-900 mb-4">Book a Photography Session in Pinehurst, TX</h2>
             <p className="text-gray-700 leading-relaxed mb-4">
-              Ready to book professional photography in Pinehurst, Texas or anywhere in Montgomery County? Studio37 Photography makes it easy to get started. Use the contact form above, call us directly at (832) 713-9944, or email sales@studio37.cc to inquire about availability, pricing, and custom packages. We respond to all inquiries within 24 hours, 7 days a week. Our studio serves clients across Pinehurst, Magnolia, Tomball, Spring, The Woodlands, Shenandoah, Oak Ridge North, Conroe, Montgomery, Willis, New Waverly, Huntsville, New Caney, Porter, Splendora, Cleveland, Hockley, Waller, Plantersville, Navasota, Bryan, College Station, Cypress, Kingwood, Humble, Atascocita, and the Greater Houston metro area for weddings, family portraits, senior photos, newborn sessions, corporate headshots, event coverage, commercial product photography, and brand content creation. Whether you're looking for a one-hour portrait session starting at $350 or a comprehensive wedding day package with two photographers included, Studio37 has a solution tailored to your needs and budget. Studio visits are available by appointment at 1701 Goodson Loop Unit 80, Pinehurst, TX 77362. We also offer phone and video consultations for clients located further away. Contact us today and let's start planning your session.
+              Ready to book professional photography in Pinehurst, Texas or anywhere in Montgomery County? Studio37 Photography makes it easy to get started. Use the contact form above, call us directly at (832) 713-9944, or email sales@studio37.cc to inquire about availability, pricing, and custom packages. We respond to all inquiries within 24 hours, 7 days a week. Our studio serves clients across Pinehurst, The Woodlands, Conroe, Magnolia, Tomball, Spring, Montgomery, Willis, New Caney, Hockley, Huntsville, and the Greater Houston metro area for weddings, family portraits, senior photos, newborn sessions, corporate headshots, event coverage, commercial product photography, and brand content creation. Whether you're looking for a one-hour portrait session starting at $350 or a comprehensive wedding day package with two photographers included, Studio37 has a solution tailored to your needs and budget. Studio visits are available by appointment at 1701 Goodson Loop Unit 80, Pinehurst, TX 77362. We also offer phone and video consultations for clients located further away. Contact us today and let's start planning your session.
             </p>
             <p className="text-sm text-gray-500">
-              Studio37 Photography · Pinehurst, TX · Phone: (832) 713-9944 · Email: sales@studio37.cc · Serving Montgomery County, The Woodlands, Conroe, Willis, New Waverly, Huntsville, New Caney, Porter, Splendora, Cleveland, Hockley, Waller, Plantersville, Navasota, Bryan, College Station &amp; Greater Houston
+              Studio37 Photography · Pinehurst, TX · Phone: (832) 713-9944 · Email: sales@studio37.cc · Serving Montgomery County, The Woodlands, Conroe, Magnolia, Tomball, Spring, Montgomery, Willis, New Caney, Hockley, Huntsville &amp; Greater Houston
             </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-10 bg-gray-50 border-y border-gray-200">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-2xl font-bold text-gray-900 mb-3">Need a City-Specific Page?</h2>
+            <p className="text-gray-700 mb-4">
+              Use our service-area pages to review local coverage details and book faster.
+            </p>
+            <div className="flex flex-wrap gap-3 text-sm">
+              <a href="/locations" className="px-3 py-2 rounded-full bg-white border border-gray-300 hover:border-primary-300">All Locations</a>
+              <a href="/new-caney" className="px-3 py-2 rounded-full bg-white border border-gray-300 hover:border-primary-300">New Caney</a>
+              <a href="/willis" className="px-3 py-2 rounded-full bg-white border border-gray-300 hover:border-primary-300">Willis</a>
+              <a href="/hockley" className="px-3 py-2 rounded-full bg-white border border-gray-300 hover:border-primary-300">Hockley</a>
+              <a href="/bryan" className="px-3 py-2 rounded-full bg-white border border-gray-300 hover:border-primary-300">Bryan</a>
+              <a href="/college-station" className="px-3 py-2 rounded-full bg-white border border-gray-300 hover:border-primary-300">College Station</a>
+            </div>
           </div>
         </div>
       </section>

@@ -15,19 +15,19 @@ const conversations = new Map<string, ConversationState>();
 
 const FLOWS = {
   initial:
-    "Hi there! I'm Studio 37's virtual assistant. How can I help you today? Are you interested in wedding photography, portraits, events, or commercial photography? Feel free to [view our portfolio](https://studio37.cc/gallery) for inspiration!",
+    "Hi there! I'm Studio 37's virtual assistant. How can I help you today? Are you interested in wedding photography, portraits, events, or commercial photography? Feel free to [view our portfolio](https://www.studio37.cc/gallery) for inspiration!",
   service:
-    "Great choice! Would you like to know about pricing options or [book a consultation](https://studio37.cc/book-a-session)?",
+    "Great choice! Would you like to know about pricing options or [book a consultation](https://www.studio37.cc/book-a-session)?",
   interest:
-    "Could you share a bit more about what you are looking for? That helps us prepare a personalized quote. You can also check out [our services page](https://studio37.cc/services) for more details.",
+    "Could you share a bit more about what you are looking for? That helps us prepare a personalized quote. You can also check out [our services page](https://www.studio37.cc/services) for more details.",
   contact:
     "Thanks! Leave your email or phone and we'll get back within 24 hours.",
   collect:
     "Perfect! Anything specific you want us to know before the consultation?",
   final:
-    "Thanks for reaching out to Studio 37 Photography! We'll be in touch soon. While you wait, explore [our blog](https://studio37.cc/blog) or [read about us](https://studio37.cc/about).",
+    "Thanks for reaching out to Studio 37 Photography! We'll be in touch soon. While you wait, explore [our blog](https://www.studio37.cc/blog) or [read about us](https://www.studio37.cc/about).",
   fallback:
-    "Would you like to discuss your photography needs with our team? We can provide details on services and pricing. Check out [our gallery](https://studio37.cc/gallery) or [contact us](https://studio37.cc/contact).",
+    "Would you like to discuss your photography needs with our team? We can provide details on services and pricing. Check out [our gallery](https://www.studio37.cc/gallery) or [contact us](https://www.studio37.cc/contact).",
 } as const;
 
 const BodySchema = z.object({

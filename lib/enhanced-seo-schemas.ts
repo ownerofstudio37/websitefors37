@@ -3,12 +3,12 @@ export function generateEnhancedLocalBusinessSchema() {
   return {
     '@context': 'https://schema.org',
     '@type': ['LocalBusiness', 'ProfessionalService', 'PhotographyBusiness'],
-    '@id': 'https://studio37.cc/#organization',
+    '@id': 'https://www.studio37.cc/#organization',
     name: 'Studio37 Photography',
     alternateName: 'Studio37',
     legalName: 'Studio37 Photography LLC',
     description: 'Professional photography services specializing in weddings, portraits, events, and commercial photography in Pinehurst, Texas and Montgomery County.',
-    url: 'https://studio37.cc',
+    url: 'https://www.studio37.cc',
     sameAs: [
       'https://www.facebook.com/studio37photography',
       'https://www.instagram.com/studio37photography',
@@ -17,14 +17,14 @@ export function generateEnhancedLocalBusinessSchema() {
     ],
     logo: {
       '@type': 'ImageObject',
-      url: 'https://studio37.cc/logo.png',
+      url: 'https://www.studio37.cc/logo.png',
       width: 300,
       height: 100
     },
     image: [
-      'https://studio37.cc/images/studio-exterior.jpg',
-      'https://studio37.cc/images/photography-equipment.jpg',
-      'https://studio37.cc/images/portfolio-sample.jpg'
+      'https://www.studio37.cc/images/studio-exterior.jpg',
+      'https://www.studio37.cc/images/photography-equipment.jpg',
+      'https://www.studio37.cc/images/portfolio-sample.jpg'
     ],
     telephone: '+1-832-713-9944',
     email: 'sales@studio37.cc',
@@ -204,12 +204,12 @@ export function generateOrganizationSchema() {
   return {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    '@id': 'https://studio37.cc/#organization',
+    '@id': 'https://www.studio37.cc/#organization',
     name: 'Studio37 Photography',
-    url: 'https://studio37.cc',
+    url: 'https://www.studio37.cc',
     logo: {
       '@type': 'ImageObject',
-      url: 'https://studio37.cc/logo.png'
+      url: 'https://www.studio37.cc/logo.png'
     },
     contactPoint: {
       '@type': 'ContactPoint',
@@ -230,18 +230,18 @@ export function generateWebsiteSchema() {
   return {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    '@id': 'https://studio37.cc/#website',
-    url: 'https://studio37.cc',
+    '@id': 'https://www.studio37.cc/#website',
+    url: 'https://www.studio37.cc',
     name: 'Studio37 Photography',
     description: 'Professional photography services in Pinehurst, Texas - Wedding, Portrait, Event & Commercial Photography',
     publisher: {
-      '@id': 'https://studio37.cc/#organization'
+      '@id': 'https://www.studio37.cc/#organization'
     },
     potentialAction: {
       '@type': 'SearchAction',
       target: {
         '@type': 'EntryPoint',
-        urlTemplate: 'https://studio37.cc/search?q={search_term_string}'
+        urlTemplate: 'https://www.studio37.cc/search?q={search_term_string}'
       },
       'query-input': 'required name=search_term_string'
     }
