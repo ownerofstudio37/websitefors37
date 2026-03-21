@@ -19,6 +19,8 @@ import {
   Edit,
   Trash2,
 } from 'lucide-react'
+import AdminToast from '@/components/admin/AdminToast'
+import AdminConfirmDialog from '@/components/admin/AdminConfirmDialog'
 
 type CampaignType = 'email' | 'sms'
 
@@ -29,6 +31,9 @@ export default function MarketingCampaignsPage() {
   const [error, setError] = useState<string | null>(null)
   const [showCreateModal, setShowCreateModal] = useState(false)
   const [sending, setSending] = useState<string | null>(null)
+  const [toast, setToast] = useState<{ type: 'success' | 'error'; message: string } | null>(null)
+  const [sendTarget, setSendTarget] = useState<string | null>(null)
+  const [deleteTarget, setDeleteTarget] = useState<string | null>(null)
 
   useEffect(() => {
     fetchCampaigns()
@@ -56,10 +61,6 @@ export default function MarketingCampaignsPage() {
   }
 
   const sendCampaign = async (campaignId: string) => {
-    if (!confirm('Are you sure you want to send this campaign? This cannot be undone.')) {
-      return
-    }
-
     setSending(campaignId)
     try {
       const res = await fetch(`/api/marketing/campaigns/${campaignId}/send`, {
@@ -74,28 +75,28 @@ export default function MarketingCampaignsPage() {
       }
 
       const result = await res.json()
-      alert(
-        `Campaign sent successfully!\n\nSent: ${result.campaign.sent_count}\nFailed: ${result.campaign.failed_count}`
-      )
+      setToast({
+        type: 'success',
+        message: `Campaign sent. Sent: ${result.campaign.sent_count}, Failed: ${result.campaign.failed_count}`,
+      })
       fetchCampaigns()
     } catch (err: any) {
-      alert(err.message || 'Failed to send campaign')
+      setToast({ type: 'error', message: err.message || 'Failed to send campaign' })
     } finally {
       setSending(null)
     }
   }
 
   const deleteCampaign = async (campaignId: string) => {
-    if (!confirm('Are you sure you want to delete this campaign?')) return
-
     try {
       const table = campaignType === 'email' ? 'email_campaigns' : 'sms_campaigns'
       const { error } = await supabase.from(table).delete().eq('id', campaignId)
 
       if (error) throw error
       fetchCampaigns()
+      setToast({ type: 'success', message: 'Campaign deleted.' })
     } catch (err: any) {
-      alert(err.message || 'Failed to delete campaign')
+      setToast({ type: 'error', message: err.message || 'Failed to delete campaign' })
     }
   }
 
@@ -151,6 +152,12 @@ export default function MarketingCampaignsPage() {
           New Campaign
         </button>
       </div>
+
+      {toast && (
+        <div className="mb-6">
+          <AdminToast type={toast.type} message={toast.message} onClose={() => setToast(null)} />
+        </div>
+      )}
 
       {/* Campaign Type Tabs */}
       <div className="flex gap-2 mb-6 border-b border-gray-200">
@@ -328,7 +335,7 @@ export default function MarketingCampaignsPage() {
                 <div className="flex gap-2 ml-4">
                   {campaign.status === 'draft' && (
                     <button
-                      onClick={() => sendCampaign(campaign.id)}
+                      onClick={() => setSendTarget(campaign.id)}
                       disabled={sending === campaign.id}
                       className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors flex items-center gap-2 disabled:opacity-50"
                     >
@@ -342,7 +349,7 @@ export default function MarketingCampaignsPage() {
                   )}
                   {campaign.status === 'draft' && (
                     <button
-                      onClick={() => deleteCampaign(campaign.id)}
+                      onClick={() => setDeleteTarget(campaign.id)}
                       className="border border-red-300 text-red-600 px-4 py-2 rounded-lg hover:bg-red-50 transition-colors"
                     >
                       <Trash2 className="h-4 w-4" />
@@ -360,12 +367,41 @@ export default function MarketingCampaignsPage() {
         <CreateCampaignModal
           type={campaignType}
           onClose={() => setShowCreateModal(false)}
+          onError={(message) => setToast({ type: 'error', message })}
           onSuccess={() => {
             setShowCreateModal(false)
             fetchCampaigns()
+            setToast({ type: 'success', message: 'Campaign created successfully.' })
           }}
         />
       )}
+
+      <AdminConfirmDialog
+        open={!!sendTarget}
+        title="Send campaign now?"
+        message="This will immediately send the selected campaign and cannot be undone."
+        confirmLabel="Send campaign"
+        onCancel={() => setSendTarget(null)}
+        onConfirm={() => {
+          if (!sendTarget) return
+          sendCampaign(sendTarget)
+          setSendTarget(null)
+        }}
+      />
+
+      <AdminConfirmDialog
+        open={!!deleteTarget}
+        title="Delete campaign?"
+        message="This will permanently remove the selected campaign."
+        confirmLabel="Delete"
+        danger
+        onCancel={() => setDeleteTarget(null)}
+        onConfirm={() => {
+          if (!deleteTarget) return
+          deleteCampaign(deleteTarget)
+          setDeleteTarget(null)
+        }}
+      />
     </div>
   )
 }
@@ -374,10 +410,12 @@ export default function MarketingCampaignsPage() {
 function CreateCampaignModal({
   type,
   onClose,
+  onError,
   onSuccess,
 }: {
   type: CampaignType
   onClose: () => void
+  onError: (message: string) => void
   onSuccess: () => void
 }) {
   const [formData, setFormData] = useState({
@@ -412,7 +450,7 @@ function CreateCampaignModal({
 
       onSuccess()
     } catch (err: any) {
-      alert(err.message || 'Failed to create campaign')
+      onError(err.message || 'Failed to create campaign')
     } finally {
       setCreating(false)
     }

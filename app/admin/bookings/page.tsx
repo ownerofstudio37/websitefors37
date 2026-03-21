@@ -4,11 +4,15 @@ import React, { useEffect, useState } from 'react'
 import { supabase } from '@/lib/supabase'
 import type { Appointment } from '@/lib/supabase'
 import { Loader2, Calendar, Clock, Trash2, CheckCircle, XCircle } from 'lucide-react'
+import AdminToast from '@/components/admin/AdminToast'
+import AdminConfirmDialog from '@/components/admin/AdminConfirmDialog'
 
 export default function AdminBookingsPage() {
   const [loading, setLoading] = useState(true)
   const [appointments, setAppointments] = useState<Appointment[]>([])
   const [error, setError] = useState<string | null>(null)
+  const [toast, setToast] = useState<{ type: 'success' | 'error'; message: string } | null>(null)
+  const [deleteTarget, setDeleteTarget] = useState<string | null>(null)
 
   const fetchAppointments = async () => {
     setLoading(true)
@@ -31,15 +35,22 @@ export default function AdminBookingsPage() {
 
   const updateStatus = async (id: string, status: Appointment['status']) => {
     const { error } = await supabase.from('appointments').update({ status }).eq('id', id)
-    if (error) return alert('Failed to update')
+    if (error) {
+      setToast({ type: 'error', message: 'Failed to update appointment status.' })
+      return
+    }
     setAppointments(prev => prev.map(a => a.id === id ? { ...a, status } : a))
+    setToast({ type: 'success', message: `Appointment marked ${status}.` })
   }
 
   const remove = async (id: string) => {
-    if (!confirm('Delete this appointment?')) return
     const { error } = await supabase.from('appointments').delete().eq('id', id)
-    if (error) return alert('Failed to delete')
+    if (error) {
+      setToast({ type: 'error', message: 'Failed to delete appointment.' })
+      return
+    }
     setAppointments(prev => prev.filter(a => a.id !== id))
+    setToast({ type: 'success', message: 'Appointment deleted.' })
   }
 
   return (
@@ -48,6 +59,15 @@ export default function AdminBookingsPage() {
         <h1 className="text-xl font-semibold">Bookings</h1>
         <button className="border rounded px-3 py-1" onClick={fetchAppointments}>Refresh</button>
       </div>
+      {toast && (
+        <div className="mb-4">
+          <AdminToast
+            type={toast.type}
+            message={toast.message}
+            onClose={() => setToast(null)}
+          />
+        </div>
+      )}
       {error && <div className="text-red-600 mb-4">{error}</div>}
       {loading ? (
         <div className="flex items-center text-gray-600"><Loader2 className="h-5 w-5 animate-spin mr-2"/> Loading…</div>
@@ -88,7 +108,7 @@ export default function AdminBookingsPage() {
                   <td className="px-4 py-3 space-x-2">
                     <button className="text-green-700" title="Mark completed" onClick={()=>updateStatus(a.id,'completed')}><CheckCircle className="h-5 w-5"/></button>
                     <button className="text-yellow-700" title="Cancel" onClick={()=>updateStatus(a.id,'cancelled')}><XCircle className="h-5 w-5"/></button>
-                    <button className="text-red-700" title="Delete" onClick={()=>remove(a.id)}><Trash2 className="h-5 w-5"/></button>
+                    <button className="text-red-700" title="Delete" onClick={()=>setDeleteTarget(a.id)}><Trash2 className="h-5 w-5"/></button>
                   </td>
                 </tr>
               ))}
@@ -96,6 +116,20 @@ export default function AdminBookingsPage() {
           </table>
         </div>
       )}
+
+      <AdminConfirmDialog
+        open={!!deleteTarget}
+        title="Delete appointment?"
+        message="This will permanently remove the appointment record."
+        confirmLabel="Delete"
+        danger
+        onCancel={() => setDeleteTarget(null)}
+        onConfirm={() => {
+          if (!deleteTarget) return
+          remove(deleteTarget)
+          setDeleteTarget(null)
+        }}
+      />
     </div>
   )
 }

@@ -17,6 +17,8 @@ import {
   ChevronDown,
   ChevronRight
 } from 'lucide-react'
+import AdminToast from '@/components/admin/AdminToast'
+import AdminConfirmDialog from '@/components/admin/AdminConfirmDialog'
 
 interface NavigationItem {
   id: string
@@ -40,8 +42,19 @@ export default function NavigationEditor() {
   const [editingId, setEditingId] = useState<string | null>(null)
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null)
   const [expandedItems, setExpandedItems] = useState<Record<string, boolean>>({})
+  const [deleteTarget, setDeleteTarget] = useState<{ id: string; parentId?: string } | null>(null)
 
   const supabase = createClientComponentClient()
+
+  const normalizeNavigationItems = (navItems: NavigationItem[]) =>
+    navItems.map((item, index) => ({
+      ...item,
+      order: index + 1,
+      children: (item.children || []).map((child, childIndex) => ({
+        ...child,
+        order: childIndex + 1,
+      })),
+    }))
 
   useEffect(() => {
     loadNavigation()
@@ -59,7 +72,14 @@ export default function NavigationEditor() {
       if (error) throw error
 
       const navItems = (data?.navigation_items || []) as NavigationItem[]
-      const sorted = navItems.sort((a, b) => a.order - b.order)
+      const sorted = normalizeNavigationItems(
+        [...navItems]
+          .sort((a, b) => a.order - b.order)
+          .map((item) => ({
+            ...item,
+            children: [...(item.children || [])].sort((a, b) => a.order - b.order),
+          }))
+      )
       setItems(sorted)
       setOriginalItems(JSON.parse(JSON.stringify(sorted)))
       const fetchedLogo = (data?.logo_url as string) || ''
@@ -97,10 +117,7 @@ export default function NavigationEditor() {
     setMessage(null)
     try {
       // Re-order items based on current array order
-      const reorderedItems = items.map((item, index) => ({
-        ...item,
-        order: index + 1
-      }))
+      const reorderedItems = normalizeNavigationItems(items)
 
       // Settings is a singleton table - just update the first/only row
       // First, try to get the existing row
@@ -152,34 +169,40 @@ export default function NavigationEditor() {
   }
 
   const addDropdownItem = (parentId: string) => {
+    const parent = items.find((item) => item.id === parentId)
     const newItem: NavigationItem = {
       id: `nav-${Date.now()}`,
       label: 'New Dropdown Item',
       href: '#',
-      order: 0,
+      order: (parent?.children?.length || 0) + 1,
       visible: true
     }
     setItems(items.map(item => 
       item.id === parentId 
         ? { ...item, children: [...(item.children || []), newItem] }
         : item
-    ))
+    ).map((item, index) => ({
+      ...item,
+      order: index + 1,
+      children: (item.children || []).map((child, childIndex) => ({
+        ...child,
+        order: childIndex + 1,
+      })),
+    })))
     setExpandedItems(prev => ({ ...prev, [parentId]: true }))
   }
 
   const deleteItem = (id: string, parentId?: string) => {
-    if (confirm('Delete this menu item?')) {
-      if (parentId) {
-        // Deleting a child item
-        setItems(items.map(item => 
-          item.id === parentId 
-            ? { ...item, children: (item.children || []).filter(child => child.id !== id) }
-            : item
-        ))
-      } else {
-        // Deleting a parent item
-        setItems(items.filter(item => item.id !== id))
-      }
+    if (parentId) {
+      // Deleting a child item
+      setItems(normalizeNavigationItems(items.map(item => 
+        item.id === parentId 
+          ? { ...item, children: (item.children || []).filter(child => child.id !== id) }
+          : item
+      )))
+    } else {
+      // Deleting a parent item
+      setItems(normalizeNavigationItems(items.filter(item => item.id !== id)))
     }
   }
 
@@ -283,16 +306,11 @@ export default function NavigationEditor() {
       {/* Message */}
       {message && (
         <div className="max-w-4xl mx-auto px-6 mt-4">
-          <div
-            className={`rounded-lg border px-4 py-3 text-sm flex items-center gap-2 ${
-              message.type === 'success'
-                ? 'bg-green-50 border-green-200 text-green-800'
-                : 'bg-red-50 border-red-200 text-red-800'
-            }`}
-          >
-            <AlertCircle className="h-4 w-4 flex-shrink-0" />
-            {message.text}
-          </div>
+          <AdminToast
+            type={message.type === 'success' ? 'success' : 'error'}
+            message={message.text}
+            onClose={() => setMessage(null)}
+          />
         </div>
       )}
 
@@ -486,7 +504,7 @@ export default function NavigationEditor() {
                           </button>
 
                           <button
-                            onClick={() => deleteItem(item.id)}
+                            onClick={() => setDeleteTarget({ id: item.id })}
                             className="p-2 rounded hover:bg-red-50 text-red-600"
                             title="Delete menu item"
                           >
@@ -545,7 +563,7 @@ export default function NavigationEditor() {
                               </div>
 
                               <button
-                                onClick={() => deleteItem(child.id, item.id)}
+                                onClick={() => setDeleteTarget({ id: child.id, parentId: item.id })}
                                 className="p-1 rounded hover:bg-red-50 text-red-600 shrink-0"
                                 title="Delete dropdown item"
                               >
@@ -583,6 +601,20 @@ export default function NavigationEditor() {
           </>
         )}
       </div>
+
+      <AdminConfirmDialog
+        open={!!deleteTarget}
+        title="Delete navigation item?"
+        message="This removes the selected menu item from your saved navigation structure."
+        confirmLabel="Delete"
+        danger
+        onCancel={() => setDeleteTarget(null)}
+        onConfirm={() => {
+          if (!deleteTarget) return
+          deleteItem(deleteTarget.id, deleteTarget.parentId)
+          setDeleteTarget(null)
+        }}
+      />
     </div>
   )
 }

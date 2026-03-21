@@ -68,6 +68,7 @@ export default function NotificationCenter({ dropdownAlign = 'right' }: Notifica
     try {
       // Don't fetch if component is unmounted
       if (!isMountedRef.current) return
+      setLoading(true)
       
       const response = await fetch('/api/admin/notifications')
       if (!response.ok) {
@@ -86,6 +87,10 @@ export default function NotificationCenter({ dropdownAlign = 'right' }: Notifica
       console.error('Failed to fetch notifications:', error)
       // Keep polling for transient failures and retry - don't clear the interval here
       // If you want exponential backoff for persistent issues, implement a retry counter.
+    } finally {
+      if (isMountedRef.current) {
+        setLoading(false)
+      }
     }
   }
 

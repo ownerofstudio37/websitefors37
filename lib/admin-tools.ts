@@ -1,0 +1,416 @@
+import {
+  BarChart3,
+  Bell,
+  Briefcase,
+  Calendar,
+  FileText,
+  FolderKanban,
+  Globe,
+  Home,
+  Image,
+  LayoutDashboard,
+  Mail,
+  MessageSquare,
+  Palette,
+  Search,
+  Settings,
+  Sparkles,
+  Target,
+  Wand2,
+  Workflow,
+  type LucideIcon,
+} from 'lucide-react'
+
+export type AdminToolGroupId =
+  | 'overview'
+  | 'crm'
+  | 'content'
+  | 'marketing'
+  | 'site'
+  | 'system'
+
+export interface AdminTool {
+  id: string
+  label: string
+  description: string
+  href: string
+  icon: LucideIcon
+  group: AdminToolGroupId
+  badge?: string
+  featured?: boolean
+  exact?: boolean
+  preferred?: boolean
+  showInSidebar?: boolean
+  showOnDashboard?: boolean
+}
+
+export const ADMIN_TOOL_GROUP_META: Record<
+  AdminToolGroupId,
+  { label: string; description: string }
+> = {
+  overview: {
+    label: 'Overview',
+    description: 'Dashboard and operational summary tools.',
+  },
+  crm: {
+    label: 'CRM & Operations',
+    description: 'Leads, bookings, reminders, and client delivery workflows.',
+  },
+  content: {
+    label: 'Content & Publishing',
+    description: 'Pages, blog, gallery, editing, and visual publishing tools.',
+  },
+  marketing: {
+    label: 'Marketing & Automation',
+    description: 'Campaigns, inboxes, templates, AI, and training tools.',
+  },
+  site: {
+    label: 'Site Experience',
+    description: 'Navigation, SEO, analytics, theming, and performance tools.',
+  },
+  system: {
+    label: 'System & Settings',
+    description: 'Core configuration and schema-level admin utilities.',
+  },
+}
+
+export const ADMIN_TOOLS: AdminTool[] = [
+  {
+    id: 'dashboard',
+    label: 'Dashboard',
+    description: 'Main admin overview and quick access.',
+    href: '/admin',
+    icon: LayoutDashboard,
+    group: 'overview',
+    exact: true,
+    featured: true,
+    showInSidebar: true,
+    showOnDashboard: false,
+  },
+  {
+    id: 'leads',
+    label: 'Leads & Messages',
+    description: 'Manage incoming leads, notes, reminders, and outreach.',
+    href: '/admin/leads',
+    icon: MessageSquare,
+    group: 'crm',
+    featured: true,
+    preferred: true,
+    showInSidebar: true,
+    showOnDashboard: true,
+  },
+  {
+    id: 'lead-scoring',
+    label: 'Lead Scoring',
+    description: 'AI-assisted lead prioritization and quality scoring.',
+    href: '/admin/lead-scoring',
+    icon: Target,
+    group: 'crm',
+    badge: 'AI',
+    featured: true,
+    showInSidebar: true,
+    showOnDashboard: true,
+  },
+  {
+    id: 'lead-cost-analytics',
+    label: 'Cost & Revenue',
+    description: 'Track lead acquisition cost and revenue performance.',
+    href: '/admin/lead-cost-analytics',
+    icon: BarChart3,
+    group: 'crm',
+    showInSidebar: true,
+    showOnDashboard: true,
+  },
+  {
+    id: 'bookings',
+    label: 'Bookings',
+    description: 'Manage session bookings and appointment records.',
+    href: '/admin/bookings',
+    icon: Calendar,
+    group: 'crm',
+    preferred: true,
+    showInSidebar: true,
+    showOnDashboard: true,
+  },
+  {
+    id: 'calendar',
+    label: 'Calendar View',
+    description: 'Visual calendar for appointments and scheduling.',
+    href: '/admin/calendar',
+    icon: Calendar,
+    group: 'crm',
+    badge: 'View',
+    showInSidebar: true,
+    showOnDashboard: true,
+  },
+  {
+    id: 'appointment-reminders',
+    label: 'Appointment Reminders',
+    description: 'Configure automated reminder workflows.',
+    href: '/admin/appointment-reminders',
+    icon: Bell,
+    group: 'crm',
+    showInSidebar: true,
+    showOnDashboard: true,
+  },
+  {
+    id: 'projects',
+    label: 'Projects',
+    description: 'Track work from booking through delivery.',
+    href: '/admin/projects',
+    icon: FolderKanban,
+    group: 'crm',
+    featured: true,
+    showInSidebar: true,
+    showOnDashboard: true,
+  },
+  {
+    id: 'client-portals',
+    label: 'Client Portals',
+    description: 'Manage secure client access and portal content.',
+    href: '/admin/client-portals',
+    icon: Briefcase,
+    group: 'crm',
+    showInSidebar: true,
+    showOnDashboard: true,
+  },
+  {
+    id: 'content-enhanced',
+    label: 'Enhanced Content CMS',
+    description: 'Recommended content editor with SEO, scheduling, revisions, and templates.',
+    href: '/admin/content-enhanced',
+    icon: Sparkles,
+    group: 'content',
+    badge: 'Recommended',
+    featured: true,
+    preferred: true,
+    showInSidebar: true,
+    showOnDashboard: true,
+  },
+  {
+    id: 'content',
+    label: 'Content',
+    description: 'Standard page content management.',
+    href: '/admin/content',
+    icon: FileText,
+    group: 'content',
+    showInSidebar: true,
+    showOnDashboard: true,
+  },
+  {
+    id: 'blog',
+    label: 'Blog Posts',
+    description: 'Write, publish, and manage blog content.',
+    href: '/admin/blog',
+    icon: FileText,
+    group: 'content',
+    showInSidebar: true,
+    showOnDashboard: true,
+  },
+  {
+    id: 'gallery',
+    label: 'Gallery',
+    description: 'Manage image content and gallery organization.',
+    href: '/admin/gallery',
+    icon: Image,
+    group: 'content',
+    showInSidebar: true,
+    showOnDashboard: true,
+  },
+  {
+    id: 'page-builder',
+    label: 'Page Builder',
+    description: 'Build new custom pages using builder workflows.',
+    href: '/admin/page-builder',
+    icon: Workflow,
+    group: 'content',
+    showInSidebar: true,
+    showOnDashboard: true,
+  },
+  {
+    id: 'live-editor',
+    label: 'Live Page Editor',
+    description: 'Edit published pages directly.',
+    href: '/admin/live-editor',
+    icon: Globe,
+    group: 'content',
+    showInSidebar: true,
+    showOnDashboard: true,
+  },
+  {
+    id: 'marketing',
+    label: 'Marketing Campaigns',
+    description: 'Create and send email and SMS campaigns.',
+    href: '/admin/marketing',
+    icon: Mail,
+    group: 'marketing',
+    featured: true,
+    preferred: true,
+    showInSidebar: true,
+    showOnDashboard: true,
+  },
+  {
+    id: 'email-templates',
+    label: 'Email Templates',
+    description: 'Manage reusable templates and autoresponders.',
+    href: '/admin/email-templates',
+    icon: Mail,
+    group: 'marketing',
+    showInSidebar: true,
+    showOnDashboard: true,
+  },
+  {
+    id: 'inbox',
+    label: 'SMS Inbox',
+    description: 'Reply to messages and manage active conversations.',
+    href: '/admin/inbox',
+    icon: MessageSquare,
+    group: 'marketing',
+    showInSidebar: true,
+    showOnDashboard: true,
+  },
+  {
+    id: 'chatbot-training',
+    label: 'AI Training',
+    description: 'Train chatbot answers from website and custom data.',
+    href: '/admin/chatbot-training',
+    icon: Sparkles,
+    group: 'marketing',
+    badge: 'AI',
+    showInSidebar: true,
+    showOnDashboard: true,
+  },
+  {
+    id: 'ai-site-builder',
+    label: 'AI Site Builder',
+    description: 'Generate site structure and content with AI assistance.',
+    href: '/admin/ai-site-builder',
+    icon: Wand2,
+    group: 'marketing',
+    badge: 'AI',
+    showInSidebar: true,
+    showOnDashboard: true,
+  },
+  {
+    id: 'navigation',
+    label: 'Navigation',
+    description: 'Edit menus and dropdown structure.',
+    href: '/admin/navigation',
+    icon: Workflow,
+    group: 'site',
+    preferred: true,
+    showInSidebar: true,
+    showOnDashboard: true,
+  },
+  {
+    id: 'seo',
+    label: 'SEO Analyzer',
+    description: 'Audit metadata, robots, sitemap, and search readiness.',
+    href: '/admin/seo',
+    icon: Search,
+    group: 'site',
+    showInSidebar: true,
+    showOnDashboard: true,
+  },
+  {
+    id: 'analytics',
+    label: 'Analytics',
+    description: 'View charts, trends, and site performance data.',
+    href: '/admin/analytics',
+    icon: BarChart3,
+    group: 'site',
+    showInSidebar: true,
+    showOnDashboard: true,
+  },
+  {
+    id: 'performance',
+    label: 'Performance',
+    description: 'Review web vitals and runtime performance metrics.',
+    href: '/admin/performance',
+    icon: BarChart3,
+    group: 'site',
+    showInSidebar: true,
+    showOnDashboard: true,
+  },
+  {
+    id: 'theme-customizer',
+    label: 'Theme Customizer',
+    description: 'Adjust colors, styling, and brand presentation.',
+    href: '/admin/theme-customizer',
+    icon: Palette,
+    group: 'site',
+    showInSidebar: true,
+    showOnDashboard: true,
+  },
+  {
+    id: 'audit',
+    label: 'Site Audit',
+    description: 'Review content, performance, and UX issues.',
+    href: '/admin/audit',
+    icon: Search,
+    group: 'site',
+    showInSidebar: true,
+    showOnDashboard: true,
+  },
+  {
+    id: 'settings',
+    label: 'Settings',
+    description: 'Manage business, SEO, AI, and site settings.',
+    href: '/admin/settings',
+    icon: Settings,
+    group: 'system',
+    featured: true,
+    preferred: true,
+    showInSidebar: true,
+    showOnDashboard: true,
+  },
+  {
+    id: 'site-editor',
+    label: 'Site Editor',
+    description: 'Global site-level editor for shared configuration.',
+    href: '/admin/site-editor',
+    icon: Home,
+    group: 'system',
+    showInSidebar: true,
+    showOnDashboard: true,
+  },
+  {
+    id: 'database-migrations',
+    label: 'Database Migrations',
+    description: 'Run schema updates and admin-managed migrations.',
+    href: '/admin/database-migrations',
+    icon: Settings,
+    group: 'system',
+    showInSidebar: true,
+    showOnDashboard: true,
+  },
+]
+
+export const ADMIN_SIDEBAR_GROUP_ORDER: AdminToolGroupId[] = [
+  'overview',
+  'crm',
+  'content',
+  'marketing',
+  'site',
+  'system',
+]
+
+export const ADMIN_DASHBOARD_GROUP_ORDER: AdminToolGroupId[] = [
+  'crm',
+  'content',
+  'marketing',
+  'site',
+  'system',
+]
+
+export function getAdminToolsForGroup(group: AdminToolGroupId) {
+  return ADMIN_TOOLS.filter((tool) => tool.group === group)
+}
+
+export function getSidebarTools() {
+  return ADMIN_TOOLS.filter((tool) => tool.showInSidebar)
+}
+
+export function getDashboardTools() {
+  return ADMIN_TOOLS.filter((tool) => tool.showOnDashboard)
+}

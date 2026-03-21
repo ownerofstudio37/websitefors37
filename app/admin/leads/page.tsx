@@ -9,6 +9,8 @@ import MarkdownEditor from '@/components/MarkdownEditor'
 import EmailBuilder, { EmailBlock, renderEmailHtml } from '@/components/EmailBuilder'
 import ContactImporter from '@/components/admin/ContactImporter'
 import LeadScreenshotImporter from '@/components/admin/LeadScreenshotImporter'
+import AdminToast from '@/components/admin/AdminToast'
+import AdminConfirmDialog from '@/components/admin/AdminConfirmDialog'
 
 export default function LeadsPage() {
   const [leads, setLeads] = useState<Lead[]>([])
@@ -35,6 +37,7 @@ export default function LeadsPage() {
   const [showBusinessCardModal, setShowBusinessCardModal] = useState(false)
   const [creating, setCreating] = useState(false)
   const [toast, setToast] = useState<string | null>(null)
+  const [confirmDeleteLeadId, setConfirmDeleteLeadId] = useState<string | null>(null)
   const [createError, setCreateError] = useState<string | null>(null)
   const [showReminderModal, setShowReminderModal] = useState(false)
   const [reminderType, setReminderType] = useState<'reminder' | 'confirmation'>('reminder')
@@ -208,7 +211,7 @@ export default function LeadsPage() {
 
   const sendBookingReminder = async () => {
     if (!selectedLead || !reminderData.sessionDate || !reminderData.sessionTime) {
-      alert('Please fill in session date and time')
+      setToast('Please fill in session date and time')
       return
     }
 
@@ -249,7 +252,7 @@ export default function LeadsPage() {
       }
     } catch (error: any) {
       console.error('Send reminder error:', error)
-      alert(error.message || 'Failed to send reminder')
+      setToast(error.message || 'Failed to send reminder')
     } finally {
       setSendingReminder(false)
     }
@@ -270,13 +273,11 @@ export default function LeadsPage() {
       ))
     } catch (error) {
       console.error('Error updating lead:', error)
-      alert('Failed to update lead status')
+      setToast('Failed to update lead status')
     }
   }
 
   const deleteLead = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this lead?')) return
-    
     setIsDeleting(id)
     try {
       const { error } = await supabase
@@ -292,7 +293,7 @@ export default function LeadsPage() {
       fetchLeads()
     } catch (error) {
       console.error('Error deleting lead:', error)
-      alert('Failed to delete lead')
+      setToast('Failed to delete lead')
     } finally {
       setIsDeleting(null)
     }
@@ -317,7 +318,7 @@ export default function LeadsPage() {
       setNotes('')
     } catch (error) {
       console.error('Error updating notes:', error)
-      alert('Failed to update notes')
+      setToast('Failed to update notes')
     }
   }
 
@@ -371,7 +372,7 @@ export default function LeadsPage() {
       }
     } catch (error) {
       console.error('Error adding log:', error)
-      alert('Failed to add communication log')
+      setToast('Failed to add communication log')
     }
   }
 
@@ -524,7 +525,7 @@ Studio37`)
 
   const exportToCSV = () => {
     if (leads.length === 0) {
-      alert('No leads to export')
+      setToast('No leads to export')
       return
     }
 
@@ -646,9 +647,7 @@ Studio37`)
       </div>
 
       {toast && (
-        <div className="mb-4 rounded-lg border border-green-200 bg-green-50 px-4 py-2 text-green-800">
-          {toast}
-        </div>
+        <AdminToast message={toast} onClose={() => setToast(null)} />
       )}
 
       {/* Stats Overview */}
@@ -811,7 +810,7 @@ Studio37`)
                           <Edit className="h-4 w-4" />
                         </button>
                         <button
-                          onClick={() => deleteLead(lead.id)}
+                          onClick={() => setConfirmDeleteLeadId(lead.id)}
                           className="text-red-600 hover:text-red-900"
                           title="Delete lead"
                         >
@@ -1024,7 +1023,7 @@ Studio37`)
 
             <div className="mt-6 flex justify-between">
               <button
-                onClick={() => deleteLead(selectedLead.id)}
+                onClick={() => setConfirmDeleteLeadId(selectedLead.id)}
                 disabled={isDeleting === selectedLead.id}
                 className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:opacity-50"
               >
@@ -1662,6 +1661,20 @@ Studio37`)
           onClose={() => setShowBusinessCardModal(false)}
         />
       )}
+
+      <AdminConfirmDialog
+        open={!!confirmDeleteLeadId}
+        title="Delete lead?"
+        message="This will permanently remove the lead record and associated admin workflow access."
+        confirmLabel="Delete"
+        danger
+        onCancel={() => setConfirmDeleteLeadId(null)}
+        onConfirm={() => {
+          if (!confirmDeleteLeadId) return
+          deleteLead(confirmDeleteLeadId)
+          setConfirmDeleteLeadId(null)
+        }}
+      />
     </div>
   )
 }

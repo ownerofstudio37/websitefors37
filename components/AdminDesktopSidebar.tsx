@@ -2,24 +2,12 @@
 
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import { 
-  Home, 
-  FileText, 
-  Image, 
-  Calendar, 
-  MessageSquare,
-  Settings,
-  Mail,
-  LogOut,
-  BarChart3,
-  Target,
-  Briefcase,
-  Palette,
-  FolderKanban,
-  ChevronLeft,
-  TrendingUp,
-  Bell
-} from 'lucide-react'
+import { ChevronLeft, LogOut } from 'lucide-react'
+import {
+  ADMIN_SIDEBAR_GROUP_ORDER,
+  ADMIN_TOOL_GROUP_META,
+  getSidebarTools,
+} from '@/lib/admin-tools'
 
 interface AdminDesktopSidebarProps {
   isOpen: boolean
@@ -29,6 +17,7 @@ interface AdminDesktopSidebarProps {
 export default function AdminDesktopSidebar({ isOpen, onToggle }: AdminDesktopSidebarProps) {
   const pathname = usePathname()
   const router = useRouter()
+  const sidebarTools = getSidebarTools()
 
   const handleLogout = async () => {
     try {
@@ -39,25 +28,6 @@ export default function AdminDesktopSidebar({ isOpen, onToggle }: AdminDesktopSi
       router.push('/login')
     }
   }
-
-  const navItems = [
-    { href: '/admin', icon: Home, label: 'Dashboard', exact: true },
-    { href: '/admin/pages', icon: FileText, label: 'Pages' },
-    { href: '/admin/blog', icon: FileText, label: 'Blog Posts' },
-    { href: '/admin/gallery', icon: Image, label: 'Gallery' },
-    { href: '/admin/appointments', icon: Calendar, label: 'Appointments' },
-    { href: '/admin/calendar', icon: Calendar, label: 'Calendar View' },
-    { href: '/admin/leads', icon: MessageSquare, label: 'Leads & Messages' },
-    { href: '/admin/lead-scoring', icon: Target, label: 'Lead Scoring' },
-    { href: '/admin/lead-cost-analytics', icon: TrendingUp, label: 'Cost & Revenue' },
-    { href: '/admin/projects', icon: FolderKanban, label: 'Projects' },
-    { href: '/admin/client-portals', icon: Briefcase, label: 'Client Portals' },
-    { href: '/admin/email-templates', icon: Mail, label: 'Email Templates' },
-    { href: '/admin/appointment-reminders', icon: Bell, label: 'Appointment Reminders' },
-    { href: '/admin/analytics', icon: BarChart3, label: 'Analytics' },
-    { href: '/admin/theme-customizer', icon: Palette, label: 'Theme Customizer' },
-    { href: '/admin/settings', icon: Settings, label: 'Settings' },
-  ]
 
   const isActive = (href: string, exact = false) => {
     if (exact) {
@@ -89,22 +59,45 @@ export default function AdminDesktopSidebar({ isOpen, onToggle }: AdminDesktopSi
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 overflow-y-auto py-4 px-3 space-y-1">
-        {navItems.map((item) => {
-          const active = isActive(item.href, item.exact)
+      <nav className="flex-1 overflow-y-auto py-4 px-3 space-y-5">
+        {ADMIN_SIDEBAR_GROUP_ORDER.map((groupId) => {
+          const tools = sidebarTools.filter((tool) => tool.group === groupId)
+          if (tools.length === 0) return null
+
           return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                active
-                  ? 'bg-primary-50 text-primary-700'
-                  : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
-              }`}
-            >
-              <item.icon className={`w-5 h-5 ${active ? 'text-primary-600' : 'text-gray-400'}`} />
-              {item.label}
-            </Link>
+            <div key={groupId}>
+              <p className="px-3 mb-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-gray-400">
+                {ADMIN_TOOL_GROUP_META[groupId].label}
+              </p>
+              <div className="space-y-1">
+                {tools.map((tool) => {
+                  const active = isActive(tool.href, tool.exact)
+                  const Icon = tool.icon
+
+                  return (
+                    <Link
+                      key={tool.href}
+                      href={tool.href}
+                      className={`flex items-center justify-between gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                        active
+                          ? 'bg-primary-50 text-primary-700'
+                          : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+                      }`}
+                    >
+                      <span className="flex items-center gap-3 min-w-0">
+                        <Icon className={`w-5 h-5 flex-shrink-0 ${active ? 'text-primary-600' : 'text-gray-400'}`} />
+                        <span className="truncate">{tool.label}</span>
+                      </span>
+                      {tool.badge && (
+                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-gray-100 text-gray-600 flex-shrink-0">
+                          {tool.badge}
+                        </span>
+                      )}
+                    </Link>
+                  )
+                })}
+              </div>
+            </div>
           )
         })}
       </nav>

@@ -3,30 +3,19 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import { 
-  Menu, 
-  X, 
-  Home, 
-  FileText, 
-  Image, 
-  Calendar, 
-  MessageSquare,
-  Settings,
-  Mail,
-  LogOut,
-  BarChart3,
-  Bell,
-  Target,
-  Briefcase,
-  Palette,
-  FolderKanban
-} from 'lucide-react'
+import { Menu, X, LogOut } from 'lucide-react'
 import NotificationCenter from './NotificationCenter'
+import {
+  ADMIN_SIDEBAR_GROUP_ORDER,
+  ADMIN_TOOL_GROUP_META,
+  getSidebarTools,
+} from '@/lib/admin-tools'
 
 export default function AdminMobileNav() {
   const [isOpen, setIsOpen] = useState(false)
   const pathname = usePathname()
   const router = useRouter()
+  const sidebarTools = getSidebarTools()
 
   const handleLogout = async () => {
     try {
@@ -37,24 +26,6 @@ export default function AdminMobileNav() {
       router.push('/login')
     }
   }
-
-  const navItems = [
-    { href: '/admin', icon: Home, label: 'Dashboard', exact: true },
-    { href: '/admin/pages', icon: FileText, label: 'Pages' },
-    { href: '/admin/blog', icon: FileText, label: 'Blog Posts' },
-    { href: '/admin/gallery', icon: Image, label: 'Gallery' },
-    { href: '/admin/appointments', icon: Calendar, label: 'Appointments' },
-    { href: '/admin/calendar', icon: Calendar, label: 'Calendar View' },
-    { href: '/admin/leads', icon: MessageSquare, label: 'Leads & Messages' },
-    { href: '/admin/lead-scoring', icon: Target, label: 'Lead Scoring' },
-    { href: '/admin/projects', icon: FolderKanban, label: 'Projects' },
-    { href: '/admin/client-portals', icon: Briefcase, label: 'Client Portals' },
-    { href: '/admin/email-templates', icon: Mail, label: 'Email Templates' },
-    { href: '/admin/appointment-reminders', icon: Bell, label: 'Appointment Reminders' },
-    { href: '/admin/analytics', icon: BarChart3, label: 'Analytics' },
-    { href: '/admin/theme-customizer', icon: Palette, label: 'Theme Customizer' },
-    { href: '/admin/settings', icon: Settings, label: 'Settings' },
-  ]
 
   const isActive = (href: string, exact = false) => {
     if (exact) {
@@ -111,58 +82,49 @@ export default function AdminMobileNav() {
             </div>
 
             {/* Navigation Links */}
-            <nav className="p-4">
-              <ul className="space-y-2">
-                {navItems.map((item) => {
-                  const Icon = item.icon
-                  const active = isActive(item.href, item.exact)
-                  
-                  return (
-                    <li key={item.href}>
-                      <Link
-                        href={item.href}
-                        onClick={() => setIsOpen(false)}
-                        className={`flex items-center gap-3 px-4 py-3 rounded-lg transition ${
-                          active
-                            ? 'bg-blue-50 text-blue-700 font-medium'
-                            : 'text-gray-700 hover:bg-gray-100'
-                        }`}
-                      >
-                        <Icon className="w-5 h-5" />
-                        <span>{item.label}</span>
-                      </Link>
-                    </li>
-                  )
-                })}
-              </ul>
+            <nav className="p-4 space-y-5">
+              {ADMIN_SIDEBAR_GROUP_ORDER.map((groupId) => {
+                const tools = sidebarTools.filter((tool) => tool.group === groupId)
+                if (tools.length === 0) return null
 
-              {/* Divider */}
-              <div className="my-4 border-t border-gray-200" />
+                return (
+                  <div key={groupId}>
+                    <p className="px-4 mb-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-gray-400">
+                      {ADMIN_TOOL_GROUP_META[groupId].label}
+                    </p>
+                    <ul className="space-y-2">
+                      {tools.map((tool) => {
+                        const Icon = tool.icon
+                        const active = isActive(tool.href, tool.exact)
 
-              {/* Quick Actions */}
-              <div className="space-y-2">
-                <Link
-                  href="/admin/chatbot-training"
-                  onClick={() => setIsOpen(false)}
-                  className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition"
-                >
-                  🧠 <span>AI Training</span>
-                </Link>
-                <Link
-                  href="/admin/ai-site-builder"
-                  onClick={() => setIsOpen(false)}
-                  className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition"
-                >
-                  ⚙️ <span>AI Site Builder</span>
-                </Link>
-                <Link
-                  href="/admin/ai-blog-writer"
-                  onClick={() => setIsOpen(false)}
-                  className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition"
-                >
-                  ✍️ <span>AI Blog Writer</span>
-                </Link>
-              </div>
+                        return (
+                          <li key={tool.href}>
+                            <Link
+                              href={tool.href}
+                              onClick={() => setIsOpen(false)}
+                              className={`flex items-center justify-between gap-3 px-4 py-3 rounded-lg transition ${
+                                active
+                                  ? 'bg-blue-50 text-blue-700 font-medium'
+                                  : 'text-gray-700 hover:bg-gray-100'
+                              }`}
+                            >
+                              <span className="flex items-center gap-3 min-w-0">
+                                <Icon className="w-5 h-5 flex-shrink-0" />
+                                <span className="truncate">{tool.label}</span>
+                              </span>
+                              {tool.badge && (
+                                <span className="text-[10px] px-2 py-0.5 rounded-full bg-gray-100 text-gray-600 flex-shrink-0">
+                                  {tool.badge}
+                                </span>
+                              )}
+                            </Link>
+                          </li>
+                        )
+                      })}
+                    </ul>
+                  </div>
+                )
+              })}
 
               {/* Divider */}
               <div className="my-4 border-t border-gray-200" />

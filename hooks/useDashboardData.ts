@@ -37,20 +37,26 @@ export function useDashboardData() {
 
       // Fetch all data in parallel for better performance
       const [
-        { data: allLeads, error: leadsError },
-        { data: allAppointments, error: appointmentsError },
+        { count: totalLeadsCount, error: leadsError },
+        { data: allLeadStatuses, error: leadStatusesError },
+        { data: appointmentRevenueRows, count: totalBookingsCount, error: appointmentsError },
         { data: recentLeadsData, error: recentLeadsError },
         { data: recentAppointmentsData, error: recentAppointmentsError }
       ] = await Promise.all([
         // Total leads count
         supabase
           .from('leads')
-          .select('id, status'),
+          .select('id', { count: 'exact', head: true }),
+
+        // Lead statuses for pipeline counts
+        supabase
+          .from('leads')
+          .select('status'),
         
         // Total appointments and revenue
         supabase
           .from('appointments')
-          .select('id, price_cents, status'),
+          .select('price_cents, status', { count: 'exact' }),
         
         // Recent leads (last 5)
         supabase
@@ -69,16 +75,17 @@ export function useDashboardData() {
 
       // Handle errors
       if (leadsError) throw new Error(`Leads fetch failed: ${leadsError.message}`)
+      if (leadStatusesError) throw new Error(`Lead statuses fetch failed: ${leadStatusesError.message}`)
       if (appointmentsError) throw new Error(`Appointments fetch failed: ${appointmentsError.message}`)
       if (recentLeadsError) throw new Error(`Recent leads fetch failed: ${recentLeadsError.message}`)
       if (recentAppointmentsError) throw new Error(`Recent appointments fetch failed: ${recentAppointmentsError.message}`)
 
       // Calculate stats from real data
-      const totalLeads = allLeads?.length || 0
-      const totalBookings = allAppointments?.length || 0
+      const totalLeads = totalLeadsCount || 0
+      const totalBookings = totalBookingsCount || 0
       
       // Calculate total revenue from completed/scheduled appointments (convert cents to dollars)
-      const totalRevenue = allAppointments?.reduce((sum, appointment) => {
+      const totalRevenue = appointmentRevenueRows?.reduce((sum, appointment) => {
         if (appointment.status === 'completed' || appointment.status === 'scheduled') {
           return sum + ((appointment.price_cents || 0) / 100)
         }
@@ -95,7 +102,7 @@ export function useDashboardData() {
         'closed-lost': 0
       }
       
-      allLeads?.forEach(lead => {
+      allLeadStatuses?.forEach(lead => {
         if (lead.status && lead.status in leadsByStatus) {
           leadsByStatus[lead.status as keyof typeof leadsByStatus]++
         }

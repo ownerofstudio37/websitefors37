@@ -63,21 +63,27 @@ export default function SEOPage() {
     try {
       const { supabase } = await import("@/lib/supabase");
 
-      // Fetch content pages
-      const { data: pagesData, error: pagesError } = await supabase
-        .from("content_pages")
-        .select("*")
-        .order("updated_at", { ascending: false });
+      const [
+        { data: pagesData, error: pagesError },
+        { data: postsData, error: postsError },
+        sitemapResponse,
+        robotsResponse,
+      ] = await Promise.all([
+        supabase
+          .from("content_pages")
+          .select("*")
+          .order("updated_at", { ascending: false }),
+        supabase
+          .from("blog_posts")
+          .select("*")
+          .order("updated_at", { ascending: false }),
+        fetch('/sitemap.xml').catch(() => null),
+        fetch('/robots.txt').catch(() => null),
+      ]);
 
       if (!pagesError && pagesData) {
         setPages(pagesData);
       }
-
-      // Fetch blog posts
-      const { data: postsData, error: postsError } = await supabase
-        .from("blog_posts")
-        .select("*")
-        .order("updated_at", { ascending: false });
 
       if (!postsError && postsData) {
         setPosts(postsData);
@@ -86,6 +92,19 @@ export default function SEOPage() {
       // Calculate metrics
       const allContent = [...(pagesData || []), ...(postsData || [])];
       const pagesWithMeta = allContent.filter((p) => p.meta_description).length;
+      const pagesWithImages = allContent.filter((item: any) => {
+        const content = typeof item.content === 'string' ? item.content : ''
+        const hasImageField = Boolean(
+          item.featured_image ||
+          item.cover_image ||
+          item.hero_image ||
+          item.image ||
+          item.image_url ||
+          item.og_image
+        )
+        const hasInlineImage = /!\[[^\]]*\]\([^)]*\)|<img\s+[^>]*src=|https?:\/\/[^\s]+\.(png|jpe?g|webp|gif|svg)/i.test(content)
+        return hasImageField || hasInlineImage
+      }).length
       const avgTitleLength =
         allContent.length > 0
           ? Math.round(
@@ -108,11 +127,11 @@ export default function SEOPage() {
       setMetrics({
         totalPages: allContent.length,
         pagesWithMeta,
-        pagesWithImages: allContent.length, // TODO: compute real image presence
+        pagesWithImages,
         avgTitleLength,
         avgDescriptionLength: avgDescLength,
-        sitemapStatus: "active",
-        robotsStatus: "active",
+        sitemapStatus: sitemapResponse ? (sitemapResponse.ok ? 'active' : 'error') : 'inactive',
+        robotsStatus: robotsResponse ? (robotsResponse.ok ? 'active' : 'error') : 'inactive',
       });
     } catch (error) {
       console.error("Error fetching SEO data:", error);
