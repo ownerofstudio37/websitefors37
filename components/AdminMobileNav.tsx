@@ -56,6 +56,11 @@ export default function AdminMobileNav() {
       .filter(Boolean)
   }, [recentToolHrefs, sidebarTools])
 
+  const pinnedTools = useMemo(
+    () => sidebarTools.filter((tool) => tool.preferred).slice(0, 4),
+    [sidebarTools]
+  )
+
   const trackRecentTool = (href: string) => {
     const next = [href, ...recentToolHrefs.filter((item) => item !== href)].slice(0, 6)
     setRecentToolHrefs(next)
@@ -161,6 +166,44 @@ export default function AdminMobileNav() {
                   />
                 </label>
               </div>
+
+              {!normalizedQuery && pinnedTools.length > 0 && (
+                <div>
+                  <p className="px-4 mb-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-gray-400">
+                    Pinned Favorites
+                  </p>
+                  <ul className="space-y-2">
+                    {pinnedTools.map((tool) => {
+                      const Icon = tool.icon
+                      const active = isActive(tool.href, tool.exact)
+                      return (
+                        <li key={`pinned-${tool.href}`}>
+                          <Link
+                            href={tool.href}
+                            onClick={() => {
+                              trackRecentTool(tool.href)
+                              setIsOpen(false)
+                            }}
+                            className={`flex items-center justify-between gap-3 px-4 py-3 rounded-lg transition ${
+                              active
+                                ? 'bg-amber-50 text-amber-700 font-medium'
+                                : 'text-gray-700 hover:bg-gray-100'
+                            }`}
+                          >
+                            <span className="flex items-center gap-3 min-w-0">
+                              <Icon className="w-5 h-5 flex-shrink-0" />
+                              <span className="truncate">{tool.label}</span>
+                            </span>
+                            <span className="text-[10px] px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 flex-shrink-0">
+                              Pin
+                            </span>
+                          </Link>
+                        </li>
+                      )
+                    })}
+                  </ul>
+                </div>
+              )}
 
               {!normalizedQuery && recentTools.length > 0 && (
                 <div>

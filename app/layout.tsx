@@ -10,6 +10,7 @@ import dynamic from "next/dynamic";
 import Navigation from "@/components/Navigation";
 import QueryProvider from "@/components/QueryProvider";
 import { businessInfo, generateLocalBusinessSchema } from "@/lib/seo-config";
+import { createClient } from "@supabase/supabase-js";
 import GoogleAnalyticsScript from "@/components/GoogleAnalyticsScript";
 import SimpleAnalyticsScript from "@/components/SimpleAnalyticsScript";
 import Analytics from "@/components/Analytics";
@@ -18,6 +19,7 @@ import ToasterClient from "@/components/ToasterClient";
 import ChatBotMount from "@/components/ChatBotMount";
 import AnalyticsSetup from "@/components/AnalyticsSetup";
 import SEOFooter from "@/components/SEOFooter";
+import { FALLBACK_NAV_ITEMS, type NavigationItem } from "@/lib/navigation-config";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -96,7 +98,39 @@ export const viewport = {
   maximumScale: 5,
 };
 
-export default function RootLayout({
+async function getInitialNavigationSettings(): Promise<{
+  logoUrl: string | null
+  navItems: NavigationItem[]
+}> {
+  try {
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co'
+    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'public-anon-placeholder'
+    const supabase = createClient(supabaseUrl, supabaseAnonKey)
+    const { data } = await supabase
+      .from('settings')
+      .select('logo_url, navigation_items')
+      .maybeSingle()
+
+    const logoUrl = data?.logo_url ? String(data.logo_url) : null
+    const navItems = Array.isArray(data?.navigation_items)
+      ? (data.navigation_items as NavigationItem[])
+          .filter((item) => item?.visible)
+          .sort((a, b) => a.order - b.order)
+      : FALLBACK_NAV_ITEMS
+
+    return {
+      logoUrl,
+      navItems: navItems.length > 0 ? navItems : FALLBACK_NAV_ITEMS,
+    }
+  } catch {
+    return {
+      logoUrl: null,
+      navItems: FALLBACK_NAV_ITEMS,
+    }
+  }
+}
+
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -106,6 +140,7 @@ export default function RootLayout({
     loading: () => null,
   });
   const localBusinessSchema = generateLocalBusinessSchema();
+  const navigationSettings = await getInitialNavigationSettings()
 
   return (
     <html lang="en">
@@ -161,7 +196,10 @@ export default function RootLayout({
           {/* Wrap dynamic/client sections in an error boundary to avoid hard crashes from runtime errors */}
           {/** Using a dynamic import here would not help with errors during render; instead, use a client error boundary. */}
           <ClientErrorBoundary label="navigation">
-            <Navigation />
+            <Navigation
+              initialLogoUrl={navigationSettings.logoUrl}
+              initialNavItems={navigationSettings.navItems}
+            />
           </ClientErrorBoundary>
           <ClientErrorBoundary label="page">
             <main id="main" className="min-h-screen">{children}</main>

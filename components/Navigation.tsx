@@ -7,25 +7,23 @@ import { Menu, X, Camera, ChevronDown } from '@/icons'
 import Image from 'next/image'
 import { supabase } from '@/lib/supabase'
 import { Phone } from 'lucide-react'
+import { FALLBACK_NAV_ITEMS, type NavigationItem } from '@/lib/navigation-config'
 
-interface NavigationItem {
-  id: string
-  label: string
-  href: string
-  order: number
-  visible: boolean
-  highlighted?: boolean
-  children?: NavigationItem[]
+interface NavigationProps {
+  initialLogoUrl?: string | null
+  initialNavItems?: NavigationItem[]
 }
 
-export default function Navigation() {
+export default function Navigation({
+  initialLogoUrl = null,
+  initialNavItems = FALLBACK_NAV_ITEMS,
+}: NavigationProps) {
   const pathname = usePathname()
-  const [isMounted, setIsMounted] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [logoUrl, setLogoUrl] = useState<string | null>(null)
-  const [dbLogoUrl, setDbLogoUrl] = useState<string | null>(null)
-  const [navItems, setNavItems] = useState<NavigationItem[]>([])
+  const [dbLogoUrl, setDbLogoUrl] = useState<string | null>(initialLogoUrl)
+  const [navItems, setNavItems] = useState<NavigationItem[]>(initialNavItems)
   const [dropdownStates, setDropdownStates] = useState<Record<string, boolean>>({})
   const [mobileDropdownStates, setMobileDropdownStates] = useState<Record<string, boolean>>({})
   // Small hover-intent close delays so menus don't vanish while moving cursor
@@ -36,13 +34,7 @@ export default function Navigation() {
   // User-requested default brand logo (Cloudinary) - optimized
   const DEFAULT_BRAND_LOGO = 'https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_200,c_limit/v1756077115/My%20Brand/IMG_2115_mtuowt.png'
   
-  // Avoid hydration mismatch by only rendering after mount
   useEffect(() => {
-    setIsMounted(true)
-  }, [])
-
-  useEffect(() => {
-    if (!isMounted) return
     let ticking = false
     const onScroll = () => {
       if (!ticking) {
@@ -59,11 +51,10 @@ export default function Navigation() {
 
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll as EventListener)
-  }, [isMounted])
+  }, [])
 
-  // Fetch logo URL from settings once (client-side via Supabase)
+  // Refresh logo/navigation from settings once on client (server values hydrate first)
   useEffect(() => {
-    if (!isMounted) return
     let mounted = true
     ;(async () => {
       try {
@@ -86,7 +77,9 @@ export default function Navigation() {
             const visibleItems = items
               .filter(item => item.visible)
               .sort((a, b) => a.order - b.order)
-            setNavItems(visibleItems)
+            if (visibleItems.length > 0) {
+              setNavItems(visibleItems)
+            }
           } else {
             // No navigation items in DB, use fallback
             throw new Error('No navigation_items found')
@@ -100,48 +93,12 @@ export default function Navigation() {
         console.warn('[Navigation] Using fallback navigation:', err instanceof Error ? err.message : 'Unknown error')
         if (mounted) {
           setDbLogoUrl(null)
-          // Fallback to default navigation if DB fails
-          setNavItems([
-            { id: 'home', label: 'Home', href: '/', order: 1, visible: true },
-            { id: 'gallery', label: 'Gallery', href: 'https://gallery.studio37.cc', order: 2, visible: true },
-            {
-              id: 'service-areas',
-              label: 'Service Areas',
-              href: '/locations',
-              order: 3,
-              visible: true,
-              children: [
-                { id: 'pinehurst', label: 'Pinehurst, TX', href: '/pinehurst', order: 1, visible: true },
-                { id: 'woodlands', label: 'The Woodlands, TX', href: '/the-woodlands', order: 2, visible: true },
-                { id: 'conroe', label: 'Conroe, TX', href: '/conroe', order: 3, visible: true },
-                { id: 'magnolia', label: 'Magnolia, TX', href: '/magnolia', order: 4, visible: true },
-                { id: 'huntsville', label: 'Huntsville, TX', href: '/huntsville', order: 5, visible: true },
-              ],
-            },
-            {
-              id: 'services',
-              label: 'Services',
-              href: '/services',
-              order: 4,
-              visible: true,
-              children: [
-                { id: 'services-wedding', label: 'Wedding Photography', href: '/services/wedding-photography', order: 1, visible: true },
-                { id: 'services-portrait', label: 'Portrait Photography', href: '/services/portrait-photography', order: 2, visible: true },
-                { id: 'services-event', label: 'Event Photography', href: '/services/event-photography', order: 3, visible: true },
-                { id: 'services-commercial', label: 'Commercial Photography', href: '/services/commercial-photography', order: 4, visible: true },
-                { id: 'services-branding-marketing', label: 'Branding & Marketing', href: '/services/branding-marketing', order: 5, visible: true },
-              ],
-            },
-            { id: 'blog', label: 'Blog', href: '/blog', order: 5, visible: true },
-            { id: 'about', label: 'About', href: '/about', order: 6, visible: true },
-            { id: 'contact', label: 'Contact', href: '/contact', order: 7, visible: true },
-            { id: 'book', label: 'Book Consultation', href: '/book-consultation', order: 8, visible: true, highlighted: true },
-          ])
+          setNavItems((prev) => (prev.length > 0 ? prev : FALLBACK_NAV_ITEMS))
         }
       }
     })()
     return () => { mounted = false }
-  }, [isMounted])
+  }, [])
 
   // Derive which logo to show based on DB value and scroll state
   useEffect(() => {
@@ -158,11 +115,6 @@ export default function Navigation() {
 
   // Hide navigation on admin pages
   if (pathname?.startsWith('/admin')) {
-    return null
-  }
-
-  // Don't render navigation until mounted to avoid hydration mismatch
-  if (!isMounted) {
     return null
   }
 

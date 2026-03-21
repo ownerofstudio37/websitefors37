@@ -71,13 +71,13 @@ export default async function ContactPage() {
           priority
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-stone-950/70" />
+        <div className="absolute inset-0 bg-gradient-to-b from-stone-950/85 via-stone-950/75 to-stone-950/55" />
       </div>
       <div className="container mx-auto px-4 py-24 max-w-6xl w-full flex-1 relative z-10">
-        <div className="max-w-3xl mb-12">
+        <div className="max-w-3xl mb-12 rounded-3xl border border-white/10 bg-stone-950/45 backdrop-blur-sm px-6 py-7 md:px-8 md:py-9 shadow-[0_20px_45px_rgba(0,0,0,0.35)]">
           <div className="eyebrow mb-4 bg-white/10 text-amber-200 border-white/10">Contact</div>
-          <h1 className="text-4xl md:text-6xl font-bold mb-4 text-white">Let’s plan something beautiful.</h1>
-          <p className="text-xl text-stone-200 mb-8 leading-relaxed">
+          <h1 className="text-4xl md:text-6xl font-bold mb-4 text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.45)]">Let’s plan something beautiful.</h1>
+          <p className="text-xl text-stone-100 mb-1 leading-relaxed">
           Get in touch with our team to discuss your photography needs, book a session, or ask any questions.
           </p>
         </div>
