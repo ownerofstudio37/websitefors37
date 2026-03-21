@@ -30,14 +30,171 @@ const VALID_FORMATS: SupportedFormat[] = [
   'linkedin-post',
 ]
 
-function buildFallbackBlocks(topic: string, format: SupportedFormat, audienceProfile = 'leads and clients') {
+function detectServiceContextFromTopic(topic: string): Exclude<ServiceContext, 'auto'> | null {
+  const t = topic.toLowerCase()
+  if (/wedding|bride|groom|engagement|elopement/.test(t)) return 'wedding-photography'
+  if (/portrait|family|senior|headshot|maternity|newborn/.test(t)) return 'portrait-photography'
+  if (/event|corporate event|party|celebration|fundraiser|gala/.test(t)) return 'event-photography'
+  if (/commercial|product|brand photo|content library/.test(t)) return 'commercial-photography'
+  if (/branding|marketing|seo|lead generation|social media|ppc/.test(t)) return 'branding-marketing'
+  return null
+}
+
+function buildGuideBlueprint(topic: string, audienceProfile: string, serviceContext: ServiceContext) {
+  const inferredContext = serviceContext === 'auto' ? detectServiceContextFromTopic(topic) : serviceContext
+
+  switch (inferredContext) {
+    case 'wedding-photography':
+      return {
+        title: 'Wedding Photography Planning Guide',
+        subtitle: 'How to prepare, what to expect, and how to get timeless images',
+        intro: `This guide helps ${audienceProfile} plan a smooth wedding photography experience from first consult to final gallery delivery.`,
+        checklistHeading: 'Before You Book',
+        checklist: [
+          'Set priorities: candid moments, portraits, details, family formals',
+          'Choose coverage hours based on ceremony + reception timeline',
+          'Prepare a family photo list with names and relationships',
+          'Share venue lighting constraints and ceremony rules in advance',
+        ],
+        sectionTwo: 'Build Your Wedding Day Timeline',
+        sectionTwoDesc: 'Create a photo-first timeline that protects key moments.',
+        pillarsHeading: 'Coverage Pillars',
+        pillars: [
+          { icon: '📍', title: 'Timeline', description: 'Pad transition time to avoid rushed portraits.' },
+          { icon: '👨‍👩‍👧', title: 'Family Flow', description: 'Group family formals by branch for speed.' },
+          { icon: '✨', title: 'Golden Hour', description: 'Reserve 15–20 minutes for sunset portraits.' },
+        ],
+        sectionThree: 'Delivery and Usage Expectations',
+        sectionThreeDesc: 'Know what is delivered, when, and how to use it.',
+      }
+    case 'portrait-photography':
+      return {
+        title: 'Family Portrait Session Prep Guide',
+        subtitle: 'What to wear, how to prepare, and how to get natural photos',
+        intro: `This guide helps ${audienceProfile} prepare for portrait sessions so everyone feels comfortable and photos look polished and authentic.`,
+        checklistHeading: 'Session Prep Checklist',
+        checklist: [
+          'Choose outfits with coordinated colors, not identical uniforms',
+          'Avoid tiny patterns/logos that distract on camera',
+          'Plan around nap/meal times for young children',
+          'Bring essentials: wipes, water, snacks, backup outfit',
+        ],
+        sectionTwo: 'Plan the Session Flow',
+        sectionTwoDesc: 'Use a simple flow to keep kids engaged and stress low.',
+        pillarsHeading: 'Portrait Success Pillars',
+        pillars: [
+          { icon: '🧭', title: 'Location', description: 'Pick a low-distraction location with open shade.' },
+          { icon: '👕', title: 'Styling', description: 'Use texture and layers for visual depth.' },
+          { icon: '🙂', title: 'Energy', description: 'Keep direction playful and movement-based.' },
+        ],
+        sectionThree: 'After the Session',
+        sectionThreeDesc: 'Understand preview, gallery delivery, and image selection.',
+      }
+    case 'event-photography':
+      return {
+        title: 'Event Photography Coverage Guide',
+        subtitle: 'How to plan shot coverage for smooth, high-impact event documentation',
+        intro: `This guide helps ${audienceProfile} map event coverage so key moments, speakers, guests, and brand visuals are captured effectively.`,
+        checklistHeading: 'Pre-Event Checklist',
+        checklist: [
+          'Define must-capture moments and VIP priorities',
+          'Share run-of-show with accurate timestamps',
+          'Assign on-site point person for real-time coordination',
+          'Confirm venue restrictions and access zones',
+        ],
+        sectionTwo: 'Build a Coverage Plan',
+        sectionTwoDesc: 'Distribute coverage across timeline, spaces, and priorities.',
+        pillarsHeading: 'Event Coverage Pillars',
+        pillars: [
+          { icon: '🎤', title: 'Program', description: 'Capture key speaking moments and audience reactions.' },
+          { icon: '🤝', title: 'People', description: 'Document networking, sponsor, and guest interactions.' },
+          { icon: '🏢', title: 'Brand', description: 'Capture signage, atmosphere, and event details.' },
+        ],
+        sectionThree: 'Post-Event Delivery',
+        sectionThreeDesc: 'Align turnaround timing with your marketing timeline.',
+      }
+    case 'commercial-photography':
+      return {
+        title: 'Commercial Photo Production Guide',
+        subtitle: 'Plan efficient shoot days for products, team, and brand assets',
+        intro: `This guide helps ${audienceProfile} prepare commercial shoots that generate usable marketing assets across web, social, and ads.`,
+        checklistHeading: 'Production Checklist',
+        checklist: [
+          'Define deliverables by channel (web, ads, social, print)',
+          'Create shot list by priority and campaign objective',
+          'Prepare products/props and confirm talent availability',
+          'Align usage rights and licensing before production day',
+        ],
+        sectionTwo: 'Design Your Shoot Workflow',
+        sectionTwoDesc: 'Sequence scenes to maximize output and reduce downtime.',
+        pillarsHeading: 'Production Pillars',
+        pillars: [
+          { icon: '📦', title: 'Shot List', description: 'Prioritize hero shots before variation shots.' },
+          { icon: '⏱️', title: 'Pacing', description: 'Block time by set and lighting scenario.' },
+          { icon: '📊', title: 'Usage', description: 'Capture crops and ratios for all channels.' },
+        ],
+        sectionThree: 'Asset Delivery and Deployment',
+        sectionThreeDesc: 'Organize final assets by campaign and use case.',
+      }
+    case 'branding-marketing':
+      return {
+        title: 'Branding & Marketing Growth Guide',
+        subtitle: 'Clarify positioning, improve conversion, and scale predictable growth',
+        intro: `This guide helps ${audienceProfile} turn brand strategy into measurable marketing execution with clear priorities and reporting.`,
+        checklistHeading: 'Strategy Checklist',
+        checklist: [
+          'Clarify positioning and ideal customer profile',
+          'Define one core offer and one primary CTA',
+          'Map a lead flow from traffic to booked consultation',
+          'Set weekly KPI review cadence and ownership',
+        ],
+        sectionTwo: 'Build a 30-Day Execution Plan',
+        sectionTwoDesc: 'Run focused weekly experiments tied to business outcomes.',
+        pillarsHeading: 'Growth Pillars',
+        pillars: [
+          { icon: '🧭', title: 'Message', description: 'Lead with outcomes and differentiation.' },
+          { icon: '⚙️', title: 'Systems', description: 'Use repeatable production and follow-up workflows.' },
+          { icon: '📈', title: 'Optimization', description: 'Scale what converts and cut what does not.' },
+        ],
+        sectionThree: 'Reporting and Next Steps',
+        sectionThreeDesc: 'Translate metrics into clear strategic decisions.',
+      }
+    default:
+      return {
+        title: 'Client Strategy Guide',
+        subtitle: 'Practical actions, clear priorities, and measurable outcomes',
+        intro: `This guide helps ${audienceProfile} make smarter decisions and execute with clarity.`,
+        checklistHeading: 'Quick-Start Checklist',
+        checklist: [
+          'Define your top objective for the next 30 days',
+          'Clarify audience, offer, and success metric',
+          'Build one weekly execution routine',
+          'Review outcomes weekly and optimize quickly',
+        ],
+        sectionTwo: 'Build Your 30-Day Plan',
+        sectionTwoDesc: 'Move from ideas to repeatable execution.',
+        pillarsHeading: 'Execution Pillars',
+        pillars: [
+          { icon: '🎯', title: 'Focus', description: 'Choose highest-impact actions first.' },
+          { icon: '⚙️', title: 'Systems', description: 'Use templates and SOPs for consistency.' },
+          { icon: '📈', title: 'Optimization', description: 'Test, measure, and scale winners.' },
+        ],
+        sectionThree: 'Measure and Improve',
+        sectionThreeDesc: 'Protect budget and scale what works.',
+      }
+  }
+}
+
+function buildFallbackBlocks(topic: string, format: SupportedFormat, audienceProfile = 'leads and clients', serviceContext: ServiceContext = 'auto') {
+  const blueprint = buildGuideBlueprint(topic, audienceProfile, serviceContext)
+
   if (format === 'pdf-guide') {
     return [
       {
         type: 'cover',
         data: {
-          title: topic,
-          subtitle: 'Practical steps you can apply immediately',
+          title: blueprint.title,
+          subtitle: blueprint.subtitle,
           category: 'FREE GUIDE',
           author: 'Studio37',
           year: String(new Date().getFullYear()),
@@ -46,8 +203,7 @@ function buildFallbackBlocks(topic: string, format: SupportedFormat, audiencePro
       {
         type: 'body-text',
         data: {
-          content:
-            `This practical guide helps ${audienceProfile} make better decisions about ${topic.toLowerCase()} and take the right next step.\n\nYou will get a simple framework, what-to-prepare checklist, and a rollout plan you can actually use.`,
+          content: `${blueprint.intro}\n\nYou will get a simple framework, what-to-prepare checklist, and a rollout plan you can actually use.`,
         },
       },
       {
@@ -55,19 +211,14 @@ function buildFallbackBlocks(topic: string, format: SupportedFormat, audiencePro
         data: {
           number: '01',
           title: 'Set Your Baseline',
-          description: `Before changing anything, establish where ${topic.toLowerCase()} performance stands today.`,
+          description: 'Before changing anything, establish where performance stands today.',
         },
       },
       {
         type: 'bullets',
         data: {
-          heading: 'Baseline Checklist',
-          items: [
-            'Define one primary conversion goal and 2 supporting KPIs',
-            'Document your current funnel (traffic → lead → close)',
-            'Identify your top 3 highest-intent audience segments',
-            'Audit top pages/assets by engagement and conversion',
-          ],
+          heading: blueprint.checklistHeading,
+          items: blueprint.checklist,
         },
       },
       {
@@ -93,27 +244,23 @@ function buildFallbackBlocks(topic: string, format: SupportedFormat, audiencePro
         type: 'section-header',
         data: {
           number: '02',
-          title: 'Build a 30-Day Plan',
-          description: 'Turn strategy into a repeatable execution system.',
+          title: blueprint.sectionTwo,
+          description: blueprint.sectionTwoDesc,
         },
       },
       {
         type: 'feature-cards',
         data: {
-          heading: 'Execution Pillars',
-          cards: [
-            { icon: '🧭', title: 'Positioning', description: 'Clarify your message and offer for each audience segment.' },
-            { icon: '⚙️', title: 'Production', description: 'Use templates, SOPs, and weekly publishing cadence.' },
-            { icon: '🧪', title: 'Optimization', description: 'Run one controlled test each week and keep the winner.' },
-          ],
+          heading: blueprint.pillarsHeading,
+          cards: blueprint.pillars,
         },
       },
       {
         type: 'section-header',
         data: {
           number: '03',
-          title: 'Measure and Improve',
-          description: 'Track outcomes, protect budget, and scale what works.',
+          title: blueprint.sectionThree,
+          description: blueprint.sectionThreeDesc,
         },
       },
       {
@@ -148,8 +295,8 @@ function buildFallbackBlocks(topic: string, format: SupportedFormat, audiencePro
       {
         type: 'cta',
         data: {
-          heading: 'Want this tailored to your business?',
-          subtext: `We can turn this into a custom ${topic.toLowerCase()} plan with scope, timeline, and clear next steps for ${audienceProfile}.`,
+          heading: 'Want this tailored to your needs?',
+          subtext: `We can turn this into a custom plan with scope, timeline, and clear next steps for ${audienceProfile}.`,
           buttonText: 'Book a Consultation',
           buttonUrl: 'https://studio37.cc/book-consultation',
         },
@@ -161,15 +308,15 @@ function buildFallbackBlocks(topic: string, format: SupportedFormat, audiencePro
     {
       type: 'cover',
       data: {
-        title: topic,
-        subtitle: 'Actionable framework you can use today',
+        title: blueprint.title,
+        subtitle: blueprint.subtitle,
         category: 'MARKETING TIP',
       },
     },
     {
       type: 'body-text',
       data: {
-        content: `If you improve only one part of ${topic.toLowerCase()}, improve clarity first. Clear message + clear next step = stronger lead quality.`,
+        content: `If you improve one thing first, improve clarity. Clear message + clear next step = stronger lead quality and better client outcomes.`,
       },
     },
     {
@@ -258,6 +405,43 @@ function sanitizeBlocks(blocks: any[]) {
     }))
 }
 
+function extractBlockText(block: any): string {
+  if (!block || typeof block !== 'object') return ''
+  const data = block.data || {}
+  const parts: string[] = []
+  for (const value of Object.values(data)) {
+    if (typeof value === 'string') parts.push(value)
+    if (Array.isArray(value)) {
+      value.forEach((v: any) => {
+        if (typeof v === 'string') parts.push(v)
+        if (v && typeof v === 'object') {
+          Object.values(v).forEach((sv: any) => {
+            if (typeof sv === 'string') parts.push(sv)
+          })
+        }
+      })
+    }
+  }
+  return parts.join(' ').toLowerCase()
+}
+
+function shouldFallbackForQuality(rawBlocks: any[], topic: string) {
+  if (!Array.isArray(rawBlocks) || rawBlocks.length === 0) return true
+  const fullText = rawBlocks.map(extractBlockText).join(' ')
+  const normalizedTopic = topic.trim().toLowerCase()
+
+  // If the AI mirrors a long, unedited prompt directly into copy, fallback.
+  if (normalizedTopic.length > 40 && fullText.includes(normalizedTopic)) {
+    return true
+  }
+
+  // Require at least some practical signal words.
+  const hasPracticalSignal = /(checklist|timeline|steps|prepare|deliverables|outcomes|kpi|plan|session|coverage)/i.test(fullText)
+  if (!hasPracticalSignal) return true
+
+  return false
+}
+
 export async function POST(req: NextRequest) {
   try {
     const { topic, audience, tone, format, serviceContext } = await req.json()
@@ -326,6 +510,9 @@ CONTENT QUALITY RULES (CRITICAL):
 - Never output weak placeholders like "just be consistent" without follow-up specifics.
 - Never include irrelevant photography references unless topic explicitly asks for photography.
 - For CTA copy: keep concise and business-relevant.
+- Rewrite the user's topic into polished, grammatical titles/subheads.
+- NEVER copy raw user prompt text verbatim into body copy if it is long or ungrammatical.
+- Never produce awkward phrasing like "guide for ... get ... done"; always rewrite into professional English.
 
 LEADS + CLIENTS USEFULNESS RULES (CRITICAL):
 - Content must be immediately useful to leads and existing clients.
@@ -362,13 +549,22 @@ Tone: ${tone || 'professional, helpful, confidence-building'}`
         format: normalizedFormat,
         topic,
       })
-      rawBlocks = buildFallbackBlocks(topic, normalizedFormat, audienceProfile)
+      rawBlocks = buildFallbackBlocks(topic, normalizedFormat, audienceProfile, normalizedServiceContext)
+    }
+
+    if (shouldFallbackForQuality(rawBlocks, topic)) {
+      logger.warn('AI output low quality, switching to guided fallback blocks', {
+        format: normalizedFormat,
+        topic,
+        serviceContext: normalizedServiceContext,
+      })
+      rawBlocks = buildFallbackBlocks(topic, normalizedFormat, audienceProfile, normalizedServiceContext)
     }
 
     const sanitized = sanitizeBlocks(rawBlocks)
 
     if (sanitized.length === 0) {
-      const fallbackSanitized = sanitizeBlocks(buildFallbackBlocks(topic, normalizedFormat, audienceProfile))
+      const fallbackSanitized = sanitizeBlocks(buildFallbackBlocks(topic, normalizedFormat, audienceProfile, normalizedServiceContext))
       if (fallbackSanitized.length > 0) {
         return NextResponse.json({ blocks: fallbackSanitized })
       }
