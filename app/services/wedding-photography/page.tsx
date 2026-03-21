@@ -72,16 +72,30 @@ export default function WeddingPhotographyPage() {
   
   // Add Offer schemas for pricing packages
   const essentialOfferSchema = generateOfferSchema({
-    name: 'Essential Wedding Package',
-    price: '350',
-    description: '2 hours coverage, 50+ edited photos, digital gallery, perfect for intimate ceremonies and elopements',
+    name: 'Essential Coverage',
+    price: '2200',
+    description: '6 hours coverage, Duo Experience with two photographers, 300+ edited photos, 48-hour sneak peek, private digital gallery',
     availability: 'https://schema.org/InStock'
   })
   
-  const standardOfferSchema = generateOfferSchema({
-    name: 'Standard Wedding Package',
-    price: '950',
-    description: '6 hours coverage, 200+ edited photos, engagement session, digital gallery with print release',
+  const completeOfferSchema = generateOfferSchema({
+    name: 'Complete Collection',
+    price: '3200',
+    description: '8 hours continuous coverage, Duo Experience, 500+ edited photos, engagement session, 24-hour highlights gallery, timeline consultation',
+    availability: 'https://schema.org/InStock'
+  })
+
+  const premiumOfferSchema = generateOfferSchema({
+    name: 'Premium Collection',
+    price: '4500',
+    description: '10+ hours full-day coverage, Duo Experience, 700+ edited photos, engagement + bridal/rehearsal coverage, 3-week delivery, $200 heirloom album credit',
+    availability: 'https://schema.org/InStock'
+  })
+
+  const microOfferSchema = generateOfferSchema({
+    name: 'Micro / Elopement',
+    price: '1200',
+    description: '3 hours intimate coverage for elopements and guest counts under 30, Duo Experience, 150+ edited photos, 48-hour sneak peek, private gallery with print release',
     availability: 'https://schema.org/InStock'
   })
 
@@ -102,7 +116,15 @@ export default function WeddingPhotographyPage() {
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(standardOfferSchema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(completeOfferSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(premiumOfferSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(microOfferSchema) }}
       />
 
       {/* Hero Section */}
@@ -251,25 +273,33 @@ export default function WeddingPhotographyPage() {
             </p>
           </div>
           
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-8">
             <div className="bg-white p-8 rounded-lg shadow-lg">
-              <h3 className="text-xl font-bold mb-4">Essential</h3>
-              <p className="font-semibold mb-4"><span className="text-base text-black italic">Starting at </span><span className="text-3xl text-orange-600 not-italic">$1,500</span></p>
+              <h3 className="text-xl font-bold mb-4">Essential Coverage</h3>
+              <p className="font-semibold mb-4"><span className="text-base text-black italic">Starting at </span><span className="text-3xl text-orange-600 not-italic">$2,200</span></p>
               <ul className="space-y-2 mb-6">
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>4 hours coverage</span>
+                  <span>6 Hours of Wedding Coverage (perfect for intimate ceremonies)</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>50+ edited photos</span>
+                  <span>The Duo Experience: Signature two-photographer coverage included</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>Digital gallery</span>
+                  <span>300+ High-Resolution Edited Photos</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-600" />
+                  <span>48-Hour “First Look” Sneak Peek</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-600" />
+                  <span>Private Digital Gallery for easy downloading and sharing</span>
                 </li>
               </ul>
-              <Link href="/contact" className="btn-secondary w-full text-center block">
+              <Link href="/book-consultation" className="btn-secondary w-full text-center block">
                 Choose Essential
               </Link>
             </div>
@@ -280,54 +310,101 @@ export default function WeddingPhotographyPage() {
                   Most Popular
                 </span>
               </div>
-              <h3 className="text-xl font-bold mb-4">Complete</h3>
-              <p className="font-semibold mb-4"><span className="text-base text-black italic">Starting at </span><span className="text-3xl text-orange-600 not-italic">$2,500</span></p>
+              <h3 className="text-xl font-bold mb-4">Complete Collection</h3>
+              <p className="font-semibold mb-4"><span className="text-base text-black italic">Starting at </span><span className="text-3xl text-orange-600 not-italic">$3,200</span></p>
               <ul className="space-y-2 mb-6">
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>8 hours coverage</span>
+                  <span>8 Hours of Continuous Coverage</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>150+ edited photos</span>
+                  <span>The Duo Experience: Two perspectives, zero missed moments</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>Engagement session</span>
+                  <span>500+ High-Resolution Edited Photos</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>Digital gallery</span>
+                  <span>Complimentary Engagement Session</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-600" />
+                  <span>24-Hour “Highlights” Gallery</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-600" />
+                  <span>Custom Wedding Timeline Consultation</span>
                 </li>
               </ul>
-              <Link href="/contact" className="btn-primary w-full text-center block">
+              <Link href="/book-consultation" className="btn-primary w-full text-center block">
                 Choose Complete
               </Link>
             </div>
             
             <div className="bg-white p-8 rounded-lg shadow-lg">
-              <h3 className="text-xl font-bold mb-4">Premium</h3>
-              <p className="font-semibold mb-4"><span className="text-base text-black italic">Starting at </span><span className="text-3xl text-orange-600 not-italic">$3,500</span></p>
+              <h3 className="text-xl font-bold mb-4">Premium Collection</h3>
+              <p className="font-semibold mb-4"><span className="text-base text-black italic">Starting at </span><span className="text-3xl text-orange-600 not-italic">$4,500</span></p>
               <ul className="space-y-2 mb-6">
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>Full day coverage</span>
+                  <span>10+ Hours / Full Day Coverage</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>300+ edited photos</span>
+                  <span>The Duo Experience: Ultimate coverage security</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>Engagement session</span>
+                  <span>700+ High-Resolution Edited Photos</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>Two photographers</span>
+                  <span>Engagement Session + Bridal or Rehearsal Coverage</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-600" />
+                  <span>Priority 3-Week Gallery Delivery</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-600" />
+                  <span>Heirloom Album Credit ($200 value)</span>
                 </li>
               </ul>
-              <Link href="/contact" className="btn-secondary w-full text-center block">
+              <Link href="/book-consultation" className="btn-secondary w-full text-center block">
                 Choose Premium
+              </Link>
+            </div>
+
+            <div className="bg-white p-8 rounded-lg shadow-lg">
+              <h3 className="text-xl font-bold mb-4">Micro / Elopement</h3>
+              <p className="font-semibold mb-4"><span className="text-base text-black italic">Starting at </span><span className="text-3xl text-orange-600 not-italic">$1,200</span></p>
+              <p className="text-sm text-gray-600 mb-4">Perfect for backyard, courthouse, or small chapel ceremonies.</p>
+              <ul className="space-y-2 mb-6">
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-600" />
+                  <span>3 Hours of Intimate Coverage (guest count under 30)</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-600" />
+                  <span>The Duo Experience: both photographers on-site</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-600" />
+                  <span>150+ High-Resolution Edited Photos</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-600" />
+                  <span>48-Hour Sneak Peek</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-600" />
+                  <span>Private Digital Gallery + Print Release</span>
+                </li>
+              </ul>
+              <Link href="/book-consultation" className="btn-secondary w-full text-center block">
+                Choose Micro / Elopement
               </Link>
             </div>
           </div>
