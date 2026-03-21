@@ -171,8 +171,8 @@ export function HeroBlock({
 
   const buttonStyleClasses: Record<string, string> = {
     primary: 'btn-primary',
-    secondary: 'btn-secondary bg-white/10 hover:bg-white/20 border border-amber-200/30',
-    outline: 'border-2 border-white text-white hover:bg-white/10'
+    secondary: 'btn-ghost border border-white/30',
+    outline: 'btn-ghost border border-white/45 bg-transparent'
   }
   const hoverZoom = buttonAnimation === 'hover-zoom' ? 'transition-transform duration-300 hover:scale-105' : ''
   const isFullBleed = String(fullBleed) === 'true'
@@ -243,7 +243,7 @@ export function HeroBlock({
               {finalButtonText && (
                 <a
                   href={finalButtonLink || '#'}
-                  className={`inline-block px-6 py-3 rounded-lg transition no-underline ${buttonStyleClasses[buttonStyle] || buttonStyleClasses.primary} ${hoverZoom}`}
+                  className={`no-underline ${buttonStyleClasses[buttonStyle] || buttonStyleClasses.primary} ${hoverZoom}`}
                 >
                   {finalButtonText}
                 </a>
@@ -251,7 +251,7 @@ export function HeroBlock({
               {secondaryButtonText && (
                 <a
                   href={secondaryButtonLink || '#'}
-                  className={`inline-block px-6 py-3 rounded-lg transition no-underline ${buttonStyleClasses.outline} ${hoverZoom}`}
+                  className={`no-underline ${buttonStyleClasses.outline} ${hoverZoom}`}
                 >
                   {secondaryButtonText}
                 </a>
@@ -289,7 +289,7 @@ export function HeroBlock({
           {finalButtonText && (
             <a
               href={finalButtonLink || '#'}
-              className={`inline-block px-6 py-3 rounded-lg transition no-underline ${buttonStyleClasses[buttonStyle] || buttonStyleClasses.primary} ${hoverZoom}`}
+              className={`no-underline ${buttonStyleClasses[buttonStyle] || buttonStyleClasses.primary} ${hoverZoom}`}
             >
               {finalButtonText}
             </a>
@@ -297,7 +297,7 @@ export function HeroBlock({
           {secondaryButtonText && (
             <a
               href={secondaryButtonLink || '#'}
-              className={`inline-block px-6 py-3 rounded-lg transition no-underline ${buttonStyleClasses.outline} ${hoverZoom}`}
+              className={`no-underline ${buttonStyleClasses.outline} ${hoverZoom}`}
             >
               {secondaryButtonText}
             </a>
@@ -365,9 +365,9 @@ export function TextBlock({ contentB64, content, alignment = 'left', size = 'md'
   const responsiveAlign = mobileAlignment ? getResponsiveAlignment(String(finalAlignment), String(mobileAlignment)) : `text-${finalAlignment}`
   
   return (
-    <div className={`py-12 md:py-16 px-6 md:px-8 bg-white ${responsiveText} ${responsiveAlign} ${finalAnimation === 'fade-in' ? 'animate-fadeIn' : finalAnimation === 'slide-up' ? 'animate-slideUp' : finalAnimation === 'zoom' ? 'animate-zoom' : ''} ${responsiveClasses}`}>
-      {htmlContent && <div className="max-w-4xl mx-auto" dangerouslySetInnerHTML={{ __html: htmlContent }} />}
-    </div>
+    <section className={`section-shell bg-stone-50 px-6 md:px-8 ${responsiveText} ${responsiveAlign} ${finalAnimation === 'fade-in' ? 'animate-fadeIn' : finalAnimation === 'slide-up' ? 'animate-slideUp' : finalAnimation === 'zoom' ? 'animate-zoom' : ''} ${responsiveClasses}`}>
+      {htmlContent && <div className="max-w-4xl mx-auto section-soft p-8 md:p-10" dangerouslySetInnerHTML={{ __html: htmlContent }} />}
+    </section>
   )
 }
 
@@ -449,18 +449,18 @@ export function ImageBlock({ url, alt = '', caption, width = 'full', link, anima
           <Image src={finalUrl} alt={finalAlt} fill className="object-cover" />
         </div>
       )}
-      {finalCaption && <p className="text-sm text-gray-600 mt-2 text-center">{finalCaption}</p>}
+      {finalCaption && <p className="text-sm text-stone-600 mt-3 text-center">{finalCaption}</p>}
     </div>
   )
   
   return (
-    <div className="py-12 md:py-16 px-6 md:px-8 bg-white">
+    <section className="section-shell bg-stone-50 px-6 md:px-8">
       {finalLink ? (
         <a href={finalLink} className="block cursor-pointer">
           {imageElement}
         </a>
       ) : imageElement}
-    </div>
+    </section>
   )
 }
 
@@ -473,8 +473,8 @@ export function ButtonBlock({ text, link = '#', style = 'primary', alignment = '
 }) {
   const styleClasses: Record<string, string> = {
     primary: 'btn-primary',
-    secondary: 'btn-secondary bg-white/10 hover:bg-white/20 border border-amber-200/30',
-    outline: 'border-2 border-primary-600 text-primary-600 hover:bg-primary-50',
+    secondary: 'btn-secondary',
+    outline: 'btn-ghost bg-transparent text-stone-900 border border-stone-300 hover:bg-stone-100',
   }
   const animClass =
     animation === 'fade-in'
@@ -487,13 +487,13 @@ export function ButtonBlock({ text, link = '#', style = 'primary', alignment = '
   const hoverZoom = animation === 'hover-zoom' ? 'transition-transform duration-300 hover:scale-105' : ''
 
   return (
-    <div className={`py-12 md:py-16 px-6 md:px-8 bg-white text-${alignment} ${animClass}`}>
+    <section className={`section-shell bg-stone-50 px-6 md:px-8 text-${alignment} ${animClass}`}>
       {text && (
-        <a href={link} className={`inline-block px-6 py-3 rounded-lg transition no-underline ${styleClasses[style]} ${hoverZoom}`}>
+        <a href={link} className={`no-underline ${styleClasses[style]} ${hoverZoom}`}>
           {text}
         </a>
       )}
-    </div>
+    </section>
   )
 }
 
@@ -517,20 +517,20 @@ export function ColumnsBlock({ columnsB64, columns, animation = 'none' }: { colu
       ? 'md:grid-cols-3'
       : 'md:grid-cols-4'
   return (
-    <div className={`py-12 md:py-16 px-6 md:px-8 bg-white ${animation === 'fade-in' ? 'animate-fadeIn' : animation === 'slide-up' ? 'animate-slideUp' : animation === 'zoom' ? 'animate-zoom' : ''}`}>
-      <div className={`grid grid-cols-1 ${gridClass} gap-8`}>
+    <section className={`section-shell bg-stone-50 px-6 md:px-8 ${animation === 'fade-in' ? 'animate-fadeIn' : animation === 'slide-up' ? 'animate-slideUp' : animation === 'zoom' ? 'animate-zoom' : ''}`}>
+      <div className={`grid grid-cols-1 ${gridClass} gap-8 max-w-6xl mx-auto`}>
         {cols.map((col, i) => (
-          <div key={i} className="space-y-4">
+          <div key={i} className="surface-panel p-6 space-y-4">
             {col.image && (
-              <div className="relative aspect-video">
-                <Image src={col.image} alt="" fill className="object-cover rounded-lg" />
+              <div className="relative aspect-video rounded-2xl overflow-hidden">
+                <Image src={col.image} alt="" fill className="object-cover" />
               </div>
             )}
             {col.content && <div dangerouslySetInnerHTML={{ __html: col.content }} />}
           </div>
         ))}
       </div>
-    </div>
+    </section>
   )
 }
 
@@ -880,12 +880,13 @@ export function ServicesGridBlock({ servicesB64, services, heading, subheading, 
     : `grid grid-cols-1 md:grid-cols-2 lg:grid-cols-${columns}`
 
   return (
-    <div className={`py-16 md:py-20 px-6 md:px-8 bg-white ${animClass} ${responsiveClasses}`}>
+    <section className={`section-shell bg-stone-50 px-6 md:px-8 ${animClass} ${responsiveClasses}`}>
       <div className="max-w-7xl mx-auto">
         {heading && (
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-2">{heading}</h2>
-            {subheading && <p className="text-lg text-gray-600">{subheading}</p>}
+            <div className="eyebrow mb-4">Services</div>
+            <h2 className="text-3xl md:text-4xl font-bold text-stone-950 mb-2">{heading}</h2>
+            {subheading && <p className="text-lg text-stone-600">{subheading}</p>}
           </div>
         )}
         <div className={`${gridClasses} gap-8`}>
@@ -898,12 +899,12 @@ export function ServicesGridBlock({ servicesB64, services, heading, subheading, 
                   </div>
                 )}
                 <div className="p-6">
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">{service.title}</h3>
-                  {service.description && <p className="text-gray-600 mb-4">{service.description}</p>}
+                  <h3 className="text-xl font-bold text-stone-950 mb-2">{service.title}</h3>
+                  {service.description && <p className="text-stone-600 mb-4">{service.description}</p>}
                   {service.features && service.features.length > 0 && (
                     <ul className="space-y-2">
                       {service.features.map((feature, fi) => (
-                        <li key={fi} className="flex items-start gap-2 text-sm text-gray-700">
+                        <li key={fi} className="flex items-start gap-2 text-sm text-stone-700">
                           <svg className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                           </svg>
@@ -918,21 +919,21 @@ export function ServicesGridBlock({ servicesB64, services, heading, subheading, 
             
             if (service.link) {
               return (
-                <Link key={i} href={service.link} className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-all group block">
+                <Link key={i} href={service.link} className="surface-panel overflow-hidden transition-all group block hover:-translate-y-1">
                   {CardContent}
                 </Link>
               )
             }
             
             return (
-              <div key={i} className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow">
+              <div key={i} className="surface-panel overflow-hidden transition-all hover:-translate-y-1">
                 {CardContent}
               </div>
             )
           })}
         </div>
       </div>
-    </div>
+    </section>
   )
 }
 
@@ -973,10 +974,10 @@ export function StatsBlock({ statsB64, stats, heading, columns = '3', style = 'd
     : `grid grid-cols-1 md:grid-cols-${columns}`
 
   return (
-    <div className={`py-16 md:py-20 px-6 md:px-8 bg-white ${animClass} ${responsiveClasses}`}>
+    <section className={`section-shell bg-stone-50 px-6 md:px-8 ${animClass} ${responsiveClasses}`}>
       <div className="max-w-7xl mx-auto">
         {heading && (
-          <h2 className="text-3xl font-bold text-gray-900 text-center mb-12">{heading}</h2>
+          <h2 className="text-3xl font-bold text-stone-950 text-center mb-12">{heading}</h2>
         )}
         <div className={`${gridClasses} gap-8`}>
           {statsList.map((stat, i) => (
@@ -987,12 +988,12 @@ export function StatsBlock({ statsB64, stats, heading, columns = '3', style = 'd
               <div className="text-4xl font-bold text-primary-600 mb-2">
                 {stat.number}{stat.suffix || ''}
               </div>
-              <div className="text-gray-700 font-medium">{stat.label}</div>
+              <div className="text-stone-700 font-medium">{stat.label}</div>
             </div>
           ))}
         </div>
       </div>
-    </div>
+    </section>
   )
 }
 
@@ -1044,12 +1045,12 @@ export function CTABannerBlock({ heading, subheading, primaryButtonText, primary
         {(primaryButtonText || secondaryButtonText) && (
           <div className="flex flex-wrap gap-3 justify-center">
             {primaryButtonText && (
-              <a href={primaryButtonLink || '#'} className="inline-block px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition no-underline">
+              <a href={primaryButtonLink || '#'} className="btn-primary no-underline">
                 {primaryButtonText}
               </a>
             )}
             {secondaryButtonText && (
-              <a href={secondaryButtonLink || '#'} className="inline-block px-6 py-3 bg-white/10 text-white border border-white/30 rounded-lg hover:bg-white/20 transition no-underline">
+              <a href={secondaryButtonLink || '#'} className="btn-ghost border border-white/30 no-underline">
                 {secondaryButtonText}
               </a>
             )}
@@ -1122,12 +1123,12 @@ export function IconFeaturesBlock({ featuresB64, features, heading, subheading, 
 export function ContactFormBlock({ heading, subheading, animation = 'fade-in' }: { heading?: string, subheading?: string, animation?: string }) {
   const animClass = animation === 'fade-in' ? 'animate-fadeIn' : animation === 'slide-up' ? 'animate-slideUp' : animation === 'zoom' ? 'animate-zoom' : ''
   return (
-    <section className={`py-16 md:py-20 px-6 md:px-10 bg-white ${animClass}`}>
+    <section className={`section-shell bg-stone-50 px-6 md:px-10 ${animClass}`}>
       <div className="max-w-3xl mx-auto">
         {(heading || subheading) && (
           <div className="text-center mb-8">
-            {heading && <h2 className="text-3xl font-bold text-gray-900 mb-2">{heading}</h2>}
-            {subheading && <p className="text-gray-600">{subheading}</p>}
+            {heading && <h2 className="text-3xl font-bold text-stone-950 mb-2">{heading}</h2>}
+            {subheading && <p className="text-stone-600">{subheading}</p>}
           </div>
         )}
         <LeadCaptureForm />
@@ -1141,8 +1142,8 @@ export function NewsletterBlock({ heading, subheading, disclaimer, style = 'card
   const animClass = animation === 'fade-in' ? 'animate-fadeIn' : animation === 'slide-up' ? 'animate-slideUp' : animation === 'zoom' ? 'animate-zoom' : ''
   const isBanner = String(style) === 'banner'
   return (
-    <section className={`py-16 md:py-20 px-6 md:px-10 bg-white ${animClass}`}>
-      <div className={`max-w-3xl mx-auto border rounded-xl p-8 ${isBanner ? 'bg-primary-50 border-primary-200' : 'bg-white border-gray-200'}`}>
+    <section className={`section-shell bg-stone-50 px-6 md:px-10 ${animClass}`}>
+      <div className={`max-w-3xl mx-auto section-soft p-8 ${isBanner ? 'bg-amber-50 border-amber-200' : ''}`}>
         <NewsletterInlineClient heading={heading} subheading={subheading} disclaimer={disclaimer} />
       </div>
     </section>
@@ -1175,21 +1176,21 @@ export function FAQBlock({ itemsB64, items, heading, columns = '1', animation = 
   const renderCol = (arr: typeof qaItems) => (
     <div className="space-y-3">
       {arr.map((qa, i) => (
-        <details key={i} className="group bg-white border rounded-lg p-4">
+        <details key={i} className="group surface-panel p-4">
           <summary className="cursor-pointer list-none font-semibold flex items-center justify-between">
             <span>{qa.question}</span>
-            <span className="ml-4 text-gray-400 group-open:rotate-180 transition">⌄</span>
+            <span className="ml-4 text-stone-400 group-open:rotate-180 transition">⌄</span>
           </summary>
-          <div className="mt-2 text-gray-600" dangerouslySetInnerHTML={{ __html: qa.answer }} />
+          <div className="mt-2 text-stone-600" dangerouslySetInnerHTML={{ __html: qa.answer }} />
         </details>
       ))}
     </div>
   )
 
   return (
-    <section className={`py-16 md:py-20 px-6 md:px-10 bg-white ${animClass}`}>
+    <section className={`section-shell bg-stone-50 px-6 md:px-10 ${animClass}`}>
       <div className="max-w-5xl mx-auto">
-        {finalHeading && <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">{finalHeading}</h2>}
+        {finalHeading && <h2 className="text-3xl font-bold text-stone-950 mb-8 text-center">{finalHeading}</h2>}
         <div className={`grid grid-cols-1 ${cols === 2 ? 'md:grid-cols-2' : 'md:grid-cols-1'} gap-8`}>
           {renderCol(col1)}
           {col2.length > 0 && renderCol(col2)}
@@ -2052,7 +2053,7 @@ export function PricingCalculatorBlock({
   const pplNum = Number(finalPeople || 1)
   const show = String(finalShowBookCta) !== 'false'
   return (
-    <div className="py-16 md:py-20 px-6 md:px-8 bg-white relative">
+    <div className="section-shell bg-stone-50 px-6 md:px-8 relative">
       <EditableChrome label="Pricing Calculator" block="PricingCalculatorBlock" anchorId="pricing-calculator" />
       <div className="max-w-5xl mx-auto">
         <PricingCalculator
@@ -2436,12 +2437,12 @@ export function FilterableGalleryBlock({
   })
 
   return (
-    <section className={`py-16 md:py-20 px-6 md:px-8 bg-gray-50 ${responsiveClasses}`}>
+    <section className={`section-shell bg-stone-50 px-6 md:px-8 ${responsiveClasses}`}>
       <div className="max-w-7xl mx-auto">
         {(finalHeading || finalSubheading) && (
           <div className="text-center mb-12">
-            {finalHeading && <h2 className="text-3xl font-bold text-gray-900 mb-2">{finalHeading}</h2>}
-            {finalSubheading && <p className="text-lg text-gray-600">{finalSubheading}</p>}
+            {finalHeading && <h2 className="text-3xl font-bold text-stone-950 mb-2">{finalHeading}</h2>}
+            {finalSubheading && <p className="text-lg text-stone-600">{finalSubheading}</p>}
           </div>
         )}
         <FilterableGalleryClient
@@ -2494,12 +2495,12 @@ export function TabbedContentBlock({
   })
 
   return (
-    <section className={`py-16 md:py-20 px-6 md:px-8 bg-white ${responsiveClasses}`}>
+    <section className={`section-shell bg-stone-50 px-6 md:px-8 ${responsiveClasses}`}>
       <div className="max-w-5xl mx-auto">
         {(finalHeading || finalSubheading) && (
           <div className="text-center mb-12">
-            {finalHeading && <h2 className="text-3xl font-bold text-gray-900 mb-2">{finalHeading}</h2>}
-            {finalSubheading && <p className="text-lg text-gray-600">{finalSubheading}</p>}
+            {finalHeading && <h2 className="text-3xl font-bold text-stone-950 mb-2">{finalHeading}</h2>}
+            {finalSubheading && <p className="text-lg text-stone-600">{finalSubheading}</p>}
           </div>
         )}
         <TabbedContentClient
@@ -2559,12 +2560,12 @@ export function EnhancedAccordionBlock({
   })
 
   return (
-    <section className={`py-16 md:py-20 px-6 md:px-8 bg-white ${responsiveClasses}`}>
+    <section className={`section-shell bg-stone-50 px-6 md:px-8 ${responsiveClasses}`}>
       <div className="max-w-4xl mx-auto">
         {(finalHeading || finalSubheading) && (
           <div className="text-center mb-12">
-            {finalHeading && <h2 className="text-3xl font-bold text-gray-900 mb-2">{finalHeading}</h2>}
-            {finalSubheading && <p className="text-lg text-gray-600">{finalSubheading}</p>}
+            {finalHeading && <h2 className="text-3xl font-bold text-stone-950 mb-2">{finalHeading}</h2>}
+            {finalSubheading && <p className="text-lg text-stone-600">{finalSubheading}</p>}
           </div>
         )}
         <AccordionClient
@@ -2628,12 +2629,12 @@ export function VideoTestimonialCarouselBlock({
   const { VideoTestimonialCarousel } = require('./VideoTestimonialCarousel') as typeof import('./VideoTestimonialCarousel')
 
   return (
-    <section className={`py-16 md:py-20 px-6 md:px-8 bg-gradient-to-br from-gray-50 to-white ${animClass} ${responsiveClasses}`}>
+    <section className={`section-shell bg-stone-50 px-6 md:px-8 ${animClass} ${responsiveClasses}`}>
       <div className="max-w-6xl mx-auto">
         {(finalHeading || finalSubheading) && (
           <div className="text-center mb-12">
-            {finalHeading && <h2 className="text-3xl font-bold text-gray-900 mb-2">{finalHeading}</h2>}
-            {finalSubheading && <p className="text-lg text-gray-600">{finalSubheading}</p>}
+            {finalHeading && <h2 className="text-3xl font-bold text-stone-950 mb-2">{finalHeading}</h2>}
+            {finalSubheading && <p className="text-lg text-stone-600">{finalSubheading}</p>}
           </div>
         )}
         {testimonials.length > 0 ? (
@@ -2688,7 +2689,7 @@ export function BeforeAfterSliderBlock({
 
   if (!finalBeforeImage || !finalAfterImage) {
     return (
-      <section className={`py-16 md:py-20 px-6 md:px-8 bg-white ${responsiveClasses}`}>
+      <section className={`section-shell bg-stone-50 px-6 md:px-8 ${responsiveClasses}`}>
         <div className="text-center text-gray-500">
           Before and after images required for this block
         </div>
@@ -2697,12 +2698,12 @@ export function BeforeAfterSliderBlock({
   }
 
   return (
-    <section className={`py-16 md:py-20 px-6 md:px-8 bg-white ${animClass} ${responsiveClasses}`}>
+    <section className={`section-shell bg-stone-50 px-6 md:px-8 ${animClass} ${responsiveClasses}`}>
       <div className="max-w-4xl mx-auto">
         {(finalHeading || finalSubheading) && (
           <div className="text-center mb-8">
-            {finalHeading && <h2 className="text-3xl font-bold text-gray-900 mb-2">{finalHeading}</h2>}
-            {finalSubheading && <p className="text-lg text-gray-600">{finalSubheading}</p>}
+            {finalHeading && <h2 className="text-3xl font-bold text-stone-950 mb-2">{finalHeading}</h2>}
+            {finalSubheading && <p className="text-lg text-stone-600">{finalSubheading}</p>}
           </div>
         )}
         <BeforeAfterSlider
