@@ -77,7 +77,7 @@ export default function ContactFormConfirmationEmail({
               Check out what you can do with Studio37:
             </Text>
             <ul style={list}>
-              <li><Link href="https://www.studio37.cc/gallery">View our portfolio</Link></li>
+              <li><Link href="https://gallery.studio37.cc">View our portfolio</Link></li>
               <li><Link href="https://www.studio37.cc/services">Explore photography packages</Link></li>
               <li><Link href="https://www.studio37.cc/about">Learn about our team</Link></li>
               <li><Link href="https://www.studio37.cc/blog">Read photography tips</Link></li>

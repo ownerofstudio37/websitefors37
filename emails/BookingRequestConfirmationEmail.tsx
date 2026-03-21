@@ -182,7 +182,7 @@ export default function BookingRequestConfirmationEmail({
 
           {/* CTA */}
           <Section style={{textAlign: 'center' as const, margin: '40px 0'}}>
-            <Link href="https://www.studio37.cc/gallery" style={primaryButton}>
+            <Link href="https://gallery.studio37.cc" style={primaryButton}>
               View Our Portfolio
             </Link>
           </Section>

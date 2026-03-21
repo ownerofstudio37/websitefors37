@@ -52,7 +52,7 @@ export default function OutreachEmail({
           <div style={hero}>
             <Heading style={heroHeadline}>Your Story Deserves to Be Told Beautifully</Heading>
             <Text style={heroSub}>Award-winning photography in Houston &amp; beyond</Text>
-            <Button href="https://www.studio37.cc/gallery" style={heroButton}>
+            <Button href="https://gallery.studio37.cc" style={heroButton}>
               View Our Portfolio →
             </Button>
           </div>

@@ -37,7 +37,7 @@ function getConfig(day: 1 | 3 | 7, service: string) {
         body: `We'd love to learn more about your vision for your ${svc} project. Whether you're just exploring or ready to book, we're here to help make your experience exceptional.`,
         ctaText: '📅 Schedule a Free Consultation',
         secondaryCta: 'View Our Portfolio',
-        secondaryUrl: 'https://www.studio37.cc/gallery',
+        secondaryUrl: 'https://gallery.studio37.cc',
         urgency: '',
       }
     case 3:

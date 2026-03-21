@@ -39,7 +39,7 @@ export async function GET(request: NextRequest) {
     sessionDate: 'December 15, 2025',
     sessionTime: '2:00 PM',
     location: 'Studio37',
-    galleryLink: 'https://www.studio37.cc/gallery/sample',
+    galleryLink: 'https://gallery.studio37.cc',
     expiryDays: '30'
   }
 
@@ -111,7 +111,7 @@ export async function POST(request: NextRequest) {
     sessionDate: 'December 15, 2025',
     sessionTime: '2:00 PM',
     location: 'Studio37',
-    galleryLink: 'https://www.studio37.cc/gallery/sample',
+    galleryLink: 'https://gallery.studio37.cc',
     expiryDays: '30'
   }
   
