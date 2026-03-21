@@ -447,6 +447,10 @@ export default function ContentStudioPage() {
   const handleExportPDF = () => {
     if (!canvasRef.current) return
     setExporting(true)
+
+    const exportNode = canvasRef.current.cloneNode(true) as HTMLDivElement
+    exportNode.querySelectorAll('[data-editor-ui="true"]').forEach((el) => el.remove())
+
     const win = window.open('', '_blank')
     if (!win) { setExporting(false); return }
     win.document.write(`<!DOCTYPE html><html><head>
@@ -457,8 +461,9 @@ export default function ContentStudioPage() {
         body { background: ${themeConfig.bg}; font-family: "Inter", -apple-system, sans-serif; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
         @media print { @page { size: A4; margin: 0; } body { margin: 0; } }
         .page-wrap { max-width: 794px; margin: 0 auto; }
+        [data-editor-ui="true"] { display: none !important; }
       </style>
-    </head><body><div class="page-wrap">${canvasRef.current.innerHTML}</div>
+    </head><body><div class="page-wrap">${exportNode.innerHTML}</div>
     <script>window.onload = () => { window.print(); }<\/script>
     </body></html>`)
     win.document.close()
@@ -710,7 +715,7 @@ export default function ContentStudioPage() {
                     >
                       <BlockRenderer block={block} theme={themeConfig} isPDF={isPDF} />
                       {/* Block toolbar on hover */}
-                      <div className="absolute top-1 right-1 hidden group-hover:flex bg-white/90 backdrop-blur rounded-md shadow border border-stone-200 items-center gap-0.5 px-1 py-0.5 z-10">
+                      <div data-editor-ui="true" className="absolute top-1 right-1 hidden group-hover:flex bg-white/90 backdrop-blur rounded-md shadow border border-stone-200 items-center gap-0.5 px-1 py-0.5 z-10">
                         <button onClick={e => { e.stopPropagation(); moveBlock(block.id, -1) }} className="p-0.5 text-stone-500 hover:text-stone-800" title="Move up"><ChevronUp className="h-3 w-3" /></button>
                         <button onClick={e => { e.stopPropagation(); moveBlock(block.id, 1) }} className="p-0.5 text-stone-500 hover:text-stone-800" title="Move down"><ChevronDown className="h-3 w-3" /></button>
                         <button onClick={e => { e.stopPropagation(); duplicateBlock(block.id) }} className="p-0.5 text-stone-500 hover:text-stone-800" title="Duplicate"><Copy className="h-3 w-3" /></button>
