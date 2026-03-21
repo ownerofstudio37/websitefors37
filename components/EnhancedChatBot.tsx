@@ -60,6 +60,13 @@ const SERVICE_ICONS: Record<string, typeof Camera> = {
   commercial: DollarSign,
 };
 
+const EMAIL_REGEX = /[\w.-]+@[\w.-]+\.\w{2,}/;
+const PHONE_REGEX = /(\+?1?\s*\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4})/;
+
+function normalizePhone(value?: string) {
+  return value?.replace(/\s+/g, " ").trim();
+}
+
 // Helper to render text with clickable links
 function renderMessageWithLinks(text: string) {
   // Match markdown-style links [text](url) and plain URLs
@@ -139,6 +146,7 @@ export default function EnhancedChatBot() {
   });
   const [attachedImage, setAttachedImage] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const leadCapturedRef = useRef(false);
 
   // Avoid hydration issues by only rendering after client mount
   useEffect(() => {
@@ -266,7 +274,23 @@ export default function EnhancedChatBot() {
 
         // Update lead data with detected info
         if (data.detectedInfo) {
-          setLeadData((prev) => ({ ...prev, ...data.detectedInfo }));
+          const normalizedDetectedPhone = normalizePhone(data.detectedInfo.phone);
+          const mergedLeadData: LeadData = {
+            ...leadData,
+            ...data.detectedInfo,
+            phone: normalizedDetectedPhone || leadData.phone,
+          };
+
+          setLeadData((prev) => ({
+            ...prev,
+            ...data.detectedInfo,
+            phone: normalizedDetectedPhone || prev.phone,
+          }));
+
+          if (!leadCapturedRef.current && (mergedLeadData.email || mergedLeadData.phone)) {
+            await saveLead({ ...mergedLeadData, message: userMessage });
+          }
+
           if (data.detectedInfo.pageUrl) setServicePageUrl(data.detectedInfo.pageUrl);
           if (data.detectedInfo.serviceDetail) setServiceDetail(data.detectedInfo.serviceDetail);
         }
@@ -329,16 +353,18 @@ export default function EnhancedChatBot() {
     setInputValue("");
 
     // If message contains contact info, try to save lead
-    const emailMatch = userMessage.match(/[\w.-]+@[\w.-]+\.\w+/);
-    const phoneMatch = userMessage.match(/(\d{3}[-.]?\d{3}[-.]?\d{4})/);
+    const emailMatch = userMessage.match(EMAIL_REGEX);
+    const phoneMatch = userMessage.match(PHONE_REGEX);
+    const normalizedPhone = normalizePhone(phoneMatch?.[1]);
+    const nextLeadData: LeadData = {
+      ...leadData,
+      email: emailMatch?.[0] || leadData.email,
+      phone: normalizedPhone || leadData.phone,
+      message: userMessage,
+    };
 
-    if (emailMatch || phoneMatch || leadData.email || leadData.phone) {
-      await saveLead({
-        ...leadData,
-        email: emailMatch?.[0] || leadData.email,
-        phone: phoneMatch?.[1] || leadData.phone,
-        message: userMessage,
-      });
+    if (!leadCapturedRef.current && (nextLeadData.email || nextLeadData.phone)) {
+      await saveLead(nextLeadData);
     }
 
     await handleAIResponse(userMessage);
@@ -369,8 +395,18 @@ export default function EnhancedChatBot() {
   };
 
   const saveLead = async (data: LeadData) => {
+    if (leadCapturedRef.current) return;
+
     try {
       const { supabase } = await import("@/lib/supabase");
+
+      const fallbackContactId =
+        (data.phone || "")
+          .replace(/\D/g, "")
+          .slice(-10) ||
+        Date.now().toString();
+      const safeEmail = (data.email || "").trim() || `chatbot-${fallbackContactId}@noemail.studio37.local`;
+      const safePhone = normalizePhone(data.phone);
 
       // Build detailed message from conversation context
       const conversationSummary = messages
@@ -381,8 +417,8 @@ export default function EnhancedChatBot() {
       await supabase.from("leads").insert([
         {
           name: data.name || "Chat Lead",
-          email: data.email,
-          phone: data.phone,
+          email: safeEmail,
+          phone: safePhone,
           service_interest: data.service,
           budget_range: data.budget,
           message: data.message 
@@ -392,6 +428,8 @@ export default function EnhancedChatBot() {
           status: "new",
         },
       ]);
+
+      leadCapturedRef.current = true;
       
       console.log("Lead saved successfully");
     } catch (error) {
