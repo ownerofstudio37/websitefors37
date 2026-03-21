@@ -34,7 +34,7 @@ export function trackEvent(eventName: EventName, params?: EventParams) {
         page_location: window.location.href,
         page_title: document.title,
       })
-    } else {
+    } else if (process.env.NODE_ENV !== 'production') {
       console.debug(`[GA4] Event tracked: ${eventName}`, params)
     }
   } catch (error) {
@@ -222,14 +222,22 @@ export function setupGalleryTracking(gallerySelector: string = '[data-gallery]')
   if (typeof window === 'undefined') return
 
   const galleries = document.querySelectorAll(gallerySelector)
+  const unsubs: Array<() => void> = []
   
   galleries.forEach(gallery => {
-    gallery.addEventListener('click', (e) => {
+    const onClick = (e: Event) => {
       const target = e.target as HTMLElement
       if (target.tagName === 'IMG' || target.closest('[data-gallery-item]')) {
         const galleryName = gallery.getAttribute('data-gallery-name') || 'gallery'
         trackImageGalleryOpen(galleryName)
       }
-    })
+    }
+
+    gallery.addEventListener('click', onClick)
+    unsubs.push(() => gallery.removeEventListener('click', onClick))
   })
+
+  return () => {
+    unsubs.forEach((fn) => fn())
+  }
 }

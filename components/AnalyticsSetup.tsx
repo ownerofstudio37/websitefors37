@@ -12,12 +12,16 @@ export default function AnalyticsSetup() {
   useEffect(() => {
     let cancelled = false
     let idleId: number | null = null
+    let timeoutId: number | null = null
+    let initialized = false
 
     let cleanupScroll: (() => void) | void
     let cleanupVideo: (() => void) | void
+    let cleanupGallery: (() => void) | void
 
     const initTracking = () => {
-      if (cancelled) return
+      if (cancelled || initialized) return
+      initialized = true
       // Setup scroll depth tracking (25%, 50%, 75%, 100%)
       cleanupScroll = setupScrollDepthTracking()
 
@@ -26,7 +30,7 @@ export default function AnalyticsSetup() {
 
       // Setup gallery click tracking using event delegation
       // Looks for elements with data-gallery-click attribute
-      setupGalleryTracking('[data-gallery-click]')
+      cleanupGallery = setupGalleryTracking('[data-gallery-click]')
     }
 
     const kickOff = () => {
@@ -36,7 +40,7 @@ export default function AnalyticsSetup() {
         idleId = window.requestIdleCallback(initTracking, { timeout: 3000 })
       } else {
         // Small delay to avoid competing with LCP-critical work
-        window.setTimeout(initTracking, 1200)
+        timeoutId = window.setTimeout(initTracking, 1200)
       }
     }
 
@@ -59,11 +63,13 @@ export default function AnalyticsSetup() {
         // @ts-ignore
         if (typeof window.cancelIdleCallback === 'function') window.cancelIdleCallback(idleId)
       }
+      if (timeoutId !== null) window.clearTimeout(timeoutId)
       window.removeEventListener('pointerdown', onFirstInteraction)
       window.removeEventListener('keydown', onFirstInteraction)
       window.removeEventListener('scroll', onFirstInteraction)
       if (typeof cleanupScroll === 'function') cleanupScroll()
       if (typeof cleanupVideo === 'function') cleanupVideo()
+      if (typeof cleanupGallery === 'function') cleanupGallery()
     }
   }, [])
 

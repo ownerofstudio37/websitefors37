@@ -97,6 +97,117 @@ function sanitizeResponse(payload: LessonSummaryResponse): LessonSummaryResponse
   }
 }
 
+function buildFallbackSummary(input: {
+  lessonNotes: string
+  studentName?: string
+  lessonTitle?: string
+  skillLevel: 'beginner' | 'intermediate' | 'advanced'
+}): LessonSummaryResponse {
+  const { lessonNotes, studentName, lessonTitle, skillLevel } = input
+  const lines = lessonNotes
+    .split(/\n+/)
+    .map((line) => line.trim())
+    .filter(Boolean)
+
+  const keyPoints = lines.slice(0, 6)
+  const focusPoints = lines.slice(6, 12)
+
+  const levelHint =
+    skillLevel === 'advanced'
+      ? 'Push precision and consistency under pressure.'
+      : skillLevel === 'intermediate'
+      ? 'Build consistency and confidence across scenarios.'
+      : 'Reinforce fundamentals with simple repeatable reps.'
+
+  const fallback: LessonSummaryResponse = {
+    documentTitle: lessonTitle ? `${lessonTitle} — Lesson Recap` : 'Photography Lesson Recap',
+    studentName,
+    lessonTitle,
+    summary: {
+      whatWeWorkedOn:
+        keyPoints.length > 0
+          ? `In this session we covered ${keyPoints.slice(0, 3).join(', ')}. ${levelHint}`
+          : `In this session we worked on core photography skills and practical drills. ${levelHint}`,
+      wins:
+        keyPoints.slice(0, 3).length > 0
+          ? keyPoints.slice(0, 3)
+          : ['Improved camera handling and confidence', 'Better awareness of light and composition'],
+      focusAreas:
+        focusPoints.slice(0, 3).length > 0
+          ? focusPoints.slice(0, 3)
+          : ['Consistency in exposure settings', 'Intentional framing and subject placement', 'Steadier shooting workflow'],
+    },
+    homework: {
+      assignments: [
+        {
+          title: 'Technique Repetition Set',
+          objective: 'Build muscle memory for the techniques covered in this lesson.',
+          instructions:
+            'Run 3 short practice rounds this week. In each round, shoot 20 frames focused on one key skill from today, then review your best 5 and note what improved.',
+          estimatedMinutes: 30,
+        },
+        {
+          title: 'Applied Mini Session',
+          objective: 'Apply today’s lesson in a real-world shooting scenario.',
+          instructions:
+            'Complete one 20–30 minute mini shoot using the lesson methods. Deliver 8 edited images and a short reflection on what worked and what needs adjustment.',
+          estimatedMinutes: 45,
+        },
+      ],
+      practiceTips: [
+        'Practice in short, focused sessions instead of one long session.',
+        'Review your images immediately and log one adjustment after each set.',
+        'Prioritize consistency over complexity for this week.',
+      ],
+    },
+    quiz: {
+      title: 'Lesson Knowledge Check',
+      instructions: 'Answer each question based on today’s lesson and your practice workflow.',
+      questions: [
+        {
+          question: 'What was the primary technical focus of this lesson?',
+          type: 'short-answer',
+          answerKey: 'A clear statement of the lesson’s main technical objective.',
+          explanation: 'This checks understanding of the session objective.',
+        },
+        {
+          question: 'Which habit most improves consistency between shots?',
+          type: 'multiple-choice',
+          options: [
+            'Changing multiple settings at once',
+            'Using a repeatable pre-shot checklist',
+            'Ignoring image review between sets',
+            'Only shooting in one lighting condition',
+          ],
+          answerKey: 'Using a repeatable pre-shot checklist',
+          explanation: 'Consistency comes from a repeatable process.',
+        },
+        {
+          question: 'Name one correction you should apply when your results are inconsistent.',
+          type: 'short-answer',
+          answerKey: 'A valid correction tied to exposure, composition, focus, or shooting workflow.',
+          explanation: 'The goal is to translate review into action.',
+        },
+      ],
+      gradingRubric: [
+        'Excellent: responses are specific, accurate, and tied to practice decisions.',
+        'Proficient: responses are mostly correct with minor gaps in detail.',
+        'Needs Work: responses are vague or do not connect to the lesson objectives.',
+      ],
+    },
+    nextLessonPlan: {
+      focus: 'Reinforce this lesson’s core technique, then layer in controlled complexity.',
+      prepNeeded: [
+        'Bring 8–12 recent practice images for critique.',
+        'List 2 wins and 2 challenges from homework.',
+        'Prepare one real-world shooting scenario to simulate in-session.',
+      ],
+    },
+  }
+
+  return fallback
+}
+
 export async function POST(req: NextRequest) {
   try {
     const ip = getClientIp(req.headers)
@@ -210,11 +321,25 @@ Rules:
 - Do not include markdown or code fences
 - Do not include extra keys`
 
-    const aiResult = await generateJSON<LessonSummaryResponse>(prompt, {
-      model: 'gemini-3-flash',
-    })
-
-    const safe = sanitizeResponse(aiResult)
+    let safe: LessonSummaryResponse
+    try {
+      const aiResult = await generateJSON<LessonSummaryResponse>(prompt, {
+        model: 'gemini-2.5-flash',
+      })
+      safe = sanitizeResponse(aiResult)
+    } catch (aiError) {
+      log.warn('AI JSON generation failed, using deterministic fallback', {
+        message: aiError instanceof Error ? aiError.message : 'unknown error',
+      })
+      safe = sanitizeResponse(
+        buildFallbackSummary({
+          lessonNotes,
+          studentName,
+          lessonTitle,
+          skillLevel,
+        })
+      )
+    }
 
     if (!safe.summary.whatWeWorkedOn || safe.quiz.questions.length === 0 || safe.homework.assignments.length === 0) {
       return NextResponse.json(

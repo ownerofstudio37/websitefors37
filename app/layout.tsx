@@ -25,7 +25,7 @@ const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
   display: "swap",
-  preload: true,
+  preload: false,
   fallback: ['system-ui', 'arial'],
 });
 
@@ -34,7 +34,7 @@ const playfair = Playfair_Display({
   variable: "--font-playfair",
   display: "swap",
   weight: ["400", "700"],
-  preload: true,
+  preload: false,
   fallback: ['georgia', 'serif'],
 });
 

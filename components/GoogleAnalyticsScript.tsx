@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import Script from "next/script"
 
 /**
@@ -11,6 +12,15 @@ import Script from "next/script"
  */
 export default function GoogleAnalyticsScript() {
   const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || "G-5NTFJK2GH8"
+  const [canLoad, setCanLoad] = useState(false)
+
+  useEffect(() => {
+    if (typeof navigator === 'undefined') return
+    const dnt = (navigator as any).doNotTrack || (window as any).doNotTrack || (navigator as any).msDoNotTrack
+    setCanLoad(!(dnt === '1' || dnt === 'yes'))
+  }, [])
+
+  if (!canLoad) return null
 
   return (
     <Script
