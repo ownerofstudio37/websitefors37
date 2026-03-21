@@ -393,6 +393,21 @@ export default function WeddingPhotographyPage() {
         faqs={weddingFAQs}
       />
 
+      {/* SEO Text Block */}
+      <section className="py-14 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">Wedding Photography in Pinehurst, TX &amp; The Woodlands</h2>
+            <p className="text-gray-700 leading-relaxed mb-4">
+              Studio37 is Montgomery County's most trusted wedding photography team, capturing love stories across Pinehurst, The Woodlands, Conroe, Spring, Tomball, Magnolia, and the entire Greater Houston area. With our Signature Duo Coverage, both Christian and Caitie are present on your wedding day — giving you the coverage of two photographers at no extra cost. From the quiet anticipation of getting-ready details to the grandeur of your ceremony and the joy of the reception dance floor, every chapter of your day is preserved with artistry and care. We specialize in candid documentary-style wedding photography paired with refined editorial portraits, producing galleries that blend emotion, beauty, and storytelling. Our packages include full-day coverage, engagement sessions, bridal portrait sessions, and rehearsal dinner add-ons. We are proud PPA members, fully insured, and experienced with venues across Montgomery County, Harris County, and destination weddings beyond Texas. Start planning your dream wedding gallery by booking a complimentary consultation today.
+            </p>
+            <p className="text-sm text-gray-500">
+              Serving: Pinehurst TX · The Woodlands · Conroe · Spring · Tomball · Magnolia · Houston · Montgomery County
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="py-16 bg-gradient-to-r from-primary-600 to-amber-600 text-white">
         <div className="container mx-auto px-4 text-center">

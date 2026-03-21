@@ -205,6 +205,22 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
         <LazyMount minHeight={400}>
           <ServiceAreaSEO />
         </LazyMount>
+
+        {/* SEO Text Block */}
+        <section className="py-14 bg-white">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto">
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">Professional Photography Studio in Pinehurst, TX</h2>
+              <p className="text-gray-700 leading-relaxed mb-4">
+                Studio37 Photography is Pinehurst, Texas's premier award-winning photography studio, serving couples, families, businesses, and event organizers across Montgomery County, The Woodlands, Conroe, Spring, Tomball, Magnolia, and Greater Houston. Founded by Christian and Caitie, Studio37 is built on a simple promise: every client receives the creative focus, technical excellence, and personal service their moments deserve. Our Signature Duo Coverage — two photographers deployed on every session — sets us apart from every other studio in the region, delivering richer galleries, more candid expressions, and zero missed moments at the same competitive rate. We specialize in wedding photography, portrait sessions, family photography, senior portraits, newborn photography, corporate event coverage, product and brand photography, commercial shoots, and full-service digital marketing and content creation. Blending warm, film-inspired aesthetics with modern post-processing, our images feel timeless, editorial, and authentic. We're proud PPA members, fully insured, and have served 500+ happy clients since 2020.
+              </p>
+              <p className="text-sm text-gray-500">
+                Serving: Pinehurst TX · Montgomery County · The Woodlands · Conroe · Spring · Tomball · Magnolia · Houston
+              </p>
+            </div>
+          </div>
+        </section>
+
         <section className="py-16 bg-gray-50">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto text-center mb-12">
@@ -258,6 +274,22 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
       <LazyMount minHeight={400}>
         <ServiceAreaSEO />
       </LazyMount>
+
+      {/* SEO Text Block */}
+      <section className="py-14 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">Professional Photography Studio in Pinehurst, TX</h2>
+            <p className="text-gray-700 leading-relaxed mb-4">
+              Studio37 Photography is Pinehurst, Texas's premier award-winning photography studio, serving couples, families, businesses, and event organizers across Montgomery County, The Woodlands, Conroe, Spring, Tomball, Magnolia, and Greater Houston. Founded by Christian and Caitie, Studio37 is built on a simple promise: every client receives the creative focus, technical excellence, and personal service their moments deserve. Our Signature Duo Coverage — two photographers deployed on every session — sets us apart from every other studio in the region, delivering richer galleries, more candid expressions, and zero missed moments at the same competitive rate. We specialize in wedding photography, portrait sessions, family photography, senior portraits, newborn photography, corporate event coverage, product and brand photography, commercial shoots, and full-service digital marketing and content creation. Blending warm, film-inspired aesthetics with modern post-processing, our images feel timeless, editorial, and authentic. We're proud PPA members, fully insured, and have served 500+ happy clients since 2020. Whether you're planning your dream wedding, scheduling a family portrait session, or growing your brand with strategic visual content, Studio37 is your trusted creative partner in Pinehurst and beyond.
+            </p>
+            <p className="text-sm text-gray-500">
+              Serving: Pinehurst TX · Montgomery County · The Woodlands · Conroe · Spring · Tomball · Magnolia · Houston
+            </p>
+          </div>
+        </div>
+      </section>
+
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center mb-12">

@@ -122,6 +122,21 @@ export default async function BlogPage() {
           </div>
         )}
       </div>
+
+      {/* SEO Text Block */}
+      <section className="py-14 bg-gray-50 border-t border-gray-200">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">Photography Tips, Inspiration &amp; Insights from Studio37 in Pinehurst, TX</h2>
+            <p className="text-gray-700 leading-relaxed mb-4">
+              Welcome to the Studio37 Photography blog — your resource for professional photography tips, wedding planning advice, portrait session preparation guides, and behind-the-scenes insights from Pinehurst, Texas's premier photography team. Our articles cover everything from how to choose the best outfit for your family portrait session to the top wedding venues in Montgomery County, TX, SEO strategies for local businesses using visual content, and how-to guides for getting the most out of your photography investment. Written by Christian and Caitie — the photographers and marketers behind Studio37 — each post draws on real-world experience serving clients across The Woodlands, Conroe, Spring, Tomball, Magnolia, and Greater Houston. Whether you're a soon-to-be bride researching wedding photographers in Pinehurst TX, a parent booking your teenager's senior portrait session, or a local business owner looking to improve your brand photography, you'll find actionable, honest guidance here. Explore our latest posts above, and when you're ready to book, contact Studio37 at (832) 713-9944 or visit studio37.cc.
+            </p>
+            <p className="text-sm text-gray-500">
+              Studio37 Photography Blog · Pinehurst, TX · Wedding Photography · Portrait Tips · Montgomery County · Houston Area
+            </p>
+          </div>
+        </div>
+      </section>
     </div>
   )
 }

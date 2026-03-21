@@ -414,6 +414,21 @@ export default function EventPhotographyPage() {
         </div>
       </div>
 
+      {/* SEO Text Block */}
+      <section className="py-14 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">Event Photography in Pinehurst, TX &amp; Greater Houston</h2>
+            <p className="text-gray-700 leading-relaxed mb-4">
+              Studio37 delivers professional event photography for corporate conferences, galas, award ceremonies, birthday milestones, graduation celebrations, quinceañeras, holiday parties, and community events throughout Pinehurst, The Woodlands, Conroe, Spring, Tomball, and the Houston metro area. Our Signature Duo Coverage model deploys two photographers simultaneously — one capturing wide establishing shots of the venue and crowd, the other focused on candid expressions, key speakers, and detail moments — so your event story is complete from start to finish. We bring professional lighting rigs for indoor ballrooms, outdoor tents, and low-light venues, ensuring crisp, vibrant images regardless of conditions. Fast turnaround delivery means your brand can share highlight images on social media within 48 hours, while full galleries arrive within a week. Whether you're a corporate marketing team needing deliverables for your PR campaign or a family celebrating a milestone birthday, Studio37 elevates your event with the quality and reliability of a true professional photography partner. Request your custom event quote today.
+            </p>
+            <p className="text-sm text-gray-500">
+              Serving: Pinehurst TX · The Woodlands · Conroe · Spring · Tomball · Houston · Montgomery County · Harris County
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="py-16 bg-gradient-to-r from-primary-600 to-green-600 text-white">
         <div className="container mx-auto px-4 text-center">

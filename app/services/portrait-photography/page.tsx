@@ -430,6 +430,21 @@ export default function PortraitPhotographyPage() {
         </div>
       </div>
 
+      {/* SEO Text Block */}
+      <section className="py-14 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">Portrait Photography in Pinehurst, TX &amp; Montgomery County</h2>
+            <p className="text-gray-700 leading-relaxed mb-4">
+              Studio37 is Pinehurst's premier portrait photography studio, serving families, seniors, newborns, and professionals throughout Montgomery County, The Woodlands, Spring, Tomball, Conroe, and the Greater Houston area. Our Signature Duo Coverage — two photographers on every session — means zero missed moments, more creative angles, and a richer gallery of memories delivered in every package. Whether you're looking for timeless family portraits in an outdoor setting, vibrant senior portraits at a location that reflects your personality, intimate newborn lifestyle sessions at home, or polished professional headshots for LinkedIn and corporate use, Studio37 brings artistic vision and technical precision to every frame. We blend warm, film-inspired tones with modern editing techniques to produce portraits that feel authentic, editorial, and built to last. Every session is custom-tailored to your vision — from wardrobe styling guidance and location scouting to final delivery of fully retouched, gallery-quality images. Book your portrait session with Studio37 today and experience the difference that two photographers and genuine passion make.
+            </p>
+            <p className="text-sm text-gray-500">
+              Serving: Pinehurst TX · Montgomery County · The Woodlands · Spring · Tomball · Conroe · Magnolia · Houston
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="py-16 bg-gradient-to-r from-primary-600 to-purple-600 text-white">
         <div className="container mx-auto px-4 text-center">
