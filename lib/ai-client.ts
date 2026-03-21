@@ -541,6 +541,86 @@ Generate ONLY the alt text, no JSON or extra formatting.`;
   }
 }
 
+/**
+ * Email block type used by EmailBuilder
+ */
+export interface EmailContentBlock {
+  type: 'logo' | 'hero' | 'text' | 'image' | 'button' | 'columns' | 'social' | 'footer' | 'spacer' | 'divider'
+  content: Record<string, any>
+}
+
+/**
+ * Generate a complete email template as EmailBuilder blocks using AI.
+ * Returns an array of EmailContentBlock objects ready for the visual builder.
+ */
+export async function generateEmailContent(
+  prompt: string,
+  context: {
+    templateName?: string
+    category?: string
+  } = {},
+  options: AIClientOptions = {}
+): Promise<EmailContentBlock[]> {
+  const systemPrompt = `You are an expert email copywriter and designer for Studio37 Photography, a professional photography studio in Houston, TX.
+Studio37 specializes in weddings, portraits, events, and commercial photography.
+Brand voice: warm, professional, creative, results-driven.
+Brand colors: dark headers (#1a1a1a), gold accents (#fbbf24), warm bronze CTAs (#b46e14).
+Always include a logo block first and a footer block last.
+Always use {{firstName}} for personalization, {{email}} in the footer unsubscribe link.`
+
+  const generationPrompt = `${systemPrompt}
+
+Generate a complete email template for: ${prompt}
+
+Template context:
+- Name: ${context.templateName || 'Email Template'}
+- Category: ${context.category || 'general'}
+
+You MUST respond with ONLY a valid JSON array of email blocks. No markdown, no code blocks, no explanation.
+
+Available block types and their content fields:
+- logo: { tagline?: string }
+- hero: { title: string, subtitle?: string, backgroundColor?: string, textColor?: string, buttonText?: string, buttonUrl?: string, buttonColor?: string }
+- text: { text: string } (use \\n\\n for paragraph breaks, {{firstName}} for personalization)
+- image: { url?: string, alt: string, align?: 'left'|'center'|'right', caption?: string }
+- button: { text: string, url: string, backgroundColor?: string, textColor?: string, align?: 'left'|'center'|'right' }
+- columns: { col1Title?: string, col1Text: string, col2Title?: string, col2Text: string }
+- social: {} (no editable content — auto-renders Studio37 social links)
+- footer: {} (no editable content — auto-renders Studio37 address/contact)
+- spacer: { height?: number }
+- divider: {}
+
+Example response format:
+[
+  {"type":"logo","content":{"tagline":"Studio37 Photography"}},
+  {"type":"hero","content":{"title":"Your Headline","subtitle":"Supporting text","backgroundColor":"#1a1a1a","textColor":"#ffffff","buttonText":"Book Now","buttonUrl":"https://www.studio37.cc/book-a-session","buttonColor":"#b46e14"}},
+  {"type":"text","content":{"text":"Hi {{firstName}},\\n\\nYour message here."}},
+  {"type":"button","content":{"text":"Take Action","url":"https://www.studio37.cc/book-a-session","backgroundColor":"#b46e14","textColor":"#ffffff","align":"center"}},
+  {"type":"social","content":{}},
+  {"type":"footer","content":{}}
+]
+
+Generate a compelling, on-brand email template now:`
+
+  const raw = await generateText(generationPrompt, {
+    ...options,
+    config: AI_CONFIGS.creative,
+  })
+
+  // Strip any markdown code fences if present
+  const cleaned = raw.replace(/^```(?:json)?\s*/i, '').replace(/\s*```\s*$/, '').trim()
+
+  try {
+    const blocks = JSON.parse(cleaned) as EmailContentBlock[]
+    // Validate it's an array
+    if (!Array.isArray(blocks)) throw new Error('Expected array')
+    return blocks
+  } catch (err) {
+    log.error('Failed to parse AI email blocks', { raw, err })
+    throw new Error('AI returned invalid email block format')
+  }
+}
+
 export default {
   createAIClient,
   generateText,
@@ -550,6 +630,8 @@ export default {
   generateSEOSuggestions,
   generateBlogPost,
   generateAltText,
+  generateEmailContent,
   AI_MODELS,
   AI_CONFIGS,
 };
+

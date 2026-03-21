@@ -10,6 +10,9 @@ import ContactFormConfirmationEmail from '@/emails/ContactFormConfirmationEmail'
 import BookingRequestConfirmationEmail from '@/emails/BookingRequestConfirmationEmail'
 import CouponDeliveryEmail from '@/emails/CouponDeliveryEmail'
 import NewsletterWelcomeEmail from '@/emails/NewsletterWelcomeEmail'
+import LeadFollowUpEmail from '@/emails/LeadFollowUpEmail'
+import OutreachEmail from '@/emails/OutreachEmail'
+import AdminLeadNotificationEmail from '@/emails/AdminLeadNotificationEmail'
 
 /**
  * Map of template slugs to React Email components
@@ -27,6 +30,14 @@ const EMAIL_TEMPLATES = {
   'booking-request-confirmation': BookingRequestConfirmationEmail,
   'coupon-delivery': CouponDeliveryEmail,
   'newsletter-welcome': NewsletterWelcomeEmail,
+  // Follow-up sequence — pass followUpDay: 1|3|7 in the variables
+  'lead-follow-up-day1': (props: any) => LeadFollowUpEmail({ ...props, followUpDay: 1 }),
+  'lead-follow-up-day3': (props: any) => LeadFollowUpEmail({ ...props, followUpDay: 3 }),
+  'lead-follow-up-day7': (props: any) => LeadFollowUpEmail({ ...props, followUpDay: 7 }),
+  // Outreach / marketing campaigns
+  'outreach': OutreachEmail,
+  // Admin notification (sent to studio owner)
+  'admin-lead-notification': AdminLeadNotificationEmail,
 }
 
 export type EmailTemplateSlug = keyof typeof EMAIL_TEMPLATES
