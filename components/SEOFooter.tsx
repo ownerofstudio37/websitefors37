@@ -42,7 +42,7 @@ export default function SEOFooter() {
               <li><Link href="/contact" className="hover:text-white transition-colors">Contact</Link></li>
             </ul>
             <p className="mt-4 text-xs text-gray-400">
-              Serving {serviceAreas.slice(0, 5).join(', ')} and surrounding areas.
+              Serving {serviceAreas.join(', ')}.
             </p>
           </div>
         </div>
