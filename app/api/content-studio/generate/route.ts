@@ -553,7 +553,6 @@ ${isClientPrepContext
   cover → intro → "what to wear" bullets → "what to bring" bullets → timeline section → session day tips → post-session expectations → CTA.
   Keep language warm, practical, family/client-friendly.`
   : `For branding/commercial guides, keep strategy + execution + measurement sections with business-oriented examples.`}`
-`
       : `Available block types for social posts:
 - cover: { title (short, punchy), subtitle (1 line), category (2-3 word label) }
 - bullets: { heading (optional), items: string[] (3-5 very short items, max 8 words each) }
