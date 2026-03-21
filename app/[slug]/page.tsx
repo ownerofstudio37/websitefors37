@@ -10,6 +10,9 @@ import rehypeHighlight from 'rehype-highlight'
 // This reduces unused JS (Lighthouse flag ~102 KiB) for simple markdown pages.
 // We'll conditionally load them inside the builder branch.
 import PageWrapper from '@/components/PageWrapper'
+import { getLocationBySlug, locationPages } from '@/lib/location-pages'
+import { generateSEOMetadata } from '@/lib/seo-helpers'
+import LocationPageTemplate from '@/components/LocationPageTemplate'
 
 // Try to import rehype-raw, but fall back gracefully if not available
 let rehypeRaw: any
@@ -39,6 +42,22 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     .single()
   
   if (!page) {
+    // Check if this is a location slug before returning 404 metadata
+    const location = getLocationBySlug(`${params.slug}-tx`)
+    if (location) {
+      return generateSEOMetadata({
+        title: `${location.city} TX Photographer`,
+        description: `Studio37 provides wedding, portrait, event, and commercial photography in ${location.city}, Texas (${location.county}). Two-photographer coverage, local expertise, and fast delivery.`,
+        keywords: [
+          `${location.city} photographer`,
+          `${location.city} wedding photographer`,
+          `${location.city} portrait photographer`,
+          `${location.city} TX photography`,
+        ],
+        canonicalUrl: `https://www.studio37.cc/${params.slug}`,
+        pageType: 'service',
+      })
+    }
     return {
       title: 'Page Not Found',
       description: 'The requested page could not be found'
@@ -71,6 +90,14 @@ export default async function DynamicPage({ params, searchParams }: { params: { 
     
     // Treat 406 from PostgREST as not found; avoid leaking errors
     if (!page || (error && (error as any).status === 406)) {
+      // Before 404-ing, check if this slug matches a location page without a visual builder entry
+      const location = getLocationBySlug(`${params.slug}-tx`)
+      if (location) {
+        const related = locationPages
+          .filter((l) => l.slug !== location.slug)
+          .slice(0, 6)
+        return <LocationPageTemplate location={location} related={related} />
+      }
       notFound()
     }
     

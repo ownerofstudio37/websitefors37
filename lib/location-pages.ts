@@ -9,6 +9,22 @@ export type LocationPage = {
 
 export const locationPages: LocationPage[] = [
   {
+    slug: 'houston-tx',
+    city: 'Houston',
+    county: 'Harris County',
+    region: 'Greater Houston Metro',
+    intro: 'Major metropolitan market with high demand across all photography categories — weddings, portraits, corporate events, and commercial branding.',
+    nearbySpots: ['The Heights', 'Midtown', 'Downtown Houston', 'River Oaks'],
+  },
+  {
+    slug: 'katy-tx',
+    city: 'Katy',
+    county: 'Harris / Fort Bend County',
+    region: 'West Houston',
+    intro: 'Large growing suburb with high family portrait, school milestone, and corporate event photography demand.',
+    nearbySpots: ['LaCenterra', 'Katy Mills area', 'Cinco Ranch'],
+  },
+  {
     slug: 'the-woodlands-tx',
     city: 'The Woodlands',
     county: 'Montgomery County',
