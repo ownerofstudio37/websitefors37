@@ -259,6 +259,7 @@ export default function Navigation() {
               // Dropdown menu item
               if (item.children && item.children.length > 0) {
                 const isDropdownOpen = dropdownStates[item.id] || false
+                const isLargeDropdown = item.children.length > 8
 
                 const handleEnter = () => {
                   // Cancel any pending close timer and open
@@ -299,21 +300,31 @@ export default function Navigation() {
                     
                     {isDropdownOpen && (
                       <div
-                        className="absolute top-full left-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50"
+                        className={`absolute top-full left-0 mt-2 bg-white rounded-xl shadow-xl border border-gray-200 z-50 overflow-hidden ${
+                          isLargeDropdown ? 'w-[42rem] max-w-[90vw]' : 'w-56'
+                        }`}
                         onMouseEnter={handleEnter}
                         onMouseLeave={handleLeave}
                         role="menu"
                         aria-label={`${item.label} submenu`}
                       >
-                        {item.children.map((child) => (
-                          <Link
-                            key={child.id}
-                            href={normalizeHref(child.href, normalizeHref(item.href))}
-                            className="block px-4 py-2 text-amber-900 hover:bg-amber-50 transition-colors"
-                          >
-                            {child.label}
-                          </Link>
-                        ))}
+                        <div
+                          className={`p-2 overflow-y-auto overscroll-contain ${
+                            isLargeDropdown
+                              ? 'grid grid-cols-2 gap-1 max-h-[24rem]'
+                              : 'max-h-[20rem]'
+                          }`}
+                        >
+                          {item.children.map((child) => (
+                            <Link
+                              key={child.id}
+                              href={normalizeHref(child.href, normalizeHref(item.href))}
+                              className="block rounded-lg px-4 py-3 text-amber-900 hover:bg-amber-50 transition-colors leading-snug"
+                            >
+                              {child.label}
+                            </Link>
+                          ))}
+                        </div>
                       </div>
                     )}
                   </div>
@@ -416,6 +427,7 @@ export default function Navigation() {
                 // Mobile dropdown menu item
                 if (item.children && item.children.length > 0) {
                   const isMobileDropdownOpen = mobileDropdownStates[item.id] || false
+                  const isLargeDropdown = item.children.length > 8
                   
                   return (
                     <div key={item.id}>
@@ -430,12 +442,16 @@ export default function Navigation() {
                       </button>
                       
                       {isMobileDropdownOpen && (
-                        <div className="pl-4 mt-2 space-y-2">
+                        <div
+                          className={`pl-4 mt-2 overflow-y-auto overscroll-contain ${
+                            isLargeDropdown ? 'max-h-80 pr-1' : 'space-y-2'
+                          }`}
+                        >
                           {item.children.map((child) => (
                             <Link
                               key={child.id}
                               href={normalizeHref(child.href, normalizeHref(item.href))}
-                              className="block transition-colors text-amber-900 px-2 py-2 rounded hover:text-amber-600 focus:text-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2 touch-target"
+                              className="block transition-colors text-amber-900 px-3 py-2 rounded-lg hover:bg-amber-50 hover:text-amber-600 focus:bg-amber-50 focus:text-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2 touch-target"
                               onClick={() => { setIsOpen(false); }}
                             >
                               {child.label}
