@@ -319,6 +319,7 @@ export default function CommercialPhotographyPage() {
             <div className="surface-panel p-8 flex flex-col h-full">
               <div className="mb-4">
                 <p className="text-xs font-semibold uppercase tracking-widest text-stone-500 mb-1">Business Express</p>
+                <p className="text-sm text-stone-500">starting at</p>
                 <p className="text-4xl font-bold text-stone-900">$500</p>
                 <p className="text-sm text-stone-500 mt-1">1-hour session</p>
               </div>
@@ -346,6 +347,7 @@ export default function CommercialPhotographyPage() {
             <div className="surface-panel p-8 flex flex-col h-full">
               <div className="mb-4">
                 <p className="text-xs font-semibold uppercase tracking-widest text-stone-500 mb-1">Brand Starter</p>
+                <p className="text-sm text-stone-500">starting at</p>
                 <p className="text-4xl font-bold text-stone-900">$850</p>
                 <p className="text-sm text-stone-500 mt-1">2-hour session</p>
               </div>
@@ -379,6 +381,7 @@ export default function CommercialPhotographyPage() {
               </div>
               <div className="mb-4">
                 <p className="text-xs font-semibold uppercase tracking-widest text-primary-600 mb-1">Content Library</p>
+                <p className="text-sm text-stone-500">starting at</p>
                 <p className="text-4xl font-bold text-stone-900">$1,500</p>
                 <p className="text-sm text-stone-500 mt-1">4-hour session</p>
               </div>
@@ -408,6 +411,7 @@ export default function CommercialPhotographyPage() {
             <div className="surface-panel p-8 flex flex-col h-full">
               <div className="mb-4">
                 <p className="text-xs font-semibold uppercase tracking-widest text-stone-500 mb-1">Full Brand Story</p>
+                <p className="text-sm text-stone-500">starting at</p>
                 <p className="text-4xl font-bold text-stone-900">$2,800</p>
                 <p className="text-sm text-stone-500 mt-1">Full-day session (8 hrs)</p>
               </div>

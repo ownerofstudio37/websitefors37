@@ -247,6 +247,7 @@ export default function PortraitPhotographyPage() {
             <div className="surface-panel p-8 flex flex-col h-full">
                 <div className="mb-4">
                   <p className="text-xs font-semibold uppercase tracking-widest text-stone-500 mb-1">Mini Session</p>
+                  <p className="text-sm text-stone-500">starting at</p>
                   <p className="text-4xl font-bold text-stone-900">$350</p>
                   <p className="text-sm text-stone-500 mt-1">30-minute session</p>
                 </div>
@@ -277,6 +278,7 @@ export default function PortraitPhotographyPage() {
               </div>
                 <div className="mb-4">
                   <p className="text-xs font-semibold uppercase tracking-widest text-primary-600 mb-1">Standard Session</p>
+                  <p className="text-sm text-stone-500">starting at</p>
                   <p className="text-4xl font-bold text-stone-900">$500</p>
                   <p className="text-sm text-stone-500 mt-1">60-minute session</p>
                 </div>
@@ -303,6 +305,7 @@ export default function PortraitPhotographyPage() {
               <div className="surface-panel p-8 flex flex-col h-full">
                 <div className="mb-4">
                   <p className="text-xs font-semibold uppercase tracking-widest text-stone-500 mb-1">Extended Session</p>
+                  <p className="text-sm text-stone-500">starting at</p>
                   <p className="text-4xl font-bold text-stone-900">$750</p>
                   <p className="text-sm text-stone-500 mt-1">90-minute session</p>
                 </div>

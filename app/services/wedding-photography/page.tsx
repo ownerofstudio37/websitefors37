@@ -282,6 +282,7 @@ export default function WeddingPhotographyPage() {
             <div className="surface-panel p-8 flex flex-col h-full">
               <div className="mb-4">
                 <p className="text-xs font-semibold uppercase tracking-widest text-stone-500 mb-1">Essential Coverage</p>
+                <p className="text-sm text-stone-500">starting at</p>
                 <p className="text-4xl font-bold text-stone-900">$2,200</p>
                 <p className="text-sm text-stone-500 mt-1">6 hours of coverage</p>
               </div>
@@ -312,6 +313,7 @@ export default function WeddingPhotographyPage() {
               </div>
               <div className="mb-4">
                 <p className="text-xs font-semibold uppercase tracking-widest text-primary-600 mb-1">Complete Collection</p>
+                <p className="text-sm text-stone-500">starting at</p>
                 <p className="text-4xl font-bold text-stone-900">$3,200</p>
                 <p className="text-sm text-stone-500 mt-1">8 hours of continuous coverage</p>
               </div>
@@ -338,6 +340,7 @@ export default function WeddingPhotographyPage() {
             <div className="surface-panel p-8 flex flex-col h-full">
               <div className="mb-4">
                 <p className="text-xs font-semibold uppercase tracking-widest text-stone-500 mb-1">Premium Collection</p>
+                <p className="text-sm text-stone-500">starting at</p>
                 <p className="text-4xl font-bold text-stone-900">$4,500</p>
                 <p className="text-sm text-stone-500 mt-1">10+ hours / full day coverage</p>
               </div>
@@ -364,6 +367,7 @@ export default function WeddingPhotographyPage() {
             <div className="surface-panel p-8 flex flex-col h-full">
               <div className="mb-4">
                 <p className="text-xs font-semibold uppercase tracking-widest text-stone-500 mb-1">Micro / Elopement</p>
+                <p className="text-sm text-stone-500">starting at</p>
                 <p className="text-4xl font-bold text-stone-900">$1,200</p>
                 <p className="text-sm text-stone-500 mt-1">3 hours of intimate coverage</p>
               </div>

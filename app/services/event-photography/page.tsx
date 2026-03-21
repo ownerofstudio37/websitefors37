@@ -264,6 +264,7 @@ export default function EventPhotographyPage() {
             <div className="surface-panel p-8 flex flex-col h-full">
               <div className="mb-4">
                 <p className="text-xs font-semibold uppercase tracking-widest text-stone-500 mb-1">Basic Coverage</p>
+                <p className="text-sm text-stone-500">starting at</p>
                 <p className="text-4xl font-bold text-stone-900">$600</p>
                 <p className="text-sm text-stone-500 mt-1">2 hours of event coverage</p>
               </div>
@@ -293,6 +294,7 @@ export default function EventPhotographyPage() {
               </div>
               <div className="mb-4">
                 <p className="text-xs font-semibold uppercase tracking-widest text-primary-600 mb-1">Standard Coverage</p>
+                <p className="text-sm text-stone-500">starting at</p>
                 <p className="text-4xl font-bold text-stone-900">$1,000</p>
                 <p className="text-sm text-stone-500 mt-1">4 hours of event coverage</p>
               </div>
@@ -318,6 +320,7 @@ export default function EventPhotographyPage() {
             <div className="surface-panel p-8 flex flex-col h-full">
               <div className="mb-4">
                 <p className="text-xs font-semibold uppercase tracking-widest text-stone-500 mb-1">Premium Coverage</p>
+                <p className="text-sm text-stone-500">starting at</p>
                 <p className="text-4xl font-bold text-stone-900">$1,800</p>
                 <p className="text-sm text-stone-500 mt-1">Up to 8 hours of full-day coverage</p>
               </div>
