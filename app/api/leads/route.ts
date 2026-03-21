@@ -288,6 +288,15 @@ export async function POST(req: NextRequest) {
       `
 
       const adminEmail = process.env.ADMIN_EMAIL || 'ceo@studio37.cc'
+      const nameParts = (insertedLead.name || '').split(' ')
+      const firstName = nameParts[0] || ''
+
+      const { data: adminTemplate } = await supabaseAdmin
+        .from('email_templates')
+        .select('id')
+        .eq('slug', 'admin-lead-notification')
+        .eq('is_active', true)
+        .maybeSingle()
       
       // POST to marketing email send endpoint so all send logic (Resend + templates) stays centralized
       fetch(`${siteUrl}/api/marketing/email/send`, {
@@ -296,8 +305,25 @@ export async function POST(req: NextRequest) {
         body: JSON.stringify({
           to: adminEmail,
           subject: `🔔 New Lead: ${insertedLead.name || insertedLead.email || 'New contact'}`,
-          html: adminHtml,
-          leadId: insertedLead.id
+          ...(adminTemplate?.id
+            ? {
+                templateId: adminTemplate.id,
+                variables: {
+                  firstName,
+                  name: insertedLead.name,
+                  email: insertedLead.email,
+                  phone: insertedLead.phone || '',
+                  serviceInterest: insertedLead.service_interest,
+                  budgetRange: insertedLead.budget_range || '',
+                  eventDate: insertedLead.event_date || '',
+                  message: insertedLead.message || '',
+                  source: insertedLead.source || payload.source || 'web-form',
+                  leadId: insertedLead.id,
+                  siteUrl,
+                },
+              }
+            : { html: adminHtml }),
+          leadId: insertedLead.id,
         })
       })
       .then(async res => {

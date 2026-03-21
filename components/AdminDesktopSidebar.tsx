@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { ChevronLeft, LogOut, Search } from 'lucide-react'
@@ -18,10 +18,41 @@ interface AdminDesktopSidebarProps {
 
 export default function AdminDesktopSidebar({ isOpen, onToggle }: AdminDesktopSidebarProps) {
   const [query, setQuery] = useState('')
+  const [recentToolHrefs, setRecentToolHrefs] = useState<string[]>([])
   const pathname = usePathname()
   const router = useRouter()
   const sidebarTools = getSidebarTools()
   const normalizedQuery = query.trim().toLowerCase()
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem('admin_recent_tools')
+      if (!raw) return
+      const parsed = JSON.parse(raw)
+      if (Array.isArray(parsed)) {
+        setRecentToolHrefs(parsed.filter((item) => typeof item === 'string').slice(0, 6))
+      }
+    } catch {
+      // ignore localStorage parse failures
+    }
+  }, [])
+
+  const recentTools = useMemo(() => {
+    const map = new Map(sidebarTools.map((tool) => [tool.href, tool]))
+    return recentToolHrefs
+      .map((href) => map.get(href))
+      .filter(Boolean)
+  }, [recentToolHrefs, sidebarTools])
+
+  const trackRecentTool = (href: string) => {
+    const next = [href, ...recentToolHrefs.filter((item) => item !== href)].slice(0, 6)
+    setRecentToolHrefs(next)
+    try {
+      localStorage.setItem('admin_recent_tools', JSON.stringify(next))
+    } catch {
+      // ignore storage errors
+    }
+  }
 
   const filteredTools = useMemo(() => {
     if (!normalizedQuery) return sidebarTools
@@ -93,6 +124,35 @@ export default function AdminDesktopSidebar({ isOpen, onToggle }: AdminDesktopSi
           </label>
         </div>
 
+        {!normalizedQuery && recentTools.length > 0 && (
+          <div>
+            <p className="px-3 mb-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-gray-400">
+              Quick Actions
+            </p>
+            <div className="space-y-1">
+              {recentTools.slice(0, 4).map((tool) => {
+                const active = isActive(tool!.href, tool!.exact)
+                const Icon = tool!.icon
+                return (
+                  <Link
+                    key={`recent-${tool!.href}`}
+                    href={tool!.href}
+                    onClick={() => trackRecentTool(tool!.href)}
+                    className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                      active
+                        ? 'bg-primary-50 text-primary-700'
+                        : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+                    }`}
+                  >
+                    <Icon className={`w-5 h-5 flex-shrink-0 ${active ? 'text-primary-600' : 'text-gray-400'}`} />
+                    <span className="truncate">{tool!.label}</span>
+                  </Link>
+                )
+              })}
+            </div>
+          </div>
+        )}
+
         {filteredTools.length === 0 && (
           <div className="px-3 py-6 text-sm text-gray-500">
             No admin tools match “{query}”.
@@ -117,6 +177,7 @@ export default function AdminDesktopSidebar({ isOpen, onToggle }: AdminDesktopSi
                     <Link
                       key={tool.href}
                       href={tool.href}
+                      onClick={() => trackRecentTool(tool.href)}
                       className={`flex items-center justify-between gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                         active
                           ? 'bg-primary-50 text-primary-700'

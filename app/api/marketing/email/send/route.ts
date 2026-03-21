@@ -72,6 +72,7 @@ export async function POST(req: NextRequest) {
 
     let emailHtml = html || "";
     let emailText = text || "";
+    let resolvedTemplateSlug: string | null = null;
 
     // If template ID provided, fetch and render template
     if (templateId) {
@@ -88,6 +89,8 @@ export async function POST(req: NextRequest) {
           { status: 404 }
         );
       }
+
+      resolvedTemplateSlug = template.slug;
 
       // Try React Email rendering first, fallback to simple substitution
       if (hasReactEmailTemplate(template.slug)) {
@@ -135,6 +138,25 @@ export async function POST(req: NextRequest) {
             error: sendError.message,
           });
 
+          try {
+            await supabaseAdmin.from('email_send_logs').insert({
+              template_id: templateId || null,
+              template_slug: resolvedTemplateSlug,
+              lead_id: leadId || null,
+              recipient_email: recipient,
+              subject,
+              provider: 'resend',
+              status: 'failed',
+              error_message: sendError.message,
+              metadata: {
+                campaignId: campaignId || null,
+              },
+              sent_at: new Date().toISOString(),
+            })
+          } catch (logErr) {
+            log.warn('Failed to insert email_send_logs failure record', { recipient, error: String(logErr) })
+          }
+
           // Track failed send if campaign
           if (campaignId) {
             await trackCampaignSend(
@@ -160,6 +182,25 @@ export async function POST(req: NextRequest) {
           messageId: sendResult?.id,
         });
 
+        try {
+          await supabaseAdmin.from('email_send_logs').insert({
+            template_id: templateId || null,
+            template_slug: resolvedTemplateSlug,
+            lead_id: leadId || null,
+            recipient_email: recipient,
+            subject,
+            provider: 'resend',
+            provider_message_id: sendResult?.id || null,
+            status: 'sent',
+            metadata: {
+              campaignId: campaignId || null,
+            },
+            sent_at: new Date().toISOString(),
+          })
+        } catch (logErr) {
+          log.warn('Failed to insert email_send_logs sent record', { recipient, error: String(logErr) })
+        }
+
         // Track successful send if campaign
         if (campaignId) {
           await trackCampaignSend(
@@ -177,6 +218,26 @@ export async function POST(req: NextRequest) {
           success: false,
           error: err.message,
         });
+
+        try {
+          await supabaseAdmin.from('email_send_logs').insert({
+            template_id: templateId || null,
+            template_slug: resolvedTemplateSlug,
+            lead_id: leadId || null,
+            recipient_email: recipient,
+            subject,
+            provider: 'resend',
+            status: 'failed',
+            error_message: err.message,
+            metadata: {
+              campaignId: campaignId || null,
+              exception: true,
+            },
+            sent_at: new Date().toISOString(),
+          })
+        } catch (logErr) {
+          log.warn('Failed to insert email_send_logs exception record', { recipient, error: String(logErr) })
+        }
       }
     }
 

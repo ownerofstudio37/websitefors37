@@ -561,6 +561,80 @@ export async function generateEmailContent(
   } = {},
   options: AIClientOptions = {}
 ): Promise<EmailContentBlock[]> {
+  const allowedTypes = new Set<EmailContentBlock['type']>([
+    'logo',
+    'hero',
+    'text',
+    'image',
+    'button',
+    'columns',
+    'social',
+    'footer',
+    'spacer',
+    'divider',
+  ])
+
+  const sanitizeUrl = (url: unknown, fallback: string): string => {
+    if (typeof url !== 'string' || !url.trim()) return fallback
+    const trimmed = url.trim()
+    if (/^javascript:/i.test(trimmed) || /^data:/i.test(trimmed)) return fallback
+    if (/^https?:\/\//i.test(trimmed) || trimmed.startsWith('/')) return trimmed
+    return fallback
+  }
+
+  const sanitizeBlocks = (blocks: EmailContentBlock[]): EmailContentBlock[] => {
+    // Keep only known block types and cap length
+    const filtered = blocks
+      .filter((b) => b && allowedTypes.has(b.type))
+      .slice(0, 20)
+      .map((block) => {
+        const content = { ...(block.content || {}) }
+
+        if (block.type === 'button') {
+          content.url = sanitizeUrl(content.url, 'https://www.studio37.cc/book-a-session')
+        }
+
+        if (block.type === 'hero' && content.buttonUrl) {
+          content.buttonUrl = sanitizeUrl(content.buttonUrl, 'https://www.studio37.cc/book-a-session')
+        }
+
+        if (block.type === 'image') {
+          content.url = sanitizeUrl(content.url, 'https://www.studio37.cc/images/placeholder.jpg')
+        }
+
+        return { ...block, content }
+      })
+
+    const hasLogo = filtered.some((b) => b.type === 'logo')
+    const hasFooter = filtered.some((b) => b.type === 'footer')
+    const hasCTA = filtered.some((b) => b.type === 'button' || (b.type === 'hero' && !!b.content?.buttonText))
+
+    const guarded: EmailContentBlock[] = [...filtered]
+
+    if (!hasLogo) {
+      guarded.unshift({ type: 'logo', content: { tagline: 'Studio37 Photography' } })
+    }
+
+    if (!hasCTA) {
+      guarded.push({
+        type: 'button',
+        content: {
+          text: 'Book Your Session',
+          url: 'https://www.studio37.cc/book-a-session',
+          backgroundColor: '#b46e14',
+          textColor: '#ffffff',
+          align: 'center',
+        },
+      })
+    }
+
+    if (!hasFooter) {
+      guarded.push({ type: 'footer', content: {} })
+    }
+
+    return guarded.slice(0, 24)
+  }
+
   const systemPrompt = `You are an expert email copywriter and designer for Studio37 Photography, a professional photography studio in Houston, TX.
 Studio37 specializes in weddings, portraits, events, and commercial photography.
 Brand voice: warm, professional, creative, results-driven.
@@ -614,7 +688,7 @@ Generate a compelling, on-brand email template now:`
     const blocks = JSON.parse(cleaned) as EmailContentBlock[]
     // Validate it's an array
     if (!Array.isArray(blocks)) throw new Error('Expected array')
-    return blocks
+    return sanitizeBlocks(blocks)
   } catch (err) {
     log.error('Failed to parse AI email blocks', { raw, err })
     throw new Error('AI returned invalid email block format')

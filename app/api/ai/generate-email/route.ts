@@ -3,6 +3,7 @@ import { z } from 'zod'
 import { generateEmailContent } from '@/lib/ai-client'
 import { rateLimit, getClientIp } from '@/lib/rateLimit'
 import { createLogger } from '@/lib/logger'
+import { authErrorResponse, requireAdminRole } from '@/lib/admin-auth'
 
 const log = createLogger('api/ai/generate-email')
 
@@ -22,6 +23,8 @@ export async function POST(req: NextRequest) {
   }
 
   try {
+    await requireAdminRole('editor')
+
     const body = await req.json()
     const parsed = schema.safeParse(body)
     if (!parsed.success) {
@@ -36,6 +39,9 @@ export async function POST(req: NextRequest) {
     log.info('AI email template generated', { blockCount: blocks.length })
     return NextResponse.json({ success: true, blocks })
   } catch (err: any) {
+    if (err?.message === 'UNAUTHORIZED' || err?.message === 'FORBIDDEN') {
+      return authErrorResponse(err)
+    }
     log.error('AI email generation failed', undefined, err)
     return NextResponse.json(
       { error: err?.message || 'AI generation failed. Ensure GOOGLE_API_KEY or GEMINI_API_KEY is set.' },

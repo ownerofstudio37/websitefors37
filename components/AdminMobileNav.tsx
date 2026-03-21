@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { Menu, X, LogOut, Search } from 'lucide-react'
@@ -15,10 +15,41 @@ import {
 export default function AdminMobileNav() {
   const [isOpen, setIsOpen] = useState(false)
   const [query, setQuery] = useState('')
+  const [recentToolHrefs, setRecentToolHrefs] = useState<string[]>([])
   const pathname = usePathname()
   const router = useRouter()
   const sidebarTools = getSidebarTools()
   const normalizedQuery = query.trim().toLowerCase()
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem('admin_recent_tools')
+      if (!raw) return
+      const parsed = JSON.parse(raw)
+      if (Array.isArray(parsed)) {
+        setRecentToolHrefs(parsed.filter((item) => typeof item === 'string').slice(0, 6))
+      }
+    } catch {
+      // ignore local storage parse failures
+    }
+  }, [])
+
+  const recentTools = useMemo(() => {
+    const map = new Map(sidebarTools.map((tool) => [tool.href, tool]))
+    return recentToolHrefs
+      .map((href) => map.get(href))
+      .filter(Boolean)
+  }, [recentToolHrefs, sidebarTools])
+
+  const trackRecentTool = (href: string) => {
+    const next = [href, ...recentToolHrefs.filter((item) => item !== href)].slice(0, 6)
+    setRecentToolHrefs(next)
+    try {
+      localStorage.setItem('admin_recent_tools', JSON.stringify(next))
+    } catch {
+      // ignore local storage write failures
+    }
+  }
 
   const filteredTools = useMemo(() => {
     if (!normalizedQuery) return sidebarTools
@@ -115,6 +146,39 @@ export default function AdminMobileNav() {
                 </label>
               </div>
 
+              {!normalizedQuery && recentTools.length > 0 && (
+                <div>
+                  <p className="px-4 mb-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-gray-400">
+                    Quick Actions
+                  </p>
+                  <ul className="space-y-2">
+                    {recentTools.slice(0, 4).map((tool) => {
+                      const Icon = tool!.icon
+                      const active = isActive(tool!.href, tool!.exact)
+                      return (
+                        <li key={`recent-${tool!.href}`}>
+                          <Link
+                            href={tool!.href}
+                            onClick={() => {
+                              trackRecentTool(tool!.href)
+                              setIsOpen(false)
+                            }}
+                            className={`flex items-center gap-3 px-4 py-3 rounded-lg transition ${
+                              active
+                                ? 'bg-blue-50 text-blue-700 font-medium'
+                                : 'text-gray-700 hover:bg-gray-100'
+                            }`}
+                          >
+                            <Icon className="w-5 h-5 flex-shrink-0" />
+                            <span className="truncate">{tool!.label}</span>
+                          </Link>
+                        </li>
+                      )
+                    })}
+                  </ul>
+                </div>
+              )}
+
               {filteredTools.length === 0 && (
                 <div className="px-4 py-2 text-sm text-gray-500">
                   No tools match “{query}”.
@@ -139,7 +203,10 @@ export default function AdminMobileNav() {
                           <li key={tool.href}>
                             <Link
                               href={tool.href}
-                              onClick={() => setIsOpen(false)}
+                              onClick={() => {
+                                trackRecentTool(tool.href)
+                                setIsOpen(false)
+                              }}
                               className={`flex items-center justify-between gap-3 px-4 py-3 rounded-lg transition ${
                                 active
                                   ? 'bg-blue-50 text-blue-700 font-medium'

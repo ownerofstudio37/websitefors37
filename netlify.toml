@@ -90,3 +90,10 @@
   path = "/api/appointments/send-reminders"
   # Run at 8 AM UTC every day (adjustable to studio timezone)
   schedule = "0 8 * * *"
+
+[[scheduled_functions]]
+  name = "lead-followups"
+  description = "Send pending day1/day3/day7 lead follow-up emails"
+  path = "/api/leads/follow-up"
+  # Run hourly so follow-up windows are processed consistently
+  schedule = "0 * * * *"

@@ -1,8 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabaseAdmin'
+import { authErrorResponse, requireAdminRole } from '@/lib/admin-auth'
 
 export async function GET(req: NextRequest) {
   try {
+    await requireAdminRole('viewer')
+
     const { data: templates, error } = await supabaseAdmin
       .from('email_templates')
       .select('*')
@@ -14,6 +17,9 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json({ success: true, templates })
   } catch (error: any) {
+    if (error?.message === 'UNAUTHORIZED' || error?.message === 'FORBIDDEN') {
+      return authErrorResponse(error)
+    }
     return NextResponse.json({ success: false, error: error.message }, { status: 500 })
   }
 }
@@ -21,6 +27,8 @@ export async function GET(req: NextRequest) {
 // Create a new email template
 export async function POST(req: NextRequest) {
   try {
+    await requireAdminRole('editor')
+
     const body = await req.json().catch(() => ({}))
 
     // Basic validation and defaults
@@ -32,6 +40,7 @@ export async function POST(req: NextRequest) {
     const text_content: string = (body.text_content || '').toString()
     const is_active: boolean = typeof body.is_active === 'boolean' ? body.is_active : true
     const variables = Array.isArray(body.variables) ? body.variables : []
+    const blocks_json = Array.isArray(body.blocks_json) ? body.blocks_json : []
 
     if (!name) {
       return NextResponse.json({ success: false, error: 'Name is required' }, { status: 400 })
@@ -77,6 +86,7 @@ export async function POST(req: NextRequest) {
           category,
           is_active,
           variables,
+          blocks_json,
         },
       ])
       .select('*')
@@ -88,6 +98,9 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ success: true, template: data })
   } catch (error: any) {
+    if (error?.message === 'UNAUTHORIZED' || error?.message === 'FORBIDDEN') {
+      return authErrorResponse(error)
+    }
     return NextResponse.json({ success: false, error: error.message }, { status: 500 })
   }
 }
