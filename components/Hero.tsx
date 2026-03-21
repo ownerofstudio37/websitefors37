@@ -1,3 +1,5 @@
+'use client';
+
 import React from "react";
 import { Camera, ArrowRight } from "@/icons";
 import Link from "next/link";
