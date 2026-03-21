@@ -361,16 +361,6 @@ export default function Navigation() {
               <Phone className="h-4 w-4 flex-shrink-0" aria-hidden="true" />
               <span>(832) 713-9944</span>
             </a>
-            <Link
-              href="/admin"
-              className={`focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2 transition-all rounded-full px-4 py-2 ${
-                scrolled
-                  ? 'border border-stone-300 text-stone-800 hover:bg-stone-100'
-                  : 'bg-white/10 hover:bg-white/18 text-white border border-white/20'
-              }`}
-            >
-              Admin
-            </Link>
           </div>
 
           <button
@@ -489,13 +479,6 @@ export default function Navigation() {
                 <Phone className="h-4 w-4" aria-hidden="true" />
                 (832) 713-9944
               </a>
-              <Link
-                href="/admin"
-                className="border border-stone-300 text-stone-800 rounded-full px-4 py-2 w-fit focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2"
-                onClick={() => setIsOpen(false)}
-              >
-                Admin
-              </Link>
             </div>
           </div>
         )}

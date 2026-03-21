@@ -67,9 +67,10 @@ export default function SEOFooter() {
         </div>
         <div className="mt-10 pt-6 border-t border-white/10 text-sm text-stone-400 flex flex-col md:flex-row gap-3 md:items-center md:justify-between">
           <p>© {new Date().getFullYear()} {name}. All rights reserved.</p>
-          <div className="flex gap-4">
+          <div className="flex items-center gap-4">
             <Link href="https://gallery.studio37.cc" className="hover:text-white transition-colors">Gallery</Link>
             <Link href="/contact" className="hover:text-white transition-colors">Contact</Link>
+            <Link href="/admin" className="text-xs text-stone-500 hover:text-stone-300 transition-colors">Admin</Link>
           </div>
         </div>
       </div>

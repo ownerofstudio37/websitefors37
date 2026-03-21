@@ -34,6 +34,21 @@ export default function AdminMobileNav() {
     }
   }, [])
 
+  useEffect(() => {
+    if (!isOpen) return
+    setIsOpen(false)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname])
+
+  useEffect(() => {
+    if (!isOpen) return
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.body.style.overflow = previousOverflow
+    }
+  }, [isOpen])
+
   const recentTools = useMemo(() => {
     const map = new Map(sidebarTools.map((tool) => [tool.href, tool]))
     return recentToolHrefs
@@ -126,6 +141,7 @@ export default function AdminMobileNav() {
               <button
                 onClick={() => setIsOpen(false)}
                 className="p-2 rounded-lg hover:bg-gray-100 transition"
+                aria-label="Close admin menu"
               >
                 <X className="w-5 h-5 text-gray-700" />
               </button>
