@@ -187,6 +187,60 @@ function buildGuideBlueprint(topic: string, audienceProfile: string, serviceCont
 
 function buildFallbackBlocks(topic: string, format: SupportedFormat, audienceProfile = 'leads and clients', serviceContext: ServiceContext = 'auto') {
   const blueprint = buildGuideBlueprint(topic, audienceProfile, serviceContext)
+  const inferredContext = serviceContext === 'auto' ? detectServiceContextFromTopic(topic) : serviceContext
+  const isClientPrepGuide = inferredContext === 'portrait-photography' || inferredContext === 'wedding-photography' || inferredContext === 'event-photography'
+
+  const decisionSupportHeading = isClientPrepGuide ? 'Questions to Ask Your Photographer' : 'Questions to Ask Before You Hire'
+  const decisionSupportItems = isClientPrepGuide
+    ? [
+        'What timeline do you recommend for our specific session/event?',
+        'How should we prepare outfits, details, and participants beforehand?',
+        'What happens if weather, delays, or child mood issues come up?',
+        'When do we receive previews, full gallery, and download access?',
+      ]
+    : [
+        'What outcomes can you realistically deliver in 30–60 days?',
+        'What is included, excluded, and billed separately?',
+        'How will progress be reported and how often?',
+        'Who owns the assets, data, and deliverables?',
+      ]
+
+  const sectionThreeBulletsHeading = isClientPrepGuide ? 'Day-Of Success Checklist' : 'Weekly Optimization Actions'
+  const sectionThreeBullets = isClientPrepGuide
+    ? [
+        'Arrive 10–15 minutes early to settle in and reduce stress',
+        'Bring backup essentials (snacks, water, touch-up items, outfit backup)',
+        'Trust direction and stay focused on connection over perfection',
+        'Confirm your post-session delivery timeline before leaving',
+      ]
+    : [
+        'Review CTR, conversion rate, cost per lead, and close rate',
+        'Keep a win/loss log for messaging and creative tests',
+        'Double down on channels with best lead quality, not just volume',
+        'Refresh weak CTAs and above-the-fold value proposition first',
+      ]
+
+  const statsData = isClientPrepGuide
+    ? [
+        { value: '1', label: 'Prep Call' },
+        { value: '2', label: 'Outfit Options' },
+        { value: '24–72h', label: 'Preview Window' },
+      ]
+    : [
+        { value: '1', label: 'Primary KPI' },
+        { value: '3', label: 'Weekly Experiments' },
+        { value: '30', label: 'Day Cycle' },
+      ]
+
+  const quoteText = isClientPrepGuide
+    ? 'The best photos come from good preparation, clear expectations, and a relaxed experience on session day.'
+    : 'Execution beats intention. Build a system, measure what matters, and scale the proven wins.'
+  const quoteAuthor = isClientPrepGuide ? 'Studio37 Photo Team' : 'Studio37 Strategy Team'
+
+  const ctaHeading = isClientPrepGuide ? 'Ready to plan your session?' : 'Want this tailored to your needs?'
+  const ctaSubtext = isClientPrepGuide
+    ? `We can help ${audienceProfile} plan outfits, timeline, and details so your session feels easy and your images look incredible.`
+    : `We can turn this into a custom plan with scope, timeline, and clear next steps for ${audienceProfile}.`
 
   if (format === 'pdf-guide') {
     return [
@@ -224,20 +278,17 @@ function buildFallbackBlocks(topic: string, format: SupportedFormat, audiencePro
       {
         type: 'bullets',
         data: {
-          heading: 'Questions to Ask Before You Hire',
-          items: [
-            'What outcomes can you realistically deliver in 30–60 days?',
-            'What is included, excluded, and billed separately?',
-            'How will progress be reported and how often?',
-            'Who owns the assets, data, and deliverables?',
-          ],
+          heading: decisionSupportHeading,
+          items: decisionSupportItems,
         },
       },
       {
         type: 'tip-box',
         data: {
           label: 'PRO TIP',
-          content: 'Avoid changing everything at once. Keep one control version and run focused improvements in weekly cycles.',
+          content: isClientPrepGuide
+            ? 'Great images come from calm energy. Keep prep simple, arrive early, and focus on connection over perfect posing.'
+            : 'Avoid changing everything at once. Keep one control version and run focused improvements in weekly cycles.',
         },
       },
       {
@@ -266,37 +317,28 @@ function buildFallbackBlocks(topic: string, format: SupportedFormat, audiencePro
       {
         type: 'bullets',
         data: {
-          heading: 'Weekly Optimization Actions',
-          items: [
-            'Review CTR, conversion rate, cost per lead, and close rate',
-            'Keep a win/loss log for messaging and creative tests',
-            'Double down on channels with best lead quality, not just volume',
-            'Refresh weak CTAs and above-the-fold value proposition first',
-          ],
+          heading: sectionThreeBulletsHeading,
+          items: sectionThreeBullets,
         },
       },
       {
         type: 'stats-row',
         data: {
-          stats: [
-            { value: '1', label: 'Primary KPI' },
-            { value: '3', label: 'Weekly Experiments' },
-            { value: '30', label: 'Day Cycle' },
-          ],
+          stats: statsData,
         },
       },
       {
         type: 'quote-callout',
         data: {
-          quote: 'Execution beats intention. Build a system, measure what matters, and scale the proven wins.',
-          author: 'Studio37 Strategy Team',
+          quote: quoteText,
+          author: quoteAuthor,
         },
       },
       {
         type: 'cta',
         data: {
-          heading: 'Want this tailored to your needs?',
-          subtext: `We can turn this into a custom plan with scope, timeline, and clear next steps for ${audienceProfile}.`,
+          heading: ctaHeading,
+          subtext: ctaSubtext,
           buttonText: 'Book a Consultation',
           buttonUrl: 'https://studio37.cc/book-consultation',
         },
@@ -527,6 +569,13 @@ AUDIENCE + SERVICE ADAPTATION RULES (CRITICAL):
 - Adapt language, examples, objections, and CTAs to this audience.
 - If topic is weddings/portraits/events, write for real client buyers (e.g., brides, families, hosts), not generic marketers.
 - If topic is branding/commercial/marketing, write for business decision-makers.
+- For portrait/wedding/event prep guides, prioritize practical client prep:
+  - what to wear
+  - what to bring
+  - timeline planning
+  - how to prepare kids/guests/family members
+  - what to expect after the session/event
+- Avoid business KPI and marketing-jargon sections unless the service context is branding/commercial.
 
 ${blockDocs}
 
