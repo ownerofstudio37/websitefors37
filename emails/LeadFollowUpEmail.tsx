@@ -72,7 +72,8 @@ export default function LeadFollowUpEmail({
   followUpDay = 1,
   serviceInterest = 'photography',
   bookingUrl = 'https://www.studio37.cc/book-a-session',
-}: LeadFollowUpEmailProps) {
+  email = '',
+}: LeadFollowUpEmailProps & { email?: string }) {
   const cfg = getConfig(followUpDay, serviceInterest)
 
   return (
@@ -175,7 +176,7 @@ export default function LeadFollowUpEmail({
             {' | '}
             <Link href="mailto:sales@studio37.cc" style={footerLink}>sales@studio37.cc</Link>
             <br />
-            <Link href="https://www.studio37.cc/unsubscribe?email={{email}}" style={unsubLink}>Unsubscribe</Link>
+            <Link href={`https://www.studio37.cc/unsubscribe?email=${encodeURIComponent(email)}`} style={unsubLink}>Unsubscribe</Link>
           </Text>
         </Container>
       </Body>

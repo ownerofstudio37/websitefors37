@@ -4,6 +4,7 @@ import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import { createLogger } from "@/lib/logger";
 import { getClientIp, rateLimit } from "@/lib/rateLimit";
 import { renderEmailTemplate, hasReactEmailTemplate, renderHtmlTemplate } from "@/lib/emailRenderer";
+import { renderEmailHtml, parseBlocksJson } from "@/lib/emailBuilderRenderer";
 
 const log = createLogger("api/marketing/email/send");
 
@@ -98,9 +99,17 @@ export async function POST(req: NextRequest) {
         emailHtml = await renderEmailTemplate(template.slug, variables)
         // React Email generates both HTML and plain text automatically
       } else {
-        log.info(`Rendering with simple substitution: ${template.slug}`)
-        // Fallback: simple variable substitution
-        emailHtml = renderHtmlTemplate(template.html_content, variables)
+        // Check for visual-builder blocks_json first — re-render fresh HTML so
+        // {{variable}} placeholders in block content get properly substituted.
+        const blocks = parseBlocksJson(template.blocks_json)
+        if (blocks) {
+          log.info(`Rendering from blocks_json (${blocks.length} blocks): ${template.slug}`)
+          const blockHtml = renderEmailHtml(blocks)
+          emailHtml = renderHtmlTemplate(blockHtml, variables)
+        } else {
+          log.info(`Rendering with simple substitution: ${template.slug}`)
+          emailHtml = renderHtmlTemplate(template.html_content, variables)
+        }
         emailText = renderHtmlTemplate(template.text_content || "", variables)
       }
     }

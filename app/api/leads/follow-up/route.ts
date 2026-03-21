@@ -131,6 +131,7 @@ async function sendPendingFollowUps(maxBatch = 100) {
         leadId: lead.id,
         variables: {
           firstName,
+          email: lead.email,
           serviceInterest: lead.service_interest || 'photography',
           followUpDay: sequence === 'day1' ? 1 : sequence === 'day3' ? 3 : 7,
           bookingUrl: `${siteUrl}/book-a-session`,

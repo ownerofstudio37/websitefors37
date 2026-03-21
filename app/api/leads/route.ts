@@ -85,8 +85,14 @@ async function sendAutoResponseEmail(lead: any, payload: any, siteUrl: string) {
     
 
     // If source is newsletter signup, use newsletter welcome template
-    if (payload.source === "newsletter-modal" || payload.service_interest === "newsletter") {
-      templateSlug = "newsletter-welcome"
+    if (
+      payload.source === 'newsletter-modal' ||
+      payload.source === 'newsletter-footer' ||
+      payload.source === 'newsletter-block' ||
+      payload.service_interest === 'newsletter' ||
+      payload.service_interest === 'newsletter_subscription'
+    ) {
+      templateSlug = 'newsletter-welcome'
     } else if (isBookingRequest || payload.event_date) {
       templateSlug = "booking-request-confirmation"
     }

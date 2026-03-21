@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import { renderEmailHtml, parseBlocksJson } from '@/lib/emailBuilderRenderer'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
@@ -41,15 +42,19 @@ export async function GET(request: NextRequest) {
     galleryLink: 'https://www.studio37.cc/gallery/sample',
     expiryDays: '30'
   }
-  
+
+  // Use blocks_json if available (always fresher than html_content)
+  const blocks = parseBlocksJson(template.blocks_json)
+  let baseHtml = blocks ? renderEmailHtml(blocks) : (template.html_content || '')
+
   // Render HTML with variable substitution
-  let renderedHtml = template.html_content
-  
-  // Replace {{variable}} with test data
+  let renderedHtml = baseHtml
   Object.entries(testData).forEach(([key, value]) => {
-    const regex = new RegExp(`{{${key}}}`, 'g')
+    const regex = new RegExp(`\\{\\{\\s*${key}\\s*\\}\\}`, 'g')
     renderedHtml = renderedHtml.replace(regex, value)
   })
+  // Strip any remaining unresolved {{...}}
+  renderedHtml = renderedHtml.replace(/\{\{[^}]+\}\}/g, '')
   
   // Wrap in email-safe HTML structure
   const fullHtml = `

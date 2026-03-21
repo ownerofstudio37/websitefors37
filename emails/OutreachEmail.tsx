@@ -34,7 +34,8 @@ export default function OutreachEmail({
   ctaText = 'Book a Free Consultation',
   ctaUrl = 'https://www.studio37.cc/book-a-session',
   campaignName = '',
-}: OutreachEmailProps) {
+  email = '',
+}: OutreachEmailProps & { email?: string }) {
   return (
     <Html>
       <Head />
@@ -162,7 +163,7 @@ export default function OutreachEmail({
             {' | '}
             <Link href="mailto:sales@studio37.cc" style={footerLink}>sales@studio37.cc</Link>
             <br />
-            <Link href={`https://www.studio37.cc/unsubscribe?email={{email}}`} style={unsubLink}>Unsubscribe</Link>
+            <Link href={`https://www.studio37.cc/unsubscribe?email=${encodeURIComponent(email)}`} style={unsubLink}>Unsubscribe</Link>
           </Text>
         </Container>
       </Body>

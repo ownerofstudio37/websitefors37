@@ -464,6 +464,27 @@ Studio37`)
           .join('')
       }
 
+      // Substitute lead variables so {{firstName}} etc. never appear literally
+      if (lead) {
+        const nameParts = (lead.name || '').split(' ')
+        const vars: Record<string, string> = {
+          firstName:       nameParts[0] || lead.name || 'there',
+          lastName:        nameParts.slice(1).join(' ') || '',
+          name:            lead.name || '',
+          email:           lead.email || '',
+          phone:           lead.phone || '',
+          serviceInterest: lead.service_interest || '',
+          service_interest: lead.service_interest || '',
+          eventDate:       lead.event_date || '',
+          budget:          lead.budget_range || '',
+        }
+        Object.entries(vars).forEach(([key, value]) => {
+          htmlContent = htmlContent.replace(new RegExp(`\\{\\{\\s*${key}\\s*\\}\\}`, 'g'), value)
+        })
+        // Strip any remaining unresolved {{...}}
+        htmlContent = htmlContent.replace(/\{\{[^}]+\}\}/g, '')
+      }
+
       const res = await fetch('/api/marketing/email/send', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

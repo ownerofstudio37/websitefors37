@@ -78,19 +78,24 @@ export function getAvailableTemplates(): string[] {
 }
 
 /**
- * Fallback: Simple variable substitution for HTML templates without React components
+ * Fallback: Simple variable substitution for HTML templates without React components.
+ * After substituting known variables, any remaining {{...}} placeholders are removed
+ * so they never appear literally in outbound emails.
  */
 export function renderHtmlTemplate(
   html: string,
   data: Record<string, any>
 ): string {
   let rendered = html
-  
-  // Replace {{variable}} with data values
+
+  // Replace {{variable}} with data values (whitespace-tolerant)
   Object.entries(data).forEach(([key, value]) => {
-    const regex = new RegExp(`{{${key}}}`, 'g')
-    rendered = rendered.replace(regex, String(value || ''))
+    const regex = new RegExp(`\\{\\{\\s*${key}\\s*\\}\\}`, 'g')
+    rendered = rendered.replace(regex, String(value ?? ''))
   })
-  
+
+  // Strip any remaining unresolved {{...}} placeholders
+  rendered = rendered.replace(/\{\{[^}]+\}\}/g, '')
+
   return rendered
 }
