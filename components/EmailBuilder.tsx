@@ -192,31 +192,40 @@ export const renderEmailHtml = (blocks: EmailBlock[]): string => {
     switch (block.type) {
       case 'logo':
         return `
-          <div style="background: ${BRAND.darkHeader}; padding: 24px 40px; text-align: center;">
+          <div style="background: #ffffff; padding: 22px 32px 18px; text-align: center; border-bottom: 1px solid ${BRAND.border};">
             <div style="display: inline-block;">
-              <span style="color: ${BRAND.gold}; font-family: ${fontStack}; font-size: 28px; font-weight: 800; letter-spacing: 2px;">STUDIO</span><span style="color: #ffffff; font-family: ${fontStack}; font-size: 28px; font-weight: 800; letter-spacing: 2px;">37</span>
+              <span style="color: ${BRAND.gold}; font-family: ${fontStack}; font-size: 26px; font-weight: 800; letter-spacing: 1px;">STUDIO</span><span style="color: #1a1a1a; font-family: ${fontStack}; font-size: 26px; font-weight: 800; letter-spacing: 1px;">37</span>
             </div>
-            ${block.content.tagline ? `<p style="color: #9ca3af; font-family: ${fontStack}; font-size: 12px; letter-spacing: 3px; text-transform: uppercase; margin: 6px 0 0 0;">${block.content.tagline}</p>` : ''}
+            ${block.content.tagline ? `<p style="color: ${BRAND.muted}; font-family: ${fontStack}; font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; margin: 6px 0 0 0;">${block.content.tagline}</p>` : ''}
           </div>
         `
       case 'hero': {
         const bg = block.content.backgroundColor || BRAND.darkHeader
         const fg = block.content.textColor || '#ffffff'
         return `
-          <div style="background-color: ${bg}; padding: 48px 40px; text-align: center;">
+          <div style="background-color: ${bg}; padding: 42px 32px; text-align: center;">
             ${block.content.imageUrl ? `<img src="${block.content.imageUrl}" alt="Hero" style="max-width: 100%; height: auto; margin-bottom: 24px; border-radius: 8px;" />` : ''}
-            <h1 style="margin: 0 0 12px 0; color: ${fg}; font-family: ${fontStack}; font-size: 28px; font-weight: 700; line-height: 1.3;">${block.content.title || 'Hero Title'}</h1>
-            ${block.content.subtitle ? `<p style="margin: 0 0 28px 0; color: ${fg}; font-family: ${fontStack}; font-size: 16px; opacity: 0.85; line-height: 1.5;">${block.content.subtitle}</p>` : ''}
-            ${block.content.buttonText ? `<a href="${block.content.buttonUrl || '#'}" style="display: inline-block; padding: 14px 32px; background-color: ${block.content.buttonColor || BRAND.primary}; color: #ffffff; text-decoration: none; border-radius: 6px; font-family: ${fontStack}; font-size: 16px; font-weight: 700;">${block.content.buttonText}</a>` : ''}
+            <h1 style="margin: 0 0 12px 0; color: ${fg}; font-family: ${fontStack}; font-size: 30px; font-weight: 800; line-height: 1.25;">${block.content.title || 'Hero Title'}</h1>
+            ${block.content.subtitle ? `<p style="margin: 0 0 24px 0; color: ${fg}; font-family: ${fontStack}; font-size: 18px; line-height: 1.45;">${block.content.subtitle}</p>` : ''}
+            ${block.content.buttonText ? `
+              <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center" style="margin:0 auto;">
+                <tr>
+                  <td bgcolor="${block.content.buttonColor || BRAND.primary}" style="border-radius:6px;">
+                    <a href="${block.content.buttonUrl || '#'}" style="display:inline-block;padding:14px 28px;background-color:${block.content.buttonColor || BRAND.primary};border:1px solid ${block.content.buttonColor || BRAND.primary};color:#ffffff !important;text-decoration:none !important;border-radius:6px;font-family:${fontStack};font-size:16px;font-weight:700;line-height:1;">
+                      <span style="color:#ffffff !important;text-decoration:none !important;">${block.content.buttonText}</span>
+                    </a>
+                  </td>
+                </tr>
+              </table>` : ''}
           </div>
         `
       }
       case 'text': {
         const textHtml = (block.content.text || '')
           .split('\n\n')
-          .map((para: string) => `<p style="margin: 0 0 16px 0; color: ${BRAND.text}; font-family: ${fontStack}; font-size: 16px; line-height: 26px;">${para.replace(/\n/g, '<br/>')}</p>`)
+          .map((para: string) => `<p style="margin: 0 0 18px 0; color: #1f2937; font-family: ${fontStack}; font-size: 16px; line-height: 1.65;">${para.replace(/\n/g, '<br/>')}</p>`)
           .join('')
-        return `<div style="padding: 24px 40px;">${textHtml}</div>`
+        return `<div style="padding: 28px 40px 18px; background: #ffffff;">${textHtml}</div>`
       }
       case 'image':
         return `
@@ -228,7 +237,15 @@ export const renderEmailHtml = (blocks: EmailBlock[]): string => {
       case 'button':
         return `
           <div style="padding: 16px 40px; text-align: ${block.content.align || 'center'};">
-            <a href="${block.content.url || '#'}" style="display: inline-block; padding: 14px 32px; background-color: ${block.content.backgroundColor || BRAND.primary}; color: ${block.content.textColor || '#ffffff'}; text-decoration: none; border-radius: 6px; font-family: ${fontStack}; font-size: 16px; font-weight: 700;">${block.content.text || 'Click Me'}</a>
+            <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="${(block.content.align || 'center') === 'left' ? 'left' : (block.content.align || 'center') === 'right' ? 'right' : 'center'}" style="${(block.content.align || 'center') === 'center' ? 'margin:0 auto;' : ''}">
+              <tr>
+                <td bgcolor="${block.content.backgroundColor || BRAND.primary}" style="border-radius:6px;">
+                  <a href="${block.content.url || '#'}" style="display:inline-block;padding:14px 28px;background-color:${block.content.backgroundColor || BRAND.primary};border:1px solid ${block.content.backgroundColor || BRAND.primary};color:${block.content.textColor || '#ffffff'} !important;text-decoration:none !important;border-radius:6px;font-family:${fontStack};font-size:16px;font-weight:700;line-height:1;">
+                    <span style="color:${block.content.textColor || '#ffffff'} !important;text-decoration:none !important;">${block.content.text || 'Click Me'}</span>
+                  </a>
+                </td>
+              </tr>
+            </table>
           </div>
         `
       case 'columns':

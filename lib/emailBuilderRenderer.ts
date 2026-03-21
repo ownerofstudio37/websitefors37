@@ -52,9 +52,9 @@ function renderBlock(block: EmailBlock): string {
     case 'logo': {
       const tagline = block.content.tagline || ''
       return `
-<div style="background:${BRAND.dark};padding:24px 40px;text-align:center;">
-  <span style="color:${BRAND.gold};font-family:${FONT};font-size:28px;font-weight:800;letter-spacing:2px;">STUDIO</span><span style="color:#fff;font-family:${FONT};font-size:28px;font-weight:800;letter-spacing:2px;">37</span>
-  ${tagline ? `<p style="color:#9ca3af;font-family:${FONT};font-size:12px;letter-spacing:3px;text-transform:uppercase;margin:6px 0 0 0;">${tagline}</p>` : ''}
+<div style="background:#ffffff;padding:22px 32px 18px;text-align:center;border-bottom:1px solid ${BRAND.border};">
+  <span style="color:${BRAND.gold};font-family:${FONT};font-size:26px;font-weight:800;letter-spacing:1px;">STUDIO</span><span style="color:${BRAND.dark};font-family:${FONT};font-size:26px;font-weight:800;letter-spacing:1px;">37</span>
+  ${tagline ? `<p style="color:${BRAND.muted};font-family:${FONT};font-size:12px;letter-spacing:1.5px;text-transform:uppercase;margin:6px 0 0 0;">${tagline}</p>` : ''}
 </div>`
     }
 
@@ -68,15 +68,17 @@ function renderBlock(block: EmailBlock): string {
       const btnColor = block.content.buttonColor || BRAND.primary
       const imgUrl   = block.content.imageUrl    || ''
       return `
-<div style="background-color:${bg};padding:48px 40px;text-align:center;">
+<div style="background-color:${bg};padding:42px 32px;text-align:center;">
   ${imgUrl ? `<img src="${imgUrl}" alt="Hero" style="max-width:100%;height:auto;margin-bottom:24px;border-radius:8px;"/>` : ''}
-  <h1 style="margin:0 0 12px 0;color:${fg};font-family:${FONT};font-size:28px;font-weight:700;line-height:1.3;">${title}</h1>
-  ${subtitle ? `<p style="margin:0 0 28px 0;color:${fg};font-family:${FONT};font-size:16px;line-height:1.5;">${subtitle}</p>` : ''}
+  <h1 style="margin:0 0 12px 0;color:${fg};font-family:${FONT};font-size:30px;font-weight:800;line-height:1.25;">${title}</h1>
+  ${subtitle ? `<p style="margin:0 0 24px 0;color:${fg};font-family:${FONT};font-size:18px;line-height:1.45;">${subtitle}</p>` : ''}
   ${btnText ? `
   <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center" style="margin:0 auto;">
     <tr>
       <td bgcolor="${btnColor}" style="border-radius:6px;">
-        <a href="${btnUrl}" style="display:inline-block;padding:14px 32px;background-color:${btnColor};border:1px solid ${btnColor};color:#ffffff;text-decoration:none;border-radius:6px;font-family:${FONT};font-size:16px;font-weight:700;line-height:1;">${btnText}</a>
+        <a href="${btnUrl}" style="display:inline-block;padding:14px 28px;background-color:${btnColor};border:1px solid ${btnColor};color:#ffffff !important;text-decoration:none !important;border-radius:6px;font-family:${FONT};font-size:16px;font-weight:700;line-height:1;mso-padding-alt:0;">
+          <span style="color:#ffffff !important;text-decoration:none !important;">${btnText}</span>
+        </a>
       </td>
     </tr>
   </table>` : ''}
@@ -86,9 +88,9 @@ function renderBlock(block: EmailBlock): string {
     case 'text': {
       const paragraphs = (block.content.text || '')
         .split('\n\n')
-        .map((p: string) => `<p style="margin:0 0 16px 0;color:${BRAND.text};font-family:${FONT};font-size:16px;line-height:26px;">${p.replace(/\n/g, '<br/>')}</p>`)
+        .map((p: string) => `<p style="margin:0 0 18px 0;color:#1f2937;font-family:${FONT};font-size:16px;line-height:1.65;">${p.replace(/\n/g, '<br/>')}</p>`)
         .join('')
-      return `<div style="padding:24px 40px;">${paragraphs}</div>`
+      return `<div style="padding:28px 40px 18px;background:#ffffff;">${paragraphs}</div>`
     }
 
     case 'image': {
@@ -114,7 +116,9 @@ function renderBlock(block: EmailBlock): string {
   <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="${align === 'left' ? 'left' : align === 'right' ? 'right' : 'center'}" style="${align === 'center' ? 'margin:0 auto;' : ''}">
     <tr>
       <td bgcolor="${bg}" style="border-radius:6px;">
-        <a href="${url}" style="display:inline-block;padding:14px 32px;background-color:${bg};border:1px solid ${bg};color:${fg};text-decoration:none;border-radius:6px;font-family:${FONT};font-size:16px;font-weight:700;line-height:1;">${text}</a>
+        <a href="${url}" style="display:inline-block;padding:14px 28px;background-color:${bg};border:1px solid ${bg};color:${fg} !important;text-decoration:none !important;border-radius:6px;font-family:${FONT};font-size:16px;font-weight:700;line-height:1;mso-padding-alt:0;">
+          <span style="color:${fg} !important;text-decoration:none !important;">${text}</span>
+        </a>
       </td>
     </tr>
   </table>
