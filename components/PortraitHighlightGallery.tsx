@@ -38,6 +38,12 @@ export default function PortraitHighlightGallery() {
       description: 'Studio37 featured work',
       image_url: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255672/PS379781_kttvv3.jpg',
     },
+    {
+      id: 'cloudinary-6',
+      title: 'Portfolio Highlight 6',
+      description: 'Studio37 featured work',
+      image_url: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1770033072/PS370397-1_ooxygn.jpg',
+    },
   ]
 
   return (
