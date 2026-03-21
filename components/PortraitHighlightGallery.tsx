@@ -1,21 +1,13 @@
 'use client'
 
 import React from 'react'
-import { useGalleryImages } from '@/hooks/useGalleryImages'
 import type { GalleryImage } from '@/lib/supabase'
 import Link from 'next/link'
 import OptimizedImage from './OptimizedImage'
 
 export default function PortraitHighlightGallery() {
-  const { data: images } = useGalleryImages({
-    featured: true,
-    limit: 6,
-    orderBy: 'created_at',
-    ascending: false,
-  })
-
   // Static Cloudinary images to replace stock on homepage
-  const staticImages: Pick<GalleryImage, 'id' | 'title' | 'description' | 'image_url'>[] = [
+  const staticImages: Pick<GalleryImage, 'id' | 'title' | 'description' | 'image_url' | 'alt_text'>[] = [
     {
       id: 'cloudinary-1',
       title: 'Portfolio Highlight 1',
@@ -48,8 +40,6 @@ export default function PortraitHighlightGallery() {
     },
   ]
 
-  const renderImages = (images && images.length > 0) ? images : staticImages
-
   return (
     <section className="py-16 bg-white">
       <div className="container mx-auto px-4">
@@ -60,7 +50,7 @@ export default function PortraitHighlightGallery() {
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {renderImages.map((image) => (
+          {staticImages.map((image) => (
             <Link 
               href="/gallery" 
               key={image.id} 

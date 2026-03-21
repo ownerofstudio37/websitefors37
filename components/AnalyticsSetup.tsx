@@ -10,21 +10,60 @@ import { setupScrollDepthTracking, setupVideoElementTracking, setupGalleryTracki
  */
 export default function AnalyticsSetup() {
   useEffect(() => {
-    // Setup scroll depth tracking (25%, 50%, 75%, 100%)
-    setupScrollDepthTracking()
+    let cancelled = false
+    let idleId: number | null = null
 
-    // Setup lazy tracking for video elements with data-track-video attribute
-    setupVideoElementTracking()
+    let cleanupScroll: (() => void) | void
+    let cleanupVideo: (() => void) | void
 
-    // Setup gallery click tracking using event delegation
-    // Looks for elements with data-gallery-click attribute
-    setupGalleryTracking('[data-gallery-click]')
+    const initTracking = () => {
+      if (cancelled) return
+      // Setup scroll depth tracking (25%, 50%, 75%, 100%)
+      cleanupScroll = setupScrollDepthTracking()
 
-    // Cleanup function to remove listeners on unmount
+      // Setup lazy tracking for video elements with data-track-video attribute
+      cleanupVideo = setupVideoElementTracking()
+
+      // Setup gallery click tracking using event delegation
+      // Looks for elements with data-gallery-click attribute
+      setupGalleryTracking('[data-gallery-click]')
+    }
+
+    const kickOff = () => {
+      // @ts-ignore requestIdleCallback is not in all TS lib targets
+      if (typeof window !== 'undefined' && typeof window.requestIdleCallback === 'function') {
+        // @ts-ignore
+        idleId = window.requestIdleCallback(initTracking, { timeout: 3000 })
+      } else {
+        // Small delay to avoid competing with LCP-critical work
+        window.setTimeout(initTracking, 1200)
+      }
+    }
+
+    const onFirstInteraction = () => {
+      kickOff()
+      window.removeEventListener('pointerdown', onFirstInteraction)
+      window.removeEventListener('keydown', onFirstInteraction)
+      window.removeEventListener('scroll', onFirstInteraction)
+    }
+
+    // Initialize on first interaction or idle, whichever comes first
+    window.addEventListener('pointerdown', onFirstInteraction, { once: true, passive: true })
+    window.addEventListener('keydown', onFirstInteraction, { once: true })
+    window.addEventListener('scroll', onFirstInteraction, { once: true, passive: true })
+    kickOff()
+
     return () => {
-      // Listeners use passive mode, no cleanup needed for scroll
-      // IntersectionObserver is disconnected by its own cleanup
-      // Event listeners use capture phase, but listeners are page-scoped
+      cancelled = true
+      if (idleId !== null) {
+        // @ts-ignore
+        if (typeof window.cancelIdleCallback === 'function') window.cancelIdleCallback(idleId)
+      }
+      window.removeEventListener('pointerdown', onFirstInteraction)
+      window.removeEventListener('keydown', onFirstInteraction)
+      window.removeEventListener('scroll', onFirstInteraction)
+      if (typeof cleanupScroll === 'function') cleanupScroll()
+      if (typeof cleanupVideo === 'function') cleanupVideo()
     }
   }, [])
 

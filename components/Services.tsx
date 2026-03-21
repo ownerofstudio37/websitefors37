@@ -1,8 +1,7 @@
 'use client'
 
-import React, { useEffect, useState, useRef } from 'react'
+import React from 'react'
 import Link from 'next/link'
-import { useGalleryImages } from '@/hooks/useGalleryImages'
 import { Camera, Users, Building, Heart, Megaphone, ArrowRight } from 'lucide-react'
 import OptimizedImage from './OptimizedImage'
 
@@ -90,46 +89,6 @@ const services = [
 ]
 
 export default function Services() {
-	const [imagesByCategory, setImagesByCategory] = useState<Record<string, any[]>>({})
-	const [slideshowIndexes, setSlideshowIndexes] = useState<Record<string, number>>({})
-	const intervalRef = useRef<NodeJS.Timeout | null>(null)
-
-	const categories = services.map(s => s.category)
-	const { data: images } = useGalleryImages({
-		categories,
-		featured: true,
-		orderBy: 'display_order',
-		ascending: true,
-	})
-
-	useEffect(() => {
-		if (!images) return
-		const grouped: Record<string, any[]> = {}
-		categories.forEach(cat => {
-			grouped[cat] = images.filter(img => img.category === cat)
-		})
-		setImagesByCategory(grouped)
-	}, [images])
-
-	// Slideshow rotation for each category
-	useEffect(() => {
-		intervalRef.current = setInterval(() => {
-			setSlideshowIndexes(prev => {
-				const next: Record<string, number> = { ...prev }
-				Object.keys(imagesByCategory).forEach(cat => {
-					const arr = imagesByCategory[cat] || []
-					if (arr.length > 1) {
-						next[cat] = ((prev[cat] || 0) + 1) % arr.length
-					}
-				})
-				return next
-			})
-		}, 5000)
-		return () => {
-			if (intervalRef.current) clearInterval(intervalRef.current)
-		}
-	}, [imagesByCategory])
-
 	return (
 		<section className="section-shell bg-stone-50">
 			<div className="container mx-auto px-4">
