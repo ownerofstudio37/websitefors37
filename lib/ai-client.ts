@@ -227,6 +227,45 @@ export async function generateText(
   throw lastError || new Error("AI generation failed after retries and fallbacks");
 }
 
+function parseJsonFromModelResponse<T = any>(raw: string): T {
+  const trimmed = (raw || '').trim();
+
+  const directCandidates = [
+    trimmed,
+    trimmed.replace(/^```(?:json)?\s*/i, '').replace(/\s*```\s*$/i, '').trim(),
+  ].filter(Boolean);
+
+  for (const candidate of directCandidates) {
+    try {
+      return JSON.parse(candidate) as T;
+    } catch {
+      // continue to extraction attempts
+    }
+  }
+
+  // Try object extraction
+  const objStart = trimmed.indexOf('{');
+  const objEnd = trimmed.lastIndexOf('}');
+  if (objStart !== -1 && objEnd !== -1 && objEnd > objStart) {
+    const objectCandidate = trimmed.slice(objStart, objEnd + 1).trim();
+    try {
+      return JSON.parse(objectCandidate) as T;
+    } catch {
+      // continue to array extraction
+    }
+  }
+
+  // Try array extraction
+  const arrStart = trimmed.indexOf('[');
+  const arrEnd = trimmed.lastIndexOf(']');
+  if (arrStart !== -1 && arrEnd !== -1 && arrEnd > arrStart) {
+    const arrayCandidate = trimmed.slice(arrStart, arrEnd + 1).trim();
+    return JSON.parse(arrayCandidate) as T;
+  }
+
+  throw new Error('Invalid JSON response from AI');
+}
+
 /**
  * Generate structured JSON output
  */
@@ -240,7 +279,7 @@ export async function generateJSON<T = any>(
   });
   
   try {
-    return JSON.parse(text) as T;
+    return parseJsonFromModelResponse<T>(text);
   } catch (error) {
     log.error("Failed to parse JSON response", { text, error });
     throw new Error("Invalid JSON response from AI");
@@ -681,11 +720,8 @@ Generate a compelling, on-brand email template now:`
     config: AI_CONFIGS.creative,
   })
 
-  // Strip any markdown code fences if present
-  const cleaned = raw.replace(/^```(?:json)?\s*/i, '').replace(/\s*```\s*$/, '').trim()
-
   try {
-    const blocks = JSON.parse(cleaned) as EmailContentBlock[]
+    const blocks = parseJsonFromModelResponse<EmailContentBlock[]>(raw)
     // Validate it's an array
     if (!Array.isArray(blocks)) throw new Error('Expected array')
     return sanitizeBlocks(blocks)
