@@ -3,7 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 import { generateServiceSchema } from '@/lib/seo-config'
-import { Camera, Calendar, Users, Clock, CheckCircle, ArrowRight } from 'lucide-react'
+import { Camera, Calendar, Users, Clock, Star, CheckCircle, ArrowRight } from 'lucide-react'
 
 export const metadata = generateSEOMetadata({
   title: 'Event Photography Pinehurst TX - Professional Event Photographer Studio37',
@@ -245,107 +245,90 @@ export default function EventPhotographyPage() {
       </section>
 
       {/* Packages */}
-      <section className="py-16 bg-gray-50">
+      <section className="section-shell bg-stone-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
+            <p className="eyebrow mb-2">Transparent Pricing</p>
             <h2 className="text-3xl font-bold mb-4">Event Photography Packages</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Choose the perfect event photography package in Pinehurst, TX
+            <p className="text-lg text-stone-600 max-w-2xl mx-auto">
+              Choose the perfect event photography package in Pinehurst, TX.
             </p>
           </div>
-          
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-white p-8 rounded-lg shadow-lg">
-              <h3 className="text-xl font-bold mb-4">Basic Coverage</h3>
-              <p className="font-semibold mb-4"><span className="text-base text-black italic">Starting at </span><span className="text-3xl text-orange-600 not-italic">$600</span></p>
-              <ul className="space-y-2 mb-6">
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>2 Hours of Event Coverage</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>Signature Duo Coverage: Two lead photographers for every shot.</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>50+ High-Resolution Edited Photos: Curated for quality over quantity.</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>72-Hour Highlights Preview: See your best shots while the event is still trending.</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>Private Digital Gallery: Easy downloading and social sharing.</span>
-                </li>
+
+          <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-8 items-start">
+            <div className="surface-panel p-8 flex flex-col h-full">
+              <div className="mb-4">
+                <p className="text-xs font-semibold uppercase tracking-widest text-stone-500 mb-1">Basic Coverage</p>
+                <p className="text-4xl font-bold text-stone-900">$600</p>
+                <p className="text-sm text-stone-500 mt-1">2 hours of event coverage</p>
+              </div>
+              <ul className="space-y-2 mb-8 flex-1">
+                {[
+                  'Signature Duo Coverage: Two lead photographers for every shot.',
+                  '50+ High-Resolution Edited Photos: Curated for quality over quantity.',
+                  '72-Hour Highlights Preview: See your best shots while the event is still trending.',
+                  'Private Digital Gallery: Easy downloading and social sharing.',
+                ].map((item) => (
+                  <li key={item} className="flex items-start gap-2 text-sm text-stone-700">
+                    <CheckCircle className="h-4 w-4 text-green-600 flex-shrink-0 mt-0.5" />
+                    <span>{item}</span>
+                  </li>
+                ))}
               </ul>
-              <Link href="/contact" className="btn-secondary w-full text-center block">
+              <Link href="/book-consultation" className="btn-secondary w-full text-center block">
                 Choose Basic
               </Link>
             </div>
-            
-            <div className="bg-white p-8 rounded-lg shadow-lg border-2 border-primary-200 relative">
-              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                <span className="bg-primary-600 text-white px-4 py-1 rounded-full text-sm font-medium">
-                  Most Popular
+
+            <div className="surface-panel p-8 flex flex-col h-full border-2 border-primary-400 relative">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                <span className="bg-primary-600 text-white px-4 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
+                  <Star className="h-3 w-3" /> Most Popular
                 </span>
               </div>
-              <h3 className="text-xl font-bold mb-4">Standard Coverage</h3>
-              <p className="font-semibold mb-4"><span className="text-base text-black italic">Starting at </span><span className="text-3xl text-orange-600 not-italic">$1,000</span></p>
-              <ul className="space-y-2 mb-6">
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>4 Hours of Event Coverage</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>Signature Duo Coverage: One of us focuses on the action, the other on the reactions.</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>125+ High-Resolution Edited Photos: Complete storytelling from start to finish.</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>24-Hour Sneak Peek: A selection of best-of shots delivered the very next day.</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>Timeline &amp; Logistics Consultation: We help you plan the flow to maximize your photo ops.</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>Private Digital Gallery</span>
-                </li>
+              <div className="mb-4">
+                <p className="text-xs font-semibold uppercase tracking-widest text-primary-600 mb-1">Standard Coverage</p>
+                <p className="text-4xl font-bold text-stone-900">$1,000</p>
+                <p className="text-sm text-stone-500 mt-1">4 hours of event coverage</p>
+              </div>
+              <ul className="space-y-2 mb-8 flex-1">
+                {[
+                  'Signature Duo Coverage: One of us focuses on the action, the other on the reactions.',
+                  '125+ High-Resolution Edited Photos: Complete storytelling from start to finish.',
+                  '24-Hour Sneak Peek: A selection of best-of shots delivered the very next day.',
+                  'Timeline & Logistics Consultation: We help you plan the flow to maximize your photo ops.',
+                  'Private Digital Gallery',
+                ].map((item) => (
+                  <li key={item} className="flex items-start gap-2 text-sm text-stone-700">
+                    <CheckCircle className="h-4 w-4 text-green-600 flex-shrink-0 mt-0.5" />
+                    <span>{item}</span>
+                  </li>
+                ))}
               </ul>
-              <Link href="/contact" className="btn-primary w-full text-center block">
+              <Link href="/book-consultation" className="btn-primary w-full text-center block">
                 Choose Standard
               </Link>
             </div>
-            
-            <div className="bg-white p-8 rounded-lg shadow-lg">
-              <h3 className="text-xl font-bold mb-4">Premium Coverage</h3>
-              <p className="font-semibold mb-4"><span className="text-base text-black italic">Starting at </span><span className="text-3xl text-orange-600 not-italic">$1,800</span></p>
-              <ul className="space-y-2 mb-6">
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>Up to 8 Hours of Full-Day Coverage</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>Signature Duo Coverage: 360-degree coverage so no handshake or hug is missed.</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>250+ High-Resolution Edited Photos: A massive, comprehensive gallery.</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>Custom Mobile Gallery App: Carry your event memories in your pocket.</span>
-                </li>
+
+            <div className="surface-panel p-8 flex flex-col h-full">
+              <div className="mb-4">
+                <p className="text-xs font-semibold uppercase tracking-widest text-stone-500 mb-1">Premium Coverage</p>
+                <p className="text-4xl font-bold text-stone-900">$1,800</p>
+                <p className="text-sm text-stone-500 mt-1">Up to 8 hours of full-day coverage</p>
+              </div>
+              <ul className="space-y-2 mb-8 flex-1">
+                {[
+                  'Signature Duo Coverage: 360-degree coverage so no handshake or hug is missed.',
+                  '250+ High-Resolution Edited Photos: A massive, comprehensive gallery.',
+                  'Custom Mobile Gallery App: Carry your event memories in your pocket.',
+                ].map((item) => (
+                  <li key={item} className="flex items-start gap-2 text-sm text-stone-700">
+                    <CheckCircle className="h-4 w-4 text-green-600 flex-shrink-0 mt-0.5" />
+                    <span>{item}</span>
+                  </li>
+                ))}
               </ul>
-              <Link href="/contact" className="btn-secondary w-full text-center block">
+              <Link href="/book-consultation" className="btn-secondary w-full text-center block">
                 Choose Premium
               </Link>
             </div>

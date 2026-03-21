@@ -264,145 +264,120 @@ export default function WeddingPhotographyPage() {
       </section>
 
       {/* Packages */}
-      <section className="py-16 bg-white">
+        <section className="section-shell bg-stone-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
+              <p className="eyebrow mb-2">Transparent Pricing</p>
             <h2 className="text-3xl font-bold mb-4">Wedding Photography Packages</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Choose the perfect package for your special day in Pinehurst, TX
+              <p className="text-lg text-stone-600 max-w-2xl mx-auto">
+                Choose the perfect package for your special day in Pinehurst, TX.
             </p>
           </div>
-          
-          <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-8">
-            <div className="bg-white p-8 rounded-lg shadow-lg">
-              <h3 className="text-xl font-bold mb-4">Essential Coverage</h3>
-              <p className="font-semibold mb-4"><span className="text-base text-black italic">Starting at </span><span className="text-3xl text-orange-600 not-italic">$2,200</span></p>
-              <ul className="space-y-2 mb-6">
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>6 Hours of Wedding Coverage (perfect for intimate ceremonies)</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>The Duo Experience: Signature two-photographer coverage included</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>300+ High-Resolution Edited Photos</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>48-Hour “First Look” Sneak Peek</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>Private Digital Gallery for easy downloading and sharing</span>
-                </li>
-              </ul>
+
+            <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-8 items-start">
+              <div className="surface-panel p-8 flex flex-col h-full">
+                <div className="mb-4">
+                  <p className="text-xs font-semibold uppercase tracking-widest text-stone-500 mb-1">Essential Coverage</p>
+                  <p className="text-4xl font-bold text-stone-900">$2,200</p>
+                  <p className="text-sm text-stone-500 mt-1">6 hours of coverage</p>
+                </div>
+                <ul className="space-y-2 mb-8 flex-1">
+                  {[
+                    '6 Hours of Wedding Coverage (perfect for intimate ceremonies)',
+                    'The Duo Experience: Signature two-photographer coverage included',
+                    '300+ High-Resolution Edited Photos',
+                    '48-Hour “First Look” Sneak Peek',
+                    'Private Digital Gallery for easy downloading and sharing',
+                  ].map((item) => (
+                    <li key={item} className="flex items-start gap-2 text-sm text-stone-700">
+                      <CheckCircle className="h-4 w-4 text-green-600 flex-shrink-0 mt-0.5" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
               <Link href="/book-consultation" className="btn-secondary w-full text-center block">
                 Choose Essential
               </Link>
             </div>
-            
-            <div className="bg-white p-8 rounded-lg shadow-lg border-2 border-primary-200 relative">
-              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                <span className="bg-primary-600 text-white px-4 py-1 rounded-full text-sm font-medium">
-                  Most Popular
+
+              <div className="surface-panel p-8 flex flex-col h-full border-2 border-primary-400 relative">
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                  <span className="bg-primary-600 text-white px-4 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
+                    <Star className="h-3 w-3" /> Most Popular
                 </span>
               </div>
-              <h3 className="text-xl font-bold mb-4">Complete Collection</h3>
-              <p className="font-semibold mb-4"><span className="text-base text-black italic">Starting at </span><span className="text-3xl text-orange-600 not-italic">$3,200</span></p>
-              <ul className="space-y-2 mb-6">
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>8 Hours of Continuous Coverage</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>The Duo Experience: Two perspectives, zero missed moments</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>500+ High-Resolution Edited Photos</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>Complimentary Engagement Session</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>24-Hour “Highlights” Gallery</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>Custom Wedding Timeline Consultation</span>
-                </li>
-              </ul>
+                <div className="mb-4">
+                  <p className="text-xs font-semibold uppercase tracking-widest text-primary-600 mb-1">Complete Collection</p>
+                  <p className="text-4xl font-bold text-stone-900">$3,200</p>
+                  <p className="text-sm text-stone-500 mt-1">8 hours of continuous coverage</p>
+                </div>
+                <ul className="space-y-2 mb-8 flex-1">
+                  {[
+                    '8 Hours of Continuous Coverage',
+                    'The Duo Experience: Two perspectives, zero missed moments',
+                    '500+ High-Resolution Edited Photos',
+                    'Complimentary Engagement Session',
+                    '24-Hour “Highlights” Gallery',
+                    'Custom Wedding Timeline Consultation',
+                  ].map((item) => (
+                    <li key={item} className="flex items-start gap-2 text-sm text-stone-700">
+                      <CheckCircle className="h-4 w-4 text-green-600 flex-shrink-0 mt-0.5" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
               <Link href="/book-consultation" className="btn-primary w-full text-center block">
                 Choose Complete
               </Link>
             </div>
-            
-            <div className="bg-white p-8 rounded-lg shadow-lg">
-              <h3 className="text-xl font-bold mb-4">Premium Collection</h3>
-              <p className="font-semibold mb-4"><span className="text-base text-black italic">Starting at </span><span className="text-3xl text-orange-600 not-italic">$4,500</span></p>
-              <ul className="space-y-2 mb-6">
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>10+ Hours / Full Day Coverage</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>The Duo Experience: Ultimate coverage security</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>700+ High-Resolution Edited Photos</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>Engagement Session + Bridal or Rehearsal Coverage</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>Priority 3-Week Gallery Delivery</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>Heirloom Album Credit ($200 value)</span>
-                </li>
-              </ul>
+
+              <div className="surface-panel p-8 flex flex-col h-full">
+                <div className="mb-4">
+                  <p className="text-xs font-semibold uppercase tracking-widest text-stone-500 mb-1">Premium Collection</p>
+                  <p className="text-4xl font-bold text-stone-900">$4,500</p>
+                  <p className="text-sm text-stone-500 mt-1">10+ hours / full day coverage</p>
+                </div>
+                <ul className="space-y-2 mb-8 flex-1">
+                  {[
+                    '10+ Hours / Full Day Coverage',
+                    'The Duo Experience: Ultimate coverage security',
+                    '700+ High-Resolution Edited Photos',
+                    'Engagement Session + Bridal or Rehearsal Coverage',
+                    'Priority 3-Week Gallery Delivery',
+                    'Heirloom Album Credit ($200 value)',
+                  ].map((item) => (
+                    <li key={item} className="flex items-start gap-2 text-sm text-stone-700">
+                      <CheckCircle className="h-4 w-4 text-green-600 flex-shrink-0 mt-0.5" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
               <Link href="/book-consultation" className="btn-secondary w-full text-center block">
                 Choose Premium
               </Link>
             </div>
 
-            <div className="bg-white p-8 rounded-lg shadow-lg">
-              <h3 className="text-xl font-bold mb-4">Micro / Elopement</h3>
-              <p className="font-semibold mb-4"><span className="text-base text-black italic">Starting at </span><span className="text-3xl text-orange-600 not-italic">$1,200</span></p>
-              <p className="text-sm text-gray-600 mb-4">Perfect for backyard, courthouse, or small chapel ceremonies.</p>
-              <ul className="space-y-2 mb-6">
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>3 Hours of Intimate Coverage (guest count under 30)</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>The Duo Experience: both photographers on-site</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>150+ High-Resolution Edited Photos</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>48-Hour Sneak Peek</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>Private Digital Gallery + Print Release</span>
-                </li>
-              </ul>
+              <div className="surface-panel p-8 flex flex-col h-full">
+                <div className="mb-4">
+                  <p className="text-xs font-semibold uppercase tracking-widest text-stone-500 mb-1">Micro / Elopement</p>
+                  <p className="text-4xl font-bold text-stone-900">$1,200</p>
+                  <p className="text-sm text-stone-500 mt-1">3 hours of intimate coverage</p>
+                </div>
+                <p className="text-sm text-stone-600 mb-4">Perfect for backyard, courthouse, or small chapel ceremonies.</p>
+                <ul className="space-y-2 mb-8 flex-1">
+                  {[
+                    '3 Hours of Intimate Coverage (guest count under 30)',
+                    'The Duo Experience: both photographers on-site',
+                    '150+ High-Resolution Edited Photos',
+                    '48-Hour Sneak Peek',
+                    'Private Digital Gallery + Print Release',
+                  ].map((item) => (
+                    <li key={item} className="flex items-start gap-2 text-sm text-stone-700">
+                      <CheckCircle className="h-4 w-4 text-green-600 flex-shrink-0 mt-0.5" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
               <Link href="/book-consultation" className="btn-secondary w-full text-center block">
                 Choose Micro / Elopement
               </Link>

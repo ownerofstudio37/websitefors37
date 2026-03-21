@@ -228,127 +228,95 @@ export default function PortraitPhotographyPage() {
       </section>
 
       {/* Packages */}
-      <section className="py-16 bg-gray-50">
+        <section className="section-shell bg-stone-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
+              <p className="eyebrow mb-2">Transparent Pricing</p>
             <h2 className="text-3xl font-bold mb-4">Portrait Photography Packages</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Choose the perfect portrait session package in Pinehurst, TX
+              <p className="text-lg text-stone-600 max-w-2xl mx-auto">
+                Choose the perfect portrait session package in Pinehurst, TX.
             </p>
           </div>
-          
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-white p-8 rounded-lg shadow-lg">
-              <h3 className="text-xl font-bold mb-4">Mini Session</h3>
-              <p className="font-semibold mb-4"><span className="text-base text-black italic">Starting at </span><span className="text-3xl text-orange-600 not-italic">$350</span></p>
-              <ul className="space-y-2 mb-6">
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>30 minute session</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>10+ edited photos</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>Digital gallery</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>Style &amp; Prep Guide (PDF)</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>24-hour sneak peek available as add-on</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>Two-photographer coverage</span>
-                </li>
-              </ul>
-              <Link href="/contact" className="btn-secondary w-full text-center block">
+
+            <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-8 items-start">
+              <div className="surface-panel p-8 flex flex-col h-full">
+                <div className="mb-4">
+                  <p className="text-xs font-semibold uppercase tracking-widest text-stone-500 mb-1">Mini Session</p>
+                  <p className="text-4xl font-bold text-stone-900">$350</p>
+                  <p className="text-sm text-stone-500 mt-1">30-minute session</p>
+                </div>
+                <ul className="space-y-2 mb-8 flex-1">
+                  {[
+                    '10+ edited photos',
+                    'Digital gallery',
+                    'Style & Prep Guide (PDF)',
+                    '24-hour sneak peek available as add-on',
+                    'Two-photographer coverage',
+                  ].map((item) => (
+                    <li key={item} className="flex items-start gap-2 text-sm text-stone-700">
+                      <CheckCircle className="h-4 w-4 text-green-600 flex-shrink-0 mt-0.5" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+                <Link href="/book-consultation" className="btn-secondary w-full text-center block">
                 Book Mini Session
               </Link>
             </div>
-            
-            <div className="bg-white p-8 rounded-lg shadow-lg border-2 border-primary-200 relative">
-              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                <span className="bg-primary-600 text-white px-4 py-1 rounded-full text-sm font-medium">
-                  Most Popular
+
+              <div className="surface-panel p-8 flex flex-col h-full border-2 border-primary-400 relative">
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                  <span className="bg-primary-600 text-white px-4 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
+                    <Star className="h-3 w-3" /> Most Popular
                 </span>
               </div>
-              <h3 className="text-xl font-bold mb-4">Standard Session</h3>
-              <p className="font-semibold mb-4"><span className="text-base text-black italic">Starting at </span><span className="text-3xl text-orange-600 not-italic">$500</span></p>
-              <ul className="space-y-2 mb-6">
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>60 minute session</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>20+ edited photos</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>Multiple outfits/looks</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>Digital gallery</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>Style &amp; Prep Guide (PDF)</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>Sneak peek within 24 hours</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>Two-photographer coverage</span>
-                </li>
-              </ul>
-              <Link href="/contact" className="btn-primary w-full text-center block">
+                <div className="mb-4">
+                  <p className="text-xs font-semibold uppercase tracking-widest text-primary-600 mb-1">Standard Session</p>
+                  <p className="text-4xl font-bold text-stone-900">$500</p>
+                  <p className="text-sm text-stone-500 mt-1">60-minute session</p>
+                </div>
+                <ul className="space-y-2 mb-8 flex-1">
+                  {[
+                    '20+ edited photos',
+                    'Multiple outfits/looks',
+                    'Digital gallery',
+                    'Style & Prep Guide (PDF)',
+                    'Sneak peek within 24 hours',
+                    'Two-photographer coverage',
+                  ].map((item) => (
+                    <li key={item} className="flex items-start gap-2 text-sm text-stone-700">
+                      <CheckCircle className="h-4 w-4 text-green-600 flex-shrink-0 mt-0.5" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+                <Link href="/book-consultation" className="btn-primary w-full text-center block">
                 Book Standard Session
               </Link>
             </div>
-            
-            <div className="bg-white p-8 rounded-lg shadow-lg">
-              <h3 className="text-xl font-bold mb-4">Extended Session</h3>
-              <p className="font-semibold mb-4"><span className="text-base text-black italic">Starting at </span><span className="text-3xl text-orange-600 not-italic">$750</span></p>
-              <ul className="space-y-2 mb-6">
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>90 minute session</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>35+ edited photos</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>Multiple locations</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>Digital gallery</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>Style &amp; Prep Guide (PDF)</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>Sneak peek within 24 hours</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span>Two-photographer coverage</span>
-                </li>
-              </ul>
-              <Link href="/contact" className="btn-secondary w-full text-center block">
+
+              <div className="surface-panel p-8 flex flex-col h-full">
+                <div className="mb-4">
+                  <p className="text-xs font-semibold uppercase tracking-widest text-stone-500 mb-1">Extended Session</p>
+                  <p className="text-4xl font-bold text-stone-900">$750</p>
+                  <p className="text-sm text-stone-500 mt-1">90-minute session</p>
+                </div>
+                <ul className="space-y-2 mb-8 flex-1">
+                  {[
+                    '35+ edited photos',
+                    'Multiple locations',
+                    'Digital gallery',
+                    'Style & Prep Guide (PDF)',
+                    'Sneak peek within 24 hours',
+                    'Two-photographer coverage',
+                  ].map((item) => (
+                    <li key={item} className="flex items-start gap-2 text-sm text-stone-700">
+                      <CheckCircle className="h-4 w-4 text-green-600 flex-shrink-0 mt-0.5" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+                <Link href="/book-consultation" className="btn-secondary w-full text-center block">
                 Book Extended Session
               </Link>
             </div>
