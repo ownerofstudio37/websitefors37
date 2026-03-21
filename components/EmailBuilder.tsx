@@ -95,7 +95,7 @@ export const EMAIL_TEMPLATE_PRESETS: Record<string, { label: string; description
     description: 'Warm first follow-up after lead submits contact info',
     blocks: [
       { type: 'logo', content: { tagline: 'Studio37 Photography' } },
-      { type: 'hero', content: { title: 'Thank You for Reaching Out! 📸', subtitle: 'We received your message and are excited to connect with you.', backgroundColor: '#1a1a1a', textColor: '#ffffff', buttonText: 'Book a Consultation', buttonUrl: BRAND.bookingUrl, buttonColor: BRAND.primary } },
+      { type: 'hero', content: { title: 'Thank You for Reaching Out! 📸', subtitle: 'We received your message and are excited to connect with you.', backgroundColor: '#f8fafc', textColor: '#111827', buttonText: 'Book a Consultation', buttonUrl: BRAND.bookingUrl, buttonColor: BRAND.primary } },
       { type: 'text', content: { text: 'Hi {{firstName}},\n\nThank you for your interest in Studio37 Photography! We specialize in capturing life\'s most precious moments — from weddings and portraits to commercial shoots.\n\nWe\'d love to learn more about what you have in mind. Reply to this email or click below to schedule a quick chat.' } },
       { type: 'button', content: { text: '📅 Schedule a Free Consultation', url: BRAND.bookingUrl, backgroundColor: BRAND.primary, textColor: '#ffffff', align: 'center' } },
       { type: 'divider', content: {} },
@@ -110,7 +110,7 @@ export const EMAIL_TEMPLATE_PRESETS: Record<string, { label: string; description
     description: 'Value-focused check-in on day 3',
     blocks: [
       { type: 'logo', content: { tagline: 'Studio37 Photography' } },
-      { type: 'hero', content: { title: 'Still Thinking It Over?', subtitle: 'We\'re here whenever you\'re ready.', backgroundColor: '#2d2d2d', textColor: '#ffffff', buttonText: 'View Packages', buttonUrl: 'https://www.studio37.cc/packages', buttonColor: BRAND.gold } },
+      { type: 'hero', content: { title: 'Still Thinking It Over?', subtitle: 'We\'re here whenever you\'re ready.', backgroundColor: '#f8fafc', textColor: '#111827', buttonText: 'View Packages', buttonUrl: 'https://www.studio37.cc/packages', buttonColor: BRAND.primary } },
       { type: 'text', content: { text: 'Hi {{firstName}},\n\nJust checking in! We noticed you reached out a few days ago and wanted to make sure your questions got answered.\n\nWe offer:' } },
       { type: 'columns', content: { col1Title: '✨ Wedding Photography', col1Text: 'Full-day coverage with cinematic storytelling and stunning galleries.', col2Title: '📸 Portrait Sessions', col2Text: 'Professional portraits for families, individuals, and corporate headshots.' } },
       { type: 'divider', content: {} },
@@ -125,7 +125,7 @@ export const EMAIL_TEMPLATE_PRESETS: Record<string, { label: string; description
     description: 'Last-touch follow-up with urgency/offer',
     blocks: [
       { type: 'logo', content: { tagline: 'Studio37 Photography' } },
-      { type: 'hero', content: { title: '⏰ Last Chance to Claim Your Spot', subtitle: 'Our calendar is filling up — lock in your session now.', backgroundColor: BRAND.primary, textColor: '#ffffff', buttonText: 'Book My Session', buttonUrl: BRAND.bookingUrl, buttonColor: '#1a1a1a' } },
+      { type: 'hero', content: { title: '⏰ Last Chance to Claim Your Spot', subtitle: 'Our calendar is filling up — lock in your session now.', backgroundColor: '#f8fafc', textColor: '#111827', buttonText: 'Book My Session', buttonUrl: BRAND.bookingUrl, buttonColor: BRAND.primary } },
       { type: 'text', content: { text: 'Hi {{firstName}},\n\nThis is our final check-in! We wanted to reach out one last time because we\'d genuinely love to work with you.\n\nIf now isn\'t the right time, no worries at all — but if you\'re ready to move forward, we\'d love to save your date before our schedule fills up.' } },
       { type: 'button', content: { text: '📅 Secure Your Session Now', url: BRAND.bookingUrl, backgroundColor: BRAND.primary, textColor: '#ffffff', align: 'center' } },
       { type: 'text', content: { text: 'Questions? Hit reply or call us directly at ' + BRAND.phone + '. We\'re happy to chat!' } },

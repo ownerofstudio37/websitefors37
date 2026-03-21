@@ -491,7 +491,24 @@ Studio37`)
         body: JSON.stringify({
           to: composeRecipient.split(',').map(s => s.trim()).filter(Boolean),
           subject: composeSubject || 'Message from Studio37',
-          html: htmlContent,
+          ...(editorMode === 'visual'
+            ? { blocks: composeBlocks }
+            : { html: htmlContent }),
+          ...(lead
+            ? {
+                variables: {
+                  firstName: (lead.name || '').split(' ')[0] || 'there',
+                  lastName: (lead.name || '').split(' ').slice(1).join(' ') || '',
+                  name: lead.name || '',
+                  email: lead.email || '',
+                  phone: lead.phone || '',
+                  serviceInterest: lead.service_interest || '',
+                  service_interest: lead.service_interest || '',
+                  eventDate: lead.event_date || '',
+                  budget: lead.budget_range || '',
+                },
+              }
+            : {}),
           from: 'Studio37 <sales@studio37.cc>'
         })
       })

@@ -17,6 +17,7 @@ interface SendEmailRequest {
   subject: string;
   html?: string;
   text?: string;
+  blocks?: any[];
   templateId?: string;
   variables?: Record<string, any>;
   campaignId?: string;
@@ -97,6 +98,7 @@ export async function POST(req: NextRequest) {
       subject,
       html,
       text,
+      blocks,
       templateId,
       variables,
       campaignId,
@@ -159,7 +161,12 @@ export async function POST(req: NextRequest) {
       }
     } else {
       // Non-template sends can still contain placeholders from the visual editor.
-      if (emailHtml) {
+      // Prefer rendering from blocks when provided so output is consistent with
+      // template-based sends and less email-client fragile.
+      if (Array.isArray(blocks) && blocks.length > 0) {
+        const blockHtml = renderEmailHtml(blocks as any)
+        emailHtml = renderHtmlTemplate(blockHtml, normalizedVariables)
+      } else if (emailHtml) {
         emailHtml = renderHtmlTemplate(emailHtml, normalizedVariables)
       }
       if (emailText) {

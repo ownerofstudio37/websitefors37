@@ -71,8 +71,15 @@ function renderBlock(block: EmailBlock): string {
 <div style="background-color:${bg};padding:48px 40px;text-align:center;">
   ${imgUrl ? `<img src="${imgUrl}" alt="Hero" style="max-width:100%;height:auto;margin-bottom:24px;border-radius:8px;"/>` : ''}
   <h1 style="margin:0 0 12px 0;color:${fg};font-family:${FONT};font-size:28px;font-weight:700;line-height:1.3;">${title}</h1>
-  ${subtitle ? `<p style="margin:0 0 28px 0;color:${fg};font-family:${FONT};font-size:16px;opacity:.85;line-height:1.5;">${subtitle}</p>` : ''}
-  ${btnText  ? `<a href="${btnUrl}" style="display:inline-block;padding:14px 32px;background-color:${btnColor};color:#ffffff;text-decoration:none;border-radius:6px;font-family:${FONT};font-size:16px;font-weight:700;">${btnText}</a>` : ''}
+  ${subtitle ? `<p style="margin:0 0 28px 0;color:${fg};font-family:${FONT};font-size:16px;line-height:1.5;">${subtitle}</p>` : ''}
+  ${btnText ? `
+  <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center" style="margin:0 auto;">
+    <tr>
+      <td bgcolor="${btnColor}" style="border-radius:6px;">
+        <a href="${btnUrl}" style="display:inline-block;padding:14px 32px;background-color:${btnColor};border:1px solid ${btnColor};color:#ffffff;text-decoration:none;border-radius:6px;font-family:${FONT};font-size:16px;font-weight:700;line-height:1;">${btnText}</a>
+      </td>
+    </tr>
+  </table>` : ''}
 </div>`
     }
 
@@ -104,7 +111,13 @@ function renderBlock(block: EmailBlock): string {
       const align = block.content.align            || 'center'
       return `
 <div style="padding:16px 40px;text-align:${align};">
-  <a href="${url}" style="display:inline-block;padding:14px 32px;background-color:${bg};color:${fg};text-decoration:none;border-radius:6px;font-family:${FONT};font-size:16px;font-weight:700;">${text}</a>
+  <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="${align === 'left' ? 'left' : align === 'right' ? 'right' : 'center'}" style="${align === 'center' ? 'margin:0 auto;' : ''}">
+    <tr>
+      <td bgcolor="${bg}" style="border-radius:6px;">
+        <a href="${url}" style="display:inline-block;padding:14px 32px;background-color:${bg};border:1px solid ${bg};color:${fg};text-decoration:none;border-radius:6px;font-family:${FONT};font-size:16px;font-weight:700;line-height:1;">${text}</a>
+      </td>
+    </tr>
+  </table>
 </div>`
     }
 
