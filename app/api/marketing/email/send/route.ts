@@ -25,6 +25,48 @@ interface SendEmailRequest {
   replyTo?: string;
 }
 
+function normalizeEmailVariables(rawVariables: unknown, recipients: string[]): Record<string, any> {
+  let parsed: Record<string, any> = {}
+
+  if (rawVariables && typeof rawVariables === 'object' && !Array.isArray(rawVariables)) {
+    parsed = rawVariables as Record<string, any>
+  } else if (typeof rawVariables === 'string') {
+    try {
+      const maybe = JSON.parse(rawVariables)
+      if (maybe && typeof maybe === 'object' && !Array.isArray(maybe)) {
+        parsed = maybe as Record<string, any>
+      }
+    } catch {
+      parsed = {}
+    }
+  }
+
+  const fullName = String(parsed.name || '').trim()
+  const nameParts = fullName ? fullName.split(/\s+/) : []
+
+  const firstName =
+    parsed.firstName ??
+    parsed.first_name ??
+    (nameParts[0] || undefined) ??
+    'there'
+
+  const lastName =
+    parsed.lastName ??
+    parsed.last_name ??
+    (nameParts.length > 1 ? nameParts.slice(1).join(' ') : '')
+
+  const recipientEmail = recipients[0] || ''
+
+  return {
+    ...parsed,
+    firstName,
+    first_name: parsed.first_name ?? firstName,
+    lastName,
+    last_name: parsed.last_name ?? lastName,
+    email: parsed.email ?? recipientEmail,
+  }
+}
+
 export async function POST(req: NextRequest) {
   try {
     // Rate limiting
@@ -56,7 +98,7 @@ export async function POST(req: NextRequest) {
       html,
       text,
       templateId,
-      variables = {},
+      variables,
       campaignId,
       leadId,
       from,
@@ -70,6 +112,9 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
     }
+
+    const recipients = Array.isArray(to) ? to : [to];
+    const normalizedVariables = normalizeEmailVariables(variables, recipients)
 
     let emailHtml = html || "";
     let emailText = text || "";
@@ -96,7 +141,7 @@ export async function POST(req: NextRequest) {
       // Try React Email rendering first, fallback to simple substitution
       if (hasReactEmailTemplate(template.slug)) {
         log.info(`Rendering with React Email: ${template.slug}`)
-        emailHtml = await renderEmailTemplate(template.slug, variables)
+        emailHtml = await renderEmailTemplate(template.slug, normalizedVariables)
         // React Email generates both HTML and plain text automatically
       } else {
         // Check for visual-builder blocks_json first — re-render fresh HTML so
@@ -105,12 +150,20 @@ export async function POST(req: NextRequest) {
         if (blocks) {
           log.info(`Rendering from blocks_json (${blocks.length} blocks): ${template.slug}`)
           const blockHtml = renderEmailHtml(blocks)
-          emailHtml = renderHtmlTemplate(blockHtml, variables)
+          emailHtml = renderHtmlTemplate(blockHtml, normalizedVariables)
         } else {
           log.info(`Rendering with simple substitution: ${template.slug}`)
-          emailHtml = renderHtmlTemplate(template.html_content, variables)
+          emailHtml = renderHtmlTemplate(template.html_content, normalizedVariables)
         }
-        emailText = renderHtmlTemplate(template.text_content || "", variables)
+        emailText = renderHtmlTemplate(template.text_content || "", normalizedVariables)
+      }
+    } else {
+      // Non-template sends can still contain placeholders from the visual editor.
+      if (emailHtml) {
+        emailHtml = renderHtmlTemplate(emailHtml, normalizedVariables)
+      }
+      if (emailText) {
+        emailText = renderHtmlTemplate(emailText, normalizedVariables)
       }
     }
 
@@ -122,7 +175,6 @@ export async function POST(req: NextRequest) {
     }
 
     // Prepare recipients array
-    const recipients = Array.isArray(to) ? to : [to];
     const results: any[] = [];
 
     // Send emails
