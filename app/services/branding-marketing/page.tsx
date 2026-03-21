@@ -117,7 +117,7 @@ export default function BrandingMarketingPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
       />
 
-      <section className="relative h-[28rem] bg-gradient-to-r from-gray-900 to-primary-900">
+      <section className="relative h-[30rem] bg-gradient-to-r from-gray-900 to-primary-900">
         <div className="absolute inset-0 opacity-35">
           <Image
             src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1400&h=700&fit=crop"
@@ -129,19 +129,19 @@ export default function BrandingMarketingPage() {
         </div>
         <div className="relative z-10 container mx-auto px-4 h-full flex items-center">
           <div className="text-white max-w-3xl">
-            <p className="inline-flex items-center gap-2 bg-white/15 border border-white/30 rounded-full px-4 py-2 text-sm font-medium mb-5">
+            <p className="eyebrow text-white/80 mb-3 inline-flex items-center gap-2">
               <Megaphone className="h-4 w-4" />
               White-Glove Growth Partner
             </p>
             <h1 className="text-4xl md:text-5xl font-bold mb-4">Branding & Marketing Services in Pinehurst, TX</h1>
-            <p className="text-xl mb-7 text-gray-100">
+            <p className="text-xl mb-7 text-white/90">
               We provide full-service brand growth support for a limited number of businesses, with dedicated strategy, production, and execution.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link href="/book-consultation" className="btn-primary text-lg px-8 py-4 inline-flex items-center justify-center">
                 Book a Consultation <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
-              <Link href="/contact" className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-gray-900 transition-colors inline-flex items-center justify-center">
+              <Link href="/services" className="btn-ghost border-white/40 text-white hover:text-white inline-flex items-center justify-center">
                 Talk With Our Team
               </Link>
             </div>
@@ -149,11 +149,12 @@ export default function BrandingMarketingPage() {
         </div>
       </section>
 
-      <section className="py-16 bg-white">
+      <section className="section-shell bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
+            <p className="eyebrow mb-2">Growth Services</p>
             <h2 className="text-3xl font-bold mb-4">Business Services We Handle End-to-End</h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+            <p className="text-lg text-stone-600 max-w-3xl mx-auto">
               From content creation to lead generation and conversion infrastructure, we align every channel to build stronger brand equity and measurable growth.
             </p>
           </div>
@@ -162,12 +163,12 @@ export default function BrandingMarketingPage() {
             {solutions.map((item) => {
               const Icon = item.icon
               return (
-                <div key={item.title} className="bg-gray-50 rounded-lg p-6 border border-gray-100 hover:shadow-md transition-shadow">
+                <div key={item.title} className="surface-panel p-6 hover:-translate-y-1 transition-transform">
                   <div className="w-12 h-12 rounded-lg bg-primary-100 flex items-center justify-center mb-4">
                     <Icon className="h-6 w-6 text-primary-700" />
                   </div>
                   <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
-                  <p className="text-gray-600">{item.description}</p>
+                  <p className="text-stone-600">{item.description}</p>
                 </div>
               )
             })}
@@ -175,41 +176,41 @@ export default function BrandingMarketingPage() {
         </div>
       </section>
 
-      <section className="py-16 bg-gray-50">
+      <section className="section-shell bg-stone-50">
         <div className="container mx-auto px-4">
           <div className="max-w-5xl mx-auto">
-            <div className="bg-white p-8 rounded-lg shadow-lg border-2 border-primary-200 relative">
-              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                <span className="bg-primary-600 text-white px-4 py-1 rounded-full text-sm font-medium">White-Glove Service Model</span>
+            <div className="surface-panel p-8 border-2 border-primary-300 relative">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                <span className="bg-primary-600 text-white px-4 py-1 rounded-full text-xs font-semibold">White-Glove Service Model</span>
               </div>
               <div className="grid md:grid-cols-2 gap-8 items-start">
                 <div>
                   <h3 className="text-2xl font-bold mb-4">We Take on a Small Number of Clients by Design</h3>
-                  <p className="text-gray-600 mb-6">
+                  <p className="text-stone-600 mb-6">
                     Our model is intentionally high-touch. We prioritize depth over volume so every partner gets strategic attention, rapid execution, and proactive support.
                   </p>
                   <ul className="space-y-3">
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="h-5 w-5 text-green-600 mt-0.5" />
+                    <li className="flex items-start gap-2 text-stone-700">
+                      <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
                       <span>Dedicated growth roadmap with clear quarterly priorities</span>
                     </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="h-5 w-5 text-green-600 mt-0.5" />
+                    <li className="flex items-start gap-2 text-stone-700">
+                      <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
                       <span>Unified execution across content, website, SEO, PPC, and social</span>
                     </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="h-5 w-5 text-green-600 mt-0.5" />
+                    <li className="flex items-start gap-2 text-stone-700">
+                      <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
                       <span>Direct access to decision-makers, not ticket queues</span>
                     </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="h-5 w-5 text-green-600 mt-0.5" />
+                    <li className="flex items-start gap-2 text-stone-700">
+                      <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
                       <span>Performance reporting tied to pipeline and brand outcomes</span>
                     </li>
                   </ul>
                 </div>
                 <div className="bg-primary-50 rounded-lg p-6 border border-primary-100">
                   <p className="text-sm uppercase tracking-wide text-primary-700 font-semibold mb-2">Best fit clients</p>
-                  <p className="text-gray-700 mb-6">
+                  <p className="text-stone-700 mb-6">
                     Businesses ready to invest in consistent growth, premium positioning, and a partner that owns both strategy and execution.
                   </p>
                   <Link href="/book-consultation" className="btn-primary w-full text-center block">
@@ -223,14 +224,14 @@ export default function BrandingMarketingPage() {
       </section>
 
       {/* SEO Text Block */}
-      <section className="py-14 bg-gray-50">
+      <section className="section-shell bg-stone-50">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">Branding, Marketing &amp; Content Creation in Pinehurst, TX</h2>
-            <p className="text-gray-700 leading-relaxed mb-4">
+            <h2 className="text-2xl font-bold text-stone-900 mb-4">Branding, Marketing &amp; Content Creation in Pinehurst, TX</h2>
+            <p className="text-stone-700 leading-relaxed mb-4">
               Studio37 is the only full-service branding and marketing studio in Pinehurst, TX combining professional photography, video production, SEO, PPC advertising, and social media management under one roof. We serve small businesses, entrepreneurs, growing brands, and enterprise clients across Montgomery County and key growth markets including The Woodlands, Conroe, Magnolia, Tomball, Spring, Montgomery, Willis, New Caney, Hockley, Bryan, College Station, and Houston. Our white-glove retainer model means a dedicated creative team handles your brand content strategy, monthly photo and video shoots, social media calendar, Google Ads campaigns, and organic search optimization — all aligned to your revenue goals. Unlike traditional marketing agencies that outsource creative work, Studio37 produces everything in-house: branded lifestyle photography, short-form video reels, product demos, corporate event recap videos, and conversion-optimized landing pages. Our clients consistently see measurable lifts in website traffic, lead quality, social engagement, and local search rankings within 90 days of onboarding. Whether you're a startup building brand awareness or an established business ready to scale with data-driven digital marketing, Studio37 has the talent, tools, and track record to deliver. Schedule your strategy consultation today.
             </p>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-stone-500">
               Serving: Pinehurst TX · The Woodlands · Conroe · Magnolia · Tomball · Spring · Montgomery · Willis · New Caney · Hockley · Bryan · College Station · Houston
             </p>
             <p className="text-sm mt-2 text-primary-700">
@@ -240,10 +241,10 @@ export default function BrandingMarketingPage() {
         </div>
       </section>
 
-      <section className="py-16 bg-white">
+      <section className="section-shell bg-white">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-4">Ready to Build a Stronger Brand and Growth Engine?</h2>
-          <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+          <p className="text-xl text-stone-600 mb-8 max-w-3xl mx-auto">
             Let&apos;s map your next 90 days and build a custom plan for brand visibility, lead quality, and conversion performance.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -251,7 +252,7 @@ export default function BrandingMarketingPage() {
               Book Consultation
               <ArrowRight className="ml-2 h-5 w-5" />
             </Link>
-            <Link href="/services" className="border-2 border-primary-600 text-primary-700 px-8 py-4 rounded-lg font-semibold hover:bg-primary-50 transition-colors inline-flex items-center justify-center">
+            <Link href="/services" className="btn-secondary inline-flex items-center justify-center">
               Explore All Services
             </Link>
           </div>

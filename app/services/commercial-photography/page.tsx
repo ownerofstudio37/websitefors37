@@ -115,55 +115,56 @@ export default function CommercialPhotographyPage() {
       </section>
 
       {/* Commercial Services */}
-      <section className="py-16 bg-white">
+      <section className="section-shell bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
+            <p className="eyebrow mb-2">Service Types</p>
             <h2 className="text-3xl font-bold mb-4">Commercial Photography Services</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="text-lg text-stone-600 max-w-2xl mx-auto">
               Professional photography solutions to showcase your business, products, and team
             </p>
           </div>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <Link href="/product-photography" className="group text-center p-6 bg-gray-50 rounded-lg transition-colors hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-primary-300">
+            <Link href="/product-photography" className="group surface-panel text-center p-6 transition-transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-primary-300">
               <div className="bg-primary-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-105 transition-transform">
                 <Camera className="h-8 w-8 text-primary-600" />
               </div>
               <h3 className="text-xl font-semibold mb-2 group-hover:text-primary-700">Product Photography</h3>
-              <p className="text-gray-600">
+              <p className="text-stone-600">
                 High-quality product images for catalogs, websites, and marketing materials.
               </p>
               <span className="inline-flex items-center gap-1 mt-3 text-sm font-medium text-primary-600 group-hover:underline">View Product Photography <ArrowRight className="h-4 w-4" /></span>
             </Link>
             
-            <Link href="/corporate-headshots" className="group text-center p-6 bg-gray-50 rounded-lg transition-colors hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-primary-300">
+            <Link href="/corporate-headshots" className="group surface-panel text-center p-6 transition-transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-primary-300">
               <div className="bg-primary-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-105 transition-transform">
                 <Users className="h-8 w-8 text-primary-600" />
               </div>
               <h3 className="text-xl font-semibold mb-2 group-hover:text-primary-700">Corporate Headshots</h3>
-              <p className="text-gray-600">
+              <p className="text-stone-600">
                 Professional headshots for executives, teams, and company directories.
               </p>
               <span className="inline-flex items-center gap-1 mt-3 text-sm font-medium text-primary-600 group-hover:underline">View Corporate Headshots <ArrowRight className="h-4 w-4" /></span>
             </Link>
             
-            <Link href="/architectural-photography" className="group text-center p-6 bg-gray-50 rounded-lg transition-colors hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-primary-300">
+            <Link href="/architectural-photography" className="group surface-panel text-center p-6 transition-transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-primary-300">
               <div className="bg-primary-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-105 transition-transform">
                 <Building2 className="h-8 w-8 text-primary-600" />
               </div>
               <h3 className="text-xl font-semibold mb-2 group-hover:text-primary-700">Architectural Photography</h3>
-              <p className="text-gray-600">
+              <p className="text-stone-600">
                 Showcase buildings, interiors, and commercial spaces professionally.
               </p>
               <span className="inline-flex items-center gap-1 mt-3 text-sm font-medium text-primary-600 group-hover:underline">View Architectural Photography <ArrowRight className="h-4 w-4" /></span>
             </Link>
             
-            <Link href="/brand-photography" className="group text-center p-6 bg-gray-50 rounded-lg transition-colors hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-primary-300">
+            <Link href="/brand-photography" className="group surface-panel text-center p-6 transition-transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-primary-300">
               <div className="bg-primary-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-105 transition-transform">
                 <Briefcase className="h-8 w-8 text-primary-600" />
               </div>
               <h3 className="text-xl font-semibold mb-2 group-hover:text-primary-700">Brand Photography</h3>
-              <p className="text-gray-600">
+              <p className="text-stone-600">
                 Custom brand imagery for marketing campaigns and brand identity.
               </p>
               <span className="inline-flex items-center gap-1 mt-3 text-sm font-medium text-primary-600 group-hover:underline">View Brand Photography <ArrowRight className="h-4 w-4" /></span>
@@ -173,11 +174,11 @@ export default function CommercialPhotographyPage() {
       </section>
 
       {/* Industries We Serve */}
-      <section className="py-16 bg-gray-50">
+      <section className="section-shell bg-stone-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold mb-4">Industries We Serve</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="text-lg text-stone-600 max-w-2xl mx-auto">
               Our commercial photography expertise spans across various industries in Montgomery County
             </p>
           </div>
@@ -194,8 +195,8 @@ export default function CommercialPhotographyPage() {
               'Construction',
               'Financial Services'
             ].map((industry) => (
-              <div key={industry} className="bg-white p-6 rounded-lg shadow-sm text-center">
-                <h3 className="font-semibold text-gray-800">{industry}</h3>
+              <div key={industry} className="surface-panel p-6 text-center">
+                <h3 className="font-semibold text-stone-800">{industry}</h3>
               </div>
             ))}
           </div>
@@ -203,7 +204,7 @@ export default function CommercialPhotographyPage() {
       </section>
 
       {/* Why Choose Us */}
-      <section className="py-16 bg-white">
+      <section className="section-shell bg-white">
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="relative">
@@ -212,7 +213,7 @@ export default function CommercialPhotographyPage() {
                 alt="Professional business photography in Montgomery County TX"
                 width={600}
                 height={400}
-                className="rounded-lg shadow-lg"
+                className="rounded-[var(--radius-card)] shadow-[var(--shadow-strong)]"
               />
             </div>
             
@@ -261,11 +262,11 @@ export default function CommercialPhotographyPage() {
       <CommercialHighlightGallery />
 
       {/* Service Areas */}
-      <section className="py-16 bg-gray-50">
+      <section className="section-shell bg-stone-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold mb-4">Commercial Photography Service Areas</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="text-lg text-stone-600 max-w-2xl mx-auto">
               We provide commercial photography services throughout Montgomery County and surrounding Texas areas
             </p>
           </div>
@@ -288,11 +289,11 @@ export default function CommercialPhotographyPage() {
                 : null
 
               return (
-                <div key={area} className="bg-white p-6 rounded-lg shadow-sm text-center">
+                <div key={area} className="surface-panel p-6 text-center">
                   {slug ? (
-                    <Link href={slug} className="font-semibold text-gray-800 hover:text-primary-600">{area}</Link>
+                    <Link href={slug} className="font-semibold text-stone-800 hover:text-primary-600">{area}</Link>
                   ) : (
-                    <h3 className="font-semibold text-gray-800">{area}</h3>
+                    <h3 className="font-semibold text-stone-800">{area}</h3>
                   )}
                 </div>
               )
@@ -437,46 +438,46 @@ export default function CommercialPhotographyPage() {
         </div>
       </section>
 
-      <section className="py-16 bg-gray-50">
+      <section className="section-shell bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold mb-4">Need a Custom Commercial Shoot?</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="text-lg text-stone-600 max-w-2xl mx-auto">
               Book a consultation to build a custom commercial session around your brand, shot list, usage needs, and schedule.
             </p>
           </div>
 
           <div className="max-w-4xl mx-auto">
-            <div className="bg-white p-8 rounded-lg shadow-lg border-2 border-primary-200 relative">
-              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                <span className="bg-primary-600 text-white px-4 py-1 rounded-full text-sm font-medium">
+            <div className="surface-panel p-8 border-2 border-primary-300 relative">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                <span className="bg-primary-600 text-white px-4 py-1 rounded-full text-xs font-semibold">
                   Custom Production
                 </span>
               </div>
               <div className="grid md:grid-cols-2 gap-8 items-center">
                 <div>
                   <h3 className="text-2xl font-bold mb-4">Plan a Shoot That Fits Your Business Goals</h3>
-                  <p className="text-gray-600 mb-6">
+                  <p className="text-stone-600 mb-6">
                     Best for product launches, branded content days, team headshots, location shoots, and campaigns with specific licensing needs.
                   </p>
                   <ul className="space-y-2">
-                    <li className="flex items-center gap-2">
-                      <CheckCircle className="h-5 w-5 text-green-600" />
+                    <li className="flex items-start gap-2 text-stone-700">
+                      <CheckCircle className="h-4 w-4 text-green-600 flex-shrink-0 mt-0.5" />
                       <span>Shot list and brand planning support</span>
                     </li>
-                    <li className="flex items-center gap-2">
-                      <CheckCircle className="h-5 w-5 text-green-600" />
+                    <li className="flex items-start gap-2 text-stone-700">
+                      <CheckCircle className="h-4 w-4 text-green-600 flex-shrink-0 mt-0.5" />
                       <span>Custom usage and deliverable options</span>
                     </li>
-                    <li className="flex items-center gap-2">
-                      <CheckCircle className="h-5 w-5 text-green-600" />
+                    <li className="flex items-start gap-2 text-stone-700">
+                      <CheckCircle className="h-4 w-4 text-green-600 flex-shrink-0 mt-0.5" />
                       <span>Scalable coverage for teams and campaigns</span>
                     </li>
                   </ul>
                 </div>
                 <div className="bg-primary-50 rounded-lg p-6 border border-primary-100">
                   <p className="text-sm uppercase tracking-wide text-primary-700 font-semibold mb-2">Strategy-first planning</p>
-                  <p className="text-gray-700 mb-6">
+                  <p className="text-stone-700 mb-6">
                     We&apos;ll map out your goals, usage needs, and production details before building the right commercial package.
                   </p>
                   <Link href="/book-consultation" className="btn-primary w-full text-center block">
@@ -490,14 +491,14 @@ export default function CommercialPhotographyPage() {
       </section>
 
       {/* SEO Text Block */}
-      <section className="py-14 bg-gray-50">
+      <section className="section-shell bg-stone-50">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">Commercial Photography for Businesses in Pinehurst, TX &amp; Montgomery County</h2>
-            <p className="text-gray-700 leading-relaxed mb-4">
+            <h2 className="text-2xl font-bold text-stone-900 mb-4">Commercial Photography for Businesses in Pinehurst, TX &amp; Montgomery County</h2>
+            <p className="text-stone-700 leading-relaxed mb-4">
               Studio37 provides full-service commercial photography for businesses of every size across Pinehurst, The Woodlands, Conroe, Magnolia, Tomball, Spring, Montgomery, Willis, New Caney, Hockley, Bryan, College Station, and the Houston business corridor. Our commercial services include product photography, e-commerce catalog shoots, real estate and architectural photography, corporate headshots, executive portrait sessions, brand lifestyle content, food and beverage photography, industrial facility documentation, and trade show coverage. Every commercial project is approached with a creative brief process — we study your brand guidelines, target audience, and competitive landscape before lifting a camera, ensuring every image communicates your unique value proposition. With Signature Duo Coverage, complex shoots requiring simultaneous product and lifestyle content are handled in a single session, saving your team valuable time and production budget. We deliver print-ready, web-optimized, and social-media-formatted image assets to keep your marketing team moving fast. Our commercial clients include retailers, restaurants, health and wellness brands, tech startups, real estate agencies, and professional service firms throughout Greater Houston. Get your commercial photography quote today.
             </p>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-stone-500">
               Serving: Pinehurst TX · The Woodlands · Conroe · Magnolia · Tomball · Spring · Montgomery · Willis · New Caney · Hockley · Bryan · College Station · Houston
             </p>
             <p className="text-sm mt-2 text-primary-700">
@@ -516,22 +517,19 @@ export default function CommercialPhotographyPage() {
             Serving businesses throughout Pinehurst, Montgomery County, and beyond.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link 
-              href="/book-consultation" 
-              className="bg-white text-primary-600 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
-            >
+            <Link href="/book-consultation" className="btn-primary">
               Book a Consultation
             </Link>
             <Link 
               href="/gallery" 
-              className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-primary-600 transition-colors"
+              className="btn-ghost border-white/40 text-white hover:text-white"
             >
               View Commercial Portfolio
             </Link>
             {/* Digital Marketing CTA */}
             <Link
               href="/digital-marketing"
-              className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-primary-600 transition-colors"
+              className="btn-ghost border-white/40 text-white hover:text-white"
             >
               Grow with Digital Marketing
             </Link>
