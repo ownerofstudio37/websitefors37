@@ -693,6 +693,7 @@ export default function EmailBuilder({
   )
 }
 
+/*
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -747,6 +748,8 @@ export default function EmailBuilder({
     </div>
   )
 }
+
+*/
 
 const BlockEditor = ({ block, onChange }: { block: EmailBlock, onChange: (updates: any) => void }) => {
   if (!block) return <div className="p-4 text-gray-500 text-center">Select a block to edit</div>

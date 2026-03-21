@@ -56,6 +56,7 @@ export default async function EmailTemplateEditor({ params }: { params: { id: st
   )
 }
 
+/*
   try {
     const { data, error } = await supabaseAdmin
       .from('email_templates')
@@ -121,3 +122,5 @@ export default async function EmailTemplateEditor({ params }: { params: { id: st
     </div>
   )
 }
+
+*/
