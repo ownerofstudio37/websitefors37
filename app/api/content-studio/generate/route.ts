@@ -7,13 +7,176 @@ export const maxDuration = 45
 
 const logger = createLogger('content-studio-generate')
 
+type SupportedFormat =
+  | 'pdf-guide'
+  | 'instagram-square'
+  | 'instagram-story'
+  | 'facebook-post'
+  | 'linkedin-post'
+
+const VALID_FORMATS: SupportedFormat[] = [
+  'pdf-guide',
+  'instagram-square',
+  'instagram-story',
+  'facebook-post',
+  'linkedin-post',
+]
+
+function buildFallbackBlocks(topic: string, format: SupportedFormat) {
+  if (format === 'pdf-guide') {
+    return [
+      {
+        type: 'cover',
+        data: {
+          title: topic,
+          subtitle: 'Practical steps you can apply immediately',
+          category: 'FREE GUIDE',
+          author: 'Studio37',
+          year: String(new Date().getFullYear()),
+        },
+      },
+      {
+        type: 'body-text',
+        data: {
+          content:
+            `This guide breaks down ${topic.toLowerCase()} into clear, actionable steps.\n\nUse it as a quick blueprint to improve consistency, performance, and results.`,
+        },
+      },
+      {
+        type: 'section-header',
+        data: {
+          number: '01',
+          title: 'Core Foundations',
+          description: `The key building blocks for effective ${topic.toLowerCase()}.`,
+        },
+      },
+      {
+        type: 'bullets',
+        data: {
+          heading: 'Checklist',
+          items: [
+            'Define measurable goals',
+            'Clarify your audience and offer',
+            'Create a repeatable weekly plan',
+            'Track outcomes and iterate quickly',
+          ],
+        },
+      },
+      {
+        type: 'section-header',
+        data: {
+          number: '02',
+          title: 'Execution Strategy',
+          description: 'How to move from planning to implementation.',
+        },
+      },
+      {
+        type: 'feature-cards',
+        data: {
+          heading: 'Execution Pillars',
+          cards: [
+            { icon: '🎯', title: 'Focus', description: 'Prioritize high-impact actions first.' },
+            { icon: '⚙️', title: 'Systems', description: 'Use templates and workflows to stay consistent.' },
+            { icon: '📈', title: 'Optimization', description: 'Review performance and improve continuously.' },
+          ],
+        },
+      },
+      {
+        type: 'stats-row',
+        data: {
+          stats: [
+            { value: '1', label: 'Clear Plan' },
+            { value: '3', label: 'Core Priorities' },
+            { value: '7', label: 'Day Review Cycle' },
+          ],
+        },
+      },
+      {
+        type: 'quote-callout',
+        data: {
+          quote: 'Consistency beats complexity. Build the system, then scale the wins.',
+          author: 'Studio37 Strategy Team',
+        },
+      },
+      {
+        type: 'cta',
+        data: {
+          heading: 'Want a custom plan?',
+          subtext: `We can tailor a ${topic.toLowerCase()} strategy for your business goals.`,
+          buttonText: 'Book a Consultation',
+          buttonUrl: 'https://studio37.cc/book-consultation',
+        },
+      },
+    ]
+  }
+
+  return [
+    {
+      type: 'cover',
+      data: {
+        title: topic,
+        subtitle: 'Quick insights for better results',
+        category: 'MARKETING TIP',
+      },
+    },
+    {
+      type: 'bullets',
+      data: {
+        heading: 'Try this today',
+        items: [
+          'Define one clear objective',
+          'Simplify your call-to-action',
+          'Measure one conversion metric',
+        ],
+      },
+    },
+    {
+      type: 'cta',
+      data: {
+        heading: 'Need help implementing this?',
+        subtext: 'Let’s build a strategy that fits your goals.',
+        buttonText: 'Book a Consultation',
+        buttonUrl: 'https://studio37.cc/book-consultation',
+      },
+    },
+  ]
+}
+
+function sanitizeBlocks(blocks: any[]) {
+  const allowedTypes = new Set([
+    'cover',
+    'section-header',
+    'body-text',
+    'bullets',
+    'feature-cards',
+    'stats-row',
+    'quote-callout',
+    'tip-box',
+    'cta',
+    'divider',
+    'spacer',
+  ])
+
+  return (Array.isArray(blocks) ? blocks : [])
+    .filter((b) => b && typeof b.type === 'string' && allowedTypes.has(b.type))
+    .slice(0, 20)
+    .map((b, i) => ({
+      id: `block-${Date.now()}-${i}-${Math.random().toString(36).slice(2, 6)}`,
+      type: b.type as string,
+      data: b.data && typeof b.data === 'object' ? b.data : {},
+    }))
+}
+
 export async function POST(req: NextRequest) {
   try {
     const { topic, audience, tone, format } = await req.json()
     if (!topic) return NextResponse.json({ error: 'topic is required' }, { status: 400 })
 
-    const isPDF = format === 'pdf-guide'
-    const isSocial = ['instagram-square', 'instagram-story', 'facebook-post', 'linkedin-post'].includes(format)
+    const normalizedFormat: SupportedFormat = VALID_FORMATS.includes(format)
+      ? format
+      : 'pdf-guide'
+
+    const isPDF = normalizedFormat === 'pdf-guide'
 
     const blockDocs = isPDF
       ? `Available block types for PDF guides:
@@ -57,38 +220,32 @@ Format: [{ "type": "cover", "data": { ... } }, { "type": "section-header", "data
     const userPrompt = `Create content for:
 Topic: ${topic}
 Target audience: ${audience || 'small business owners and entrepreneurs'}
-Format: ${format}
+Format: ${normalizedFormat}
 Tone: ${tone || 'professional, helpful, confidence-building'}`
 
-    const blocks = await generateJSON<any[]>(
-      `${systemPrompt}\n\n${userPrompt}`,
-      { config: 'precise', maxOutputTokens: 4000 }
-    )
-
-    if (!Array.isArray(blocks)) {
-      logger.error('AI did not return array', { format, topic })
-      return NextResponse.json({ error: 'AI returned unexpected format' }, { status: 500 })
+    let rawBlocks: any[] = []
+    try {
+      rawBlocks = await generateJSON<any[]>(`${systemPrompt}\n\n${userPrompt}`)
+    } catch (aiErr: any) {
+      logger.warn('AI generateJSON failed, using fallback blocks', {
+        error: aiErr?.message,
+        format: normalizedFormat,
+        topic,
+      })
+      rawBlocks = buildFallbackBlocks(topic, normalizedFormat)
     }
 
-    const allowedTypes = new Set([
-      'cover', 'section-header', 'body-text', 'bullets', 'feature-cards',
-      'stats-row', 'quote-callout', 'tip-box', 'cta', 'divider', 'spacer',
-    ])
-
-    const sanitized = blocks
-      .filter(b => b && typeof b.type === 'string' && allowedTypes.has(b.type))
-      .slice(0, 20)
-      .map((b, i) => ({
-        id: `block-${Date.now()}-${i}-${Math.random().toString(36).slice(2, 6)}`,
-        type: b.type as string,
-        data: b.data && typeof b.data === 'object' ? b.data : {},
-      }))
+    const sanitized = sanitizeBlocks(rawBlocks)
 
     if (sanitized.length === 0) {
+      const fallbackSanitized = sanitizeBlocks(buildFallbackBlocks(topic, normalizedFormat))
+      if (fallbackSanitized.length > 0) {
+        return NextResponse.json({ blocks: fallbackSanitized })
+      }
       return NextResponse.json({ error: 'AI returned no valid blocks' }, { status: 500 })
     }
 
-    return NextResponse.json({ blocks })
+    return NextResponse.json({ blocks: sanitized })
   } catch (err: any) {
     logger.error('Content studio generate failed', { error: err?.message })
     return NextResponse.json({ error: err?.message || 'Generation failed' }, { status: 500 })
