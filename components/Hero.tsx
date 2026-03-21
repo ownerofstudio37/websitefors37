@@ -7,9 +7,8 @@ import Image from "next/image";
 import { optimizeCloudinaryUrl } from "@/lib/cloudinaryOptimizer";
 
 export default function Hero() {
-  // Static hero configuration for maximum performance
-  const heroTitle = "Studio ";
-  const heroSubtitle = "Wedding & Portrait Photography in Pinehurst, TX — packages starting at $350";
+  const heroTitle = "Photography with editorial polish and real emotion.";
+  const heroSubtitle = "Wedding, portrait, and brand photography for clients who want timeless images, a calm process, and a polished final gallery.";
   
   // Static hero image - optimized for LCP
   const rawHeroImage = "https://res.cloudinary.com/dmjxho2rl/image/upload/v1759639187/A4B03835-ED8B-4FBB-A27E-1F2EE6CA1A18_1_105_c_gstgil_e_gen_restore_e_improve_e_sharpen_l_image_upload_My_Brand_IMG_2115_mtuowt_c_scale_fl_relative_w_0.40_o_80_fl_layer_apply_g_south_x_0.03_y_0.04_yqgycj.jpg";
@@ -20,8 +19,8 @@ export default function Hero() {
   const heroImageSmall = optimizeCloudinaryUrl(rawHeroImage, 800, 'auto:good');
   // Use the medium as default src (balanced quality vs size).
   const heroImage = heroImageMedium;
-  const heroMinHeight = "70vh";
-  const overlayPct = 60;
+  const heroMinHeight = "88svh";
+  const overlayPct = 68;
 
   return (
     <section
@@ -64,60 +63,76 @@ export default function Hero() {
 
       {/* Film grain removed for performance - dark overlay provides depth */}
 
-      <div className="relative z-20 container mx-auto px-4 text-center">
-        <div className="max-w-4xl mx-auto">
-          <div className="inline-block p-2 border-4 border-amber-200/30 rounded-full mb-8">
-            <Camera className="h-16 w-16 text-amber-200" />
-          </div>
+      <div className="relative z-20 container mx-auto px-4">
+        <div className="max-w-6xl mx-auto pt-24 md:pt-32 pb-16 md:pb-24">
+          <div className="max-w-3xl text-left">
+            <div className="eyebrow mb-5 bg-white/12 text-white border-white/20 backdrop-blur-sm">Pinehurst, TX · Weddings · Portraits · Brand</div>
+            <h1
+              className="font-serif text-5xl md:text-7xl lg:text-[5.5rem] font-bold mb-6 leading-[0.95] text-white drop-shadow-lg"
+              suppressHydrationWarning
+            >
+              {heroTitle}
+            </h1>
 
-          <h1
-            className="font-serif text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight text-white drop-shadow-lg"
-            suppressHydrationWarning
-          >
-            {heroTitle}
-            <span className="text-amber-200">37</span>
-          </h1>
+            <p
+              className="text-lg md:text-2xl mb-8 text-stone-100 max-w-2xl leading-relaxed"
+              suppressHydrationWarning
+            >
+              {heroSubtitle}
+            </p>
 
-          <p
-            className="text-lg md:text-xl lg:text-2xl mb-8 text-amber-50 max-w-2xl mx-auto font-light"
-            suppressHydrationWarning
-          >
-            {heroSubtitle}
-          </p>
+            <div className="flex flex-wrap gap-3 text-sm text-stone-100/90 mb-8">
+              <span className="rounded-full bg-white/10 px-4 py-2 border border-white/10">500+ client sessions</span>
+              <span className="rounded-full bg-white/10 px-4 py-2 border border-white/10">Two-photographer coverage</span>
+              <span className="rounded-full bg-white/10 px-4 py-2 border border-white/10">Packages from $350</span>
+            </div>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
             <Link
-              href="/get-quote"
-              className="btn-primary text-lg px-8 py-4 inline-flex items-center focus:outline-none focus:ring-4 focus:ring-amber-500 focus:ring-offset-2"
+              href="/book-consultation"
+              className="btn-primary text-lg px-8 py-4 focus:outline-none focus:ring-4 focus:ring-amber-500 focus:ring-offset-2"
               aria-label="Get instant photography quote"
             >
-              Get Instant Quote
+              Book a Consultation
               <ArrowRight className="ml-2 h-5 w-5" aria-hidden="true" />
             </Link>
 
             <Link
-              href="/book-consultation"
+              href="/get-quote"
               className="btn-secondary text-lg px-8 py-4 focus:outline-none focus:ring-4 focus:ring-amber-500 focus:ring-offset-2"
-              aria-label="Schedule free consultation call"
+              aria-label="Get instant photography quote"
             >
-              Free Consultation
+              Get Instant Quote
             </Link>
 
             <Link
-              href="/gallery"
-              className="text-white border-2 border-white/50 hover:bg-white/10 text-lg px-8 py-4 rounded-lg transition-all focus:outline-none focus:ring-4 focus:ring-amber-500 focus:ring-offset-2"
+              href="https://gallery.studio37.cc"
+              className="btn-ghost text-lg px-8 py-4 focus:outline-none focus:ring-4 focus:ring-amber-500 focus:ring-offset-2"
               aria-label="View our photography portfolio"
             >
               View Portfolio
             </Link>
+            </div>
+          </div>
+
+          <div className="mt-10 max-w-xl rounded-[28px] border border-white/15 bg-white/10 backdrop-blur-md p-5 md:p-6 text-white shadow-2xl">
+            <div className="flex items-start gap-4">
+              <div className="rounded-2xl bg-amber-300/20 p-3 border border-amber-200/20">
+                <Camera className="h-6 w-6 text-amber-200" />
+              </div>
+              <div>
+                <p className="text-sm uppercase tracking-[0.2em] text-amber-200 mb-2">Why Studio37</p>
+                <p className="text-base md:text-lg text-stone-100 leading-relaxed">
+                  Vintage warmth, modern polish, and a white-glove client experience from inquiry to final delivery.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Vintage frame border */}
-      <div className="absolute inset-8 border border-amber-200/20 pointer-events-none z-10 hidden md:block"></div>
+      <div className="absolute inset-6 md:inset-10 rounded-[32px] border border-white/10 pointer-events-none z-10"></div>
 
-      {/* Animated scroll indicator - pure CSS */}
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 animate-bounce-slow motion-safe:animate-bounce-slow" aria-hidden="true">
         <div className="w-6 h-10 border-2 border-amber-200/50 rounded-full flex justify-center">
           <div className="w-1 h-3 bg-amber-200/70 rounded-full mt-2"></div>

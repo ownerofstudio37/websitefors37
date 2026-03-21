@@ -131,13 +131,14 @@ export default function Services() {
 	}, [imagesByCategory])
 
 	return (
-		<section className="py-20 bg-white">
+		<section className="section-shell bg-stone-50">
 			<div className="container mx-auto px-4">
-				<div className="text-center mb-16">
-					<h2 className="text-4xl font-bold mb-4">
+				<div className="text-center mb-14 max-w-3xl mx-auto">
+					<div className="eyebrow mb-4">Services</div>
+					<h2 className="text-4xl md:text-5xl font-bold mb-4 text-stone-950">
 						Our Photography Services
 					</h2>
-					<p className="text-xl text-gray-700 max-w-2xl mx-auto">
+					<p className="text-lg md:text-xl text-stone-600 max-w-2xl mx-auto leading-relaxed">
 						From intimate portraits to grand celebrations, we offer
 						comprehensive photography services tailored to your unique
 						needs.
@@ -145,7 +146,7 @@ export default function Services() {
 				</div>
 
 				<div
-					className="grid md:grid-cols-2 lg:grid-cols-5 gap-8"
+					className="grid md:grid-cols-2 xl:grid-cols-3 gap-6 xl:gap-8"
 					style={{ contain: 'layout style paint' }}
 				>
 					{services.map((service, index) => {
@@ -157,14 +158,14 @@ export default function Services() {
 								className="group block"
 							>
 								<div
-									className="bg-gray-50 p-8 rounded-lg hover:shadow-xl hover:bg-white transition-all duration-300 h-full flex flex-col cursor-pointer border-2 border-transparent group-hover:border-primary-500"
+									className="surface-panel p-5 md:p-6 h-full flex flex-col cursor-pointer transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-[0_18px_50px_rgba(15,23,42,0.12)]"
 								>
-									<div className="flex items-center justify-center w-16 h-16 bg-primary-100 rounded-lg mb-6 mx-auto group-hover:bg-primary-600 group-hover:scale-110 transition-all duration-300">
+									<div className="flex items-center justify-center w-14 h-14 bg-amber-50 rounded-2xl mb-5 group-hover:bg-amber-700 transition-all duration-300">
 										<Icon className="h-8 w-8 text-primary-600 group-hover:text-white transition-colors duration-300" />
 									</div>
 
 					{/* Static service image - optimized for performance */}
-				<div className="mb-6 aspect-[4/3] relative rounded-lg overflow-hidden bg-gray-200">
+				<div className="mb-5 aspect-[4/3] relative rounded-2xl overflow-hidden bg-stone-200">
 					<OptimizedImage
 						src={service.image}
 						alt={service.title}
@@ -177,30 +178,29 @@ export default function Services() {
 						sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
 						/>
 					</div>
-					<h3 className="text-xl font-semibold mb-1 text-center group-hover:text-primary-600 transition-colors duration-300">
+					<h3 className="text-2xl font-semibold mb-1 text-left group-hover:text-primary-700 transition-colors duration-300">
 						{service.title}
 					</h3>
-					<p className="text-center text-sm font-semibold text-primary-600 mb-4">
+					<p className="text-left text-sm font-semibold text-primary-700 mb-3">
 						{service.startingPrice}
 					</p>
-									<p className="text-gray-700 mb-6 text-center flex-grow">
+									<p className="text-stone-600 mb-5 text-left flex-grow leading-relaxed">
 										{service.description}
 									</p>
 
-									<ul className="space-y-2 mb-6">
+									<ul className="space-y-2.5 mb-6 border-t border-stone-100 pt-5">
 										{service.features.map((feature) => (
 											<li
 												key={feature}
-												className="flex items-center text-sm text-gray-700"
+												className="flex items-center text-sm text-stone-700"
 											>
-												<div className="w-2 h-2 bg-primary-500 rounded-full mr-3 group-hover:scale-125 transition-transform duration-300"></div>
+												<div className="w-2 h-2 bg-amber-600 rounded-full mr-3 group-hover:scale-125 transition-transform duration-300"></div>
 												{feature}
 											</li>
 										))}
 									</ul>
 
-									{/* Learn More CTA */}
-									<div className="flex items-center justify-center text-primary-600 font-semibold text-sm group-hover:text-primary-700 mt-auto">
+									<div className="flex items-center text-primary-700 font-semibold text-sm group-hover:text-primary-800 mt-auto">
 										Learn More
 										<ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" />
 									</div>

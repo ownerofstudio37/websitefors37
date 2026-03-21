@@ -66,7 +66,7 @@ export default function ServicesPage() {
       />
 
   {/* Hero Section */}
-  <div className="relative bg-gradient-to-r from-gray-900 to-gray-800 text-white">
+  <div className="relative overflow-hidden bg-stone-950 text-white">
         <div className="absolute inset-0 opacity-30">
           <Image 
             src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1758315587/_MG_9234_aerdni_e_gen_restore_e_improve_l_image_upload_My_Brand_IMG_2115_mtuowt_c_scale_fl_relative_w_0.36_o_80_fl_layer_apply_g_west_x_0.03_y_0.04_vunmkp.jpg" 
@@ -76,10 +76,11 @@ export default function ServicesPage() {
             priority
           />
         </div>
-        <div className="container mx-auto px-4 py-24 relative z-10">
+        <div className="container mx-auto px-4 py-24 md:py-28 relative z-10">
           <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">Photography Services in Pinehurst, TX</h1>
-            <p className="text-xl text-gray-200 mb-8">
+            <div className="eyebrow mb-4 bg-white/10 text-amber-200 border-white/10">Services</div>
+            <h1 className="text-4xl md:text-6xl font-bold mb-4">Photography Services in Pinehurst, TX</h1>
+            <p className="text-xl text-stone-200 mb-8 leading-relaxed">
               Capturing life's most precious moments with artistic excellence and professional craftsmanship throughout Montgomery County.
             </p>
             <Link 
@@ -95,11 +96,11 @@ export default function ServicesPage() {
 
       {/* Main Services Component */}
             {/* Main Services Component */}
-      <div id="services" className="py-16">
+      <div id="services" className="section-shell bg-stone-50">
         <Services />
       </div>
 
-      <section className="py-12 bg-gray-50 border-y border-gray-200">
+      <section className="py-12 bg-stone-50 border-y border-stone-200">
         <div className="container mx-auto px-4">
           <div className="max-w-5xl mx-auto">
             <h2 className="text-2xl font-bold text-gray-900 mb-3">Find Services by City</h2>
@@ -108,43 +109,44 @@ export default function ServicesPage() {
               Huntsville, New Caney, Hockley, Bryan, and College Station.
             </p>
             <div className="flex flex-wrap gap-3 text-sm">
-              <Link href="/locations" className="px-3 py-2 rounded-full bg-white border border-gray-300 hover:border-primary-300">All Service Areas</Link>
-              <Link href="/the-woodlands" className="px-3 py-2 rounded-full bg-white border border-gray-300 hover:border-primary-300">The Woodlands</Link>
-              <Link href="/conroe" className="px-3 py-2 rounded-full bg-white border border-gray-300 hover:border-primary-300">Conroe</Link>
-              <Link href="/magnolia" className="px-3 py-2 rounded-full bg-white border border-gray-300 hover:border-primary-300">Magnolia</Link>
-              <Link href="/huntsville" className="px-3 py-2 rounded-full bg-white border border-gray-300 hover:border-primary-300">Huntsville</Link>
-              <Link href="/college-station" className="px-3 py-2 rounded-full bg-white border border-gray-300 hover:border-primary-300">College Station</Link>
+              <Link href="/locations" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">All Service Areas</Link>
+              <Link href="/the-woodlands" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">The Woodlands</Link>
+              <Link href="/conroe" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">Conroe</Link>
+              <Link href="/magnolia" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">Magnolia</Link>
+              <Link href="/huntsville" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">Huntsville</Link>
+              <Link href="/college-station" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">College Station</Link>
             </div>
           </div>
         </div>
       </section>
 
       {/* Two Photographers Announcement */}
-      <div className="bg-primary-50 border-y border-primary-200">
+      <div className="bg-amber-50 border-y border-amber-200/80">
         <div className="container mx-auto px-4 py-4">
-          <p className="text-center text-primary-800 font-medium">
+          <p className="text-center text-amber-900 font-medium">
             Two photographers on site — for the price of one. More coverage, more moments, same rate.
           </p>
         </div>
       </div>
 
       {/* Individual Service Pages Links */}
-      <section className="py-16 bg-white">
+      <section className="section-shell bg-white">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">Explore Our Specialized Services</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <div className="text-center mb-12 max-w-3xl mx-auto">
+            <div className="eyebrow mb-4">Explore</div>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Explore Our Specialized Services</h2>
+            <p className="text-lg text-stone-600 max-w-2xl mx-auto">
               Learn more about each of our photography specialties with detailed information, packages, and pricing
             </p>
           </div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6">
+          <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
             <Link 
               href="/services/wedding-photography" 
-              className="group p-6 bg-gradient-to-br from-rose-50 to-amber-50 rounded-lg border border-rose-200 hover:border-rose-300 transition-all duration-300 hover:shadow-lg"
+              className="group surface-panel p-6 rounded-2xl transition-all duration-300 hover:-translate-y-1"
             >
               <div className="text-center">
-                <div className="bg-rose-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-rose-200 transition-colors">
+                <div className="bg-rose-100 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-rose-200 transition-colors">
                   <span className="text-3xl">💍</span>
                 </div>
                 <h3 className="text-xl font-semibold mb-2 text-gray-800">Wedding Photography</h3>
@@ -158,10 +160,10 @@ export default function ServicesPage() {
 
             <Link 
               href="/services/portrait-photography" 
-              className="group p-6 bg-gradient-to-br from-blue-50 to-purple-50 rounded-lg border border-blue-200 hover:border-blue-300 transition-all duration-300 hover:shadow-lg"
+              className="group surface-panel p-6 rounded-2xl transition-all duration-300 hover:-translate-y-1"
             >
               <div className="text-center">
-                <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-200 transition-colors">
+                <div className="bg-blue-100 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-200 transition-colors">
                   <span className="text-3xl">👨‍👩‍👧‍👦</span>
                 </div>
                 <h3 className="text-xl font-semibold mb-2 text-gray-800">Portrait Photography</h3>
@@ -175,10 +177,10 @@ export default function ServicesPage() {
 
             <Link 
               href="/services/event-photography" 
-              className="group p-6 bg-gradient-to-br from-green-50 to-teal-50 rounded-lg border border-green-200 hover:border-green-300 transition-all duration-300 hover:shadow-lg"
+              className="group surface-panel p-6 rounded-2xl transition-all duration-300 hover:-translate-y-1"
             >
               <div className="text-center">
-                <div className="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-green-200 transition-colors">
+                <div className="bg-green-100 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-green-200 transition-colors">
                   <span className="text-3xl">🎉</span>
                 </div>
                 <h3 className="text-xl font-semibold mb-2 text-gray-800">Event Photography</h3>
@@ -192,10 +194,10 @@ export default function ServicesPage() {
 
             <Link 
               href="/services/commercial-photography" 
-              className="group p-6 bg-gradient-to-br from-gray-50 to-blue-50 rounded-lg border border-gray-200 hover:border-gray-300 transition-all duration-300 hover:shadow-lg"
+              className="group surface-panel p-6 rounded-2xl transition-all duration-300 hover:-translate-y-1"
             >
               <div className="text-center">
-                <div className="bg-gray-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-gray-200 transition-colors">
+                <div className="bg-gray-100 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-gray-200 transition-colors">
                   <span className="text-3xl">🏢</span>
                 </div>
                 <h3 className="text-xl font-semibold mb-2 text-gray-800">Commercial Photography</h3>
@@ -209,10 +211,10 @@ export default function ServicesPage() {
 
             <Link 
               href="/services/branding-marketing" 
-              className="group p-6 bg-gradient-to-br from-violet-50 to-fuchsia-50 rounded-lg border border-violet-200 hover:border-violet-300 transition-all duration-300 hover:shadow-lg"
+              className="group surface-panel p-6 rounded-2xl transition-all duration-300 hover:-translate-y-1"
             >
               <div className="text-center">
-                <div className="bg-violet-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-violet-200 transition-colors">
+                <div className="bg-violet-100 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-violet-200 transition-colors">
                   <span className="text-3xl">📈</span>
                 </div>
                 <h3 className="text-xl font-semibold mb-2 text-gray-800">Branding &amp; Marketing</h3>
@@ -228,10 +230,10 @@ export default function ServicesPage() {
       </section>
 
       {/* Additional Services Information */}
-      <section className="py-16 bg-gray-50">
+      <section className="section-shell bg-stone-50">
         <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-2 gap-16">
-            <div>
+          <div className="grid md:grid-cols-2 gap-10 max-w-6xl mx-auto">
+            <div className="section-soft p-8 md:p-10">
               <h2 className="text-3xl font-bold mb-6">Our Process</h2>
               
               <div className="space-y-6">
@@ -241,7 +243,7 @@ export default function ServicesPage() {
                   </div>
                   <div>
                     <h3 className="text-xl font-medium mb-2">Initial Consultation</h3>
-                    <p className="text-gray-600">
+                    <p className="text-stone-600 leading-7">
                       We start by understanding your vision, preferences, and requirements. This helps us tailor our services to your specific needs.
                     </p>
                   </div>
@@ -285,7 +287,7 @@ export default function ServicesPage() {
               </div>
             </div>
             
-            <div>
+            <div className="section-soft p-8 md:p-10">
               <h2 className="text-3xl font-bold mb-6">Why Choose Studio 37</h2>
               
               <div className="space-y-4">
@@ -293,7 +295,7 @@ export default function ServicesPage() {
                   <CheckCircle className="h-6 w-6 text-primary-600 flex-shrink-0 mt-0.5" />
                   <div>
                     <h3 className="text-lg font-medium">Professional Expertise</h3>
-                    <p className="text-gray-600">Our photographers bring years of experience and technical knowledge to every project.</p>
+                    <p className="text-stone-600">Our photographers bring years of experience and technical knowledge to every project.</p>
                   </div>
                 </div>
                 

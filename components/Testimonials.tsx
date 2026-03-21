@@ -175,6 +175,7 @@ const testimonials = [
 export default function Testimonials() {
 	const [visibleItems, setVisibleItems] = useState<Set<number>>(new Set())
 	const observerRef = useRef<IntersectionObserver | null>(null)
+	const featuredTestimonials = testimonials.slice(0, 6)
 
 	useEffect(() => {
 		observerRef.current = new IntersectionObserver(
@@ -196,15 +197,16 @@ export default function Testimonials() {
 	}, [])
 
 	return (
-		<section className="py-20 bg-white">
+		<section className="section-shell bg-white">
 			<div className="container mx-auto px-4">
-				<div className="text-center mb-16">
-					<h2 className="text-4xl font-bold mb-4">What Our Clients Say</h2>
-					<p className="text-xl text-gray-600 max-w-2xl mx-auto">
+				<div className="text-center mb-14 max-w-3xl mx-auto">
+					<div className="eyebrow mb-4">Social Proof</div>
+					<h2 className="text-4xl md:text-5xl font-bold mb-4 text-stone-950">What Our Clients Say</h2>
+					<p className="text-lg md:text-xl text-stone-600 max-w-2xl mx-auto leading-relaxed">
 						Don&apos;t just take our word for it. Here&apos;s what our satisfied clients have to say about their experience with Studio 37.
 					</p>
 					<div
-					className="flex flex-wrap items-center justify-center gap-2 mt-6 bg-amber-50 border border-amber-200 rounded-full px-6 py-3 w-fit mx-auto"
+					className="flex flex-wrap items-center justify-center gap-2 mt-6 bg-stone-50 border border-stone-200 rounded-full px-6 py-3 w-fit mx-auto shadow-sm"
 					aria-label="5 out of 5 stars from 15 verified reviews"
 				>
 					<div className="flex" aria-hidden="true">
@@ -221,17 +223,17 @@ export default function Testimonials() {
 					</div>
 				</div>
 
-				<div className="grid md:grid-cols-3 gap-8" style={{ contain: 'layout style paint' }}>
-					{testimonials.map((testimonial, index) => (
+				<div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6" style={{ contain: 'layout style paint' }}>
+					{featuredTestimonials.map((testimonial, index) => (
 						<div
 							key={testimonial.id}
 							data-index={index}
-							className={`testimonial-item bg-gray-50 p-8 rounded-lg relative transition-all duration-500 ${
+							className={`testimonial-item surface-panel p-6 md:p-7 relative transition-all duration-500 ${
 								visibleItems.has(index) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
 							}`}
 							style={{ transitionDelay: `${index * 100}ms` }}
 						>
-							<Quote className="h-8 w-8 text-primary-500 mb-4" />
+							<Quote className="h-8 w-8 text-amber-600 mb-4" />
 							
 							<div className="flex mb-4" aria-label={`Rated ${testimonial.rating} out of 5`} role="img">
 								{[...Array(testimonial.rating)].map((_, i) => (
@@ -239,7 +241,7 @@ export default function Testimonials() {
 								))}
 							</div>
 							
-							<p className="text-gray-700 mb-6 italic">"{testimonial.text}"</p>
+							<p className="text-stone-700 mb-6 italic leading-7 line-clamp-6">"{testimonial.text}"</p>
 							
 							<div className="flex items-center justify-between">
 								<div className="flex items-center flex-1">

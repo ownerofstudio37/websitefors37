@@ -19,15 +19,16 @@ export const metadata = generateSEOMetadata({
 
 export default function BookConsultationPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+    <div className="min-h-screen bg-gradient-to-b from-stone-50 to-white pt-20">
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-primary-600 to-primary-700 text-white py-16">
+      <div className="bg-stone-950 text-white py-20 md:py-24">
         <div className="container mx-auto px-4 max-w-6xl">
           <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">
+            <div className="eyebrow mb-4 bg-white/10 text-amber-200 border-white/10">Consultation</div>
+            <h1 className="text-4xl md:text-6xl font-bold mb-4">
               Book Your Free Consultation
             </h1>
-            <p className="text-xl text-primary-100 max-w-2xl mx-auto">
+            <p className="text-xl text-stone-300 max-w-2xl mx-auto leading-relaxed">
               Let's discuss your photography needs in a quick 15-minute call. No pressure, just honest advice from our experienced team.
             </p>
           </div>
@@ -35,10 +36,10 @@ export default function BookConsultationPage() {
       </div>
 
       {/* Benefits Section */}
-      <div className="container mx-auto px-4 py-12 max-w-6xl">
+      <div className="container mx-auto px-4 py-12 md:py-16 max-w-6xl">
         <div className="grid md:grid-cols-3 gap-8 mb-12">
-          <div className="text-center">
-            <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div className="surface-panel text-center p-8">
+            <div className="w-16 h-16 bg-amber-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
               <Clock className="h-8 w-8 text-primary-600" />
             </div>
             <h3 className="text-xl font-bold text-gray-900 mb-2">Quick & Easy</h3>
@@ -47,8 +48,8 @@ export default function BookConsultationPage() {
             </p>
           </div>
 
-          <div className="text-center">
-            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div className="surface-panel text-center p-8">
+            <div className="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
               <CheckCircle2 className="h-8 w-8 text-green-600" />
             </div>
             <h3 className="text-xl font-bold text-gray-900 mb-2">100% Free</h3>
@@ -57,8 +58,8 @@ export default function BookConsultationPage() {
             </p>
           </div>
 
-          <div className="text-center">
-            <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div className="surface-panel text-center p-8">
+            <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
               <Phone className="h-8 w-8 text-blue-600" />
             </div>
             <h3 className="text-xl font-bold text-gray-900 mb-2">We Call You</h3>
@@ -69,14 +70,14 @@ export default function BookConsultationPage() {
         </div>
 
         {/* What We'll Discuss */}
-        <div className="bg-white rounded-xl shadow-lg p-8 mb-12">
+        <div className="section-soft p-8 md:p-10 mb-12">
           <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">
             What We'll Discuss
           </h2>
           <div className="grid md:grid-cols-2 gap-6">
             <div className="flex gap-4">
               <div className="flex-shrink-0">
-                <div className="w-8 h-8 bg-primary-100 rounded-full flex items-center justify-center">
+                <div className="w-8 h-8 bg-amber-50 rounded-full flex items-center justify-center">
                   <span className="text-primary-600 font-bold">1</span>
                 </div>
               </div>
@@ -90,7 +91,7 @@ export default function BookConsultationPage() {
 
             <div className="flex gap-4">
               <div className="flex-shrink-0">
-                <div className="w-8 h-8 bg-primary-100 rounded-full flex items-center justify-center">
+                <div className="w-8 h-8 bg-amber-50 rounded-full flex items-center justify-center">
                   <span className="text-primary-600 font-bold">2</span>
                 </div>
               </div>
@@ -104,7 +105,7 @@ export default function BookConsultationPage() {
 
             <div className="flex gap-4">
               <div className="flex-shrink-0">
-                <div className="w-8 h-8 bg-primary-100 rounded-full flex items-center justify-center">
+                <div className="w-8 h-8 bg-amber-50 rounded-full flex items-center justify-center">
                   <span className="text-primary-600 font-bold">3</span>
                 </div>
               </div>
@@ -118,7 +119,7 @@ export default function BookConsultationPage() {
 
             <div className="flex gap-4">
               <div className="flex-shrink-0">
-                <div className="w-8 h-8 bg-primary-100 rounded-full flex items-center justify-center">
+                <div className="w-8 h-8 bg-amber-50 rounded-full flex items-center justify-center">
                   <span className="text-primary-600 font-bold">4</span>
                 </div>
               </div>
@@ -140,15 +141,15 @@ export default function BookConsultationPage() {
           <p className="text-gray-600 mb-4">Prefer to reach out differently?</p>
           <div className="flex flex-wrap justify-center gap-4">
             <a
-              href="mailto:contact@studio37photography.com"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-white border-2 border-gray-300 text-gray-700 rounded-lg hover:border-primary-600 hover:text-primary-600 transition-colors font-medium"
+              href="mailto:sales@studio37.cc"
+              className="btn-secondary"
             >
               <Mail className="h-4 w-4" />
               Email Us
             </a>
             <a
-              href="tel:+15551234567"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-white border-2 border-gray-300 text-gray-700 rounded-lg hover:border-primary-600 hover:text-primary-600 transition-colors font-medium"
+              href="tel:+18327139944"
+              className="btn-secondary"
             >
               <Phone className="h-4 w-4" />
               Call Us
@@ -157,7 +158,7 @@ export default function BookConsultationPage() {
         </div>
 
         {/* Trust Badges */}
-        <div className="mt-12 py-8 border-t border-gray-200 flex flex-wrap justify-center gap-8 items-center">
+        <div className="mt-12 py-8 border-t border-gray-200 flex flex-wrap justify-center gap-8 items-center surface-panel">
           <a href="https://ppa.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-90 transition-opacity">
             <img 
               src="https://www.ppa.com/assets/images/pages/PPA_logo1_COLOR_RGB_Meta.png" 

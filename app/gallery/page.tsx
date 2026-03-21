@@ -24,10 +24,10 @@ export const revalidate = 300
 
 export default function GalleryPage() {
   return (
-    <div className="pt-16 min-h-screen bg-gradient-to-b from-gray-50 to-white">
+    <div className="pt-20 min-h-screen bg-gradient-to-b from-stone-50 to-white">
       <Schema schema={generateOrganizationSchema()} />
       {/* Hero Header */}
-      <div className="relative bg-gradient-to-br from-gray-900 via-gray-800 to-primary-900 py-20 px-4 text-center text-white overflow-hidden">
+      <div className="relative bg-stone-950 py-24 px-4 text-center text-white overflow-hidden">
         {/* Decorative Elements */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary-500 rounded-full blur-3xl"></div>
@@ -35,17 +35,18 @@ export default function GalleryPage() {
         </div>
         
         <div className="container mx-auto max-w-4xl relative z-10">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-300">
+          <div className="eyebrow mb-4 bg-white/10 text-amber-200 border-white/10">Gallery</div>
+          <h1 className="text-5xl md:text-6xl font-bold mb-6">
             Our Photography Portfolio
           </h1>
-          <p className="text-lg md:text-xl text-gray-300 mb-2 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-lg md:text-xl text-stone-300 mb-2 max-w-2xl mx-auto leading-relaxed">
             Explore our diverse collection of photography across different styles and occasions.
           </p>
           {/* counts will render in client component below */}
         </div>
       </div>
       
-      <div className="container mx-auto px-4 py-16">
+      <div className="container mx-auto px-4 py-16 md:py-20">
         <SimpleGallery />
       </div>
     </div>

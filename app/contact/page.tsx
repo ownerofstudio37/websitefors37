@@ -44,7 +44,7 @@ export default async function ContactPage() {
   const settings = await getSettings()
   
   return (
-    <div className="relative min-h-screen flex flex-col">
+    <div className="relative min-h-screen flex flex-col bg-stone-50">
       <Schema schema={[generateContactPageSchema(), generateOrganizationSchema()]} />
       <script
         type="application/ld+json"
@@ -62,8 +62,7 @@ export default async function ContactPage() {
           })
         }}
       />
-      {/* Background image — absolute positioning for scroll performance */}
-      <div className="absolute top-0 left-0 w-full h-full -z-10 pointer-events-none">
+      <div className="absolute top-0 left-0 w-full h-[36rem] -z-10 pointer-events-none">
         <Image
           src="https://images.unsplash.com/photo-1423666639041-f56000c27a9a"
           alt="Contact background"
@@ -72,106 +71,111 @@ export default async function ContactPage() {
           priority
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-black bg-opacity-40" />
+        <div className="absolute inset-0 bg-stone-950/55" />
       </div>
-      <div className="container mx-auto px-4 py-24 max-w-3xl w-full flex-1 relative z-10">
-        <h1 className="text-4xl md:text-5xl font-bold mb-4 text-white">Contact Us</h1>
-        <p className="text-xl text-gray-200 mb-8">
+      <div className="container mx-auto px-4 py-24 max-w-6xl w-full flex-1 relative z-10">
+        <div className="max-w-3xl mb-12">
+          <div className="eyebrow mb-4 bg-white/10 text-amber-200 border-white/10">Contact</div>
+          <h1 className="text-4xl md:text-6xl font-bold mb-4 text-white">Let’s plan something beautiful.</h1>
+          <p className="text-xl text-stone-200 mb-8 leading-relaxed">
           Get in touch with our team to discuss your photography needs, book a session, or ask any questions.
-        </p>
+          </p>
+        </div>
         {/* Contact Form and Information */}
-        <section className="py-8">
-          <div className="grid md:grid-cols-2 gap-16">
+        <section className="pb-8">
+          <div className="grid lg:grid-cols-[1.15fr_0.85fr] gap-8 items-start">
             <div>
               <h2 className="text-3xl font-bold mb-8 text-white">Send Us a Message</h2>
               <LeadCaptureForm />
             </div>
             <div>
-              <h2 className="text-3xl font-bold mb-8 text-white">Contact Information</h2>
+              <div className="surface-panel bg-white/95 backdrop-blur-sm p-8 md:p-10">
+              <h2 className="text-3xl font-bold mb-8 text-stone-950">Contact Information</h2>
               <div className="space-y-8">
                 {/* Email */}
                 <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">
+                  <div className="flex-shrink-0 w-12 h-12 bg-amber-50 rounded-2xl flex items-center justify-center">
                     <Mail className="h-6 w-6 text-primary-600" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold mb-1 text-white">Email</h3>
-                    <a href={`mailto:${businessInfo.contact.email}`} className="text-primary-400 hover:text-primary-300 underline">
+                    <h3 className="text-lg font-semibold mb-1 text-stone-950">Email</h3>
+                    <a href={`mailto:${businessInfo.contact.email}`} className="text-primary-700 hover:text-primary-800 underline">
                       {businessInfo.contact.email}
                     </a>
-                    <p className="text-gray-200 mt-1">
+                    <p className="text-stone-600 mt-1 leading-6">
                       We respond to all inquiries within 24 hours during business days.
                     </p>
                   </div>
                 </div>
                 {/* Phone */}
                 <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">
+                  <div className="flex-shrink-0 w-12 h-12 bg-amber-50 rounded-2xl flex items-center justify-center">
                     <Phone className="h-6 w-6 text-primary-600" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold mb-1 text-white">Phone</h3>
-                    <a href={`tel:${businessInfo.contact.phone}`} className="text-primary-400 hover:text-primary-300 underline">
+                    <h3 className="text-lg font-semibold mb-1 text-stone-950">Phone</h3>
+                    <a href={`tel:${businessInfo.contact.phone}`} className="text-primary-700 hover:text-primary-800 underline">
                       {businessInfo.contact.phone}
                     </a>
-                    <p className="text-gray-200 mt-1">
+                    <p className="text-stone-600 mt-1 leading-6">
                       Available 7 days a week, 8AM-9PM CST
                     </p>
                   </div>
                 </div>
                 {/* Address */}
                 <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">
+                  <div className="flex-shrink-0 w-12 h-12 bg-amber-50 rounded-2xl flex items-center justify-center">
                     <MapPin className="h-6 w-6 text-primary-600" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold mb-1 text-white">Studio Location</h3>
-                    <p className="text-gray-200">
+                    <h3 className="text-lg font-semibold mb-1 text-stone-950">Studio Location</h3>
+                    <p className="text-stone-700">
                       {businessInfo.address.fullAddress}
                     </p>
-                    <p className="text-gray-200 mt-1">
+                    <p className="text-stone-600 mt-1">
                       Serving Pinehurst, Montgomery County, The Woodlands, and Greater Houston Area
                     </p>
-                    <p className="text-gray-200 mt-1">
+                    <p className="text-stone-600 mt-1">
                       Studio visits by appointment only
                     </p>
                   </div>
                 </div>
+              </div>
               </div>
             </div>
           </div>
         </section>
       </div>
       {/* FAQ Section */}
-      <section className="py-16 bg-gray-50">
+      <section className="section-shell bg-white">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold mb-8 text-center">Frequently Asked Questions</h2>
+          <div className="text-center mb-8"><div className="eyebrow mb-4">FAQ</div><h2 className="text-3xl md:text-4xl font-bold">Frequently Asked Questions</h2></div>
           <div className="max-w-3xl mx-auto space-y-6">
-            <div className="bg-white p-6 rounded-lg shadow-sm">
+            <div className="surface-panel p-6 rounded-2xl">
               <h3 className="text-xl font-semibold mb-2">How far in advance should I book my photography session?</h3>
               <p className="text-gray-600">
                 For wedding photography, we recommend booking 6-12 months in advance. For portrait sessions and other events, 2-4 weeks notice is typically sufficient, but availability may vary during peak seasons.
               </p>
             </div>
-            <div className="bg-white p-6 rounded-lg shadow-sm">
+            <div className="surface-panel p-6 rounded-2xl">
               <h3 className="text-xl font-semibold mb-2">What is your payment policy?</h3>
               <p className="text-gray-600">
                 We require a 50% deposit to secure your booking date, with the remaining balance due one week before the session or event. For wedding photography, we offer payment plans.
               </p>
             </div>
-            <div className="bg-white p-6 rounded-lg shadow-sm">
+            <div className="surface-panel p-6 rounded-2xl">
               <h3 className="text-xl font-semibold mb-2">How many photos will I receive?</h3>
               <p className="text-gray-600">
                 The number of photos varies by package and session length. Typically, portrait sessions yield 20-40 edited images, while weddings can range from 300-800 photos. We focus on quality over quantity to deliver the best representation of your event.
               </p>
             </div>
-            <div className="bg-white p-6 rounded-lg shadow-sm">
+            <div className="surface-panel p-6 rounded-2xl">
               <h3 className="text-xl font-semibold mb-2">How long until I receive my photos?</h3>
               <p className="text-gray-600">
                 Portrait sessions are typically delivered within 1-2 weeks. Wedding and event photography can take 4-6 weeks due to the higher volume of images and detailed editing process. We'll provide select preview images within days of your session.
               </p>
             </div>
-            <div className="bg-white p-6 rounded-lg shadow-sm">
+            <div className="surface-panel p-6 rounded-2xl">
               <h3 className="text-xl font-semibold mb-2">Do you travel for photography sessions?</h3>
               <p className="text-gray-600">
                 Yes, we travel locally and internationally for photography assignments. Local travel within 30 miles is included in our standard rates. For destinations beyond that, additional travel fees apply.
@@ -182,14 +186,14 @@ export default async function ContactPage() {
       </section>
 
       {/* SEO Text Block */}
-      <section className="py-14 bg-white">
+      <section className="section-shell bg-stone-50">
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">Book a Photography Session in Pinehurst, TX</h2>
-            <p className="text-gray-700 leading-relaxed mb-4">
+          <div className="section-soft max-w-5xl mx-auto p-8 md:p-12">
+            <h2 className="text-2xl md:text-3xl font-bold text-stone-950 mb-4">Book a Photography Session in Pinehurst, TX</h2>
+            <p className="text-stone-700 leading-8 mb-4">
               Ready to book professional photography in Pinehurst, Texas or anywhere in Montgomery County? Studio37 Photography makes it easy to get started. Use the contact form above, call us directly at (832) 713-9944, or email sales@studio37.cc to inquire about availability, pricing, and custom packages. We respond to all inquiries within 24 hours, 7 days a week. Our studio serves clients across Pinehurst, The Woodlands, Conroe, Magnolia, Tomball, Spring, Montgomery, Willis, New Caney, Hockley, Huntsville, and the Greater Houston metro area for weddings, family portraits, senior photos, newborn sessions, corporate headshots, event coverage, commercial product photography, and brand content creation. Whether you're looking for a one-hour portrait session starting at $350 or a comprehensive wedding day package with two photographers included, Studio37 has a solution tailored to your needs and budget. Studio visits are available by appointment at 1701 Goodson Loop Unit 80, Pinehurst, TX 77362. We also offer phone and video consultations for clients located further away. Contact us today and let's start planning your session.
             </p>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-stone-500">
               Studio37 Photography · Pinehurst, TX · Phone: (832) 713-9944 · Email: sales@studio37.cc · Serving Montgomery County, The Woodlands, Conroe, Magnolia, Tomball, Spring, Montgomery, Willis, New Caney, Hockley, Huntsville &amp; Greater Houston
             </p>
           </div>

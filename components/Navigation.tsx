@@ -135,7 +135,7 @@ export default function Navigation() {
             { id: 'blog', label: 'Blog', href: '/blog', order: 5, visible: true },
             { id: 'about', label: 'About', href: '/about', order: 6, visible: true },
             { id: 'contact', label: 'Contact', href: '/contact', order: 7, visible: true },
-            { id: 'book', label: 'Book a Session', href: '/book-a-session', order: 8, visible: true, highlighted: true },
+            { id: 'book', label: 'Book Consultation', href: '/book-consultation', order: 8, visible: true, highlighted: true },
           ])
         }
       }
@@ -170,14 +170,14 @@ export default function Navigation() {
     <nav 
       id="site-navigation"
       className={`fixed w-full z-50 transition-all duration-300 ${
-        scrolled ? 'bg-white/90 backdrop-blur-md shadow-md' : 'bg-transparent'
+        scrolled ? 'bg-white/88 backdrop-blur-xl shadow-[0_10px_30px_rgba(15,23,42,0.08)] border-b border-stone-200/80' : 'bg-transparent'
       }`}
       role="navigation"
       aria-label="Main navigation"
       suppressHydrationWarning
     >
       <div className="container mx-auto px-4">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center h-20">
           <Link 
             href="/" 
             className="flex items-center space-x-2"
@@ -186,14 +186,14 @@ export default function Navigation() {
             {logoUrl ? (
               <div className="flex items-center gap-2" suppressHydrationWarning>
                 {/* Watermarked logo with responsive sizing */}
-                <div className={`relative transition-all duration-300 ${scrolled ? 'h-8' : 'h-10'} w-auto`} style={{ minWidth: scrolled ? 120 : 140 }}>
+                <div className={`relative transition-all duration-300 ${scrolled ? 'h-9' : 'h-11'} w-auto`} style={{ minWidth: scrolled ? 132 : 152 }}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img 
                     src={logoUrl} 
                     alt="Studio 37 Photography - Professional photography in Pinehurst, TX" 
                     width="140"
                     height="40"
-                    className={`w-auto object-contain transition-all duration-300 ${scrolled ? 'h-8' : 'h-10'}`}
+                    className={`w-auto object-contain transition-all duration-300 ${scrolled ? 'h-9' : 'h-11'}`}
                     loading="eager"
                     referrerPolicy="strict-origin-when-cross-origin"
                   />
@@ -214,7 +214,7 @@ export default function Navigation() {
             )}
           </Link>
 
-          <div className="hidden md:flex items-center space-x-8" suppressHydrationWarning>
+          <div className="hidden md:flex items-center gap-3 xl:gap-4" suppressHydrationWarning>
             {navItems.map((item) => {
               // Normalize hrefs to prevent duplicated segments like /services/services
               const normalizeHref = (href: string, parentHref?: string) => {
@@ -287,8 +287,8 @@ export default function Navigation() {
                   >
                     <Link
                       href={normalizeHref(item.href)}
-                      className={`transition-colors font-medium px-2 py-1 rounded flex items-center gap-1 ${
-                        scrolled ? 'text-amber-900 hover:text-amber-600' : 'text-white hover:text-amber-200'
+                      className={`transition-all font-medium px-3 py-2 rounded-full flex items-center gap-1 ${
+                        scrolled ? 'text-stone-800 hover:text-amber-700 hover:bg-amber-50' : 'text-white hover:text-white hover:bg-white/10'
                       } focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2`}
                       aria-expanded={isDropdownOpen}
                       aria-haspopup="true"
@@ -300,7 +300,7 @@ export default function Navigation() {
                     
                     {isDropdownOpen && (
                       <div
-                        className={`absolute top-full left-0 mt-2 bg-white rounded-xl shadow-xl border border-gray-200 z-50 overflow-hidden ${
+                        className={`absolute top-full left-0 mt-3 bg-white rounded-2xl shadow-[0_20px_60px_rgba(15,23,42,0.16)] border border-stone-200 z-50 overflow-hidden ${
                           isLargeDropdown ? 'w-[42rem] max-w-[90vw]' : 'w-56'
                         }`}
                         onMouseEnter={handleEnter}
@@ -319,7 +319,7 @@ export default function Navigation() {
                             <Link
                               key={child.id}
                               href={normalizeHref(child.href, normalizeHref(item.href))}
-                              className="block rounded-lg px-4 py-3 text-amber-900 hover:bg-amber-50 transition-colors leading-snug"
+                              className="block rounded-xl px-4 py-3 text-stone-800 hover:bg-amber-50 hover:text-amber-700 transition-colors leading-snug"
                             >
                               {child.label}
                             </Link>
@@ -336,13 +336,13 @@ export default function Navigation() {
                 <Link
                   key={item.id}
                   href={normalizeHref(item.href)}
-                  className={`transition-colors font-medium px-2 py-1 rounded ${
+                  className={`transition-all font-medium px-3 py-2 rounded-full ${
                     item.highlighted
                       ? scrolled
                         ? 'btn-primary'
-                        : 'bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-lg border border-amber-200/30'
-                      : `hover:text-amber-600 focus:text-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2 ${
-                          scrolled ? 'text-amber-900' : 'text-white'
+                        : 'bg-amber-500 hover:bg-amber-400 text-white px-5 py-2.5 rounded-full shadow-lg'
+                      : `hover:text-amber-700 hover:bg-amber-50 focus:text-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2 ${
+                          scrolled ? 'text-stone-800' : 'text-white hover:bg-white/10'
                         }`
                   }`}
                 >
@@ -353,8 +353,8 @@ export default function Navigation() {
             {/* Phone click-to-call */}
             <a
               href="tel:+18327139944"
-              className={`hidden lg:flex items-center gap-1.5 font-medium transition-colors hover:text-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2 ${
-                scrolled ? 'text-amber-900' : 'text-amber-200'
+              className={`hidden xl:flex items-center gap-2 font-medium transition-colors rounded-full px-3 py-2 hover:text-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2 ${
+                scrolled ? 'text-stone-800 hover:bg-amber-50' : 'text-stone-100 hover:bg-white/10'
               }`}
               aria-label="Call Studio37 at (832) 713-9944"
             >
@@ -363,10 +363,10 @@ export default function Navigation() {
             </a>
             <Link
               href="/admin"
-              className={`focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2 transition-colors ${
+              className={`focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2 transition-all rounded-full px-4 py-2 ${
                 scrolled
-                  ? 'btn-primary'
-                  : 'bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-lg border border-amber-200/30'
+                  ? 'border border-stone-300 text-stone-800 hover:bg-stone-100'
+                  : 'bg-white/10 hover:bg-white/18 text-white border border-white/20'
               }`}
             >
               Admin
@@ -375,7 +375,7 @@ export default function Navigation() {
 
           <button
             type="button"
-            className={`md:hidden p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2 ${scrolled ? 'text-amber-900' : 'text-white'}`}
+            className={`md:hidden p-2.5 rounded-full focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2 ${scrolled ? 'text-stone-900 bg-stone-100' : 'text-white bg-white/10 backdrop-blur-sm'}`}
             onClick={() => setIsOpen(!isOpen)}
             aria-expanded={isOpen ? 'true' : 'false'}
             aria-controls="mobile-menu"
@@ -388,7 +388,7 @@ export default function Navigation() {
 
         {isOpen && (
           <div 
-            className="md:hidden py-4 pb-20 border-t border-amber-200/20 overflow-y-auto max-h-[calc(100vh-80px)]" 
+            className="md:hidden py-4 pb-20 border-t border-stone-200 bg-white/98 backdrop-blur-xl overflow-y-auto max-h-[calc(100vh-80px)]" 
             id="mobile-menu"
           >
             <div className="flex flex-col space-y-4 px-4">
@@ -433,7 +433,7 @@ export default function Navigation() {
                     <div key={item.id}>
                       <button
                         onClick={() => setMobileDropdownStates(prev => ({ ...prev, [item.id]: !prev[item.id] }))}
-                        className="w-full flex items-center justify-between text-left transition-colors font-medium text-amber-900 px-2 py-1 rounded hover:text-amber-600 focus:text-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2"
+                        className="w-full flex items-center justify-between text-left transition-colors font-medium text-stone-900 px-3 py-3 rounded-2xl hover:bg-amber-50 hover:text-amber-700 focus:text-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2"
                         aria-expanded={isMobileDropdownOpen}
                         aria-label={`${item.label} submenu toggle`}
                       >
@@ -451,7 +451,7 @@ export default function Navigation() {
                             <Link
                               key={child.id}
                               href={normalizeHref(child.href, normalizeHref(item.href))}
-                              className="block transition-colors text-amber-900 px-3 py-2 rounded-lg hover:bg-amber-50 hover:text-amber-600 focus:bg-amber-50 focus:text-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2 touch-target"
+                              className="block transition-colors text-stone-800 px-4 py-3 rounded-xl hover:bg-amber-50 hover:text-amber-700 focus:bg-amber-50 focus:text-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2 touch-target"
                               onClick={() => { setIsOpen(false); }}
                             >
                               {child.label}
@@ -468,10 +468,10 @@ export default function Navigation() {
                   <Link
                     key={item.id}
                     href={normalizeHref(item.href)}
-                    className={`transition-colors font-medium text-amber-900 px-2 py-2 rounded touch-target ${
+                    className={`transition-all font-medium text-stone-900 px-4 py-3 rounded-2xl touch-target ${
                       item.highlighted
                         ? 'btn-primary w-fit'
-                        : 'hover:text-amber-600 focus:text-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2'
+                        : 'hover:bg-amber-50 hover:text-amber-700 focus:text-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2'
                     }`}
                     onClick={() => { setIsOpen(false); }}
                   >
@@ -482,7 +482,7 @@ export default function Navigation() {
               {/* Phone click-to-call */}
               <a
                 href="tel:+18327139944"
-                className="flex items-center gap-2 font-medium text-amber-900 hover:text-amber-600 px-2 py-2 focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2"
+                className="flex items-center gap-2 font-medium text-stone-900 hover:text-amber-700 px-4 py-3 rounded-2xl hover:bg-amber-50 focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2"
                 onClick={() => setIsOpen(false)}
                 aria-label="Call Studio37 at (832) 713-9944"
               >
@@ -491,7 +491,7 @@ export default function Navigation() {
               </a>
               <Link
                 href="/admin"
-                className="btn-primary w-fit focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2"
+                className="border border-stone-300 text-stone-800 rounded-full px-4 py-2 w-fit focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2"
                 onClick={() => setIsOpen(false)}
               >
                 Admin

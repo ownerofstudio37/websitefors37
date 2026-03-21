@@ -40,34 +40,35 @@ export default function ThankYouWithSMS() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-lg">
-      <div className="text-center mb-8">
-        <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-        <h2 className="text-3xl font-bold text-gray-900 mb-3">Thank You!</h2>
-        <p className="text-lg text-gray-700 mb-2">
+    <div className="surface-panel max-w-3xl mx-auto overflow-hidden">
+      <div className="bg-stone-950 px-8 py-10 text-center text-white">
+        <CheckCircle className="w-16 h-16 text-emerald-400 mx-auto mb-4" />
+        <div className="eyebrow mb-4 bg-white/10 text-amber-200 border-white/10">Inquiry received</div>
+        <h2 className="text-3xl md:text-4xl font-bold mb-3">Thank you!</h2>
+        <p className="text-lg text-stone-200 mb-2">
           We've received your inquiry and will get back to you within 24 hours.
         </p>
-        <p className="text-gray-600">
+        <p className="text-stone-400">
           Check your email for a confirmation message.
         </p>
       </div>
 
-      <div className="border-t border-gray-200 pt-8 mt-8">
-        <div className="bg-amber-50 border border-amber-200 rounded-lg p-6">
+      <div className="p-8 md:p-10 bg-white">
+        <div className="bg-amber-50 border border-amber-200 rounded-2xl p-6 md:p-7">
           <div className="flex items-start gap-3 mb-5">
             <Mail className="w-6 h-6 text-amber-600 mt-0.5 flex-shrink-0" />
             <div>
-              <h3 className="text-xl font-semibold text-amber-900 mb-1">
+              <h3 className="text-2xl font-semibold text-amber-900 mb-1">
                 Stay in the Loop
               </h3>
-              <p className="text-amber-800 text-sm">
+              <p className="text-amber-800 text-sm leading-6">
                 Join our newsletter for mini session announcements, seasonal promotions, and exclusive photography tips. Unsubscribe anytime.
               </p>
             </div>
           </div>
 
           {done ? (
-            <div className="flex items-center gap-3 bg-green-50 border border-green-200 rounded-lg p-4">
+            <div className="flex items-center gap-3 bg-green-50 border border-green-200 rounded-xl p-4">
               <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
               <p className="text-green-800 font-medium">You're subscribed! Welcome to the Studio37 community.</p>
             </div>
@@ -80,7 +81,7 @@ export default function ThankYouWithSMS() {
                 onChange={e => setName(e.target.value)}
                 required
                 disabled={submitting}
-                className="w-full px-4 py-3 border border-amber-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 bg-white disabled:opacity-50 text-sm"
+                className="w-full px-4 py-3.5 border border-amber-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 bg-white disabled:opacity-50 text-sm"
               />
               <input
                 type="email"
@@ -89,13 +90,13 @@ export default function ThankYouWithSMS() {
                 onChange={e => setEmail(e.target.value)}
                 required
                 disabled={submitting}
-                className="w-full px-4 py-3 border border-amber-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 bg-white disabled:opacity-50 text-sm"
+                className="w-full px-4 py-3.5 border border-amber-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 bg-white disabled:opacity-50 text-sm"
               />
               {error && <p className="text-red-600 text-sm">{error}</p>}
               <button
                 type="submit"
                 disabled={submitting}
-                className="w-full flex items-center justify-center gap-2 bg-amber-600 hover:bg-amber-700 text-white font-semibold py-3 rounded-lg transition disabled:opacity-50"
+                className="w-full flex items-center justify-center gap-2 bg-amber-700 hover:bg-amber-800 text-white font-semibold py-3.5 rounded-xl transition disabled:opacity-50"
               >
                 <Mail className="w-4 h-4" />
                 {submitting ? 'Subscribing…' : 'Subscribe to Newsletter'}
@@ -108,10 +109,10 @@ export default function ThankYouWithSMS() {
         </div>
       </div>
 
-      <div className="text-center mt-8">
+      <div className="text-center px-8 pb-8 md:pb-10">
         <a
           href="/"
-          className="text-primary-600 hover:text-primary-700 font-medium underline"
+          className="text-primary-700 hover:text-primary-800 font-medium underline underline-offset-4"
         >
           Return to Home
         </a>

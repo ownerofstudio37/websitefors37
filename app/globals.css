@@ -9,6 +9,9 @@
   --color-primary-light: 217, 182, 115; /* amber-300 */
   --color-primary-dark: 120, 83, 25; /* amber-900 */
   --color-secondary: 161, 98, 7; /* amber-800 */
+  --radius-card: 1.25rem;
+  --shadow-soft: 0 10px 30px rgba(15, 23, 42, 0.08);
+  --shadow-strong: 0 18px 50px rgba(15, 23, 42, 0.14);
 }
 
 @layer base {
@@ -23,9 +26,11 @@
   }
 
   body {
-    @apply bg-amber-50 text-amber-950;
+    @apply bg-stone-50 text-stone-900;
     position: relative;
     font-family: var(--font-inter), system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
 
   /* Apply film grain texture to the whole site - optimized with Cloudinary auto format/quality */
@@ -38,7 +43,7 @@
     height: 100%;
     background-image: url("https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:eco,w_400/v1759639916/Pngtree_film_grain_overlay_8671079_amgbm1.png");
     background-repeat: repeat;
-    opacity: 0.04;
+    opacity: 0.015;
     pointer-events: none;
     z-index: 1000;
     mix-blend-mode: overlay;
@@ -68,20 +73,46 @@
 
 @layer components {
   .btn-primary {
-    @apply bg-amber-700 hover:bg-amber-800 text-white font-medium py-3 px-6 rounded-lg transition-colors shadow-md border border-amber-600;
+    @apply inline-flex items-center justify-center bg-amber-700 hover:bg-amber-800 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 border border-amber-700;
     min-height: 44px;
     min-width: 44px;
+    box-shadow: 0 10px 25px rgba(180, 126, 40, 0.22);
   }
 
   .btn-secondary {
-    @apply bg-white hover:bg-amber-50 text-amber-900 font-medium py-3 px-6 rounded-lg transition-colors shadow-sm border-2 border-amber-700;
+    @apply inline-flex items-center justify-center bg-white hover:bg-amber-50 text-stone-900 font-semibold py-3 px-6 rounded-xl transition-all duration-200 border border-stone-300;
+    min-height: 44px;
+    min-width: 44px;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center bg-white/10 hover:bg-white/16 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 border border-white/25 backdrop-blur-sm;
     min-height: 44px;
     min-width: 44px;
   }
 
+  .section-shell {
+    @apply py-20 md:py-28;
+  }
+
+  .section-soft {
+    @apply bg-white border border-stone-200/80 rounded-[28px] shadow-[0_10px_40px_rgba(15,23,42,0.06)];
+  }
+
+  .surface-panel {
+    @apply bg-white border border-stone-200 rounded-2xl;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .eyebrow {
+    @apply inline-flex items-center rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-amber-800;
+  }
+
   .vintage-card {
-    @apply bg-white border border-amber-200 p-6 rounded-lg shadow-md;
+    @apply bg-white border border-stone-200 p-6 rounded-2xl;
     position: relative;
+    box-shadow: var(--shadow-soft);
   }
 
   /* Add film grain to vintage cards - optimized */
@@ -91,7 +122,7 @@
     inset: 0;
     background-image: url("https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:eco,w_400/v1759639916/Pngtree_film_grain_overlay_8671079_amgbm1.png");
     background-repeat: repeat;
-    opacity: 0.05;
+    opacity: 0.025;
     pointer-events: none;
     z-index: 1;
     border-radius: 0.5rem;
@@ -99,7 +130,7 @@
   }
 
   .retro-shadow {
-    box-shadow: 3px 3px 0 rgba(var(--color-primary), 0.3);
+    box-shadow: 8px 8px 0 rgba(var(--color-primary), 0.12);
   }
 
   .retro-border {

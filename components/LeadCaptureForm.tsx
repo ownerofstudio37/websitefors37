@@ -96,7 +96,21 @@ export default function LeadCaptureForm() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-lg">
+    <div className="surface-panel max-w-5xl mx-auto overflow-hidden">
+      <div className="grid lg:grid-cols-[0.92fr_1.08fr]">
+        <div className="bg-stone-950 text-white p-8 md:p-10 lg:p-12">
+          <div className="eyebrow mb-4 bg-white/10 text-amber-200 border-white/10">Start the conversation</div>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">Tell us what you&apos;re planning.</h2>
+          <p className="text-stone-300 leading-relaxed mb-8">
+            Whether you&apos;re planning a wedding, updating your brand, or booking portraits, we&apos;ll help you choose the right coverage and next steps.
+          </p>
+          <div className="space-y-4 text-sm text-stone-200">
+            <div className="flex items-start gap-3"><span className="mt-1 h-2 w-2 rounded-full bg-amber-400"></span><span>Response within 24 hours</span></div>
+            <div className="flex items-start gap-3"><span className="mt-1 h-2 w-2 rounded-full bg-amber-400"></span><span>Clear pricing guidance and package recommendations</span></div>
+            <div className="flex items-start gap-3"><span className="mt-1 h-2 w-2 rounded-full bg-amber-400"></span><span>5.0 stars from verified Google and Thumbtack reviews</span></div>
+          </div>
+        </div>
+        <div className="p-8 md:p-10 lg:p-12 bg-white">
       <form
         name="contact"
         method="POST"
@@ -115,7 +129,7 @@ export default function LeadCaptureForm() {
         {/* Netlify hidden fields */}
           {/* ...no Netlify hidden fields... */}
         <input type="hidden" name="bot-field" />
-  <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid md:grid-cols-2 gap-5">
           <div>
             <label htmlFor="name-input" className="block text-sm font-medium text-gray-700 mb-2">
               Full Name *
@@ -127,7 +141,7 @@ export default function LeadCaptureForm() {
                 aria-invalid={!!errors.name || undefined}
                 aria-required="true"
                 onBlur={() => handleFieldBlur('name')}
-                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:border-transparent transition ${
+                className={`w-full px-4 py-3.5 border rounded-xl focus:ring-2 focus:border-transparent transition ${
                   errors.name ? 'border-red-300 focus:ring-red-500' : 
                   validFieldsSet.has('name') ? 'border-green-300 focus:ring-green-500 bg-green-50' :
                   'border-gray-300 focus:ring-primary-500'
@@ -160,7 +174,7 @@ export default function LeadCaptureForm() {
                 aria-invalid={!!errors.email || undefined}
                 aria-required="true"
                 onBlur={() => handleFieldBlur('email')}
-                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:border-transparent transition ${
+                className={`w-full px-4 py-3.5 border rounded-xl focus:ring-2 focus:border-transparent transition ${
                   errors.email ? 'border-red-300 focus:ring-red-500' : 
                   validFieldsSet.has('email') ? 'border-green-300 focus:ring-green-500 bg-green-50' :
                   'border-gray-300 focus:ring-primary-500'
@@ -182,7 +196,7 @@ export default function LeadCaptureForm() {
           </div>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid md:grid-cols-2 gap-5">
           <div>
             <label htmlFor="phone-input" className="block text-sm font-medium text-gray-700 mb-2">
               Phone Number
@@ -191,7 +205,7 @@ export default function LeadCaptureForm() {
               {...register('phone')}
               id="phone-input"
               type="tel"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              className="w-full px-4 py-3.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent"
               placeholder="(555) 123-4567"
             />
           </div>
@@ -207,7 +221,7 @@ export default function LeadCaptureForm() {
                 aria-invalid={!!errors.service_interest || undefined}
                 aria-required="true"
                 onBlur={() => handleFieldBlur('service_interest')}
-                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:border-transparent transition ${
+                className={`w-full px-4 py-3.5 border rounded-xl focus:ring-2 focus:border-transparent transition ${
                   errors.service_interest ? 'border-red-300 focus:ring-red-500' : 
                   validFieldsSet.has('service_interest') ? 'border-green-300 focus:ring-green-500 bg-green-50' :
                   'border-gray-300 focus:ring-primary-500'
@@ -243,7 +257,7 @@ export default function LeadCaptureForm() {
             <select
               {...register('budget_range')}
               id="budget-select"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              className="w-full px-4 py-3.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             >
               <option value="">Select a package</option>
               <option value="custom">Custom Package</option>
@@ -258,7 +272,7 @@ export default function LeadCaptureForm() {
               {...register('event_date')}
               id="date-input"
               type="date"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              className="w-full px-4 py-3.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             />
           </div>
         </div>
@@ -275,15 +289,15 @@ export default function LeadCaptureForm() {
               aria-invalid={!!errors.message || undefined}
               aria-required="true"
               onBlur={() => handleFieldBlur('message')}
-              className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:border-transparent transition resize-none ${
+              className={`w-full px-4 py-3.5 border rounded-xl focus:ring-2 focus:border-transparent transition resize-none ${
                 errors.message ? 'border-red-300 focus:ring-red-500' : 
                 validFieldsSet.has('message') ? 'border-green-300 focus:ring-green-500 bg-green-50' :
                 'border-gray-300 focus:ring-primary-500'
               }`}
               placeholder="Tell us about your photography needs..."
             />
-            <div className="absolute bottom-2 right-2 text-xs text-gray-500">
-              {watchedFields.message?.length || 0}/100
+            <div className="absolute bottom-3 right-3 text-xs text-gray-400">
+              {watchedFields.message?.length || 0} chars
             </div>
           </div>
           {errors.message && (
@@ -294,9 +308,9 @@ export default function LeadCaptureForm() {
         </div>
 
         {/* Social proof */}
-        <p className="text-center text-sm text-gray-500">
+        <p className="rounded-xl bg-stone-50 border border-stone-200 px-4 py-3 text-center text-sm text-stone-600">
           <span aria-hidden="true">⭐⭐⭐⭐⭐</span>{' '}
-          <strong className="text-gray-700">5.0 stars</strong> · 15 verified reviews · Response within 24 hours
+          <strong className="text-stone-800">5.0 stars</strong> · 15 verified reviews · Response within 24 hours
         </p>
         <button
           type="submit"
@@ -317,6 +331,8 @@ export default function LeadCaptureForm() {
           )}
         </button>
       </form>
-    </div>
+          </div>
+        </div>
+      </div>
   )
 }
