@@ -1,7 +1,6 @@
 "use client"
 
 import React, { useState } from 'react'
-import { supabase } from '@/lib/supabase'
 
 export default function NewsletterInlineClient({ heading, subheading, disclaimer }: { heading?: string, subheading?: string, disclaimer?: string }) {
   const [name, setName] = useState('')
@@ -21,19 +20,23 @@ export default function NewsletterInlineClient({ heading, subheading, disclaimer
     }
     setIsSubmitting(true)
     try {
-      const { error: dbError } = await supabase
-        .from('leads')
-        .insert([{
+      const response = await fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
           name,
           email,
           phone,
           service_interest: 'newsletter_subscription',
           budget_range: '10% discount offer',
           source: 'newsletter_inline',
-          status: 'new',
-          notes: 'Subscribed to newsletter via inline form'
-        }])
-      if (dbError) throw dbError
+          message: 'Subscribed to newsletter via inline form'
+        })
+      })
+      if (!response.ok) {
+        const body = await response.json().catch(() => ({}))
+        throw new Error(body?.error || 'Failed to subscribe')
+      }
       setSuccess('Thanks for subscribing! Check your email for your 10% discount.')
       setName(''); setEmail(''); setPhone('')
     } catch (err) {

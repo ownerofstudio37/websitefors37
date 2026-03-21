@@ -3,7 +3,6 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Mail, Phone, Percent, User } from 'lucide-react'
-import { supabase } from '@/lib/supabase'
 
 interface NewsletterModalProps {
   isOpen: boolean
@@ -30,24 +29,23 @@ export default function NewsletterModal({ isOpen, onClose }: NewsletterModalProp
     setError('')
 
     try {
-      // Store newsletter subscription in database
-      const { error: dbError } = await supabase
-        .from('leads')
-        .insert([
-          {
-            name,
-            email,
-            phone,
-            service_interest: 'newsletter_subscription',
-            budget_range: '10% discount offer',
-            source: 'newsletter_popup',
-            status: 'new',
-            notes: 'Subscribed to newsletter for 10% discount offer'
-          }
-        ])
+      const response = await fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name,
+          email,
+          phone,
+          service_interest: 'newsletter_subscription',
+          budget_range: '10% discount offer',
+          source: 'newsletter_popup',
+          message: 'Subscribed to newsletter for 10% discount offer'
+        })
+      })
 
-      if (dbError) {
-        throw dbError
+      if (!response.ok) {
+        const body = await response.json().catch(() => ({}))
+        throw new Error(body?.error || 'Failed to subscribe')
       }
 
       setIsSuccess(true)

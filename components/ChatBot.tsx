@@ -204,21 +204,33 @@ export default function ChatBot() {
   const submitToCRM = async () => {
     setIsSubmitting(true)
     try {
-      const { supabase } = await import('@/lib/supabase')
-      
-      const { error } = await supabase
-        .from('leads')
-        .insert([{
-          name: leadData.name,
-          email: leadData.email,
-          phone: leadData.phone,
-          service_interest: leadData.service?.toLowerCase(),
-          budget_range: leadData.budget,
-          message: `Timeline: ${leadData.timeline}\n\nAdditional notes: ${leadData.message || 'None'}`,
-          status: 'new'
-        }])
+      const fallbackContactId =
+        (leadData.phone || '')
+          .replace(/\D/g, '')
+          .slice(-10) ||
+        Date.now().toString()
+      const safeEmail = (leadData.email || '').trim() || `chatbot-${fallbackContactId}@noemail.studio37.local`
 
-      if (error) throw error
+      const payload = {
+        name: leadData.name || 'Chat Lead',
+        email: safeEmail,
+        phone: leadData.phone,
+        service_interest: leadData.service?.toLowerCase() || 'chatbot-inquiry',
+        budget_range: leadData.budget,
+        message: `Timeline: ${leadData.timeline || 'TBD'}\n\nAdditional notes: ${leadData.message || 'None provided'}`,
+        source: 'chatbot-legacy'
+      }
+
+      const res = await fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}))
+        throw new Error(body?.error || 'Failed to submit lead')
+      }
     } catch (error) {
       console.error('Error submitting lead:', error)
       setMessages(prev => [...prev, {

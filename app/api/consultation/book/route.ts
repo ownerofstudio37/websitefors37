@@ -37,6 +37,7 @@ export async function POST(request: NextRequest) {
   try {
     const body: BookingRequest = await request.json()
     const { date, time, name, email, phone, notes } = body
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || request.nextUrl.origin || 'https://www.studio37.cc'
 
     // Validation
     if (!date || !time || !name || !email || !phone) {
@@ -237,9 +238,10 @@ export async function POST(request: NextRequest) {
       })
     }
 
-    // Send confirmation emails to customer and CEO
+    // Send confirmation emails to customer and admin inbox
     if (resend) {
       try {
+        const adminEmail = process.env.ADMIN_EMAIL || 'ceo@studio37.cc'
         const emailHtml = await renderEmailTemplate('booking-confirmation', {
           firstName: name,
           sessionType: 'Photography Consultation',
@@ -259,10 +261,10 @@ export async function POST(request: NextRequest) {
           html: emailHtml
         })
 
-        // Send notification to CEO
+        // Send notification to admin
         await resend.emails.send({
           from: 'Studio37 Bookings <bookings@studio37.cc>',
-          to: 'ceo@studio37.cc',
+          to: adminEmail,
           subject: `New Booking: ${name} - ${time} on ${date}`,
           html: `
             <h2>New Consultation Booking</h2>
@@ -278,7 +280,7 @@ export async function POST(request: NextRequest) {
           `
         })
 
-        log.info('Confirmation emails sent', { bookingId: booking.id, email })
+        log.info('Confirmation emails sent', { bookingId: booking.id, email, adminEmail })
       } catch (emailError: any) {
         log.error('Failed to send confirmation emails', { 
           error: emailError.message,
@@ -333,10 +335,10 @@ export async function POST(request: NextRequest) {
               <p><strong>Email:</strong> ${newLead.email || '—'}</p>
               <p><strong>Phone:</strong> ${newLead.phone || '—'}</p>
               <p><strong>Notes:</strong> ${newLead.message ? newLead.message.replace(/</g, '&lt;') : '—'}</p>
-              <p><a href="${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.studio37.cc'}/admin/leads">View lead in admin</a></p>
+              <p><a href="${siteUrl}/admin/leads">View lead in admin</a></p>
             `
 
-            fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.studio37.cc'}/api/marketing/email/send`, {
+            fetch(`${siteUrl}/api/marketing/email/send`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({

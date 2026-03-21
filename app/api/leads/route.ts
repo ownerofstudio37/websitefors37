@@ -65,7 +65,7 @@ async function scheduleFollowUps(leadId: string) {
   }
 }
 
-async function sendAutoResponseEmail(lead: any, payload: any) {
+async function sendAutoResponseEmail(lead: any, payload: any, siteUrl: string) {
   try {
     // Check if Resend is configured
     if (!process.env.RESEND_API_KEY) {
@@ -127,7 +127,7 @@ async function sendAutoResponseEmail(lead: any, payload: any) {
     }
 
     // Send email via marketing API
-    const emailResponse = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.studio37.cc'}/api/marketing/email/send`, {
+    const emailResponse = await fetch(`${siteUrl}/api/marketing/email/send`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -230,6 +230,7 @@ export async function POST(req: NextRequest) {
     }
 
     const payload = parsed.data
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || req.nextUrl.origin || 'https://www.studio37.cc'
 
     // Normalize event_date: accept partial strings like "Feb 14" by storing null when not a full date
     let normalizedEventDate: string | null = null
@@ -283,13 +284,13 @@ export async function POST(req: NextRequest) {
         <p>${insertedLead.message ? insertedLead.message.replace(/</g, '&lt;').replace(/\n/g, '<br>') : '—'}</p>
         <p><strong>Source:</strong> ${insertedLead.source || payload.source || 'web-form'}</p>
         <p><strong>Submitted:</strong> ${new Date().toLocaleString('en-US', { timeZone: 'America/New_York' })}</p>
-        <p style="margin-top: 20px;"><a href="${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.studio37.cc'}/admin/leads" style="background: #3B82F6; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">View Lead in Admin →</a></p>
+        <p style="margin-top: 20px;"><a href="${siteUrl}/admin/leads" style="background: #3B82F6; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">View Lead in Admin →</a></p>
       `
 
       const adminEmail = process.env.ADMIN_EMAIL || 'ceo@studio37.cc'
       
       // POST to marketing email send endpoint so all send logic (Resend + templates) stays centralized
-      fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.studio37.cc'}/api/marketing/email/send`, {
+      fetch(`${siteUrl}/api/marketing/email/send`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -330,7 +331,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Send auto-response email (fire and forget - don't block response)
-    sendAutoResponseEmail(insertedLead, payload).catch(err => {
+    sendAutoResponseEmail(insertedLead, payload, siteUrl).catch(err => {
       log.error('Auto-response email failed', { leadId: insertedLead.id }, err)
     })
 

@@ -398,8 +398,6 @@ export default function EnhancedChatBot() {
     if (leadCapturedRef.current) return;
 
     try {
-      const { supabase } = await import("@/lib/supabase");
-
       const fallbackContactId =
         (data.phone || "")
           .replace(/\D/g, "")
@@ -414,20 +412,29 @@ export default function EnhancedChatBot() {
         .map(m => `[${m.sender}] ${m.text}`)
         .join("\n");
 
-      await supabase.from("leads").insert([
-        {
-          name: data.name || "Chat Lead",
-          email: safeEmail,
-          phone: safePhone,
-          service_interest: data.service,
-          budget_range: data.budget,
-          message: data.message 
-            ? `${data.message}\n\nEvent date: ${data.eventDate || "TBD"}\nIntent: ${data.intent || "general inquiry"}\n\n--- Conversation ---\n${conversationSummary}`
-            : `Event date: ${data.eventDate || "TBD"}\nIntent: ${data.intent || "general inquiry"}\n\n--- Conversation ---\n${conversationSummary}`,
-          source: "chatbot",
-          status: "new",
-        },
-      ]);
+      const leadPayload = {
+        name: data.name || "Chat Lead",
+        email: safeEmail,
+        phone: safePhone,
+        service_interest: data.service || "chatbot-inquiry",
+        budget_range: data.budget,
+        event_date: data.eventDate,
+        message: data.message
+          ? `${data.message}\n\nEvent date: ${data.eventDate || "TBD"}\nIntent: ${data.intent || "general inquiry"}\n\n--- Conversation ---\n${conversationSummary}`
+          : `Event date: ${data.eventDate || "TBD"}\nIntent: ${data.intent || "general inquiry"}\n\n--- Conversation ---\n${conversationSummary}`,
+        source: "chatbot",
+      };
+
+      const res = await fetch("/api/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(leadPayload),
+      });
+
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        throw new Error(body?.error || "Failed to capture chatbot lead");
+      }
 
       leadCapturedRef.current = true;
       
@@ -442,8 +449,6 @@ export default function EnhancedChatBot() {
     setShowQuoteForm(false);
 
     try {
-      const { supabase } = await import("@/lib/supabase");
-
       // Build structured metadata
       const metadata = {
         service: quoteFormData.service,
@@ -471,19 +476,34 @@ ${quoteFormData.additionalNotes ? `Additional Notes: ${quoteFormData.additionalN
 --- Conversation Context ---
 ${conversationSummary}`;
 
-      await supabase.from("leads").insert([
-        {
-          name: leadData.name || "Chat Quote Request",
-          email: leadData.email,
-          phone: leadData.phone,
-          service_interest: quoteFormData.service,
-          message: detailedMessage,
-          source: "chatbot-quote-form",
-          status: "new",
-          // If your leads table supports JSON metadata column:
-          // metadata: metadata,
-        },
-      ]);
+      const fallbackContactId =
+        (leadData.phone || "")
+          .replace(/\D/g, "")
+          .slice(-10) ||
+        Date.now().toString();
+      const safeEmail = (leadData.email || "").trim() || `chatbot-${fallbackContactId}@noemail.studio37.local`;
+
+      const leadPayload = {
+        name: leadData.name || "Chat Quote Request",
+        email: safeEmail,
+        phone: normalizePhone(leadData.phone),
+        service_interest: quoteFormData.service || "quote-request",
+        budget_range: leadData.budget,
+        event_date: quoteFormData.eventDate || leadData.eventDate,
+        message: `${detailedMessage}\n\nQuote metadata: ${JSON.stringify(metadata)}`,
+        source: "chatbot-quote-form",
+      };
+
+      const res = await fetch("/api/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(leadPayload),
+      });
+
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        throw new Error(body?.error || "Failed to submit quote request");
+      }
 
       // Add confirmation message
       addBotMessage(

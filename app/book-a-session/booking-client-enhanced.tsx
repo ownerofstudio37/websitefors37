@@ -184,6 +184,38 @@ export default function BookSessionPageEnhanced() {
     if (!selectedDate || !selectedTime) return
     setSubmitting(true)
     try {
+      const isConsultationBooking = selectedType === 'consultation'
+      if (isConsultationBooking) {
+        const consultationDate = new Date(`${selectedDate}T${selectedTime}:00`)
+        const consultationTime = consultationDate.toLocaleTimeString('en-US', {
+          hour: 'numeric',
+          minute: '2-digit',
+          hour12: true,
+        })
+
+        const consultationRes = await fetch('/api/consultation/book', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            date: selectedDate,
+            time: consultationTime,
+            name,
+            email,
+            phone,
+            notes,
+          })
+        })
+
+        if (!consultationRes.ok) {
+          const body = await consultationRes.json().catch(() => ({}))
+          throw new Error(body?.error || 'Failed to book consultation')
+        }
+
+        setSuccess(true)
+        setCurrentStep(5)
+        return
+      }
+
       const start = new Date(`${selectedDate}T${selectedTime}:00`)
       const end = addMinutes(start, duration)
 
@@ -212,18 +244,36 @@ export default function BookSessionPageEnhanced() {
       if (existingLead?.id) {
         leadId = existingLead.id
       } else {
-        const { data: newLead, error: leadErr } = await supabase
-          .from('leads')
-          .insert([{ 
-            name, email, phone, 
-            message: notes,
-            service_interest: selectedType === 'consultation' ? 'consultation' : PACKAGES[selectedType].name,
-            status: 'converted'
-          }])
-          .select('id')
-          .single()
-        if (leadErr) throw leadErr
-        leadId = newLead.id
+        const serviceInterest = selectedType === 'consultation' ? 'consultation' : PACKAGES[selectedType].name
+        const leadMessage = notes?.trim()
+          ? notes
+          : `Booking inquiry for ${serviceInterest} on ${selectedDate} at ${selectedTime}.`
+
+        const leadRes = await fetch('/api/leads', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name,
+            email,
+            phone,
+            message: leadMessage,
+            service_interest: serviceInterest,
+            event_date: selectedDate,
+            source: 'book-a-session-enhanced'
+          })
+        })
+
+        if (!leadRes.ok) {
+          const body = await leadRes.json().catch(() => ({}))
+          throw new Error(body?.error || 'Failed to create lead record')
+        }
+
+        const leadBody = await leadRes.json().catch(() => ({}))
+        leadId = leadBody?.leadId || null
+      }
+
+      if (!leadId) {
+        throw new Error('Failed to resolve lead ID for booking')
       }
 
       const payload: Record<string, any> = {
