@@ -129,7 +129,7 @@ export default function BrandingMarketingPage() {
         </div>
         <div className="relative z-10 container mx-auto px-4 h-full flex items-center">
           <div className="text-white max-w-3xl">
-            <p className="eyebrow text-white/80 mb-3 inline-flex items-center gap-2">
+            <p className="eyebrow-hero mb-3 inline-flex items-center gap-2">
               <Megaphone className="h-4 w-4" />
               White-Glove Growth Partner
             </p>

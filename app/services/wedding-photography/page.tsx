@@ -140,7 +140,7 @@ export default function WeddingPhotographyPage() {
         </div>
         <div className="relative z-10 container mx-auto px-4 h-full flex items-center">
           <div className="text-white max-w-2xl">
-            <p className="eyebrow text-white/80 mb-3">The Duo Experience · Pinehurst, TX</p>
+            <p className="eyebrow-hero mb-3">The Duo Experience · Pinehurst, TX</p>
             <h1 className="text-5xl font-bold mb-4">Wedding Photography in Pinehurst, TX</h1>
             <p className="text-xl mb-3 text-white/90">
               Your love story deserves to be captured beautifully. Studio37 specializes in romantic, 

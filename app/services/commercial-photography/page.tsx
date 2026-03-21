@@ -96,7 +96,7 @@ export default function CommercialPhotographyPage() {
         </div>
         <div className="relative z-10 container mx-auto px-4 h-full flex items-center">
           <div className="text-white max-w-2xl">
-            <p className="eyebrow text-white/80 mb-3">Two-Pro Production Team · Pinehurst, TX</p>
+            <p className="eyebrow-hero mb-3">Two-Pro Production Team · Pinehurst, TX</p>
             <h1 className="text-5xl font-bold mb-4">Commercial Photography in Pinehurst, TX</h1>
             <p className="text-xl mb-3 text-white/90">
               We don&apos;t just take photos; we build your brand&apos;s visual identity. With our Two-Pro Production Team, we capture more content in less time, so you can get back to business.

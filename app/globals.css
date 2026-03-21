@@ -109,6 +109,10 @@
     @apply inline-flex items-center rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-amber-800;
   }
 
+  .eyebrow-hero {
+    @apply inline-flex items-center rounded-full border border-white/30 bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-white backdrop-blur-sm;
+  }
+
   .vintage-card {
     @apply bg-white border border-stone-200 p-6 rounded-2xl;
     position: relative;
