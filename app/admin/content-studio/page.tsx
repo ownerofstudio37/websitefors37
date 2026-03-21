@@ -12,6 +12,7 @@ import {
 
 type ContentFormat = 'pdf-guide' | 'instagram-square' | 'instagram-story' | 'facebook-post' | 'linkedin-post'
 type ContentTheme = 'studio37-warm' | 'clean-white' | 'dark-minimal' | 'sage-cream'
+type ServiceContext = 'auto' | 'branding-marketing' | 'portrait-photography' | 'event-photography' | 'wedding-photography' | 'commercial-photography'
 type BlockType =
   | 'cover' | 'section-header' | 'body-text' | 'bullets'
   | 'feature-cards' | 'stats-row' | 'quote-callout' | 'tip-box'
@@ -29,12 +30,61 @@ const FORMATS: Record<ContentFormat, { label: string; emoji: string; desc: strin
   'linkedin-post':    { label: 'LinkedIn Post',      emoji: '💼', desc: 'Professional post (1200×627)',   isPDF: false },
 }
 
+const SERVICE_CONTEXT_OPTIONS: { value: ServiceContext; label: string }[] = [
+  { value: 'auto', label: 'Auto (from topic)' },
+  { value: 'wedding-photography', label: 'Weddings' },
+  { value: 'portrait-photography', label: 'Portraits / Families' },
+  { value: 'event-photography', label: 'Events' },
+  { value: 'commercial-photography', label: 'Commercial' },
+  { value: 'branding-marketing', label: 'Branding & Marketing' },
+]
+
+const AUDIENCE_PRESETS: Record<ServiceContext, string[]> = {
+  auto: [
+    'Leads and existing clients',
+    'Small business owners',
+    'Local families and couples',
+  ],
+  'wedding-photography': [
+    'Brides and engaged couples',
+    'Grooms and family decision-makers',
+    'Couples planning intimate weddings',
+  ],
+  'portrait-photography': [
+    'Families with children',
+    'Seniors and graduates',
+    'Parents booking milestone portraits',
+  ],
+  'event-photography': [
+    'Event planners and hosts',
+    'Corporate event organizers',
+    'Birthday and celebration clients',
+  ],
+  'commercial-photography': [
+    'Business owners and founders',
+    'Marketing managers',
+    'Brands launching new products',
+  ],
+  'branding-marketing': [
+    'Service-based business owners',
+    'Teams needing lead generation',
+    'Brands scaling local visibility',
+  ],
+}
+
 type ThemeConfig = { label: string; bg: string; surface: string; border: string; text: string; muted: string; accent: string; accentBg: string; accentFg: string }
 const THEMES: Record<ContentTheme, ThemeConfig> = {
   'studio37-warm': { label: '🌿 Studio37 Warm',  bg: '#fffbf5', surface: '#fff',     border: '#e7e5e4', text: '#1c1917', muted: '#78716c', accent: '#b45309', accentBg: '#fef3c7', accentFg: '#92400e' },
   'clean-white':   { label: '⬜ Clean White',     bg: '#ffffff', surface: '#f9fafb', border: '#e5e7eb', text: '#111827', muted: '#6b7280', accent: '#2563eb', accentBg: '#eff6ff', accentFg: '#1d4ed8' },
   'dark-minimal':  { label: '🌑 Dark Minimal',    bg: '#0f172a', surface: '#1e293b', border: '#334155', text: '#f1f5f9', muted: '#94a3b8', accent: '#f59e0b', accentBg: '#1e293b', accentFg: '#d97706' },
   'sage-cream':    { label: '🌱 Sage & Cream',    bg: '#f8f7f0', surface: '#ffffff', border: '#d4dfd5', text: '#2d3b2d', muted: '#8b9e88', accent: '#6b8f71', accentBg: '#e8f0e9', accentFg: '#4a7055' },
+}
+
+const LOGO_LIGHT_URL = 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1756077115/My%20Brand/IMG_2115_mtuowt.png'
+const LOGO_BLACK_URL = 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1762887052/IMG_2115_mtuowt_tayodz.png'
+
+function getLogoForTheme(theme: ContentTheme) {
+  return theme === 'dark-minimal' ? LOGO_LIGHT_URL : LOGO_BLACK_URL
 }
 
 const BLOCK_CATALOG: { type: BlockType; label: string; icon: string; desc: string }[] = [
@@ -303,6 +353,7 @@ export default function ContentStudioPage() {
   // AI panel
   const [aiTopic, setAiTopic] = useState('')
   const [aiAudience, setAiAudience] = useState('')
+  const [aiServiceContext, setAiServiceContext] = useState<ServiceContext>('auto')
   const [aiTone, setAiTone] = useState('professional, helpful')
   const [generating, setGenerating] = useState(false)
   const [genError, setGenError] = useState<string | null>(null)
@@ -375,7 +426,7 @@ export default function ContentStudioPage() {
       const res = await fetch('/api/content-studio/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ topic: aiTopic, audience: aiAudience, tone: aiTone, format }),
+        body: JSON.stringify({ topic: aiTopic, audience: aiAudience, tone: aiTone, format, serviceContext: aiServiceContext }),
       })
       const json = await res.json()
       if (!res.ok) throw new Error(json.error || 'Generation failed')
@@ -563,7 +614,29 @@ export default function ContentStudioPage() {
               value={aiTopic}
               onChange={e => setAiTopic(e.target.value)}
             />
-            <input className="w-full border border-stone-200 rounded-lg px-2.5 py-1.5 text-xs mb-2" placeholder="Audience (e.g. 'restaurant owners')" value={aiAudience} onChange={e => setAiAudience(e.target.value)} />
+            <label className="block text-[10px] font-bold text-stone-400 uppercase tracking-widest mb-1">Service Type</label>
+            <select
+              className="w-full border border-stone-200 rounded-lg px-2.5 py-1.5 text-xs mb-2 bg-white"
+              value={aiServiceContext}
+              onChange={e => setAiServiceContext(e.target.value as ServiceContext)}
+            >
+              {SERVICE_CONTEXT_OPTIONS.map(opt => (
+                <option key={opt.value} value={opt.value}>{opt.label}</option>
+              ))}
+            </select>
+            <input className="w-full border border-stone-200 rounded-lg px-2.5 py-1.5 text-xs mb-1.5" placeholder="Audience (e.g. brides, families, event hosts, business owners)" value={aiAudience} onChange={e => setAiAudience(e.target.value)} />
+            <div className="flex flex-wrap gap-1 mb-2">
+              {AUDIENCE_PRESETS[aiServiceContext].map((preset) => (
+                <button
+                  key={preset}
+                  type="button"
+                  onClick={() => setAiAudience(preset)}
+                  className="px-2 py-0.5 rounded-full border border-stone-200 text-[10px] font-medium text-stone-600 hover:bg-stone-50"
+                >
+                  {preset}
+                </button>
+              ))}
+            </div>
             <input className="w-full border border-stone-200 rounded-lg px-2.5 py-1.5 text-xs mb-2" placeholder="Tone (e.g. 'professional, friendly')" value={aiTone} onChange={e => setAiTone(e.target.value)} />
             {genError && <p className="text-xs text-red-500 mb-2 flex items-start gap-1"><AlertCircle className="h-3.5 w-3.5 flex-shrink-0 mt-0.5" />{genError}</p>}
             <button onClick={handleGenerate} disabled={generating || !aiTopic.trim()} className="w-full py-2 rounded-lg text-xs font-semibold bg-amber-700 text-white hover:bg-amber-800 disabled:opacity-50 flex items-center justify-center gap-1.5">
@@ -602,6 +675,33 @@ export default function ContentStudioPage() {
                   style={getCanvasStyle()}
                   className="shadow-xl rounded-lg overflow-hidden"
                 >
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      padding: isPDF ? '16px 24px' : '12px 18px',
+                      borderBottom: `1px solid ${themeConfig.border}`,
+                      background: theme === 'dark-minimal' ? '#0b1220' : '#ffffff',
+                    }}
+                  >
+                    <img
+                      src={getLogoForTheme(theme)}
+                      alt="Studio37"
+                      style={{ height: isPDF ? 26 : 22, width: 'auto', objectFit: 'contain' }}
+                    />
+                    <span
+                      style={{
+                        fontSize: 10,
+                        fontWeight: 700,
+                        letterSpacing: '0.12em',
+                        textTransform: 'uppercase',
+                        color: themeConfig.muted,
+                      }}
+                    >
+                      Studio37 Content Studio
+                    </span>
+                  </div>
                   {blocks.map(block => (
                     <div
                       key={block.id}
