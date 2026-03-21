@@ -68,6 +68,23 @@ function normalizeEmailVariables(rawVariables: unknown, recipients: string[]): R
   }
 }
 
+function rewriteGalleryLinks(content: string): string {
+  if (!content) return content
+
+  // Absolute legacy gallery URLs
+  let rewritten = content.replace(
+    /https?:\/\/(?:www\.)?studio37\.cc\/gallery(\/[^"'\s<]*)?/gi,
+    (_m, suffix = '') => `https://gallery.studio37.cc${suffix}`
+  )
+
+  // Relative gallery URLs in href attributes
+  rewritten = rewritten.replace(/(["'])\/gallery(\/[^"'\s<]*)?\1/gi, (_m, quote, suffix = '') => {
+    return `${quote}https://gallery.studio37.cc${suffix}${quote}`
+  })
+
+  return rewritten
+}
+
 export async function POST(req: NextRequest) {
   try {
     // Rate limiting
@@ -180,6 +197,11 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
     }
+
+    // Backward-compat: sanitize legacy gallery links from older saved templates
+    // so outbound emails always use the new gallery domain.
+    if (emailHtml) emailHtml = rewriteGalleryLinks(emailHtml)
+    if (emailText) emailText = rewriteGalleryLinks(emailText)
 
     // Prepare recipients array
     const results: any[] = [];
