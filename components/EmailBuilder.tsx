@@ -1,8 +1,8 @@
 'use client'
 
 import React, { useState } from 'react'
-import { 
-  DndContext, 
+import {
+  DndContext,
   closestCenter,
   KeyboardSensor,
   PointerSensor,
@@ -14,16 +14,16 @@ import {
   SortableContext,
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
-  useSortable
+  useSortable,
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { 
-  GripVertical, 
-  Trash2, 
-  Type, 
-  Image as ImageIcon, 
-  Square, 
-  Layout, 
+import {
+  GripVertical,
+  Trash2,
+  Type,
+  Image as ImageIcon,
+  Square,
+  Layout,
   Settings,
   Share2,
   MapPin,
@@ -751,7 +751,7 @@ export default function EmailBuilder({
 
 */
 
-const BlockEditor = ({ block, onChange }: { block: EmailBlock, onChange: (updates: any) => void }) => {
+const LegacyBlockEditor = ({ block, onChange }: { block: EmailBlock, onChange: (updates: any) => void }) => {
   if (!block) return <div className="p-4 text-gray-500 text-center">Select a block to edit</div>
 
   const handleChange = (key: string, value: any) => {
@@ -946,7 +946,7 @@ const BlockEditor = ({ block, onChange }: { block: EmailBlock, onChange: (update
 
 // --- Main Component ---
 
-export default function EmailBuilder({ 
+function EmailBuilderLegacy({ 
   initialBlocks = [], 
   onChange 
 }: { 
