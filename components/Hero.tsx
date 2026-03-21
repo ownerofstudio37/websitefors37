@@ -66,7 +66,7 @@ export default function Hero() {
       <div className="relative z-20 container mx-auto px-4">
         <div className="max-w-6xl mx-auto pt-24 md:pt-32 pb-16 md:pb-24">
           <div className="max-w-3xl text-left">
-            <div className="eyebrow mb-5 bg-white/12 text-white border-white/20 backdrop-blur-sm">Pinehurst, TX · Weddings · Portraits · Brand</div>
+            <div className="eyebrow-hero mb-5">Pinehurst, TX · Weddings · Portraits · Brand</div>
             <h1
               className="font-serif text-5xl md:text-7xl lg:text-[5.5rem] font-bold mb-6 leading-[0.95] text-white drop-shadow-lg"
               suppressHydrationWarning
