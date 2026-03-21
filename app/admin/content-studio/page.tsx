@@ -371,6 +371,7 @@ export default function ContentStudioPage() {
   const canvasRef = useRef<HTMLDivElement>(null)
   const themeConfig = THEMES[theme]
   const isPDF = FORMATS[format].isPDF
+  const canvasMaxWidth = isPDF ? 794 : 560
   const selectedBlock = blocks.find(b => b.id === selectedId) ?? null
 
   const makeId = () => `block-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`
@@ -542,7 +543,7 @@ export default function ContentStudioPage() {
     }
     return {
       width: '100%',
-      maxWidth: 520,
+      maxWidth: canvasMaxWidth,
       aspectRatio: aspectMap[format] !== 'auto' ? aspectMap[format] : undefined,
       background: themeConfig.bg,
       overflow: 'hidden',
@@ -674,11 +675,11 @@ export default function ContentStudioPage() {
             </div>
           ) : (
             <div className="w-full flex justify-center">
-              <div style={{ width: '100%', maxWidth: 560 }}>
+              <div style={{ width: '100%', maxWidth: canvasMaxWidth }}>
                 <div
                   ref={canvasRef}
                   style={getCanvasStyle()}
-                  className="shadow-xl rounded-lg overflow-hidden"
+                  className="shadow-[0_18px_50px_rgba(15,23,42,0.15)] rounded-xl overflow-hidden border border-stone-200"
                 >
                   <div
                     style={{
@@ -711,15 +712,15 @@ export default function ContentStudioPage() {
                     <div
                       key={block.id}
                       onClick={() => setSelectedId(block.id)}
-                      className={`relative group cursor-pointer ring-inset transition-all ${selectedId === block.id ? 'ring-2 ring-amber-500' : 'hover:ring-1 hover:ring-amber-300'}`}
+                      className={`relative group cursor-pointer ring-inset transition-all ${selectedId === block.id ? 'ring-2 ring-amber-500' : 'hover:ring-1 hover:ring-amber-300/80'}`}
                     >
                       <BlockRenderer block={block} theme={themeConfig} isPDF={isPDF} />
                       {/* Block toolbar on hover */}
-                      <div data-editor-ui="true" className="absolute top-1 right-1 hidden group-hover:flex bg-white/90 backdrop-blur rounded-md shadow border border-stone-200 items-center gap-0.5 px-1 py-0.5 z-10">
-                        <button onClick={e => { e.stopPropagation(); moveBlock(block.id, -1) }} className="p-0.5 text-stone-500 hover:text-stone-800" title="Move up"><ChevronUp className="h-3 w-3" /></button>
-                        <button onClick={e => { e.stopPropagation(); moveBlock(block.id, 1) }} className="p-0.5 text-stone-500 hover:text-stone-800" title="Move down"><ChevronDown className="h-3 w-3" /></button>
-                        <button onClick={e => { e.stopPropagation(); duplicateBlock(block.id) }} className="p-0.5 text-stone-500 hover:text-stone-800" title="Duplicate"><Copy className="h-3 w-3" /></button>
-                        <button onClick={e => { e.stopPropagation(); removeBlock(block.id) }} className="p-0.5 text-red-400 hover:text-red-600" title="Delete"><Trash2 className="h-3 w-3" /></button>
+                      <div data-editor-ui="true" className="absolute top-2 right-2 hidden group-hover:flex bg-white/95 backdrop-blur rounded-lg shadow-lg border border-stone-200 items-center gap-0.5 px-1 py-1 z-10">
+                        <button onClick={e => { e.stopPropagation(); moveBlock(block.id, -1) }} className="p-1 text-stone-500 hover:text-stone-800 hover:bg-stone-100 rounded" title="Move up"><ChevronUp className="h-3.5 w-3.5" /></button>
+                        <button onClick={e => { e.stopPropagation(); moveBlock(block.id, 1) }} className="p-1 text-stone-500 hover:text-stone-800 hover:bg-stone-100 rounded" title="Move down"><ChevronDown className="h-3.5 w-3.5" /></button>
+                        <button onClick={e => { e.stopPropagation(); duplicateBlock(block.id) }} className="p-1 text-stone-500 hover:text-stone-800 hover:bg-stone-100 rounded" title="Duplicate"><Copy className="h-3.5 w-3.5" /></button>
+                        <button onClick={e => { e.stopPropagation(); removeBlock(block.id) }} className="p-1 text-red-400 hover:text-red-600 hover:bg-red-50 rounded" title="Delete"><Trash2 className="h-3.5 w-3.5" /></button>
                       </div>
                     </div>
                   ))}

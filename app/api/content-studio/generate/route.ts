@@ -496,6 +496,11 @@ function shouldFallbackForQuality(rawBlocks: any[], topic: string) {
   return false
 }
 
+function hasBusinessJargonForClientPrep(rawBlocks: any[]) {
+  const fullText = rawBlocks.map(extractBlockText).join(' ')
+  return /(ctr|kpi|cost per lead|lead quality|win\/loss|funnel|conversion rate|ppc|campaign optimization)/i.test(fullText)
+}
+
 export async function POST(req: NextRequest) {
   try {
     const { topic, audience, tone, format, serviceContext } = await req.json()
@@ -515,6 +520,11 @@ export async function POST(req: NextRequest) {
     const normalizedFormat: SupportedFormat = VALID_FORMATS.includes(format)
       ? format
       : 'pdf-guide'
+
+    const inferredContext = normalizedServiceContext === 'auto'
+      ? detectServiceContextFromTopic(topic)
+      : normalizedServiceContext
+    const isClientPrepContext = inferredContext === 'portrait-photography' || inferredContext === 'wedding-photography' || inferredContext === 'event-photography'
 
     const audienceProfile = getAudienceGuidance(audience, normalizedServiceContext)
     const serviceLabel = getServiceContextLabel(normalizedServiceContext)
@@ -536,7 +546,14 @@ export async function POST(req: NextRequest) {
 - spacer: { height: 24 }
 
 Create 10-16 blocks for a complete, content-rich guide. Structure:
-  cover → body-text (intro) → section-header + content blocks (repeat 3-5 sections) → stats-row → quote-callout → cta`
+  cover → body-text (intro) → section-header + content blocks (repeat 3-5 sections) → stats-row → quote-callout → cta
+
+${isClientPrepContext
+  ? `For portrait/wedding/event prep guides, use this preferred flow:
+  cover → intro → "what to wear" bullets → "what to bring" bullets → timeline section → session day tips → post-session expectations → CTA.
+  Keep language warm, practical, family/client-friendly.`
+  : `For branding/commercial guides, keep strategy + execution + measurement sections with business-oriented examples.`}`
+`
       : `Available block types for social posts:
 - cover: { title (short, punchy), subtitle (1 line), category (2-3 word label) }
 - bullets: { heading (optional), items: string[] (3-5 very short items, max 8 words each) }
@@ -616,6 +633,14 @@ Tone: ${tone || 'professional, helpful, confidence-building'}`
     if (shouldFallbackForQuality(rawBlocks, topic)) {
       logger.warn('AI output low quality, switching to guided fallback blocks', {
         format: normalizedFormat,
+        topic,
+        serviceContext: normalizedServiceContext,
+      })
+      rawBlocks = buildFallbackBlocks(topic, normalizedFormat, audienceProfile, normalizedServiceContext)
+    }
+
+    if (isClientPrepContext && hasBusinessJargonForClientPrep(rawBlocks)) {
+      logger.warn('Client-prep guide contained business jargon, switching to guided fallback', {
         topic,
         serviceContext: normalizedServiceContext,
       })
