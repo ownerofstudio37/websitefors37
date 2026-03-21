@@ -62,7 +62,7 @@ export default async function ContactPage() {
           })
         }}
       />
-      <div className="absolute top-0 left-0 w-full h-[36rem] -z-10 pointer-events-none">
+      <div className="absolute top-0 left-0 w-full h-[36rem] -z-10 pointer-events-none bg-stone-900">
         <Image
           src="https://images.unsplash.com/photo-1423666639041-f56000c27a9a"
           alt="Contact background"
@@ -71,7 +71,7 @@ export default async function ContactPage() {
           priority
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-stone-950/55" />
+        <div className="absolute inset-0 bg-stone-950/70" />
       </div>
       <div className="container mx-auto px-4 py-24 max-w-6xl w-full flex-1 relative z-10">
         <div className="max-w-3xl mb-12">
