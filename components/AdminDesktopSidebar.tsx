@@ -1,12 +1,14 @@
 'use client'
 
+import { useMemo, useState } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import { ChevronLeft, LogOut } from 'lucide-react'
+import { ChevronLeft, LogOut, Search } from 'lucide-react'
 import {
   ADMIN_SIDEBAR_GROUP_ORDER,
   ADMIN_TOOL_GROUP_META,
   getSidebarTools,
+  getSidebarToolsByGroup,
 } from '@/lib/admin-tools'
 
 interface AdminDesktopSidebarProps {
@@ -15,9 +17,27 @@ interface AdminDesktopSidebarProps {
 }
 
 export default function AdminDesktopSidebar({ isOpen, onToggle }: AdminDesktopSidebarProps) {
+  const [query, setQuery] = useState('')
   const pathname = usePathname()
   const router = useRouter()
   const sidebarTools = getSidebarTools()
+  const normalizedQuery = query.trim().toLowerCase()
+
+  const filteredTools = useMemo(() => {
+    if (!normalizedQuery) return sidebarTools
+
+    return sidebarTools.filter((tool) => {
+      const fields = [tool.label, tool.description, tool.badge, ...(tool.keywords || [])]
+      return fields
+        .filter(Boolean)
+        .some((field) => field!.toLowerCase().includes(normalizedQuery))
+    })
+  }, [normalizedQuery, sidebarTools])
+
+  const toolsByGroup = useMemo(
+    () => getSidebarToolsByGroup(filteredTools),
+    [filteredTools]
+  )
 
   const handleLogout = async () => {
     try {
@@ -60,8 +80,27 @@ export default function AdminDesktopSidebar({ isOpen, onToggle }: AdminDesktopSi
 
       {/* Navigation */}
       <nav className="flex-1 overflow-y-auto py-4 px-3 space-y-5">
+        <div className="px-1">
+          <label className="relative block">
+            <Search className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
+            <input
+              type="text"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search tools..."
+              className="w-full rounded-lg border border-gray-200 bg-gray-50 py-2 pl-9 pr-3 text-sm text-gray-700 placeholder:text-gray-400 focus:border-primary-300 focus:bg-white focus:outline-none"
+            />
+          </label>
+        </div>
+
+        {filteredTools.length === 0 && (
+          <div className="px-3 py-6 text-sm text-gray-500">
+            No admin tools match “{query}”.
+          </div>
+        )}
+
         {ADMIN_SIDEBAR_GROUP_ORDER.map((groupId) => {
-          const tools = sidebarTools.filter((tool) => tool.group === groupId)
+          const tools = toolsByGroup[groupId]
           if (tools.length === 0) return null
 
           return (

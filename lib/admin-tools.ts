@@ -36,6 +36,7 @@ export interface AdminTool {
   href: string
   icon: LucideIcon
   group: AdminToolGroupId
+  keywords?: string[]
   badge?: string
   featured?: boolean
   exact?: boolean
@@ -106,6 +107,7 @@ export const ADMIN_TOOLS: AdminTool[] = [
     href: '/admin/lead-scoring',
     icon: Target,
     group: 'crm',
+    keywords: ['ai', 'score', 'qualification', 'priority', 'ranking'],
     badge: 'AI',
     featured: true,
     showInSidebar: true,
@@ -238,6 +240,17 @@ export const ADMIN_TOOLS: AdminTool[] = [
     showOnDashboard: true,
   },
   {
+    id: 'visual-editor',
+    label: 'Visual Editor',
+    description: 'Open the visual editor workspace for page layouts and content.',
+    href: '/admin/visual-editor',
+    icon: Workflow,
+    group: 'content',
+    badge: 'Builder',
+    showInSidebar: true,
+    showOnDashboard: false,
+  },
+  {
     id: 'marketing',
     label: 'Marketing Campaigns',
     description: 'Create and send email and SMS campaigns.',
@@ -256,8 +269,21 @@ export const ADMIN_TOOLS: AdminTool[] = [
     href: '/admin/email-templates',
     icon: Mail,
     group: 'marketing',
+    keywords: ['email', 'template', 'autoresponder', 'follow-up', 'confirmation'],
     showInSidebar: true,
     showOnDashboard: true,
+  },
+  {
+    id: 'email-sender',
+    label: 'Email Sender',
+    description: 'Send one-off test, marketing, or transactional emails.',
+    href: '/admin/email-sender',
+    icon: Mail,
+    group: 'marketing',
+    keywords: ['email', 'send', 'resend', 'test', 'campaign'],
+    badge: 'Utility',
+    showInSidebar: true,
+    showOnDashboard: false,
   },
   {
     id: 'inbox',
@@ -276,6 +302,7 @@ export const ADMIN_TOOLS: AdminTool[] = [
     href: '/admin/chatbot-training',
     icon: Sparkles,
     group: 'marketing',
+    keywords: ['ai', 'chatbot', 'training', 'knowledge', 'assistant'],
     badge: 'AI',
     showInSidebar: true,
     showOnDashboard: true,
@@ -287,6 +314,7 @@ export const ADMIN_TOOLS: AdminTool[] = [
     href: '/admin/ai-site-builder',
     icon: Wand2,
     group: 'marketing',
+    keywords: ['ai', 'builder', 'generate', 'layout', 'content'],
     badge: 'AI',
     showInSidebar: true,
     showOnDashboard: true,
@@ -309,6 +337,7 @@ export const ADMIN_TOOLS: AdminTool[] = [
     href: '/admin/seo',
     icon: Search,
     group: 'site',
+    keywords: ['seo', 'metadata', 'sitemap', 'robots', 'search'],
     showInSidebar: true,
     showOnDashboard: true,
   },
@@ -413,4 +442,21 @@ export function getSidebarTools() {
 
 export function getDashboardTools() {
   return ADMIN_TOOLS.filter((tool) => tool.showOnDashboard)
+}
+
+export function getSidebarToolsByGroup(tools: AdminTool[] = getSidebarTools()) {
+  return ADMIN_SIDEBAR_GROUP_ORDER.reduce<Record<AdminToolGroupId, AdminTool[]>>(
+    (acc, groupId) => {
+      acc[groupId] = tools.filter((tool) => tool.group === groupId)
+      return acc
+    },
+    {
+      overview: [],
+      crm: [],
+      content: [],
+      marketing: [],
+      site: [],
+      system: [],
+    }
+  )
 }
