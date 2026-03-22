@@ -22,7 +22,7 @@ const prepGuides = [
     icon: Camera,
     accentColor: 'from-blue-50 to-blue-100',
     iconColor: 'text-blue-600',
-    image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1701900000/portrait-prep_sample.jpg',
+    image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255559/PS379799_ayoxbp.jpg',
   },
   {
     serviceType: 'engagement',
@@ -33,7 +33,7 @@ const prepGuides = [
     icon: HeartHandshake,
     accentColor: 'from-rose-50 to-rose-100',
     iconColor: 'text-rose-600',
-    image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1701900000/engagement-prep_sample.jpg',
+    image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255571/PS370262_buzjak.jpg',
   },
   {
     serviceType: 'wedding',
@@ -44,7 +44,7 @@ const prepGuides = [
     icon: Cake,
     accentColor: 'from-amber-50 to-amber-100',
     iconColor: 'text-amber-600',
-    image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1701900000/wedding-prep_sample.jpg',
+    image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255614/IMG_8313_asvu5g.jpg',
   },
   {
     serviceType: 'event',
@@ -55,7 +55,7 @@ const prepGuides = [
     icon: Users,
     accentColor: 'from-purple-50 to-purple-100',
     iconColor: 'text-purple-600',
-    image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1701900000/event-prep_sample.jpg',
+    image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1772505745/E275DB4A-2A41-4DE0-93BA-F161078CFE9C_1_105_c_jt4tiz.jpg',
   },
   {
     serviceType: 'commercial',
@@ -66,7 +66,7 @@ const prepGuides = [
     icon: Briefcase,
     accentColor: 'from-slate-50 to-slate-100',
     iconColor: 'text-slate-600',
-    image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1701900000/commercial-prep_sample.jpg',
+    image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255703/PS373409_pwmxmp.jpg',
   },
 ]
 
@@ -74,20 +74,21 @@ export default function SessionPrepHub() {
   return (
     <main className="min-h-screen bg-white">
       {/* Hero */}
-      <section className="px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+      <section className="bg-gradient-to-b from-gray-50 to-white px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
         <div className="mx-auto max-w-4xl text-center">
+          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-rose-500">Studio37 Resources</p>
           <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
             Session Prep Guides
           </h1>
-          <p className="mt-4 text-lg text-gray-600">
-            Everything you need to know before your session to ensure we capture your best self.
-            Choose your session type to get started.
+          <p className="mt-5 text-lg text-gray-600 max-w-2xl mx-auto">
+            Everything you need to know before your session. Choose your service type below for a
+            tailored guide to help you look and feel your best.
           </p>
         </div>
       </section>
 
       {/* Guides Grid */}
-      <section className="px-4 py-16 sm:px-6 lg:px-8">
+      <section className="px-4 pb-20 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-6xl">
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {prepGuides.map((guide) => {
@@ -96,27 +97,35 @@ export default function SessionPrepHub() {
                 <Link
                   key={guide.serviceType}
                   href={guide.href}
-                  className="group flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white transition-all duration-300 hover:border-gray-300 hover:shadow-lg"
+                  className="group relative flex flex-col overflow-hidden rounded-2xl shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
                 >
-                  {/* Image */}
-                  <div className="relative h-48 overflow-hidden bg-gray-100">
+                  {/* Image with overlay */}
+                  <div className="relative h-64 overflow-hidden bg-gray-200">
                     <OptimizedImage
                       src={guide.image}
                       alt={guide.title}
                       fill
-                      className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
                     />
+                    {/* Dark gradient overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+
+                    {/* Icon badge */}
+                    <div className={`absolute top-4 left-4 inline-flex rounded-full bg-white/90 p-2 backdrop-blur-sm ${guide.iconColor}`}>
+                      <Icon className="h-4 w-4" />
+                    </div>
+
+                    {/* Title over image */}
+                    <div className="absolute bottom-0 left-0 right-0 p-5">
+                      <h3 className="text-xl font-semibold text-white">{guide.title}</h3>
+                    </div>
                   </div>
 
                   {/* Content */}
-                  <div className={`flex flex-1 flex-col bg-gradient-to-br ${guide.accentColor} p-6`}>
-                    <div className={`mb-3 inline-flex w-fit rounded-full bg-white p-2 ${guide.iconColor}`}>
-                      <Icon className="h-5 w-5" />
-                    </div>
-                    <h3 className="text-xl font-semibold text-gray-900">{guide.title}</h3>
-                    <p className="mt-2 flex-1 text-sm text-gray-700">{guide.description}</p>
-                    <div className="mt-4 inline-flex items-center font-medium text-gray-900">
-                      View Guide
+                  <div className="flex flex-1 flex-col bg-white p-5">
+                    <p className="flex-1 text-sm text-gray-600">{guide.description}</p>
+                    <div className={`mt-4 inline-flex items-center text-sm font-semibold ${guide.iconColor}`}>
+                      View Prep Guide
                       <span className="ml-2 transition-transform group-hover:translate-x-1">→</span>
                     </div>
                   </div>
