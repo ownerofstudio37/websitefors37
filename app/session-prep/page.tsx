@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { generateSEOMetadata } from '@/lib/seo'
+import { generateSEOMetadata } from '@/lib/seo-helpers'
 import OptimizedImage from '@/components/OptimizedImage'
 import { HeartHandshake, Users, Cake, Briefcase, Camera } from 'lucide-react'
 

@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { generateSEOMetadata } from '@/lib/seo'
+import { generateSEOMetadata } from '@/lib/seo-helpers'
 import { ChevronLeft } from 'lucide-react'
 
 export const metadata = generateSEOMetadata({
