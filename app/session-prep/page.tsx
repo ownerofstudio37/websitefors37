@@ -1,6 +1,6 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
-import OptimizedImage from '@/components/OptimizedImage'
 import { HeartHandshake, Users, Cake, Briefcase, Camera } from 'lucide-react'
 
 export const metadata = generateSEOMetadata({
@@ -101,12 +101,11 @@ export default function SessionPrepHub() {
                 >
                   {/* Image with overlay */}
                   <div className="relative h-64 overflow-hidden bg-gray-200">
-                    <OptimizedImage
+                    <Image
                       src={guide.image}
                       alt={guide.title}
                       fill
-                      className="absolute inset-0"
-                      imgClassName="object-cover transition-transform duration-500 group-hover:scale-105"
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />
                     {/* Dark gradient overlay */}
