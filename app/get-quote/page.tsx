@@ -6,7 +6,7 @@ import { generateSEOMetadata } from '@/lib/seo-helpers'
 
 export const metadata = generateSEOMetadata({
   title: 'Get Your Photography Quote - Studio37 Pinehurst TX',
-  description: 'Get an instant AI-powered quote for your photography needs. Check our availability calendar and book your session with Studio37 in Pinehurst, Texas.',
+  description: 'Get an instant quote with current Studio37 package pricing for portraits, engagement sessions, weddings, events, and commercial work in Pinehurst, Texas.',
   keywords: [
     'photography quote Pinehurst TX',
     'instant photography pricing',
@@ -31,11 +31,14 @@ export default function GetQuotePage() {
               Get Your Instant Photography Quote
             </h1>
             <p className="text-xl text-primary-100 mb-6">
-              AI-powered recommendations tailored to your needs. Get pricing in minutes, not days.
+              Instant package recommendations with current pricing. Includes engagement concierge options.
             </p>
             <div className="flex flex-wrap gap-4 justify-center text-sm">
               <div className="flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full">
                 <span>✓</span> Instant AI Recommendations
+              </div>
+              <div className="flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full">
+                <span>✓</span> 2026 Current Package Pricing
               </div>
               <div className="flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full">
                 <span>✓</span> Real-Time Availability

@@ -34,9 +34,10 @@ export const FALLBACK_NAV_ITEMS: NavigationItem[] = [
     children: [
       { id: 'services-wedding', label: 'Wedding Photography', href: '/services/wedding-photography', order: 1, visible: true },
       { id: 'services-portrait', label: 'Portrait Photography', href: '/services/portrait-photography', order: 2, visible: true },
-      { id: 'services-event', label: 'Event Photography', href: '/services/event-photography', order: 3, visible: true },
-      { id: 'services-commercial', label: 'Commercial Photography', href: '/services/commercial-photography', order: 4, visible: true },
-      { id: 'services-branding-marketing', label: 'Branding & Marketing', href: '/services/branding-marketing', order: 5, visible: true },
+      { id: 'services-engagement', label: 'Engagement Sessions', href: '/services/engagement-session', order: 3, visible: true },
+      { id: 'services-event', label: 'Event Photography', href: '/services/event-photography', order: 4, visible: true },
+      { id: 'services-commercial', label: 'Commercial Photography', href: '/services/commercial-photography', order: 5, visible: true },
+      { id: 'services-branding-marketing', label: 'Branding & Marketing', href: '/services/branding-marketing', order: 6, visible: true },
     ],
   },
   { id: 'blog', label: 'Blog', href: '/blog', order: 5, visible: true },

@@ -17,6 +17,7 @@ export const metadata = generateSEOMetadata({
     'family photography Pinehurst',
     'corporate headshots Texas',
     'engagement photography',
+    'engagement concierge',
     'bridal photography Pinehurst'
   ],
   canonicalUrl: 'https://www.studio37.cc/services',
@@ -203,6 +204,23 @@ export default function ServicesPage() {
                 <h3 className="text-xl font-semibold mb-2 text-gray-800">Commercial Photography</h3>
                 <p className="text-gray-600 mb-4">Business branding, product shots, and corporate imagery</p>
                 <div className="flex items-center justify-center text-gray-600 group-hover:text-gray-700">
+                  <span className="font-medium">Learn More</span>
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </div>
+              </div>
+            </Link>
+
+            <Link 
+              href="/services/engagement-session" 
+              className="group surface-panel p-6 rounded-2xl transition-all duration-300 hover:-translate-y-1"
+            >
+              <div className="text-center">
+                <div className="bg-pink-100 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-pink-200 transition-colors">
+                  <span className="text-3xl">💖</span>
+                </div>
+                <h3 className="text-xl font-semibold mb-2 text-gray-800">Engagement Sessions</h3>
+                <p className="text-gray-600 mb-4">Signature engagement sessions plus full concierge proposal planning</p>
+                <div className="flex items-center justify-center text-pink-700 group-hover:text-pink-800">
                   <span className="font-medium">Learn More</span>
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </div>

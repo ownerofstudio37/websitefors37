@@ -139,13 +139,14 @@ Additional Details: ${formData.additionalDetails || 'None'}`,
               <div className="text-center mb-8">
                 <Camera className="h-12 w-12 text-primary-600 mx-auto mb-4" />
                 <h2 className="text-3xl font-bold text-gray-900 mb-2">What type of session are you looking for?</h2>
-                <p className="text-gray-600">Select the service that best fits your needs</p>
+                <p className="text-gray-600">Select the service that best fits your needs (2026 package pricing)</p>
               </div>
 
               <div className="grid md:grid-cols-2 gap-4">
                 {[
                   { value: 'wedding', label: 'Wedding Photography', icon: '💍', desc: 'Full wedding day coverage' },
                   { value: 'portrait', label: 'Portrait Session', icon: '👨‍👩‍👧‍👦', desc: 'Family, senior, or individual' },
+                  { value: 'engagement', label: 'Engagement Session', icon: '💖', desc: 'Signature or full-service concierge engagement' },
                   { value: 'event', label: 'Event Photography', icon: '🎉', desc: 'Corporate or social events' },
                   { value: 'commercial', label: 'Commercial Shoot', icon: '🏢', desc: 'Business and product photography' }
                 ].map((service) => (
@@ -269,7 +270,8 @@ Additional Details: ${formData.additionalDetails || 'None'}`,
                     <option value="500-1000">$500 - $1,000</option>
                     <option value="1000-2000">$1,000 - $2,000</option>
                     <option value="2000-3500">$2,000 - $3,500</option>
-                    <option value="3500-plus">$3,500+</option>
+                    <option value="3500-5000">$3,500 - $5,000</option>
+                    <option value="5000-plus">$5,000+</option>
                   </select>
                 </div>
               </div>
