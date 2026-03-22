@@ -35,6 +35,47 @@ export default function SmartQuoteForm() {
 
   const totalSteps = 4
 
+  const durationOptionsByService: Record<string, Array<{ value: number; label: string }>> = {
+    portrait: [
+      { value: 0.5, label: '30 minutes (Mini)' },
+      { value: 1, label: '1 hour (Standard)' },
+      { value: 1.5, label: '1.5 hours (Extended)' },
+      { value: 2, label: '2 hours' },
+      { value: 3, label: '3 hours' },
+    ],
+    engagement: [
+      { value: 0.75, label: '45 minutes (Signature)' },
+      { value: 1.25, label: '75 minutes (Premium)' },
+      { value: 1.5, label: '90 minutes (Editorial)' },
+      { value: 2, label: '2 hours (Concierge Start)' },
+      { value: 4, label: '4 hours (Concierge)' },
+      { value: 6, label: '6+ hours (Concierge Event)' },
+    ],
+    wedding: [
+      { value: 4, label: '4 hours (Essential)' },
+      { value: 6, label: '6 hours' },
+      { value: 8, label: '8 hours (Complete)' },
+      { value: 10, label: '10 hours (Premium)' },
+      { value: 12, label: '12+ hours (Full Day+)' },
+    ],
+    event: [
+      { value: 2, label: '2 hours (Basic)' },
+      { value: 4, label: '4 hours (Standard)' },
+      { value: 6, label: '6 hours' },
+      { value: 8, label: '8 hours (Premium)' },
+      { value: 10, label: '10+ hours' },
+    ],
+    commercial: [
+      { value: 2, label: '2 hours (Starter)' },
+      { value: 4, label: '4 hours (Professional)' },
+      { value: 6, label: '6 hours' },
+      { value: 8, label: '8 hours (Enterprise)' },
+      { value: 10, label: '10+ hours (Production Day+)' },
+    ],
+  }
+
+  const activeDurationOptions = durationOptionsByService[formData.serviceType || 'portrait'] || durationOptionsByService.portrait
+
   const updateFormData = (field: keyof QuoteFormData, value: any) => {
     setFormData(prev => ({ ...prev, [field]: value }))
   }
@@ -228,17 +269,19 @@ Additional Details: ${formData.additionalDetails || 'None'}`,
                   </label>
                   <select
                     value={formData.duration || ''}
-                    onChange={(e) => updateFormData('duration', parseInt(e.target.value))}
+                    onChange={(e) => updateFormData('duration', parseFloat(e.target.value))}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                   >
                     <option value="">Select duration</option>
-                    <option value="1">1 hour</option>
-                    <option value="2">2 hours</option>
-                    <option value="4">4 hours</option>
-                    <option value="6">6 hours</option>
-                    <option value="8">8 hours (Full day)</option>
-                    <option value="10">10+ hours</option>
+                    {activeDurationOptions.map((option) => (
+                      <option key={`${formData.serviceType || 'portrait'}-${option.value}`} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
                   </select>
+                  <p className="text-xs text-gray-500 mt-2">
+                    Duration options are tailored to your selected service packages.
+                  </p>
                 </div>
 
                 <div>
