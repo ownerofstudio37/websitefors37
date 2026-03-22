@@ -138,7 +138,7 @@ const PACKAGE_CATALOG: PackageOption[] = [
     minBudget: 1800,
     maxBudget: 100000,
     durationHours: [2, 8],
-    price: '$1,800+',
+    price: 'Custom (Consultation Required)',
     features: [
       'Proposal/session concept and full planning support',
       'Location scouting + permits coordination',
@@ -146,7 +146,7 @@ const PACKAGE_CATALOG: PackageOption[] = [
       'Photo + highlight video coverage options',
       'White-glove timeline + vendor coordination',
     ],
-    bestFor: 'Designed for custom surprise proposals and luxury engagement experiences.',
+    bestFor: 'Designed for custom surprise proposals and luxury engagement experiences with consultation-based planning.',
   },
   {
     key: 'wedding-essential',

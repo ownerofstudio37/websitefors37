@@ -68,7 +68,8 @@ const STANDARD_PACKAGES = [
 const CONCIERGE_PACKAGES = [
   {
     name: 'Concierge Essentials',
-    price: '$1,800+',
+    price: 'Custom',
+    subtitle: 'Consultation-based pricing',
     features: [
       'Proposal/session concept planning',
       'Location scouting + coordination',
@@ -79,7 +80,8 @@ const CONCIERGE_PACKAGES = [
   },
   {
     name: 'Concierge Signature',
-    price: '$2,800+',
+    price: 'Custom',
+    subtitle: 'Consultation-based pricing',
     features: [
       'End-to-end planning + vendor coordination',
       'Decor sourcing and setup support',
@@ -90,7 +92,8 @@ const CONCIERGE_PACKAGES = [
   },
   {
     name: 'Concierge Luxe',
-    price: '$4,200+',
+    price: 'Custom',
+    subtitle: 'Consultation-based pricing',
     features: [
       'White-glove engagement experience design',
       'Premium decor + staging management',
@@ -185,6 +188,7 @@ export default function EngagementSessionPage() {
               <div key={pkg.name} className="surface-panel p-7">
                 <p className="text-sm font-semibold text-primary-700 uppercase tracking-wide">{pkg.name}</p>
                 <p className="text-3xl font-bold text-stone-900 mt-2 mb-5">{pkg.price}</p>
+                <p className="text-sm text-stone-500 -mt-3 mb-5">{pkg.subtitle}</p>
                 <ul className="space-y-2">
                   {pkg.features.map((feature) => (
                     <li key={feature} className="flex items-start gap-2 text-sm text-stone-700">
@@ -193,6 +197,7 @@ export default function EngagementSessionPage() {
                     </li>
                   ))}
                 </ul>
+                <Link href="/book-consultation" className="btn-secondary text-center block mt-6">Book Consultation</Link>
               </div>
             ))}
           </div>
@@ -206,7 +211,7 @@ export default function EngagementSessionPage() {
               <div className="flex gap-3"><Video className="h-5 w-5 text-primary-600 mt-0.5" /><p><strong>Photo + video:</strong> Add cinematic highlight coverage alongside your engagement gallery.</p></div>
             </div>
             <div className="mt-7 flex flex-wrap gap-3">
-              <Link href="/get-quote" className="btn-primary inline-flex items-center">Build My Custom Package <ArrowRight className="ml-2 h-4 w-4" /></Link>
+              <Link href="/book-consultation" className="btn-primary inline-flex items-center">Book Consultation <ArrowRight className="ml-2 h-4 w-4" /></Link>
               <Link href="/contact" className="btn-secondary inline-flex items-center">Talk to Our Concierge Team</Link>
             </div>
           </div>

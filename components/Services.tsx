@@ -2,7 +2,7 @@
 
 import React from 'react'
 import Link from 'next/link'
-import { Camera, Users, Building, Heart, Megaphone, ArrowRight } from 'lucide-react'
+import { Camera, Users, Building, Heart, Megaphone, ArrowRight, HeartHandshake } from 'lucide-react'
 import OptimizedImage from './OptimizedImage'
 
 const services = [
@@ -37,6 +37,22 @@ const services = [
 			category: 'professional portraits',
 			slug: 'portrait-photography',
 			image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255713/D9E4E5AE-12BE-498B-B7C1-9CDE7FFC1B59_qiaj3v.jpg',
+		},
+		{
+			icon: HeartHandshake,
+			title: 'Engagement Concierge',
+			startingPrice: 'Custom pricing · Consultation required',
+			description:
+				'Luxury engagement and proposal planning with location scouting, decor coordination, surprise logistics, and photo/video coverage.',
+			features: [
+				'Proposal planning concierge',
+				'Location + decor coordination',
+				'Photo + video options',
+				'Book consultation to customize',
+			],
+			category: 'engagement concierge',
+			slug: 'engagement-session',
+			image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255724/PS370779_xq5ipr.jpg',
 		},
 		{
 			icon: Camera,
