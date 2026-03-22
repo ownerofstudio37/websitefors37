@@ -40,8 +40,9 @@ export const FALLBACK_NAV_ITEMS: NavigationItem[] = [
       { id: 'services-branding-marketing', label: 'Branding & Marketing', href: '/services/branding-marketing', order: 6, visible: true },
     ],
   },
-  { id: 'blog', label: 'Blog', href: '/blog', order: 5, visible: true },
-  { id: 'about', label: 'About', href: '/about', order: 6, visible: true },
-  { id: 'contact', label: 'Contact', href: '/contact', order: 7, visible: true },
-  { id: 'book', label: 'Book Consultation', href: '/book-consultation', order: 8, visible: true, highlighted: true },
+  { id: 'session-prep', label: 'Session Prep', href: '/session-prep', order: 5, visible: true },
+  { id: 'blog', label: 'Blog', href: '/blog', order: 6, visible: true },
+  { id: 'about', label: 'About', href: '/about', order: 7, visible: true },
+  { id: 'contact', label: 'Contact', href: '/contact', order: 8, visible: true },
+  { id: 'book', label: 'Book Consultation', href: '/book-consultation', order: 9, visible: true, highlighted: true },
 ]
