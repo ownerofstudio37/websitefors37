@@ -1547,7 +1547,7 @@ export function PPALogoBlock({
   })
 
   // Using the specific PPA logo URL provided
-  const logoUrl = "https://www.ppa.com/assets/images/pages/PPA_logo1_COLOR_RGB_Meta.png"
+  const logoUrl = "/ppa-logo.png"
 
   const content = (
     <div className={`flex ${alignmentClasses[finalAlignment as keyof typeof alignmentClasses] || 'justify-center'}`}>
@@ -1656,7 +1656,7 @@ export function TrustBadgesCombinedBlock({
     <div className={`py-8 bg-white flex flex-wrap ${alignmentClasses[finalAlignment as keyof typeof alignmentClasses] || 'justify-center'} gap-8 items-center ${responsiveClasses}`}>
       <a href="https://ppa.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-90 transition-opacity">
         <img 
-          src="https://www.ppa.com/assets/images/pages/PPA_logo1_COLOR_RGB_Meta.png" 
+          src="/ppa-logo.png"
           alt="Professional Photographers of America" 
           className="h-16 md:h-20 w-auto object-contain"
         />
@@ -1741,7 +1741,7 @@ export function PressCredentialsBlock({
                 title="Professional Photographers of America"
               >
                 <img 
-                  src="https://www.ppa.com/assets/images/pages/PPA_logo1_COLOR_RGB_Meta.png" 
+                  src="/ppa-logo.png" 
                   alt="Professional Photographers of America" 
                   className="h-16 md:h-24 w-auto object-contain"
                 />
