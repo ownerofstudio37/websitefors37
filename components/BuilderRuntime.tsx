@@ -1546,8 +1546,13 @@ export function PPALogoBlock({
     mobileHidden: String(mobileHidden) === 'true' 
   })
 
+<<<<<<< HEAD
+  // Using Cloudinary-hosted PPA logo to avoid cross-site blocking
+  const logoUrl = "https://res.cloudinary.com/dmjxho2rl/image/upload/v1774328861/PPA-Logo_wblk6k.png"
+=======
   // Using the specific PPA logo URL provided
   const logoUrl = "/ppa-logo.png"
+>>>>>>> 24bff781966e78d29b6d0ec678a5b1e77232c9b9
 
   const content = (
     <div className={`flex ${alignmentClasses[finalAlignment as keyof typeof alignmentClasses] || 'justify-center'}`}>
@@ -1656,7 +1661,11 @@ export function TrustBadgesCombinedBlock({
     <div className={`py-8 bg-white flex flex-wrap ${alignmentClasses[finalAlignment as keyof typeof alignmentClasses] || 'justify-center'} gap-8 items-center ${responsiveClasses}`}>
       <a href="https://ppa.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-90 transition-opacity">
         <img 
+<<<<<<< HEAD
+          src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1774328861/PPA-Logo_wblk6k.png" 
+=======
           src="/ppa-logo.png"
+>>>>>>> 24bff781966e78d29b6d0ec678a5b1e77232c9b9
           alt="Professional Photographers of America" 
           className="h-16 md:h-20 w-auto object-contain"
         />
@@ -1741,7 +1750,11 @@ export function PressCredentialsBlock({
                 title="Professional Photographers of America"
               >
                 <img 
+<<<<<<< HEAD
+                  src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1774328861/PPA-Logo_wblk6k.png" 
+=======
                   src="/ppa-logo.png" 
+>>>>>>> 24bff781966e78d29b6d0ec678a5b1e77232c9b9
                   alt="Professional Photographers of America" 
                   className="h-16 md:h-24 w-auto object-contain"
                 />
