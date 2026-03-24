@@ -265,7 +265,7 @@ export default function EnhancedChatBot() {
 
       if (res.ok) {
         const data = await res.json();
-        console.log("Chat response received:", { 
+        if (process.env.NODE_ENV === 'development') console.log("Chat response received:", { 
           hasResponse: !!data.response, 
           responseLength: data.response?.length,
           responsePreview: data.response?.substring(0, 100),
@@ -438,7 +438,6 @@ export default function EnhancedChatBot() {
 
       leadCapturedRef.current = true;
       
-      console.log("Lead saved successfully");
     } catch (error) {
       console.error("Error saving lead:", error);
     }
@@ -520,7 +519,6 @@ ${conversationSummary}`;
         additionalNotes: "",
       });
 
-      console.log("Quote request saved successfully");
     } catch (error) {
       console.error("Error saving quote request:", error);
       addBotMessage(

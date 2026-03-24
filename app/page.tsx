@@ -59,6 +59,9 @@ export const metadata = generateSEOMetadata({
   pageType: "website",
 });
 
+// Revalidate once per day; homepage content rarely changes outside CMS
+export const revalidate = 86400;
+
 // Try to import rehype-raw, but fall back gracefully if not available
 let rehypeRaw: any;
 try {

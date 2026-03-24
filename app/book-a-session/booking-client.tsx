@@ -916,16 +916,22 @@ export default function BookSessionPage() {
       <div className="mt-12 py-8 border-t border-gray-200 flex flex-wrap justify-center gap-8 items-center">
         <a href="https://ppa.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-90 transition-opacity">
           <img 
-            src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1774328861/PPA-Logo_wblk6k.png" 
+            src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1774328861/PPA-Logo_wblk6k.png"
             alt="Professional Photographers of America" 
             className="h-16 w-auto object-contain"
+            loading="lazy"
+            width="120"
+            height="64"
           />
         </a>
         <a href="https://www.fullframeinsurance.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-90 transition-opacity">
           <img 
-            src="https://app.fullframeinsurance.com/media/site_seals/0001/06/3b90b57044c80c69bd9c02042952a0a33dce7681.png" 
+            src="https://app.fullframeinsurance.com/media/site_seals/0001/06/3b90b57044c80c69bd9c02042952a0a33dce7681.png"
             alt="Full Frame Insurance Seal" 
             className="h-20 w-auto object-contain"
+            loading="lazy"
+            width="120"
+            height="80"
           />
         </a>
       </div>

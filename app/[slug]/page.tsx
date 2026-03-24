@@ -101,10 +101,6 @@ export default async function DynamicPage({ params, searchParams }: { params: { 
       notFound()
     }
     
-    // Log content for debugging
-    console.log(`Rendering page: ${params.slug}`)
-    console.log('Content preview:', page.content?.substring(0, 200))
-  
   // Detect if content uses builder blocks (contains custom JSX components)
   // vs traditional markdown/prose content
   const isBuilderPage = page.content?.includes('Block') || false

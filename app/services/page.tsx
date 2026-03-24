@@ -397,6 +397,9 @@ export default function ServicesPage() {
                 src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1774328861/PPA-Logo_wblk6k.png" 
                 alt="Professional Photographers of America" 
                 className="h-16 md:h-20 w-auto object-contain"
+                loading="lazy"
+                width="120"
+                height="80"
               />
             </a>
             <a href="https://www.fullframeinsurance.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-90 transition-opacity">
@@ -404,6 +407,9 @@ export default function ServicesPage() {
                 src="https://app.fullframeinsurance.com/media/site_seals/0001/06/3b90b57044c80c69bd9c02042952a0a33dce7681.png" 
                 alt="Full Frame Insurance Seal" 
                 className="h-24 md:h-32 w-auto object-contain"
+                loading="lazy"
+                width="120"
+                height="128"
               />
             </a>
           </div>
