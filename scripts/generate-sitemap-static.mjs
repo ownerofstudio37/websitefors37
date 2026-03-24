@@ -35,6 +35,10 @@ const staticUrls = [
   { url: `${baseUrl}/about`, priority: 0.8, frequency: 'monthly' },
   { url: `${baseUrl}/blog`, priority: 0.8, frequency: 'daily' },
   { url: `${baseUrl}/local-photographer-pinehurst-tx`, priority: 0.8, frequency: 'monthly' },
+  { url: `${baseUrl}/local-photographer-the-woodlands-tx`, priority: 0.8, frequency: 'monthly' },
+  { url: `${baseUrl}/local-photographer-spring-tx`, priority: 0.8, frequency: 'monthly' },
+  { url: `${baseUrl}/local-photographer-tomball-tx`, priority: 0.8, frequency: 'monthly' },
+  { url: `${baseUrl}/local-photographer-conroe-tx`, priority: 0.8, frequency: 'monthly' },
 ]
 
 function escapeXml(str) {
