@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Calendar as CalendarIcon, Clock, ArrowRight, ArrowLeft, CheckCircle2, Phone, Mail, User, MessageSquare } from 'lucide-react'
 import toast from 'react-hot-toast'
+import { trackBookingClick, trackFormSubmit } from '@/lib/analytics'
 
 interface TimeSlot {
   time: string
@@ -225,6 +226,8 @@ const ConsultationBookingForm = () => {
       })
       
       if (response.ok) {
+        trackBookingClick('consultation-submit')
+        trackFormSubmit('consultation-booking', ['date', 'time', 'name', 'email', 'phone', 'notes'])
         toast.success('Consultation booked! Check your email for confirmation.')
         setStep(4) // Success step
       } else {
@@ -319,7 +322,7 @@ const ConsultationBookingForm = () => {
                 ))}
               </div>
               <div className="grid grid-cols-7 gap-2">
-                {renderCalendar({ dayClass: 'min-h-10 text-base' })}
+                {renderCalendar()}
               </div>
             </div>
 

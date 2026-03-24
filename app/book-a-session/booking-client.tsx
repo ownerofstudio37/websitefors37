@@ -3,6 +3,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { supabase } from '@/lib/supabase'
 import Image from 'next/image'
+import { trackBookingClick, trackFormSubmit } from '@/lib/analytics'
 
 // Inline simple SVG icons to avoid lucide-react bundle (reduces ~50KB)
 const Loader2 = ({ className }: { className?: string }) => (
@@ -389,6 +390,9 @@ export default function BookSessionPage() {
           throw new Error(body?.error || 'Failed to book consultation')
         }
 
+        trackBookingClick('consultation-submit')
+        trackFormSubmit('book-session-consultation', ['name', 'email', 'phone', 'date', 'time', 'notes'])
+
         setSuccess(true)
         setCurrentStep(5) // Success step
         return
@@ -496,6 +500,9 @@ export default function BookSessionPage() {
 
       const { error: apptErr } = await supabase.from('appointments').insert([payload])
       if (apptErr) throw apptErr
+
+      trackBookingClick('book-session-submit')
+      trackFormSubmit('book-session', ['name', 'email', 'phone', 'date', 'time', 'package', 'add-ons'])
 
       setSuccess(true)
       setCurrentStep(5) // Success step

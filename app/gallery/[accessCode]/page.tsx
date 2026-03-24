@@ -173,6 +173,7 @@ export default function ClientGalleryPage() {
             <button
               type="submit"
               disabled={loading}
+              aria-label="Access private gallery"
               className="w-full px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:from-indigo-700 hover:to-purple-700 transition-all font-medium disabled:opacity-50 flex items-center justify-center gap-2"
             >
               {loading ? (
@@ -203,6 +204,7 @@ export default function ClientGalleryPage() {
             <div className="flex items-center gap-4">
               <button
                 onClick={() => setViewFilter('all')}
+                aria-label="Show all photos"
                 className={`px-4 py-2 rounded-lg font-medium transition-all ${
                   viewFilter === 'all'
                     ? 'bg-indigo-600 text-white'
@@ -213,6 +215,7 @@ export default function ClientGalleryPage() {
               </button>
               <button
                 onClick={() => setViewFilter('favorites')}
+                aria-label="Show favorite photos"
                 className={`px-4 py-2 rounded-lg font-medium transition-all flex items-center gap-2 ${
                   viewFilter === 'favorites'
                     ? 'bg-rose-600 text-white'
@@ -259,6 +262,8 @@ export default function ClientGalleryPage() {
                   <img
                     src={image.thumbnail_url || image.watermarked_url}
                     alt={image.caption || 'Gallery photo'}
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
                   {image.is_featured && (
@@ -276,6 +281,7 @@ export default function ClientGalleryPage() {
                         e.stopPropagation()
                         toggleFavorite(image.id)
                       }}
+                      aria-label={favorites.has(image.id) ? 'Remove from favorites' : 'Add to favorites'}
                       className={`p-2 rounded-full transition-all ${
                         favorites.has(image.id)
                           ? 'bg-rose-500 text-white'
@@ -290,6 +296,7 @@ export default function ClientGalleryPage() {
                           e.stopPropagation()
                           downloadImage(image.id, image.watermarked_url)
                         }}
+                        aria-label="Download photo"
                         className="p-2 bg-white/20 text-white rounded-full hover:bg-white/30 transition-all"
                       >
                         <Download className="w-5 h-5" />
@@ -317,6 +324,7 @@ export default function ClientGalleryPage() {
             <button
               className="absolute top-4 right-4 p-3 bg-white/10 text-white rounded-full hover:bg-white/20 transition-all z-50"
               onClick={closeLightbox}
+              aria-label="Close lightbox"
             >
               <X className="w-6 h-6" />
             </button>
@@ -329,6 +337,7 @@ export default function ClientGalleryPage() {
                   e.stopPropagation()
                   prevImage()
                 }}
+                aria-label="Previous image"
               >
                 <ChevronLeft className="w-6 h-6" />
               </button>
@@ -340,6 +349,7 @@ export default function ClientGalleryPage() {
                   e.stopPropagation()
                   nextImage()
                 }}
+                aria-label="Next image"
               >
                 <ChevronRight className="w-6 h-6" />
               </button>
@@ -357,6 +367,8 @@ export default function ClientGalleryPage() {
               <img
                 src={filteredImages[selectedImage].watermarked_url || filteredImages[selectedImage].cloudinary_url}
                 alt={filteredImages[selectedImage].caption || 'Gallery photo'}
+                loading="eager"
+                decoding="sync"
                 className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
               />
             </motion.div>
@@ -378,6 +390,7 @@ export default function ClientGalleryPage() {
                       e.stopPropagation()
                       toggleFavorite(filteredImages[selectedImage].id)
                     }}
+                    aria-label={favorites.has(filteredImages[selectedImage].id) ? 'Remove from favorites' : 'Add to favorites'}
                     className={`p-3 rounded-full transition-all ${
                       favorites.has(filteredImages[selectedImage].id)
                         ? 'bg-rose-500 text-white'
@@ -395,6 +408,7 @@ export default function ClientGalleryPage() {
                           filteredImages[selectedImage].watermarked_url
                         )
                       }}
+                      aria-label="Download current image"
                       className="p-3 bg-white/10 text-white rounded-full hover:bg-white/20 transition-all"
                     >
                       <Download className="w-5 h-5" />

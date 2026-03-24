@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
-import { setupScrollDepthTracking, setupVideoElementTracking, setupGalleryTracking } from '@/lib/analytics'
+import { setupScrollDepthTracking, setupVideoElementTracking, setupGalleryTracking, setupPrimaryCtaTracking } from '@/lib/analytics'
 
 /**
  * Client component to initialize analytics tracking on page load.
@@ -18,6 +18,7 @@ export default function AnalyticsSetup() {
     let cleanupScroll: (() => void) | void
     let cleanupVideo: (() => void) | void
     let cleanupGallery: (() => void) | void
+    let cleanupCta: (() => void) | void
 
     const initTracking = () => {
       if (cancelled || initialized) return
@@ -31,6 +32,9 @@ export default function AnalyticsSetup() {
       // Setup gallery click tracking using event delegation
       // Looks for elements with data-gallery-click attribute
       cleanupGallery = setupGalleryTracking('[data-gallery-click]')
+
+      // Setup primary conversion CTA tracking (book, quote, consultation, contact)
+      cleanupCta = setupPrimaryCtaTracking()
     }
 
     const kickOff = () => {
@@ -70,6 +74,7 @@ export default function AnalyticsSetup() {
       if (typeof cleanupScroll === 'function') cleanupScroll()
       if (typeof cleanupVideo === 'function') cleanupVideo()
       if (typeof cleanupGallery === 'function') cleanupGallery()
+      if (typeof cleanupCta === 'function') cleanupCta()
     }
   }, [])
 

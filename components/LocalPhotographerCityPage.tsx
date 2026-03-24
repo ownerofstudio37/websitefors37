@@ -384,6 +384,43 @@ export default function LocalPhotographerCityPage({
         </div>
       </section>
 
+      <section className="py-12 bg-stone-50 border-y border-stone-200">
+        <div className="container mx-auto px-4">
+          <div className="max-w-6xl mx-auto">
+            <h2 className="text-2xl font-bold text-gray-900 mb-3">Explore Services & City Pages</h2>
+            <p className="text-gray-700 mb-6">
+              Compare services, browse nearby city landing pages, and find the best fit for your timeline and budget.
+            </p>
+
+            <div className="flex flex-wrap gap-3 text-sm mb-4">
+              <Link href="/services" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">All Services</Link>
+              <Link href="/locations" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">All Service Areas</Link>
+              <Link href="/services/wedding-photography" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">Wedding</Link>
+              <Link href="/services/portrait-photography" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">Portrait</Link>
+              <Link href="/services/event-photography" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">Event</Link>
+              <Link href="/services/commercial-photography" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">Commercial</Link>
+            </div>
+
+            <div className="flex flex-wrap gap-3 text-sm">
+              <Link href="/local-photographer-pinehurst-tx" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">Pinehurst</Link>
+              <Link href="/local-photographer-magnolia-tx" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">Magnolia</Link>
+              <Link href="/local-photographer-the-woodlands-tx" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">The Woodlands</Link>
+              <Link href="/local-photographer-spring-tx" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">Spring</Link>
+              <Link href="/local-photographer-tomball-tx" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">Tomball</Link>
+              <Link href="/local-photographer-conroe-tx" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">Conroe</Link>
+              <Link href="/local-photographer-montgomery-tx" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">Montgomery</Link>
+              <Link href="/local-photographer-willis-tx" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">Willis</Link>
+              <Link href="/local-photographer-huntsville-tx" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">Huntsville</Link>
+              <Link href="/local-photographer-new-caney-tx" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">New Caney</Link>
+              <Link href="/local-photographer-hockley-tx" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">Hockley</Link>
+              <Link href="/local-photographer-bryan-tx" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">Bryan</Link>
+              <Link href="/local-photographer-college-station-tx" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">College Station</Link>
+              <Link href="/local-photographer-houston-tx" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">Houston</Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <FAQSection
         title={faqTitle}
         faqs={[

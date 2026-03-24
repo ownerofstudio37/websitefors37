@@ -241,3 +241,47 @@ export function setupGalleryTracking(gallerySelector: string = '[data-gallery]')
     unsubs.forEach((fn) => fn())
   }
 }
+
+/**
+ * Setup click tracking for primary conversion CTAs across the site.
+ * Tracks Book Session, Get Quote, Book Consultation, and Contact clicks.
+ */
+export function setupPrimaryCtaTracking() {
+  if (typeof window === 'undefined') return
+
+  const onClick = (event: Event) => {
+    const target = event.target as HTMLElement | null
+    if (!target) return
+
+    const clickable = target.closest('a,button') as HTMLAnchorElement | HTMLButtonElement | null
+    if (!clickable) return
+
+    const href = clickable instanceof HTMLAnchorElement
+      ? (clickable.getAttribute('href') || '')
+      : ''
+
+    if (href.includes('/book-a-session')) {
+      trackBookingClick('book-session-cta')
+      return
+    }
+
+    if (href.includes('/get-quote')) {
+      trackBookingClick('get-quote-cta')
+      return
+    }
+
+    if (href.includes('/book-consultation')) {
+      trackBookingClick('consultation-cta')
+      return
+    }
+
+    if (href.includes('/contact')) {
+      trackContactOpened()
+    }
+  }
+
+  document.addEventListener('click', onClick)
+  return () => {
+    document.removeEventListener('click', onClick)
+  }
+}
