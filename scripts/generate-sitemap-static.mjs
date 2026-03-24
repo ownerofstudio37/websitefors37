@@ -39,6 +39,15 @@ const staticUrls = [
   { url: `${baseUrl}/local-photographer-spring-tx`, priority: 0.8, frequency: 'monthly' },
   { url: `${baseUrl}/local-photographer-tomball-tx`, priority: 0.8, frequency: 'monthly' },
   { url: `${baseUrl}/local-photographer-conroe-tx`, priority: 0.8, frequency: 'monthly' },
+  { url: `${baseUrl}/local-photographer-magnolia-tx`, priority: 0.8, frequency: 'monthly' },
+  { url: `${baseUrl}/local-photographer-montgomery-tx`, priority: 0.8, frequency: 'monthly' },
+  { url: `${baseUrl}/local-photographer-willis-tx`, priority: 0.8, frequency: 'monthly' },
+  { url: `${baseUrl}/local-photographer-huntsville-tx`, priority: 0.8, frequency: 'monthly' },
+  { url: `${baseUrl}/local-photographer-new-caney-tx`, priority: 0.8, frequency: 'monthly' },
+  { url: `${baseUrl}/local-photographer-hockley-tx`, priority: 0.8, frequency: 'monthly' },
+  { url: `${baseUrl}/local-photographer-bryan-tx`, priority: 0.8, frequency: 'monthly' },
+  { url: `${baseUrl}/local-photographer-college-station-tx`, priority: 0.8, frequency: 'monthly' },
+  { url: `${baseUrl}/local-photographer-houston-tx`, priority: 0.8, frequency: 'monthly' },
 ]
 
 function escapeXml(str) {
