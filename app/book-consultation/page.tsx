@@ -161,11 +161,7 @@ export default function BookConsultationPage() {
         <div className="mt-12 py-8 border-t border-gray-200 flex flex-wrap justify-center gap-8 items-center surface-panel">
           <a href="https://ppa.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-90 transition-opacity">
             <img 
-<<<<<<< HEAD
               src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1774328861/PPA-Logo_wblk6k.png" 
-=======
-              src="/ppa-logo.png" 
->>>>>>> 24bff781966e78d29b6d0ec678a5b1e77232c9b9
               alt="Professional Photographers of America" 
               className="h-16 md:h-20 w-auto object-contain"
             />

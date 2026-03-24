@@ -225,11 +225,7 @@ export default async function ContactPage() {
           <div className="flex flex-wrap justify-center gap-8 items-center">
             <a href="https://ppa.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-90 transition-opacity">
               <Image
-<<<<<<< HEAD
                 src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1774328861/PPA-Logo_wblk6k.png"
-=======
-                src="/ppa-logo.png"
->>>>>>> 24bff781966e78d29b6d0ec678a5b1e77232c9b9
                 alt="Professional Photographers of America"
                 width={160}
                 height={80}
