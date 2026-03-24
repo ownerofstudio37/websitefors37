@@ -1,7 +1,7 @@
 /**
  * Unified AI Client for Studio37
  * 
- * Provides consistent Gemini 2.0 integration across all features:
+ * Provides consistent Gemini 2.5 integration across all features:
  * - Chatbot conversations
  * - Blog post generation
  * - Image analysis & alt text
@@ -22,24 +22,21 @@ const ENV_MODEL =
   process.env.GOOGLE_GENAI_MODEL ||
   process.env.GEMINI_MODEL ||
   process.env.AI_MODEL ||
-  "gemini-3-flash";
+  "gemini-2.5-flash";
 
 // Current live models as of March 2026 (from Google AI Studio).
 // Stable/production first, preview models at the end.
 export const MODEL_FALLBACKS = [
-  "gemini-3-flash",        // Gemini 3 Flash — production, frontier-class
-  "gemini-2.5-flash",      // Gemini 2.5 Flash — best price/performance with reasoning
-  "gemini-2.5-flash-lite", // Gemini 2.5 Flash-Lite — fastest / cheapest
+  "gemini-2.5-flash",      // Gemini 2.5 Flash — stable, best price/performance
   "gemini-2.5-pro",        // Gemini 2.5 Pro — complex tasks + deep reasoning
-  "gemini-3.1-pro-preview",     // Gemini 3.1 Pro — agentic / advanced (preview)
-  "gemini-3.1-flash-lite",      // Gemini 3.1 Flash-Lite (preview)
+  "gemini-2.5-flash-lite", // Gemini 2.5 Flash-Lite — fastest / cheapest
 ];
 
 // Model configurations for different use cases
 export const AI_MODELS = {
   // Default multimodal model
   FLASH: MODEL_FALLBACKS[0],
-  // For vision tasks (Gemini 3 Pro Preview is multimodal as well)
+  // For vision/complex tasks
   VISION: MODEL_FALLBACKS[0],
 } as const;
 

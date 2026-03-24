@@ -81,7 +81,7 @@ export async function POST(req: Request) {
       process.env.GOOGLE_GENAI_MODEL ||
       process.env.GEMINI_MODEL ||
       process.env.AI_MODEL ||
-      "gemini-3-pro";
+      "gemini-2.5-flash";
     const model = genAI.getGenerativeModel({
       model: preferredModel || envModel,
     });
