@@ -8,8 +8,8 @@ interface GoogleBusinessProps {
 export default function GoogleBusinessWidget({ className = "" }: GoogleBusinessProps) {
   const businessInfo = {
     name: "Studio37 Photography",
-    rating: 4.9,
-    reviewCount: 47,
+    rating: 5.0,
+    reviewCount: 19,
     address: "1701 Goodson Loop Unit 80, Pinehurst, TX 77362",
     phone: "(832) 713-9944",
     hours: "7 Days a Week: 8AM-9PM CST",

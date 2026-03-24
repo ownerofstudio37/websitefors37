@@ -67,7 +67,7 @@ export default function LocalPhotographerCityPage({
               <MapPin className="h-5 w-5 text-blue-300" />
               <span className="text-blue-200">Proudly serving {cityLabel} & {county}</span>
             </div>
-            <h1 className="text-5xl font-bold mb-6">Top Photographer in {cityLabel}</h1>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6">Top Photographer in {cityLabel}</h1>
             <p className="text-xl mb-6 text-gray-200">
               Studio37 delivers wedding, portrait, engagement, event, and commercial photography for families and businesses across {county}.
               We bring a two-photographer team and clear pricing on every session.
@@ -79,6 +79,8 @@ export default function LocalPhotographerCityPage({
               >
                 Book Your Session
               </Link>
+
+
               <Link
                 href="/gallery"
                 className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-primary-600 transition-colors text-center"
@@ -104,7 +106,7 @@ export default function LocalPhotographerCityPage({
               <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Star className="h-8 w-8 text-blue-600" />
               </div>
-              <h3 className="text-2xl font-bold text-blue-600 mb-2">4.9★</h3>
+              <h3 className="text-2xl font-bold text-blue-600 mb-2">5.0★</h3>
               <p className="text-gray-600">Average Rating</p>
             </div>
             <div className="text-center">

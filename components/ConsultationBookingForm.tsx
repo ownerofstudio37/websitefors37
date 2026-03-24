@@ -319,7 +319,7 @@ const ConsultationBookingForm = () => {
                 ))}
               </div>
               <div className="grid grid-cols-7 gap-2">
-                {renderCalendar()}
+                {renderCalendar({ dayClass: 'min-h-10 text-base' })}
               </div>
             </div>
 
