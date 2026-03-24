@@ -151,32 +151,212 @@ export default function LocalPhotographerCityPage({
         </div>
       </section>
 
-      <section className="py-16 bg-gray-50">
+      <section className="section-shell bg-stone-50">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-10">
-            <h2 className="text-3xl font-bold mb-4">Current Starting Prices</h2>
-            <p className="text-lg text-gray-600">These prices match our main service pages.</p>
+          <div className="text-center mb-12 max-w-3xl mx-auto">
+            <div className="eyebrow mb-4">Pricing</div>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Popular Services & Starting Prices in {city}</h2>
+            <p className="text-lg text-stone-600">
+              Designed to match our main service pages with clearer package details. Final pricing may increase based on hours, travel, add-ons, and deliverables.
+            </p>
           </div>
-          <div className="grid md:grid-cols-2 xl:grid-cols-5 gap-6">
-            <div className="bg-white rounded-lg p-6 text-center shadow-sm">
-              <p className="text-sm text-gray-500">Portraits</p>
-              <p className="text-3xl font-bold text-gray-900 mt-1">{STARTING_PRICES.portrait}</p>
+
+          <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+            <Link href="/services/portrait-photography" className="group surface-panel p-6 rounded-2xl transition-all duration-300 hover:-translate-y-1">
+              <div className="text-center">
+                <div className="bg-blue-100 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-200 transition-colors">
+                  <span className="text-3xl">👨‍👩‍👧‍👦</span>
+                </div>
+                <h3 className="text-xl font-semibold mb-1 text-gray-800">Portrait Photography</h3>
+                <p className="text-sm uppercase tracking-wide text-blue-700 font-semibold mb-3">Starting at {STARTING_PRICES.portrait}</p>
+                <p className="text-gray-600 mb-4">Family portraits, seniors, maternity, and professional headshots around {cityLabel}.</p>
+                <ul className="text-sm text-stone-600 space-y-1 mb-4">
+                  <li>• Guided posing + location planning</li>
+                  <li>• Professionally edited gallery</li>
+                  <li>• Print and sharing rights</li>
+                </ul>
+                <span className="font-medium text-blue-700">Learn More</span>
+              </div>
+            </Link>
+
+            <Link href="/services/engagement-session" className="group surface-panel p-6 rounded-2xl transition-all duration-300 hover:-translate-y-1">
+              <div className="text-center">
+                <div className="bg-pink-100 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-pink-200 transition-colors">
+                  <span className="text-3xl">💖</span>
+                </div>
+                <h3 className="text-xl font-semibold mb-1 text-gray-800">Engagement Sessions</h3>
+                <p className="text-sm uppercase tracking-wide text-pink-700 font-semibold mb-3">Starting at {STARTING_PRICES.engagement}</p>
+                <p className="text-gray-600 mb-4">Romantic save-the-date sessions and proposal-friendly planning support.</p>
+                <ul className="text-sm text-stone-600 space-y-1 mb-4">
+                  <li>• Style and concept guidance</li>
+                  <li>• Golden-hour timeline support</li>
+                  <li>• Multi-location options available</li>
+                </ul>
+                <span className="font-medium text-pink-700">Learn More</span>
+              </div>
+            </Link>
+
+            <Link href="/services/event-photography" className="group surface-panel p-6 rounded-2xl transition-all duration-300 hover:-translate-y-1">
+              <div className="text-center">
+                <div className="bg-green-100 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-green-200 transition-colors">
+                  <span className="text-3xl">🎉</span>
+                </div>
+                <h3 className="text-xl font-semibold mb-1 text-gray-800">Event Photography</h3>
+                <p className="text-sm uppercase tracking-wide text-green-700 font-semibold mb-3">Starting at {STARTING_PRICES.event}</p>
+                <p className="text-gray-600 mb-4">Corporate events, birthday parties, private celebrations, and community events.</p>
+                <ul className="text-sm text-stone-600 space-y-1 mb-4">
+                  <li>• Candid + key moment coverage</li>
+                  <li>• Team portraits on request</li>
+                  <li>• Fast post-event gallery delivery</li>
+                </ul>
+                <span className="font-medium text-green-700">Learn More</span>
+              </div>
+            </Link>
+
+            <Link href="/services/wedding-photography" className="group surface-panel p-6 rounded-2xl transition-all duration-300 hover:-translate-y-1">
+              <div className="text-center">
+                <div className="bg-rose-100 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-rose-200 transition-colors">
+                  <span className="text-3xl">💍</span>
+                </div>
+                <h3 className="text-xl font-semibold mb-1 text-gray-800">Wedding Photography</h3>
+                <p className="text-sm uppercase tracking-wide text-rose-700 font-semibold mb-3">Starting at {STARTING_PRICES.wedding}</p>
+                <p className="text-gray-600 mb-4">Full-day storytelling for weddings in {cityLabel} and across {county}.</p>
+                <ul className="text-sm text-stone-600 space-y-1 mb-4">
+                  <li>• Timeline planning assistance</li>
+                  <li>• Two-photographer team model</li>
+                  <li>• Sneak peeks + full gallery delivery</li>
+                </ul>
+                <span className="font-medium text-rose-700">Learn More</span>
+              </div>
+            </Link>
+
+            <Link href="/services/commercial-photography" className="group surface-panel p-6 rounded-2xl transition-all duration-300 hover:-translate-y-1">
+              <div className="text-center">
+                <div className="bg-gray-100 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-gray-200 transition-colors">
+                  <span className="text-3xl">🏢</span>
+                </div>
+                <h3 className="text-xl font-semibold mb-1 text-gray-800">Commercial Photography</h3>
+                <p className="text-sm uppercase tracking-wide text-gray-700 font-semibold mb-3">Starting at {STARTING_PRICES.commercial}</p>
+                <p className="text-gray-600 mb-4">Branding sessions, products, headshots, and business content for local teams.</p>
+                <ul className="text-sm text-stone-600 space-y-1 mb-4">
+                  <li>• Brand-consistent image direction</li>
+                  <li>• Website + social-ready exports</li>
+                  <li>• Licensing support available</li>
+                </ul>
+                <span className="font-medium text-gray-700">Learn More</span>
+              </div>
+            </Link>
+          </div>
+
+          <div className="mt-8 bg-amber-50 border-y border-amber-200/80 rounded-xl p-4">
+            <p className="text-center text-amber-900 font-medium">
+              Two photographers on site — for the price of one. More coverage, more moments, same rate.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="section-shell bg-white">
+        <div className="container mx-auto px-4">
+          <div className="grid md:grid-cols-2 gap-10 max-w-6xl mx-auto">
+            <div className="section-soft p-8 md:p-10">
+              <h2 className="text-3xl font-bold mb-6">How It Works</h2>
+
+              <div className="space-y-6">
+                <div className="flex gap-4">
+                  <div className="flex-shrink-0 w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center">
+                    <span className="font-bold text-primary-600">1</span>
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-medium mb-2">Consultation</h3>
+                    <p className="text-stone-600 leading-7">
+                      We align on your goals, budget, style preferences, and timeline for your {cityLabel} session.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex gap-4">
+                  <div className="flex-shrink-0 w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center">
+                    <span className="font-bold text-primary-600">2</span>
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-medium mb-2">Planning & Prep</h3>
+                    <p className="text-gray-600">
+                      We map locations, timing, shot priorities, and any special requests so shoot day runs smoothly.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex gap-4">
+                  <div className="flex-shrink-0 w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center">
+                    <span className="font-bold text-primary-600">3</span>
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-medium mb-2">Photography Day</h3>
+                    <p className="text-gray-600">
+                      Our team captures the must-have images plus candid moments that tell your story naturally.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex gap-4">
+                  <div className="flex-shrink-0 w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center">
+                    <span className="font-bold text-primary-600">4</span>
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-medium mb-2">Editing & Delivery</h3>
+                    <p className="text-gray-600">
+                      You receive an edited gallery ready for sharing, prints, and marketing use (if commercial).
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="bg-white rounded-lg p-6 text-center shadow-sm">
-              <p className="text-sm text-gray-500">Engagement</p>
-              <p className="text-3xl font-bold text-gray-900 mt-1">{STARTING_PRICES.engagement}</p>
-            </div>
-            <div className="bg-white rounded-lg p-6 text-center shadow-sm">
-              <p className="text-sm text-gray-500">Event</p>
-              <p className="text-3xl font-bold text-gray-900 mt-1">{STARTING_PRICES.event}</p>
-            </div>
-            <div className="bg-white rounded-lg p-6 text-center shadow-sm">
-              <p className="text-sm text-gray-500">Wedding</p>
-              <p className="text-3xl font-bold text-gray-900 mt-1">{STARTING_PRICES.wedding}</p>
-            </div>
-            <div className="bg-white rounded-lg p-6 text-center shadow-sm">
-              <p className="text-sm text-gray-500">Commercial</p>
-              <p className="text-3xl font-bold text-gray-900 mt-1">{STARTING_PRICES.commercial}</p>
+
+            <div className="section-soft p-8 md:p-10">
+              <h2 className="text-3xl font-bold mb-6">Why Choose Studio37</h2>
+
+              <div className="space-y-4">
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="h-6 w-6 text-primary-600 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <h3 className="text-lg font-medium">Experienced Local Team</h3>
+                    <p className="text-stone-600">We know popular venues, parks, and lighting conditions across {county}.</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="h-6 w-6 text-primary-600 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <h3 className="text-lg font-medium">Clear Starting Prices</h3>
+                    <p className="text-gray-600">Published rates stay aligned with our core service pages for consistency.</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="h-6 w-6 text-primary-600 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <h3 className="text-lg font-medium">Two-Photographer Coverage</h3>
+                    <p className="text-gray-600">More angles and more key moments without a complicated upgrade structure.</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="h-6 w-6 text-primary-600 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <h3 className="text-lg font-medium">Fast Turnaround</h3>
+                    <p className="text-gray-600">Sneak peeks and polished edits are delivered quickly so you can use your images right away.</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="h-6 w-6 text-primary-600 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <h3 className="text-lg font-medium">Guided Experience</h3>
+                    <p className="text-gray-600">From planning through delivery, we keep communication simple and supportive.</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
