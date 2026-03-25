@@ -34,7 +34,7 @@ const EXCLUDED_PAGE_PATTERNS: RegExp[] = [
 ]
 
 // Helper to determine priority based on post age
-function getBlogPostPriority(publishedAt: string | null, updatedAt: string): number {
+function getBlogPostPriority(publishedAt: string | null, updatedAt: string | null): number {
   if (!publishedAt && !updatedAt) return PRIORITIES.blogPostsOld
   
   const compareDate = publishedAt || updatedAt
@@ -46,7 +46,7 @@ function getBlogPostPriority(publishedAt: string | null, updatedAt: string): num
 }
 
 // Helper to determine change frequency based on post age
-function getBlogPostChangeFrequency(publishedAt: string | null, updatedAt: string): 'daily' | 'weekly' | 'monthly' | 'yearly' {
+function getBlogPostChangeFrequency(publishedAt: string | null, updatedAt: string | null): 'daily' | 'weekly' | 'monthly' | 'yearly' {
   if (!publishedAt && !updatedAt) return 'yearly'
   
   const compareDate = publishedAt || updatedAt
@@ -335,12 +335,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     
     if (posts && posts.length > 0) {
       const blogRoutes = posts.map((post: any) => {
+        const lastModSource = post.updated_at || post.published_at || currentDate.toISOString()
         const priority = getBlogPostPriority(post.published_at, post.updated_at)
         const changeFrequency = getBlogPostChangeFrequency(post.published_at, post.updated_at)
         
         const route: any = {
           url: `${baseUrl}/blog/${post.slug}`,
-          lastModified: new Date(post.updated_at),
+          lastModified: new Date(lastModSource),
           changeFrequency,
           priority,
         }

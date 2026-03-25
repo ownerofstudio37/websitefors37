@@ -25,12 +25,18 @@ const staticUrls = [
   { url: `${baseUrl}/services/portrait-photography`, priority: 0.8, frequency: 'monthly' },
   { url: `${baseUrl}/services/commercial-photography`, priority: 0.8, frequency: 'monthly' },
   { url: `${baseUrl}/services/event-photography`, priority: 0.8, frequency: 'monthly' },
-  { url: `${baseUrl}/services/family-photography`, priority: 0.8, frequency: 'monthly' },
-  { url: `${baseUrl}/services/senior-portraits`, priority: 0.8, frequency: 'monthly' },
-  { url: `${baseUrl}/services/professional-headshots`, priority: 0.8, frequency: 'monthly' },
-  { url: `${baseUrl}/services/maternity-sessions`, priority: 0.8, frequency: 'monthly' },
+  { url: `${baseUrl}/services/engagement-session`, priority: 0.8, frequency: 'monthly' },
+  { url: `${baseUrl}/services/branding-marketing`, priority: 0.8, frequency: 'monthly' },
   { url: `${baseUrl}/book-a-session`, priority: 0.9, frequency: 'weekly' },
+  { url: `${baseUrl}/book-consultation`, priority: 0.9, frequency: 'weekly' },
+  { url: `${baseUrl}/get-quote`, priority: 0.9, frequency: 'weekly' },
   { url: `${baseUrl}/contact`, priority: 0.9, frequency: 'monthly' },
+  { url: `${baseUrl}/session-prep`, priority: 0.8, frequency: 'monthly' },
+  { url: `${baseUrl}/session-prep/portrait`, priority: 0.8, frequency: 'monthly' },
+  { url: `${baseUrl}/session-prep/engagement`, priority: 0.8, frequency: 'monthly' },
+  { url: `${baseUrl}/session-prep/wedding`, priority: 0.8, frequency: 'monthly' },
+  { url: `${baseUrl}/session-prep/event`, priority: 0.8, frequency: 'monthly' },
+  { url: `${baseUrl}/session-prep/commercial`, priority: 0.8, frequency: 'monthly' },
   { url: `${baseUrl}/gallery`, priority: 0.8, frequency: 'weekly' },
   { url: `${baseUrl}/about`, priority: 0.8, frequency: 'monthly' },
   { url: `${baseUrl}/blog`, priority: 0.8, frequency: 'daily' },
@@ -48,6 +54,7 @@ const staticUrls = [
   { url: `${baseUrl}/local-photographer-bryan-tx`, priority: 0.8, frequency: 'monthly' },
   { url: `${baseUrl}/local-photographer-college-station-tx`, priority: 0.8, frequency: 'monthly' },
   { url: `${baseUrl}/local-photographer-houston-tx`, priority: 0.8, frequency: 'monthly' },
+  { url: `${baseUrl}/locations`, priority: 0.8, frequency: 'monthly' },
 ]
 
 function escapeXml(str) {
@@ -60,7 +67,7 @@ function escapeXml(str) {
 }
 
 function getBlogPriority(publishedAt, updatedAt) {
-  const compareDate = publishedAt || updatedAt
+  const compareDate = publishedAt || updatedAt || new Date().toISOString()
   const ageInDays = Math.floor((Date.now() - new Date(compareDate).getTime()) / (1000 * 60 * 60 * 24))
   if (ageInDays <= 30) return 0.8
   if (ageInDays <= 90) return 0.7
@@ -68,7 +75,7 @@ function getBlogPriority(publishedAt, updatedAt) {
 }
 
 function getBlogFrequency(publishedAt, updatedAt) {
-  const compareDate = publishedAt || updatedAt
+  const compareDate = publishedAt || updatedAt || new Date().toISOString()
   const ageInDays = Math.floor((Date.now() - new Date(compareDate).getTime()) / (1000 * 60 * 60 * 24))
   if (ageInDays <= 7) return 'daily'
   if (ageInDays <= 30) return 'weekly'
@@ -121,12 +128,13 @@ async function generate() {
 
   if (posts && posts.length > 0) {
     for (const post of posts) {
+      const postLastMod = post.updated_at || post.published_at || currentDate
       const priority = getBlogPriority(post.published_at, post.updated_at)
       const frequency = getBlogFrequency(post.published_at, post.updated_at)
 
       lines.push('  <url>')
       lines.push(`    <loc>${escapeXml(`${baseUrl}/blog/${post.slug}`)}</loc>`)
-      lines.push(`    <lastmod>${post.updated_at}</lastmod>`)
+      lines.push(`    <lastmod>${postLastMod}</lastmod>`)
       lines.push(`    <changefreq>${frequency}</changefreq>`)
       lines.push(`    <priority>${priority}</priority>`)
 
