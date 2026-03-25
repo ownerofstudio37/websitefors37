@@ -79,7 +79,7 @@ export const businessInfo = {
 export function generateLocalBusinessSchema() {
   return {
     '@context': 'https://schema.org',
-    '@type': 'Photographer',
+    '@type': ['LocalBusiness', 'ProfessionalService', 'Photographer'],
     '@id': businessInfo.contact.website,
     name: businessInfo.legalName,
     alternateName: businessInfo.name,
@@ -107,7 +107,7 @@ export function generateLocalBusinessSchema() {
     serviceType: businessInfo.services,
     openingHours: Object.entries(businessInfo.businessHours).map(([day, hours]) => ({
       '@type': 'OpeningHoursSpecification',
-      dayOfWeek: day.charAt(0).toUpperCase() + day.slice(1),
+      dayOfWeek: `https://schema.org/${day.charAt(0).toUpperCase() + day.slice(1)}`,
       opens: hours === 'Closed' ? null : hours.split('-')[0],
       closes: hours === 'Closed' ? null : hours.split('-')[1]
     })).filter(hours => hours.opens),
@@ -115,10 +115,10 @@ export function generateLocalBusinessSchema() {
     priceRange: '$$',
     aggregateRating: {
       '@type': 'AggregateRating',
-      ratingValue: '5.0',
-      reviewCount: '15',
-      bestRating: '5',
-      worstRating: '1'
+      ratingValue: 5.0,
+      reviewCount: 19,
+      bestRating: 5,
+      worstRating: 1
     },
     paymentAccepted: 'Cash, Credit Card, Check, PayPal',
     currenciesAccepted: 'USD'

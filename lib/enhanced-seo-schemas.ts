@@ -2,7 +2,7 @@
 export function generateEnhancedLocalBusinessSchema() {
   return {
     '@context': 'https://schema.org',
-    '@type': ['LocalBusiness', 'ProfessionalService', 'PhotographyBusiness'],
+    '@type': ['LocalBusiness', 'ProfessionalService', 'Photographer'],
     '@id': 'https://www.studio37.cc/#organization',
     name: 'Studio37 Photography',
     alternateName: 'Studio37',
@@ -150,10 +150,10 @@ export function generateEnhancedLocalBusinessSchema() {
     },
     aggregateRating: {
       '@type': 'AggregateRating',
-      ratingValue: '4.9',
-      reviewCount: '47',
-      bestRating: '5',
-      worstRating: '1'
+      ratingValue: 5.0,
+      reviewCount: 19,
+      bestRating: 5,
+      worstRating: 1
     },
     review: [
       {
