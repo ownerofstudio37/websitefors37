@@ -88,7 +88,7 @@ async function generate() {
   const lines = []
 
   lines.push('<?xml version="1.0" encoding="UTF-8"?>')
-  lines.push('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">')
+  lines.push('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">')
 
   for (const item of staticUrls) {
     lines.push('  <url>')
@@ -122,7 +122,7 @@ async function generate() {
 
   const { data: posts } = await supabase
     .from('blog_posts')
-    .select('slug, updated_at, published_at, featured_image, excerpt, title')
+    .select('slug, updated_at, published_at')
     .eq('published', true)
     .order('published_at', { ascending: false, nullsLast: true })
 
@@ -137,16 +137,6 @@ async function generate() {
       lines.push(`    <lastmod>${postLastMod}</lastmod>`)
       lines.push(`    <changefreq>${frequency}</changefreq>`)
       lines.push(`    <priority>${priority}</priority>`)
-
-      if (post.featured_image) {
-        lines.push('    <image:image>')
-        lines.push(`      <image:loc>${escapeXml(post.featured_image)}</image:loc>`)
-        lines.push(`      <image:title>${escapeXml(post.title)}</image:title>`)
-        if (post.excerpt) {
-          lines.push(`      <image:caption>${escapeXml(post.excerpt)}</image:caption>`)
-        }
-        lines.push('    </image:image>')
-      }
 
       lines.push('  </url>')
     }

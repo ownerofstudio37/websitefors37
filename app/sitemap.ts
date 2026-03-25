@@ -329,7 +329,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   try {
     const { data: posts } = await supabase
       .from('blog_posts')
-      .select('slug, updated_at, published_at, featured_image, excerpt, title, category')
+      .select('slug, updated_at, published_at')
       .eq('published', true)
       .order('published_at', { ascending: false, nullsLast: true })
     
@@ -346,41 +346,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           priority,
         }
         
-        // Add image information if featured_image exists
-        // This helps Google Image Search discover and index blog images
-        if (post.featured_image) {
-          route.images = [
-            {
-              url: post.featured_image,
-              title: post.title,
-              caption: post.excerpt || `Featured image for ${post.title}`,
-            }
-          ]
-        }
-        
         return route
       })
       
       routes.push(...blogRoutes)
-      
-      // Add blog category archive pages (if you have categorized posts)
-      // This helps search engines discover blog taxonomy and related content
-      const categories = new Set(posts
-        .filter((p: any) => p.category)
-        .map((p: any) => p.category))
-      
-      if (categories.size > 0) {
-        const categoryRoutes = Array.from(categories).map(category => ({
-          url: `${baseUrl}/blog?category=${encodeURIComponent(String(category))}`,
-          lastModified: currentDate,
-          changeFrequency: 'weekly' as const,
-          priority: 0.6,
-        }))
-        
-        routes.push(...categoryRoutes)
-      }
-      
-      console.log(`Sitemap: Added ${blogRoutes.length} blog posts and ${categories.size} blog categories`)
+
+      console.log(`Sitemap: Added ${blogRoutes.length} blog posts`)
     }
   } catch (error) {
     console.error('Error fetching blog posts for sitemap:', error)
