@@ -2,7 +2,7 @@
 export function generateEnhancedLocalBusinessSchema() {
   return {
     '@context': 'https://schema.org',
-    '@type': ['LocalBusiness', 'ProfessionalService', 'Photographer'],
+    '@type': 'LocalBusiness',
     '@id': 'https://www.studio37.cc/#organization',
     name: 'Studio37 Photography',
     alternateName: 'Studio37',
@@ -102,7 +102,15 @@ export function generateEnhancedLocalBusinessSchema() {
     openingHoursSpecification: [
       {
         '@type': 'OpeningHoursSpecification',
-        dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+        dayOfWeek: [
+          'https://schema.org/Monday',
+          'https://schema.org/Tuesday',
+          'https://schema.org/Wednesday',
+          'https://schema.org/Thursday',
+          'https://schema.org/Friday',
+          'https://schema.org/Saturday',
+          'https://schema.org/Sunday'
+        ],
         opens: '08:00',
         closes: '21:00'
       }
@@ -148,29 +156,6 @@ export function generateEnhancedLocalBusinessSchema() {
         }
       ]
     },
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: 5.0,
-      reviewCount: 19,
-      bestRating: 5,
-      worstRating: 1
-    },
-    review: [
-      {
-        '@type': 'Review',
-        author: {
-          '@type': 'Person',
-          name: 'Sarah M.'
-        },
-        datePublished: '2024-10-01',
-        reviewBody: 'Studio37 captured our wedding beautifully! The photographer was professional, creative, and made us feel so comfortable. Highly recommend for weddings in Montgomery County.',
-        reviewRating: {
-          '@type': 'Rating',
-          ratingValue: '5',
-          bestRating: '5'
-        }
-      }
-    ],
     serviceType: [
       'Wedding Photography',
       'Portrait Photography', 
