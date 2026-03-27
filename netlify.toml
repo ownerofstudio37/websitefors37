@@ -12,6 +12,13 @@
 [[plugins]]
   package = "@netlify/plugin-nextjs"
 
+# Serve a deterministic static sitemap to crawlers (build-generated)
+[[redirects]]
+  from = "/sitemap.xml"
+  to = "/sitemap-static.xml"
+  status = 200
+  force = true
+
 # Security headers for all pages (CSP defined in next.config.js)
 [[headers]]
   for = "/*"

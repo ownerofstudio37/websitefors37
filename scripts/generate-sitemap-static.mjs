@@ -150,9 +150,10 @@ async function generate() {
   fs.mkdirSync(apiDir, { recursive: true })
 
   fs.writeFileSync(path.join(publicDir, 'sitemap.xml'), xml)
+  fs.writeFileSync(path.join(publicDir, 'sitemap-static.xml'), xml)
   fs.writeFileSync(path.join(apiDir, 'sitemap.xml'), xml)
 
-  console.log('Static sitemap generated at public/sitemap.xml and public/api/sitemap.xml')
+  console.log('Static sitemap generated at public/sitemap.xml, public/sitemap-static.xml, and public/api/sitemap.xml')
 }
 
 generate().catch((error) => {
