@@ -9,9 +9,9 @@ export default function robots(): MetadataRoute.Robots {
       disallow: ['/admin/'],
     },
     sitemap: [
+      `${businessInfo.contact.website}/sitemap_index.xml`,
       `${businessInfo.contact.website}/sitemap.xml`,
       `${businessInfo.contact.website}/sitemap-static.xml`,
-      'https://studio37.cc/sitemap.xml',
     ],
   }
 }

@@ -145,15 +145,24 @@ async function generate() {
   lines.push('</urlset>')
   const xml = `${lines.join('\n')}\n`
 
+  const sitemapIndexXml = `<?xml version="1.0" encoding="UTF-8"?>\n` +
+    `<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
+    `  <sitemap>\n` +
+    `    <loc>${baseUrl}/sitemap-static.xml</loc>\n` +
+    `    <lastmod>${currentDate}</lastmod>\n` +
+    `  </sitemap>\n` +
+    `</sitemapindex>\n`
+
   const publicDir = path.join(process.cwd(), 'public')
   const apiDir = path.join(publicDir, 'api')
   fs.mkdirSync(apiDir, { recursive: true })
 
   fs.writeFileSync(path.join(publicDir, 'sitemap.xml'), xml)
   fs.writeFileSync(path.join(publicDir, 'sitemap-static.xml'), xml)
+  fs.writeFileSync(path.join(publicDir, 'sitemap_index.xml'), sitemapIndexXml)
   fs.writeFileSync(path.join(apiDir, 'sitemap.xml'), xml)
 
-  console.log('Static sitemap generated at public/sitemap.xml, public/sitemap-static.xml, and public/api/sitemap.xml')
+  console.log('Static sitemap generated at public/sitemap.xml, public/sitemap-static.xml, public/sitemap_index.xml, and public/api/sitemap.xml')
 }
 
 generate().catch((error) => {
