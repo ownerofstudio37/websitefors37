@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { createClient } from '@supabase/supabase-js'
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin'
 import { rateLimit, getClientIp } from '@/lib/rateLimit'
 import { createLogger } from '@/lib/logger'
@@ -7,6 +8,12 @@ import { renderEmailTemplate } from '@/lib/emailRenderer'
 
 const log = createLogger('api/consultation/book')
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null
+
+function getPublicSupabase() {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co'
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'public-anon-placeholder'
+  return createClient(supabaseUrl, supabaseAnonKey)
+}
 
 interface BookingRequest {
   date: string
@@ -121,7 +128,7 @@ export async function POST(request: NextRequest) {
     }
 
   // Server-side admin client (RLS bypass for trusted API route)
-  const supabase = getSupabaseAdmin()
+  const supabase = getPublicSupabase()
 
     // Check for existing bookings at this time
     // Build start/end time for the time slot
@@ -453,7 +460,7 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    const supabase = getSupabaseAdmin()
+    const supabase = getPublicSupabase()
 
     // Get all bookings for this date
     const startOfDay = new Date(date)

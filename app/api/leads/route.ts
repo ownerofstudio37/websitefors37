@@ -1,10 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { createClient } from '@supabase/supabase-js'
 import { z } from 'zod'
 import { supabaseAdmin } from '@/lib/supabaseAdmin'
 import { getClientIp, rateLimit } from '@/lib/rateLimit'
 import { createLogger } from '@/lib/logger'
 
 const log = createLogger('api/leads')
+
+function getPublicSupabase() {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co'
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'public-anon-placeholder'
+  return createClient(supabaseUrl, supabaseAnonKey)
+}
 
 const LeadSchema = z.object({
   name: z.string().min(2).max(120),
@@ -237,6 +244,7 @@ export async function POST(req: NextRequest) {
 
     const payload = parsed.data
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || req.nextUrl.origin || 'https://www.studio37.cc'
+    const publicSupabase = getPublicSupabase()
 
     // Normalize event_date: accept partial strings like "Feb 14" by storing null when not a full date
     let normalizedEventDate: string | null = null
@@ -251,7 +259,7 @@ export async function POST(req: NextRequest) {
       : 18.48
 
     // Insert the lead
-    const { data: insertedLead, error } = await supabaseAdmin.from('leads').insert([
+    let { data: insertedLead, error } = await publicSupabase.from('leads').insert([
       {
         name: payload.name,
         email: payload.email,
@@ -267,6 +275,28 @@ export async function POST(req: NextRequest) {
     ])
       .select()
       .single()
+
+    if (error && /lead_cost/i.test(error.message || '')) {
+      log.warn('Lead insert failed with extended schema, retrying minimal payload', { error: error.message })
+      const retryResult = await publicSupabase.from('leads').insert([
+        {
+          name: payload.name,
+          email: payload.email,
+          phone: payload.phone || null,
+          service_interest: payload.service_interest,
+          budget_range: payload.budget_range || null,
+          event_date: normalizedEventDate,
+          message: payload.message,
+          status: 'new',
+          source: payload.source || 'web-form'
+        }
+      ])
+        .select()
+        .single()
+
+      insertedLead = retryResult.data
+      error = retryResult.error
+    }
 
     if (error) {
       log.error('Lead insert error', { email: payload.email, service: payload.service_interest, details: error }, error)
