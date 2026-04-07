@@ -232,7 +232,7 @@ const ConsultationBookingForm = () => {
         setStep(4) // Success step
       } else {
         const error = await response.json()
-        toast.error(error.message || 'Failed to book consultation')
+        toast.error(error.error || error.message || 'Failed to book consultation')
       }
     } catch (error) {
       console.error('Booking error:', error)
@@ -290,7 +290,7 @@ const ConsultationBookingForm = () => {
               Choose Your Date
             </h2>
             <p className="text-gray-600 mb-6">
-              Select a convenient date for your 15-minute consultation call
+              Select a convenient date for your 30-minute consultation call
             </p>
 
             {/* Month Navigation */}

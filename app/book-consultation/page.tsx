@@ -5,7 +5,7 @@ import { generateSEOMetadata } from '@/lib/seo-helpers'
 export const metadata = generateSEOMetadata({
   title: 'Book a Free Photography Consultation',
   description:
-    'Schedule a free 15-minute consultation with Studio37. Get expert recommendations for wedding, portrait, event, or commercial photography and a clear next-step plan.',
+    'Schedule a free 30-minute consultation with Studio37. Get expert recommendations for wedding, portrait, event, or commercial photography and a clear next-step plan.',
   keywords: [
     'free photography consultation',
     'book photographer consultation',
@@ -29,7 +29,7 @@ export default function BookConsultationPage() {
               Book Your Free Consultation
             </h1>
             <p className="text-xl text-stone-300 max-w-2xl mx-auto leading-relaxed">
-              Let's discuss your photography needs in a quick 15-minute call. No pressure, just honest advice from our experienced team.
+              Let's discuss your photography needs in a quick 30-minute call. No pressure, just honest advice from our experienced team.
             </p>
           </div>
         </div>

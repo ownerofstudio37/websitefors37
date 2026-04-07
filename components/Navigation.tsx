@@ -55,6 +55,10 @@ export default function Navigation({
 
   // Refresh logo/navigation from settings once on client (server values hydrate first)
   useEffect(() => {
+    if (initialNavItems.length > 0 || initialLogoUrl) {
+      return
+    }
+
     let mounted = true
     ;(async () => {
       try {
@@ -98,7 +102,7 @@ export default function Navigation({
       }
     })()
     return () => { mounted = false }
-  }, [])
+  }, [initialLogoUrl, initialNavItems])
 
   // Derive which logo to show based on DB value and scroll state
   useEffect(() => {

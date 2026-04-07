@@ -1,28 +1,11 @@
 import React from 'react'
 import { Mail, Phone, MapPin, Instagram, Facebook, Twitter } from 'lucide-react'
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
-import { cookies } from 'next/headers'
 import Image from 'next/image'
 import LeadCaptureForm from '@/components/LeadCaptureForm'
 import Schema from '@/components/Schema'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 import { generateContactPageSchema, generateOrganizationSchema } from '@/lib/schema'
 import { businessInfo } from '@/lib/seo-config'
-
-// Use server component to fetch settings
-async function getSettings() {
-  const supabase = createServerComponentClient({ cookies })
-  const { data } = await supabase.from('settings').select('*').single()
-  
-  return data || {
-    contact_email: 'contact@studio37.cc',
-    contact_phone: '',
-    business_address: '',
-    social_facebook: '',
-    social_instagram: '',
-    social_twitter: ''
-  }
-}
 
 export const metadata = generateSEOMetadata({
   title: 'Contact Studio37 - Professional Photography in Pinehurst, TX',
@@ -41,8 +24,6 @@ export const metadata = generateSEOMetadata({
 })
 
 export default async function ContactPage() {
-  const settings = await getSettings()
-  
   return (
     <div className="relative min-h-screen flex flex-col bg-stone-50">
       <Schema schema={[generateContactPageSchema(), generateOrganizationSchema()]} />

@@ -17,6 +17,13 @@ interface BookingRequest {
   notes?: string
 }
 
+interface BookingRecord {
+  id?: string
+  name?: string
+  email?: string
+  start_time?: string
+}
+
 export async function POST(request: NextRequest) {
   const ip = getClientIp(request.headers)
   
@@ -164,21 +171,23 @@ export async function POST(request: NextRequest) {
     const startTime = appointmentDateTime.toISOString()
     const endTime = new Date(appointmentDateTime.getTime() + 30 * 60 * 1000).toISOString() // 30 min consultation
     
-    const { data: booking, error: insertError } = await supabase
+    const bookingPayload = {
+      name: name,
+      email: email,
+      phone: phone,
+      type: 'consultation',
+      duration_minutes: 30,
+      start_time: startTime,
+      end_time: endTime,
+      status: 'scheduled',
+      notes: notes || ''
+    }
+
+    const { data: insertedBooking, error: insertError } = await supabase
       .from('appointments')
-      .insert({
-        name: name,
-        email: email,
-        phone: phone,
-        type: 'consultation',
-        duration_minutes: 30,
-        start_time: startTime,
-        end_time: endTime,
-        status: 'scheduled',
-        notes: notes || ''
-      })
-      .select()
-      .single()
+      .insert(bookingPayload)
+      .select('id, name, email, start_time')
+      .maybeSingle()
 
     if (insertError) {
       log.error('Error creating booking', { error: insertError })
@@ -188,9 +197,35 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    let booking: BookingRecord | null = insertedBooking
+
+    if (!booking?.id) {
+      const { data: fallbackBooking, error: fallbackBookingError } = await supabase
+        .from('appointments')
+        .select('id, name, email, start_time')
+        .eq('email', email)
+        .eq('start_time', startTime)
+        .order('created_at', { ascending: false })
+        .maybeSingle()
+
+      if (fallbackBookingError) {
+        log.warn('Inserted booking lookup failed', { error: fallbackBookingError, email, startTime })
+      } else {
+        booking = fallbackBooking
+      }
+    }
+
+    if (!booking) {
+      booking = {
+        name,
+        email,
+        start_time: startTime,
+      }
+    }
+
     log.info('Consultation booked successfully', {
       bookingId: booking.id,
-      startTime: booking.start_time,
+      startTime: booking.start_time || startTime,
       email
     })
 
@@ -220,10 +255,12 @@ export async function POST(request: NextRequest) {
         })
         
         // Store calendar event ID with booking
-        await supabase
-          .from('appointments')
-          .update({ calendar_event_id: calendarEvent.id })
-          .eq('id', booking.id)
+        if (booking.id) {
+          await supabase
+            .from('appointments')
+            .update({ calendar_event_id: calendarEvent.id })
+            .eq('id', booking.id)
+        }
         
         log.info('Google Calendar event created', {
           eventId: calendarEvent.id,
@@ -248,7 +285,7 @@ export async function POST(request: NextRequest) {
           sessionDate: date,
           sessionTime: time,
           location: 'Studio37, Pinehurst, TX',
-          duration: '2 hours',
+          duration: '30 minutes',
           photographer: 'Studio37 Team',
           // Optionally add: packageName, totalAmount, depositAmount if available
         })
@@ -318,10 +355,12 @@ export async function POST(request: NextRequest) {
 
         if (!leadError && newLead) {
           // Link lead to appointment
-          await supabase
-            .from('appointments')
-            .update({ lead_id: newLead.id })
-            .eq('id', booking.id)
+          if (booking.id) {
+            await supabase
+              .from('appointments')
+              .update({ lead_id: newLead.id })
+              .eq('id', booking.id)
+          }
 
           log.info('Lead created and linked to booking', { 
             leadId: newLead.id, 
@@ -358,10 +397,12 @@ export async function POST(request: NextRequest) {
         }
       } else {
         // Link existing lead to appointment
-        await supabase
-          .from('appointments')
-          .update({ lead_id: existingLead.id })
-          .eq('id', booking.id)
+        if (booking.id) {
+          await supabase
+            .from('appointments')
+            .update({ lead_id: existingLead.id })
+            .eq('id', booking.id)
+        }
 
         log.info('Existing lead linked to booking', { 
           leadId: existingLead.id, 
@@ -379,11 +420,11 @@ export async function POST(request: NextRequest) {
       {
         success: true,
         booking: {
-          id: booking.id,
+          id: booking.id || null,
           date: date,
           time: time,
-          name: booking.name,
-          email: booking.email
+          name: booking.name || name,
+          email: booking.email || email
         },
         message: 'Consultation booked successfully! Check your email for confirmation.'
       },
@@ -393,7 +434,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     log.error('Unexpected error', { error })
     return NextResponse.json(
-      { error: 'An unexpected error occurred' },
+      { error: error instanceof Error ? error.message : 'An unexpected error occurred' },
       { status: 500 }
     )
   }
