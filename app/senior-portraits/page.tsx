@@ -75,6 +75,43 @@ export default function SeniorPortraitsPage() {
           </div>
         </div>
       </section>
+
+      <section className="section-shell bg-stone-50">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-3xl font-bold mb-4">Senior Portrait Photography in Pinehurst, TX</h2>
+            <p className="text-stone-700 leading-relaxed mb-4">
+              Studio37 creates senior portraits in Pinehurst, Texas that feel authentic, modern, and personal.
+              We work with students and families across Montgomery County, including The Woodlands, Magnolia,
+              Tomball, Conroe, Spring, and nearby communities. Every senior session is designed to highlight
+              personality, style, and milestone achievements with a mix of classic portraits and editorial-style images.
+            </p>
+            <p className="text-stone-700 leading-relaxed mb-4">
+              Whether you want downtown looks, natural outdoor portraits, cap-and-gown images, or sports and hobby
+              concepts, we help plan locations, outfit changes, and timing for the best light. Our workflow is simple:
+              planning call, guided session, professional retouching, and a final digital gallery ready for prints,
+              announcements, and social sharing.
+            </p>
+            <h3 className="text-2xl font-semibold mb-3">Popular Senior Session Add-Ons</h3>
+            <ul className="grid md:grid-cols-2 gap-2 text-stone-700 mb-6">
+              <li>• Extra outfit and location changes</li>
+              <li>• Sports, instrument, or hobby-themed sets</li>
+              <li>• Best-friend mini session upgrade</li>
+              <li>• Family add-on portraits at the same session</li>
+            </ul>
+            <p className="text-sm text-stone-500 mb-2">
+              Serving: Pinehurst TX · The Woodlands · Conroe · Magnolia · Tomball · Spring · Montgomery · Houston Area
+            </p>
+            <p className="text-sm">
+              Looking for other portrait options?{' '}
+              <Link href="/services/portrait-photography" className="text-primary-700 hover:underline">
+                Explore all portrait services
+              </Link>
+              .
+            </p>
+          </div>
+        </div>
+      </section>
     </div>
   )
 }

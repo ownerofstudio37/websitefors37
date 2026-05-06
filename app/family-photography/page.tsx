@@ -68,6 +68,42 @@ export default function FamilyPhotographyPage() {
           </div>
         </div>
       </section>
+
+      <section className="section-shell bg-white">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-3xl font-bold mb-4">Family Photography in Pinehurst, TX &amp; Montgomery County</h2>
+            <p className="text-stone-700 leading-relaxed mb-4">
+              Studio37 provides family photography in Pinehurst, TX for parents who want natural images that still
+              feel polished and intentional. We photograph immediate families, extended families, milestone birthdays,
+              and annual portrait updates with a relaxed approach that keeps everyone comfortable in front of the camera.
+            </p>
+            <p className="text-stone-700 leading-relaxed mb-4">
+              Sessions are planned around your preferred style, location, and schedule. From golden-hour outdoor portraits
+              to cleaner lifestyle looks, we guide posing and movement so your gallery includes both frame-worthy classics
+              and candid moments. Families throughout The Woodlands, Conroe, Magnolia, Tomball, Spring, and greater
+              Montgomery County choose Studio37 for consistency, fast communication, and gallery delivery they can trust.
+            </p>
+            <h3 className="text-2xl font-semibold mb-3">What to Expect From Your Session</h3>
+            <ul className="grid md:grid-cols-2 gap-2 text-stone-700 mb-6">
+              <li>• Pre-session planning and outfit guidance</li>
+              <li>• Kid-friendly posing and prompts for natural expressions</li>
+              <li>• Balanced mix of candid and directed portraits</li>
+              <li>• Professionally edited online gallery with download access</li>
+            </ul>
+            <p className="text-sm text-stone-500 mb-2">
+              Serving: Pinehurst TX · The Woodlands · Conroe · Magnolia · Tomball · Spring · Montgomery · Houston Area
+            </p>
+            <p className="text-sm">
+              Planning a different portrait style?{' '}
+              <Link href="/services/portrait-photography" className="text-primary-700 hover:underline">
+                See portrait session options
+              </Link>
+              .
+            </p>
+          </div>
+        </div>
+      </section>
     </div>
   )
 }

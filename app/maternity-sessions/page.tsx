@@ -75,6 +75,42 @@ export default function MaternitySessionsPage() {
           </div>
         </div>
       </section>
+
+      <section className="section-shell bg-stone-50">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-3xl font-bold mb-4">Maternity Photography in Pinehurst, TX</h2>
+            <p className="text-stone-700 leading-relaxed mb-4">
+              Studio37 offers maternity sessions in Pinehurst, Texas for expecting mothers and growing families who want
+              timeless, elegant portraits. We focus on flattering posing, comfortable pacing, and a calm experience so you
+              can fully enjoy this once-in-a-lifetime season.
+            </p>
+            <p className="text-stone-700 leading-relaxed mb-4">
+              Sessions can be styled as outdoor golden-hour portraits, intimate lifestyle looks, or clean editorial imagery.
+              We help with wardrobe direction, location planning, and schedule timing so your final gallery feels cohesive
+              and meaningful. Families from The Woodlands, Conroe, Magnolia, Tomball, Spring, and surrounding areas book
+              Studio37 for maternity photos that are both emotional and polished.
+            </p>
+            <h3 className="text-2xl font-semibold mb-3">Maternity Session Planning Tips</h3>
+            <ul className="grid md:grid-cols-2 gap-2 text-stone-700 mb-6">
+              <li>• Ideal timing is typically 28–34 weeks</li>
+              <li>• Choose 2–3 coordinated outfits with texture and movement</li>
+              <li>• Bring partner and children for family-inclusive portraits</li>
+              <li>• Schedule near sunset for warm, flattering light</li>
+            </ul>
+            <p className="text-sm text-stone-500 mb-2">
+              Serving: Pinehurst TX · The Woodlands · Conroe · Magnolia · Tomball · Spring · Montgomery · Houston Area
+            </p>
+            <p className="text-sm">
+              Looking for additional portrait options?{' '}
+              <Link href="/services/portrait-photography" className="text-primary-700 hover:underline">
+                View all portrait services
+              </Link>
+              .
+            </p>
+          </div>
+        </div>
+      </section>
     </div>
   )
 }
