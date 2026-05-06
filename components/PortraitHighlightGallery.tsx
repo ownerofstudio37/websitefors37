@@ -12,37 +12,37 @@ export default function PortraitHighlightGallery() {
       id: 'cloudinary-1',
       title: 'Portfolio Highlight 1',
       description: 'Studio37 featured work',
-      image_url: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255715/PS374317_mqqiyv.jpg',
+      image_url: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033156/Untitled-6_2_teayff.jpg',
     },
     {
       id: 'cloudinary-2',
       title: 'Portfolio Highlight 2',
       description: 'Studio37 featured work',
-      image_url: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255713/D9E4E5AE-12BE-498B-B7C1-9CDE7FFC1B59_qiaj3v.jpg',
+      image_url: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033154/Untitled-8_2_b18mim.jpg',
     },
     {
       id: 'cloudinary-3',
       title: 'Portfolio Highlight 3',
       description: 'Studio37 featured work',
-      image_url: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255711/PS372952_gkvxjl.jpg',
+      image_url: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033152/Untitled-15_vyz4oa.jpg',
     },
     {
       id: 'cloudinary-4',
       title: 'Portfolio Highlight 4',
       description: 'Studio37 featured work',
-      image_url: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255706/PS373287_d7fl9k.jpg',
+      image_url: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033084/Untitled_1_zwsrnm.jpg',
     },
     {
       id: 'cloudinary-5',
       title: 'Portfolio Highlight 5',
       description: 'Studio37 featured work',
-      image_url: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255672/PS379781_kttvv3.jpg',
+      image_url: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033085/KELLY_-_1_8_1__2_x7leuc.jpg',
     },
     {
       id: 'cloudinary-6',
       title: 'Portfolio Highlight 6',
       description: 'Studio37 featured work',
-      image_url: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1770033072/PS370397-1_ooxygn.jpg',
+      image_url: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033086/PS379444_2_1__2_ffgun8.jpg',
     },
   ]
 

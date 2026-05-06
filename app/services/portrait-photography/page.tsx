@@ -45,7 +45,7 @@ export default function PortraitPhotographyPage() {
       <section className="relative h-[480px] bg-gradient-to-r from-blue-900 to-purple-900">
         <div className="absolute inset-0 opacity-40">
           <Image
-            src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=1200&h=600&fit=crop"
+            src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033088/PS379444_2_1_pge2hl.jpg"
             alt="Portrait photography by Studio37 in Pinehurst TX"
             fill
             className="object-cover"
@@ -138,7 +138,7 @@ export default function PortraitPhotographyPage() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="relative">
               <Image
-                src="https://images.unsplash.com/photo-1609220136736-443140cffec6?w=600&h=400&fit=crop"
+                src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033152/IMG_4582_1_lmosd6.jpg"
                 alt="Family portrait session in Montgomery County TX"
                 width={600}
                 height={400}

@@ -20,7 +20,7 @@ const services = [
 			],
 			category: 'wedding',
 			slug: 'wedding-photography',
-			image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255715/PS374317_mqqiyv.jpg',
+			image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033153/KELLY_-_1_26_ujpd2l.jpg',
 		},
 		{
 			icon: Users,
@@ -36,7 +36,7 @@ const services = [
 			],
 			category: 'professional portraits',
 			slug: 'portrait-photography',
-			image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255713/D9E4E5AE-12BE-498B-B7C1-9CDE7FFC1B59_qiaj3v.jpg',
+			image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033087/Untitled-8_1_bomfcg.jpg',
 		},
 		{
 			icon: HeartHandshake,
@@ -52,7 +52,7 @@ const services = [
 			],
 			category: 'engagement concierge',
 			slug: 'engagement-session',
-			image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255724/PS370779_xq5ipr.jpg',
+			image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033152/IMG_4555_1_ppdkum.jpg',
 		},
 		{
 			icon: Camera,
@@ -68,7 +68,7 @@ const services = [
 			],
 			category: 'event',
 			slug: 'event-photography',
-			image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255711/PS372952_gkvxjl.jpg',
+			image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033087/IMG_4591_1_r62hly.jpg',
 		},
 		{
 			icon: Building,

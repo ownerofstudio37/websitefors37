@@ -1,0 +1,80 @@
+import React from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { generateSEOMetadata } from '@/lib/seo-helpers'
+
+export const metadata = generateSEOMetadata({
+  title: 'Maternity Sessions in Pinehurst, TX | Studio37',
+  description:
+    'Maternity photography in Pinehurst, TX with Studio37. Explore Expectant Glow, Mother & Child, and Deluxe maternity options.',
+  canonicalUrl: 'https://www.studio37.cc/maternity-sessions',
+  pageType: 'service',
+})
+
+// Hardcoded marketing page override. CMS entry remains in content_pages as backup.
+export const revalidate = 86400
+
+const maternityPackages = [
+  {
+    name: 'Expectant Glow Package',
+    price: '$350',
+    image:
+      'https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033091/IMG_1503_Original_mtopcp.jpg',
+  },
+  {
+    name: 'Mother & Child Package',
+    price: '$500',
+    image:
+      'https://res.cloudinary.com/dmjxho2rl/image/upload/v1778037078/Untitled-13_convert.io_y6zaft.jpg',
+  },
+  {
+    name: 'Deluxe Maternity Experience',
+    price: '$750',
+    image:
+      'https://res.cloudinary.com/dmjxho2rl/image/upload/v1778037082/Untitled-50_2_convert.io_bht8ge.jpg',
+  },
+]
+
+export default function MaternitySessionsPage() {
+  return (
+    <div className="pt-16">
+      <section className="relative h-[440px] bg-stone-900">
+        <Image
+          src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033084/Untitled_1_zwsrnm.jpg"
+          alt="Maternity sessions hero image"
+          fill
+          priority
+          className="object-cover opacity-75"
+        />
+        <div className="relative z-10 container mx-auto px-4 h-full flex items-center">
+          <div className="max-w-2xl text-white">
+            <p className="eyebrow-hero mb-3">Studio37 Maternity</p>
+            <h1 className="text-5xl font-bold mb-3">Maternity Sessions</h1>
+            <p className="text-lg text-white/90">
+              Elegant maternity portraits designed to celebrate this chapter with warmth and timeless style.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="section-shell bg-white">
+        <div className="container mx-auto px-4">
+          <div className="grid md:grid-cols-3 gap-8">
+            {maternityPackages.map((pkg) => (
+              <article key={pkg.name} className="surface-panel p-5 flex flex-col h-full">
+                <div className="relative aspect-[4/3] rounded-xl overflow-hidden mb-5 bg-stone-200">
+                  <Image src={pkg.image} alt={pkg.name} fill className="object-cover" />
+                </div>
+                <h2 className="text-2xl font-semibold mb-1">{pkg.name}</h2>
+                <p className="text-primary-700 font-semibold mb-6">Starting at {pkg.price}</p>
+                <Link href="/book-consultation" className="btn-primary text-center mt-auto">
+                  Book Consultation
+                </Link>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  )
+}

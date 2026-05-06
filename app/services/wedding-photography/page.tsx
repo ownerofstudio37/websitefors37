@@ -131,7 +131,7 @@ export default function WeddingPhotographyPage() {
       <section className="relative h-[480px] bg-gradient-to-r from-rose-900 to-amber-900">
         <div className="absolute inset-0 opacity-40">
           <Image
-            src="https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=1200&h=600&fit=crop"
+            src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033155/KELLY_-_1_11_wgadni.jpg"
             alt="Wedding photography by Studio37 in Pinehurst TX"
             fill
             className="object-cover"
@@ -213,7 +213,7 @@ export default function WeddingPhotographyPage() {
             
             <div className="relative">
               <Image
-                src="https://images.unsplash.com/photo-1519741497674-611481863552?w=600&h=400&fit=crop"
+                src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033090/Untitled-36_mape8j.jpg"
                 alt="Wedding ceremony photography in Montgomery County TX"
                 width={600}
                 height={400}
