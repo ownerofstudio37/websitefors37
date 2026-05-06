@@ -2,7 +2,6 @@
 
 import React from 'react'
 import type { GalleryImage } from '@/lib/supabase'
-import Link from 'next/link'
 import OptimizedImage from './OptimizedImage'
 
 export default function PortraitHighlightGallery() {
@@ -56,9 +55,9 @@ export default function PortraitHighlightGallery() {
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {staticImages.map((image) => (
-            <Link 
-              href="/gallery" 
+          {staticImages.map((image, index) => (
+            <a
+              href="https://gallery.studio37.cc"
               key={image.id} 
               className="group relative block overflow-hidden rounded-xl shadow-md hover:shadow-xl transition-all duration-300"
             >
@@ -71,7 +70,9 @@ export default function PortraitHighlightGallery() {
                     width={400}
                     height={300}
                     className="w-full h-full"
-                    imgClassName="object-cover w-full h-full group-hover:scale-110 transition-transform duration-500"
+                    imgClassName={`w-full h-full group-hover:scale-110 transition-transform duration-500 ${
+                      index === 0 ? 'object-cover object-[50%_18%]' : 'object-cover'
+                    }`}
                     sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     quality={80}
                   />
@@ -88,7 +89,7 @@ export default function PortraitHighlightGallery() {
                   )}
                 </div>
               </div>
-            </Link>
+            </a>
           ))}
         </div>
       </div>
