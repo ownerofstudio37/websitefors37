@@ -292,6 +292,43 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'monthly',
       priority: PRIORITIES.contentPages,
     },
+    // Hardcoded event service pages
+    {
+      url: `${baseUrl}/corporate-events`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly',
+      priority: PRIORITIES.contentPages,
+    },
+    {
+      url: `${baseUrl}/birthday-party`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly',
+      priority: PRIORITIES.contentPages,
+    },
+    {
+      url: `${baseUrl}/graduation`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly',
+      priority: PRIORITIES.contentPages,
+    },
+    {
+      url: `${baseUrl}/fundraiser`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly',
+      priority: PRIORITIES.contentPages,
+    },
+    {
+      url: `${baseUrl}/anniversary-party`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly',
+      priority: PRIORITIES.contentPages,
+    },
+    {
+      url: `${baseUrl}/holiday-party`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly',
+      priority: PRIORITIES.contentPages,
+    },
   ]
 
   for (const location of locationPages) {
