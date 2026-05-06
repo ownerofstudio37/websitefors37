@@ -286,6 +286,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
+    {
+      url: `${baseUrl}/pinehurst`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly',
+      priority: PRIORITIES.contentPages,
+    },
   ]
 
   for (const location of locationPages) {

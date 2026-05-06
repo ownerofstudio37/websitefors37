@@ -54,6 +54,13 @@ const staticUrls = [
   { url: `${baseUrl}/local-photographer-bryan-tx`, priority: 0.8, frequency: 'monthly' },
   { url: `${baseUrl}/local-photographer-college-station-tx`, priority: 0.8, frequency: 'monthly' },
   { url: `${baseUrl}/local-photographer-houston-tx`, priority: 0.8, frequency: 'monthly' },
+  { url: `${baseUrl}/pinehurst`, priority: 0.8, frequency: 'monthly' },
+  { url: `${baseUrl}/conroe`, priority: 0.8, frequency: 'monthly' },
+  { url: `${baseUrl}/magnolia`, priority: 0.8, frequency: 'monthly' },
+  { url: `${baseUrl}/tomball`, priority: 0.8, frequency: 'monthly' },
+  { url: `${baseUrl}/houston`, priority: 0.8, frequency: 'monthly' },
+  { url: `${baseUrl}/katy`, priority: 0.8, frequency: 'monthly' },
+  { url: `${baseUrl}/humble`, priority: 0.8, frequency: 'monthly' },
   { url: `${baseUrl}/locations`, priority: 0.8, frequency: 'monthly' },
 ]
 
