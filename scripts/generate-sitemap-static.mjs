@@ -61,6 +61,7 @@ const staticUrls = [
   { url: `${baseUrl}/houston`, priority: 0.8, frequency: 'monthly' },
   { url: `${baseUrl}/katy`, priority: 0.8, frequency: 'monthly' },
   { url: `${baseUrl}/humble`, priority: 0.8, frequency: 'monthly' },
+  { url: `${baseUrl}/the-woodlands`, priority: 0.8, frequency: 'monthly' },
   { url: `${baseUrl}/corporate-events`, priority: 0.8, frequency: 'monthly' },
   { url: `${baseUrl}/birthday-party`, priority: 0.8, frequency: 'monthly' },
   { url: `${baseUrl}/graduation`, priority: 0.8, frequency: 'monthly' },

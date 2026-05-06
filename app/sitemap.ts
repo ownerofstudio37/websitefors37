@@ -292,6 +292,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'monthly',
       priority: PRIORITIES.contentPages,
     },
+    {
+      url: `${baseUrl}/the-woodlands`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly',
+      priority: PRIORITIES.contentPages,
+    },
     // Hardcoded event service pages
     {
       url: `${baseUrl}/corporate-events`,
