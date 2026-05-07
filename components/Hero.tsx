@@ -8,7 +8,7 @@ import { optimizeCloudinaryUrl } from "@/lib/cloudinaryOptimizer";
 
 export default function Hero() {
   const heroTitle = "Photography with editorial polish and real emotion.";
-  const heroSubtitle = "Wedding, portrait, and brand photography for clients who want timeless images, a calm process, and a polished final gallery.";
+  const heroSubtitle = "Wedding, portrait, event, and brand photography for clients who want timeless images, a calm process, and a polished final gallery.";
   
   // Static hero image - optimized for LCP
   const rawHeroImage = "https://res.cloudinary.com/dmjxho2rl/image/upload/v1759639187/A4B03835-ED8B-4FBB-A27E-1F2EE6CA1A18_1_105_c_gstgil_e_gen_restore_e_improve_e_sharpen_l_image_upload_My_Brand_IMG_2115_mtuowt_c_scale_fl_relative_w_0.40_o_80_fl_layer_apply_g_south_x_0.03_y_0.04_yqgycj.jpg";
@@ -66,7 +66,7 @@ export default function Hero() {
       <div className="relative z-20 container mx-auto px-4">
         <div className="max-w-6xl mx-auto pt-24 md:pt-32 pb-16 md:pb-24">
           <div className="max-w-3xl text-left">
-            <div className="eyebrow-hero mb-5">Pinehurst, TX · Weddings · Portraits · Brand</div>
+            <div className="eyebrow-hero mb-5">Pinehurst, TX · Weddings · Portraits · Events · Brand</div>
             <h1
               className="font-serif text-5xl md:text-7xl lg:text-[5.5rem] font-bold mb-6 leading-[0.95] text-white drop-shadow-lg"
               suppressHydrationWarning
