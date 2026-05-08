@@ -30,9 +30,9 @@ type PackageKey =
   // Portrait packages
   | 'portrait_mini' | 'portrait_standard' | 'portrait_extended'
   // Wedding packages
-  | 'wedding_essential' | 'wedding_complete' | 'wedding_premium'
+  | 'wedding_essential' | 'wedding_complete' | 'wedding_premium' | 'wedding_micro'
   // Commercial packages
-  | 'commercial_starter' | 'commercial_professional' | 'commercial_enterprise'
+  | 'commercial_express' | 'commercial_brand_starter' | 'commercial_content_library' | 'commercial_full_brand_story'
   // Event packages
   | 'event_basic' | 'event_standard' | 'event_premium'
 
@@ -77,45 +77,59 @@ const PACKAGES: Record<Exclude<PackageKey, 'consultation'>, Package> = {
   // Wedding Photography
   wedding_essential: {
     name: 'Wedding Essential',
-    duration: 240,
-    priceCents: 150000,
-    description: '4 hours coverage, 50+ edited photos, digital gallery',
+    duration: 360,
+    priceCents: 220000,
+    description: '6 hours wedding coverage, Duo Experience, 300+ high-resolution edited photos, 48-hour first look sneak peek',
     category: 'Wedding'
   },
   wedding_complete: {
     name: 'Wedding Complete',
     duration: 480,
-    priceCents: 250000,
-    description: '8 hours coverage, 150+ edited photos, engagement session, digital gallery',
+    priceCents: 320000,
+    description: '8 hours continuous coverage, Duo Experience, 500+ edited photos, complimentary engagement session, 24-hour highlights gallery',
     category: 'Wedding'
   },
   wedding_premium: {
     name: 'Wedding Premium',
     duration: 600,
-    priceCents: 350000,
-    description: 'Full day coverage, 300+ edited photos, engagement session, wedding album',
+    priceCents: 450000,
+    description: '10+ hours / full-day coverage, Duo Experience, 700+ edited photos, engagement + bridal or rehearsal coverage',
+    category: 'Wedding'
+  },
+  wedding_micro: {
+    name: 'Wedding Micro / Elopement',
+    duration: 180,
+    priceCents: 120000,
+    description: '3 hours intimate wedding coverage for guest counts under 30, Duo Experience, 150+ edited photos, 48-hour sneak peek',
     category: 'Wedding'
   },
   // Commercial Photography
-  commercial_starter: {
-    name: 'Commercial Starter',
-    duration: 120,
+  commercial_express: {
+    name: 'Business Express',
+    duration: 60,
     priceCents: 50000,
-    description: '2 hour session, 20+ edited images, high-res files, commercial usage rights',
+    description: '1-hour session, 15+ professionally edited images, full commercial usage license, 48-hour turnaround',
     category: 'Commercial'
   },
-  commercial_professional: {
-    name: 'Commercial Professional',
+  commercial_brand_starter: {
+    name: 'Brand Starter',
+    duration: 120,
+    priceCents: 85000,
+    description: '2-hour session, 30+ edited images, brand style brief & shot planning, full commercial usage license',
+    category: 'Commercial'
+  },
+  commercial_content_library: {
+    name: 'Content Library',
     duration: 240,
-    priceCents: 100000,
-    description: '4 hour session, 50+ edited images, multiple setups/locations, brand consultation',
+    priceCents: 150000,
+    description: '4-hour session, 75+ edited images, pre-shoot brand consultation & strategy, 24-hour sneak peek',
     category: 'Commercial'
   },
-  commercial_enterprise: {
-    name: 'Commercial Enterprise',
+  commercial_full_brand_story: {
+    name: 'Full Brand Story',
     duration: 480,
-    priceCents: 200000,
-    description: 'Full day coverage, 100+ edited images, multiple photographers, ongoing brand support',
+    priceCents: 280000,
+    description: 'Full-day session (8 hrs), 150+ edited images, branding audit & shot strategy, behind-the-scenes video reel',
     category: 'Commercial'
   },
   // Event Photography
@@ -222,10 +236,19 @@ export default function BookSessionPage() {
 
       // Map duration to nearest package if available
       if (!Number.isNaN(dur)) {
-        if (dur <= 15) setSelectedType('mini_reel')
-        else if (dur <= 30) setSelectedType('full_episode')
-        else if (dur <= 60) setSelectedType('movie_premier')
-        // For >60, keep current selection (user can choose manually)
+        if (dur <= 30) {
+          setBookingOption('packages')
+          setSelectedType('portrait_mini')
+        } else if (dur <= 60) {
+          setBookingOption('packages')
+          setSelectedType('portrait_standard')
+        } else if (dur <= 90) {
+          setBookingOption('packages')
+          setSelectedType('portrait_extended')
+        } else {
+          setBookingOption('custom')
+          setCustomDuration(Math.max(30, Math.min(180, dur)))
+        }
       }
 
       // Add helpful note so the user sees their calculator context
@@ -260,7 +283,7 @@ export default function BookSessionPage() {
         : 0
       
       const total = proratedBase + extraPersonFee
-      return Math.max(total, 100_00) // minimum $100
+      return Math.max(total, 350_00) // minimum $350 to align with mini session floor
     }
     // Package pricing
     if (selectedType === 'consultation') return 0
@@ -721,14 +744,16 @@ export default function BookSessionPage() {
                             <option value="portrait_extended">Portrait Extended - $750 (90 min)</option>
                           </optgroup>
                           <optgroup label="Wedding Photography">
-                            <option value="wedding_essential">Wedding Essential - $1,500 (4 hrs)</option>
-                            <option value="wedding_complete">Wedding Complete - $2,500 (8 hrs)</option>
-                            <option value="wedding_premium">Wedding Premium - $3,500 (Full day)</option>
+                            <option value="wedding_essential">Wedding Essential - $2,200 (6 hrs)</option>
+                            <option value="wedding_complete">Wedding Complete - $3,200 (8 hrs)</option>
+                            <option value="wedding_premium">Wedding Premium - $4,500 (10+ hrs)</option>
+                            <option value="wedding_micro">Wedding Micro / Elopement - $1,200 (3 hrs)</option>
                           </optgroup>
                           <optgroup label="Commercial Photography">
-                            <option value="commercial_starter">Commercial Starter - $500 (2 hrs)</option>
-                            <option value="commercial_professional">Commercial Professional - $1,000 (4 hrs)</option>
-                            <option value="commercial_enterprise">Commercial Enterprise - $2,000 (Full day)</option>
+                            <option value="commercial_express">Business Express - $500 (1 hr)</option>
+                            <option value="commercial_brand_starter">Brand Starter - $850 (2 hrs)</option>
+                            <option value="commercial_content_library">Content Library - $1,500 (4 hrs)</option>
+                            <option value="commercial_full_brand_story">Full Brand Story - $2,800 (8 hrs)</option>
                           </optgroup>
                           <optgroup label="Event Photography">
                             <option value="event_basic">Event Basic - $600 (2 hrs)</option>
@@ -835,11 +860,11 @@ export default function BookSessionPage() {
                             onChange={(e) => setCustomDuration(parseInt(e.target.value))}
                             className="w-full border border-gray-300 rounded-lg px-3 py-2 bg-white"
                           >
-                            {[15, 30, 45, 60, 75, 90, 120, 150, 180].map(mins => (
+                            {[30, 45, 60, 75, 90, 120, 150, 180].map(mins => (
                               <option key={mins} value={mins}>{mins} minutes</option>
                             ))}
                           </select>
-                          <p className="text-xs text-gray-500 mt-1">Billed pro-rata by minutes.</p>
+                          <p className="text-xs text-gray-500 mt-1">Billed pro-rata by minutes. Custom sessions start at $350.</p>
                         </div>
 
                         {/* Price display with breakdown */}
