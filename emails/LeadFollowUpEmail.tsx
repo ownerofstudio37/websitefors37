@@ -4,6 +4,7 @@ import {
   Head,
   Heading,
   Html,
+  Img,
   Link,
   Preview,
   Text,
@@ -13,6 +14,8 @@ import {
   Row,
   Column,
 } from '@react-email/components'
+
+const LOGO = 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1762887052/IMG_2115_mtuowt_tayodz.png'
 
 interface LeadFollowUpEmailProps {
   firstName?: string
@@ -84,8 +87,7 @@ export default function LeadFollowUpEmail({
         <Container style={container}>
           {/* Logo header */}
           <div style={logoHeader}>
-            <span style={logoS37}><span style={logoGold}>STUDIO</span>37</span>
-            <p style={logoSub}>Photography</p>
+            <Img src={LOGO} alt="Studio37 Photography" style={{ maxWidth: '180px', width: '100%', height: 'auto' }} />
           </div>
 
           {/* Hero */}
@@ -199,9 +201,10 @@ const container = {
 }
 
 const logoHeader = {
-  backgroundColor: BRAND_DARK,
-  padding: '20px 40px',
+  backgroundColor: '#ffffff',
+  padding: '20px 40px 14px',
   textAlign: 'center' as const,
+  borderBottom: '1px solid #e5e7eb',
 }
 
 const logoGold = { color: BRAND_GOLD }

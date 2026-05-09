@@ -4,6 +4,7 @@ import {
   Head,
   Heading,
   Html,
+  Img,
   Link,
   Preview,
   Text,
@@ -11,6 +12,8 @@ import {
   Button,
   Hr,
 } from '@react-email/components'
+
+const LOGO = 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1762887052/IMG_2115_mtuowt_tayodz.png'
 
 interface CouponDeliveryEmailProps {
   firstName?: string
@@ -37,6 +40,12 @@ export default function CouponDeliveryEmail({
       <Preview>Your Studio37 discount code is inside! {couponCode}</Preview>
       <Body style={main}>
         <Container style={container}>
+          {/* Logo */}
+          <Section style={logoSection}>
+            <Img src={LOGO} alt="Studio37 Photography" style={logo} />
+          </Section>
+
+          {/* Header */}
           <div style={header}>
             <Text style={celebrationText}>🎉 Special Offer Inside! 🎉</Text>
             <Heading style={h1}>Your Exclusive Discount</Heading>
@@ -134,13 +143,27 @@ const main = {
 const container = {
   backgroundColor: '#ffffff',
   margin: '0 auto',
-  padding: '20px 0 48px',
+  padding: '0',
   marginBottom: '64px',
   maxWidth: '600px',
+  overflow: 'hidden' as const,
+}
+
+const logoSection = {
+  backgroundColor: '#ffffff',
+  padding: '24px 40px 16px',
+  textAlign: 'center' as const,
+  borderBottom: '1px solid #e5e7eb',
+}
+
+const logo = {
+  maxWidth: '180px',
+  width: '100%',
+  height: 'auto',
 }
 
 const header = {
-  background: 'linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%)',
+  background: 'linear-gradient(135deg, #b46e14 0%, #d97706 100%)',
   padding: '32px 40px',
   textAlign: 'center' as const,
 }
@@ -263,7 +286,7 @@ const ctaContainer = {
 }
 
 const button = {
-  background: 'linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%)',
+  background: 'linear-gradient(135deg, #b46e14 0%, #d97706 100%)',
   borderRadius: '8px',
   color: '#fff',
   fontSize: '18px',
@@ -272,7 +295,7 @@ const button = {
   textAlign: 'center' as const,
   display: 'inline-block',
   padding: '16px 40px',
-  boxShadow: '0 4px 6px rgba(236, 72, 153, 0.3)',
+  boxShadow: '0 4px 6px rgba(180, 110, 20, 0.3)',
 }
 
 const servicesBox = {
@@ -333,7 +356,8 @@ const footer = {
   color: '#6b7280',
   fontSize: '12px',
   lineHeight: '20px',
-  padding: '0 40px',
+  padding: '32px 40px',
   textAlign: 'center' as const,
+  borderTop: '1px solid #e5e7eb',
   marginTop: '32px',
 }

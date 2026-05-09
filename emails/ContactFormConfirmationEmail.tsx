@@ -4,6 +4,7 @@ import {
   Head,
   Heading,
   Html,
+  Img,
   Link,
   Preview,
   Text,
@@ -11,6 +12,8 @@ import {
   Button,
   Hr,
 } from '@react-email/components'
+
+const LOGO = 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1762887052/IMG_2115_mtuowt_tayodz.png'
 
 interface ContactFormConfirmationEmailProps {
   firstName?: string
@@ -35,8 +38,15 @@ export default function ContactFormConfirmationEmail({
       <Preview>Thanks for contacting Studio37! We'll respond soon.</Preview>
       <Body style={main}>
         <Container style={container}>
+          {/* Logo */}
+          <Section style={logoSection}>
+            <Img src={LOGO} alt="Studio37 Photography" style={logo} />
+          </Section>
+
+          {/* Header */}
           <div style={header}>
             <Heading style={h1}>Message Received! ✓</Heading>
+            <Text style={headerSub}>We'll be in touch within 24 hours</Text>
           </div>
           
           <Text style={text}>
@@ -113,15 +123,36 @@ const main = {
 const container = {
   backgroundColor: '#ffffff',
   margin: '0 auto',
-  padding: '20px 0 48px',
+  padding: '0',
   marginBottom: '64px',
   maxWidth: '600px',
+  overflow: 'hidden' as const,
+}
+
+const logoSection = {
+  backgroundColor: '#ffffff',
+  padding: '24px 40px 16px',
+  textAlign: 'center' as const,
+  borderBottom: '1px solid #e5e7eb',
+}
+
+const logo = {
+  maxWidth: '180px',
+  width: '100%',
+  height: 'auto',
 }
 
 const header = {
-  backgroundColor: '#10b981',
-  padding: '24px 40px',
+  background: 'linear-gradient(135deg, #b46e14 0%, #d97706 100%)',
+  padding: '40px 40px',
   textAlign: 'center' as const,
+}
+
+const headerSub = {
+  color: '#fef3c7',
+  fontSize: '14px',
+  fontWeight: '500',
+  margin: '8px 0 0 0',
 }
 
 const h1 = {
@@ -154,11 +185,14 @@ const text = {
 }
 
 const messageBox = {
-  backgroundColor: '#f3f4f6',
-  border: '1px solid #d1d5db',
-  borderRadius: '8px',
-  padding: '20px',
-  margin: '24px 40px',
+  backgroundColor: '#fef3c7',
+  border: '2px solid #b46e14',
+  borderRadius: '12px',
+  padding: '22px',
+  margin: '28px auto',
+  maxWidth: '460px',
+  width: '78%',
+  boxShadow: '0 4px 12px rgba(180, 110, 20, 0.08)',
 }
 
 const timestamp = {
@@ -216,7 +250,7 @@ const list = {
 
 const urgentBox = {
   backgroundColor: '#fef3c7',
-  border: '2px solid #f59e0b',
+  border: '2px solid #b46e14',
   borderRadius: '8px',
   padding: '16px',
   margin: '24px 40px',
@@ -238,7 +272,8 @@ const footer = {
   color: '#6b7280',
   fontSize: '12px',
   lineHeight: '20px',
-  padding: '0 40px',
+  padding: '32px 40px',
   textAlign: 'center' as const,
-  marginTop: '32px',
+  borderTop: '1px solid #e5e7eb',
+  marginTop: '16px',
 }

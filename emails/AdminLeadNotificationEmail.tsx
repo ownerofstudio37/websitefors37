@@ -4,6 +4,7 @@ import {
   Head,
   Heading,
   Html,
+  Img,
   Link,
   Preview,
   Text,
@@ -13,6 +14,8 @@ import {
   Row,
   Column,
 } from '@react-email/components'
+
+const LOGO = 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1762887052/IMG_2115_mtuowt_tayodz.png'
 
 interface AdminLeadNotificationEmailProps {
   name?: string
@@ -84,6 +87,11 @@ export default function AdminLeadNotificationEmail({
       <Preview>🔔 New Lead: {name} — {serviceInterest || 'Studio37'}</Preview>
       <Body style={main}>
         <Container style={container}>
+          {/* Logo */}
+          <Section style={logoSection}>
+            <Img src={LOGO} alt="Studio37 Photography" style={logoImg} />
+          </Section>
+
           {/* Admin Header */}
           <div style={adminHeader}>
             <div style={headerLeft}>
@@ -216,7 +224,18 @@ const main = {
   backgroundColor: '#f1f5f9',
   fontFamily: '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Ubuntu,sans-serif',
 }
+const logoSection = {
+  backgroundColor: '#ffffff',
+  padding: '20px 40px 14px',
+  textAlign: 'center' as const,
+  borderBottom: '1px solid #e5e7eb',
+}
 
+const logoImg = {
+  maxWidth: '160px',
+  width: '100%',
+  height: 'auto',
+}
 const container = {
   backgroundColor: '#ffffff',
   margin: '20px auto',

@@ -4,6 +4,7 @@ import {
   Head,
   Heading,
   Html,
+  Img,
   Link,
   Preview,
   Text,
@@ -11,6 +12,8 @@ import {
   Button,
   Hr,
 } from '@react-email/components'
+
+const LOGO = 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1762887052/IMG_2115_mtuowt_tayodz.png'
 
 interface PaymentReminderEmailProps {
   firstName?: string
@@ -37,11 +40,18 @@ export default function PaymentReminderEmail({
       <Preview>Payment reminder for your Studio37 session</Preview>
       <Body style={main}>
         <Container style={container}>
-          <Heading style={h1}>Payment Reminder</Heading>
-          
-          <Text style={text}>
-            Hi {firstName},
-          </Text>
+          {/* Logo */}
+          <Section style={logoSection}>
+            <Img src={LOGO} alt="Studio37 Photography" style={logo} />
+          </Section>
+
+          {/* Header */}
+          <div style={header}>
+            <Heading style={h1}>Payment Reminder</Heading>
+            <Text style={headerSub}>Your session is coming up — let's get squared away!</Text>
+          </div>
+
+          <Text style={text}>Hi {firstName},</Text>
 
           <Text style={text}>
             We hope you're as excited as we are about your upcoming {sessionType}!
@@ -122,17 +132,43 @@ const main = {
 const container = {
   backgroundColor: '#ffffff',
   margin: '0 auto',
-  padding: '20px 0 48px',
+  padding: '0',
   marginBottom: '64px',
   maxWidth: '600px',
+  overflow: 'hidden' as const,
+}
+
+const logoSection = {
+  backgroundColor: '#ffffff',
+  padding: '24px 40px 16px',
+  textAlign: 'center' as const,
+  borderBottom: '1px solid #e5e7eb',
+}
+
+const logo = {
+  maxWidth: '180px',
+  width: '100%',
+  height: 'auto',
+}
+
+const header = {
+  background: 'linear-gradient(135deg, #b46e14 0%, #d97706 100%)',
+  padding: '40px 40px',
+  textAlign: 'center' as const,
+}
+
+const headerSub = {
+  color: '#fef3c7',
+  fontSize: '14px',
+  fontWeight: '500',
+  margin: '8px 0 0 0',
 }
 
 const h1 = {
-  color: '#1f2937',
+  color: '#ffffff',
   fontSize: '28px',
   fontWeight: '700',
-  margin: '40px 0 20px',
-  padding: '0 40px',
+  margin: '0',
 }
 
 const h3 = {
@@ -202,8 +238,8 @@ const buttonContainer = {
 }
 
 const button = {
-  backgroundColor: '#10b981',
-  borderRadius: '6px',
+  backgroundColor: '#b46e14',
+  borderRadius: '8px',
   color: '#fff',
   fontSize: '18px',
   fontWeight: 'bold',
@@ -232,13 +268,13 @@ const hr = {
 }
 
 const callout = {
-  backgroundColor: '#f3f4f6',
-  border: '1px solid #d1d5db',
-  borderRadius: '6px',
+  backgroundColor: '#fef3c7',
+  border: '1px solid #b46e14',
+  borderRadius: '8px',
   padding: '16px',
   margin: '16px 40px',
   fontSize: '14px',
-  color: '#374151',
+  color: '#92400e',
   textAlign: 'center' as const,
 }
 
@@ -246,7 +282,8 @@ const footer = {
   color: '#6b7280',
   fontSize: '12px',
   lineHeight: '20px',
-  padding: '0 40px',
+  padding: '32px 40px',
   textAlign: 'center' as const,
-  marginTop: '32px',
+  borderTop: '1px solid #e5e7eb',
+  marginTop: '16px',
 }

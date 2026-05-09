@@ -4,12 +4,15 @@ import {
   Head,
   Heading,
   Html,
+  Img,
   Link,
   Preview,
   Text,
   Section,
   Hr,
 } from '@react-email/components'
+
+const LOGO = 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1762887052/IMG_2115_mtuowt_tayodz.png'
 
 interface NewsletterWelcomeEmailProps {
   firstName?: string
@@ -32,6 +35,12 @@ export default function NewsletterWelcomeEmail({
       <Preview>Welcome to the Studio37 Photography Newsletter! 📸</Preview>
       <Body style={main}>
         <Container style={container}>
+          {/* Logo */}
+          <Section style={logoSection}>
+            <Img src={LOGO} alt="Studio37 Photography" style={logo} />
+          </Section>
+
+          {/* Header */}
           <div style={header}>
             <Text style={welcomeText}>📸 Welcome to Studio37!</Text>
             <Heading style={h1}>You're In! 🎉</Heading>
@@ -155,13 +164,27 @@ const main = {
 const container = {
   backgroundColor: '#ffffff',
   margin: '0 auto',
-  padding: '20px 0 48px',
+  padding: '0',
   marginBottom: '64px',
   maxWidth: '600px',
+  overflow: 'hidden' as const,
+}
+
+const logoSection = {
+  backgroundColor: '#ffffff',
+  padding: '24px 40px 16px',
+  textAlign: 'center' as const,
+  borderBottom: '1px solid #e5e7eb',
+}
+
+const logo = {
+  maxWidth: '180px',
+  width: '100%',
+  height: 'auto',
 }
 
 const header = {
-  background: 'linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%)',
+  background: 'linear-gradient(135deg, #b46e14 0%, #d97706 100%)',
   padding: '32px 40px',
   textAlign: 'center' as const,
 }
@@ -195,15 +218,15 @@ const text = {
 }
 
 const highlightBox = {
-  backgroundColor: '#eff6ff',
-  border: '2px solid #3b82f6',
+  backgroundColor: '#fef3c7',
+  border: '2px solid #b46e14',
   borderRadius: '12px',
   padding: '24px',
   margin: '32px 40px',
 }
 
 const highlightTitle = {
-  color: '#1e40af',
+  color: '#92400e',
   fontSize: '20px',
   fontWeight: '700',
   margin: '0 0 16px 0',
@@ -271,7 +294,7 @@ const ctaContainer = {
 }
 
 const button = {
-  background: 'linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%)',
+  background: 'linear-gradient(135deg, #b46e14 0%, #d97706 100%)',
   borderRadius: '8px',
   color: '#fff',
   fontSize: '18px',
@@ -280,7 +303,7 @@ const button = {
   textAlign: 'center' as const,
   display: 'inline-block',
   padding: '16px 40px',
-  boxShadow: '0 4px 6px rgba(59, 130, 246, 0.3)',
+  boxShadow: '0 4px 6px rgba(180, 110, 20, 0.3)',
   border: 'none',
 }
 

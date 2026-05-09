@@ -4,12 +4,16 @@ import {
   Head,
   Heading,
   Html,
+  Img,
   Link,
   Preview,
   Text,
+  Section,
   Button,
   Hr,
 } from '@react-email/components'
+
+const LOGO = 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1762887052/IMG_2115_mtuowt_tayodz.png'
 
 interface PhotosReadyEmailProps {
   firstName?: string
@@ -30,8 +34,18 @@ export default function PhotosReadyEmail({
       <Preview>Your Photos Are Ready! 🎉</Preview>
       <Body style={main}>
         <Container style={container}>
-          <Heading style={h1}>Great News {firstName}!</Heading>
-          
+          {/* Logo */}
+          <Section style={logoSection}>
+            <Img src={LOGO} alt="Studio37 Photography" style={logo} />
+          </Section>
+
+          {/* Header */}
+          <div style={header}>
+            <Heading style={h1}>Your Photos Are Ready! 🎉</Heading>
+            <Text style={headerSub}>Your gallery is live and waiting for you</Text>
+          </div>
+
+          <Text style={text}>Hi {firstName},</Text>
           <Text style={text}>
             Your photos from your {sessionType} session are now ready to view!
           </Text>
@@ -81,18 +95,43 @@ const main = {
 const container = {
   backgroundColor: '#ffffff',
   margin: '0 auto',
-  padding: '20px 0 48px',
+  padding: '0',
   marginBottom: '64px',
   maxWidth: '600px',
+  overflow: 'hidden' as const,
+}
+
+const logoSection = {
+  backgroundColor: '#ffffff',
+  padding: '24px 40px 16px',
+  textAlign: 'center' as const,
+  borderBottom: '1px solid #e5e7eb',
+}
+
+const logo = {
+  maxWidth: '180px',
+  width: '100%',
+  height: 'auto',
+}
+
+const header = {
+  background: 'linear-gradient(135deg, #b46e14 0%, #d97706 100%)',
+  padding: '40px 40px',
+  textAlign: 'center' as const,
+}
+
+const headerSub = {
+  color: '#fef3c7',
+  fontSize: '14px',
+  fontWeight: '500',
+  margin: '8px 0 0 0',
 }
 
 const h1 = {
-  color: '#1f2937',
-  fontSize: '32px',
+  color: '#ffffff',
+  fontSize: '28px',
   fontWeight: '700',
-  margin: '40px 0 20px',
-  padding: '0 40px',
-  textAlign: 'center' as const,
+  margin: '0',
 }
 
 const text = {
@@ -147,6 +186,8 @@ const footer = {
   color: '#6b7280',
   fontSize: '12px',
   lineHeight: '20px',
-  padding: '0 40px',
+  padding: '32px 40px',
   textAlign: 'center' as const,
+  borderTop: '1px solid #e5e7eb',
+  marginTop: '16px',
 }
