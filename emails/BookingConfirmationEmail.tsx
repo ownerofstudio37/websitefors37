@@ -47,7 +47,7 @@ export default function BookingConfirmationEmail({
           {/* Logo Header */}
           <Section style={logoSection}>
             <Img 
-              src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1756077115/My%20Brand/IMG_2115_mtuowt.png"
+              src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1762887052/IMG_2115_mtuowt_tayodz.png"
               alt="Studio37 Photography"
               style={logo}
             />
@@ -67,7 +67,7 @@ export default function BookingConfirmationEmail({
             Great news! Your {sessionType} session is confirmed. We can't wait to capture amazing memories with you!
           </Text>
 
-          <Section style={confirmationBox}>
+          <div style={confirmationBox}>
             <Heading as="h2" style={h2}>Session Details</Heading>
             
             <div style={detailRow}>
@@ -101,7 +101,7 @@ export default function BookingConfirmationEmail({
                 <span style={value}>{packageName}</span>
               </div>
             )}
-          </Section>
+          </div>
 
           {totalAmount && (
             <Section style={pricingBox}>
@@ -228,8 +228,10 @@ const confirmationBox = {
   backgroundColor: '#fef3c7',
   border: '2px solid #b46e14',
   borderRadius: '12px',
-  padding: '28px',
-  margin: '32px 40px',
+  padding: '22px',
+  margin: '28px auto',
+  maxWidth: '460px',
+  width: '78%',
   boxShadow: '0 4px 12px rgba(180, 110, 20, 0.08)',
 }
 
