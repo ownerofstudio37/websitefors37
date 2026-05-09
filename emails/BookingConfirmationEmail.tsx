@@ -10,6 +10,7 @@ import {
   Section,
   Button,
   Hr,
+  Img,
 } from '@react-email/components'
 
 interface BookingConfirmationEmailProps {
@@ -43,8 +44,19 @@ export default function BookingConfirmationEmail({
       <Preview>Your session with Studio37 is confirmed! 📸</Preview>
       <Body style={main}>
         <Container style={container}>
+          {/* Logo Header */}
+          <Section style={logoSection}>
+            <Img 
+              src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1756077115/My%20Brand/IMG_2115_mtuowt.png"
+              alt="Studio37 Photography"
+              style={logo}
+            />
+          </Section>
+
+          {/* Hero Header */}
           <div style={header}>
             <Heading style={h1}>Booking Confirmed! ✓</Heading>
+            <Text style={headerSubtext}>We're excited to photograph your session</Text>
           </div>
           
           <Text style={text}>
@@ -149,15 +161,38 @@ const main = {
 const container = {
   backgroundColor: '#ffffff',
   margin: '0 auto',
-  padding: '20px 0 48px',
+  padding: '0',
   marginBottom: '64px',
   maxWidth: '600px',
+  overflow: 'hidden' as const,
+}
+
+const logoSection = {
+  backgroundColor: '#ffffff',
+  padding: '24px 40px 16px',
+  textAlign: 'center' as const,
+  borderBottom: '1px solid #e5e7eb',
+}
+
+const logo = {
+  maxWidth: '180px',
+  width: '100%',
+  height: 'auto',
+  objectFit: 'contain' as const,
 }
 
 const header = {
-  backgroundColor: '#10b981',
-  padding: '20px 40px',
+  background: 'linear-gradient(135deg, #b46e14 0%, #d97706 100%)',
+  padding: '40px 40px',
   textAlign: 'center' as const,
+}
+
+const headerSubtext = {
+  color: '#fef3c7',
+  fontSize: '14px',
+  fontWeight: '500',
+  margin: '8px 0 0 0',
+  lineHeight: '1.4',
 }
 
 const h1 = {
@@ -190,11 +225,12 @@ const text = {
 }
 
 const confirmationBox = {
-  backgroundColor: '#f0fdf4',
-  border: '2px solid #10b981',
-  borderRadius: '8px',
-  padding: '24px',
-  margin: '24px 40px',
+  backgroundColor: '#fef3c7',
+  border: '2px solid #b46e14',
+  borderRadius: '12px',
+  padding: '28px',
+  margin: '32px 40px',
+  boxShadow: '0 4px 12px rgba(180, 110, 20, 0.08)',
 }
 
 const pricingBox = {
@@ -206,17 +242,19 @@ const pricingBox = {
 }
 
 const detailRow = {
-  display: 'flex',
+  display: 'flex' as const,
   justifyContent: 'space-between',
-  marginBottom: '12px',
+  marginBottom: '14px',
   fontSize: '15px',
+  lineHeight: '1.5',
 }
 
 const pricingRow = {
-  display: 'flex',
+  display: 'flex' as const,
   justifyContent: 'space-between',
-  marginBottom: '8px',
+  marginBottom: '10px',
   fontSize: '15px',
+  lineHeight: '1.5',
 }
 
 const label = {
@@ -237,7 +275,7 @@ const priceValue = {
 
 const section = {
   padding: '0 40px',
-  margin: '24px 0',
+  margin: '32px 0',
 }
 
 const list = {
@@ -255,14 +293,15 @@ const buttonContainer = {
 
 const button = {
   backgroundColor: '#b46e14',
-  borderRadius: '6px',
+  borderRadius: '8px',
   color: '#fff',
   fontSize: '16px',
   fontWeight: 'bold',
   textDecoration: 'none',
   textAlign: 'center' as const,
   display: 'inline-block',
-  padding: '14px 28px',
+  padding: '14px 32px',
+  transition: 'background-color 0.2s ease',
 }
 
 const hr = {
@@ -271,20 +310,21 @@ const hr = {
 }
 
 const callout = {
-  backgroundColor: '#f3f4f6',
-  border: '1px solid #d1d5db',
-  borderRadius: '6px',
+  backgroundColor: '#fef3c7',
+  border: '1px solid #b46e14',
+  borderRadius: '8px',
   padding: '16px',
-  margin: '16px 40px',
+  margin: '20px 40px',
   fontSize: '14px',
-  color: '#374151',
+  color: '#92400e',
 }
 
 const footer = {
   color: '#6b7280',
   fontSize: '12px',
   lineHeight: '20px',
-  padding: '0 40px',
+  padding: '32px 40px',
   textAlign: 'center' as const,
-  marginTop: '32px',
+  marginTop: '16px',
+  borderTop: '1px solid #e5e7eb',
 }
