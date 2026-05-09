@@ -53,6 +53,18 @@ export default function AdminBookingsPage() {
     setToast({ type: 'success', message: 'Appointment deleted.' })
   }
 
+  const formatAdminDateTime = (iso: string) => {
+    return new Date(iso).toLocaleString('en-US', {
+      timeZone: 'America/Chicago',
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true,
+    })
+  }
+
   return (
     <div className="p-6">
       <div className="flex items-center justify-between mb-4">
@@ -89,7 +101,7 @@ export default function AdminBookingsPage() {
               {appointments.map(a => (
                 <tr key={a.id} className="hover:bg-gray-50">
                   <td className="px-4 py-3 whitespace-nowrap">
-                    <div className="flex items-center gap-2"><Calendar className="h-4 w-4"/> {new Date(a.start_time).toLocaleString()}</div>
+                    <div className="flex items-center gap-2"><Calendar className="h-4 w-4"/> {formatAdminDateTime(a.start_time)} CST</div>
                     <div className="text-xs text-gray-500 flex items-center gap-1"><Clock className="h-3 w-3"/> {a.duration_minutes} min</div>
                   </td>
                   <td className="px-4 py-3">

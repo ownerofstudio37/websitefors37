@@ -31,6 +31,59 @@ interface BookingRecord {
   start_time?: string
 }
 
+const CHICAGO_TZ = 'America/Chicago'
+
+function normalizeDateKey(input: string): string {
+  return (input || '').split('T')[0]
+}
+
+function getChicagoParts(date: Date) {
+  const parts = new Intl.DateTimeFormat('en-US', {
+    timeZone: CHICAGO_TZ,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false,
+  }).formatToParts(date)
+
+  const read = (type: Intl.DateTimeFormatPartTypes) =>
+    Number(parts.find((p) => p.type === type)?.value || '0')
+
+  return {
+    year: read('year'),
+    month: read('month'),
+    day: read('day'),
+    hour: read('hour'),
+    minute: read('minute'),
+    second: read('second'),
+  }
+}
+
+function chicagoOffsetMinutes(atInstant: Date): number {
+  const p = getChicagoParts(atInstant)
+  const chicagoAsUtcMs = Date.UTC(p.year, p.month - 1, p.day, p.hour, p.minute, p.second)
+  return Math.round((chicagoAsUtcMs - atInstant.getTime()) / 60000)
+}
+
+function chicagoLocalToUtc(dateKey: string, hour24: number, minute: number) {
+  const [year, month, day] = dateKey.split('-').map((v) => Number(v))
+  const guess = new Date(Date.UTC(year, month - 1, day, hour24, minute, 0))
+  const offset = chicagoOffsetMinutes(guess)
+  return new Date(guess.getTime() - offset * 60_000)
+}
+
+function formatChicagoDisplayTime(iso: string) {
+  return new Date(iso).toLocaleTimeString('en-US', {
+    timeZone: CHICAGO_TZ,
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+  })
+}
+
 export async function POST(request: NextRequest) {
   const ip = getClientIp(request.headers)
   
@@ -72,23 +125,12 @@ export async function POST(request: NextRequest) {
     }
 
     // Validate date/time is not in the past (allow same-day if time is still ahead in CST)
-    const bookingDate = new Date(date)
-    const tz = 'America/Chicago'
-    const nowCST = new Date(
-      new Intl.DateTimeFormat('en-US', {
-        timeZone: tz,
-        year: 'numeric', month: '2-digit', day: '2-digit',
-        hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
-      }).format(new Date())
-      .replace(
-        /(\d{2})\/(\d{2})\/(\d{4}),\s(\d{2}):(\d{2}):(\d{2})/,
-        '$3-$1-$2T$4:$5:$6'
-      ) + ':00'
-    )
-    const todayCST = new Date(new Intl.DateTimeFormat('en-US', { timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date()).replace(/(\d{2})\/(\d{2})\/(\d{4})/, '$3-$1-$2'))
+    const dateKey = normalizeDateKey(date)
+    const nowChicago = getChicagoParts(new Date())
+    const todayChicagoKey = `${nowChicago.year}-${String(nowChicago.month).padStart(2, '0')}-${String(nowChicago.day).padStart(2, '0')}`
     
     // If booking date is strictly before today (CST), block
-    if (bookingDate < todayCST) {
+    if (dateKey < todayChicagoKey) {
       return NextResponse.json(
         { error: 'Selected date is in the past. Please choose today or a future date.' },
         { status: 400 }
@@ -96,7 +138,6 @@ export async function POST(request: NextRequest) {
     }
 
     // Validate business hours
-    const isWeekend = bookingDate.getDay() === 0 || bookingDate.getDay() === 6
     const timeMatch = time.match(/(\d+):(\d+)\s*(AM|PM)/)
     
     if (!timeMatch) {
@@ -132,8 +173,7 @@ export async function POST(request: NextRequest) {
 
     // Check for existing bookings at this time
     // Build start/end time for the time slot
-    const [datePart] = date.split('T')
-    const slotStartTime = new Date(`${datePart}T${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}:00`).toISOString()
+    const slotStartTime = chicagoLocalToUtc(dateKey, hour, minute).toISOString()
     const slotEndTime = new Date(new Date(slotStartTime).getTime() + 30 * 60 * 1000).toISOString()
     
     const { data: existingBookings, error: checkError } = await supabase
@@ -162,8 +202,8 @@ export async function POST(request: NextRequest) {
 
     // Combine date and time to ensure same-day time is in the future (CST)
     const selectedTimeMinutes = hour * 60 + minute
-    const nowCSTMinutes = nowCST.getHours() * 60 + nowCST.getMinutes()
-    const isSameDayCST = bookingDate.toLocaleDateString('en-US', { timeZone: tz }) === nowCST.toLocaleDateString('en-US', { timeZone: tz })
+    const nowCSTMinutes = nowChicago.hour * 60 + nowChicago.minute
+    const isSameDayCST = dateKey === todayChicagoKey
     if (isSameDayCST && selectedTimeMinutes <= nowCSTMinutes) {
       return NextResponse.json(
         { error: 'Selected time has already passed. Please choose a later time today or another date.' },
@@ -173,8 +213,7 @@ export async function POST(request: NextRequest) {
 
     // Create the consultation booking
     // Convert date and time to start_time and end_time timestamps
-    // Reuse datePart from above
-    const appointmentDateTime = new Date(`${datePart}T${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}:00`)
+    const appointmentDateTime = chicagoLocalToUtc(dateKey, hour, minute)
     const startTime = appointmentDateTime.toISOString()
     const endTime = new Date(appointmentDateTime.getTime() + 30 * 60 * 1000).toISOString() // 30 min consultation
     
@@ -463,16 +502,15 @@ export async function GET(request: NextRequest) {
     const supabase = getPublicSupabase()
 
     // Get all bookings for this date
-    const startOfDay = new Date(date)
-    startOfDay.setHours(0, 0, 0, 0)
-    const endOfDay = new Date(date)
-    endOfDay.setHours(23, 59, 59, 999)
+    const dateKey = normalizeDateKey(date)
+    const startOfDay = chicagoLocalToUtc(dateKey, 0, 0)
+    const nextDay = new Date(startOfDay.getTime() + 24 * 60 * 60 * 1000)
     
     const { data: bookings, error } = await supabase
       .from('appointments')
       .select('start_time, type')
       .gte('start_time', startOfDay.toISOString())
-      .lte('start_time', endOfDay.toISOString())
+      .lt('start_time', nextDay.toISOString())
       .in('status', ['scheduled', 'confirmed'])
 
     if (error) {
@@ -489,14 +527,7 @@ export async function GET(request: NextRequest) {
 
     const availableSlots: string[] = []
     // Convert booking start_times to display times for comparison
-    const bookedTimes = bookings?.map(b => {
-      const bookingTime = new Date(b.start_time)
-      const h = bookingTime.getHours()
-      const m = bookingTime.getMinutes()
-      const displayHour = h > 12 ? h - 12 : h === 0 ? 12 : h
-      const ampm = h >= 12 ? 'PM' : 'AM'
-      return `${displayHour}:${m.toString().padStart(2, '0')} ${ampm}`
-    }) || []
+    const bookedTimes = bookings?.map(b => formatChicagoDisplayTime(b.start_time)) || []
 
     for (let hour = startHour; hour < endHour; hour += 0.5) {
       const h = Math.floor(hour)
