@@ -117,23 +117,34 @@ export async function PATCH(request: NextRequest) {
     })
   } catch (error: any) {
     console.error('Error updating appointment:', error)
-    // DELETE an appointment by id (?id=...)
-    export async function DELETE(request: NextRequest) {
-      try {
-        const supabase = createClient(supabaseUrl, supabaseServiceKey)
-        const { searchParams } = new URL(request.url)
-        const id = searchParams.get('id')
-        if (!id) {
-          return NextResponse.json({ success: false, error: 'id is required' }, { status: 400 })
-        }
-        const { error } = await supabase.from('appointments').delete().eq('id', id)
-        if (error) throw error
-        return NextResponse.json({ success: true })
-      } catch (error: any) {
-        console.error('Error deleting appointment:', error)
-        return NextResponse.json({ success: false, error: error.message }, { status: 500 })
-      }
+    return NextResponse.json(
+      { success: false, error: error.message },
+      { status: 500 }
+    )
+  }
+}
+
+// DELETE an appointment by id (?id=...)
+export async function DELETE(request: NextRequest) {
+  try {
+    const supabase = createClient(supabaseUrl, supabaseServiceKey)
+    const { searchParams } = new URL(request.url)
+    const id = searchParams.get('id')
+
+    if (!id) {
+      return NextResponse.json({ success: false, error: 'id is required' }, { status: 400 })
     }
+
+    const { error } = await supabase
+      .from('appointments')
+      .delete()
+      .eq('id', id)
+
+    if (error) throw error
+
+    return NextResponse.json({ success: true })
+  } catch (error: any) {
+    console.error('Error deleting appointment:', error)
     return NextResponse.json(
       { success: false, error: error.message },
       { status: 500 }
