@@ -113,70 +113,70 @@ export default function CalendarPage() {
   const handleAddAppointment = (date: Date) => {
     setSelectedDate(date)
     setShowAddModal(true)
+  }
 
-    const handleOpenDetail = (apt: Appointment) => {
-      setSelectedAppointment(apt)
-      setEditMode(false)
+  const handleOpenDetail = (apt: Appointment) => {
+    setSelectedAppointment(apt)
+    setEditMode(false)
+    setDeleteConfirm(false)
+    setShowDetailModal(true)
+  }
+
+  const handleSaveEdit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    if (!selectedAppointment) return
+    setSaving(true)
+    const formData = new FormData(e.currentTarget)
+    try {
+      const res = await fetch('/api/admin/appointments-calendar', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id: selectedAppointment.id,
+          client_name: formData.get('client_name'),
+          client_email: formData.get('client_email'),
+          client_phone: formData.get('client_phone'),
+          appointment_date: formData.get('appointment_date'),
+          appointment_time: formData.get('appointment_time'),
+          session_type: formData.get('session_type'),
+          location: formData.get('location'),
+          notes: formData.get('notes'),
+          status: formData.get('status'),
+        }),
+      })
+      const data = await res.json()
+      if (data.success) {
+        setShowDetailModal(false)
+        fetchAppointments(currentDate)
+      } else {
+        alert('Failed to update: ' + data.error)
+      }
+    } catch {
+      alert('Error updating appointment')
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  const handleDelete = async () => {
+    if (!selectedAppointment) return
+    setSaving(true)
+    try {
+      const res = await fetch(`/api/admin/appointments-calendar?id=${selectedAppointment.id}`, {
+        method: 'DELETE',
+      })
+      const data = await res.json()
+      if (data.success) {
+        setShowDetailModal(false)
+        fetchAppointments(currentDate)
+      } else {
+        alert('Failed to delete: ' + data.error)
+      }
+    } catch {
+      alert('Error deleting appointment')
+    } finally {
+      setSaving(false)
       setDeleteConfirm(false)
-      setShowDetailModal(true)
-    }
-
-    const handleSaveEdit = async (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault()
-      if (!selectedAppointment) return
-      setSaving(true)
-      const formData = new FormData(e.currentTarget)
-      try {
-        const res = await fetch('/api/admin/appointments-calendar', {
-          method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            id: selectedAppointment.id,
-            client_name: formData.get('client_name'),
-            client_email: formData.get('client_email'),
-            client_phone: formData.get('client_phone'),
-            appointment_date: formData.get('appointment_date'),
-            appointment_time: formData.get('appointment_time'),
-            session_type: formData.get('session_type'),
-            location: formData.get('location'),
-            notes: formData.get('notes'),
-            status: formData.get('status'),
-          }),
-        })
-        const data = await res.json()
-        if (data.success) {
-          setShowDetailModal(false)
-          fetchAppointments(currentDate)
-        } else {
-          alert('Failed to update: ' + data.error)
-        }
-      } catch {
-        alert('Error updating appointment')
-      } finally {
-        setSaving(false)
-      }
-    }
-
-    const handleDelete = async () => {
-      if (!selectedAppointment) return
-      setSaving(true)
-      try {
-        const res = await fetch(`/api/admin/appointments-calendar?id=${selectedAppointment.id}`, {
-          method: 'DELETE',
-        })
-        const data = await res.json()
-        if (data.success) {
-          setShowDetailModal(false)
-          fetchAppointments(currentDate)
-        } else {
-          alert('Failed to delete: ' + data.error)
-        }
-      } catch {
-        alert('Error deleting appointment')
-      } finally {
-        setSaving(false)
-        setDeleteConfirm(false)
-      }
     }
   }
 
@@ -294,6 +294,7 @@ export default function CalendarPage() {
                           key={apt.id}
                           className={`text-xs p-1.5 rounded border ${getStatusColor(apt.status)} cursor-pointer hover:shadow-sm transition`}
                           title={`${apt.client_name} - ${apt.session_type}\n${apt.appointment_time || 'No time set'}`}
+                          onClick={() => handleOpenDetail(apt)}
                         >
                           <div
                             className="font-medium truncate"
@@ -322,74 +323,72 @@ export default function CalendarPage() {
           </div>
         )}
 
-        {/* Quick Add Modal */}
-        {showAddModal && selectedDate && (
-                  {/* Detail / Edit Modal */}
-                  {showDetailModal && selectedAppointment && (
-                    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-                      <div className="bg-white rounded-xl max-w-lg w-full p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
-                        <div className="flex items-center justify-between mb-4">
-                          <h3 className="text-xl font-bold text-gray-900">
-                            {editMode ? 'Edit Appointment' : 'Appointment Details'}
-                          </h3>
-                          <button onClick={() => setShowDetailModal(false)} className="text-gray-400 hover:text-gray-700 text-2xl leading-none">&times;</button>
-                        </div>
+        {/* Detail / Edit Modal */}
+        {showDetailModal && selectedAppointment && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-xl max-w-lg w-full p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-xl font-bold text-gray-900">
+                  {editMode ? 'Edit Appointment' : 'Appointment Details'}
+                </h3>
+                <button onClick={() => setShowDetailModal(false)} className="text-gray-400 hover:text-gray-700 text-2xl leading-none">&times;</button>
+              </div>
 
-                        {!editMode ? (
-                          <>
-                            <dl className="space-y-3 text-sm">
-                              {[
-                                ['Client', selectedAppointment.client_name],
-                                ['Email', selectedAppointment.client_email],
-                                ['Phone', selectedAppointment.client_phone],
-                                ['Date', new Date(selectedAppointment.appointment_date).toLocaleDateString()],
-                                ['Time', selectedAppointment.appointment_time || '—'],
-                                ['Session Type', selectedAppointment.session_type],
-                                ['Location', selectedAppointment.location || '—'],
-                                ['Status', selectedAppointment.status],
-                                ['Notes', selectedAppointment.notes || '—'],
-                              ].map(([label, val]) => (
-                                <div key={label} className="flex gap-3">
-                                  <dt className="w-28 font-medium text-gray-500 flex-shrink-0">{label}</dt>
-                                  <dd className="text-gray-900">{val || '—'}</dd>
-                                </div>
-                              ))}
-                            </dl>
-                            <div className="flex gap-3 mt-6">
-                              <button
-                                onClick={() => setEditMode(true)}
-                                className="flex-1 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 text-sm font-medium transition"
-                              >
-                                Edit
-                              </button>
-                              {deleteConfirm ? (
-                                <div className="flex gap-2 flex-1">
-                                  <button
-                                    onClick={handleDelete}
-                                    disabled={saving}
-                                    className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 text-sm font-medium transition disabled:opacity-60"
-                                  >
-                                    {saving ? 'Deleting…' : 'Confirm Delete'}
-                                  </button>
-                                  <button
-                                    onClick={() => setDeleteConfirm(false)}
-                                    className="px-3 py-2 border rounded-lg text-sm"
-                                  >
-                                    Cancel
-                                  </button>
-                                </div>
-                              ) : (
-                                <button
-                                  onClick={() => setDeleteConfirm(true)}
-                                  className="flex-1 px-4 py-2 border border-red-300 text-red-600 rounded-lg hover:bg-red-50 text-sm font-medium transition"
-                                >
-                                  Delete
-                                </button>
-                              )}
-                            </div>
-                          </>
-                        ) : (
-                          <form onSubmit={handleSaveEdit} className="space-y-4">
+              {!editMode ? (
+                <>
+                  <dl className="space-y-3 text-sm">
+                    {[
+                      ['Client', selectedAppointment.client_name],
+                      ['Email', selectedAppointment.client_email],
+                      ['Phone', selectedAppointment.client_phone],
+                      ['Date', new Date(selectedAppointment.appointment_date).toLocaleDateString()],
+                      ['Time', selectedAppointment.appointment_time || '—'],
+                      ['Session Type', selectedAppointment.session_type],
+                      ['Location', selectedAppointment.location || '—'],
+                      ['Status', selectedAppointment.status],
+                      ['Notes', selectedAppointment.notes || '—'],
+                    ].map(([label, val]) => (
+                      <div key={label} className="flex gap-3">
+                        <dt className="w-28 font-medium text-gray-500 flex-shrink-0">{label}</dt>
+                        <dd className="text-gray-900">{val || '—'}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                  <div className="flex gap-3 mt-6">
+                    <button
+                      onClick={() => setEditMode(true)}
+                      className="flex-1 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 text-sm font-medium transition"
+                    >
+                      Edit
+                    </button>
+                    {deleteConfirm ? (
+                      <div className="flex gap-2 flex-1">
+                        <button
+                          onClick={handleDelete}
+                          disabled={saving}
+                          className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 text-sm font-medium transition disabled:opacity-60"
+                        >
+                          {saving ? 'Deleting…' : 'Confirm Delete'}
+                        </button>
+                        <button
+                          onClick={() => setDeleteConfirm(false)}
+                          className="px-3 py-2 border rounded-lg text-sm"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    ) : (
+                      <button
+                        onClick={() => setDeleteConfirm(true)}
+                        className="flex-1 px-4 py-2 border border-red-300 text-red-600 rounded-lg hover:bg-red-50 text-sm font-medium transition"
+                      >
+                        Delete
+                      </button>
+                    )}
+                  </div>
+                </>
+              ) : (
+                <form onSubmit={handleSaveEdit} className="space-y-4">
                             <div>
                               <label className="block text-sm font-medium text-gray-700 mb-1">Client Name *</label>
                               <input type="text" name="client_name" required defaultValue={selectedAppointment.client_name} className="w-full border rounded-lg px-3 py-2 text-sm" />
@@ -438,11 +437,14 @@ export default function CalendarPage() {
                                 {saving ? 'Saving…' : 'Save Changes'}
                               </button>
                             </div>
-                          </form>
-                        )}
-                      </div>
-                    </div>
-                  )}
+                </form>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Quick Add Modal */}
+        {showAddModal && selectedDate && (
 
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
             <div className="bg-white rounded-xl max-w-md w-full p-6 shadow-2xl">
