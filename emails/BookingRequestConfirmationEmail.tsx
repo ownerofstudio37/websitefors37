@@ -54,7 +54,8 @@ export default function BookingRequestConfirmationEmail({
           </Section>
 
           {/* Summary Box */}
-          <Section style={summaryBox}>
+          <Section style={section}>
+            <div style={summaryBox}>
             <Heading as="h2" style={h2}>📋 Your Request Summary</Heading>
             
             <table width="100%" style={detailsTable}>
@@ -105,6 +106,7 @@ export default function BookingRequestConfirmationEmail({
                 <Text style={notesText}>{details}</Text>
               </>
             )}
+            </div>
           </Section>
 
           {/* Next Steps */}
@@ -271,7 +273,9 @@ const summaryBox = {
   border: '2px solid #fbbf24',
   borderRadius: '12px',
   padding: '28px',
-  margin: '32px',
+  margin: '0',
+  width: '100%',
+  boxSizing: 'border-box' as const,
 }
 
 const detailsTable = {
