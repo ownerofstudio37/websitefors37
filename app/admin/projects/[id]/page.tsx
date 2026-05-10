@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useParams, useRouter } from 'next/navigation'
-import { ArrowLeft, Calendar, CheckCircle2, Clock, FileText, FolderKanban, Loader2, PackageOpen, TriangleAlert } from 'lucide-react'
+import { ArrowLeft, AlertTriangle, Calendar, CheckCircle2, Clock, FileText, FolderKanban, Loader2, PackageOpen } from 'lucide-react'
 
 type Project = {
   id: string
@@ -94,7 +94,7 @@ export default function ProjectDetailPage() {
             </Link>
           </div>
           <div className="bg-white rounded-lg border p-8 text-center">
-            <TriangleAlert className="mx-auto mb-3 text-red-600" />
+            <AlertTriangle className="mx-auto mb-3 text-red-600" />
             <p className="text-slate-800 font-semibold">{error || 'Project not found'}</p>
           </div>
         </div>

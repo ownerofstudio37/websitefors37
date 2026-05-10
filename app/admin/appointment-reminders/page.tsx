@@ -72,31 +72,6 @@ export default function AppointmentRemindersSettingsPage() {
   }
 
   const handleSendTestReminder = async () => {
-      const handleRunNow = async () => {
-        setRunningNow(true)
-        try {
-          const cronSecret = prompt('Enter CRON_SECRET to authorize manual run:')
-          if (!cronSecret) { setRunningNow(false); return }
-          const res = await fetch('/api/appointments/send-reminders', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'x-cron-secret': cronSecret },
-          })
-          const data = await res.json()
-          const ok = res.ok && (data.success !== false)
-          const message = ok
-            ? `Ran successfully — ${data.sent ?? 0} reminder(s) sent`
-            : data.error || `Failed (HTTP ${res.status})`
-          setRunLog((prev) => [{ ts: new Date().toLocaleTimeString(), message, ok }, ...prev.slice(0, 9)])
-          ok ? toast.success(message) : toast.error(message)
-        } catch (e: any) {
-          const message = 'Network error: ' + (e?.message || 'unknown')
-          setRunLog((prev) => [{ ts: new Date().toLocaleTimeString(), message, ok: false }, ...prev.slice(0, 9)])
-          toast.error(message)
-        } finally {
-          setRunningNow(false)
-        }
-      }
-
     if (!testEmail) {
       toast.error('Please enter a test email address')
       return
@@ -124,6 +99,48 @@ export default function AppointmentRemindersSettingsPage() {
       toast.error('Failed to send test reminder')
     } finally {
       setSendingTest(false)
+    }
+  }
+
+  const handleRunNow = async () => {
+    setRunningNow(true)
+    try {
+      const cronSecret = prompt('Enter CRON_SECRET to authorize manual run:')
+      if (!cronSecret) {
+        setRunningNow(false)
+        return
+      }
+
+      const res = await fetch('/api/appointments/send-reminders', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Cron-Secret': cronSecret,
+        },
+      })
+
+      const data = await res.json()
+      const ok = res.ok && data.success !== false
+      const sentCount = data.remindersSent ?? data.sent ?? 0
+      const message = ok
+        ? `Ran successfully — ${sentCount} reminder(s) sent`
+        : data.error || `Failed (HTTP ${res.status})`
+
+      setRunLog((prev) => [
+        { ts: new Date().toLocaleTimeString(), message, ok },
+        ...prev.slice(0, 9),
+      ])
+
+      ok ? toast.success(message) : toast.error(message)
+    } catch (e: any) {
+      const message = 'Network error: ' + (e?.message || 'unknown')
+      setRunLog((prev) => [
+        { ts: new Date().toLocaleTimeString(), message, ok: false },
+        ...prev.slice(0, 9),
+      ])
+      toast.error(message)
+    } finally {
+      setRunningNow(false)
     }
   }
 
@@ -357,40 +374,41 @@ export default function AppointmentRemindersSettingsPage() {
           </div>
         </div>
 
+        {/* Run Now */}
+        <div className="bg-white rounded-lg shadow-sm border p-6 mb-6">
+          <h2 className="text-lg font-semibold text-gray-900 mb-1">Manual Trigger</h2>
+          <p className="text-sm text-gray-600 mb-4">
+            Run the reminder job immediately — useful for testing outside the daily cron window.
+          </p>
+          <button
+            onClick={handleRunNow}
+            disabled={runningNow}
+            className="flex items-center gap-2 px-5 py-2 bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white rounded-lg font-medium transition"
+          >
+            {runningNow ? <Loader2 className="w-4 h-4 animate-spin" /> : <Play className="w-4 h-4" />}
+            {runningNow ? 'Running…' : 'Run Now'}
+          </button>
+
+          {runLog.length > 0 && (
+            <div className="mt-4 border rounded-lg overflow-hidden">
+              <div className="bg-gray-50 px-3 py-2 text-xs font-semibold text-gray-600 border-b">Recent Runs (this session)</div>
+              <ul className="divide-y text-sm">
+                {runLog.map((entry, i) => (
+                  <li key={i} className="flex items-start gap-3 px-3 py-2">
+                    {entry.ok
+                      ? <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
+                      : <AlertCircle className="h-4 w-4 text-red-500 mt-0.5 flex-shrink-0" />}
+                    <span className="text-gray-700">{entry.message}</span>
+                    <span className="ml-auto text-xs text-gray-400 flex-shrink-0">{entry.ts}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+
         {/* Save Button */}
         <div className="flex gap-3">
-                  {/* Run Now */}
-                  <div className="bg-white rounded-lg shadow-sm border p-6 mb-6">
-                    <h2 className="text-lg font-semibold text-gray-900 mb-1">Manual Trigger</h2>
-                    <p className="text-sm text-gray-600 mb-4">
-                      Run the reminder job immediately — useful for testing outside the daily cron window.
-                    </p>
-                    <button
-                      onClick={handleRunNow}
-                      disabled={runningNow}
-                      className="flex items-center gap-2 px-5 py-2 bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white rounded-lg font-medium transition"
-                    >
-                      {runningNow ? <Loader2 className="w-4 h-4 animate-spin" /> : <Play className="w-4 h-4" />}
-                      {runningNow ? 'Running…' : 'Run Now'}
-                    </button>
-
-                    {runLog.length > 0 && (
-                      <div className="mt-4 border rounded-lg overflow-hidden">
-                        <div className="bg-gray-50 px-3 py-2 text-xs font-semibold text-gray-600 border-b">Recent Runs (this session)</div>
-                        <ul className="divide-y text-sm">
-                          {runLog.map((entry, i) => (
-                            <li key={i} className="flex items-start gap-3 px-3 py-2">
-                              {entry.ok
-                                ? <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
-                                : <AlertCircle className="h-4 w-4 text-red-500 mt-0.5 flex-shrink-0" />}
-                              <span className="text-gray-700">{entry.message}</span>
-                              <span className="ml-auto text-xs text-gray-400 flex-shrink-0">{entry.ts}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                  </div>
 
           <button
             onClick={handleSaveSettings}
