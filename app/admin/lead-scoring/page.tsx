@@ -83,34 +83,11 @@ export default function LeadScoringPage() {
 
     setBulkActionLoading(true)
     try {
-      const leadIds = Array.from(selectedLeads)
-      const res = await fetch('/api/marketing/email/compose', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          leadIds,
-          template: 'lead-follow-up'
-        })
-      })
-
-      const data = await res.json()
-      if (res.ok) {
-        toast.success(`Email compose opened for ${selectedLeads.size} leads`)
-        setSelectedLeads(new Set())
-        // Navigate to leads page with compose modal
-        window.location.href = `/admin/leads?bulkEmail=${leadIds.join(',')}`
-      } else {
-        toast.error(data.error || 'Failed to prepare emails')
+      const leadIds = Array.from(selectedLeads).filter((id) => typeof id === 'string' && id.trim().length > 0)
+      if (leadIds.length === 0) {
+        toast.error('No valid leads selected')
+        return
       }
-    } catch (e: any) {
-      toast.error('Error preparing bulk email')
-    } finally {
-      setBulkActionLoading(false)
-    }
-  }
-    try {
-      const leadIds = Array.from(selectedLeads)
-      // Navigate to email-sender with pre-selected leads
       toast.success(`Opening email composer for ${selectedLeads.size} leads…`)
       setSelectedLeads(new Set())
       window.location.href = `/admin/email-sender?leads=${leadIds.join(',')}`
@@ -119,6 +96,8 @@ export default function LeadScoringPage() {
     } finally {
       setBulkActionLoading(false)
     }
+  }
+
   const handleBulkSMS = async () => {
     if (selectedLeads.size === 0) {
       toast.error('Please select at least one lead')
@@ -127,33 +106,11 @@ export default function LeadScoringPage() {
 
     setBulkActionLoading(true)
     try {
-      const leadIds = Array.from(selectedLeads)
-      const res = await fetch('/api/marketing/sms/compose', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          leadIds,
-          template: 'lead-follow-up'
-        })
-      })
-
-      const data = await res.json()
-      if (res.ok) {
-        toast.success(`SMS compose opened for ${selectedLeads.size} leads`)
-        setSelectedLeads(new Set())
-        window.location.href = `/admin/leads?bulkSMS=${leadIds.join(',')}`
-      } else {
-        toast.error(data.error || 'Failed to prepare SMS')
+      const leadIds = Array.from(selectedLeads).filter((id) => typeof id === 'string' && id.trim().length > 0)
+      if (leadIds.length === 0) {
+        toast.error('No valid leads selected')
+        return
       }
-    } catch (e: any) {
-      toast.error('Error preparing bulk SMS')
-    } finally {
-      setBulkActionLoading(false)
-    }
-  }
-    try {
-      const leadIds = Array.from(selectedLeads)
-      // Navigate to inbox/SMS with pre-selected leads
       toast.success(`Opening SMS composer for ${selectedLeads.size} leads…`)
       setSelectedLeads(new Set())
       window.location.href = `/admin/inbox?leads=${leadIds.join(',')}`
@@ -162,6 +119,8 @@ export default function LeadScoringPage() {
     } finally {
       setBulkActionLoading(false)
     }
+  }
+
   const handleRecalculate = async () => {
     setRecalculating(true)
     try {
