@@ -104,8 +104,8 @@ async function sendAutoResponseEmail(lead: any, payload: any, siteUrl: string) {
       templateSlug = "booking-request-confirmation"
     }
     
-    // Get template ID from database
-    const { data: template, error: templateError } = await supabaseAdmin
+    // Get preferred template ID from database
+    let { data: template, error: templateError } = await supabaseAdmin
       .from('email_templates')
       .select('id')
       .eq('slug', templateSlug)
@@ -113,8 +113,20 @@ async function sendAutoResponseEmail(lead: any, payload: any, siteUrl: string) {
       .single()
 
     if (templateError || !template) {
-      log.warn('Auto-response template not found', { slug: templateSlug, error: templateError })
-      return
+      log.warn('Auto-response template not found, trying fallback', { slug: templateSlug, error: templateError })
+
+      // Fallback to generic contact confirmation template
+      const fallback = await supabaseAdmin
+        .from('email_templates')
+        .select('id')
+        .eq('slug', 'contact-form-confirmation')
+        .eq('is_active', true)
+        .single()
+
+      if (!fallback.error && fallback.data) {
+        template = fallback.data
+        templateSlug = 'contact-form-confirmation'
+      }
     }
 
     // Split name into first/last
@@ -139,19 +151,40 @@ async function sendAutoResponseEmail(lead: any, payload: any, siteUrl: string) {
       variables.details = payload.message
     }
 
-    // Send email via marketing API
+    const subject = templateSlug === 'booking-request-confirmation'
+      ? 'We Received Your Booking Request!'
+      : 'Thanks for Contacting Studio37!'
+
+    // Send email via marketing API (template when available, HTML fallback when not)
+    const emailPayload: Record<string, any> = {
+      to: payload.email,
+      subject,
+      variables,
+      leadId: lead.id,
+    }
+
+    if (template?.id) {
+      emailPayload.templateId = template.id
+    } else {
+      emailPayload.html = `
+        <div style="font-family:Arial,sans-serif;max-width:640px;margin:0 auto;padding:24px;color:#111827;">
+          <h2 style="margin:0 0 12px;">Thanks for contacting Studio37!</h2>
+          <p style="margin:0 0 12px;">Hi ${firstName || 'there'}, we received your request and our team will follow up within 24 hours.</p>
+          <p style="margin:0 0 8px;"><strong>Service:</strong> ${payload.service_interest || 'Photography'}</p>
+          <p style="margin:0 0 8px;"><strong>Preferred Date:</strong> ${payload.event_date || 'To be determined'}</p>
+          <p style="margin:0 0 8px;"><strong>Budget:</strong> ${payload.budget_range || 'Not specified'}</p>
+          <p style="margin-top:16px;">If you need anything urgently, reply to this email and we’ll prioritize your request.</p>
+          <p style="margin-top:18px;">— Studio37</p>
+        </div>
+      `
+      emailPayload.text = `Thanks for contacting Studio37, ${firstName || 'there'}! We received your request and will follow up within 24 hours.`
+      log.warn('Auto-response sending with HTML fallback (template unavailable)', { leadId: lead.id, requestedTemplate: templateSlug })
+    }
+
     const emailResponse = await fetch(`${siteUrl}/api/marketing/email/send`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        to: payload.email,
-        subject: templateSlug === 'booking-request-confirmation' 
-          ? 'We Received Your Booking Request!' 
-          : 'Thanks for Contacting Studio37!',
-        templateId: template.id,
-        variables,
-        leadId: lead.id
-      })
+      body: JSON.stringify(emailPayload)
     })
 
     if (!emailResponse.ok) {
