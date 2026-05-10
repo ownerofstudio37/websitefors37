@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { supabase } from '@/lib/supabase'
 import { 
   Menu, 
   Plus, 
@@ -45,7 +45,7 @@ export default function NavigationEditor() {
   const [deleteTarget, setDeleteTarget] = useState<{ id: string; parentId?: string } | null>(null)
 
   const supabase = createClientComponentClient()
-
+  // supabase is imported from @/lib/supabase — single shared client, no dual GoTrue
   const normalizeNavigationItems = (navItems: NavigationItem[]) =>
     navItems.map((item, index) => ({
       ...item,

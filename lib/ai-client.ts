@@ -439,109 +439,111 @@ JSON structure:
   "excerpt": "brief 2-sentence summary for preview"
 }`;
 
-  try {
-    log.info("Generating blog post with Gemini 3 Flash/Pro (with fallbacks)", { topic, wordCount, keywordsCount: keywords.length });
-    
-    // Request strict JSON and use model fallbacks from generateText
-    const response = await generateText(prompt, {
-      model: AI_MODELS.FLASH,
-      config: {
-        temperature: 0.7,
-        topP: 0.9,
-        topK: 40,
-        maxOutputTokens: 4096,
-        responseMimeType: "application/json",
-      },
-      retries: 3,
-      retryDelayMs: 2000,
-      ...options
-    });
-    
-    log.info("Blog post response received", { 
-      responseLength: response?.length || 0,
-      responsePreview: response?.substring(0, 150)
-    });
-    
-      // Clean response - remove markdown code blocks if present
-      let cleanedResponse = response.trim();
-    
-      // Remove markdown code fences (```json ... ``` or ``` ... ```)
-      if (cleanedResponse.startsWith('```')) {
-        cleanedResponse = cleanedResponse
-          .replace(/^```(?:json)?\s*\n?/i, '') // Remove opening fence
-          .replace(/\n?```\s*$/, ''); // Remove closing fence
-      }
-    
-      // Remove any leading/trailing whitespace again
-      cleanedResponse = cleanedResponse.trim();
-    
-      log.info("Cleaned response", { 
-        hadCodeFence: cleanedResponse !== response,
-        cleanedLength: cleanedResponse.length,
-        cleanedPreview: cleanedResponse.substring(0, 150)
-      });
-    
-      // Parse JSON response
-    let blogPost: BlogPost;
+  // Up to 3 full generation+parse attempts before surfacing an error to the UI.
+  const MAX_BLOG_ATTEMPTS = 3;
+
+  for (let attempt = 1; attempt <= MAX_BLOG_ATTEMPTS; attempt++) {
     try {
-        blogPost = JSON.parse(cleanedResponse);
-    } catch (parseError: any) {
-        // Attempt to salvage JSON by extracting the first object block
-        const start = cleanedResponse.indexOf('{');
-        const end = cleanedResponse.lastIndexOf('}');
-        if (start !== -1 && end !== -1 && end > start) {
-          const candidate = cleanedResponse.slice(start, end + 1).trim();
-          try {
-            blogPost = JSON.parse(candidate);
-          } catch (retryError: any) {
-            log.error("Failed to parse blog post JSON", { 
-              cleanedResponse: cleanedResponse?.substring(0, 500),
-              candidate: candidate?.substring(0, 500),
-              error: retryError?.message 
-            });
-            throw new Error("Invalid JSON response from AI");
-          }
-        } else {
-          log.error("Failed to parse blog post JSON", { 
-            cleanedResponse: cleanedResponse?.substring(0, 500), 
-            error: parseError?.message 
-          });
-          throw new Error("Invalid JSON response from AI");
+      log.info("Generating blog post (attempt)", { attempt, topic, wordCount, keywordsCount: keywords.length });
+
+      // Use a higher token ceiling so a full blog post + JSON wrapper never gets
+      // truncated mid-object (truncation is the most common cause of parse failures).
+      const response = await generateText(prompt, {
+        model: AI_MODELS.FLASH,
+        config: {
+          temperature: 0.7,
+          topP: 0.9,
+          topK: 40,
+          maxOutputTokens: 8192,          // was 4096 — doubled to prevent truncation
+          responseMimeType: "application/json",
+        },
+        retries: 2,
+        retryDelayMs: 1500,
+        ...options,
+      });
+
+      log.info("Blog post response received", {
+        attempt,
+        responseLength: response?.length || 0,
+        responsePreview: response?.substring(0, 150),
+      });
+
+      // Delegate all JSON extraction/cleanup to the shared helper which handles:
+      // markdown code fences, leading/trailing text, first-{ last-} extraction, etc.
+      let blogPost: BlogPost;
+      try {
+        blogPost = parseJsonFromModelResponse<BlogPost>(response);
+      } catch (parseError: any) {
+        log.warn("JSON parse failed on attempt, will retry if attempts remain", {
+          attempt,
+          error: parseError?.message,
+          responsePreview: response?.substring(0, 300),
+        });
+        if (attempt < MAX_BLOG_ATTEMPTS) {
+          // Brief pause before next attempt so the model isn't hammered immediately
+          await new Promise((r) => setTimeout(r, 1000 * attempt));
+          continue;
         }
+        throw new Error("Invalid JSON response from AI after multiple attempts");
+      }
+
+      log.info("Blog post JSON parsed", {
+        attempt,
+        hasTitle: !!blogPost?.title,
+        hasContent: !!blogPost?.content,
+        titlePreview: blogPost?.title?.substring(0, 50),
+        contentLength: blogPost?.content?.length || 0,
+      });
+
+      // Validate required fields
+      if (!blogPost || !blogPost.title || !blogPost.content) {
+        log.warn("Blog post missing required fields, retrying", {
+          attempt,
+          blogPostKeys: Object.keys(blogPost || {}),
+        });
+        if (attempt < MAX_BLOG_ATTEMPTS) {
+          await new Promise((r) => setTimeout(r, 1000 * attempt));
+          continue;
+        }
+        throw new Error("Generated blog post missing required fields (title or content)");
+      }
+
+      log.info("Blog post generated successfully", {
+        attempt,
+        title: blogPost.title?.substring(0, 50),
+        contentLength: blogPost.content?.length || 0,
+      });
+
+      return blogPost;
+    } catch (error: any) {
+      // If this is already our own "out of attempts" error, or a hard API error,
+      // stop retrying and surface it immediately.
+      const isHard =
+        error?.message?.includes("API key") ||
+        error?.message?.includes("after multiple attempts") ||
+        error?.status === 403 ||
+        error?.status === 400;
+
+      log.error("Blog post generation error on attempt", {
+        attempt,
+        error: error?.message,
+        isHard,
+      });
+
+      if (isHard || attempt >= MAX_BLOG_ATTEMPTS) {
+        if (error?.message?.includes("Empty response")) {
+          throw new Error("AI service returned empty response. The model may be temporarily unavailable.");
+        }
+        throw error;
+      }
+
+      // Soft error (timeout, 500, transient) — pause and retry
+      await new Promise((r) => setTimeout(r, 1200 * attempt));
     }
-    
-    log.info("Blog post JSON parsed", { 
-      hasTitle: !!blogPost?.title, 
-      hasContent: !!blogPost?.content,
-      titlePreview: blogPost?.title?.substring(0, 50),
-      contentLength: blogPost?.content?.length || 0
-    });
-    
-    // Validate required fields
-    if (!blogPost || !blogPost.title || !blogPost.content) {
-      log.error("Blog post validation failed", { blogPost: JSON.stringify(blogPost)?.substring(0, 200) });
-      throw new Error("Generated blog post missing required fields (title or content)");
-    }
-    
-    log.info("Blog post generated successfully", { 
-      title: blogPost.title?.substring(0, 50),
-      contentLength: blogPost.content?.length || 0
-    });
-    
-    return blogPost;
-  } catch (error: any) {
-    log.error("Blog post generation failed", { 
-      error: error?.message,
-      stack: error?.stack 
-    });
-    
-    // Re-throw with more context
-    if (error?.message?.includes("Empty response")) {
-      throw new Error("AI service returned empty response. The model may be temporarily unavailable.");
-    }
-    
-    throw error;
   }
+
+  // Should never reach here, but TypeScript needs a return
+  throw new Error("Blog post generation failed after all attempts");
 }
 
 /**

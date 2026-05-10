@@ -344,7 +344,26 @@ export default function AuditPage() {
       recommendation: 'Configure long cache TTL (1 year) for versioned assets',
       priority: 'low'
     })
+    // Static best-practice reminders (always shown as general guidance)
+    foundIssues.push({
+      id: 'perf-cdn',
+      type: 'info',
+      category: 'performance',
+      title: 'General Reminder: CDN Usage',
+      description: '(Static reminder) Verify all static assets are served via CDN',
+      recommendation: 'Use Cloudinary for images and Netlify CDN for static files. For real Lighthouse scores visit Admin → Performance.',
+      priority: 'low'
+    })
 
+    foundIssues.push({
+      id: 'perf-cache',
+      type: 'info',
+      category: 'performance',
+      title: 'General Reminder: Cache Headers',
+      description: '(Static reminder) Ensure proper cache headers are set for static assets',
+      recommendation: 'Configure long cache TTL (1 year) for versioned assets. Check netlify.toml headers section.',
+      priority: 'low'
+    })
     setIssues(foundIssues)
     updateStats(foundIssues)
   }

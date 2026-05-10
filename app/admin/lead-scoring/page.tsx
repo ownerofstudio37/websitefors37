@@ -108,7 +108,17 @@ export default function LeadScoringPage() {
       setBulkActionLoading(false)
     }
   }
-
+    try {
+      const leadIds = Array.from(selectedLeads)
+      // Navigate to email-sender with pre-selected leads
+      toast.success(`Opening email composer for ${selectedLeads.size} leads…`)
+      setSelectedLeads(new Set())
+      window.location.href = `/admin/email-sender?leads=${leadIds.join(',')}`
+    } catch (e: any) {
+      toast.error('Error preparing bulk email')
+    } finally {
+      setBulkActionLoading(false)
+    }
   const handleBulkSMS = async () => {
     if (selectedLeads.size === 0) {
       toast.error('Please select at least one lead')
@@ -141,7 +151,17 @@ export default function LeadScoringPage() {
       setBulkActionLoading(false)
     }
   }
-
+    try {
+      const leadIds = Array.from(selectedLeads)
+      // Navigate to inbox/SMS with pre-selected leads
+      toast.success(`Opening SMS composer for ${selectedLeads.size} leads…`)
+      setSelectedLeads(new Set())
+      window.location.href = `/admin/inbox?leads=${leadIds.join(',')}`
+    } catch (e: any) {
+      toast.error('Error preparing bulk SMS')
+    } finally {
+      setBulkActionLoading(false)
+    }
   const handleRecalculate = async () => {
     setRecalculating(true)
     try {

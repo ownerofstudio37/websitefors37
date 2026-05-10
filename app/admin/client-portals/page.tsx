@@ -25,6 +25,10 @@ export default function ClientPortalsPage() {
   const [users, setUsers] = useState<ClientUser[]>([])
   const [loading, setLoading] = useState(true)
   const [showAddModal, setShowAddModal] = useState(false)
+  const [resetTarget, setResetTarget] = useState<ClientUser | null>(null)
+  const [resetPassword, setResetPassword] = useState('')
+  const [resetting, setResetting] = useState(false)
+  const [resetMsg, setResetMsg] = useState<string | null>(null)
 
   useEffect(() => {
     fetchUsers()
@@ -46,6 +50,31 @@ export default function ClientPortalsPage() {
   }
 
   const toggleUserStatus = async (userId: string, currentStatus: boolean) => {
+      const handleResetPassword = async () => {
+        if (!resetTarget || !resetPassword) return
+        setResetting(true)
+        setResetMsg(null)
+        try {
+          const res = await fetch(`/api/admin/client-portals/${resetTarget.id}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ password: resetPassword }),
+          })
+          const data = await res.json()
+          if (res.ok && data.success !== false) {
+            setResetMsg('Password updated successfully.')
+            setResetPassword('')
+            setTimeout(() => { setResetTarget(null); setResetMsg(null) }, 1500)
+          } else {
+            setResetMsg(data.error || 'Failed to update password.')
+          }
+        } catch (e: any) {
+          setResetMsg('Error: ' + (e?.message || 'unknown'))
+        } finally {
+          setResetting(false)
+        }
+      }
+
     try {
       const res = await fetch(`/api/admin/client-portals/${userId}`, {
         method: 'PATCH',
@@ -182,6 +211,44 @@ export default function ClientPortalsPage() {
                           className="text-sm text-gray-600 hover:text-gray-800 font-medium"
                         >
                           Projects
+                                                <button
+                                                  onClick={() => { setResetTarget(user); setResetPassword(''); setResetMsg(null) }}
+                                                  className="text-sm text-amber-600 hover:text-amber-800 font-medium"
+                                                >
+                                                  Reset PW
+                                                </button>
+                                {/* Reset Password Modal */}
+                                {resetTarget && (
+                                  <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+                                    <div className="bg-white rounded-xl max-w-sm w-full p-6 shadow-2xl">
+                                      <h3 className="text-lg font-bold text-gray-900 mb-1">Reset Password</h3>
+                                      <p className="text-sm text-gray-600 mb-4">
+                                        Set a new password for <strong>{resetTarget.email}</strong>
+                                      </p>
+                                      <input
+                                        type="password"
+                                        placeholder="New password (min 8 chars)"
+                                        value={resetPassword}
+                                        onChange={(e) => setResetPassword(e.target.value)}
+                                        className="w-full border rounded-lg px-3 py-2 text-sm mb-3"
+                                      />
+                                      {resetMsg && (
+                                        <p className={`text-sm mb-3 ${resetMsg.includes('success') ? 'text-green-700' : 'text-red-600'}`}>{resetMsg}</p>
+                                      )}
+                                      <div className="flex gap-3">
+                                        <button onClick={() => setResetTarget(null)} className="flex-1 px-4 py-2 border rounded-lg text-sm hover:bg-gray-50 transition">Cancel</button>
+                                        <button
+                                          onClick={handleResetPassword}
+                                          disabled={resetting || resetPassword.length < 8}
+                                          className="flex-1 px-4 py-2 bg-amber-600 text-white rounded-lg text-sm hover:bg-amber-700 disabled:opacity-60 transition"
+                                        >
+                                          {resetting ? 'Saving…' : 'Update Password'}
+                                        </button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                )}
+
                         </Link>
                       </div>
                     </td>

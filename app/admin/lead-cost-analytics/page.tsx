@@ -26,6 +26,7 @@ export default function LeadCostAnalyticsPage() {
   const [analytics, setAnalytics] = useState<CostAnalytics | null>(null)
   const [leads, setLeads] = useState<Lead[]>([])
   const [topLeads, setTopLeads] = useState<Lead[]>([])
+  const [fetchError, setFetchError] = useState<string | null>(null)
 
   useEffect(() => {
     fetchAnalytics()
@@ -97,6 +98,7 @@ export default function LeadCostAnalyticsPage() {
       setTopLeads(sortedByRevenue)
     } catch (error) {
       console.error('Failed to fetch analytics:', error)
+      setFetchError((error as any)?.message || 'Failed to load analytics data')
     } finally {
       setLoading(false)
     }
@@ -112,7 +114,18 @@ export default function LeadCostAnalyticsPage() {
   }
 
   if (!analytics) {
-    return <div className="text-center py-8 text-gray-500">No data available</div>
+    return (
+      <div className="p-6">
+        <div className="bg-red-50 border border-red-200 rounded-lg p-5 flex items-start gap-3">
+          <svg className="h-5 w-5 text-red-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+          <div>
+            <p className="font-semibold text-red-800">Failed to load analytics</p>
+            <p className="text-sm text-red-700 mt-1">{fetchError || 'Unknown error. Check that the leads table has cost_per_lead and revenue_generated columns.'}</p>
+            <button onClick={fetchAnalytics} className="mt-3 px-4 py-1.5 bg-red-600 text-white rounded-lg text-sm hover:bg-red-700 transition">Retry</button>
+          </div>
+        </div>
+      </div>
+    )
   }
 
   return (
