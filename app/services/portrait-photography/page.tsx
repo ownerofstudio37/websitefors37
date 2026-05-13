@@ -265,7 +265,7 @@ export default function PortraitPhotographyPage() {
                     </li>
                   ))}
                 </ul>
-              <Link href="/book-consultation" className="btn-secondary w-full text-center block">
+              <Link href="/book-consultation?package=Portrait+Mini+Session" className="btn-secondary w-full text-center block">
                 Book Mini Session
               </Link>
             </div>
@@ -297,7 +297,7 @@ export default function PortraitPhotographyPage() {
                     </li>
                   ))}
                 </ul>
-              <Link href="/book-consultation" className="btn-primary w-full text-center block">
+              <Link href="/book-consultation?package=Portrait+Standard+Session" className="btn-primary w-full text-center block">
                 Book Standard Session
               </Link>
             </div>
@@ -324,7 +324,7 @@ export default function PortraitPhotographyPage() {
                     </li>
                   ))}
                 </ul>
-              <Link href="/book-consultation" className="btn-secondary w-full text-center block">
+              <Link href="/book-consultation?package=Portrait+Extended+Session" className="btn-secondary w-full text-center block">
                 Book Extended Session
               </Link>
             </div>

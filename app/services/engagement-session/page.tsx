@@ -168,7 +168,7 @@ export default function EngagementSessionPage() {
                     </li>
                   ))}
                 </ul>
-                <Link href="/book-a-session" className="btn-secondary text-center block">{pkg.cta}</Link>
+                <Link href={`/book-a-session?package=${encodeURIComponent(pkg.name)}`} className="btn-secondary text-center block">{pkg.cta}</Link>
               </div>
             ))}
           </div>
@@ -197,7 +197,7 @@ export default function EngagementSessionPage() {
                     </li>
                   ))}
                 </ul>
-                <Link href="/book-consultation" className="btn-secondary text-center block mt-6">Book Consultation</Link>
+                <Link href={`/book-consultation?package=${encodeURIComponent(pkg.name)}`} className="btn-secondary text-center block mt-6">Book Consultation</Link>
               </div>
             ))}
           </div>
@@ -211,7 +211,7 @@ export default function EngagementSessionPage() {
               <div className="flex gap-3"><Video className="h-5 w-5 text-primary-600 mt-0.5" /><p><strong>Photo + video:</strong> Add cinematic highlight coverage alongside your engagement gallery.</p></div>
             </div>
             <div className="mt-7 flex flex-wrap gap-3">
-              <Link href="/book-consultation" className="btn-primary inline-flex items-center">Book Consultation <ArrowRight className="ml-2 h-4 w-4" /></Link>
+              <Link href="/book-consultation?package=Engagement+Concierge" className="btn-primary inline-flex items-center">Book Consultation <ArrowRight className="ml-2 h-4 w-4" /></Link>
               <Link href="/contact" className="btn-secondary inline-flex items-center">Talk to Our Concierge Team</Link>
             </div>
           </div>

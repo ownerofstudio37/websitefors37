@@ -22,6 +22,7 @@ interface BookingRequest {
   email: string
   phone: string
   notes?: string
+  serviceInterest?: string
 }
 
 interface BookingRecord {
@@ -103,7 +104,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const body: BookingRequest = await request.json()
-    const { date, time, name, email, phone, notes } = body
+    const { date, time, name, email, phone, notes, serviceInterest } = body
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || request.nextUrl.origin || 'https://www.studio37.cc'
 
     // Validation
@@ -391,10 +392,10 @@ export async function POST(request: NextRequest) {
             name: name,
             email: email,
             phone: phone,
-            service_interest: 'consultation',
+            service_interest: serviceInterest || 'consultation',
             source: 'consultation-booking',
             status: 'new',
-            message: notes || 'Booked consultation for ' + date + ' at ' + time
+            message: notes || `Booked consultation for ${date} at ${time}${serviceInterest ? ` — interested in: ${serviceInterest}` : ''}`
           })
           .select()
           .single()
@@ -419,6 +420,7 @@ export async function POST(request: NextRequest) {
               <p><strong>Name:</strong> ${newLead.name || '—'}</p>
               <p><strong>Email:</strong> ${newLead.email || '—'}</p>
               <p><strong>Phone:</strong> ${newLead.phone || '—'}</p>
+              <p><strong>Session Interest:</strong> ${serviceInterest || 'General Consultation'}</p>
               <p><strong>Notes:</strong> ${newLead.message ? newLead.message.replace(/</g, '&lt;') : '—'}</p>
               <p><a href="${siteUrl}/admin/leads">View lead in admin</a></p>
             `

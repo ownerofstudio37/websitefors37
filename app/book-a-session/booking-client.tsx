@@ -229,6 +229,10 @@ export default function BookSessionPage() {
       const pplStr = params.get('people')
       const typeParam = params.get('type') // solo|couple|family|consultation
       const priceStr = params.get('price_cents')
+      const packageParam = params.get('package') // from service page CTAs
+      if (packageParam) {
+        setNotes(prev => prev ? prev : `Interested in: ${packageParam}`)
+      }
 
       const dur = durStr ? parseInt(durStr, 10) : NaN
       const ppl = pplStr ? parseInt(pplStr, 10) : NaN

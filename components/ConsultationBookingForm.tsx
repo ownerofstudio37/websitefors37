@@ -1,8 +1,9 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Calendar as CalendarIcon, Clock, ArrowRight, ArrowLeft, CheckCircle2, Phone, Mail, User, MessageSquare } from 'lucide-react'
+import { Calendar as CalendarIcon, Clock, ArrowRight, ArrowLeft, CheckCircle2, Phone, Mail, User, MessageSquare, Tag } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { trackBookingClick, trackFormSubmit } from '@/lib/analytics'
 
@@ -21,6 +22,8 @@ interface AvailableDate {
 const ConsultationBookingForm = () => {
   const [step, setStep] = useState(1)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const searchParams = useSearchParams()
+  const packageInterest = searchParams?.get('package') || ''
   
   // Form data
   const [selectedDate, setSelectedDate] = useState<string>('')
@@ -221,7 +224,8 @@ const ConsultationBookingForm = () => {
           name: formData.name,
           email: formData.email,
           phone: formData.phone,
-          notes: formData.notes
+          notes: formData.notes,
+          serviceInterest: packageInterest || undefined
         })
       })
       
@@ -289,6 +293,12 @@ const ConsultationBookingForm = () => {
               <CalendarIcon className="h-6 w-6 text-primary-600" />
               Choose Your Date
             </h2>
+            {packageInterest && (
+              <div className="mb-4 flex items-center gap-2 rounded-lg bg-primary-50 border border-primary-200 px-4 py-3 text-sm text-primary-800">
+                <Tag className="h-4 w-4 flex-shrink-0" />
+                <span>You&apos;re inquiring about: <strong>{packageInterest}</strong></span>
+              </div>
+            )}
             <p className="text-gray-600 mb-6">
               Select a convenient date for your 30-minute consultation call
             </p>

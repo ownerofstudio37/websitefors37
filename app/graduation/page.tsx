@@ -88,9 +88,9 @@ export default function GraduationPage() {
                     </li>
                   ))}
                 </ul>
-                <button className="w-full bg-amber-600 text-white py-2 rounded-lg hover:bg-amber-700 transition">
+                <Link href={`/book-consultation?package=${encodeURIComponent(pkg.name)}`} className="block w-full text-center bg-amber-600 text-white py-2 rounded-lg hover:bg-amber-700 transition font-semibold">
                   Book Now
-                </button>
+                </Link>
               </div>
             ))}
           </div>

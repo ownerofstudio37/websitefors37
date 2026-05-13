@@ -67,7 +67,7 @@ export default function MaternitySessionsPage() {
                 </div>
                 <h2 className="text-2xl font-semibold mb-1">{pkg.name}</h2>
                 <p className="text-primary-700 font-semibold mb-6">Starting at {pkg.price}</p>
-                <Link href="/book-consultation" className="btn-primary text-center mt-auto">
+                <Link href={`/book-consultation?package=${encodeURIComponent(pkg.name)}`} className="btn-primary text-center mt-auto">
                   Book Consultation
                 </Link>
               </article>
