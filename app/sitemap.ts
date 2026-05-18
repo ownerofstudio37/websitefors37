@@ -33,6 +33,23 @@ const EXCLUDED_PAGE_PATTERNS: RegExp[] = [
   /^a[0-9a-f]{30,}$/i,
 ]
 
+const REDIRECTED_LOCATION_SLUGS = new Set([
+  'pinehurst',
+  'the-woodlands',
+  'spring',
+  'tomball',
+  'conroe',
+  'magnolia',
+  'montgomery',
+  'willis',
+  'huntsville',
+  'new-caney',
+  'hockley',
+  'bryan',
+  'college-station',
+  'houston',
+])
+
 // Helper to determine priority based on post age
 function getBlogPostPriority(publishedAt: string | null, updatedAt: string | null): number {
   if (!publishedAt && !updatedAt) return PRIORITIES.blogPostsOld
@@ -286,18 +303,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
-    {
-      url: `${baseUrl}/pinehurst`,
-      lastModified: currentDate,
-      changeFrequency: 'monthly',
-      priority: PRIORITIES.contentPages,
-    },
-    {
-      url: `${baseUrl}/the-woodlands`,
-      lastModified: currentDate,
-      changeFrequency: 'monthly',
-      priority: PRIORITIES.contentPages,
-    },
     // Hardcoded event service pages
     {
       url: `${baseUrl}/corporate-events`,
@@ -338,8 +343,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ]
 
   for (const location of locationPages) {
+    const shortSlug = location.slug.replace(/-tx$/, '')
+    if (REDIRECTED_LOCATION_SLUGS.has(shortSlug)) continue
+
     routes.push({
-      url: `${baseUrl}/${location.slug.replace(/-tx$/, '')}`,
+      url: `${baseUrl}/${shortSlug}`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.contentPages,
@@ -356,6 +364,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     if (pages) {
       const filteredPages = pages.filter(page => {
         if (EXCLUDED_PAGE_SLUGS.has(page.slug)) {
+          return false
+        }
+        if (REDIRECTED_LOCATION_SLUGS.has(page.slug)) {
           return false
         }
         return !EXCLUDED_PAGE_PATTERNS.some((pattern) => pattern.test(page.slug))

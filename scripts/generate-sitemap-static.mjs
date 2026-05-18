@@ -18,6 +18,23 @@ const EXCLUDED_PAGE_PATTERNS = [
   /^a[0-9a-f]{30,}$/i,
 ]
 
+const REDIRECTED_LOCATION_SLUGS = new Set([
+  'pinehurst',
+  'the-woodlands',
+  'spring',
+  'tomball',
+  'conroe',
+  'magnolia',
+  'montgomery',
+  'willis',
+  'huntsville',
+  'new-caney',
+  'hockley',
+  'bryan',
+  'college-station',
+  'houston',
+])
+
 const staticUrls = [
   { url: baseUrl, priority: 1.0, frequency: 'weekly' },
   { url: `${baseUrl}/services`, priority: 0.9, frequency: 'monthly' },
@@ -118,6 +135,11 @@ async function generate() {
   lines.push('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">')
 
   for (const item of staticUrls) {
+    const shortSlug = item.url.replace(`${baseUrl}/`, '')
+    if (REDIRECTED_LOCATION_SLUGS.has(shortSlug)) {
+      continue
+    }
+
     appendUrl({
       url: item.url,
       lastmod: currentDate,
@@ -134,6 +156,7 @@ async function generate() {
   if (pages && pages.length > 0) {
     const filteredPages = pages.filter(page => {
       if (EXCLUDED_PAGE_SLUGS.has(page.slug)) return false
+      if (REDIRECTED_LOCATION_SLUGS.has(page.slug)) return false
       return !EXCLUDED_PAGE_PATTERNS.some((pattern) => pattern.test(page.slug))
     })
 

@@ -136,7 +136,7 @@ export default function NewsletterWelcomeEmail({
 
           <Text style={contactText}>
             <strong>Have questions?</strong> We'd love to hear from you!<br />
-            <Link href="tel:8327139944">832-713-9944</Link> | <Link href="mailto:hello@studio37.cc">hello@studio37.cc</Link>
+            <Link href="tel:8327139944">832-713-9944</Link> | <Link href="mailto:sales@studio37.cc">sales@studio37.cc</Link>
           </Text>
 
           <Hr style={hr} />

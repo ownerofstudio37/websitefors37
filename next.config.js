@@ -82,7 +82,22 @@ const nextConfig = {
     optimizePackageImports: ['lucide-react', 'react-hot-toast', '@supabase/auth-helpers-nextjs'], // Tree-shake large packages (framer-motion removed - now only in dynamic imports)
   },
   async redirects() {
-    return [];
+    return [
+      { source: '/pinehurst', destination: '/local-photographer-pinehurst-tx', permanent: true },
+      { source: '/the-woodlands', destination: '/local-photographer-the-woodlands-tx', permanent: true },
+      { source: '/spring', destination: '/local-photographer-spring-tx', permanent: true },
+      { source: '/tomball', destination: '/local-photographer-tomball-tx', permanent: true },
+      { source: '/conroe', destination: '/local-photographer-conroe-tx', permanent: true },
+      { source: '/magnolia', destination: '/local-photographer-magnolia-tx', permanent: true },
+      { source: '/montgomery', destination: '/local-photographer-montgomery-tx', permanent: true },
+      { source: '/willis', destination: '/local-photographer-willis-tx', permanent: true },
+      { source: '/huntsville', destination: '/local-photographer-huntsville-tx', permanent: true },
+      { source: '/new-caney', destination: '/local-photographer-new-caney-tx', permanent: true },
+      { source: '/hockley', destination: '/local-photographer-hockley-tx', permanent: true },
+      { source: '/bryan', destination: '/local-photographer-bryan-tx', permanent: true },
+      { source: '/college-station', destination: '/local-photographer-college-station-tx', permanent: true },
+      { source: '/houston', destination: '/local-photographer-houston-tx', permanent: true },
+    ];
   },
   // Headers for performance and security
   async headers() {
