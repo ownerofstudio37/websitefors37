@@ -6,7 +6,7 @@ export const metadata = generateSEOMetadata({
   title: 'Event Photography Prep | Studio37',
   description:
     'Prepare for event coverage. Timing, access details, key moments to capture, and coordination tips for conferences, celebrations, and corporate events.',
-  path: '/session-prep/event',
+  canonicalUrl: 'https://www.studio37.cc/session-prep/event',
 })
 
 export const revalidate = 86400

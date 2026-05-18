@@ -3,6 +3,8 @@
  * Generates JSON-LD markup for Google rich snippets
  */
 
+import { businessInfo } from '@/lib/seo-config'
+
 export interface SchemaType {
   '@context': string
   '@type': string
@@ -13,35 +15,35 @@ export function generateOrganizationSchema(): SchemaType {
   return {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
-    '@id': 'https://www.studio37.cc',
-    name: 'Studio37',
-    description: 'Professional photography studio in Pinehurst, TX specializing in weddings, portraits, events, and commercial photography.',
-    url: 'https://www.studio37.cc',
-    telephone: '+1-936-555-7337',
-    email: 'hello@studio37.cc',
+    '@id': businessInfo.contact.website,
+    name: businessInfo.name,
+    description: businessInfo.description,
+    url: businessInfo.contact.website,
+    telephone: businessInfo.contact.phone,
+    email: businessInfo.contact.email,
     address: {
       '@type': 'PostalAddress',
-      streetAddress: 'Pinehurst',
-      addressLocality: 'Pinehurst',
-      addressRegion: 'TX',
-      postalCode: '77362',
-      addressCountry: 'US'
+      streetAddress: businessInfo.address.streetAddress,
+      addressLocality: businessInfo.address.addressLocality,
+      addressRegion: businessInfo.address.addressRegion,
+      postalCode: businessInfo.address.postalCode,
+      addressCountry: businessInfo.address.addressCountry,
     },
     geo: {
       '@type': 'GeoCoordinates',
-      latitude: 30.1417,
-      longitude: -95.4692
+      latitude: businessInfo.geo.latitude,
+      longitude: businessInfo.geo.longitude,
     },
     sameAs: [
-      'https://www.instagram.com/studio37',
-      'https://www.facebook.com/studio37',
-      'https://www.tiktok.com/@studio37'
+      businessInfo.socialMedia.instagram,
+      businessInfo.socialMedia.facebook,
+      businessInfo.socialMedia.twitter,
     ],
     priceRange: '$$',
     image: 'https://www.studio37.cc/og-image.jpg',
     areaServed: {
       '@type': 'City',
-      name: 'Pinehurst, TX'
+      name: `${businessInfo.address.addressLocality}, ${businessInfo.address.addressRegion}`,
     },
     knowsAbout: [
       'Wedding Photography',
@@ -82,18 +84,18 @@ export function generateServiceSchema(serviceType: string, description: string):
     description: service.description,
     provider: {
       '@type': 'LocalBusiness',
-      name: 'Studio37',
-      url: 'https://www.studio37.cc',
-      telephone: '+1-936-555-7337'
+      name: businessInfo.name,
+      url: businessInfo.contact.website,
+      telephone: businessInfo.contact.phone,
     },
     areaServed: {
       '@type': 'City',
-      name: 'Pinehurst, TX'
+      name: `${businessInfo.address.addressLocality}, ${businessInfo.address.addressRegion}`,
     },
     serviceType: service.name,
     offers: {
       '@type': 'Offer',
-      url: 'https://www.studio37.cc/book-a-session',
+      url: `${businessInfo.contact.website}/book-a-session`,
       priceCurrency: 'USD',
       availability: 'https://schema.org/InStock'
     }
@@ -221,12 +223,12 @@ export function generateContactPageSchema(): SchemaType {
     '@type': 'ContactPage',
     name: 'Contact Studio37',
     description: 'Get in touch with Studio37 for photography inquiries and bookings.',
-    url: 'https://www.studio37.cc/contact',
+    url: `${businessInfo.contact.website}/contact`,
     contactPoint: {
       '@type': 'ContactPoint',
       contactType: 'Customer Service',
-      telephone: '+1-936-555-7337',
-      email: 'hello@studio37.cc',
+      telephone: businessInfo.contact.phone,
+      email: businessInfo.contact.email,
       areaServed: 'US',
       availableLanguage: ['en']
     }
@@ -238,17 +240,17 @@ export function generateBookingPageSchema(): SchemaType {
     '@context': 'https://schema.org',
     '@type': 'EventVenue',
     name: 'Studio37 Photography Studio',
-    url: 'https://www.studio37.cc/book-a-session',
-    telephone: '+1-936-555-7337',
+    url: `${businessInfo.contact.website}/book-a-session`,
+    telephone: businessInfo.contact.phone,
     address: {
       '@type': 'PostalAddress',
-      streetAddress: 'Pinehurst',
-      addressLocality: 'Pinehurst',
-      addressRegion: 'TX',
-      postalCode: '77362',
-      addressCountry: 'US'
+      streetAddress: businessInfo.address.streetAddress,
+      addressLocality: businessInfo.address.addressLocality,
+      addressRegion: businessInfo.address.addressRegion,
+      postalCode: businessInfo.address.postalCode,
+      addressCountry: businessInfo.address.addressCountry,
     },
-    hasMap: 'https://maps.google.com/?q=Pinehurst+TX',
+    hasMap: `https://maps.google.com/?q=${encodeURIComponent(businessInfo.address.fullAddress)}`,
     openingHoursSpecification: [
       {
         '@type': 'OpeningHoursSpecification',

@@ -6,7 +6,7 @@ export const metadata = generateSEOMetadata({
   title: 'Wedding Day Photography Prep | Studio37',
   description:
     'Prepare for your wedding day photography. Timeline coordination, vendor communication, getting-ready shots, ceremony, and coverage details.',
-  path: '/session-prep/wedding',
+  canonicalUrl: 'https://www.studio37.cc/session-prep/wedding',
 })
 
 export const revalidate = 86400

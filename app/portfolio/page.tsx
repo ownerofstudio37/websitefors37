@@ -1,6 +1,5 @@
 import { Metadata } from 'next'
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
-import { cookies } from 'next/headers'
+import { createClient } from '@supabase/supabase-js'
 import { MDXRemote } from 'next-mdx-remote/rsc'
 import rehypeRaw from 'rehype-raw'
 import rehypeHighlight from 'rehype-highlight'
@@ -8,13 +7,27 @@ import { MDXBuilderComponents } from '@/components/BuilderRuntime'
 
 export const revalidate = 600 // 10 minutes
 
-export async function generateMetadata(): Promise<Metadata> {
-  const supabase = createServerComponentClient({ cookies })
-  const { data: page } = await supabase
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co'
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'public-anon-placeholder'
+
+async function getPortfolioPageData() {
+  const supabase = createClient(supabaseUrl, supabaseAnonKey)
+  const { data, error } = await supabase
     .from('content_pages')
-    .select('seo_title, seo_description, seo_keywords')
+    .select('*')
     .eq('slug', 'portfolio')
-    .single()
+    .maybeSingle()
+
+  if (error) {
+    console.error('Portfolio page fetch failed:', error)
+    return null
+  }
+
+  return data
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  const page = await getPortfolioPageData()
 
   return {
     title: page?.seo_title || 'Portfolio | Studio37',
@@ -24,12 +37,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function PortfolioPage() {
-  const supabase = createServerComponentClient({ cookies })
-  const { data: page } = await supabase
-    .from('content_pages')
-    .select('*')
-    .eq('slug', 'portfolio')
-    .single()
+  const page = await getPortfolioPageData()
 
   if (!page?.content) {
     return (

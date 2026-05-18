@@ -6,7 +6,7 @@ export const metadata = generateSEOMetadata({
   title: 'Commercial Photography Prep | Studio37',
   description:
     'Prepare for your commercial shoot. Brand photography, product shoots, content creation, and professional guidance for corporate visuals.',
-  path: '/session-prep/commercial',
+  canonicalUrl: 'https://www.studio37.cc/session-prep/commercial',
 })
 
 export const revalidate = 86400

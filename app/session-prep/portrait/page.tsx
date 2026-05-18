@@ -6,7 +6,7 @@ export const metadata = generateSEOMetadata({
   title: 'Portrait Session Prep | Studio37',
   description:
     'Get ready for your portrait session. Learn what to wear, what to bring, and how to prepare for stunning personal photos.',
-  path: '/session-prep/portrait',
+  canonicalUrl: 'https://www.studio37.cc/session-prep/portrait',
 })
 
 export const revalidate = 86400

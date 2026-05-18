@@ -7,7 +7,7 @@ export const metadata = generateSEOMetadata({
   title: 'Session Prep Guides | Studio37',
   description:
     'Get ready for your photo session. Tailored prep guides for portrait, engagement, wedding, event, and commercial photography.',
-  path: '/session-prep',
+  canonicalUrl: 'https://www.studio37.cc/session-prep',
 })
 
 export const revalidate = 86400 // 24 hours

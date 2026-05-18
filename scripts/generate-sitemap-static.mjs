@@ -100,17 +100,30 @@ async function generate() {
   const supabase = createClient(supabaseUrl, supabaseKey)
   const currentDate = new Date().toISOString()
   const lines = []
+  const seenUrls = new Set()
+
+  const appendUrl = ({ url, lastmod, changefreq, priority }) => {
+    if (seenUrls.has(url)) return
+    seenUrls.add(url)
+
+    lines.push('  <url>')
+    lines.push(`    <loc>${escapeXml(url)}</loc>`)
+    lines.push(`    <lastmod>${lastmod}</lastmod>`)
+    lines.push(`    <changefreq>${changefreq}</changefreq>`)
+    lines.push(`    <priority>${priority}</priority>`)
+    lines.push('  </url>')
+  }
 
   lines.push('<?xml version="1.0" encoding="UTF-8"?>')
   lines.push('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">')
 
   for (const item of staticUrls) {
-    lines.push('  <url>')
-    lines.push(`    <loc>${escapeXml(item.url)}</loc>`)
-    lines.push(`    <lastmod>${currentDate}</lastmod>`)
-    lines.push(`    <changefreq>${item.frequency}</changefreq>`)
-    lines.push(`    <priority>${item.priority}</priority>`)
-    lines.push('  </url>')
+    appendUrl({
+      url: item.url,
+      lastmod: currentDate,
+      changefreq: item.frequency,
+      priority: item.priority,
+    })
   }
 
   const { data: pages } = await supabase
@@ -125,12 +138,12 @@ async function generate() {
     })
 
     for (const page of filteredPages) {
-      lines.push('  <url>')
-      lines.push(`    <loc>${escapeXml(`${baseUrl}/${page.slug}`)}</loc>`)
-      lines.push(`    <lastmod>${new Date(page.updated_at).toISOString()}</lastmod>`)
-      lines.push('    <changefreq>weekly</changefreq>')
-      lines.push('    <priority>0.7</priority>')
-      lines.push('  </url>')
+      appendUrl({
+        url: `${baseUrl}/${page.slug}`,
+        lastmod: new Date(page.updated_at).toISOString(),
+        changefreq: 'weekly',
+        priority: 0.7,
+      })
     }
   }
 
@@ -138,7 +151,7 @@ async function generate() {
     .from('blog_posts')
     .select('slug, updated_at, published_at')
     .eq('published', true)
-    .order('published_at', { ascending: false, nullsLast: true })
+    .order('published_at', { ascending: false })
 
   if (posts && posts.length > 0) {
     for (const post of posts) {
@@ -146,13 +159,12 @@ async function generate() {
       const priority = getBlogPriority(post.published_at, post.updated_at)
       const frequency = getBlogFrequency(post.published_at, post.updated_at)
 
-      lines.push('  <url>')
-      lines.push(`    <loc>${escapeXml(`${baseUrl}/blog/${post.slug}`)}</loc>`)
-      lines.push(`    <lastmod>${postLastMod}</lastmod>`)
-      lines.push(`    <changefreq>${frequency}</changefreq>`)
-      lines.push(`    <priority>${priority}</priority>`)
-
-      lines.push('  </url>')
+      appendUrl({
+        url: `${baseUrl}/blog/${post.slug}`,
+        lastmod: postLastMod,
+        changefreq: frequency,
+        priority,
+      })
     }
   }
 

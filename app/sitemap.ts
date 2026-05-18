@@ -380,7 +380,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       .from('blog_posts')
       .select('slug, updated_at, published_at')
       .eq('published', true)
-      .order('published_at', { ascending: false, nullsLast: true })
+      .order('published_at', { ascending: false })
     
     if (posts && posts.length > 0) {
       const blogRoutes = posts.map((post: any) => {
@@ -405,6 +405,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   } catch (error) {
     console.error('Error fetching blog posts for sitemap:', error)
   }
-  
-  return routes
+
+  const seenUrls = new Set<string>()
+  const dedupedRoutes = routes.filter((route) => {
+    if (seenUrls.has(route.url)) return false
+    seenUrls.add(route.url)
+    return true
+  })
+
+  return dedupedRoutes
 }
