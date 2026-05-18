@@ -26,12 +26,16 @@ export function middleware(req: NextRequest) {
   res.headers.set('X-Content-Type-Options', 'nosniff')
   res.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin')
   res.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()')
-  
-  // Content Security Policy - Allow Google Tag Manager, Thumbtack, PPA, Full Frame Insurance, and Simple Analytics images
-  res.headers.set(
-    'Content-Security-Policy',
-    "img-src 'self' data: blob: https://res.cloudinary.com https://images.unsplash.com https://*.supabase.co https://www.googletagmanager.com https://cdn.thumbtackstatic.com https://ppa.com https://www.ppa.com https://app.fullframeinsurance.com https://queue.simpleanalyticscdn.com;"
-  )
+
+  // Do not attach CSP to XML/robots endpoints (sitemaps/robots should stay crawler-friendly)
+  const isCrawlerMetadataRoute = pathname.endsWith('.xml') || pathname === '/robots.txt'
+  if (!isCrawlerMetadataRoute) {
+    // Content Security Policy - Allow Google Tag Manager, Thumbtack, PPA, Full Frame Insurance, and Simple Analytics images
+    res.headers.set(
+      'Content-Security-Policy',
+      "img-src 'self' data: blob: https://res.cloudinary.com https://images.unsplash.com https://*.supabase.co https://www.googletagmanager.com https://cdn.thumbtackstatic.com https://ppa.com https://www.ppa.com https://app.fullframeinsurance.com https://queue.simpleanalyticscdn.com;"
+    )
+  }
   
   return res
 }
