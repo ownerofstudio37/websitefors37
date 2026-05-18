@@ -179,6 +179,74 @@ const nextConfig = {
           },
         ],
       },
+      {
+        source: "/sitemap.xml",
+        headers: [
+          {
+            key: "Content-Security-Policy",
+            value: "default-src 'none'",
+          },
+          {
+            key: "X-Content-Type-Options",
+            value: "nosniff",
+          },
+          {
+            key: "Cache-Control",
+            value: "public, max-age=3600",
+          },
+        ],
+      },
+      {
+        source: "/sitemap-static.xml",
+        headers: [
+          {
+            key: "Content-Security-Policy",
+            value: "default-src 'none'",
+          },
+          {
+            key: "X-Content-Type-Options",
+            value: "nosniff",
+          },
+          {
+            key: "Cache-Control",
+            value: "public, max-age=3600",
+          },
+        ],
+      },
+      {
+        source: "/sitemap_index.xml",
+        headers: [
+          {
+            key: "Content-Security-Policy",
+            value: "default-src 'none'",
+          },
+          {
+            key: "X-Content-Type-Options",
+            value: "nosniff",
+          },
+          {
+            key: "Cache-Control",
+            value: "public, max-age=3600",
+          },
+        ],
+      },
+      {
+        source: "/api/sitemap.xml",
+        headers: [
+          {
+            key: "Content-Security-Policy",
+            value: "default-src 'none'",
+          },
+          {
+            key: "X-Content-Type-Options",
+            value: "nosniff",
+          },
+          {
+            key: "Cache-Control",
+            value: "public, max-age=1800",
+          },
+        ],
+      },
     ];
   },
   env: {
