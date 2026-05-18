@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import ConsultationBookingForm from '@/components/ConsultationBookingForm'
 import { Phone, Mail, Clock, CheckCircle2 } from 'lucide-react'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
@@ -134,7 +135,9 @@ export default function BookConsultationPage() {
         </div>
 
         {/* Booking Form */}
-        <ConsultationBookingForm />
+        <Suspense fallback={null}>
+          <ConsultationBookingForm />
+        </Suspense>
 
         {/* Alternative Contact Methods */}
         <div className="mt-12 text-center">
