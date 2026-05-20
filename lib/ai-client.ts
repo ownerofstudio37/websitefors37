@@ -1,7 +1,7 @@
 /**
  * Unified AI Client for Studio37
  * 
- * Provides consistent Gemini 2.5 integration across all features:
+ * Provides consistent Gemini integration across all features:
  * - Chatbot conversations
  * - Blog post generation
  * - Image analysis & alt text
@@ -22,20 +22,24 @@ const ENV_MODEL =
   process.env.GOOGLE_GENAI_MODEL ||
   process.env.GEMINI_MODEL ||
   process.env.AI_MODEL ||
-  "gemini-2.5-flash";
+  "gemini-3.5-flash";
 
-// Current live models as of March 2026 (from Google AI Studio).
-// Stable/production first, preview models at the end.
+// Current live models as of May 2026 (from Google AI Studio).
+// Latest production models first, with older stable fallbacks after them.
 export const MODEL_FALLBACKS = [
-  "gemini-2.5-flash",      // Gemini 2.5 Flash — stable, best price/performance
-  "gemini-2.5-pro",        // Gemini 2.5 Pro — complex tasks + deep reasoning
-  "gemini-2.5-flash-lite", // Gemini 2.5 Flash-Lite — fastest / cheapest
+  "gemini-3.5-flash",       // Gemini 3.5 Flash — latest fast default
+  "gemini-3.1-pro-preview", // Gemini 3.1 Pro Preview — complex tasks + deep reasoning
+  "gemini-2.5-flash",       // Gemini 2.5 Flash — stable fallback
+  "gemini-2.5-pro",         // Gemini 2.5 Pro — stable complex-task fallback
+  "gemini-2.5-flash-lite",  // Gemini 2.5 Flash-Lite — fastest / cheapest fallback
 ];
 
 // Model configurations for different use cases
 export const AI_MODELS = {
   // Default multimodal model
   FLASH: MODEL_FALLBACKS[0],
+  // For deep reasoning / long-form generation
+  PRO: MODEL_FALLBACKS[1],
   // For vision/complex tasks
   VISION: MODEL_FALLBACKS[0],
 } as const;
@@ -449,7 +453,7 @@ JSON structure:
       // Use a higher token ceiling so a full blog post + JSON wrapper never gets
       // truncated mid-object (truncation is the most common cause of parse failures).
       const response = await generateText(prompt, {
-        model: AI_MODELS.FLASH,
+        model: AI_MODELS.PRO,
         config: {
           temperature: 0.7,
           topP: 0.9,

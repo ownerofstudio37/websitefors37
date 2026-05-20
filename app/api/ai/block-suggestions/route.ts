@@ -107,11 +107,11 @@ Return JSON array of ${maxSuggestions} suggestions in this format:
 
 Return ONLY valid JSON, no markdown or additional text.`
 
-    // Generate suggestions with Gemini 2.5 Flash (fast and reliable)
+    // Generate suggestions with Gemini 3.5 Flash (fast and reliable)
     let response: string
     try {
       response = await generateText(prompt, {
-        model: "gemini-2.5-flash",
+        model: "gemini-3.5-flash",
         temperature: 0.8, // Higher creativity for varied suggestions
         maxOutputTokens: 2000
       })
@@ -213,6 +213,6 @@ export async function GET() {
     status: 'ok',
     service: 'AI Block Suggestions',
     version: '1.0.0',
-    model: process.env.GOOGLE_GENAI_MODEL || 'gemini-2.5-flash'
+    model: process.env.GOOGLE_GENAI_MODEL || 'gemini-3.5-flash'
   })
 }

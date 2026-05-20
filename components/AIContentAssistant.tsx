@@ -160,7 +160,7 @@ export default function AIContentAssistant({
         <div className="flex items-center justify-between">
           <div>
             <h3 className="text-lg font-bold">AI Content Assistant</h3>
-            <p className="text-sm text-purple-100">Powered by Gemini 3 Pro Preview</p>
+            <p className="text-sm text-purple-100">Powered by Gemini 3.1 Pro Preview</p>
           </div>
           <div className="text-right">
             <div className={`text-3xl font-bold ${scoreColor === "text-green-600" ? "text-green-300" : scoreColor === "text-yellow-600" ? "text-yellow-300" : "text-red-300"}`}>

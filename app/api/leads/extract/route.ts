@@ -71,7 +71,7 @@ Return ONLY valid JSON with these keys:
 Keep punctuation as-is and avoid adding text not present. If a field is missing, use null. Do not wrap in markdown.`
 
   const model = createAIClient({
-    model: 'gemini-2.5-flash',
+    model: 'gemini-3.1-pro-preview',
     config: AI_CONFIGS.structured,
   })
 

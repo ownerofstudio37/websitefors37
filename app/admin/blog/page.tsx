@@ -1100,7 +1100,7 @@ export default function BlogManagementPage() {
                 <div className="bg-gradient-to-br from-blue-50 to-indigo-50 border-2 border-indigo-200 rounded-lg p-4">
                   <h3 className="font-semibold text-indigo-900 mb-2 flex items-center gap-2">
                     <Sparkles className="h-4 w-4" />
-                    AI Model: Gemini 2.5 Pro
+                    AI Model: Gemini 3.1 Pro Preview
                   </h3>
                   <p className="text-sm text-indigo-700">
                     Optimized for human-like flow and creative content generation. Delivers high-quality, SEO-optimized blog posts with natural language and engaging structure.
@@ -1110,7 +1110,7 @@ export default function BlogManagementPage() {
                 <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
                   <h3 className="font-semibold text-purple-900 mb-2 flex items-center gap-2">
                     <Sparkles className="h-4 w-4" />
-                    What you'll get with Gemini 3:
+                    What you'll get with Gemini 3.1 Pro Preview:
                   </h3>
                   <ul className="text-sm text-purple-700 space-y-1">
                     <li>• SEO-optimized title & meta description</li>
@@ -1118,7 +1118,7 @@ export default function BlogManagementPage() {
                     <li>• Photography tips and insights</li>
                     <li>• Call-to-action for Studio37</li>
                     <li>• Suggested tags and category</li>
-                    <li>• Enhanced reasoning with Gemini 3's advanced capabilities</li>
+                    <li>• Enhanced reasoning with Gemini 3.1 Pro Preview's advanced capabilities</li>
                   </ul>
                 </div>
 

@@ -149,9 +149,9 @@ Consider:
 
 Return ONLY valid JSON, no markdown or extra text.`;
 
-    // Use gemini-2.5-flash for lead scoring (fast, high-volume data processing)
+    // Use gemini-3.1-pro-preview for lead scoring (more accurate structured analysis)
     const analysis = await generateJSON<LeadScore>(prompt, {
-      model: "gemini-2.5-flash"
+      model: "gemini-3.1-pro-preview"
     });
 
     // Update lead in database with new score if leadId provided
@@ -205,12 +205,12 @@ export async function PUT(req: NextRequest) {
     let scored = 0;
     for (const lead of leads) {
       try {
-        // Score each lead with gemini-2.5-flash (fast batch processing)
+        // Score each lead with gemini-3.1-pro-preview (fast batch processing)
         const analysis = await generateJSON<LeadScore>(`Analyze this lead:
 ${JSON.stringify(lead, null, 2)}
 
 Return scoring JSON as per API spec.`, {
-          model: "gemini-2.5-flash"
+          model: "gemini-3.1-pro-preview"
         });
 
         await supabase

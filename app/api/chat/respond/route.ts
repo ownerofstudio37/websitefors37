@@ -239,14 +239,14 @@ Respond now:`;
 
     let response = "";
     try {
-      // Use precise preset for chatbot with gemini-2.5-flash (fast, low latency)
+      // Use precise preset for chatbot with gemini-3.5-flash (fast, low latency)
       log.info("Calling generateText", { 
         promptLength: prompt.length,
-        model: "gemini-2.5-flash",
+        model: "gemini-3.5-flash",
         trainingExamplesCount: trainingExamples.length 
       });
       response = await generateText(prompt, {
-        model: "gemini-2.5-flash",
+        model: "gemini-3.5-flash",
         config: "precise",
         // retries & fallbacks handled internally
       });

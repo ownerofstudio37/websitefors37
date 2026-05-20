@@ -51,7 +51,7 @@ export async function POST(req: Request) {
       ? keywords 
       : ["photography", "Studio37", "Pinehurst TX"];
 
-    log.info("Calling generateBlogPost with gemini-2.5-flash", { 
+    log.info("Calling generateBlogPost with gemini-3.1-pro-preview", { 
       topic, 
       keywordCount: keywordArray.length,
       wordCount: wordCount || 800,

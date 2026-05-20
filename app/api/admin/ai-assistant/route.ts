@@ -380,7 +380,7 @@ export async function GET(request: NextRequest) {
         aiKeyHint: apiKey ? `${apiKey.slice(0, 6)}...` : 'not set',
         db: dbStatus,
         dbError,
-        envModel: process.env.GOOGLE_GENAI_MODEL || process.env.GEMINI_MODEL || 'default (gemini-1.5-flash)',
+        envModel: process.env.GOOGLE_GENAI_MODEL || process.env.GEMINI_MODEL || 'default (gemini-3.5-flash)',
       },
     })
   } catch (error: any) {
