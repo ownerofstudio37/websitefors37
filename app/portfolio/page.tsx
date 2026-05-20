@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import { Metadata } from 'next'
 import { createClient } from '@supabase/supabase-js'
 import { MDXRemote } from 'next-mdx-remote/rsc'
@@ -51,19 +52,21 @@ export default async function PortfolioPage() {
   }
 
   return (
-    <article className="min-h-screen">
-      <MDXRemote
-        source={page.content}
-        components={MDXBuilderComponents}
-        options={{
-          mdxOptions: {
-            allowDangerousHtml: true,
-            rehypePlugins: [[rehypeRaw, {
-              passThrough: ['mdxJsxFlowElement', 'mdxJsxTextElement'],
-            }], [rehypeHighlight, {}]],
-          },
-        }}
-      />
-    </article>
+    <Suspense fallback={<div className="container mx-auto px-4 py-16 text-gray-600">Loading portfolio…</div>}>
+      <article className="min-h-screen">
+        <MDXRemote
+          source={page.content}
+          components={MDXBuilderComponents}
+          options={{
+            mdxOptions: {
+              allowDangerousHtml: true,
+              rehypePlugins: [[rehypeRaw, {
+                passThrough: ['mdxJsxFlowElement', 'mdxJsxTextElement'],
+              }], [rehypeHighlight, {}]],
+            },
+          }}
+        />
+      </article>
+    </Suspense>
   )
 }
