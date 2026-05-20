@@ -5,6 +5,8 @@ import { createLogger } from '@/lib/logger'
 
 const log = createLogger('api/calendar/busy')
 
+export const dynamic = 'force-dynamic'
+
 /**
  * Get busy times from Google Calendar
  * GET /api/calendar/busy?startDate=YYYY-MM-DD&endDate=YYYY-MM-DD

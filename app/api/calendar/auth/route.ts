@@ -4,6 +4,8 @@ import { createLogger } from '@/lib/logger'
 
 const log = createLogger('api/calendar/auth')
 
+export const dynamic = 'force-dynamic'
+
 /**
  * Initiate Google Calendar OAuth flow
  * GET /api/calendar/auth
