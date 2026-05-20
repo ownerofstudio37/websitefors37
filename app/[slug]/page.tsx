@@ -185,6 +185,7 @@ export default async function DynamicPage({ params, searchParams }: { params: { 
             source={page.content}
             options={{
               mdxOptions: {
+                allowDangerousHtml: true,
                 rehypePlugins: rehypeRaw 
                   ? [rehypeRaw as any, [rehypeHighlight, {}] as any]
                   : [[rehypeHighlight, {}] as any]
@@ -224,6 +225,7 @@ export default async function DynamicPage({ params, searchParams }: { params: { 
               source={page.content}
               options={{
                 mdxOptions: {
+                  allowDangerousHtml: true,
                   rehypePlugins: rehypeRaw 
                     ? [rehypeRaw as any, [rehypeHighlight, {}] as any]
                     : [[rehypeHighlight, {}] as any]

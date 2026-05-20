@@ -57,6 +57,7 @@ export default async function PortfolioPage() {
         components={MDXBuilderComponents}
         options={{
           mdxOptions: {
+            allowDangerousHtml: true,
             rehypePlugins: [rehypeRaw, rehypeHighlight],
           },
         }}
