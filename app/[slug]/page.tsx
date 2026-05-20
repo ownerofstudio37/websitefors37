@@ -187,7 +187,9 @@ export default async function DynamicPage({ params, searchParams }: { params: { 
               mdxOptions: {
                 allowDangerousHtml: true,
                 rehypePlugins: rehypeRaw 
-                  ? [rehypeRaw as any, [rehypeHighlight, {}] as any]
+                  ? [[rehypeRaw as any, {
+                      passThrough: ['mdxJsxFlowElement', 'mdxJsxTextElement'],
+                    }] as any, [rehypeHighlight, {}] as any]
                   : [[rehypeHighlight, {}] as any]
               }
             }}
@@ -227,7 +229,9 @@ export default async function DynamicPage({ params, searchParams }: { params: { 
                 mdxOptions: {
                   allowDangerousHtml: true,
                   rehypePlugins: rehypeRaw 
-                    ? [rehypeRaw as any, [rehypeHighlight, {}] as any]
+                    ? [[rehypeRaw as any, {
+                        passThrough: ['mdxJsxFlowElement', 'mdxJsxTextElement'],
+                      }] as any, [rehypeHighlight, {}] as any]
                     : [[rehypeHighlight, {}] as any]
                 }
               }}

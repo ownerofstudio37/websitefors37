@@ -58,7 +58,9 @@ export default async function PortfolioPage() {
         options={{
           mdxOptions: {
             allowDangerousHtml: true,
-            rehypePlugins: [rehypeRaw, rehypeHighlight],
+            rehypePlugins: [[rehypeRaw, {
+              passThrough: ['mdxJsxFlowElement', 'mdxJsxTextElement'],
+            }], [rehypeHighlight, {}]],
           },
         }}
       />

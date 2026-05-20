@@ -148,7 +148,9 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
             mdxOptions: {
               allowDangerousHtml: true,
               rehypePlugins: rehypeRaw
-                ? [rehypeRaw as any, [rehypeHighlight, {}] as any]
+                ? [[rehypeRaw as any, {
+                    passThrough: ['mdxJsxFlowElement', 'mdxJsxTextElement'],
+                  }] as any, [rehypeHighlight, {}] as any]
                 : [[rehypeHighlight, {}] as any],
             },
           }}
