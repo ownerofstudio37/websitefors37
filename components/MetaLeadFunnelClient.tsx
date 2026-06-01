@@ -14,48 +14,58 @@ const SERVICES = [
   { id: 'other', label: 'Something Else', emoji: '✨' },
 ]
 
-const QUESTIONS: Record<string, { label: string; key: string; type: string; options?: string[] }[]> = {
+type FunnelQuestion = {
+  label: string
+  key: string
+  type: 'text' | 'select' | 'textarea'
+  options?: string[]
+  required?: boolean
+}
+
+const QUESTIONS: Record<string, FunnelQuestion[]> = {
   wedding: [
-    { label: 'Wedding date (or approximate timeframe)?', key: 'wedding_date', type: 'text' },
-    { label: 'Expected guest count?', key: 'guest_count', type: 'select', options: ['Under 50', '50–100', '100–200', '200+', 'Not sure yet'] },
+    { label: 'Wedding date (or approximate timeframe)?', key: 'wedding_date', type: 'text', required: true },
+    { label: 'Where is the wedding (venue or city)?', key: 'location', type: 'text' },
     { label: "What's your photography budget range?", key: 'budget', type: 'select', options: ['$1,000–$1,500', '$1,500–$2,500', '$2,500–$4,000', '$4,000+', 'Still figuring it out'] },
   ],
   engagement: [
-    { label: 'When are you hoping to shoot?', key: 'timeline', type: 'select', options: ['Within 2 weeks', '1 month', '2–3 months', 'Flexible'] },
+    { label: 'When are you hoping to shoot?', key: 'timeline', type: 'select', options: ['Within 2 weeks', '1 month', '2–3 months', 'Flexible'], required: true },
     { label: 'Any location ideas?', key: 'specific_need', type: 'text' },
   ],
   family: [
-    { label: 'When are you hoping to shoot?', key: 'timeline', type: 'select', options: ['ASAP', 'Within a month', '2–3 months', 'Flexible / holiday season'] },
+    { label: 'When are you hoping to shoot?', key: 'timeline', type: 'select', options: ['ASAP', 'Within a month', '2–3 months', 'Flexible / holiday season'], required: true },
     { label: 'How many people in the session?', key: 'guest_count', type: 'select', options: ['2–3', '4–6', '7–10', '10+'] },
   ],
   portrait: [
     { label: "What's the purpose of the portraits?", key: 'specific_need', type: 'select', options: ['Personal / social media', 'Headshots / LinkedIn', 'Modeling / acting', 'Other'] },
-    { label: 'Preferred timeline?', key: 'timeline', type: 'select', options: ['Within 2 weeks', '1 month', 'Flexible'] },
+    { label: 'Preferred timeline?', key: 'timeline', type: 'select', options: ['Within 2 weeks', '1 month', 'Flexible'], required: true },
   ],
   senior: [
     { label: 'Graduation year?', key: 'specific_need', type: 'text' },
-    { label: 'Preferred timeline?', key: 'timeline', type: 'select', options: ['Spring', 'Summer', 'Fall', 'Flexible'] },
+    { label: 'Preferred timeline?', key: 'timeline', type: 'select', options: ['Spring', 'Summer', 'Fall', 'Flexible'], required: true },
   ],
   event: [
-    { label: 'Type of event?', key: 'event_details', type: 'text' },
-    { label: 'Event date or timeframe?', key: 'timeline', type: 'text' },
-    { label: 'Expected attendance?', key: 'guest_count', type: 'select', options: ['Under 50', '50–150', '150–300', '300+'] },
+    { label: 'Type of event?', key: 'event_details', type: 'text', required: true },
+    { label: 'Event date or timeframe?', key: 'timeline', type: 'text', required: true },
+    { label: 'How many hours of coverage do you need?', key: 'coverage_hours', type: 'select', options: ['1–2 hours', '3–4 hours', '5–6 hours', 'Full-day'] },
   ],
   commercial: [
-    { label: 'What do you need photographed?', key: 'specific_need', type: 'text' },
-    { label: 'Preferred timeline?', key: 'timeline', type: 'select', options: ['ASAP', 'Within 2 weeks', '1 month', 'Flexible'] },
+    { label: 'What do you need photographed?', key: 'specific_need', type: 'text', required: true },
+    { label: 'How will the photos be used?', key: 'usage_goal', type: 'select', options: ['Website', 'Social media', 'Ads / campaign', 'Internal / other'] },
+    { label: 'Preferred timeline?', key: 'timeline', type: 'select', options: ['ASAP', 'Within 2 weeks', '1 month', 'Flexible'], required: true },
   ],
   other: [
-    { label: 'Tell us a little about what you have in mind.', key: 'message', type: 'textarea' },
+    { label: 'Tell us a little about what you have in mind.', key: 'message', type: 'textarea', required: true },
   ],
 }
 
 export default function MetaLeadFunnelClient() {
   const searchParams = useSearchParams()
   const preselect = searchParams.get('service')
+  const validPreselect = SERVICES.some(s => s.id === preselect) ? preselect : ''
 
-  const [step, setStep] = useState(preselect ? 2 : 1)
-  const [service, setService] = useState(preselect || '')
+  const [step, setStep] = useState(validPreselect ? 2 : 1)
+  const [service, setService] = useState(validPreselect)
   const [answers, setAnswers] = useState<Record<string, string>>({})
   const [contact, setContact] = useState({ name: '', email: '', phone: '' })
   const [submitted, setSubmitted] = useState(false)
@@ -63,16 +73,33 @@ export default function MetaLeadFunnelClient() {
   const [error, setError] = useState('')
 
   useEffect(() => {
-    if (preselect) setService(preselect)
-  }, [preselect])
+    if (validPreselect) setService(validPreselect)
+  }, [validPreselect])
 
   function handleServiceSelect(id: string) {
     setService(id)
+    setAnswers({})
+    setError('')
     setStep(2)
   }
 
   function handleAnswerChange(key: string, value: string) {
+    setError('')
     setAnswers(prev => ({ ...prev, [key]: value }))
+  }
+
+  function handleStepTwoSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    const questions = QUESTIONS[service] || []
+    const firstMissingRequired = questions.find(q => q.required && !(answers[q.key] || '').trim())
+
+    if (firstMissingRequired) {
+      setError(`Please answer: ${firstMissingRequired.label}`)
+      return
+    }
+
+    setError('')
+    setStep(3)
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -133,7 +160,7 @@ export default function MetaLeadFunnelClient() {
       <div className="w-full max-w-lg">
         {/* Header */}
         <div className="text-center mb-8">
-          <p className="text-sm uppercase tracking-widest text-[#C9A84C] mb-2">Studio37 Memphis</p>
+          <p className="text-sm uppercase tracking-widest text-[#C9A84C] mb-2">Studio37</p>
           <h1 className="text-3xl font-bold text-white">Let's plan your session</h1>
           <p className="text-gray-400 mt-2 text-sm">Takes 60 seconds · No commitment</p>
         </div>
@@ -169,14 +196,16 @@ export default function MetaLeadFunnelClient() {
 
         {/* Step 2: Qualifying questions */}
         {step === 2 && (
-          <form onSubmit={e => { e.preventDefault(); setStep(3) }}>
+          <form onSubmit={handleStepTwoSubmit}>
             <p className="text-white font-medium mb-4">
               Tell us a bit about your {SERVICES.find(s => s.id === service)?.label?.toLowerCase() || 'session'}:
             </p>
             <div className="space-y-4">
               {questions.map(q => (
                 <div key={q.key}>
-                  <label className="block text-sm text-gray-300 mb-1">{q.label}</label>
+                  <label className="block text-sm text-gray-300 mb-1">
+                    {q.label} {q.required ? '*' : <span className="text-gray-500">(optional)</span>}
+                  </label>
                   {q.type === 'select' ? (
                     <select
                       value={answers[q.key] || ''}
@@ -204,6 +233,7 @@ export default function MetaLeadFunnelClient() {
                 </div>
               ))}
             </div>
+            {error && <p className="text-red-400 text-sm mt-3">{error}</p>}
             <div className="flex gap-3 mt-6">
               <button type="button" onClick={() => setStep(1)} className="px-4 py-2.5 rounded-lg border border-white/10 text-gray-400 text-sm hover:border-white/30 transition-all">
                 ← Back
@@ -225,6 +255,7 @@ export default function MetaLeadFunnelClient() {
                 <input
                   required
                   type="text"
+                  autoComplete="name"
                   value={contact.name}
                   onChange={e => setContact(p => ({ ...p, name: e.target.value }))}
                   className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-white text-sm focus:border-[#C9A84C] outline-none"
@@ -236,6 +267,7 @@ export default function MetaLeadFunnelClient() {
                 <input
                   required
                   type="email"
+                  autoComplete="email"
                   value={contact.email}
                   onChange={e => setContact(p => ({ ...p, email: e.target.value }))}
                   className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-white text-sm focus:border-[#C9A84C] outline-none"
@@ -246,6 +278,8 @@ export default function MetaLeadFunnelClient() {
                 <label className="block text-sm text-gray-300 mb-1">Phone number <span className="text-gray-500">(optional)</span></label>
                 <input
                   type="tel"
+                  autoComplete="tel"
+                  inputMode="tel"
                   value={contact.phone}
                   onChange={e => setContact(p => ({ ...p, phone: e.target.value }))}
                   className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-white text-sm focus:border-[#C9A84C] outline-none"
