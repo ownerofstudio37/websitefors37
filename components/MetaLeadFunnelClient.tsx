@@ -22,39 +22,48 @@ type FunnelQuestion = {
   required?: boolean
 }
 
+const BUDGET_OPTIONS = ['$250–$500', '$500–$1,000', '$1,000–$2,000', '$2,000+', 'Still figuring it out']
+
 const QUESTIONS: Record<string, FunnelQuestion[]> = {
   wedding: [
     { label: 'Wedding date (or approximate timeframe)?', key: 'wedding_date', type: 'text', required: true },
     { label: 'Where is the wedding (venue or city)?', key: 'location', type: 'text' },
-    { label: "What's your photography budget range?", key: 'budget', type: 'select', options: ['$1,000–$1,500', '$1,500–$2,500', '$2,500–$4,000', '$4,000+', 'Still figuring it out'] },
+    { label: "What's your photography budget range?", key: 'budget', type: 'select', options: BUDGET_OPTIONS, required: true },
   ],
   engagement: [
     { label: 'When are you hoping to shoot?', key: 'timeline', type: 'select', options: ['Within 2 weeks', '1 month', '2–3 months', 'Flexible'], required: true },
     { label: 'Any location ideas?', key: 'specific_need', type: 'text' },
+    { label: 'What budget range are you targeting?', key: 'budget', type: 'select', options: BUDGET_OPTIONS, required: true },
   ],
   family: [
     { label: 'When are you hoping to shoot?', key: 'timeline', type: 'select', options: ['ASAP', 'Within a month', '2–3 months', 'Flexible / holiday season'], required: true },
     { label: 'How many people in the session?', key: 'guest_count', type: 'select', options: ['2–3', '4–6', '7–10', '10+'] },
+    { label: 'What budget range are you targeting?', key: 'budget', type: 'select', options: BUDGET_OPTIONS, required: true },
   ],
   portrait: [
-    { label: "What's the purpose of the portraits?", key: 'specific_need', type: 'select', options: ['Personal / social media', 'Headshots / LinkedIn', 'Modeling / acting', 'Other'] },
+    { label: "What's the purpose of the portraits?", key: 'specific_need', type: 'select', options: ['Personal / social media', 'Headshots / LinkedIn', 'Couples', 'Modeling / acting', 'Other'] },
     { label: 'Preferred timeline?', key: 'timeline', type: 'select', options: ['Within 2 weeks', '1 month', 'Flexible'], required: true },
+    { label: 'What budget range are you targeting?', key: 'budget', type: 'select', options: BUDGET_OPTIONS, required: true },
   ],
   senior: [
     { label: 'Graduation year?', key: 'specific_need', type: 'text' },
     { label: 'Preferred timeline?', key: 'timeline', type: 'select', options: ['Spring', 'Summer', 'Fall', 'Flexible'], required: true },
+    { label: 'What budget range are you targeting?', key: 'budget', type: 'select', options: BUDGET_OPTIONS, required: true },
   ],
   event: [
     { label: 'Type of event?', key: 'event_details', type: 'text', required: true },
     { label: 'Event date or timeframe?', key: 'timeline', type: 'text', required: true },
     { label: 'How many hours of coverage do you need?', key: 'coverage_hours', type: 'select', options: ['1–2 hours', '3–4 hours', '5–6 hours', 'Full-day'] },
+    { label: 'What budget range are you targeting?', key: 'budget', type: 'select', options: BUDGET_OPTIONS, required: true },
   ],
   commercial: [
     { label: 'What do you need photographed?', key: 'specific_need', type: 'text', required: true },
     { label: 'How will the photos be used?', key: 'usage_goal', type: 'select', options: ['Website', 'Social media', 'Ads / campaign', 'Internal / other'] },
     { label: 'Preferred timeline?', key: 'timeline', type: 'select', options: ['ASAP', 'Within 2 weeks', '1 month', 'Flexible'], required: true },
+    { label: 'What budget range are you targeting?', key: 'budget', type: 'select', options: BUDGET_OPTIONS, required: true },
   ],
   other: [
+    { label: 'What budget range are you targeting?', key: 'budget', type: 'select', options: BUDGET_OPTIONS, required: true },
     { label: 'Tell us a little about what you have in mind.', key: 'message', type: 'textarea', required: true },
   ],
 }
@@ -145,7 +154,7 @@ export default function MetaLeadFunnelClient() {
           <p className="text-gray-400 mb-6">We'll be in touch within 24 hours to talk through your session and get you a personalized quote.</p>
           <div className="flex justify-center gap-6 text-sm text-gray-500">
             <span>✅ 500+ happy clients</span>
-            <span>⭐ 4.9 stars</span>
+            <span>⭐ 5 stars</span>
             <span>📷 48hr delivery</span>
           </div>
         </div>
@@ -275,8 +284,9 @@ export default function MetaLeadFunnelClient() {
                 />
               </div>
               <div>
-                <label className="block text-sm text-gray-300 mb-1">Phone number <span className="text-gray-500">(optional)</span></label>
+                <label className="block text-sm text-gray-300 mb-1">Phone number *</label>
                 <input
+                  required
                   type="tel"
                   autoComplete="tel"
                   inputMode="tel"
