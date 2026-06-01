@@ -12,7 +12,7 @@ type ServiceCityLandingPageProps = {
   serviceUrl: string
   startingPrice: string
   intro: string
-  highlights: string[]
+  highlights: Array<string | { title: string; description: string }>
   faqs: Array<{ question: string; answer: string }>
   nearbyCities: string[]
 }
@@ -39,6 +39,18 @@ export default function ServiceCityLandingPage({
   ])
 
   const faqSchema = generateFAQSchema(faqs)
+
+  const normalizedHighlights = highlights.map((item) => {
+    if (typeof item === 'string') {
+      return { title: '', description: item, key: item }
+    }
+
+    return {
+      title: item.title,
+      description: item.description,
+      key: `${item.title}-${item.description}`,
+    }
+  })
 
   return (
     <main className="min-h-screen pt-16 bg-white">
@@ -67,10 +79,13 @@ export default function ServiceCityLandingPage({
           <div className="lg:col-span-2">
             <h2 className="text-2xl font-bold text-gray-900 mb-4">Why clients book this in {city}</h2>
             <div className="space-y-3">
-              {highlights.map((item) => (
-                <div key={item} className="flex items-start gap-3">
+              {normalizedHighlights.map((item) => (
+                <div key={item.key} className="flex items-start gap-3">
                   <CheckCircle className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
-                  <p className="text-gray-700">{item}</p>
+                  <p className="text-gray-700">
+                    {item.title ? <span className="font-semibold text-gray-900">{item.title}: </span> : null}
+                    {item.description}
+                  </p>
                 </div>
               ))}
             </div>
