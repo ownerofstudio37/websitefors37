@@ -227,6 +227,32 @@ export default function BrandingMarketingPage() {
       <section className="section-shell bg-stone-50">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
+            {/* HubSpot SEO Certification */}
+            <div className="flex items-start gap-6 mb-8 p-5 bg-white border border-stone-200 rounded-xl">
+              <a
+                href="https://app-na2.hubspot.com/academy/achievements/l22vmwbz/en/1/christian-combest/seo-certified"
+                title="SEO Certified — Christian Combest, Studio37"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-shrink-0"
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="https://hubspot-credentials-na1.s3.amazonaws.com/prod/badges/user/ec3fc569f28e4b85b99d8afbd76c274d.png"
+                  alt="HubSpot SEO Certified — Christian Combest"
+                  width={120}
+                  height={120}
+                  className="rounded-lg"
+                />
+              </a>
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-widest text-stone-500 mb-1">Credentials</p>
+                <h3 className="text-lg font-bold text-stone-900 mb-1">HubSpot SEO Certified</h3>
+                <p className="text-sm text-stone-600">
+                  Christian Combest holds HubSpot Academy&apos;s SEO certification, validating hands-on expertise in technical SEO, on-page optimization, content strategy, and local search ranking. This credential backs every SEO engagement Studio37 delivers.
+                </p>
+              </div>
+            </div>
             <h2 className="text-2xl font-bold text-stone-900 mb-4">Branding, Marketing &amp; Content Creation in Pinehurst, TX</h2>
             <p className="text-stone-700 leading-relaxed mb-4">
               Studio37 is the only full-service branding and marketing studio in Pinehurst, TX combining professional photography, video production, SEO, PPC advertising, and social media management under one roof. We serve small businesses, entrepreneurs, growing brands, and enterprise clients across Montgomery County and key growth markets including The Woodlands, Conroe, Magnolia, Tomball, Spring, Montgomery, Willis, New Caney, Hockley, Bryan, College Station, and Houston. Our white-glove retainer model means a dedicated creative team handles your brand content strategy, monthly photo and video shoots, social media calendar, Google Ads campaigns, and organic search optimization — all aligned to your revenue goals. Unlike traditional marketing agencies that outsource creative work, Studio37 produces everything in-house: branded lifestyle photography, short-form video reels, product demos, corporate event recap videos, and conversion-optimized landing pages. Our clients consistently see measurable lifts in website traffic, lead quality, social engagement, and local search rankings within 90 days of onboarding. Whether you're a startup building brand awareness or an established business ready to scale with data-driven digital marketing, Studio37 has the talent, tools, and track record to deliver. Schedule your strategy consultation today.

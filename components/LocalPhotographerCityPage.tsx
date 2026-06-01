@@ -70,6 +70,96 @@ const CITY_PROFILES: Record<string, CityProfile> = {
     bestLightWindow: 'Golden hour with short movement-based sets for natural, energetic images.',
     seasonalTip: 'Fall and spring are strongest for family portraits because of temperature and wardrobe flexibility.',
   },
+  'spring': {
+    venueHighlights: ['Old Town Spring shops', 'Meyer Park open fields', 'Pundt Park creek beds'],
+    bestLightWindow: 'Late afternoon to golden hour for warm park tones and open sky gradients.',
+    seasonalTip: 'Spring and fall are highest-demand periods; book family sessions by August for October dates.',
+  },
+  'montgomery': {
+    venueHighlights: ['Historic Downtown square', 'Fernland Historical Park', 'Lake Conroe lakeside paths'],
+    bestLightWindow: 'Sunset for lake reflections and warm tones that complement historic architecture.',
+    seasonalTip: 'Premium wedding venue market — weekend bookings fill early; consult 9-12 months out for ceremonies.',
+  },
+  'willis': {
+    venueHighlights: ['Cedar Creek greenbelts', 'Downtown Willis storefronts', 'Lake Conroe North shoreline'],
+    bestLightWindow: 'Golden hour and blue hour for lake-adjacent sessions with minimal crowd interference.',
+    seasonalTip: 'Spring and fall are the sweet spots for outdoor portraits with lower humidity and soft foliage.',
+  },
+  'huntsville': {
+    venueHighlights: ['Sam Houston State University campus', 'Huntsville State Park pines', 'Downtown Huntsville square'],
+    bestLightWindow: 'Morning light on campus for clean editorial tones; late afternoon in the park for lifestyle work.',
+    seasonalTip: 'Graduation season (May) and fall semester portrait demand peak simultaneously — reserve early.',
+  },
+  'new caney': {
+    venueHighlights: ['Valley Ranch Town Center', 'Lake Houston Wilderness Park trails', 'Community park corridors'],
+    bestLightWindow: 'Late afternoon for warm tones in open park and residential settings.',
+    seasonalTip: 'Fast-growing community — fall family portrait demand builds quickly each September.',
+  },
+  'hockley': {
+    venueHighlights: ['Zube Park open spaces', 'Houston Oaks venue grounds', 'Rural pasture corridors'],
+    bestLightWindow: 'Sunset across open pasture for wide golden-hour compositions with minimal obstruction.',
+    seasonalTip: 'Overlaps with Tomball and Magnolia demand — late summer booking is common for fall sessions.',
+  },
+  'porter': {
+    venueHighlights: ['Valley Ranch Town Center', 'Bens Branch greenways', 'Sorters-McClellan corridors'],
+    bestLightWindow: 'Golden hour in open residential and park settings for lifestyle and family work.',
+    seasonalTip: 'Expanding family base drives strong fall portrait demand — book September by early August.',
+  },
+  'splendora': {
+    venueHighlights: ['Downtown Splendora storefronts', 'FM 2090 open fields', 'Caney Creek access points'],
+    bestLightWindow: 'Late afternoon for open-field golden hour with minimal foot traffic.',
+    seasonalTip: 'Lower competition market — mid-week sessions available year-round with flexible scheduling.',
+  },
+  'cleveland': {
+    venueHighlights: ['City Park open greens', 'Trinity River area', 'Downtown Cleveland facades'],
+    bestLightWindow: 'Late afternoon and sunset for flattering natural light in open park settings.',
+    seasonalTip: 'Spring and fall deliver best conditions for outdoor family and event sessions.',
+  },
+  'waller': {
+    venueHighlights: ['Waller County Fairgrounds', 'Fields Store rural landscapes', 'Downtown Waller streetscapes'],
+    bestLightWindow: 'Sunset across open terrain for wide, romantic compositions.',
+    seasonalTip: 'Emerging wedding market — fall and spring ceremonies are growing in this corridor.',
+  },
+  'plantersville': {
+    venueHighlights: ['FM 1774 ranch venue corridor', 'Navasota River bottomland', 'Rustic barn and pasture venues'],
+    bestLightWindow: 'Golden hour in open country for sweeping landscape and wide ceremony backdrops.',
+    seasonalTip: 'Ranch wedding demand peaks April–June and October–November; reserve 9+ months out.',
+  },
+  'navasota': {
+    venueHighlights: ['Downtown Navasota Railroad District', 'Washington Avenue heritage facades', 'Local ranch venues'],
+    bestLightWindow: 'Late afternoon for warm heritage-brick tones and open-sky ceremony setups.',
+    seasonalTip: 'Bridge market between Montgomery County and Brazos Valley — flexible booking windows available.',
+  },
+  'bryan': {
+    venueHighlights: ['Downtown Bryan historic district', 'Lake Walk waterfront', 'Messina Hof Wine Estate'],
+    bestLightWindow: 'Evening light in the historic district for warm brick tones and cinematic depth.',
+    seasonalTip: 'University proximity drives May graduation demand — confirm portrait dates 3-4 months ahead.',
+  },
+  'college station': {
+    venueHighlights: ['Texas A&M campus architecture', 'Century Square plaza', 'Research Park greenways'],
+    bestLightWindow: 'Morning on campus for clean editorial tones; sunset at Century Square for lifestyle work.',
+    seasonalTip: 'A&M event calendar drives high demand — graduation, Aggie weddings, and Greek events fill dates fast.',
+  },
+  'cypress': {
+    venueHighlights: ['Towne Lake waterfront', 'Bridgeland community parks', 'Cypress Creek greenbelt'],
+    bestLightWindow: 'Sunset at Towne Lake for water reflections and warm residential backdrop lighting.',
+    seasonalTip: 'Large suburban population — fall family portrait weekends fill 6-8 weeks in advance.',
+  },
+  'kingwood': {
+    venueHighlights: ['Town Center Park trails', 'East End Park open fields', 'Kingwood Drive greenway corridor'],
+    bestLightWindow: 'Late afternoon in park settings for natural dappled light through tree canopy.',
+    seasonalTip: 'Established residential community with high milestone photography demand — book spring sessions early.',
+  },
+  'atascocita': {
+    venueHighlights: ['Lake Houston waterfront', 'Atascocita Commons greenways', 'Luce Bayou parkway'],
+    bestLightWindow: 'Sunset at Lake Houston for dramatic waterfront reflections and warm horizon tones.',
+    seasonalTip: 'High-intent family and lifestyle market — fall bookings are the most competitive period.',
+  },
+  'new waverly': {
+    venueHighlights: ['Sam Houston National Forest trailheads', 'Downtown New Waverly', 'Lone Star Hiking Trail'],
+    bestLightWindow: 'Forest morning light for soft filtered tones and natural textures.',
+    seasonalTip: 'Lower competition and quieter scheduling windows make this ideal for custom portrait experiences.',
+  },
 }
 
 const CITY_SERVICE_GUIDES: Record<string, Array<{ label: string; href: string }>> = {
@@ -91,6 +181,60 @@ const CITY_SERVICE_GUIDES: Record<string, Array<{ label: string; href: string }>
   ],
   'tomball': [
     { label: 'Wedding Photographer Tomball, TX', href: '/wedding-photographer-tomball-tx' },
+  ],
+  'spring': [
+    { label: 'Family Photographer Spring, TX', href: '/family-photographer-spring-tx' },
+  ],
+  'montgomery': [
+    { label: 'Wedding Photographer Montgomery, TX', href: '/wedding-photographer-montgomery-tx' },
+  ],
+  'willis': [
+    { label: 'Portrait Photographer Willis, TX', href: '/portrait-photographer-willis-tx' },
+  ],
+  'huntsville': [
+    { label: 'Portrait Photographer Huntsville, TX', href: '/portrait-photographer-huntsville-tx' },
+  ],
+  'new caney': [
+    { label: 'Family Photographer New Caney, TX', href: '/family-photographer-new-caney-tx' },
+  ],
+  'hockley': [
+    { label: 'Portrait Photographer Hockley, TX', href: '/portrait-photographer-hockley-tx' },
+  ],
+  'porter': [
+    { label: 'Family Photographer Porter, TX', href: '/family-photographer-porter-tx' },
+  ],
+  'splendora': [
+    { label: 'Portrait Photographer Splendora, TX', href: '/portrait-photographer-splendora-tx' },
+  ],
+  'cleveland': [
+    { label: 'Family Photographer Cleveland, TX', href: '/family-photographer-cleveland-tx' },
+  ],
+  'waller': [
+    { label: 'Wedding Photographer Waller, TX', href: '/wedding-photographer-waller-tx' },
+  ],
+  'plantersville': [
+    { label: 'Wedding Photographer Plantersville, TX', href: '/wedding-photographer-plantersville-tx' },
+  ],
+  'navasota': [
+    { label: 'Wedding Photographer Navasota, TX', href: '/wedding-photographer-navasota-tx' },
+  ],
+  'bryan': [
+    { label: 'Wedding Photographer Bryan, TX', href: '/wedding-photographer-bryan-tx' },
+  ],
+  'college station': [
+    { label: 'Wedding Photographer College Station, TX', href: '/wedding-photographer-college-station-tx' },
+  ],
+  'cypress': [
+    { label: 'Portrait Photographer Cypress, TX', href: '/portrait-photographer-cypress-tx' },
+  ],
+  'kingwood': [
+    { label: 'Family Photographer Kingwood, TX', href: '/family-photographer-kingwood-tx' },
+  ],
+  'atascocita': [
+    { label: 'Family Photographer Atascocita, TX', href: '/family-photographer-atascocita-tx' },
+  ],
+  'humble': [
+    { label: 'Portrait Photographer Humble, TX', href: '/portrait-photographer-humble-tx' },
   ],
 }
 
