@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
+import { generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
 import { HeartHandshake, Users, Cake, Briefcase, Camera } from 'lucide-react'
 
 export const metadata = generateSEOMetadata({
@@ -70,9 +71,19 @@ const prepGuides = [
   },
 ]
 
+const breadcrumbSchema = generateBreadcrumbSchema([
+  { name: 'Home', url: 'https://www.studio37.cc' },
+  { name: 'Session Prep', url: 'https://www.studio37.cc/session-prep' },
+])
+
 export default function SessionPrepHub() {
   return (
     <main className="min-h-screen bg-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+
       {/* Hero */}
       <section className="bg-gradient-to-b from-gray-50 to-white px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
         <div className="mx-auto max-w-4xl text-center">

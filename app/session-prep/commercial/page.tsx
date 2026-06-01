@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
+import { generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
 import { ChevronLeft } from 'lucide-react'
 
 export const metadata = generateSEOMetadata({
@@ -11,9 +12,20 @@ export const metadata = generateSEOMetadata({
 
 export const revalidate = 86400
 
+const breadcrumbSchema = generateBreadcrumbSchema([
+  { name: 'Home', url: 'https://www.studio37.cc' },
+  { name: 'Session Prep', url: 'https://www.studio37.cc/session-prep' },
+  { name: 'Commercial Prep', url: 'https://www.studio37.cc/session-prep/commercial' },
+])
+
 export default function CommercialSessionPrep() {
   return (
     <main className="min-h-screen bg-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+
       <div className="border-b border-gray-200 px-4 py-4 sm:px-6 lg:px-8">
         <Link href="/session-prep" className="inline-flex items-center text-sm font-medium text-gray-600 hover:text-gray-900">
           <ChevronLeft className="h-4 w-4 mr-1" />

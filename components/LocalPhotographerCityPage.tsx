@@ -4,6 +4,7 @@ import { MapPin, Star, Users, Camera, Award, CheckCircle } from 'lucide-react'
 import FAQSection from '@/components/FAQSection'
 import GoogleBusinessWidget from '@/components/GoogleBusinessWidget'
 import { generateEnhancedLocalBusinessSchema, generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
+import { generateFAQSchema } from '@/lib/seo-helpers'
 
 type LocalPhotographerCityPageProps = {
   city: string
@@ -38,6 +39,24 @@ export default function LocalPhotographerCityPage({
     { name: `Local Photographer ${cityLabel}`, url: `https://www.studio37.cc/${slug}` },
   ])
 
+  const cityFaqs = [
+    {
+      question: `What are your photography rates in ${city}, ${stateAbbr}?`,
+      answer: `Current starting prices are: portraits ${STARTING_PRICES.portrait}, engagement sessions ${STARTING_PRICES.engagement}, event coverage ${STARTING_PRICES.event}, wedding coverage ${STARTING_PRICES.wedding}, and commercial sessions ${STARTING_PRICES.commercial}.`,
+    },
+    {
+      question: `Do you travel outside of ${city}?`,
+      answer: `Yes. We regularly serve clients across ${county}, including ${nearbyCities.slice(0, 4).join(', ')} and surrounding areas.`,
+    },
+    {
+      question: 'How far in advance should I book?',
+      answer:
+        'Weddings are best booked 6-12 months in advance. Most portrait and event sessions can typically be booked 2-4 weeks out based on availability.',
+    },
+  ]
+
+  const faqSchema = generateFAQSchema(cityFaqs)
+
   const faqTitle = `Frequently Asked Questions - ${city} Photographer`
 
   return (
@@ -49,6 +68,10 @@ export default function LocalPhotographerCityPage({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
       <section className="relative bg-gradient-to-r from-blue-900 to-purple-900 text-white py-20">
@@ -67,9 +90,9 @@ export default function LocalPhotographerCityPage({
               <MapPin className="h-5 w-5 text-blue-300" />
               <span className="text-blue-200">Proudly serving {cityLabel} & {county}</span>
             </div>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6">Top Photographer in {cityLabel}</h1>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6">Photographer in {cityLabel} for Weddings, Portraits &amp; Events</h1>
             <p className="text-xl mb-6 text-gray-200">
-              Studio37 delivers wedding, portrait, engagement, event, and commercial photography for families and businesses across {county}.
+              Looking for a trusted photographer in {cityLabel}? Studio37 delivers wedding, portrait, engagement, event, and commercial photography for families and businesses across {county}.
               We bring a two-photographer team and clear pricing on every session.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
@@ -423,21 +446,7 @@ export default function LocalPhotographerCityPage({
 
       <FAQSection
         title={faqTitle}
-        faqs={[
-          {
-            question: `What are your photography rates in ${city}, ${stateAbbr}?`,
-            answer: `Current starting prices are: portraits ${STARTING_PRICES.portrait}, engagement sessions ${STARTING_PRICES.engagement}, event coverage ${STARTING_PRICES.event}, wedding coverage ${STARTING_PRICES.wedding}, and commercial sessions ${STARTING_PRICES.commercial}.`,
-          },
-          {
-            question: `Do you travel outside of ${city}?`,
-            answer: `Yes. We regularly serve clients across ${county}, including ${nearbyCities.slice(0, 4).join(', ')} and surrounding areas.`,
-          },
-          {
-            question: 'How far in advance should I book?',
-            answer:
-              'Weddings are best booked 6-12 months in advance. Most portrait and event sessions can typically be booked 2-4 weeks out based on availability.',
-          },
-        ]}
+        faqs={cityFaqs}
       />
 
       <section className="py-16 bg-gradient-to-r from-primary-600 to-blue-600 text-white">

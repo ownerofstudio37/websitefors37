@@ -112,6 +112,7 @@ export default function ServicesPage() {
             <div className="flex flex-wrap gap-3 text-sm">
               <Link href="/locations" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">All Service Areas</Link>
               <Link href="/the-woodlands" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">The Woodlands</Link>
+              <Link href="/katy" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">Katy</Link>
               <Link href="/conroe" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">Conroe</Link>
               <Link href="/magnolia" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">Magnolia</Link>
               <Link href="/huntsville" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">Huntsville</Link>

@@ -2,8 +2,10 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { CheckCircle, ArrowRight, HeartHandshake, Sparkles, MapPinned, Video } from 'lucide-react'
-import { generateSEOMetadata } from '@/lib/seo-helpers'
+import { generateSEOMetadata, generateFAQSchema } from '@/lib/seo-helpers'
 import { generateServiceSchema } from '@/lib/seo-config'
+import FAQSection from '@/components/FAQSection'
+import { generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
 
 export const metadata = generateSEOMetadata({
   title: 'Full Service Engagement Session Photography - Pinehurst, TX',
@@ -110,11 +112,41 @@ export default function EngagementSessionPage() {
     'Engagement session and concierge proposal photography services in Pinehurst, Texas including planning, decor support, and photo/video coverage.'
   )
 
+  const engagementFaqs = [
+    {
+      question: 'How much does an engagement session cost in Pinehurst, TX?',
+      answer: 'Our engagement sessions start at $450, with premium and editorial options available based on timing, locations, and deliverables.',
+    },
+    {
+      question: 'Do you help plan surprise proposals?',
+      answer: 'Yes. We offer concierge proposal planning support including location scouting, timing logistics, decor guidance, and coordinated coverage.',
+    },
+    {
+      question: 'Can we add video coverage to our engagement session?',
+      answer: 'Yes. Highlight video add-ons are available on concierge engagement packages for couples who want both photo and cinematic coverage.',
+    },
+  ]
+
+  const faqSchema = generateFAQSchema(engagementFaqs)
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', url: 'https://www.studio37.cc' },
+    { name: 'Services', url: 'https://www.studio37.cc/services' },
+    { name: 'Engagement Session', url: 'https://www.studio37.cc/services/engagement-session' },
+  ])
+
   return (
     <div className="pt-16 bg-white">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
       <section className="relative min-h-[460px] bg-stone-950 text-white overflow-hidden">
@@ -217,6 +249,12 @@ export default function EngagementSessionPage() {
           </div>
         </div>
       </section>
+
+      <FAQSection
+        title="Engagement Session FAQ"
+        serviceName="engagement photography"
+        faqs={engagementFaqs}
+      />
     </div>
   )
 }

@@ -1,8 +1,10 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { generateSEOMetadata } from '@/lib/seo-helpers'
+import { generateSEOMetadata, generateFAQSchema } from '@/lib/seo-helpers'
 import { generateServiceSchema } from '@/lib/seo-config'
+import FAQSection from '@/components/FAQSection'
+import { generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
 import { Camera, Calendar, Users, Clock, Star, CheckCircle, ArrowRight } from 'lucide-react'
 
 export const metadata = generateSEOMetadata({
@@ -31,12 +33,42 @@ export default function EventPhotographyPage() {
     'Professional event photography services in Pinehurst, Texas. Capturing corporate events, celebrations, parties, and special occasions with style and professionalism.'
   )
 
+  const eventFaqs = [
+    {
+      question: 'How much does event photography cost in Pinehurst and Montgomery County?',
+      answer: 'Event photography coverage starts at $600. Pricing depends on coverage hours, event complexity, and any custom deliverables needed.',
+    },
+    {
+      question: 'Do you photograph both corporate and private events?',
+      answer: 'Yes. We photograph corporate events, conferences, parties, graduations, fundraisers, and milestone celebrations throughout the region.',
+    },
+    {
+      question: 'How quickly are event photos delivered?',
+      answer: 'Most full event galleries are delivered within about one week, and highlight images can be delivered sooner for marketing and social sharing.',
+    },
+  ]
+
+  const faqSchema = generateFAQSchema(eventFaqs)
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', url: 'https://www.studio37.cc' },
+    { name: 'Services', url: 'https://www.studio37.cc/services' },
+    { name: 'Event Photography', url: 'https://www.studio37.cc/services/event-photography' },
+  ])
+
   return (
     <div className="pt-16">
       {/* Structured Data */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
       {/* Hero Section */}
@@ -404,6 +436,12 @@ export default function EventPhotographyPage() {
           </p>
         </div>
       </div>
+
+      <FAQSection
+        title="Event Photography FAQ"
+        serviceName="event photography"
+        faqs={eventFaqs}
+      />
 
       {/* SEO Text Block */}
       <section className="section-shell bg-stone-50">

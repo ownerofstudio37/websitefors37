@@ -10,6 +10,7 @@ import rehypeHighlight from 'rehype-highlight'
 import rehypeRaw from 'rehype-raw'
 import { generateSEOMetadata, generateArticleSchema } from '@/lib/seo-helpers'
 import { businessInfo } from '@/lib/seo-config'
+import { generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
 
 const isValidSlug = (s: string) => /^[a-z0-9-]{1,200}$/.test(s) // Increased from 64 to 200 chars for longer blog titles
 
@@ -85,6 +86,12 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
     author: post.author || 'Studio 37',
     url: `${businessInfo.contact.website}/blog/${post.slug}`
   })
+
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', url: businessInfo.contact.website },
+    { name: 'Blog', url: `${businessInfo.contact.website}/blog` },
+    { name: post.title, url: `${businessInfo.contact.website}/blog/${post.slug}` },
+  ])
   
   return (
     <div className="min-h-screen pt-16">
@@ -92,6 +99,10 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
       <div className="bg-gray-50 py-12">

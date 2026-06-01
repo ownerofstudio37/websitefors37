@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { generateSEOMetadata, generateFAQSchema } from '@/lib/seo-helpers'
 import { generateOfferSchema } from '@/lib/enhanced-seo-helpers'
 import { generateServiceSchema } from '@/lib/seo-config'
+import { generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
 import { Heart, Camera, Clock, Star, CheckCircle, ArrowRight } from 'lucide-react'
 import FAQSection from '@/components/FAQSection'
 
@@ -69,6 +70,11 @@ export default function WeddingPhotographyPage() {
   )
 
   const faqSchema = generateFAQSchema(weddingFAQs)
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', url: 'https://www.studio37.cc' },
+    { name: 'Services', url: 'https://www.studio37.cc/services' },
+    { name: 'Wedding Photography', url: 'https://www.studio37.cc/services/wedding-photography' },
+  ])
   
   // Add Offer schemas for pricing packages
   const essentialOfferSchema = generateOfferSchema({
@@ -109,6 +115,10 @@ export default function WeddingPhotographyPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
       <script
         type="application/ld+json"
@@ -466,6 +476,9 @@ export default function WeddingPhotographyPage() {
             </p>
             <p className="text-sm mt-2 text-primary-700">
               Popular wedding areas: <Link href="/the-woodlands" className="hover:underline">The Woodlands</Link>, <Link href="/montgomery" className="hover:underline">Montgomery</Link>, <Link href="/magnolia" className="hover:underline">Magnolia</Link>, <Link href="/college-station" className="hover:underline">College Station</Link>.
+            </p>
+            <p className="text-sm mt-2 text-primary-700">
+              Planning tips: <Link href="/blog/10-essential-tips-for-choosing-your-wedding-photographer" className="hover:underline">How to choose a wedding photographer</Link>.
             </p>
           </div>
         </div>

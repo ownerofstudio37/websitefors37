@@ -1,9 +1,11 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { generateSEOMetadata } from '@/lib/seo-helpers'
+import { generateSEOMetadata, generateFAQSchema } from '@/lib/seo-helpers'
 import { generateServiceSchema } from '@/lib/seo-config'
 import PortraitHighlightGallery from '@/components/PortraitHighlightGallery'
+import FAQSection from '@/components/FAQSection'
+import { generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
 import { Users, Camera, Clock, Star, CheckCircle, ArrowRight } from 'lucide-react'
 import PricingCalculator from '@/components/PricingCalculator'
 
@@ -33,12 +35,42 @@ export default function PortraitPhotographyPage() {
     'Professional portrait photography services in Pinehurst, Texas. Specializing in family portraits, senior photos, headshots, and maternity sessions.'
   )
 
+  const portraitFaqs = [
+    {
+      question: 'How much does portrait photography cost in Pinehurst, TX?',
+      answer: 'Portrait sessions start at $350. We offer mini, standard, and extended options depending on timing, locations, and final deliverables.',
+    },
+    {
+      question: 'Do you offer family, senior, and headshot sessions?',
+      answer: 'Yes. We cover family portraits, senior portraits, professional headshots, maternity sessions, and custom portrait formats.',
+    },
+    {
+      question: 'How long does it take to receive our portraits?',
+      answer: 'Most portrait galleries are delivered within about two weeks, with optional 24-hour sneak peeks available on select packages.',
+    },
+  ]
+
+  const faqSchema = generateFAQSchema(portraitFaqs)
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', url: 'https://www.studio37.cc' },
+    { name: 'Services', url: 'https://www.studio37.cc/services' },
+    { name: 'Portrait Photography', url: 'https://www.studio37.cc/services/portrait-photography' },
+  ])
+
   return (
     <div className="pt-16">
       {/* Structured Data */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
       {/* Hero Section */}
@@ -405,6 +437,12 @@ export default function PortraitPhotographyPage() {
           </p>
         </div>
       </div>
+
+      <FAQSection
+        title="Portrait Photography FAQ"
+        serviceName="portrait photography"
+        faqs={portraitFaqs}
+      />
 
       {/* SEO Text Block */}
       <section className="section-shell bg-stone-50">

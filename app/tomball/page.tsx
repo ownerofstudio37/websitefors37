@@ -2,9 +2,9 @@ import LocalPhotographerCityPage from '@/components/LocalPhotographerCityPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 
 export const metadata = generateSEOMetadata({
-  title: 'Professional Photographer Tomball TX - Studio37 Photography',
+  title: 'Tomball TX Photographer - Wedding, Portrait & Event Photography | Studio37',
   description:
-    'Professional photographer in Tomball, Texas offering wedding, portrait, engagement, event, and commercial photography with transparent pricing.',
+    'Need a photographer in Tomball, TX? Studio37 offers wedding, portrait, engagement, event, and commercial photography with clear pricing and two-photographer coverage.',
   keywords: [
     'photographer Tomball TX',
     'wedding photographer Tomball Texas',

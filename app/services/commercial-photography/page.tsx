@@ -1,10 +1,12 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { generateSEOMetadata } from '@/lib/seo-helpers'
+import { generateSEOMetadata, generateFAQSchema } from '@/lib/seo-helpers'
 import { generateServiceSchema } from '@/lib/seo-config'
 import { generateOfferSchema } from '@/lib/enhanced-seo-helpers'
 import CommercialHighlightGallery from '@/components/CommercialHighlightGallery'
+import FAQSection from '@/components/FAQSection'
+import { generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
 import { Building2, Camera, Users, Briefcase, CheckCircle, ArrowRight, Star } from 'lucide-react'
 
 export const metadata = generateSEOMetadata({
@@ -32,6 +34,28 @@ export default function CommercialPhotographyPage() {
     'Commercial Photography',
     'Professional commercial photography services in Pinehurst, Texas. Two-Pro Production Team specializing in brand imagery, product photography, corporate headshots, and business marketing content.'
   )
+
+  const commercialFaqs = [
+    {
+      question: 'What does commercial photography cost for local businesses?',
+      answer: 'Commercial photography starts at $500. Final pricing depends on session scope, usage needs, locations, and turnaround requirements.',
+    },
+    {
+      question: 'Do your packages include commercial usage rights?',
+      answer: 'Yes. Every core commercial package includes usage rights for web, social, and marketing channels, with expanded licensing available when needed.',
+    },
+    {
+      question: 'Can you photograph products, teams, and branding content in one shoot?',
+      answer: 'Absolutely. We can build mixed shot lists for products, team headshots, lifestyle branding, and location content in one coordinated production day.',
+    },
+  ]
+
+  const faqSchema = generateFAQSchema(commercialFaqs)
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', url: 'https://www.studio37.cc' },
+    { name: 'Services', url: 'https://www.studio37.cc/services' },
+    { name: 'Commercial Photography', url: 'https://www.studio37.cc/services/commercial-photography' },
+  ])
 
   const offerSchemas = [
     generateOfferSchema({
@@ -74,6 +98,14 @@ export default function CommercialPhotographyPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
       {offerSchemas.map((schema, i) => (
         <script
@@ -493,6 +525,12 @@ export default function CommercialPhotographyPage() {
           </div>
         </div>
       </section>
+
+      <FAQSection
+        title="Commercial Photography FAQ"
+        serviceName="commercial photography"
+        faqs={commercialFaqs}
+      />
 
       {/* SEO Text Block */}
       <section className="section-shell bg-stone-50">
