@@ -33,7 +33,7 @@ export function middleware(req: NextRequest) {
     // Content Security Policy - Allow Google Tag Manager, Thumbtack, PPA, Full Frame Insurance, and Simple Analytics images
     res.headers.set(
       'Content-Security-Policy',
-      "img-src 'self' data: blob: https://res.cloudinary.com https://images.unsplash.com https://*.supabase.co https://www.googletagmanager.com https://cdn.thumbtackstatic.com https://ppa.com https://www.ppa.com https://app.fullframeinsurance.com https://queue.simpleanalyticscdn.com;"
+      "img-src 'self' data: blob: https://res.cloudinary.com https://images.unsplash.com https://*.supabase.co https://www.googletagmanager.com https://cdn.thumbtackstatic.com https://ppa.com https://www.ppa.com https://app.fullframeinsurance.com https://queue.simpleanalyticscdn.com https://hubspot-credentials-na1.s3.amazonaws.com;"
     )
   }
   

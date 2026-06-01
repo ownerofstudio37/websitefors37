@@ -14,7 +14,7 @@ const nextConfig = {
     imageSizes: [16, 32, 48, 64, 96, 128, 256],
     minimumCacheTTL: 31536000,
     contentSecurityPolicy:
-      "default-src 'self'; img-src 'self' blob: data: https://*.cloudinary.com https://*.unsplash.com;",
+      "default-src 'self'; img-src 'self' blob: data: https://*.cloudinary.com https://*.unsplash.com https://hubspot-credentials-na1.s3.amazonaws.com;",
     remotePatterns: [
       { protocol: "https", hostname: "images.unsplash.com" },
       { protocol: "https", hostname: "supabase.co" },
