@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { Suspense } from 'react'
 import MetaLeadFunnelClient from '@/components/MetaLeadFunnelClient'
 
 export const revalidate = 3600
@@ -10,5 +11,9 @@ export const metadata: Metadata = {
 }
 
 export default function MetaLeadFunnelPage() {
-  return <MetaLeadFunnelClient />
+  return (
+    <Suspense fallback={null}>
+      <MetaLeadFunnelClient />
+    </Suspense>
+  )
 }
