@@ -126,6 +126,8 @@ export default function MetaLeadFunnelClient() {
       email: contact.email,
       phone: contact.phone,
       service_interest: service,
+      budget_range: answers.budget || undefined,
+      event_date: answers.wedding_date || answers.timeline || undefined,
       message: qualifyingText,
       source: 'meta-ad-funnel',
     }

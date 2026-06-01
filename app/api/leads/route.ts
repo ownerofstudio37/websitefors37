@@ -166,18 +166,31 @@ async function sendAutoResponseEmail(lead: any, payload: any, siteUrl: string) {
     if (template?.id) {
       emailPayload.templateId = template.id
     } else {
+      const safeService = String(payload.service_interest || 'Photography').replace(/</g, '&lt;')
+      const safeDate = String(payload.event_date || 'To be determined').replace(/</g, '&lt;')
+      const safeBudget = String(payload.budget_range || 'Not specified').replace(/</g, '&lt;')
       emailPayload.html = `
-        <div style="font-family:Arial,sans-serif;max-width:640px;margin:0 auto;padding:24px;color:#111827;">
-          <h2 style="margin:0 0 12px;">Thanks for contacting Studio37!</h2>
-          <p style="margin:0 0 12px;">Hi ${firstName || 'there'}, we received your request and our team will follow up within 24 hours.</p>
-          <p style="margin:0 0 8px;"><strong>Service:</strong> ${payload.service_interest || 'Photography'}</p>
-          <p style="margin:0 0 8px;"><strong>Preferred Date:</strong> ${payload.event_date || 'To be determined'}</p>
-          <p style="margin:0 0 8px;"><strong>Budget:</strong> ${payload.budget_range || 'Not specified'}</p>
-          <p style="margin-top:16px;">If you need anything urgently, reply to this email and we’ll prioritize your request.</p>
-          <p style="margin-top:18px;">— Studio37</p>
+        <div style="font-family:Inter,Arial,sans-serif;background:#f8fafc;padding:24px;">
+          <div style="max-width:640px;margin:0 auto;background:#ffffff;border:1px solid #e5e7eb;border-radius:12px;overflow:hidden;">
+            <div style="background:#111827;color:#ffffff;padding:20px 24px;">
+              <p style="margin:0;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#d1d5db;">Studio37</p>
+              <h2 style="margin:8px 0 0;font-size:24px;line-height:1.25;">We received your request</h2>
+            </div>
+            <div style="padding:24px;color:#111827;">
+              <p style="margin:0 0 14px;font-size:16px;">Hi ${firstName || 'there'},</p>
+              <p style="margin:0 0 14px;color:#374151;">Thank you for reaching out to Studio37. Your inquiry has been received and our team will follow up within <strong>24 hours</strong>.</p>
+              <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;margin:16px 0;">
+                <p style="margin:0 0 8px;"><strong>Service:</strong> ${safeService}</p>
+                <p style="margin:0 0 8px;"><strong>Preferred Date:</strong> ${safeDate}</p>
+                <p style="margin:0;"><strong>Budget Range:</strong> ${safeBudget}</p>
+              </div>
+              <p style="margin:0 0 12px;color:#374151;">If you have additional details, simply reply to this email and we’ll add them to your request.</p>
+              <p style="margin:0;color:#6b7280;font-size:14px;">Best regards,<br/><strong>Studio37 Team</strong></p>
+            </div>
+          </div>
         </div>
       `
-      emailPayload.text = `Thanks for contacting Studio37, ${firstName || 'there'}! We received your request and will follow up within 24 hours.`
+      emailPayload.text = `Hi ${firstName || 'there'},\n\nThank you for reaching out to Studio37. We received your request and will follow up within 24 hours.\n\nService: ${payload.service_interest || 'Photography'}\nPreferred Date: ${payload.event_date || 'To be determined'}\nBudget Range: ${payload.budget_range || 'Not specified'}\n\nBest regards,\nStudio37 Team`
       log.warn('Auto-response sending with HTML fallback (template unavailable)', { leadId: lead.id, requestedTemplate: templateSlug })
     }
 
@@ -368,7 +381,7 @@ export async function POST(req: NextRequest) {
         .maybeSingle()
       
       // POST to marketing email send endpoint so all send logic (Resend + templates) stays centralized
-      fetch(`${siteUrl}/api/marketing/email/send`, {
+      const adminSendResponse = await fetch(`${siteUrl}/api/marketing/email/send`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -395,43 +408,34 @@ export async function POST(req: NextRequest) {
           leadId: insertedLead.id,
         })
       })
-      .then(async res => {
-        const responseData = await res.json().catch(() => ({}))
-        if (!res.ok) {
-          log.error('Admin notification send failed', { 
-            status: res.status, 
-            leadId: insertedLead.id,
-            adminEmail,
-            error: responseData.error || 'Unknown error',
-            responseBody: responseData
-          })
-        } else {
-          log.info('Admin notification sent successfully', { 
-            leadId: insertedLead.id, 
-            adminEmail,
-            messageId: responseData.results?.[0]?.messageId
-          })
-        }
-      })
-      .catch(err => {
-        log.error('Failed to POST admin notification', { 
+
+      const adminResponseData = await adminSendResponse.json().catch(() => ({}))
+      if (!adminSendResponse.ok) {
+        log.error('Admin notification send failed', {
+          status: adminSendResponse.status,
           leadId: insertedLead.id,
           adminEmail,
-          errorMessage: err.message,
-          errorStack: err.stack
+          error: adminResponseData.error || 'Unknown error',
+          responseBody: adminResponseData
         })
-      })
+      } else {
+        log.info('Admin notification sent successfully', {
+          leadId: insertedLead.id,
+          adminEmail,
+          messageId: adminResponseData.results?.[0]?.messageId
+        })
+      }
     } catch (err) {
       log.error('Admin notification error', { leadId: insertedLead.id }, err)
     }
 
-    // Send auto-response email (fire and forget - don't block response)
-    sendAutoResponseEmail(insertedLead, payload, siteUrl).catch(err => {
+    // Send auto-response email (await in serverless to avoid dropped async work)
+    await sendAutoResponseEmail(insertedLead, payload, siteUrl).catch(err => {
       log.error('Auto-response email failed', { leadId: insertedLead.id }, err)
     })
 
     // Schedule automated follow-up emails (Day 1, Day 3, Day 7)
-    scheduleFollowUps(insertedLead.id).catch(err => {
+    await scheduleFollowUps(insertedLead.id).catch(err => {
       log.error('Follow-up scheduling failed', { leadId: insertedLead.id }, err)
     })
 
