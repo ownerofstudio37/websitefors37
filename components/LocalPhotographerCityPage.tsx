@@ -23,6 +23,77 @@ const STARTING_PRICES = {
   commercial: '$500',
 }
 
+type CityProfile = {
+  venueHighlights: string[]
+  bestLightWindow: string
+  seasonalTip: string
+}
+
+const CITY_PROFILES: Record<string, CityProfile> = {
+  'katy': {
+    venueHighlights: ['LaCenterra corridors', 'Mary Jo Peckham Park', 'Cinco Ranch trails'],
+    bestLightWindow: '60-90 minutes before sunset for clean sky tones and softer skin rendering.',
+    seasonalTip: 'Spring and late fall are strongest for family and engagement sessions due to milder heat and cleaner outdoor color.',
+  },
+  'tomball': {
+    venueHighlights: ['Downtown Tomball storefront blocks', 'Kleb Woods trails', 'Burroughs Park edges'],
+    bestLightWindow: 'Golden hour with a pre-sunset warm-up set for candid movement and wider environmental portraits.',
+    seasonalTip: 'Holiday mini-session demand spikes early; late September to early November books fastest.',
+  },
+  'the woodlands': {
+    venueHighlights: ['Waterway boardwalk', 'Town Green Park', 'Market Street architecture'],
+    bestLightWindow: 'Early morning for cleaner foot traffic in high-density zones and evening for cinematic glow.',
+    seasonalTip: 'Winter and spring work well for polished editorial portraits with lower humidity and manageable crowds.',
+  },
+  'conroe': {
+    venueHighlights: ['Historic downtown facades', 'Lake Conroe access points', 'Candy Cane Park greens'],
+    bestLightWindow: 'Late afternoon to sunset for balanced lake reflections and natural skin tones.',
+    seasonalTip: 'For graduation and family sessions, peak booking period is March through May.',
+  },
+  'magnolia': {
+    venueHighlights: ['Unity Park pockets', 'Pine-lined corridors', 'Rural venue landscapes'],
+    bestLightWindow: 'Sunset and immediate blue hour for warm highlights with deep pine-green contrast.',
+    seasonalTip: 'Bluebonnet season drives spring portrait demand and usually requires earlier reservation windows.',
+  },
+  'houston': {
+    venueHighlights: ['Buffalo Bayou viewpoints', 'Museum District architecture', 'Inner Loop urban backdrops'],
+    bestLightWindow: 'Early morning downtown and sunset in park settings to avoid harsh midday contrast.',
+    seasonalTip: 'Summer sessions often perform best with early call times and shaded location strategy.',
+  },
+  'pinehurst': {
+    venueHighlights: ['Goodson Loop district', 'Nearby wooded trails', 'Private local venues'],
+    bestLightWindow: 'Late-day light windows for warm, film-inspired tones and smooth highlight roll-off.',
+    seasonalTip: 'October through April offers the most flexible planning windows for outdoor sessions.',
+  },
+  'humble': {
+    venueHighlights: ['Old Humble district', 'Deerbrook corridor aesthetics', 'Lake Houston-adjacent spots'],
+    bestLightWindow: 'Golden hour with short movement-based sets for natural, energetic images.',
+    seasonalTip: 'Fall and spring are strongest for family portraits because of temperature and wardrobe flexibility.',
+  },
+}
+
+const CITY_SERVICE_GUIDES: Record<string, Array<{ label: string; href: string }>> = {
+  'katy': [
+    { label: 'Wedding Photographer Katy, TX', href: '/wedding-photographer-katy-tx' },
+    { label: 'Portrait Photographer Katy, TX', href: '/portrait-photographer-katy-tx' },
+  ],
+  'the woodlands': [
+    { label: 'Wedding Photographer The Woodlands, TX', href: '/wedding-photographer-the-woodlands-tx' },
+  ],
+  'conroe': [
+    { label: 'Portrait Photographer Conroe, TX', href: '/portrait-photographer-conroe-tx' },
+  ],
+  'magnolia': [
+    { label: 'Family Photographer Magnolia, TX', href: '/family-photographer-magnolia-tx' },
+  ],
+  'houston': [
+    { label: 'Headshot Photographer Houston, TX', href: '/headshot-photographer-houston-tx' },
+  ],
+  'tomball': [
+    { label: 'Wedding Photographer Tomball, TX', href: '/wedding-photographer-tomball-tx' },
+  ],
+}
+
 export default function LocalPhotographerCityPage({
   city,
   stateAbbr,
@@ -32,6 +103,9 @@ export default function LocalPhotographerCityPage({
   heroImage,
 }: LocalPhotographerCityPageProps) {
   const cityLabel = `${city}, ${stateAbbr}`
+  const cityKey = city.toLowerCase()
+  const cityProfile = CITY_PROFILES[cityKey]
+  const serviceGuides = CITY_SERVICE_GUIDES[cityKey] || []
 
   const localBusinessSchema = generateEnhancedLocalBusinessSchema()
   const breadcrumbSchema = generateBreadcrumbSchema([
@@ -387,6 +461,40 @@ export default function LocalPhotographerCityPage({
         </div>
       </section>
 
+      {cityProfile && (
+        <section className="py-12 bg-white border-t border-gray-200">
+          <div className="container mx-auto px-4">
+            <div className="max-w-5xl mx-auto">
+              <h2 className="text-2xl font-bold text-gray-900 mb-3">Local Planning Tips for {cityLabel} Sessions</h2>
+              <p className="text-gray-700 mb-6">
+                We tailor every shoot plan to local conditions in {cityLabel} so timelines, location flow, and lighting decisions translate to stronger final galleries.
+              </p>
+
+              <div className="grid md:grid-cols-3 gap-5">
+                <div className="bg-gray-50 border border-gray-200 rounded-lg p-5">
+                  <h3 className="font-semibold text-gray-900 mb-2">Venue Highlights</h3>
+                  <ul className="text-sm text-gray-700 space-y-1">
+                    {cityProfile.venueHighlights.map((venue) => (
+                      <li key={venue}>• {venue}</li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="bg-gray-50 border border-gray-200 rounded-lg p-5">
+                  <h3 className="font-semibold text-gray-900 mb-2">Best Light Window</h3>
+                  <p className="text-sm text-gray-700">{cityProfile.bestLightWindow}</p>
+                </div>
+
+                <div className="bg-gray-50 border border-gray-200 rounded-lg p-5">
+                  <h3 className="font-semibold text-gray-900 mb-2">Seasonal Strategy</h3>
+                  <p className="text-sm text-gray-700">{cityProfile.seasonalTip}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
@@ -440,6 +548,23 @@ export default function LocalPhotographerCityPage({
               <Link href="/local-photographer-college-station-tx" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">College Station</Link>
               <Link href="/local-photographer-houston-tx" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">Houston</Link>
             </div>
+
+            {serviceGuides.length > 0 && (
+              <div className="mt-6">
+                <h3 className="text-base font-semibold text-gray-900 mb-3">Popular {city} Service Guides</h3>
+                <div className="flex flex-wrap gap-3 text-sm">
+                  {serviceGuides.map((guide) => (
+                    <Link
+                      key={guide.href}
+                      href={guide.href}
+                      className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-primary-300"
+                    >
+                      {guide.label}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </section>

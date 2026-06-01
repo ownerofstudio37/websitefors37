@@ -118,6 +118,14 @@ export default function ServicesPage() {
               <Link href="/huntsville" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">Huntsville</Link>
               <Link href="/college-station" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">College Station</Link>
             </div>
+            <div className="flex flex-wrap gap-3 text-sm mt-4">
+              <Link href="/wedding-photographer-katy-tx" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-primary-300">Wedding Photographer Katy</Link>
+              <Link href="/portrait-photographer-katy-tx" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-primary-300">Portrait Photographer Katy</Link>
+              <Link href="/wedding-photographer-the-woodlands-tx" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-primary-300">Wedding Photographer The Woodlands</Link>
+              <Link href="/portrait-photographer-conroe-tx" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-primary-300">Portrait Photographer Conroe</Link>
+              <Link href="/family-photographer-magnolia-tx" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-primary-300">Family Photographer Magnolia</Link>
+              <Link href="/headshot-photographer-houston-tx" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-primary-300">Headshot Photographer Houston</Link>
+            </div>
           </div>
         </div>
       </section>

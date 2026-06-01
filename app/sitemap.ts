@@ -277,6 +277,49 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
+    // Service + city landing pages
+    {
+      url: `${baseUrl}/wedding-photographer-katy-tx`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly',
+      priority: PRIORITIES.servicePages,
+    },
+    {
+      url: `${baseUrl}/portrait-photographer-katy-tx`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly',
+      priority: PRIORITIES.servicePages,
+    },
+    {
+      url: `${baseUrl}/wedding-photographer-the-woodlands-tx`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly',
+      priority: PRIORITIES.servicePages,
+    },
+    {
+      url: `${baseUrl}/portrait-photographer-conroe-tx`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly',
+      priority: PRIORITIES.servicePages,
+    },
+    {
+      url: `${baseUrl}/family-photographer-magnolia-tx`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly',
+      priority: PRIORITIES.servicePages,
+    },
+    {
+      url: `${baseUrl}/headshot-photographer-houston-tx`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly',
+      priority: PRIORITIES.servicePages,
+    },
+    {
+      url: `${baseUrl}/wedding-photographer-tomball-tx`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly',
+      priority: PRIORITIES.servicePages,
+    },
 
     // Portfolio and content pages
     {
