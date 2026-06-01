@@ -236,6 +236,9 @@ const CITY_SERVICE_GUIDES: Record<string, Array<{ label: string; href: string }>
   'humble': [
     { label: 'Portrait Photographer Humble, TX', href: '/portrait-photographer-humble-tx' },
   ],
+  'new waverly': [
+    { label: 'Portrait Photographer New Waverly, TX', href: '/portrait-photographer-new-waverly-tx' },
+  ],
 }
 
 export default function LocalPhotographerCityPage({
