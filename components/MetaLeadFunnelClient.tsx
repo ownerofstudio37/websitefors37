@@ -23,12 +23,13 @@ type FunnelQuestion = {
 }
 
 const BUDGET_OPTIONS = ['$250–$500', '$500–$1,000', '$1,000–$2,000', '$2,000+', 'Still figuring it out']
+const WEDDING_BUDGET_OPTIONS = ['$1,500–$2,500', '$2,500–$4,000', '$4,000–$6,000', '$6,000+', 'Still figuring it out']
 
 const QUESTIONS: Record<string, FunnelQuestion[]> = {
   wedding: [
     { label: 'Wedding date (or approximate timeframe)?', key: 'wedding_date', type: 'text', required: true },
     { label: 'Where is the wedding (venue or city)?', key: 'location', type: 'text' },
-    { label: "What's your photography budget range?", key: 'budget', type: 'select', options: BUDGET_OPTIONS, required: true },
+    { label: "What's your photography budget range?", key: 'budget', type: 'select', options: WEDDING_BUDGET_OPTIONS, required: true },
   ],
   engagement: [
     { label: 'When are you hoping to shoot?', key: 'timeline', type: 'select', options: ['Within 2 weeks', '1 month', '2–3 months', 'Flexible'], required: true },
