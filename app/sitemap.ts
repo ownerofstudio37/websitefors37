@@ -9,6 +9,12 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key'
 const baseUrl = 'https://www.studio37.cc'
 
+const hasRealSupabaseConfig =
+  !!process.env.NEXT_PUBLIC_SUPABASE_URL &&
+  !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY &&
+  !process.env.NEXT_PUBLIC_SUPABASE_URL.includes('placeholder.supabase.co') &&
+  !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY.includes('placeholder')
+
 // Priority levels for different content types
 const PRIORITIES = {
   homepage: 1.0,
@@ -75,7 +81,6 @@ function getBlogPostChangeFrequency(publishedAt: string | null, updatedAt: strin
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const supabase = createClient(supabaseUrl, supabaseKey)
   const currentDate = new Date()
   
   // Static routes - Main pages optimized for local SEO and user journey
@@ -517,67 +522,70 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })
   }
   
-  // Add all published content pages
-  try {
-    const { data: pages } = await supabase
-      .from('content_pages')
-      .select('slug, updated_at')
-      .eq('published', true)
-    
-    if (pages) {
-      const filteredPages = pages.filter(page => {
-        if (EXCLUDED_PAGE_SLUGS.has(page.slug)) {
-          return false
-        }
-        if (REDIRECTED_LOCATION_SLUGS.has(page.slug)) {
-          return false
-        }
-        return !EXCLUDED_PAGE_PATTERNS.some((pattern) => pattern.test(page.slug))
-      })
+  // Add all published content pages and blog posts when Supabase is configured.
+  // In preview/local environments without real env vars, keep the sitemap fast and
+  // always return a valid static sitemap instead of failing the fetch.
+  if (hasRealSupabaseConfig) {
+    const supabase = createClient(supabaseUrl, supabaseKey)
 
-      const contentRoutes = filteredPages.map(page => ({
-        url: `${baseUrl}/${page.slug}`,
-        lastModified: new Date(page.updated_at),
-        changeFrequency: 'weekly' as const,
-        priority: 0.7,
-      }))
-      
-      routes.push(...contentRoutes)
-    }
-  } catch (error) {
-    console.error('Error fetching content pages for sitemap:', error)
-  }
-  
-  // Add all published blog posts with enhanced metadata for better indexing
-  try {
-    const { data: posts } = await supabase
-      .from('blog_posts')
-      .select('slug, updated_at, published_at')
-      .eq('published', true)
-      .order('published_at', { ascending: false })
-    
-    if (posts && posts.length > 0) {
-      const blogRoutes = posts.map((post: any) => {
-        const lastModSource = post.updated_at || post.published_at || currentDate.toISOString()
-        const priority = getBlogPostPriority(post.published_at, post.updated_at)
-        const changeFrequency = getBlogPostChangeFrequency(post.published_at, post.updated_at)
-        
-        const route: any = {
-          url: `${baseUrl}/blog/${post.slug}`,
-          lastModified: new Date(lastModSource),
-          changeFrequency,
-          priority,
-        }
-        
-        return route
-      })
-      
-      routes.push(...blogRoutes)
+    try {
+      const { data: pages } = await supabase
+        .from('content_pages')
+        .select('slug, updated_at')
+        .eq('published', true)
 
-      console.log(`Sitemap: Added ${blogRoutes.length} blog posts`)
+      if (pages) {
+        const filteredPages = pages.filter(page => {
+          if (EXCLUDED_PAGE_SLUGS.has(page.slug)) {
+            return false
+          }
+          if (REDIRECTED_LOCATION_SLUGS.has(page.slug)) {
+            return false
+          }
+          return !EXCLUDED_PAGE_PATTERNS.some((pattern) => pattern.test(page.slug))
+        })
+
+        const contentRoutes = filteredPages.map(page => ({
+          url: `${baseUrl}/${page.slug}`,
+          lastModified: new Date(page.updated_at),
+          changeFrequency: 'weekly' as const,
+          priority: 0.7,
+        }))
+
+        routes.push(...contentRoutes)
+      }
+    } catch (error) {
+      console.error('Error fetching content pages for sitemap:', error)
     }
-  } catch (error) {
-    console.error('Error fetching blog posts for sitemap:', error)
+
+    try {
+      const { data: posts } = await supabase
+        .from('blog_posts')
+        .select('slug, updated_at, published_at')
+        .eq('published', true)
+        .order('published_at', { ascending: false })
+
+      if (posts && posts.length > 0) {
+        const blogRoutes = posts.map((post: any) => {
+          const lastModSource = post.updated_at || post.published_at || currentDate.toISOString()
+          const priority = getBlogPostPriority(post.published_at, post.updated_at)
+          const changeFrequency = getBlogPostChangeFrequency(post.published_at, post.updated_at)
+
+          return {
+            url: `${baseUrl}/blog/${post.slug}`,
+            lastModified: new Date(lastModSource),
+            changeFrequency,
+            priority,
+          }
+        })
+
+        routes.push(...blogRoutes)
+
+        console.log(`Sitemap: Added ${blogRoutes.length} blog posts`)
+      }
+    } catch (error) {
+      console.error('Error fetching blog posts for sitemap:', error)
+    }
   }
 
   const seenUrls = new Set<string>()
