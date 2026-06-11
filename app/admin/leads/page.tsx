@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect, useCallback } from 'react'
-import { Loader2, Mail, Phone, MessageCircle, Edit, Settings, Calendar, DollarSign, MessageSquare, X, Plus, PhoneCall, Trash2, ChevronLeft, ChevronRight, Upload, Scan, Download, CreditCard } from 'lucide-react'
+import { Mail, Phone, MessageCircle, Edit, Settings, Calendar, DollarSign, MessageSquare, X, Plus, PhoneCall, Trash2, ChevronLeft, ChevronRight, Upload, Scan, Download, CreditCard } from 'lucide-react'
 import { CheckCircle } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
 import type { Lead, CommunicationLog } from '@/lib/supabase'
@@ -11,6 +11,7 @@ import ContactImporter from '@/components/admin/ContactImporter'
 import LeadScreenshotImporter from '@/components/admin/LeadScreenshotImporter'
 import AdminToast from '@/components/admin/AdminToast'
 import AdminConfirmDialog from '@/components/admin/AdminConfirmDialog'
+import AdminState from '@/components/admin/AdminState'
 
 export default function LeadsPage() {
   const [leads, setLeads] = useState<Lead[]>([])
@@ -602,9 +603,7 @@ Studio37`)
     setTimeout(() => setToast(null), 3000)
   }
 
-  const filteredLeads = filter === 'all' 
-    ? leads 
-    : leads.filter(lead => lead.status === filter)
+  const hasActiveLeadFilters = filter !== 'all' || q.trim().length > 0
 
   return (
     <div className="p-6">
@@ -714,36 +713,45 @@ Studio37`)
         </div>
       </div>
 
-      {/* Error Display */}
-      {error && (
-        <div className="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg mb-6">
-          <p className="font-semibold">Error loading leads:</p>
-          <p>{error}</p>
-          <button onClick={fetchLeads} className="text-red-600 underline mt-2">
-            Try again
-          </button>
-        </div>
-      )}
-
       {/* Leads Table */}
       <div className="bg-white rounded-lg shadow overflow-hidden">
-        {loading ? (
-          <div className="flex items-center justify-center py-12">
-            <Loader2 className="h-8 w-8 animate-spin text-primary-600" />
-            <span className="ml-2">Loading leads...</span>
-          </div>
+        {error ? (
+          <AdminState
+            tone="error"
+            icon={MessageSquare}
+            title="Leads could not load"
+            description={error}
+            actionLabel="Try again"
+            onAction={fetchLeads}
+          />
+        ) : loading ? (
+          <AdminState
+            loading
+            title="Loading leads"
+            description="Fetching lead records, statuses, notes, and contact details."
+          />
         ) : leads.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-gray-500">No leads found{filter !== 'all' ? ` with status: ${filter}` : ''}.</p>
-            {filter !== 'all' && (
-              <button 
-                onClick={() => setFilter('all')} 
-                className="text-primary-600 underline mt-2"
-              >
-                Show all leads
-              </button>
-            )}
-          </div>
+          <AdminState
+            icon={MessageSquare}
+            title={hasActiveLeadFilters ? 'No leads match this view' : 'No leads yet'}
+            description={
+              hasActiveLeadFilters
+                ? 'Try clearing the search or status filter to widen the lead list.'
+                : 'New form submissions, imported contacts, and manually added leads will appear here.'
+            }
+            actionLabel={hasActiveLeadFilters ? 'Clear filters' : 'Add lead'}
+            onAction={() => {
+              if (hasActiveLeadFilters) {
+                setFilter('all')
+                setQ('')
+                return
+              }
+              setShowCreateModal(true)
+              setCreateError(null)
+            }}
+            secondaryActionLabel="Refresh"
+            onSecondaryAction={fetchLeads}
+          />
         ) : (
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
@@ -1716,4 +1724,3 @@ Studio37`)
     </div>
   )
 }
-

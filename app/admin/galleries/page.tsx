@@ -1,8 +1,9 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Camera, Plus, Eye, Lock, Calendar, Download, Heart, Trash2, Edit, Copy, ExternalLink } from 'lucide-react'
+import { Camera, Plus, Eye, Lock, Calendar, Download, Trash2, Edit, Copy, ExternalLink } from 'lucide-react'
 import AdminProtected from '@/components/AdminProtected'
+import AdminState from '@/components/admin/AdminState'
 
 interface Gallery {
   id: string
@@ -26,6 +27,7 @@ interface Gallery {
 export default function GalleriesPage() {
   const [galleries, setGalleries] = useState<Gallery[]>([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
   const [showCreate, setShowCreate] = useState(false)
   const [formData, setFormData] = useState({
     client_name: '',
@@ -46,13 +48,18 @@ export default function GalleriesPage() {
 
   const fetchGalleries = async () => {
     try {
+      setLoading(true)
+      setError(null)
       const res = await fetch('/api/admin/galleries')
       const data = await res.json()
       if (data.success) {
         setGalleries(data.galleries)
+      } else {
+        throw new Error(data.error || 'Failed to load galleries')
       }
     } catch (error) {
       console.error('Failed to fetch galleries:', error)
+      setError(error instanceof Error ? error.message : 'Failed to load galleries')
     } finally {
       setLoading(false)
     }
@@ -284,23 +291,31 @@ export default function GalleriesPage() {
           )}
 
           {/* Galleries Grid */}
-          {loading ? (
-            <div className="text-center py-12">
-              <div className="inline-block w-12 h-12 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
-            </div>
+          {error ? (
+            <AdminState
+              tone="error"
+              icon={Camera}
+              title="Galleries could not load"
+              description={error}
+              actionLabel="Try again"
+              onAction={fetchGalleries}
+            />
+          ) : loading ? (
+            <AdminState
+              loading
+              title="Loading client galleries"
+              description="Fetching gallery records, access codes, and delivery stats."
+            />
           ) : galleries.length === 0 ? (
-            <div className="text-center py-16 bg-white rounded-2xl shadow-lg">
-              <Camera className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">No galleries yet</h3>
-              <p className="text-gray-600 mb-6">Create your first client gallery to get started</p>
-              <button
-                onClick={() => setShowCreate(true)}
-                className="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-all"
-              >
-                <Plus className="w-5 h-5" />
-                Create Gallery
-              </button>
-            </div>
+            <AdminState
+              icon={Camera}
+              title="No client galleries yet"
+              description="Create a client gallery, then share it from gallery.studio37.cc with the generated access code."
+              actionLabel="Create gallery"
+              onAction={() => setShowCreate(true)}
+              secondaryActionLabel="Open gallery site"
+              onSecondaryAction={() => window.open('https://gallery.studio37.cc', '_blank', 'noopener,noreferrer')}
+            />
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {galleries.map((gallery) => (

@@ -3,9 +3,10 @@
 import React, { useEffect, useState } from 'react'
 import { supabase } from '@/lib/supabase'
 import type { Appointment } from '@/lib/supabase'
-import { Loader2, Calendar, Clock, Trash2, CheckCircle, XCircle } from 'lucide-react'
+import { Calendar, Clock, Trash2, CheckCircle, XCircle } from 'lucide-react'
 import AdminToast from '@/components/admin/AdminToast'
 import AdminConfirmDialog from '@/components/admin/AdminConfirmDialog'
+import AdminState from '@/components/admin/AdminState'
 
 export default function AdminBookingsPage() {
   const [loading, setLoading] = useState(true)
@@ -80,9 +81,31 @@ export default function AdminBookingsPage() {
           />
         </div>
       )}
-      {error && <div className="text-red-600 mb-4">{error}</div>}
-      {loading ? (
-        <div className="flex items-center text-gray-600"><Loader2 className="h-5 w-5 animate-spin mr-2"/> Loading…</div>
+      {error ? (
+        <AdminState
+          tone="error"
+          icon={XCircle}
+          title="Bookings could not load"
+          description={error}
+          actionLabel="Try again"
+          onAction={fetchAppointments}
+        />
+      ) : loading ? (
+        <AdminState
+          loading
+          title="Loading bookings"
+          description="Checking the appointment calendar and latest booking records."
+        />
+      ) : appointments.length === 0 ? (
+        <AdminState
+          icon={Calendar}
+          title="No bookings yet"
+          description="When clients book sessions or consultations, they will appear here for status updates and schedule review."
+          actionLabel="Refresh bookings"
+          onAction={fetchAppointments}
+          secondaryActionLabel="Open booking page"
+          onSecondaryAction={() => window.open('/book-a-session', '_blank', 'noopener,noreferrer')}
+        />
       ) : (
         <div className="bg-white rounded shadow overflow-hidden">
           <table className="min-w-full">

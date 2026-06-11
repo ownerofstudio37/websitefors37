@@ -21,6 +21,7 @@ import {
 } from 'lucide-react'
 import AdminToast from '@/components/admin/AdminToast'
 import AdminConfirmDialog from '@/components/admin/AdminConfirmDialog'
+import AdminState from '@/components/admin/AdminState'
 
 type CampaignType = 'email' | 'sms'
 
@@ -185,44 +186,32 @@ export default function MarketingCampaignsPage() {
         </button>
       </div>
 
-      {/* Error Display */}
-      {error && (
-        <div className="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg mb-6">
-          <p className="font-semibold">Error:</p>
-          <p>{error}</p>
-        </div>
-      )}
-
       {/* Loading State */}
-      {loading ? (
-        <div className="flex items-center justify-center py-12">
-          <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
-          <span className="ml-2 text-gray-600">Loading campaigns...</span>
-        </div>
+      {error ? (
+        <AdminState
+          tone="error"
+          icon={campaignType === 'email' ? Mail : MessageSquare}
+          title="Campaigns could not load"
+          description={error}
+          actionLabel="Try again"
+          onAction={fetchCampaigns}
+        />
+      ) : loading ? (
+        <AdminState
+          loading
+          title="Loading campaigns"
+          description={`Fetching ${campaignType === 'email' ? 'email' : 'SMS'} campaign drafts, send status, and performance counts.`}
+        />
       ) : campaigns.length === 0 ? (
-        <div className="text-center py-12 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
-          <div className="max-w-md mx-auto">
-            {campaignType === 'email' ? (
-              <Mail className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-            ) : (
-              <MessageSquare className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-            )}
-            <h3 className="text-lg font-medium text-gray-900 mb-2">
-              No {campaignType === 'email' ? 'Email' : 'SMS'} Campaigns Yet
-            </h3>
-            <p className="text-gray-600 mb-4">
-              Create your first {campaignType === 'email' ? 'email' : 'SMS'} campaign to
-              start engaging with your leads.
-            </p>
-            <button
-              onClick={() => setShowCreateModal(true)}
-              className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors inline-flex items-center gap-2"
-            >
-              <Plus className="h-5 w-5" />
-              Create Campaign
-            </button>
-          </div>
-        </div>
+        <AdminState
+          icon={campaignType === 'email' ? Mail : MessageSquare}
+          title={`No ${campaignType === 'email' ? 'email' : 'SMS'} campaigns yet`}
+          description={`Create a ${campaignType === 'email' ? 'email' : 'SMS'} campaign to follow up with leads, announce availability, or share gallery updates.`}
+          actionLabel="Create campaign"
+          onAction={() => setShowCreateModal(true)}
+          secondaryActionLabel="Refresh"
+          onSecondaryAction={fetchCampaigns}
+        />
       ) : (
         <div className="grid gap-4">
           {campaigns.map((campaign) => (
