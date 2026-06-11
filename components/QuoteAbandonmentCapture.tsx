@@ -56,7 +56,7 @@ export default function QuoteAbandonmentCapture() {
   }
 
   return (
-    <div className="fixed bottom-20 left-4 z-50 max-w-sm rounded-lg border border-stone-200 bg-white p-4 shadow-2xl md:bottom-6">
+    <div className="fixed bottom-24 left-3 right-20 z-40 max-w-sm rounded-lg border border-stone-200 bg-white p-4 shadow-2xl sm:left-4 sm:right-auto md:bottom-6">
       <button
         type="button"
         onClick={() => setDismissed(true)}

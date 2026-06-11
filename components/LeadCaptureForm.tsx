@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -8,6 +8,7 @@ import toast from 'react-hot-toast'
 import { Check, AlertCircle, Loader2 } from 'lucide-react'
 import { trackFormSubmit, trackLeadCapture } from '@/lib/analytics'
 import ThankYouWithSMS from './ThankYouWithSMS'
+import BookingTrustProof from './BookingTrustProof'
 
 const leadSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -109,15 +110,19 @@ export default function LeadCaptureForm() {
             <div className="flex items-start gap-3"><span className="mt-1 h-2 w-2 rounded-full bg-amber-400"></span><span>Clear pricing guidance and package recommendations</span></div>
             <div className="flex items-start gap-3"><span className="mt-1 h-2 w-2 rounded-full bg-amber-400"></span><span>5.0 stars from verified Google and Thumbtack reviews</span></div>
           </div>
+          <div className="mt-8 rounded-xl border border-white/10 bg-white/10 p-4 text-sm leading-6 text-stone-100">
+            Most sessions include private gallery delivery, sharing, download options, and clear next-step guidance.
+          </div>
         </div>
         <div className="p-8 md:p-10 lg:p-12 bg-white">
+          <BookingTrustProof />
           {/* Completion progress */}
           {(() => {
             const requiredFields: (keyof LeadFormData)[] = ['name', 'email', 'service_interest', 'message']
             const completedCount = requiredFields.filter(f => validFieldsSet.has(f as string)).length
             const progressPct = Math.round((completedCount / requiredFields.length) * 100)
             return (
-              <div className="mb-6">
+              <div className="mb-6 mt-6">
                 <div className="flex items-center justify-between text-xs text-gray-500 mb-1.5">
                   <span>Form progress</span>
                   <span className={`font-medium transition-colors ${completedCount === requiredFields.length ? 'text-green-600' : 'text-gray-500'}`}>

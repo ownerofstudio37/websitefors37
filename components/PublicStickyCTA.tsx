@@ -14,7 +14,7 @@ export default function PublicStickyCTA() {
   }
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-40 border-t border-stone-200 bg-white/95 shadow-[0_-10px_30px_rgba(15,23,42,0.08)] backdrop-blur-xl md:hidden">
+    <div className="fixed inset-x-0 bottom-0 z-30 border-t border-stone-200 bg-white/95 shadow-[0_-10px_30px_rgba(15,23,42,0.08)] backdrop-blur-xl md:hidden">
       <nav className="grid grid-cols-3" aria-label="Quick actions">
         <Link href="/book-a-session" className="flex min-h-[64px] flex-col items-center justify-center gap-1 text-xs font-semibold text-stone-900">
           <Calendar className="h-5 w-5 text-amber-700" aria-hidden="true" />

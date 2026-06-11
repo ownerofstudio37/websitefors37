@@ -72,6 +72,7 @@ export default function SEOFooter() {
               <li><Link href="/session-prep" className="hover:text-white transition-colors">Session Prep Guides</Link></li>
               <li><Link href="/book-consultation" className="hover:text-white transition-colors">Book Consultation</Link></li>
               <li><Link href="/contact" className="hover:text-white transition-colors">Contact Us</Link></li>
+              <li><Link href="/gallery-experience" className="hover:text-white transition-colors">Gallery Experience</Link></li>
               <li><a href="https://gallery.studio37.cc" className="hover:text-white transition-colors">View Portfolio</a></li>
             </ul>
             <p className="mt-4 text-xs text-stone-400 leading-6">
@@ -83,6 +84,7 @@ export default function SEOFooter() {
           <p>© {new Date().getFullYear()} {name}. All rights reserved.</p>
           <div className="flex items-center gap-4">
             <Link href="https://gallery.studio37.cc" className="hover:text-white transition-colors">Gallery</Link>
+            <Link href="/gallery-experience" className="hover:text-white transition-colors">Gallery Help</Link>
             <Link href="/contact" className="hover:text-white transition-colors">Contact</Link>
             <Link href="/admin" className="text-xs text-stone-500 hover:text-stone-300 transition-colors">Admin</Link>
           </div>

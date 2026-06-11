@@ -4,7 +4,6 @@ import React, { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Menu, X, Camera, ChevronDown } from '@/icons'
-import Image from 'next/image'
 import { supabase } from '@/lib/supabase'
 import { Phone } from 'lucide-react'
 import { FALLBACK_NAV_ITEMS, type NavigationItem } from '@/lib/navigation-config'
@@ -136,6 +135,19 @@ export default function Navigation({
     }
   }, [dbLogoUrl, scrolled, DEFAULT_LOGO_LIGHT, DEFAULT_LOGO_DARK, DEFAULT_BRAND_LOGO])
 
+  const dropdownHelpText = (item: NavigationItem) => {
+    const label = item.label.toLowerCase()
+    if (label.includes('service area')) return 'Browse local markets and nearby city pages.'
+    if (label.includes('service')) return 'Choose a service to compare pricing, prep, and next steps.'
+    return 'Open related Studio37 pages.'
+  }
+
+  const isActiveHref = (href: string) => {
+    if (!pathname || /^https?:\/\//i.test(href)) return false
+    const normalized = href.startsWith('/') ? href : `/${href}`
+    return pathname === normalized || (normalized !== '/' && pathname.startsWith(`${normalized}/`))
+  }
+
   // Hide navigation on admin pages
   if (pathname?.startsWith('/admin')) {
     return null
@@ -236,6 +248,8 @@ export default function Navigation({
               if (item.children && item.children.length > 0) {
                 const isDropdownOpen = dropdownStates[item.id] || false
                 const isLargeDropdown = item.children.length > 8
+                const parentHref = normalizeHref(item.href)
+                const isParentActive = isActiveHref(parentHref) || item.children.some((child) => isActiveHref(normalizeHref(child.href, parentHref)))
 
                 const handleEnter = () => {
                   // Cancel any pending close timer and open
@@ -262,12 +276,19 @@ export default function Navigation({
                     onMouseLeave={handleLeave}
                   >
                     <Link
-                      href={normalizeHref(item.href)}
+                      href={parentHref}
                       className={`transition-all font-medium px-3 py-2 rounded-full flex items-center gap-1 ${
-                        scrolled ? 'text-stone-800 hover:text-amber-700 hover:bg-amber-50' : 'text-white hover:text-white hover:bg-white/10'
+                        isParentActive
+                          ? scrolled
+                            ? 'bg-amber-50 text-amber-800 ring-1 ring-amber-200'
+                            : 'bg-white/15 text-white ring-1 ring-white/25'
+                          : scrolled
+                            ? 'text-stone-800 hover:text-amber-700 hover:bg-amber-50'
+                            : 'text-white hover:text-white hover:bg-white/10'
                       } focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2`}
                       aria-expanded={isDropdownOpen}
                       aria-haspopup="true"
+                      aria-current={isParentActive ? 'page' : undefined}
                       aria-label={`${item.label} menu`}
                     >
                       {item.label}
@@ -284,22 +305,34 @@ export default function Navigation({
                         role="menu"
                         aria-label={`${item.label} submenu`}
                       >
+                        <p className="px-4 pb-1 pt-3 text-xs font-medium uppercase tracking-[0.14em] text-stone-500">
+                          {dropdownHelpText(item)}
+                        </p>
                         <div
-                          className={`p-2 overflow-y-auto overscroll-contain ${
+                          className={`px-2 pb-2 pt-1 overflow-y-auto overscroll-contain ${
                             isLargeDropdown
                               ? 'grid grid-cols-2 gap-1 max-h-[24rem]'
                               : 'max-h-[20rem]'
                           }`}
                         >
-                          {item.children.map((child) => (
-                            <Link
-                              key={child.id}
-                              href={normalizeHref(child.href, normalizeHref(item.href))}
-                              className="block rounded-xl px-4 py-3 text-stone-800 hover:bg-amber-50 hover:text-amber-700 transition-colors leading-snug"
-                            >
-                              {child.label}
-                            </Link>
-                          ))}
+                          {item.children.map((child) => {
+                            const childHref = normalizeHref(child.href, parentHref)
+                            const isChildActive = isActiveHref(childHref)
+                            return (
+                              <Link
+                                key={child.id}
+                                href={childHref}
+                                className={`block rounded-xl px-4 py-3 transition-colors leading-snug ${
+                                  isChildActive
+                                    ? 'bg-amber-100 text-amber-900 font-semibold'
+                                    : 'text-stone-800 hover:bg-amber-50 hover:text-amber-700'
+                                }`}
+                                aria-current={isChildActive ? 'page' : undefined}
+                              >
+                                {child.label}
+                              </Link>
+                            )
+                          })}
                         </div>
                       </div>
                     )}
@@ -318,9 +351,14 @@ export default function Navigation({
                         ? 'btn-primary'
                         : 'bg-amber-500 hover:bg-amber-400 text-white px-5 py-2.5 rounded-full shadow-lg'
                       : `hover:text-amber-700 hover:bg-amber-50 focus:text-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2 ${
-                          scrolled ? 'text-stone-800' : 'text-white hover:bg-white/10'
+                          isActiveHref(normalizeHref(item.href))
+                            ? scrolled
+                              ? 'bg-amber-50 text-amber-800 ring-1 ring-amber-200'
+                              : 'bg-white/15 text-white ring-1 ring-white/25'
+                            : scrolled ? 'text-stone-800' : 'text-white hover:bg-white/10'
                         }`
                   }`}
+                  aria-current={isActiveHref(normalizeHref(item.href)) ? 'page' : undefined}
                 >
                   {item.label}
                 </Link>
@@ -394,13 +432,18 @@ export default function Navigation({
                 if (item.children && item.children.length > 0) {
                   const isMobileDropdownOpen = mobileDropdownStates[item.id] || false
                   const isLargeDropdown = item.children.length > 8
+                  const parentHref = normalizeHref(item.href)
+                  const isParentActive = isActiveHref(parentHref) || item.children.some((child) => isActiveHref(normalizeHref(child.href, parentHref)))
                   
                   return (
                     <div key={item.id}>
                       <button
                         onClick={() => setMobileDropdownStates(prev => ({ ...prev, [item.id]: !prev[item.id] }))}
-                        className="w-full flex items-center justify-between text-left transition-colors font-medium text-stone-900 px-3 py-3 rounded-2xl hover:bg-amber-50 hover:text-amber-700 focus:text-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2"
+                        className={`w-full flex items-center justify-between text-left transition-colors font-medium px-3 py-3 rounded-2xl hover:bg-amber-50 hover:text-amber-700 focus:text-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2 ${
+                          isParentActive ? 'bg-amber-50 text-amber-800 ring-1 ring-amber-200' : 'text-stone-900'
+                        }`}
                         aria-expanded={isMobileDropdownOpen}
+                        aria-current={isParentActive ? 'page' : undefined}
                         aria-label={`${item.label} submenu toggle`}
                       >
                         {item.label}
@@ -413,16 +456,26 @@ export default function Navigation({
                             isLargeDropdown ? 'max-h-80 pr-1' : 'space-y-2'
                           }`}
                         >
-                          {item.children.map((child) => (
-                            <Link
-                              key={child.id}
-                              href={normalizeHref(child.href, normalizeHref(item.href))}
-                              className="block transition-colors text-stone-800 px-4 py-3 rounded-xl hover:bg-amber-50 hover:text-amber-700 focus:bg-amber-50 focus:text-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2 touch-target"
-                              onClick={() => { setIsOpen(false); }}
-                            >
-                              {child.label}
-                            </Link>
-                          ))}
+                          <p className="px-4 pb-1 text-xs text-stone-500">{dropdownHelpText(item)}</p>
+                          {item.children.map((child) => {
+                            const childHref = normalizeHref(child.href, parentHref)
+                            const isChildActive = isActiveHref(childHref)
+                            return (
+                              <Link
+                                key={child.id}
+                                href={childHref}
+                                className={`block transition-colors px-4 py-3 rounded-xl focus:bg-amber-50 focus:text-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2 touch-target ${
+                                  isChildActive
+                                    ? 'bg-amber-100 text-amber-900 font-semibold'
+                                    : 'text-stone-800 hover:bg-amber-50 hover:text-amber-700'
+                                }`}
+                                aria-current={isChildActive ? 'page' : undefined}
+                                onClick={() => { setIsOpen(false); }}
+                              >
+                                {child.label}
+                              </Link>
+                            )
+                          })}
                         </div>
                       )}
                     </div>
@@ -437,8 +490,11 @@ export default function Navigation({
                     className={`transition-all font-medium text-stone-900 px-4 py-3 rounded-2xl touch-target ${
                       item.highlighted
                         ? 'btn-primary w-fit'
-                        : 'hover:bg-amber-50 hover:text-amber-700 focus:text-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2'
+                        : isActiveHref(normalizeHref(item.href))
+                          ? 'bg-amber-50 text-amber-800 ring-1 ring-amber-200'
+                          : 'hover:bg-amber-50 hover:text-amber-700 focus:text-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2'
                     }`}
+                    aria-current={isActiveHref(normalizeHref(item.href)) ? 'page' : undefined}
                     onClick={() => { setIsOpen(false); }}
                   >
                     {item.label}

@@ -4,20 +4,20 @@
 
 ### UI/UX
 
-- [ ] Audit the live CMS/page-builder homepage against the source fallback homepage so critical sections like package recommender, curated recent work, and service-area modules are guaranteed to render even when a stored layout exists.
-- [ ] Add a compact first-viewport "choose your path" module for Portrait, Wedding, Event, Commercial, and Branding so visitors can self-segment before reading long homepage copy.
-- [ ] Reduce homepage cognitive load by moving dense SEO copy below stronger scannable cards, FAQs, or accordions.
-- [ ] Add clear "starting at" pricing microcopy near every major service CTA, with a link to `/tools/pricing` or `/tools/package-recommender`.
-- [ ] Improve mobile sticky CTA behavior so the chatbot, save-quote popup, and sticky action bar never stack over each other on small screens.
-- [ ] Add visible active states and descriptive helper text for dropdown navigation on service and service-area menus.
-- [ ] Add service-specific "what to expect" cards above the fold on high-intent pages instead of relying only on long-form page copy.
-- [ ] Add trust proof near the booking form itself: review count, insurance/PPA, delivery timeline, and two-photographer promise.
-- [ ] Add a lightweight gallery handoff page or modal explaining that final galleries open on ShootProof at `https://gallery.studio37.cc`.
+- [x] Audit the live CMS/page-builder homepage against the source fallback homepage so critical sections like package recommender, curated recent work, and service-area modules are guaranteed to render even when a stored layout exists.
+- [x] Add a compact first-viewport "choose your path" module for Portrait, Wedding, Event, Commercial, and Branding so visitors can self-segment before reading long homepage copy.
+- [x] Reduce homepage cognitive load by moving dense SEO copy below stronger scannable cards, FAQs, or accordions.
+- [x] Add clear "starting at" pricing microcopy near every major service CTA, with a link to `/tools/pricing` or `/tools/package-recommender`.
+- [x] Improve mobile sticky CTA behavior so the chatbot, save-quote popup, and sticky action bar never stack over each other on small screens.
+- [x] Add visible active states and descriptive helper text for dropdown navigation on service and service-area menus.
+- [x] Add service-specific "what to expect" cards above the fold on high-intent pages instead of relying only on long-form page copy.
+- [x] Add trust proof near the booking form itself: review count, insurance/PPA, delivery timeline, and two-photographer promise.
+- [x] Add a lightweight gallery handoff page or modal explaining that final galleries open on ShootProof at `https://gallery.studio37.cc`.
 
 ### SEO
 
-- [ ] Add `/tools/package-recommender` to the sitemap and required sitemap endpoint test coverage.
-- [ ] Add metadata and sitemap coverage for any future ShootProof handoff/gallery explainer page while keeping `/gallery` and `/portfolio` redirects out of the sitemap.
+- [x] Add `/tools/package-recommender` to the sitemap and required sitemap endpoint test coverage.
+- [x] Add metadata and sitemap coverage for any future ShootProof handoff/gallery explainer page while keeping `/gallery` and `/portfolio` redirects out of the sitemap.
 - [ ] Recheck Netlify/Next sitemap cache behavior because live sitemap headers show very old cache age even when `lastmod` is current.
 - [ ] Add a deployment verification script that compares live sitemap URLs against `lib/sitemap-data.ts` required URLs after every push.
 - [ ] Add FAQ schema to package recommender, pricing, and session prep hub pages.
@@ -41,7 +41,7 @@
 
 ### Content And Public Features
 
-- [ ] Build the ShootProof-aware gallery launch page noted above, with expectations for downloads, favorites, sharing, print options, and client access.
+- [x] Build the ShootProof-aware gallery launch page noted above, with expectations for downloads, favorites, sharing, print options, and client access.
 - [ ] Add curated recent-work management data in code or CMS so recent-work cards are not hard-coded in a component long term.
 - [ ] Create service-specific prep-guide download pages for Portrait, Wedding, Event, and Commercial instead of a single hub-only lead magnet.
 - [ ] Add "best locations for photos" sections for top markets: Pinehurst, The Woodlands, Conroe, Magnolia, Tomball, Spring, Montgomery, Bryan, and College Station.
@@ -82,7 +82,7 @@
 ## Public Site Features
 
 - [x] Build an interactive package recommender that routes users to booking with a prefilled package/service.
-- [ ] Add a ShootProof-aware gallery launch page that explains the external gallery experience and routes visitors to `https://gallery.studio37.cc`.
+- [x] Add a ShootProof-aware gallery launch page that explains the external gallery experience and routes visitors to `https://gallery.studio37.cc`.
 - [x] Add curated recent-work highlights managed inside the Studio37 site, without depending on ShootProof tags or APIs.
 - [x] Add quote/booking abandonment capture with email/SMS follow-up.
 - [x] Add richer service-area landing modules for top markets and high-intent services.

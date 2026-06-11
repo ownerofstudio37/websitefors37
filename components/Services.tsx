@@ -127,13 +127,12 @@ export default function Services() {
 					{services.map((service, index) => {
 						const Icon = service.icon
 						return (
-							<Link
+							<div
 								key={service.title}
-								href={`/services/${service.slug}`}
 								className="group block"
 							>
 								<div
-									className="surface-panel p-5 md:p-6 h-full flex flex-col cursor-pointer transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-[0_18px_50px_rgba(15,23,42,0.12)]"
+									className="surface-panel p-5 md:p-6 h-full flex flex-col transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-[0_18px_50px_rgba(15,23,42,0.12)]"
 								>
 									<div className="flex items-center justify-center w-14 h-14 bg-amber-50 rounded-2xl mb-5 group-hover:bg-amber-700 transition-all duration-300">
 										<Icon className="h-8 w-8 text-primary-600 group-hover:text-white transition-colors duration-300" />
@@ -155,9 +154,12 @@ export default function Services() {
 					<h3 className="text-2xl font-semibold mb-1 text-left group-hover:text-primary-700 transition-colors duration-300">
 						{service.title}
 					</h3>
-					<p className="text-left text-sm font-semibold text-primary-700 mb-3">
-						{service.startingPrice}
-					</p>
+									<p className="text-left text-sm font-semibold text-primary-700 mb-3">
+										{service.startingPrice}
+									</p>
+									<p className="mb-4 rounded-lg bg-amber-50 px-3 py-2 text-left text-xs leading-5 text-amber-900">
+										Want exact fit? Compare packages in the pricing tool before you book.
+									</p>
 									<p className="text-stone-600 mb-5 text-left flex-grow leading-relaxed">
 										{service.description}
 									</p>
@@ -174,12 +176,19 @@ export default function Services() {
 										))}
 									</ul>
 
-									<div className="flex items-center text-primary-700 font-semibold text-sm group-hover:text-primary-800 mt-auto">
+									<Link href={`/services/${service.slug}`} className="flex items-center text-primary-700 font-semibold text-sm group-hover:text-primary-800 mt-auto">
 										Learn More
 										<ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" />
-									</div>
+									</Link>
+									<Link
+										href="/tools/pricing"
+										className="mt-4 inline-flex items-center text-sm font-semibold text-stone-700 hover:text-primary-700"
+									>
+										Open pricing tool
+										<ArrowRight className="ml-2 h-4 w-4" />
+									</Link>
 								</div>
-							</Link>
+							</div>
 						)
 					})}
 				</div>

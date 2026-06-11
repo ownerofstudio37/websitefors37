@@ -6,6 +6,8 @@ const requiredUrls = [
   'https://www.studio37.cc/book-a-session',
   'https://www.studio37.cc/contact',
   'https://www.studio37.cc/tools/pricing',
+  'https://www.studio37.cc/tools/package-recommender',
+  'https://www.studio37.cc/gallery-experience',
   'https://www.studio37.cc/locations/katy-tx',
 ]
 

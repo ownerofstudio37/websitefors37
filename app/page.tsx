@@ -12,6 +12,7 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import rehypeHighlight from "rehype-highlight";
+import { ChooseYourPathSection, HomeSEOAccordion, HomepageConversionGuardrail } from "@/components/HomepageUXSections";
 // Note: MDX builder components are dynamically imported only when needed
 
 // Lazy load below-the-fold components for better initial page load
@@ -78,10 +79,6 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
   // If an editor-managed home page exists in content_pages (slug 'home'), render it.
   // Otherwise, fall back to the static homepage sections below.
   const supabase = createServerComponentClient({ cookies });
-  const { data: siteSettings } = await supabase
-    .from("settings")
-    .select("*")
-    .single();
   const { data: page } = await supabase
     .from("content_pages")
     .select("*")
@@ -117,6 +114,7 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
               </div>
             )
           })}
+          <HomepageConversionGuardrail />
         </div>
       )
     }
@@ -130,7 +128,7 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
       Object.entries(MDXBuilderComponents).map(([name, Component]) => [
         name,
         (props: any) => {
-          let anchorId = props.id || props.anchorId || defaultAnchorIds[name] || name
+          const anchorId = props.id || props.anchorId || defaultAnchorIds[name] || name
           const override = anchorId ? configs.get(anchorId) : undefined
           return (
             <div className="relative">
@@ -157,6 +155,7 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
           }}
           components={wrappedComponents as any}
         />
+        <HomepageConversionGuardrail />
       </div>
     );
   }
@@ -187,6 +186,7 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
               </div>
             )
           })}
+          <HomepageConversionGuardrail />
         </div>
       )
     }
@@ -204,6 +204,7 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
         <LocalBusinessSchema />
         <Hero />
         <PublicTrustStrip />
+        <ChooseYourPathSection />
         <PackageRecommenderCTA />
         <LazyMount minHeight={400}>
           <PortraitHighlightGallery />
@@ -216,23 +217,7 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
           <ServiceAreaSEO />
         </LazyMount>
 
-        {/* SEO Text Block */}
-        <section className="py-14 bg-white">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">Professional Photography Studio in Pinehurst, TX</h2>
-              <p className="text-gray-700 leading-relaxed mb-4">
-                 Studio37 Photography is Pinehurst, Texas&apos;s premier award-winning photography studio, serving couples, families, businesses, and event organizers across Montgomery County and nearby communities including The Woodlands, Conroe, Magnolia, Tomball, Spring, Montgomery, Willis, New Caney, Hockley, and Huntsville. Founded by Christian and Caitie, Studio37 is built on a simple promise: every client receives the creative focus, technical excellence, and personal service their moments deserve. Our Signature Duo Coverage — two photographers deployed on every session — sets us apart from every other studio in the region, delivering richer galleries, more candid expressions, and zero missed moments at the same competitive rate. Wedding coverage starts at $1,200. Commercial photography starts at $500. We specialize in wedding photography, portrait sessions, family photography, senior portraits, newborn photography, corporate event coverage, product and brand photography, commercial shoots, and full-service digital marketing and content creation. Blending warm, film-inspired aesthetics with modern post-processing, our images feel timeless, editorial, and authentic. We&apos;re proud PPA members, fully insured, and have served 500+ happy clients since 2020.
-              </p>
-              <p className="text-sm text-gray-500">
-                Serving: Pinehurst TX · The Woodlands · Conroe · Magnolia · Tomball · Spring · Montgomery · Willis · New Caney · Hockley · Huntsville · Houston
-              </p>
-              <p className="text-sm mt-2">
-                <a href="/locations" className="text-primary-700 hover:underline">Browse all service-area pages</a>
-              </p>
-            </div>
-          </div>
-        </section>
+        <HomeSEOAccordion />
 
         <section className="py-16 bg-gray-50">
           <div className="container mx-auto px-4">
@@ -241,7 +226,7 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
                 Ready to Capture Your Story?
               </h2>
               <p className="text-lg text-gray-700">
-                Let's discuss your photography needs and create something
+                Let&apos;s discuss your photography needs and create something
                 beautiful together.
               </p>
             </div>
@@ -271,6 +256,7 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
       <LocalBusinessSchema />
       <Hero />
       <PublicTrustStrip />
+      <ChooseYourPathSection />
       <PackageRecommenderCTA />
       {/* Two Photographers Announcement */}
       <div className="bg-amber-50 border-y border-amber-200/80">
@@ -291,24 +277,7 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
         <ServiceAreaSEO />
       </LazyMount>
 
-      {/* SEO Text Block */}
-      <section className="section-shell bg-stone-50">
-        <div className="container mx-auto px-4">
-          <div className="section-soft max-w-5xl mx-auto p-8 md:p-12">
-            <div className="eyebrow mb-4">Why clients choose us</div>
-            <h2 className="text-3xl md:text-4xl font-bold text-stone-950 mb-5">Professional Photography Studio in Pinehurst, TX</h2>
-            <p className="text-stone-700 leading-8 mb-4 text-lg">
-                Studio37 Photography is Pinehurst, Texas&apos;s premier award-winning photography studio, serving couples, families, businesses, and event organizers across Montgomery County and nearby communities including The Woodlands, Conroe, Magnolia, Tomball, Spring, Montgomery, Willis, New Caney, Hockley, and Huntsville. Founded by Christian and Caitie, Studio37 is built on a simple promise: every client receives the creative focus, technical excellence, and personal service their moments deserve. Our Signature Duo Coverage — two photographers deployed on every session — sets us apart from every other studio in the region, delivering richer galleries, more candid expressions, and zero missed moments at the same competitive rate. Wedding coverage starts at $1,200. Commercial photography starts at $500. We specialize in wedding photography, portrait sessions, family photography, senior portraits, newborn photography, corporate event coverage, product and brand photography, commercial shoots, and full-service digital marketing and content creation. Blending warm, film-inspired aesthetics with modern post-processing, our images feel timeless, editorial, and authentic. We're proud PPA members, fully insured, and have served 500+ happy clients since 2020. Whether you're planning your dream wedding, scheduling a family portrait session, or growing your brand with strategic visual content, Studio37 is your trusted creative partner in Pinehurst and beyond.
-            </p>
-            <p className="text-sm text-stone-500">
-              Serving: Pinehurst TX · The Woodlands · Conroe · Magnolia · Tomball · Spring · Montgomery · Willis · New Caney · Hockley · Huntsville · Houston
-            </p>
-            <p className="text-sm mt-3">
-              <a href="/locations" className="text-primary-700 hover:underline">Browse all service-area pages</a>
-            </p>
-          </div>
-        </div>
-      </section>
+      <HomeSEOAccordion />
 
       <section className="section-shell bg-white">
         <div className="container mx-auto px-4">
@@ -318,7 +287,7 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
               Ready to Capture Your Story?
             </h2>
             <p className="text-lg md:text-xl text-stone-600 leading-relaxed">
-              Let's discuss your photography needs and create something
+              Let&apos;s discuss your photography needs and create something
               beautiful together.
             </p>
           </div>

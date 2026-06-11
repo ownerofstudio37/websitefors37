@@ -111,6 +111,17 @@ export function PackageComparisonSection() {
             </div>
           ))}
         </div>
+        <p className="mt-5 text-sm leading-6 text-stone-500">
+          Starting prices are planning anchors. Use the{' '}
+          <Link href="/tools/pricing" className="font-semibold text-amber-800 hover:text-amber-900">
+            pricing tool
+          </Link>{' '}
+          for minute-based estimates or the{' '}
+          <Link href="/tools/package-recommender" className="font-semibold text-amber-800 hover:text-amber-900">
+            package recommender
+          </Link>{' '}
+          when you want the best-fit path.
+        </p>
       </div>
     </section>
   )

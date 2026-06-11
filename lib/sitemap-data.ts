@@ -501,6 +501,18 @@ export async function getSitemapRoutes(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'monthly',
       priority: PRIORITIES.contentPages,
     },
+    {
+      url: `${sitemapBaseUrl}/tools/package-recommender`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly',
+      priority: PRIORITIES.contentPages,
+    },
+    {
+      url: `${sitemapBaseUrl}/gallery-experience`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly',
+      priority: PRIORITIES.contentPages,
+    },
     // Hardcoded event service pages
     {
       url: `${sitemapBaseUrl}/corporate-events`,
