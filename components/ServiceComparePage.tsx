@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { ArrowRight, Check, Star } from 'lucide-react'
 
+// ─── Service Data ────────────────────────────────────────────────────────────
+
 type ServiceDef = {
   id: string
   quizId: string | string[]
@@ -124,12 +126,16 @@ const SERVICES: ServiceDef[] = [
   },
 ]
 
+// ─── Quiz Options ─────────────────────────────────────────────────────────────
+
 const QUIZ_OPTIONS = [
-  { label: 'Wedding or Ceremony', emoji: '\u{1F48D}', match: 'wedding' },
-  { label: 'Family & Portraits', emoji: '\u{1F4F8}', match: 'portrait' },
-  { label: 'Event or Party', emoji: '\u{1F389}', match: 'event' },
-  { label: 'Business & Brand', emoji: '\u{1F4BC}', match: 'branding' },
+  { label: 'Wedding or Ceremony', emoji: '💍', match: 'wedding' },
+  { label: 'Family & Portraits', emoji: '📸', match: 'portrait' },
+  { label: 'Event or Party', emoji: '🎉', match: 'event' },
+  { label: 'Business & Brand', emoji: '💼', match: 'branding' },
 ]
+
+// ─── Helpers ─────────────────────────────────────────────────────────────────
 
 function isMatch(service: ServiceDef, selected: string | null): boolean {
   if (!selected) return false
@@ -138,10 +144,13 @@ function isMatch(service: ServiceDef, selected: string | null): boolean {
     : service.quizId === selected
 }
 
+// ─── Component ───────────────────────────────────────────────────────────────
+
 export default function ServiceComparePage() {
   const [selected, setSelected] = useState<string | null>(null)
   const recommendedRef = React.useRef<HTMLDivElement>(null)
 
+  // Smooth-scroll to the recommended card when selection changes
   useEffect(() => {
     if (selected && recommendedRef.current) {
       recommendedRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
@@ -154,13 +163,13 @@ export default function ServiceComparePage() {
     <main>
       {/* Trust banner */}
       <div className="bg-stone-950 text-white py-3 px-4 text-center text-sm">
-        <span className="text-amber-400 mr-2" aria-hidden="true">{'\u2B50\u2B50\u2B50\u2B50\u2B50'}</span>
+        <span className="text-amber-400 mr-2" aria-hidden>⭐⭐⭐⭐⭐</span>
         <strong>5.0 Google Stars</strong>
-        <span className="text-stone-400 mx-2">&middot;</span>
+        <span className="text-stone-400 mx-2">·</span>
         15 verified reviews
-        <span className="text-stone-400 mx-2">&middot;</span>
+        <span className="text-stone-400 mx-2">·</span>
         Pinehurst, TX
-        <span className="text-stone-400 mx-2">&middot;</span>
+        <span className="text-stone-400 mx-2">·</span>
         Two photographers on every session
       </div>
 
@@ -172,7 +181,7 @@ export default function ServiceComparePage() {
             Which Studio37 package is right for you?
           </h1>
           <p className="text-lg text-stone-600 max-w-xl mx-auto">
-            Answer one question below and we&apos;ll highlight your best match &mdash; or scroll to compare all services side by side.
+            Answer one question below and we&apos;ll highlight your best match — or scroll to compare all services side by side.
           </p>
         </div>
       </section>
@@ -197,12 +206,12 @@ export default function ServiceComparePage() {
                       : 'border-stone-200 bg-white hover:border-amber-300 hover:shadow-sm'
                   }`}
                 >
-                  <span className="text-3xl" aria-hidden="true">{opt.emoji}</span>
+                  <span className="text-3xl" aria-hidden>{opt.emoji}</span>
                   <span className={`text-sm font-semibold ${active ? 'text-amber-700' : 'text-stone-700'}`}>
                     {opt.label}
                   </span>
                   {active && (
-                    <span className="text-xs text-amber-600 font-medium">{'\u2713'} Selected</span>
+                    <span className="text-xs text-amber-600 font-medium">✓ Selected</span>
                   )}
                 </button>
               )
@@ -259,7 +268,7 @@ export default function ServiceComparePage() {
                   ref={matched ? recommendedRef : undefined}
                   className={`relative flex flex-col rounded-2xl border-2 overflow-hidden transition-all duration-200 ${
                     matched
-                      ? 'border-amber-400 shadow-xl ring-4 ring-amber-100'
+                      ? `border-amber-400 shadow-xl ring-4 ring-amber-100`
                       : selected
                       ? 'border-stone-200 opacity-60'
                       : 'border-stone-200 hover:border-stone-300 hover:shadow-md'
@@ -267,7 +276,7 @@ export default function ServiceComparePage() {
                 >
                   {matched && (
                     <div className="bg-amber-400 text-stone-900 text-xs font-bold text-center py-1.5 tracking-widest uppercase">
-                      {'\u2605'} Recommended for you
+                      ★ Recommended for you
                     </div>
                   )}
 
@@ -302,19 +311,26 @@ export default function ServiceComparePage() {
                       ))}
                     </ul>
 
+                    {/* Trust badge */}
                     <div className="flex items-center gap-1.5 mb-4 text-xs text-stone-500">
                       {[...Array(5)].map((_, i) => (
                         <Star key={i} className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
                       ))}
                       <span className="font-semibold text-stone-700 ml-1">5.0</span>
-                      <span>&middot; Google</span>
+                      <span>· Google</span>
                     </div>
 
                     <div className="flex flex-col gap-2 mt-auto">
-                      <Link href={svc.bookHref} className="btn-primary text-center text-sm py-2.5">
+                      <Link
+                        href={svc.bookHref}
+                        className="btn-primary text-center text-sm py-2.5"
+                      >
                         Book a Consultation
                       </Link>
-                      <Link href={svc.href} className="btn-secondary text-center text-sm py-2.5">
+                      <Link
+                        href={svc.href}
+                        className="btn-secondary text-center text-sm py-2.5"
+                      >
                         Explore Package
                       </Link>
                     </div>
@@ -332,13 +348,13 @@ export default function ServiceComparePage() {
           <h2 className="text-xl font-bold text-center mb-8">Every Studio37 session includes</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             {[
-              { icon: '\u{1F465}', title: 'Duo Experience', sub: 'Two photographers on every session' },
-              { icon: '\u26A1', title: '48-hr Sneak Peek', sub: 'First looks delivered in 48 hours' },
-              { icon: '\u{1F5BC}\uFE0F', title: 'Private Gallery', sub: 'Online gallery with download rights' },
-              { icon: '\u2B50', title: '5.0 Google Stars', sub: '15 verified 5-star reviews' },
+              { icon: '👥', title: 'Duo Experience', sub: 'Two photographers on every session' },
+              { icon: '⚡', title: '48-hr Sneak Peek', sub: 'First looks delivered in 48 hours' },
+              { icon: '🖼️', title: 'Private Gallery', sub: 'Online gallery with download rights' },
+              { icon: '⭐', title: '5.0 Google Stars', sub: '15 verified 5-star reviews' },
             ].map((item) => (
               <div key={item.title} className="flex flex-col items-center gap-2">
-                <span className="text-3xl" aria-hidden="true">{item.icon}</span>
+                <span className="text-3xl" aria-hidden>{item.icon}</span>
                 <p className="font-semibold text-white text-sm">{item.title}</p>
                 <p className="text-stone-400 text-xs">{item.sub}</p>
               </div>
@@ -358,25 +374,25 @@ export default function ServiceComparePage() {
             {[
               {
                 q: 'Can I mix services for the same event?',
-                a: "Absolutely. We commonly pair wedding coverage with separate portrait sessions, or combine commercial shoots with personal branding. We'll build a custom package that fits your needs.",
+                a: 'Absolutely. We commonly pair wedding coverage with separate portrait sessions, or combine commercial shoots with personal branding. We&apos;ll build a custom package that fits your needs.',
               },
               {
                 q: 'Do all packages really include two photographers?',
-                a: "Yes \u2014 the Duo Experience is our standard across all services. Every session is covered by two trained photographers so you never miss a moment from a different angle.",
+                a: 'Yes — the Duo Experience is our standard across all services. Every session is covered by two trained photographers so you never miss a moment from a different angle.',
               },
               {
                 q: 'How do I choose between Commercial and Branding?',
-                a: "Commercial is ideal for a focused shoot \u2014 product images, headshots, or marketing content for a specific campaign. Branding is a deeper engagement that includes strategy, lifestyle photography, and a complete visual identity package for your business.",
+                a: 'Commercial is ideal for a focused shoot — product images, headshots, or marketing content for a specific campaign. Branding is a deeper engagement that includes strategy, lifestyle photography, and a complete visual identity package for your business.',
               },
               {
                 q: 'How fast will I receive my photos?',
-                a: "All packages include a 48-hour sneak peek. Full galleries are typically delivered within 2 weeks for portraits and events, and 3 weeks for weddings. Rush delivery options are available.",
+                a: 'All packages include a 48-hour sneak peek. Full galleries are typically delivered within 2 weeks for portraits and events, and 3 weeks for weddings. Rush delivery options are available.',
               },
             ].map((item) => (
               <details key={item.q} className="group rounded-xl border border-stone-200 overflow-hidden">
                 <summary className="flex items-center justify-between cursor-pointer px-5 py-4 font-semibold text-stone-800 text-base hover:bg-stone-50 transition-colors list-none">
                   {item.q}
-                  <span className="text-stone-400 group-open:rotate-180 transition-transform">{'\u25BE'}</span>
+                  <span className="text-stone-400 group-open:rotate-180 transition-transform">▾</span>
                 </summary>
                 <div className="px-5 pb-5 pt-1 text-stone-600 leading-relaxed text-sm">
                   {item.a}

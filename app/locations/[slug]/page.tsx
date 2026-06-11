@@ -22,7 +22,7 @@ export function generateMetadata({ params }: { params: { slug: string } }) {
 
   return generateSEOMetadata({
     title: `Photographer in ${location.city}, TX | Studio37`,
-    description: `${location.intro.replace(/\.$/,'')}. Studio37 serves ${location.city}, TX with professional wedding, portrait, event, and commercial photography — local expertise and 5-star service.`,
+    description: `${location.intro.replace(/\.$/, '')}. Studio37 serves ${location.city}, TX with professional wedding, portrait, event, and commercial photography — local expertise and 5-star service.`,
     keywords: [
       `${location.city} photographer`,
       `${location.city} TX photographer`,
