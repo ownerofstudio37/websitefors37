@@ -126,6 +126,8 @@ export default function Services() {
 				>
 					{services.map((service, index) => {
 						const Icon = service.icon
+						const serviceImagePosition =
+							service.slug === 'event-photography' ? 'object-[50%_18%]' : 'object-cover'
 						return (
 							<Link
 								key={service.title}
