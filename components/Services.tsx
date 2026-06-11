@@ -100,7 +100,7 @@ const services = [
 			],
 			category: 'branding marketing',
 			slug: 'branding-marketing',
-			image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop',
+			image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1781169103/carlos-muza-hpjSkU2UYSU-unsplash_ploflu.jpg',
 		},
 ]
 
@@ -126,8 +126,6 @@ export default function Services() {
 				>
 					{services.map((service, index) => {
 						const Icon = service.icon
-						const serviceImagePosition =
-							service.slug === 'event-photography' ? 'object-[50%_18%]' : 'object-cover'
 						return (
 							<Link
 								key={service.title}
