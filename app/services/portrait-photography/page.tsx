@@ -472,10 +472,10 @@ export default function PortraitPhotographyPage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link 
-              href="/book-consultation" 
+              href="/book-a-session" 
               className="btn-primary"
             >
-              Book a Consultation
+              Book Your Session
             </Link>
             <Link 
               href="https://gallery.studio37.cc" 
