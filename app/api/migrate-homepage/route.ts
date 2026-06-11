@@ -25,7 +25,7 @@ export async function GET() {
           subtitle: 'Capturing life\'s most precious moments with artistic excellence',
           backgroundImage: 'https://images.unsplash.com/photo-1452587925148-ce544e77e70d?q=80&w=2000&auto=format&fit=crop',
           buttonText: 'View Portfolio',
-          buttonLink: '/gallery',
+          buttonLink: 'https://gallery.studio37.cc',
           secondaryButtonText: 'Book a Session',
           secondaryButtonLink: '/book-a-session',
           alignment: 'center',

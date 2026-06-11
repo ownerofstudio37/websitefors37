@@ -500,7 +500,7 @@ export default function WeddingPhotographyPage() {
               Book a Consultation
             </Link>
             <Link 
-              href="/gallery" 
+              href="https://gallery.studio37.cc" 
               className="btn-ghost border-white/40 text-white hover:text-white"
             >
               View Our Portfolio

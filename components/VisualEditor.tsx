@@ -2239,7 +2239,7 @@ export default function VisualEditor({
           buttonText: "Book Your Session",
           buttonLink: "/book-a-session",
           secondaryButtonText: "View Portfolio",
-          secondaryButtonLink: "/gallery",
+          secondaryButtonLink: "https://gallery.studio37.cc",
           alignment: "center",
           overlay: 50,
           titleColor: "text-white",
@@ -2485,7 +2485,7 @@ export default function VisualEditor({
           primaryButtonText: "Book Now",
           primaryButtonLink: "/book-a-session",
           secondaryButtonText: "View Gallery",
-          secondaryButtonLink: "/gallery",
+          secondaryButtonLink: "https://gallery.studio37.cc",
           backgroundImage: "",
           backgroundColor: "#0f172a",
           overlay: 60,
@@ -2711,7 +2711,7 @@ export default function VisualEditor({
           primaryButtonText: "Get In Touch",
           primaryButtonLink: "/contact",
           secondaryButtonText: "View Our Work",
-          secondaryButtonLink: "/gallery",
+          secondaryButtonLink: "https://gallery.studio37.cc",
           alignment: "center",
           backgroundColor: "",
           textColor: "text-gray-900",
@@ -5989,7 +5989,7 @@ function DualCTAProperties({
             value={data.secondaryButtonLink || ""}
             onChange={(e) => onUpdate({ secondaryButtonLink: e.target.value })}
             className="w-full border rounded px-3 py-2"
-            placeholder="/gallery"
+            placeholder="https://gallery.studio37.cc"
           />
         </div>
       </div>
@@ -7166,7 +7166,7 @@ function buildHomepageTemplate(): PageComponent[] {
       buttonText: "Book Your Session",
       buttonLink: "/book-a-session",
       secondaryButtonText: "View Portfolio",
-      secondaryButtonLink: "/gallery",
+      secondaryButtonLink: "https://gallery.studio37.cc",
       alignment: "center",
       overlay: 50,
       titleColor: "text-white",
@@ -7500,7 +7500,7 @@ function buildAboutTemplate(): PageComponent[] {
       backgroundImage:
         "https://images.unsplash.com/photo-1554048612-b6a482bc67e5?q=80&w=2000&auto=format&fit=crop",
       buttonText: "View Our Work",
-      buttonLink: "/gallery",
+      buttonLink: "https://gallery.studio37.cc",
       alignment: "center",
       overlay: 60,
       titleColor: "text-white",
@@ -8243,7 +8243,7 @@ function buildLeadGenTemplate(): PageComponent[] {
       buttonText: "Get Your Quote",
       buttonLink: "#contact",
       secondaryButtonText: "View Gallery",
-      secondaryButtonLink: "/gallery",
+      secondaryButtonLink: "https://gallery.studio37.cc",
       alignment: "center",
       overlay: 55,
       titleColor: "text-white",
@@ -8445,7 +8445,7 @@ function buildPortfolioTemplate(): PageComponent[] {
       title: "Portfolio Showcase",
       subtitle: "See our work come to life",
       buttonText: "View Full Portfolio",
-      buttonLink: "/gallery",
+      buttonLink: "https://gallery.studio37.cc",
       overlay: 40,
       autoplay: true,
       loop: true,

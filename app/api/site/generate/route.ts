@@ -79,7 +79,7 @@ PUBLISHER CONTEXT (separate from topic):
 - This page lives on Studio37's website (studio37.cc), a photography & marketing agency in Pinehurst, TX
 - Use Studio37's brand tone: ${style || "friendly, premium, trustworthy"}
 - Match CTAs to the topic (e.g. "Get an SEO Audit", "Start Your Campaign", "Request a Quote")
-- Internal link options: "/services", "/book-consultation", "/contact", "/gallery", "/about"
+- Internal link options: "/services", "/book-consultation", "/contact", "/about", and external gallery link "https://gallery.studio37.cc"
 
 JSON Schema:
 {
@@ -280,7 +280,7 @@ BRIEF TOPIC RULES (CRITICAL):
 PUBLISHER SITE CONTEXT:
 - Website: studio37.cc, Pinehurst, TX — a photography & marketing agency
 - Serves: Montgomery County, The Woodlands, Houston area
-- Available internal links: "/services", "/book-consultation", "/contact", "/gallery", "/about"
+- Available internal links: "/services", "/book-consultation", "/contact", "/about" and external gallery link "https://gallery.studio37.cc"
 - Adapt these links to the specific page context
 
 IMAGE SELECTION:

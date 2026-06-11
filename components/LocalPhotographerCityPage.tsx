@@ -326,7 +326,7 @@ export default function LocalPhotographerCityPage({
 
 
               <Link
-                href="/gallery"
+                href="https://gallery.studio37.cc"
                 className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-primary-600 transition-colors text-center"
               >
                 View Portfolio
