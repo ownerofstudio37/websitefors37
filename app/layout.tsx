@@ -20,6 +20,7 @@ import ChatBotMount from "@/components/ChatBotMount";
 import AnalyticsSetup from "@/components/AnalyticsSetup";
 import SEOFooter from "@/components/SEOFooter";
 import PublicStickyCTA from "@/components/PublicStickyCTA";
+import QuoteAbandonmentCapture from "@/components/QuoteAbandonmentCapture";
 import { FALLBACK_NAV_ITEMS, type NavigationItem } from "@/lib/navigation-config";
 
 const inter = Inter({
@@ -210,6 +211,9 @@ export default async function RootLayout({
           </ClientErrorBoundary>
           <ClientErrorBoundary label="sticky-cta">
             <PublicStickyCTA />
+          </ClientErrorBoundary>
+          <ClientErrorBoundary label="quote-abandonment-capture">
+            <QuoteAbandonmentCapture />
           </ClientErrorBoundary>
           {/* Interaction-based ChatBot mount for performance */}
           <ClientErrorBoundary label="chatbot">

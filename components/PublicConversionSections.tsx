@@ -1,6 +1,8 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight, CheckCircle, Clock, Image as ImageIcon, MapPin, ShieldCheck, Star } from 'lucide-react'
+import CuratedRecentWork from '@/components/CuratedRecentWork'
+import ServiceAreaMarketModules from '@/components/ServiceAreaMarketModules'
 
 const galleryUrl = 'https://gallery.studio37.cc'
 
@@ -172,7 +174,9 @@ export function PublicConversionStack({ serviceName }: { serviceName?: string })
   return (
     <>
       <PackageComparisonSection />
+      <CuratedRecentWork />
       <PortfolioProofSection serviceName={serviceName || 'Studio37'} />
+      <ServiceAreaMarketModules compact />
       <WhatHappensNextSection serviceName={serviceName || 'session'} />
     </>
   )

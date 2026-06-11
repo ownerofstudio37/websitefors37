@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 import { generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
 import { HeartHandshake, Users, Cake, Briefcase, Camera } from 'lucide-react'
+import PrepGuideLeadMagnet from '@/components/PrepGuideLeadMagnet'
 
 export const metadata = generateSEOMetadata({
   title: 'Session Prep Guides | Studio37',
@@ -147,6 +148,8 @@ export default function SessionPrepHub() {
           </div>
         </div>
       </section>
+
+      <PrepGuideLeadMagnet />
 
       {/* General Tips */}
       <section className="border-t border-gray-200 bg-gray-50 px-4 py-16 sm:px-6 lg:px-8">

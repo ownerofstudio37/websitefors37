@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 import { locationPages } from '@/lib/location-pages'
+import ServiceAreaMarketModules from '@/components/ServiceAreaMarketModules'
 
 export const metadata = generateSEOMetadata({
   title: 'Photography Service Areas in Texas',
@@ -49,6 +50,8 @@ export default function LocationsIndexPage() {
           </div>
         </div>
       </section>
+
+      <ServiceAreaMarketModules />
     </div>
   )
 }

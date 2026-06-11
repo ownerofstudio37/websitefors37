@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { LocationPage } from '@/lib/location-pages'
 import { businessInfo } from '@/lib/seo-config'
 import { PortfolioProofSection, WhatHappensNextSection } from '@/components/PublicConversionSections'
+import ServiceAreaMarketModules from '@/components/ServiceAreaMarketModules'
 
 interface LocationPageTemplateProps {
   location: LocationPage
@@ -199,6 +200,7 @@ export default function LocationPageTemplate({ location, related }: LocationPage
         </section>
       )}
 
+      <ServiceAreaMarketModules compact />
       <PortfolioProofSection serviceName={`${location.city} photography`} />
       <WhatHappensNextSection serviceName={`${location.city} photography session`} />
     </div>

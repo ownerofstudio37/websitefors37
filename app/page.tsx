@@ -6,6 +6,7 @@ import LocalBusinessSchema from "@/components/LocalBusinessSchema";
 import LazyMount from "@/components/LazyMount";
 import { PressCredentialsBlock } from "@/components/BuilderRuntime";
 import { PackageRecommenderCTA, PublicTrustStrip, WhatHappensNextSection } from "@/components/PublicConversionSections";
+import CuratedRecentWork from "@/components/CuratedRecentWork";
 import { generateSEOMetadata } from "@/lib/seo-helpers";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
@@ -207,6 +208,7 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
         <LazyMount minHeight={400}>
           <PortraitHighlightGallery />
         </LazyMount>
+        <CuratedRecentWork />
         <LazyMount minHeight={400}>
           <Services />
         </LazyMount>
@@ -281,6 +283,7 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
       <LazyMount minHeight={400}>
         <PortraitHighlightGallery />
       </LazyMount>
+      <CuratedRecentWork />
       <LazyMount minHeight={400}>
         <Services />
       </LazyMount>
