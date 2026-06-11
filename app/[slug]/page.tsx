@@ -22,7 +22,7 @@ try {
   console.warn('rehype-raw not available, MDX will not parse raw HTML')
 }
 
-const isValidSlug = (s: string) => /^[a-z0-9-]{1,64}$/.test(s)
+const isValidSlug = (s: string) => /^[a-z0-9-]{1,200}$/.test(s)
 
 // Generate metadata dynamically based on page content
 export async function generateMetadata({ params }: { params: { slug: string } }) {
@@ -64,10 +64,12 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     }
   }
   
-  return {
-    title: `${page.title} | Studio 37 Photography`,
-    description: page.meta_description || 'Studio 37 Photography'
-  }
+  return generateSEOMetadata({
+    title: page.title,
+    description: page.meta_description || 'Studio 37 Photography',
+    canonicalUrl: `https://www.studio37.cc/${params.slug}`,
+    pageType: 'website',
+  })
 }
 
 // Revalidate CMS-driven pages every 2 minutes (can be overridden by on-demand revalidation)
