@@ -35,6 +35,17 @@ interface SEOMetrics {
   sitemapLastChecked: string | null;
 }
 
+interface SEOIssue {
+  id: string;
+  title: string;
+  description: string;
+  status: "open" | "resolved";
+  owner: string;
+  severity: "high" | "medium" | "low";
+  actionLabel: string;
+  href?: string;
+}
+
 const REQUIRED_SITEMAP_URLS = [
   "https://www.studio37.cc",
   "https://www.studio37.cc/services",
@@ -311,6 +322,67 @@ export default function SEOPage() {
     ? Math.round((metrics.pagesWithMeta / metrics.totalPages) * 100)
     : 0;
 
+  const seoIssues: SEOIssue[] = [
+    {
+      id: "sitemap-access",
+      title: "Sitemap and index accessibility",
+      description: "Sitemap.xml and sitemap_index.xml should both return successful responses.",
+      status: metrics.sitemapStatus === "active" && metrics.sitemapIndexStatus === "active" ? "resolved" : "open",
+      owner: "SEO / Engineering",
+      severity: "high",
+      actionLabel: "Open sitemap",
+      href: "/sitemap.xml",
+    },
+    {
+      id: "robots-discovery",
+      title: "Robots sitemap discovery",
+      description: "Robots.txt should reference the canonical sitemap URL for crawler discovery.",
+      status: metrics.robotsStatus === "active" && metrics.robotsReferencesSitemap ? "resolved" : "open",
+      owner: "SEO / Engineering",
+      severity: "high",
+      actionLabel: "Open robots",
+      href: "/robots.txt",
+    },
+    {
+      id: "required-sitemap-urls",
+      title: "Required sitemap coverage",
+      description: `${metrics.sitemapRequiredUrlsPresent}/${REQUIRED_SITEMAP_URLS.length} required URLs are currently present.`,
+      status: metrics.sitemapRequiredUrlsPresent === REQUIRED_SITEMAP_URLS.length ? "resolved" : "open",
+      owner: "SEO",
+      severity: "medium",
+      actionLabel: "Review sitemap",
+      href: "/sitemap.xml",
+    },
+    {
+      id: "excluded-sitemap-urls",
+      title: "Redirected/private URLs in sitemap",
+      description: `${metrics.sitemapExcludedUrlCount} excluded URLs were detected in sitemap output.`,
+      status: metrics.sitemapExcludedUrlCount === 0 ? "resolved" : "open",
+      owner: "Engineering",
+      severity: "high",
+      actionLabel: "Review sitemap",
+      href: "/sitemap.xml",
+    },
+    {
+      id: "meta-coverage",
+      title: "Meta description coverage",
+      description: `${metrics.pagesWithMeta}/${metrics.totalPages} content items have meta descriptions.`,
+      status: metrics.totalPages > 0 && metrics.pagesWithMeta === metrics.totalPages ? "resolved" : "open",
+      owner: "Content",
+      severity: "medium",
+      actionLabel: "Review pages",
+    },
+    {
+      id: "title-length",
+      title: "Average page title length",
+      description: `Average title length is ${metrics.avgTitleLength} characters. Target 30-60 characters.`,
+      status: metrics.avgTitleLength > 30 && metrics.avgTitleLength < 60 ? "resolved" : "open",
+      owner: "Content",
+      severity: "low",
+      actionLabel: "Review content",
+    },
+  ];
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -531,6 +603,89 @@ export default function SEOPage() {
                     <ExternalLink className="h-4 w-4" />
                   </a>
                 )}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* SEO Issue Queue */}
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 mb-8">
+          <div className="p-6 border-b border-gray-200 flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+            <div>
+              <h2 className="text-lg font-semibold text-gray-900">SEO Issue Queue</h2>
+              <p className="text-sm text-gray-600 mt-1">
+                Track owner, status, fix action, and recheck action for search readiness issues.
+              </p>
+            </div>
+            <button
+              onClick={fetchSEOData}
+              className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+            >
+              <Loader2 className="h-4 w-4" />
+              Recheck all
+            </button>
+          </div>
+
+          <div className="divide-y divide-gray-200">
+            {seoIssues.map((issue) => (
+              <div key={issue.id} className="p-6">
+                <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                  <div className="flex items-start gap-4">
+                    <div className={`mt-0.5 rounded-full p-1 ${issue.status === "resolved" ? "bg-green-100 text-green-700" : "bg-yellow-100 text-yellow-700"}`}>
+                      {issue.status === "resolved" ? (
+                        <CheckCircle className="h-5 w-5" />
+                      ) : (
+                        <AlertCircle className="h-5 w-5" />
+                      )}
+                    </div>
+                    <div>
+                      <div className="flex flex-wrap items-center gap-2">
+                        <h3 className="font-medium text-gray-900">{issue.title}</h3>
+                        <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${
+                          issue.status === "resolved" ? "bg-green-100 text-green-700" : "bg-yellow-100 text-yellow-700"
+                        }`}>
+                          {issue.status}
+                        </span>
+                        <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${
+                          issue.severity === "high" ? "bg-red-100 text-red-700" :
+                          issue.severity === "medium" ? "bg-amber-100 text-amber-700" :
+                          "bg-gray-100 text-gray-700"
+                        }`}>
+                          {issue.severity}
+                        </span>
+                      </div>
+                      <p className="text-sm text-gray-600 mt-1">{issue.description}</p>
+                      <p className="text-xs text-gray-500 mt-2">Owner: {issue.owner}</p>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-wrap gap-2 lg:justify-end">
+                    {issue.href ? (
+                      <a
+                        href={issue.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 rounded-lg border border-gray-200 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                      >
+                        {issue.actionLabel}
+                        <ExternalLink className="h-4 w-4" />
+                      </a>
+                    ) : (
+                      <button
+                        onClick={() => setActiveTab("pages")}
+                        className="inline-flex items-center gap-2 rounded-lg border border-gray-200 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                      >
+                        {issue.actionLabel}
+                      </button>
+                    )}
+                    <button
+                      onClick={fetchSEOData}
+                      className="inline-flex items-center justify-center rounded-lg bg-primary-600 px-3 py-2 text-sm font-medium text-white hover:bg-primary-700"
+                    >
+                      Recheck
+                    </button>
+                  </div>
+                </div>
               </div>
             ))}
           </div>

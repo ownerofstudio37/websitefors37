@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect, useCallback } from 'react'
-import { Mail, Phone, MessageCircle, Edit, Settings, Calendar, DollarSign, MessageSquare, X, Plus, PhoneCall, Trash2, ChevronLeft, ChevronRight, Upload, Scan, Download, CreditCard } from 'lucide-react'
+import { Mail, Phone, MessageCircle, Edit, Settings, Calendar, DollarSign, MessageSquare, X, Plus, PhoneCall, Trash2, ChevronLeft, ChevronRight, Upload, Scan, Download, CreditCard, FileText, Image, Paperclip, Star } from 'lucide-react'
 import { CheckCircle } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
 import type { Lead, CommunicationLog } from '@/lib/supabase'
@@ -433,6 +433,100 @@ Studio37`)
     setShowComposeModal(true)
   }
 
+  const openTemplateEmail = (lead: Lead, template: 'quote' | 'prep' | 'review') => {
+    const firstName = (lead.name || '').split(' ')[0] || 'there'
+    const service = lead.service_interest || 'photography session'
+
+    setComposeRecipient(lead.email || '')
+    setEditorMode('simple')
+    setComposeResult(null)
+
+    if (template === 'quote') {
+      setComposeSubject(`Studio37 quote for your ${service}`)
+      setComposeHtml(`Hi ${firstName},
+
+Thanks for reaching out about ${service}. I put together the next step so we can confirm the right package, timing, and coverage.
+
+Here is the fastest path:
+
+1. Review the services page: https://www.studio37.cc/services
+2. Book a consultation: https://www.studio37.cc/book-consultation
+3. View recent work: https://gallery.studio37.cc
+
+Reply with any must-have details and I can tailor the quote from there.
+
+Best,
+Studio37`)
+    }
+
+    if (template === 'prep') {
+      setComposeSubject(`Prep guide for your ${service}`)
+      setComposeHtml(`Hi ${firstName},
+
+Here is a quick prep guide for your ${service}:
+
+- Bring 2-3 outfit options if the session allows.
+- Keep accessories simple and intentional.
+- Plan to arrive a few minutes early so we can start relaxed.
+- Send any inspiration, must-have shots, or location notes before the session.
+
+You can also review session prep here: https://www.studio37.cc/session-prep
+
+Best,
+Studio37`)
+    }
+
+    if (template === 'review') {
+      setComposeSubject('Thank you from Studio37')
+      setComposeHtml(`Hi ${firstName},
+
+Thank you again for working with Studio37. If you loved the experience, a quick review would mean a lot and helps future clients feel confident booking with us.
+
+You can also share your gallery link with family or your team from here:
+https://gallery.studio37.cc
+
+Best,
+Studio37`)
+    }
+
+    setComposeBlocks([])
+    setShowComposeModal(true)
+  }
+
+  const handleLeadQuickAction = async (
+    lead: Lead,
+    action: 'quote' | 'schedule' | 'gallery' | 'prep' | 'review'
+  ) => {
+    if (action === 'quote') {
+      openTemplateEmail(lead, 'quote')
+      await logCommunication(lead, 'email', 'Started quote email from quick action')
+      return
+    }
+
+    if (action === 'schedule') {
+      await logCommunication(lead, 'meeting', 'Opened scheduling flow from quick action')
+      window.open('/book-a-session', '_blank', 'noopener,noreferrer')
+      return
+    }
+
+    if (action === 'gallery') {
+      await logCommunication(lead, 'note', 'Opened gallery admin to create or manage a client gallery')
+      window.open('/admin/galleries', '_blank', 'noopener,noreferrer')
+      return
+    }
+
+    if (action === 'prep') {
+      openTemplateEmail(lead, 'prep')
+      await logCommunication(lead, 'email', 'Started prep guide email from quick action')
+      return
+    }
+
+    if (action === 'review') {
+      openTemplateEmail(lead, 'review')
+      await logCommunication(lead, 'email', 'Started review request email from quick action')
+    }
+  }
+
   const sendComposeEmail = async (lead?: Lead) => {
     if (!composeRecipient.trim()) {
       setComposeResult('Recipient email is required')
@@ -540,26 +634,59 @@ Studio37`)
     setShowNotesModal(true)
   }
 
-  const getLogIcon = (type: CommunicationLog['type']) => {
-    switch (type) {
-      case 'email': return <Mail className="h-4 w-4" />
-      case 'phone': return <Phone className="h-4 w-4" />
-      case 'sms': return <MessageCircle className="h-4 w-4" />
-      case 'meeting': return <Calendar className="h-4 w-4" />
-      case 'note': return <MessageSquare className="h-4 w-4" />
-      default: return <Settings className="h-4 w-4" />
-    }
+  const handleFileDelete = (fileId: string) => {
+    setSelectedLead((current) => {
+      if (!current || !(current as any).files) return current
+      return {
+        ...current,
+        files: (current as any).files.filter((file: any) => file.id !== fileId),
+      } as Lead
+    })
+    setToast('File removed from this view')
+    setTimeout(() => setToast(null), 3000)
   }
 
-  const getLogColor = (type: CommunicationLog['type']) => {
-    switch (type) {
-      case 'email': return 'text-blue-600'
-      case 'phone': return 'text-green-600'
-      case 'sms': return 'text-purple-600'
-      case 'meeting': return 'text-orange-600'
-      case 'note': return 'text-gray-600'
-      default: return 'text-gray-600'
-    }
+  const buildLeadTimeline = (lead: Lead, communicationLogs: CommunicationLog[]) => {
+    const entries = [
+      {
+        id: `created-${lead.id}`,
+        title: 'Lead created',
+        description: `${lead.name} submitted a ${lead.service_interest || 'general'} inquiry${lead.source ? ` from ${lead.source}` : ''}.`,
+        timestamp: lead.created_at,
+        icon: MessageSquare,
+        tone: 'bg-blue-50 text-blue-700',
+      },
+      ...(lead.notes
+        ? [{
+            id: `notes-${lead.id}`,
+            title: 'Internal notes',
+            description: lead.notes,
+            timestamp: lead.updated_at || lead.created_at,
+            icon: FileText,
+            tone: 'bg-gray-50 text-gray-700',
+          }]
+        : []),
+      ...communicationLogs.map((log) => ({
+        id: log.id,
+        title: `${log.type.charAt(0).toUpperCase()}${log.type.slice(1)} ${log.direction || ''}`.trim(),
+        description: [log.subject, log.content].filter(Boolean).join(' - '),
+        timestamp: log.created_at,
+        icon:
+          log.type === 'email' ? Mail :
+          log.type === 'phone' ? Phone :
+          log.type === 'sms' ? MessageCircle :
+          log.type === 'meeting' ? Calendar :
+          FileText,
+        tone:
+          log.type === 'email' ? 'bg-blue-50 text-blue-700' :
+          log.type === 'phone' ? 'bg-green-50 text-green-700' :
+          log.type === 'sms' ? 'bg-purple-50 text-purple-700' :
+          log.type === 'meeting' ? 'bg-amber-50 text-amber-700' :
+          'bg-gray-50 text-gray-700',
+      })),
+    ]
+
+    return entries.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
   }
 
   const exportToCSV = () => {
@@ -888,6 +1015,52 @@ Studio37`)
               </button>
             </div>
 
+            <div className="mb-6 rounded-lg border border-gray-200 bg-gray-50 p-4">
+              <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+                <div>
+                  <h4 className="text-sm font-semibold text-gray-900">Quick actions</h4>
+                  <p className="text-sm text-gray-600">Move this lead from inquiry to booking, delivery, and review.</p>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  <button
+                    onClick={() => handleLeadQuickAction(selectedLead, 'quote')}
+                    className="inline-flex items-center gap-2 rounded-lg bg-primary-600 px-3 py-2 text-sm font-medium text-white hover:bg-primary-700"
+                  >
+                    <FileText className="h-4 w-4" />
+                    Send Quote
+                  </button>
+                  <button
+                    onClick={() => handleLeadQuickAction(selectedLead, 'schedule')}
+                    className="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                  >
+                    <Calendar className="h-4 w-4" />
+                    Schedule Session
+                  </button>
+                  <button
+                    onClick={() => handleLeadQuickAction(selectedLead, 'gallery')}
+                    className="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                  >
+                    <Image className="h-4 w-4" />
+                    Create Gallery
+                  </button>
+                  <button
+                    onClick={() => handleLeadQuickAction(selectedLead, 'prep')}
+                    className="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                  >
+                    <MessageSquare className="h-4 w-4" />
+                    Prep Guide
+                  </button>
+                  <button
+                    onClick={() => handleLeadQuickAction(selectedLead, 'review')}
+                    className="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                  >
+                    <Star className="h-4 w-4" />
+                    Request Review
+                  </button>
+                </div>
+              </div>
+            </div>
+
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Lead Information */}
               <div className="space-y-4">
@@ -979,7 +1152,7 @@ Studio37`)
                       selectedLead.files.map((file) => (
                         <div key={file.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                           <div className="flex items-center space-x-2">
-                            <PaperClip className="h-5 w-5 text-gray-400" />
+                            <Paperclip className="h-5 w-5 text-gray-400" />
                             <a 
                               href={file.url} 
                               target="_blank" 
@@ -1017,10 +1190,10 @@ Studio37`)
                 )}
               </div>
 
-              {/* Communication History */}
+              {/* Lead Timeline */}
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
-                  <h4 className="text-lg font-semibold">Communication History</h4>
+                  <h4 className="text-lg font-semibold">Lead Timeline</h4>
                   <button
                     onClick={() => setShowLogModal(true)}
                     className="px-3 py-1 bg-primary-600 text-white rounded-lg hover:bg-primary-700 text-sm flex items-center gap-1"
@@ -1030,39 +1203,28 @@ Studio37`)
                   </button>
                 </div>
 
-                <div className="space-y-3 max-h-96 overflow-y-auto">
-                  {logs.length === 0 ? (
-                    <p className="text-gray-500 text-sm">No communication history yet</p>
-                  ) : (
-                    logs.map((log) => (
-                      <div key={log.id} className="bg-gray-50 p-3 rounded-lg">
-                        <div className="flex items-start gap-3">
-                          <div className={`${getLogColor(log.type)} mt-1`}>
-                            {getLogIcon(log.type)}
+                <div className="max-h-96 overflow-y-auto rounded-lg border border-gray-200 bg-white">
+                  {buildLeadTimeline(selectedLead, logs).map((entry, index) => {
+                    const Icon = entry.icon
+
+                    return (
+                      <div key={entry.id} className="relative flex gap-3 border-b border-gray-100 p-4 last:border-b-0">
+                        {index < buildLeadTimeline(selectedLead, logs).length - 1 && (
+                          <div className="absolute left-8 top-12 h-full w-px bg-gray-200" />
+                        )}
+                        <div className={`relative z-10 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full ${entry.tone}`}>
+                          <Icon className="h-4 w-4" />
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                            <p className="text-sm font-semibold text-gray-900">{entry.title}</p>
+                            <span className="text-xs text-gray-500">{new Date(entry.timestamp).toLocaleString()}</span>
                           </div>
-                          <div className="flex-1">
-                            <div className="flex items-center gap-2 mb-1">
-                              <span className="text-sm font-medium capitalize">
-                                {log.type}
-                              </span>
-                              {log.direction && (
-                                <span className="text-xs text-gray-500 capitalize">
-                                  ({log.direction})
-                                </span>
-                              )}
-                              <span className="text-xs text-gray-500">
-                                {new Date(log.created_at).toLocaleString()}
-                              </span>
-                            </div>
-                            {log.subject && (
-                              <p className="text-sm font-medium mb-1">{log.subject}</p>
-                            )}
-                            <p className="text-sm text-gray-600 whitespace-pre-wrap">{log.content}</p>
-                          </div>
+                          <p className="mt-1 whitespace-pre-wrap text-sm text-gray-600">{entry.description}</p>
                         </div>
                       </div>
-                    ))
-                  )}
+                    )
+                  })}
                 </div>
               </div>
             </div>

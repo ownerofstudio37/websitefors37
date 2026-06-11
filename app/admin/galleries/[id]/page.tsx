@@ -2,12 +2,13 @@
 
 import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
-import { Upload, Image as ImageIcon, Trash2, Star, Eye, Download, ArrowLeft, Save } from 'lucide-react'
+import { Upload, Image as ImageIcon, Trash2, Star, Eye, Download, ArrowLeft, Copy, ExternalLink, Mail } from 'lucide-react'
 import AdminProtected from '@/components/AdminProtected'
 
 interface Gallery {
   id: string
   client_name: string
+  client_email?: string
   title: string
   description: string | null
   access_code: string
@@ -41,6 +42,7 @@ export default function GalleryManagePage() {
   const [showUrlUpload, setShowUrlUpload] = useState(false)
   const [urlInput, setUrlInput] = useState('')
   const [urlUploading, setUrlUploading] = useState(false)
+  const [copiedLink, setCopiedLink] = useState(false)
 
   useEffect(() => {
     fetchGallery()
@@ -145,6 +147,15 @@ export default function GalleryManagePage() {
     }
   }
 
+  const galleryUrl = gallery ? `https://gallery.studio37.cc/${gallery.access_code}` : ''
+
+  const copyGalleryLink = async () => {
+    if (!galleryUrl) return
+    await navigator.clipboard.writeText(galleryUrl)
+    setCopiedLink(true)
+    setTimeout(() => setCopiedLink(false), 2000)
+  }
+
   if (loading) {
     return (
       <AdminProtected>
@@ -184,13 +195,79 @@ export default function GalleryManagePage() {
                 <p className="text-gray-600 mt-2">{gallery.client_name} • {images.length} photos</p>
               </div>
               <a
-                href={`https://gallery.studio37.cc/${gallery.access_code}`}
+                href={galleryUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-all"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-all"
               >
+                <ExternalLink className="h-4 w-4" />
                 View Gallery
               </a>
+            </div>
+          </div>
+
+          {/* Gallery Link Management */}
+          <div className="bg-white rounded-xl shadow-lg p-6 mb-8 border border-gray-100">
+            <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+              <div>
+                <h2 className="text-xl font-bold text-gray-900">Gallery Link Management</h2>
+                <p className="text-sm text-gray-600 mt-1">
+                  Share, preview, and manage this client gallery from the gallery subdomain.
+                </p>
+              </div>
+              <span className={`w-fit rounded-full px-3 py-1 text-xs font-semibold ${gallery.status === 'active' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700'}`}>
+                {gallery.status}
+              </span>
+            </div>
+
+            <div className="mt-5 grid grid-cols-1 gap-4 lg:grid-cols-3">
+              <div className="lg:col-span-2 rounded-lg border border-gray-200 bg-gray-50 p-4">
+                <p className="text-xs font-medium uppercase tracking-[0.14em] text-gray-500">Canonical share link</p>
+                <div className="mt-2 flex flex-col gap-3 sm:flex-row sm:items-center">
+                  <code className="min-w-0 flex-1 overflow-hidden text-ellipsis rounded bg-white px-3 py-2 text-sm text-gray-800">
+                    {galleryUrl}
+                  </code>
+                  <button
+                    onClick={copyGalleryLink}
+                    className="inline-flex items-center justify-center gap-2 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700"
+                  >
+                    <Copy className="h-4 w-4" />
+                    {copiedLink ? 'Copied' : 'Copy Link'}
+                  </button>
+                </div>
+              </div>
+
+              <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
+                <p className="text-xs font-medium uppercase tracking-[0.14em] text-gray-500">Client access code</p>
+                <p className="mt-2 font-mono text-lg font-semibold text-gray-900">{gallery.access_code}</p>
+                <p className="mt-1 text-xs text-gray-500">Use only with gallery.studio37.cc links.</p>
+              </div>
+            </div>
+
+            <div className="mt-5 flex flex-wrap gap-2">
+              <a
+                href={galleryUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-lg border border-gray-200 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+              >
+                <ExternalLink className="h-4 w-4" />
+                Preview Gallery
+              </a>
+              <a
+                href={`mailto:${gallery.client_email || ''}?subject=${encodeURIComponent(`Your Studio37 gallery: ${gallery.title}`)}&body=${encodeURIComponent(`Hi ${gallery.client_name},\n\nYour Studio37 gallery is ready here:\n${galleryUrl}\n\nAccess code: ${gallery.access_code}\n\nBest,\nStudio37`)}`}
+                className="inline-flex items-center gap-2 rounded-lg border border-gray-200 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+              >
+                <Mail className="h-4 w-4" />
+                Email Client
+              </a>
+              <button
+                onClick={() => window.open('https://gallery.studio37.cc', '_blank', 'noopener,noreferrer')}
+                className="inline-flex items-center gap-2 rounded-lg border border-gray-200 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+              >
+                <ExternalLink className="h-4 w-4" />
+                Open Gallery Home
+              </button>
             </div>
           </div>
 

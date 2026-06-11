@@ -28,11 +28,11 @@
 
 ## Admin Features
 
-- [ ] Add a lead timeline showing forms, SMS, emails, quotes, bookings, and gallery activity in one view.
-- [ ] Add an SEO issue queue with status, owner, fix action, and recheck action.
+- [x] Add a lead timeline showing forms, SMS, emails, quotes, bookings, and gallery activity in one view.
+- [x] Add an SEO issue queue with status, owner, fix action, and recheck action.
 - [x] Add a sitemap health card showing URL count, last check time, excluded URLs, required URL coverage, and robots discovery status.
-- [ ] Add gallery-subdomain link management for client galleries, share links, and gallery previews.
-- [ ] Add quick actions from lead records: send quote, schedule session, create gallery, send prep guide, request review.
+- [x] Add gallery-subdomain link management for client galleries, share links, and gallery previews.
+- [x] Add quick actions from lead records: send quote, schedule session, create gallery, send prep guide, request review.
 
 ## SEO
 
