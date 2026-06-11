@@ -171,7 +171,6 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
               source={post.content}
               options={{
                 mdxOptions: {
-                  allowDangerousHtml: true,
                   rehypePlugins: [[rehypeRaw as any, {
                     passThrough: ['mdxJsxFlowElement', 'mdxJsxTextElement'],
                   }] as any, [rehypeHighlight, {}] as any]

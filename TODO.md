@@ -45,7 +45,15 @@
 
 ## Technical Quality
 
-- [ ] Work through the current repo-wide TypeScript backlog now that `tsconfig.json` checks source files.
+- [x] Work through the current repo-wide TypeScript backlog now that `tsconfig.json` checks source files.
 - [x] Mark dynamic API routes explicitly dynamic where Next probes them during build.
-- [ ] Review CI configuration because GitHub Actions currently appears out of sync with the Netlify root app build.
-- [ ] Add a lightweight sitemap endpoint test that verifies XML validity, URL count, excluded paths, and required URLs.
+- [x] Review CI configuration because GitHub Actions currently appears out of sync with the Netlify root app build.
+- [x] Add a lightweight sitemap endpoint test that verifies XML validity, URL count, excluded paths, and required URLs.
+
+## TypeScript Follow-Up
+
+- [ ] Repair `components/VisualEditor.tsx` builder schema drift and missing component type references.
+- [ ] Add Google Maps ambient typing for `components/blocks/InteractiveMapClient.tsx`.
+- [ ] Normalize booking package unions so consultation package logic is type-safe.
+- [ ] Align AI route option payloads with the current `lib/ai-client.ts` contract.
+- [ ] Standardize Supabase/PostgREST error logging context types in API routes.

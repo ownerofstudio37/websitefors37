@@ -27,11 +27,14 @@ const PRIORITIES = {
 const EXCLUDED_PAGE_SLUGS = new Set([
   'algolia-verification',
   'bing-site-auth',
+  'gallery',
   'google-site-verification',
+  'portfolio',
   'yandex-verification',
 ])
 
 const EXCLUDED_PAGE_PATTERNS: RegExp[] = [
+  /^gallery\//i,
   /verification/i,
   /^a[0-9a-f]{30,}$/i,
 ]

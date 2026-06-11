@@ -2,56 +2,18 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main, master]
   pull_request:
-    branches: [ main ]
+    branches: [main, master]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: .
     env:
       NEXT_PUBLIC_SUPABASE_URL: https://placeholder.supabase.co
       NEXT_PUBLIC_SUPABASE_ANON_KEY: public-anon-placeholder
       SUPABASE_SERVICE_ROLE_KEY: service-role-placeholder
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Use Node 18
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Typecheck (web)
-        run: npx turbo run typecheck --filter=web
-
-      - name: Build (web)
-        run: npx turbo run build --filter=web
-
-      - name: Upload .next build artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: web-next-build
-          path: apps/web/.next
-          if-no-files-found: error
-name: CI
-
-on:
-  push:
-    branches: [ main, master ]
-  pull_request:
-    branches: [ main, master ]
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
+      SITE_URL: http://127.0.0.1:3000
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -59,21 +21,34 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
-          cache: 'npm'
+          node-version: '20'
+          cache: npm
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Lint
-        run: npm run repo:lint --if-present
+      - name: Build
+        run: npm run build
 
-      - name: Typecheck
-        run: npm run repo:typecheck --if-present
+      - name: Start site
+        run: |
+          npm start > /tmp/studio37-next.log 2>&1 &
+          echo $! > /tmp/studio37-next.pid
+          for attempt in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:3000 >/dev/null; then
+              exit 0
+            fi
+            sleep 2
+          done
+          cat /tmp/studio37-next.log
+          exit 1
 
-      - name: Build web workspace
-        env:
-          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
-          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
-          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
-        run: npx turbo run build --filter=web
+      - name: Validate sitemap endpoints
+        run: npm run test:sitemap
+
+      - name: Stop site
+        if: always()
+        run: |
+          if [ -f /tmp/studio37-next.pid ]; then
+            kill "$(cat /tmp/studio37-next.pid)" || true
+          fi

@@ -146,7 +146,6 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
           source={page.content}
           options={{
             mdxOptions: {
-              allowDangerousHtml: true,
               rehypePlugins: rehypeRaw
                 ? [[rehypeRaw as any, {
                     passThrough: ['mdxJsxFlowElement', 'mdxJsxTextElement'],

@@ -13,6 +13,7 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
+    "test:sitemap": "node scripts/validate-sitemap-endpoints.mjs",
     "repo:dev": "turbo run dev --parallel",
     "repo:build": "turbo run build",
     "repo:lint": "turbo run lint",

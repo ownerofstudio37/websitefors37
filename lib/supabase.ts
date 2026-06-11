@@ -50,6 +50,11 @@ export interface Lead {
   service_interest?: string
   budget_range?: string
   event_date?: string
+  files?: Array<{
+    id: string
+    name: string
+    url: string
+  }>
   lead_cost?: number
   revenue_generated?: number
   location?: string

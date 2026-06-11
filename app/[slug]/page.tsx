@@ -187,7 +187,6 @@ export default async function DynamicPage({ params, searchParams }: { params: { 
             source={page.content}
             options={{
               mdxOptions: {
-                allowDangerousHtml: true,
                 rehypePlugins: rehypeRaw 
                   ? [[rehypeRaw as any, {
                       passThrough: ['mdxJsxFlowElement', 'mdxJsxTextElement'],
@@ -229,7 +228,6 @@ export default async function DynamicPage({ params, searchParams }: { params: { 
               source={page.content}
               options={{
                 mdxOptions: {
-                  allowDangerousHtml: true,
                   rehypePlugins: rehypeRaw 
                     ? [[rehypeRaw as any, {
                         passThrough: ['mdxJsxFlowElement', 'mdxJsxTextElement'],
