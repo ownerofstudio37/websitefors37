@@ -21,16 +21,18 @@ export function generateMetadata({ params }: { params: { slug: string } }) {
   }
 
   return generateSEOMetadata({
-    title: `${location.city} TX Photographer Services`,
-    description: `Studio37 provides wedding, portrait, event, and commercial photography in ${location.city}, Texas (${location.county}). Two-photographer coverage, local expertise, and fast delivery.`,
+    title: `Photographer in ${location.city}, TX | Studio37`,
+    description: `${location.intro.replace(/\.$/,'')}. Studio37 serves ${location.city}, TX with professional wedding, portrait, event, and commercial photography — local expertise and 5-star service.`,
     keywords: [
       `${location.city} photographer`,
+      `${location.city} TX photographer`,
       `${location.city} wedding photographer`,
       `${location.city} portrait photographer`,
       `${location.city} event photography`,
       `${location.city} commercial photography`,
+      `photographer near ${location.city}`,
     ],
-    canonicalUrl: `https://www.studio37.cc/${location.slug.replace(/-tx$/, '')}`,
+    canonicalUrl: `https://www.studio37.cc/locations/${location.slug}`,
     pageType: 'service',
   })
 }

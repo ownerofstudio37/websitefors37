@@ -1,5 +1,6 @@
 'use client'
 
+import React from 'react'
 import Link from 'next/link'
 import { ArrowRight, TrendingUp, Users, CalendarDays } from 'lucide-react'
 import { useDashboardData } from '@/hooks/useDashboardData'
@@ -48,6 +49,15 @@ const statCards = [
 export default function AdminPage() {
   const { stats, loading, error } = useDashboardData()
   const dashboardTools = getDashboardTools()
+  const [searchQuery, setSearchQuery] = React.useState('')
+
+  const filteredTools = searchQuery.trim()
+    ? dashboardTools.filter(
+        (t) =>
+          t.label.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          t.description.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : dashboardTools
 
   return (
     <div className="max-w-7xl mx-auto space-y-8">
@@ -102,15 +112,27 @@ export default function AdminPage() {
 
       <section className="grid grid-cols-1 xl:grid-cols-3 gap-6">
         <div className="xl:col-span-2 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <h2 className="text-xl font-semibold text-gray-900">Quick access</h2>
-              <p className="text-sm text-gray-600 mt-1">Use the grouped sections below to find the right admin tool faster.</p>
+          <div className="flex flex-col gap-3 mb-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="text-xl font-semibold text-gray-900">Quick access</h2>
+                <p className="text-sm text-gray-600 mt-1">Use the grouped sections below to find the right admin tool faster.</p>
+              </div>
             </div>
+            <input
+              type="search"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search tools…"
+              className="w-full rounded-lg border border-gray-200 bg-gray-50 px-4 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent"
+            />
           </div>
           <div className="grid gap-6">
+            {searchQuery.trim() && filteredTools.length === 0 && (
+              <p className="text-sm text-gray-500 py-4 text-center">No tools match &ldquo;{searchQuery}&rdquo;</p>
+            )}
             {ADMIN_DASHBOARD_GROUP_ORDER.map((groupId) => {
-              const tools = dashboardTools.filter((tool) => tool.group === groupId)
+              const tools = filteredTools.filter((tool) => tool.group === groupId)
               if (tools.length === 0) return null
 
               return (

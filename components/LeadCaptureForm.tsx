@@ -24,7 +24,7 @@ type LeadFormData = z.infer<typeof leadSchema>
 export default function LeadCaptureForm() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [showThankYou, setShowThankYou] = useState(false)
-  const [validFieldsSet, setValidFieldsSet] = useState<Set<string>>(new Set())
+  const [validFieldsSet, setValidFieldsSet] = useState<Set<string>>(new Set<string>())
 
   const {
     register,
@@ -44,11 +44,11 @@ export default function LeadCaptureForm() {
   const handleFieldBlur = async (fieldName: keyof LeadFormData) => {
     const isValid = await trigger(fieldName)
     if (isValid) {
-      setValidFieldsSet(prev => new Set([...prev, fieldName]))
+      setValidFieldsSet(prev => new Set([...prev, fieldName as string]))
     } else {
       setValidFieldsSet(prev => {
         const updated = new Set(prev)
-        updated.delete(fieldName)
+        updated.delete(fieldName as string)
         return updated
       })
     }
@@ -111,6 +111,30 @@ export default function LeadCaptureForm() {
           </div>
         </div>
         <div className="p-8 md:p-10 lg:p-12 bg-white">
+          {/* Completion progress */}
+          {(() => {
+            const requiredFields: (keyof LeadFormData)[] = ['name', 'email', 'service_interest', 'message']
+            const completedCount = requiredFields.filter(f => validFieldsSet.has(f as string)).length
+            const progressPct = Math.round((completedCount / requiredFields.length) * 100)
+            return (
+              <div className="mb-6">
+                <div className="flex items-center justify-between text-xs text-gray-500 mb-1.5">
+                  <span>Form progress</span>
+                  <span className={`font-medium transition-colors ${completedCount === requiredFields.length ? 'text-green-600' : 'text-gray-500'}`}>
+                    {completedCount} of {requiredFields.length} required fields
+                  </span>
+                </div>
+                <div className="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
+                  <div
+                    className={`h-full rounded-full transition-all duration-300 ${
+                      completedCount === requiredFields.length ? 'bg-green-500' : 'bg-amber-400'
+                    }`}
+                    style={{ width: `${progressPct}%` }}
+                  />
+                </div>
+              </div>
+            )
+          })()}
       <form
         name="contact"
         method="POST"
