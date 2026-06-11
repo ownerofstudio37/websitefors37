@@ -1,8 +1,10 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { generateSEOMetadata } from '@/lib/seo-helpers'
+import { generateSEOMetadata, generateFAQSchema } from '@/lib/seo-helpers'
 import { generateServiceSchema } from '@/lib/seo-config'
+import FAQSection from '@/components/FAQSection'
+import { generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
 import {
   Megaphone,
   Camera,
@@ -46,6 +48,28 @@ export default function BrandingMarketingPage() {
     'Branding & Marketing Services',
     'White-glove branding and marketing services in Pinehurst, Texas including brand content production, corporate event coverage, website and landing page development, SEO, PPC, and social media management.'
   )
+
+  const brandingFaqs = [
+    {
+      question: 'Do you offer both content production and ongoing marketing management?',
+      answer: 'Yes. We handle strategy, photography/video production, SEO, paid ads, and social media execution as a unified growth system for qualified clients.',
+    },
+    {
+      question: 'Is this service only for large companies?',
+      answer: 'No. We work with growth-focused local businesses and established brands that want high-touch execution and measurable outcomes.',
+    },
+    {
+      question: 'How do we get started with a branding and marketing retainer?',
+      answer: 'Start with a consultation so we can map your goals, channels, and 90-day priorities. Then we build a custom scope and rollout plan.',
+    },
+  ]
+
+  const faqSchema = generateFAQSchema(brandingFaqs)
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', url: 'https://www.studio37.cc' },
+    { name: 'Services', url: 'https://www.studio37.cc/services' },
+    { name: 'Branding & Marketing', url: 'https://www.studio37.cc/services/branding-marketing' },
+  ])
 
   const solutions = [
     {
@@ -115,6 +139,14 @@ export default function BrandingMarketingPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
       <section className="relative h-[30rem] bg-gradient-to-r from-gray-900 to-primary-900">
@@ -266,6 +298,12 @@ export default function BrandingMarketingPage() {
           </div>
         </div>
       </section>
+
+      <FAQSection
+        title="Branding & Marketing FAQs"
+        subtitle="Answers to common questions about retainers, scope, and onboarding."
+        faqs={brandingFaqs}
+      />
 
       <section className="section-shell bg-white">
         <div className="container mx-auto px-4 text-center">
