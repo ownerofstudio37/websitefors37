@@ -448,12 +448,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     // Portfolio and content pages
     {
-      url: `${baseUrl}/gallery`,
-      lastModified: currentDate,
-      changeFrequency: 'weekly',
-      priority: PRIORITIES.servicePages,
-    },
-    {
       url: `${baseUrl}/about`,
       lastModified: currentDate,
       changeFrequency: 'monthly',

@@ -1,54 +1,5 @@
-import React from 'react'
-import { generateSEOMetadata } from '@/lib/seo-helpers'
-import Schema from '@/components/Schema'
-import { generateOrganizationSchema } from '@/lib/schema'
-import SimpleGallery from '@/components/SimpleGallery'
-
-export const metadata = generateSEOMetadata({
-  title: 'Photography Portfolio Gallery - Studio37 Pinehurst, TX',
-  description: 'Browse Studio37\'s photography portfolio featuring wedding, portrait, event, and commercial photography work in Pinehurst, Texas and surrounding Montgomery County areas.',
-  keywords: [
-    'photography portfolio Pinehurst TX',
-    'wedding photography gallery',
-    'portrait photography examples',
-    'event photography portfolio',
-    'commercial photography samples',
-    'Texas photographer portfolio',
-    'Montgomery County photography'
-  ],
-  canonicalUrl: 'https://www.studio37.cc/gallery'
-})
-
-// Use ISR with a reasonable window; client will fetch fresh data
-export const revalidate = 300
+import { permanentRedirect } from 'next/navigation'
 
 export default function GalleryPage() {
-  return (
-    <div className="pt-20 min-h-screen bg-gradient-to-b from-stone-50 to-white">
-      <Schema schema={generateOrganizationSchema()} />
-      {/* Hero Header */}
-      <div className="relative bg-stone-950 py-24 px-4 text-center text-white overflow-hidden">
-        {/* Decorative Elements */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary-500 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500 rounded-full blur-3xl"></div>
-        </div>
-        
-        <div className="container mx-auto max-w-4xl relative z-10">
-          <div className="eyebrow mb-4 bg-white/10 text-amber-200 border-white/10">Gallery</div>
-          <h1 className="text-5xl md:text-6xl font-bold mb-6">
-            Our Photography Portfolio
-          </h1>
-          <p className="text-lg md:text-xl text-stone-300 mb-2 max-w-2xl mx-auto leading-relaxed">
-            Explore our diverse collection of photography across different styles and occasions.
-          </p>
-          {/* counts will render in client component below */}
-        </div>
-      </div>
-      
-      <div className="container mx-auto px-4 py-16 md:py-20">
-        <SimpleGallery />
-      </div>
-    </div>
-  )
+  permanentRedirect('https://gallery.studio37.cc')
 }
