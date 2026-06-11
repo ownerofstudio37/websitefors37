@@ -20,10 +20,10 @@
 
 ## Admin Dashboard UX/UI
 
-- [ ] Consolidate overlapping content/editor/page-builder tools into a clearer primary editing flow.
+- [x] Consolidate overlapping content/editor/page-builder tools into a clearer primary editing flow.
 - [x] Add a unified command/search palette for leads, pages, galleries, settings, and admin tools.
 - [x] Add a "today" operations view: new leads, stale follow-ups, upcoming appointments, campaigns due, broken SEO items.
-- [ ] Add clearer admin navigation grouping for content, gallery, CRM, marketing, SEO, and settings.
+- [x] Add clearer admin navigation grouping for content, gallery, CRM, marketing, SEO, and settings.
 - [ ] Add empty/loading/error states across admin dashboards that explain the next action.
 
 ## Admin Features

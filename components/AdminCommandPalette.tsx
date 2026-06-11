@@ -4,9 +4,9 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import { ArrowRight, ExternalLink, Search, X } from 'lucide-react'
 import {
+  ADMIN_TOOLS,
   ADMIN_SIDEBAR_GROUP_ORDER,
   ADMIN_TOOL_GROUP_META,
-  getSidebarTools,
   getSidebarToolsByGroup,
   type AdminTool,
 } from '@/lib/admin-tools'
@@ -40,7 +40,7 @@ export default function AdminCommandPalette({
   const inputRef = useRef<HTMLInputElement>(null)
   const router = useRouter()
   const pathname = usePathname()
-  const tools = getSidebarTools()
+  const tools = ADMIN_TOOLS
   const normalizedQuery = query.trim().toLowerCase()
 
   useEffect(() => {

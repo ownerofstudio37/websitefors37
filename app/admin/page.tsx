@@ -114,7 +114,7 @@ export default function AdminPage() {
         </div>
         <div className="flex flex-wrap gap-2 text-sm">
           <Link href="/admin/content-enhanced" className="px-4 py-2 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700">
-            Open Content CMS
+            Open Content Hub
           </Link>
           <Link href="/admin/leads" className="px-4 py-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50 text-gray-700">
             Open Leads
@@ -297,7 +297,7 @@ export default function AdminPage() {
           <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
             <h2 className="text-lg font-semibold text-gray-900">Recommended defaults</h2>
             <ul className="mt-4 space-y-3 text-sm text-gray-700">
-              <li>Use <strong>Enhanced Content CMS</strong> for page editing.</li>
+              <li>Use <strong>Content Hub</strong> for page editing and SEO updates.</li>
               <li>Use <strong>Bookings</strong> for record management and <strong>Calendar View</strong> for schedule planning.</li>
               <li>Use <strong>Marketing Campaigns</strong> for sends and <strong>Email Templates</strong> for reusable content.</li>
               <li>Use <strong>Navigation</strong>, <strong>SEO Analyzer</strong>, and <strong>Settings</strong> for global site control.</li>
