@@ -6,6 +6,7 @@ import { getClientIp, rateLimit } from '@/lib/rateLimit'
 import { createLogger } from '@/lib/logger'
 
 const log = createLogger('api/leads')
+const QUOTE_CAPTURE_SOURCE = 'quote-booking-abandonment-capture'
 
 function getPublicSupabase() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co'
@@ -74,6 +75,8 @@ async function scheduleFollowUps(leadId: string) {
 
 async function sendAutoResponseEmail(lead: any, payload: any, siteUrl: string) {
   try {
+    const isQuoteCapture = payload.source === QUOTE_CAPTURE_SOURCE
+
     // Check if Resend is configured
     if (!process.env.RESEND_API_KEY) {
       log.warn('RESEND_API_KEY not configured, skipping auto-response')
@@ -92,7 +95,9 @@ async function sendAutoResponseEmail(lead: any, payload: any, siteUrl: string) {
     
 
     // If source is newsletter signup, use newsletter welcome template
-    if (
+    if (isQuoteCapture) {
+      templateSlug = 'contact-form-confirmation'
+    } else if (
       payload.source === 'newsletter-modal' ||
       payload.source === 'newsletter-footer' ||
       payload.source === 'newsletter-block' ||
@@ -131,8 +136,12 @@ async function sendAutoResponseEmail(lead: any, payload: any, siteUrl: string) {
 
     // Split name into first/last
     const nameParts = payload.name.split(' ')
-    const firstName = nameParts[0] || ''
-    const lastName = nameParts.slice(1).join(' ') || ''
+    const firstName = isQuoteCapture && payload.name === 'Saved quote visitor'
+      ? 'there'
+      : nameParts[0] || ''
+    const lastName = isQuoteCapture && payload.name === 'Saved quote visitor'
+      ? ''
+      : nameParts.slice(1).join(' ') || ''
 
     // Prepare variables based on template type
     const variables: Record<string, any> = {
@@ -151,7 +160,9 @@ async function sendAutoResponseEmail(lead: any, payload: any, siteUrl: string) {
       variables.details = payload.message
     }
 
-    const subject = templateSlug === 'booking-request-confirmation'
+    const subject = isQuoteCapture
+      ? 'Your Studio37 quote is saved'
+      : templateSlug === 'booking-request-confirmation'
       ? 'We Received Your Booking Request!'
       : 'Thanks for Contacting Studio37!'
 
@@ -430,7 +441,16 @@ export async function POST(req: NextRequest) {
     }
 
     // Send auto-response email (await in serverless to avoid dropped async work)
-    await sendAutoResponseEmail(insertedLead, payload, siteUrl).catch(err => {
+    const clientAutoResponsePayload = payload.source === QUOTE_CAPTURE_SOURCE
+      ? {
+          ...payload,
+          service_interest: 'Saved quote follow-up',
+          message:
+            'Thanks for saving your Studio37 quote. We have your contact information and will follow up soon with package guidance, availability, and next steps.',
+        }
+      : payload
+
+    await sendAutoResponseEmail(insertedLead, clientAutoResponsePayload, siteUrl).catch(err => {
       log.error('Auto-response email failed', { leadId: insertedLead.id }, err)
     })
 
