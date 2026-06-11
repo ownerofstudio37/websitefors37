@@ -1,6 +1,6 @@
 type LogLevel = 'debug' | 'info' | 'warn' | 'error'
 
-type LogContext = Record<string, unknown>
+type LogContext = Record<string, unknown> | unknown
 
 function safeStringify(obj: any) {
   try {

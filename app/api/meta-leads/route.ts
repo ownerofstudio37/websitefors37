@@ -197,12 +197,12 @@ export async function POST(req: NextRequest) {
     }).catch(err => log.error('Admin notification failed', undefined, err))
 
     // Schedule day-1 follow-up
-    supabase.from('lead_follow_ups').insert([{
+    void supabase.from('lead_follow_ups').insert([{
       lead_id: inserted?.id,
       sequence_type: 'day1',
       scheduled_for: new Date(Date.now() + 60 * 60 * 1000),
       status: 'pending'
-    }]).catch(() => {}) // non-blocking
+    }]).then(() => undefined) // non-blocking
 
     log.info('Meta lead inserted', { leadId: inserted?.id, source })
     return new NextResponse(

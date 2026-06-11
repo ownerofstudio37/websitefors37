@@ -457,7 +457,7 @@ export default function BookSessionPage() {
       } else {
         // Determine service interest based on booking option
         let serviceInterest = 'consultation'
-        if (bookingOption === 'packages' && selectedType !== 'consultation') {
+        if (bookingOption === 'packages' && (selectedType as PackageKey) !== 'consultation') {
           serviceInterest = PACKAGES[selectedType as Exclude<PackageKey, 'consultation'>].name
         } else if (bookingOption === 'custom') {
           serviceInterest = `Custom Package (${customDuration}min, ${customType}, ${customPeople} people)`
@@ -499,7 +499,7 @@ export default function BookSessionPage() {
       let packageKey = null
       let appointmentType = 'consultation'
       
-      if (bookingOption === 'packages' && selectedType !== 'consultation') {
+      if (bookingOption === 'packages' && (selectedType as PackageKey) !== 'consultation') {
         appointmentType = 'package'
         packageKey = selectedType
         packageName = PACKAGES[selectedType as Exclude<PackageKey, 'consultation'>].name

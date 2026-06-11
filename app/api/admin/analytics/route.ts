@@ -118,7 +118,7 @@ export async function GET() {
             : leadsLast30.length > 0 ? '100' : '0',
           bySource: leadsBySource,
           byStatus: leadsByStatus,
-          conversionRate: parseFloat(conversionRate),
+          conversionRate,
           scoreDistribution,
           monthlyTrend
         },

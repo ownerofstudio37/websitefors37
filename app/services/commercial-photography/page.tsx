@@ -61,7 +61,7 @@ export default function CommercialPhotographyPage() {
     generateOfferSchema({
       name: 'Business Express',
       description: 'One-hour commercial shoot with our Duo Production Team. 15+ edited images delivered in 48 hours with full commercial usage rights.',
-      price: 500,
+      price: '500',
       priceCurrency: 'USD',
       url: 'https://www.studio37.cc/services/commercial-photography',
       seller: 'Studio37',
@@ -69,7 +69,7 @@ export default function CommercialPhotographyPage() {
     generateOfferSchema({
       name: 'Brand Starter',
       description: 'Two-hour commercial session with our Duo Production Team. 30+ edited images, brand consultation, 48-hr Fast-Track delivery, and full commercial license.',
-      price: 850,
+      price: '850',
       priceCurrency: 'USD',
       url: 'https://www.studio37.cc/services/commercial-photography',
       seller: 'Studio37',
@@ -77,7 +77,7 @@ export default function CommercialPhotographyPage() {
     generateOfferSchema({
       name: 'Content Library',
       description: 'Four-hour commercial production with our Duo Production Team. 75+ edited images, pre-shoot brand strategy session, 24-hr sneak-peek preview, and full commercial license.',
-      price: 1500,
+      price: '1500',
       priceCurrency: 'USD',
       url: 'https://www.studio37.cc/services/commercial-photography',
       seller: 'Studio37',
@@ -85,7 +85,7 @@ export default function CommercialPhotographyPage() {
     generateOfferSchema({
       name: 'Full Brand Story',
       description: 'Full-day brand production with our Duo Production Team. 150+ edited images, branding audit, behind-the-scenes reel, and 5-day delivery with full commercial license.',
-      price: 2800,
+      price: '2800',
       priceCurrency: 'USD',
       url: 'https://www.studio37.cc/services/commercial-photography',
       seller: 'Studio37',

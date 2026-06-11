@@ -460,13 +460,15 @@ function getServicePageContent(siteUrl: string): any[] {
       )
       .join("\n\n");
 
+    const packages = Object.values(service.packages as Record<string, any>);
+
     entries.push({
       category: "pricing",
       question: `How much does ${service.name.toLowerCase()} cost?`,
       answer: `Our ${service.name.toLowerCase()} packages range from ${
-        Object.values(service.packages as any)[0].price
+        packages[0]?.price
       } to ${
-        Object.values(service.packages as any)[Object.values(service.packages).length - 1].price
+        packages[packages.length - 1]?.price
       }. Here's a breakdown:\n\n${packageList}\n\nAll packages include professional editing and digital delivery. [View full details](${siteUrl}/services/${
         service.slug
       }) or [contact us](${siteUrl}/contact) for custom quotes!`,

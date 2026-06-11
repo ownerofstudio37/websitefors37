@@ -95,7 +95,7 @@ export async function POST(request: NextRequest) {
   })
   
   if (!rl.allowed) {
-    log.warn('Rate limit exceeded', { ip, remainingTime: rl.remainingTime })
+    log.warn('Rate limit exceeded', { ip, resetAt: rl.resetAt })
     return NextResponse.json(
       { error: 'Too many booking attempts. Please try again later.' },
       { status: 429 }

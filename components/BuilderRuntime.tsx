@@ -1770,7 +1770,7 @@ export function PressCredentialsBlock({
           <div>
             <h3 className="text-xl md:text-2xl font-semibold text-gray-900 mb-8 text-center">Featured In</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-              {finalPressFeatures.map((feature, idx) => (
+              {finalPressFeatures.map((feature: any, idx: number) => (
                 <a
                   key={idx}
                   href={feature.link}
@@ -2429,8 +2429,12 @@ export function FilterableGalleryBlock({
 
   // Decode images from base64
   const json = finalImagesB64 ? Buffer.from(finalImagesB64, 'base64').toString('utf-8') : '[]'
-  let images: Array<{ url: string; title?: string; description?: string; category: string }> = []
+  let images: Array<{ url: string; alt?: string; title?: string; description?: string; category: string }> = []
   try { images = JSON.parse(json || '[]') } catch { images = [] }
+  const galleryImages = images.map((image) => ({
+    ...image,
+    alt: image.alt || image.title || image.description || 'Gallery image',
+  }))
 
   const responsiveClasses = getResponsiveVisibility({ 
     mobileHidden: String(mobileHidden) === 'true' 
@@ -2446,7 +2450,7 @@ export function FilterableGalleryBlock({
           </div>
         )}
         <FilterableGalleryClient
-          images={images}
+          images={galleryImages}
           columns={Number(columns) as any}
           gap={Number(gap)}
           showAllButton={String(showAllButton) !== 'false'}
@@ -2626,7 +2630,7 @@ export function VideoTestimonialCarouselBlock({
   const animClass = animation === 'fade-in' ? 'animate-fadeIn' : animation === 'slide-up' ? 'animate-slideUp' : animation === 'zoom' ? 'animate-zoom' : ''
   const responsiveClasses = getResponsiveVisibility({ mobileHidden: String(mobileHidden) === 'true' })
 
-  const { VideoTestimonialCarousel } = require('./VideoTestimonialCarousel') as typeof import('./VideoTestimonialCarousel')
+  const VideoTestimonialCarousel = require('./VideoTestimonialCarousel').default as typeof import('./VideoTestimonialCarousel').default
 
   return (
     <section className={`section-shell bg-stone-50 px-6 md:px-8 ${animClass} ${responsiveClasses}`}>

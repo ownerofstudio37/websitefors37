@@ -12,7 +12,9 @@ const SERVICES = [
   { id: 'commercial', label: 'Commercial / Brand', emoji: '📸' },
   { id: 'senior', label: 'Senior Photos', emoji: '🎓' },
   { id: 'other', label: 'Something Else', emoji: '✨' },
-]
+] as const
+
+type ServiceId = typeof SERVICES[number]['id']
 
 type FunnelQuestion = {
   label: string
@@ -25,7 +27,7 @@ type FunnelQuestion = {
 const BUDGET_OPTIONS = ['$250–$500', '$500–$1,000', '$1,000–$2,000', '$2,000+', 'Still figuring it out']
 const WEDDING_BUDGET_OPTIONS = ['$1,500–$2,500', '$2,500–$4,000', '$4,000–$6,000', '$6,000+', 'Still figuring it out']
 
-const QUESTIONS: Record<string, FunnelQuestion[]> = {
+const QUESTIONS: Record<ServiceId, FunnelQuestion[]> = {
   wedding: [
     { label: 'Wedding date (or approximate timeframe)?', key: 'wedding_date', type: 'text', required: true },
     { label: 'Where is the wedding (venue or city)?', key: 'location', type: 'text' },
@@ -72,10 +74,10 @@ const QUESTIONS: Record<string, FunnelQuestion[]> = {
 export default function MetaLeadFunnelClient() {
   const searchParams = useSearchParams()
   const preselect = searchParams.get('service')
-  const validPreselect = SERVICES.some(s => s.id === preselect) ? preselect : ''
+  const validPreselect = SERVICES.some(s => s.id === preselect) ? preselect as ServiceId : ''
 
   const [step, setStep] = useState(validPreselect ? 2 : 1)
-  const [service, setService] = useState(validPreselect)
+  const [service, setService] = useState<ServiceId | ''>(validPreselect)
   const [answers, setAnswers] = useState<Record<string, string>>({})
   const [contact, setContact] = useState({ name: '', email: '', phone: '' })
   const [submitted, setSubmitted] = useState(false)
@@ -86,7 +88,7 @@ export default function MetaLeadFunnelClient() {
     if (validPreselect) setService(validPreselect)
   }, [validPreselect])
 
-  function handleServiceSelect(id: string) {
+  function handleServiceSelect(id: ServiceId) {
     setService(id)
     setAnswers({})
     setError('')
@@ -100,8 +102,8 @@ export default function MetaLeadFunnelClient() {
 
   function handleStepTwoSubmit(e: React.FormEvent) {
     e.preventDefault()
-    const questions = QUESTIONS[service] || []
-    const firstMissingRequired = questions.find(q => q.required && !(answers[q.key] || '').trim())
+    const questions = service ? QUESTIONS[service] : []
+    const firstMissingRequired = questions.find((q) => q.required && !(answers[q.key] || '').trim())
 
     if (firstMissingRequired) {
       setError(`Please answer: ${firstMissingRequired.label}`)
@@ -117,9 +119,9 @@ export default function MetaLeadFunnelClient() {
     setLoading(true)
     setError('')
 
-    const questions = QUESTIONS[service] || QUESTIONS['other']
+    const questions = service ? QUESTIONS[service] : QUESTIONS.other
     const qualifyingText = questions
-      .map(q => `${q.label}: ${answers[q.key] || '(not answered)'}`)
+      .map((q) => `${q.label}: ${answers[q.key] || '(not answered)'}`)
       .join('\n')
 
     const payload = {
@@ -165,7 +167,7 @@ export default function MetaLeadFunnelClient() {
     )
   }
 
-  const questions = QUESTIONS[service] || []
+  const questions = service ? QUESTIONS[service] : []
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] flex flex-col items-center justify-center px-4 py-12">
@@ -192,7 +194,7 @@ export default function MetaLeadFunnelClient() {
           <div>
             <p className="text-white font-medium mb-4">What type of photography are you looking for?</p>
             <div className="grid grid-cols-2 gap-3">
-              {SERVICES.map(s => (
+              {SERVICES.map((s) => (
                 <button
                   key={s.id}
                   onClick={() => handleServiceSelect(s.id)}
@@ -213,7 +215,7 @@ export default function MetaLeadFunnelClient() {
               Tell us a bit about your {SERVICES.find(s => s.id === service)?.label?.toLowerCase() || 'session'}:
             </p>
             <div className="space-y-4">
-              {questions.map(q => (
+              {questions.map((q) => (
                 <div key={q.key}>
                   <label className="block text-sm text-gray-300 mb-1">
                     {q.label} {q.required ? '*' : <span className="text-gray-500">(optional)</span>}
@@ -225,7 +227,7 @@ export default function MetaLeadFunnelClient() {
                       className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-white text-sm focus:border-[#C9A84C] outline-none"
                     >
                       <option value="">Select one…</option>
-                      {q.options?.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                      {q.options?.map((opt) => <option key={opt} value={opt}>{opt}</option>)}
                     </select>
                   ) : q.type === 'textarea' ? (
                     <textarea

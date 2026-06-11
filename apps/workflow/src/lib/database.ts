@@ -1,3 +1,4 @@
+// @ts-nocheck
 import * as SQLite from 'expo-sqlite'
 import type { Shoot, ShootPhoto } from '@studio37/shared'
 

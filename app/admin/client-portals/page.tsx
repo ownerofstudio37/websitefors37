@@ -49,32 +49,32 @@ export default function ClientPortalsPage() {
     }
   }
 
-  const toggleUserStatus = async (userId: string, currentStatus: boolean) => {
-      const handleResetPassword = async () => {
-        if (!resetTarget || !resetPassword) return
-        setResetting(true)
-        setResetMsg(null)
-        try {
-          const res = await fetch(`/api/admin/client-portals/${resetTarget.id}`, {
-            method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ password: resetPassword }),
-          })
-          const data = await res.json()
-          if (res.ok && data.success !== false) {
-            setResetMsg('Password updated successfully.')
-            setResetPassword('')
-            setTimeout(() => { setResetTarget(null); setResetMsg(null) }, 1500)
-          } else {
-            setResetMsg(data.error || 'Failed to update password.')
-          }
-        } catch (e: any) {
-          setResetMsg('Error: ' + (e?.message || 'unknown'))
-        } finally {
-          setResetting(false)
-        }
+  const handleResetPassword = async () => {
+    if (!resetTarget || !resetPassword) return
+    setResetting(true)
+    setResetMsg(null)
+    try {
+      const res = await fetch(`/api/admin/client-portals/${resetTarget.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: resetPassword }),
+      })
+      const data = await res.json()
+      if (res.ok && data.success !== false) {
+        setResetMsg('Password updated successfully.')
+        setResetPassword('')
+        setTimeout(() => { setResetTarget(null); setResetMsg(null) }, 1500)
+      } else {
+        setResetMsg(data.error || 'Failed to update password.')
       }
+    } catch (e: any) {
+      setResetMsg('Error: ' + (e?.message || 'unknown'))
+    } finally {
+      setResetting(false)
+    }
+  }
 
+  const toggleUserStatus = async (userId: string, currentStatus: boolean) => {
     try {
       const res = await fetch(`/api/admin/client-portals/${userId}`, {
         method: 'PATCH',

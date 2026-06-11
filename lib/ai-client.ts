@@ -52,6 +52,9 @@ interface GenerationConfig {
   topK?: number;
   maxOutputTokens?: number;
   responseMimeType?: string;
+  thinkingLevel?: unknown;
+  mediaResolution?: unknown;
+  thoughtSignature?: unknown;
 }
 
 // Preset configs for common scenarios
@@ -95,6 +98,14 @@ interface AIClientOptions {
   systemInstruction?: string;
   retries?: number;
   retryDelayMs?: number;
+  temperature?: number;
+  topP?: number;
+  topK?: number;
+  maxOutputTokens?: number;
+  responseMimeType?: string;
+  thinkingLevel?: unknown;
+  mediaResolution?: unknown;
+  thoughtSignature?: unknown;
 }
 
 /**
@@ -109,20 +120,20 @@ export function createAIClient(options: AIClientOptions = {}): GenerativeModel {
   const genAI = new GoogleGenerativeAI(apiKey);
 
   // Resolve config preset or use custom config
-  let config = typeof options.config === "string"
+  let config: GenerationConfig = typeof options.config === "string"
     ? AI_CONFIGS[options.config]
     : options.config || AI_CONFIGS.precise;
 
-  // Add Gemini 3 API parameters if present in options
-  if (options.hasOwnProperty('thinkingLevel')) {
-    config = { ...config, thinkingLevel: (options as any).thinkingLevel };
-  }
-  if (options.hasOwnProperty('mediaResolution')) {
-    config = { ...config, mediaResolution: (options as any).mediaResolution };
-  }
-  if (options.hasOwnProperty('thoughtSignature')) {
-    config = { ...config, thoughtSignature: (options as any).thoughtSignature };
-  }
+  const optionConfig: GenerationConfig = {};
+  if (options.temperature !== undefined) optionConfig.temperature = options.temperature;
+  if (options.topP !== undefined) optionConfig.topP = options.topP;
+  if (options.topK !== undefined) optionConfig.topK = options.topK;
+  if (options.maxOutputTokens !== undefined) optionConfig.maxOutputTokens = options.maxOutputTokens;
+  if (options.responseMimeType !== undefined) optionConfig.responseMimeType = options.responseMimeType;
+  if (options.thinkingLevel !== undefined) optionConfig.thinkingLevel = options.thinkingLevel;
+  if (options.mediaResolution !== undefined) optionConfig.mediaResolution = options.mediaResolution;
+  if (options.thoughtSignature !== undefined) optionConfig.thoughtSignature = options.thoughtSignature;
+  config = { ...config, ...optionConfig };
 
   const modelParams: any = {
     model: options.model || AI_MODELS.FLASH,
@@ -281,11 +292,11 @@ function parseJsonFromModelResponse<T = any>(raw: string): T {
  */
 export async function generateJSON<T = any>(
   prompt: string,
-  options: Omit<AIClientOptions, 'config'> = {}
+  options: AIClientOptions = {}
 ): Promise<T> {
   const text = await generateText(prompt, {
     ...options,
-    config: AI_CONFIGS.structured,
+    config: options.config || AI_CONFIGS.structured,
   });
   
   try {
@@ -756,4 +767,3 @@ export default {
   AI_MODELS,
   AI_CONFIGS,
 };
-

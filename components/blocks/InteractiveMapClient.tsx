@@ -2,6 +2,30 @@
 
 import { useEffect, useRef } from 'react'
 
+declare global {
+  interface Window {
+    google?: typeof google
+  }
+
+  namespace google.maps {
+    type MapTypeStyle = Record<string, unknown>
+
+    class Map {
+      constructor(element: HTMLElement, options: Record<string, unknown>)
+    }
+
+    class Marker {
+      constructor(options: Record<string, unknown>)
+      addListener(eventName: string, handler: () => void): void
+    }
+
+    class InfoWindow {
+      constructor(options: Record<string, unknown>)
+      open(map: Map, marker: Marker): void
+    }
+  }
+}
+
 /**
  * Interactive Map Block
  * Google Maps embed with custom markers

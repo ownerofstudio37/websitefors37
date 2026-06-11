@@ -119,7 +119,7 @@ export async function POST(request: NextRequest) {
         body: JSON.stringify({ paths: [`/${slug}`, '/sitemap.xml'] }),
       })
     } catch (revalError) {
-      log.warn('Revalidation failed', { slug }, revalError)
+      log.warn('Revalidation failed', { slug, error: revalError })
       // Don't fail the request if revalidation fails
     }
 

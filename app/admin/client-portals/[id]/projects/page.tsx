@@ -169,13 +169,13 @@ export default async function ClientProjectsPage({
             <h3 className="mt-2 text-sm font-semibold text-gray-900">No projects</h3>
             <p className="mt-1 text-sm text-gray-500">Get started by creating a new project for this client.</p>
             <div className="mt-6">
-              <CreateProjectButton clientId={params.id} />
+              <CreateProjectButton clientUserId={params.id} />
             </div>
           </div>
         ) : (
           <div className="space-y-6">
             <div className="flex justify-end">
-              <CreateProjectButton clientId={params.id} />
+              <CreateProjectButton clientUserId={params.id} />
             </div>
             <ClientProjectsList projects={projects} />
           </div>

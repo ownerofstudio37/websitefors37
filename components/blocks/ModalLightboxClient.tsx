@@ -221,7 +221,7 @@ export default function ModalLightboxClient({
                     ? 'ring-2 ring-white scale-110' 
                     : 'opacity-60 hover:opacity-100'
                 }`}
-                style={index === currentIndex ? { ringColor: accentColor } : {}}
+                style={index === currentIndex ? { boxShadow: `0 0 0 2px ${accentColor}` } : {}}
               >
                 <Image
                   src={image.url}

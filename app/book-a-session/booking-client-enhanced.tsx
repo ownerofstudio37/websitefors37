@@ -244,7 +244,9 @@ export default function BookSessionPageEnhanced() {
       if (existingLead?.id) {
         leadId = existingLead.id
       } else {
-        const serviceInterest = selectedType === 'consultation' ? 'consultation' : PACKAGES[selectedType].name
+        const isConsultation = (selectedType as PackageKey) === 'consultation'
+        const packageKey = selectedType as Exclude<PackageKey, 'consultation'>
+        const serviceInterest = isConsultation ? 'consultation' : PACKAGES[packageKey].name
         const leadMessage = notes?.trim()
           ? notes
           : `Booking inquiry for ${serviceInterest} on ${selectedDate} at ${selectedTime}.`
@@ -281,10 +283,10 @@ export default function BookSessionPageEnhanced() {
         name,
         email,
         phone,
-        type: selectedType === 'consultation' ? 'consultation' : 'package',
-        package_key: selectedType === 'consultation' ? null : selectedType,
-        package_name: selectedType === 'consultation' ? null : PACKAGES[(selectedType as Exclude<PackageKey,'consultation'>)].name,
-        price_cents: selectedType === 'consultation' ? null : totalPrice,
+        type: (selectedType as PackageKey) === 'consultation' ? 'consultation' : 'package',
+        package_key: (selectedType as PackageKey) === 'consultation' ? null : selectedType,
+        package_name: (selectedType as PackageKey) === 'consultation' ? null : PACKAGES[(selectedType as Exclude<PackageKey,'consultation'>)].name,
+        price_cents: (selectedType as PackageKey) === 'consultation' ? null : totalPrice,
         duration_minutes: duration,
         start_time: start.toISOString(),
         end_time: end.toISOString(),

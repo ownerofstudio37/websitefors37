@@ -147,8 +147,9 @@ export async function getBusyTimes(params: {
   startDate: string
   endDate: string
 }): Promise<Array<{ start: string; end: string }>> {
+  const { startDate, endDate } = params
+
   try {
-    const { startDate, endDate } = params
     
     const calendar = getCalendarAPI()
     const response = await calendar.freebusy.query({

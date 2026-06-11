@@ -139,7 +139,7 @@ export default function AuditPage() {
         if (page.content) {
           const imgMatches = page.content.match(/<img[^>]+src=["']([^"']+)["']/g)
           if (imgMatches) {
-            imgMatches.forEach(match => {
+            imgMatches.forEach((match: string) => {
               const srcMatch = match.match(/src=["']([^"']+)["']/)
               if (srcMatch && srcMatch[1].startsWith('http')) {
                 foundIssues.push({
@@ -484,7 +484,7 @@ export default function AuditPage() {
           // Check for links without descriptive text
           const linkMatches = page.content.match(/<a[^>]*>([^<]+)<\/a>/gi)
           if (linkMatches) {
-            linkMatches.forEach(link => {
+            linkMatches.forEach((link: string) => {
               const textMatch = link.match(/>([^<]+)</)
               if (textMatch && (textMatch[1].toLowerCase() === 'click here' || textMatch[1].toLowerCase() === 'here' || textMatch[1].toLowerCase() === 'read more')) {
                 foundIssues.push({

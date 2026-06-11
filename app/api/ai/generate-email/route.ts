@@ -14,11 +14,11 @@ const schema = z.object({
 })
 
 export async function POST(req: NextRequest) {
-  const ip = getClientIp(req)
+  const ip = getClientIp(req.headers)
 
   // Rate limit: 10 AI email generations per minute per IP
-  const { success: rateLimitOk } = await rateLimit(ip, 'ai-email-gen', 10, 60)
-  if (!rateLimitOk) {
+  const rl = rateLimit(`ai-email-gen:${ip}`, { limit: 10, windowMs: 60 * 1000 })
+  if (!rl.allowed) {
     return NextResponse.json({ error: 'Rate limit exceeded. Please wait before generating again.' }, { status: 429 })
   }
 

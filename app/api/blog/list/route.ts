@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
       .from('blog_posts')
       .select('id,title,slug,excerpt,featured_image,published,published_at,created_at,author')
       .eq('published', true)
-      .order('published_at', { ascending: false, nullsLast: true })
+      .order('published_at', { ascending: false, nullsFirst: false })
       .order('created_at', { ascending: false })
 
     if (error) {

@@ -56,7 +56,7 @@ type LessonSummaryResponse = {
 }
 
 function sanitizeResponse(payload: LessonSummaryResponse): LessonSummaryResponse {
-  const cleanQuestions = (payload.quiz?.questions || []).slice(0, 8).map((q) => ({
+  const cleanQuestions: QuizQuestion[] = (payload.quiz?.questions || []).slice(0, 8).map((q) => ({
     question: String(q.question || '').trim(),
     type: q.type === 'short-answer' ? 'short-answer' : 'multiple-choice',
     options: q.type === 'multiple-choice'

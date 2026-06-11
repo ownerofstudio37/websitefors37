@@ -301,7 +301,6 @@ export default function BrandingMarketingPage() {
 
       <FAQSection
         title="Branding & Marketing FAQs"
-        subtitle="Answers to common questions about retainers, scope, and onboarding."
         faqs={brandingFaqs}
       />
 

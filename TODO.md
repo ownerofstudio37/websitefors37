@@ -52,8 +52,8 @@
 
 ## TypeScript Follow-Up
 
-- [ ] Repair `components/VisualEditor.tsx` builder schema drift and missing component type references.
-- [ ] Add Google Maps ambient typing for `components/blocks/InteractiveMapClient.tsx`.
-- [ ] Normalize booking package unions so consultation package logic is type-safe.
-- [ ] Align AI route option payloads with the current `lib/ai-client.ts` contract.
-- [ ] Standardize Supabase/PostgREST error logging context types in API routes.
+- [x] Repair `components/VisualEditor.tsx` builder schema drift and missing component type references.
+- [x] Add Google Maps ambient typing for `components/blocks/InteractiveMapClient.tsx`.
+- [x] Normalize booking package unions so consultation package logic is type-safe.
+- [x] Align AI route option payloads with the current `lib/ai-client.ts` contract.
+- [x] Standardize Supabase/PostgREST error logging context types in API routes.

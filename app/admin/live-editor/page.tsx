@@ -4,9 +4,15 @@ import React, { useState, useEffect } from 'react'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { Loader2, Eye, EyeOff, Save, AlertTriangle, RotateCcw, FileEdit, Globe, Menu, Settings as Cog, Image as ImageIcon, Calendar, Plus, Trash2, GripVertical, ChevronDown, ChevronRight } from 'lucide-react'
 import VisualEditor from '@/components/VisualEditor'
-import type { PageComponent } from '@/types/page-builder'
 import { revalidateContent } from '@/lib/revalidate'
 import dynamic from 'next/dynamic'
+
+type PageComponent = {
+  id: string
+  type: string
+  data?: Record<string, any>
+  children?: PageComponent[]
+}
 
 interface NavigationItem {
   id: string
@@ -1298,12 +1304,12 @@ export default function LiveEditorPage() {
             {/* Visual Editor */}
             <div className={showPreview ? 'flex-1 border-r' : 'flex-1'}>
               <VisualEditor
-                initialComponents={components}
-                onSave={(comps) => {
-                  setComponents(comps)
+                initialComponents={components as any}
+                onSave={(comps: any) => {
+                  setComponents(comps as PageComponent[])
                   setHasChanges(true)
                 }}
-                onChange={setComponents}
+                onChange={(comps: any) => setComponents(comps as PageComponent[])}
                 slug={selectedSlug}
               />
             </div>

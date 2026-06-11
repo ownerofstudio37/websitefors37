@@ -2,6 +2,7 @@ import { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import { cookies } from 'next/headers'
 import VisualEditorClient from './VisualEditorClient'
+import type { BlockInstance } from '@/components/builder/VisualEditor'
 
 export const metadata: Metadata = {
   title: 'Visual Page Builder | Studio37 Admin',
@@ -30,7 +31,7 @@ export default async function VisualEditorPage({ params }: PageProps) {
 
   // In production, fetch existing page data from database
   // For now, we'll start with an empty canvas
-  const initialBlocks = []
+  const initialBlocks: BlockInstance[] = []
 
   return (
     <VisualEditorClient

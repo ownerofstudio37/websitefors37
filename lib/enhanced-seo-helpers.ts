@@ -25,6 +25,8 @@ export function generateOfferSchema(offer: {
   price: string
   priceCurrency?: string
   description: string
+  url?: string
+  seller?: string
   availability?: string
   validFrom?: string
   validThrough?: string
