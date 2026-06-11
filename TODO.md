@@ -30,7 +30,7 @@
 
 - [ ] Add a lead timeline showing forms, SMS, emails, quotes, bookings, and gallery activity in one view.
 - [ ] Add an SEO issue queue with status, owner, fix action, and recheck action.
-- [ ] Add a sitemap health card showing URL count, last generation, excluded URLs, Supabase fetch status, and Search Console submission reminder.
+- [x] Add a sitemap health card showing URL count, last check time, excluded URLs, required URL coverage, and robots discovery status.
 - [ ] Add gallery-subdomain link management for client galleries, share links, and gallery previews.
 - [ ] Add quick actions from lead records: send quote, schedule session, create gallery, send prep guide, request review.
 

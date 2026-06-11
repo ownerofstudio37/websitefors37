@@ -26,8 +26,31 @@ interface SEOMetrics {
   avgTitleLength: number;
   avgDescriptionLength: number;
   sitemapStatus: "active" | "inactive" | "error";
+  sitemapIndexStatus: "active" | "inactive" | "error";
   robotsStatus: "active" | "inactive" | "error";
+  sitemapUrlCount: number;
+  sitemapRequiredUrlsPresent: number;
+  sitemapExcludedUrlCount: number;
+  robotsReferencesSitemap: boolean;
+  sitemapLastChecked: string | null;
 }
+
+const REQUIRED_SITEMAP_URLS = [
+  "https://www.studio37.cc",
+  "https://www.studio37.cc/services",
+  "https://www.studio37.cc/book-a-session",
+  "https://www.studio37.cc/contact",
+  "https://www.studio37.cc/tools/pricing",
+  "https://www.studio37.cc/locations/katy-tx",
+];
+
+const EXCLUDED_SITEMAP_PATTERNS = [
+  /\/admin(?:\/|$)/,
+  /\/login$/,
+  /\/setup-admin$/,
+  /\/gallery\/[^/]+/,
+  /\/portfolio$/,
+];
 
 export default function SEOPage() {
   const [pages, setPages] = useState<ContentPage[]>([]);
@@ -50,7 +73,13 @@ export default function SEOPage() {
     avgTitleLength: 0,
     avgDescriptionLength: 0,
     sitemapStatus: "inactive",
+    sitemapIndexStatus: "inactive",
     robotsStatus: "inactive",
+    sitemapUrlCount: 0,
+    sitemapRequiredUrlsPresent: 0,
+    sitemapExcludedUrlCount: 0,
+    robotsReferencesSitemap: false,
+    sitemapLastChecked: null,
   });
   const [loading, setLoading] = useState(true);
 
@@ -67,6 +96,7 @@ export default function SEOPage() {
         { data: pagesData, error: pagesError },
         { data: postsData, error: postsError },
         sitemapResponse,
+        sitemapIndexResponse,
         robotsResponse,
       ] = await Promise.all([
         supabase
@@ -78,6 +108,7 @@ export default function SEOPage() {
           .select("*")
           .order("updated_at", { ascending: false }),
         fetch('/sitemap.xml').catch(() => null),
+        fetch('/sitemap_index.xml').catch(() => null),
         fetch('/robots.txt').catch(() => null),
       ]);
 
@@ -124,6 +155,29 @@ export default function SEOPage() {
             )
           : 0;
 
+      let sitemapUrls: string[] = [];
+      let robotsText = "";
+
+      if (sitemapResponse?.ok) {
+        const sitemapText = await sitemapResponse.clone().text();
+        const sitemapXml = new DOMParser().parseFromString(sitemapText, "application/xml");
+        sitemapUrls = Array.from(sitemapXml.querySelectorAll("url > loc"))
+          .map((node) => node.textContent?.trim())
+          .filter((url): url is string => Boolean(url));
+      }
+
+      if (robotsResponse?.ok) {
+        robotsText = await robotsResponse.clone().text();
+      }
+
+      const sitemapRequiredUrlsPresent = REQUIRED_SITEMAP_URLS.filter((url) =>
+        sitemapUrls.includes(url)
+      ).length;
+      const sitemapExcludedUrlCount = sitemapUrls.filter((url) =>
+        EXCLUDED_SITEMAP_PATTERNS.some((pattern) => pattern.test(url))
+      ).length;
+      const robotsReferencesSitemap = /Sitemap:\s*https:\/\/www\.studio37\.cc\/sitemap\.xml/i.test(robotsText);
+
       setMetrics({
         totalPages: allContent.length,
         pagesWithMeta,
@@ -131,7 +185,13 @@ export default function SEOPage() {
         avgTitleLength,
         avgDescriptionLength: avgDescLength,
         sitemapStatus: sitemapResponse ? (sitemapResponse.ok ? 'active' : 'error') : 'inactive',
+        sitemapIndexStatus: sitemapIndexResponse ? (sitemapIndexResponse.ok ? 'active' : 'error') : 'inactive',
         robotsStatus: robotsResponse ? (robotsResponse.ok ? 'active' : 'error') : 'inactive',
+        sitemapUrlCount: sitemapUrls.length,
+        sitemapRequiredUrlsPresent,
+        sitemapExcludedUrlCount,
+        robotsReferencesSitemap,
+        sitemapLastChecked: new Date().toISOString(),
       });
     } catch (error) {
       console.error("Error fetching SEO data:", error);
@@ -239,6 +299,18 @@ export default function SEOPage() {
     },
   ];
 
+  const sitemapIsHealthy =
+    metrics.sitemapStatus === "active" &&
+    metrics.sitemapIndexStatus === "active" &&
+    metrics.robotsStatus === "active" &&
+    metrics.robotsReferencesSitemap &&
+    metrics.sitemapRequiredUrlsPresent === REQUIRED_SITEMAP_URLS.length &&
+    metrics.sitemapExcludedUrlCount === 0;
+
+  const metaCoverage = metrics.totalPages > 0
+    ? Math.round((metrics.pagesWithMeta / metrics.totalPages) * 100)
+    : 0;
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -314,10 +386,7 @@ export default function SEOPage() {
                   Meta Coverage
                 </p>
                 <p className="text-2xl font-bold text-gray-900">
-                  {Math.round(
-                    (metrics.pagesWithMeta / metrics.totalPages) * 100
-                  )}
-                  %
+                  {metaCoverage}%
                 </p>
                 <p className="text-xs text-green-600 mt-1">Complete coverage</p>
               </div>
@@ -333,6 +402,94 @@ export default function SEOPage() {
                 <p className="text-xs text-green-600 mt-1">Excellent</p>
               </div>
               <TrendingUp className="h-8 w-8 text-green-600" />
+            </div>
+          </div>
+        </div>
+
+        {/* Sitemap Health */}
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 mb-8">
+          <div className="p-6 border-b border-gray-200 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+            <div>
+              <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                {sitemapIsHealthy ? (
+                  <CheckCircle className="h-5 w-5 text-green-600" />
+                ) : (
+                  <AlertCircle className="h-5 w-5 text-yellow-600" />
+                )}
+                Sitemap Health
+              </h2>
+              <p className="text-sm text-gray-600 mt-1">
+                Crawler readiness for sitemap, sitemap index, and robots discovery.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <a
+                href="/sitemap.xml"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-lg border border-gray-200 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+              >
+                Sitemap
+                <ExternalLink className="h-4 w-4" />
+              </a>
+              <a
+                href="/sitemap_index.xml"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-lg border border-gray-200 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+              >
+                Index
+                <ExternalLink className="h-4 w-4" />
+              </a>
+              <a
+                href="/robots.txt"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-lg border border-gray-200 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+              >
+                Robots
+                <ExternalLink className="h-4 w-4" />
+              </a>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 p-6">
+            <div className="rounded-lg bg-gray-50 p-4">
+              <p className="text-sm font-medium text-gray-600">Sitemap URLs</p>
+              <p className="text-2xl font-bold text-gray-900 mt-1">{metrics.sitemapUrlCount}</p>
+              <p className="text-xs text-gray-500 mt-1">
+                {metrics.sitemapLastChecked
+                  ? `Checked ${new Date(metrics.sitemapLastChecked).toLocaleTimeString()}`
+                  : "Not checked yet"}
+              </p>
+            </div>
+
+            <div className="rounded-lg bg-gray-50 p-4">
+              <p className="text-sm font-medium text-gray-600">Required URLs</p>
+              <p className="text-2xl font-bold text-gray-900 mt-1">
+                {metrics.sitemapRequiredUrlsPresent}/{REQUIRED_SITEMAP_URLS.length}
+              </p>
+              <p className={metrics.sitemapRequiredUrlsPresent === REQUIRED_SITEMAP_URLS.length ? "text-xs text-green-600 mt-1" : "text-xs text-yellow-600 mt-1"}>
+                Homepage, services, booking, contact, pricing, and location sample
+              </p>
+            </div>
+
+            <div className="rounded-lg bg-gray-50 p-4">
+              <p className="text-sm font-medium text-gray-600">Excluded URLs</p>
+              <p className="text-2xl font-bold text-gray-900 mt-1">{metrics.sitemapExcludedUrlCount}</p>
+              <p className={metrics.sitemapExcludedUrlCount === 0 ? "text-xs text-green-600 mt-1" : "text-xs text-red-600 mt-1"}>
+                Admin, login, setup, private gallery, and portfolio redirects
+              </p>
+            </div>
+
+            <div className="rounded-lg bg-gray-50 p-4">
+              <p className="text-sm font-medium text-gray-600">Discovery</p>
+              <p className="text-2xl font-bold text-gray-900 mt-1">
+                {metrics.robotsReferencesSitemap ? "Ready" : "Review"}
+              </p>
+              <p className={metrics.robotsReferencesSitemap ? "text-xs text-green-600 mt-1" : "text-xs text-yellow-600 mt-1"}>
+                Robots references canonical sitemap
+              </p>
             </div>
           </div>
         </div>
