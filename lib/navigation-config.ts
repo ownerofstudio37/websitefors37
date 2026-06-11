@@ -38,6 +38,7 @@ export const FALLBACK_NAV_ITEMS: NavigationItem[] = [
       { id: 'services-event', label: 'Event Photography', href: '/services/event-photography', order: 4, visible: true },
       { id: 'services-commercial', label: 'Commercial Photography', href: '/services/commercial-photography', order: 5, visible: true },
       { id: 'services-branding-marketing', label: 'Branding & Marketing', href: '/services/branding-marketing', order: 6, visible: true },
+      { id: 'services-compare', label: 'Compare Packages', href: '/compare', order: 7, visible: true },
     ],
   },
   { id: 'session-prep', label: 'Session Prep', href: '/session-prep', order: 5, visible: true },

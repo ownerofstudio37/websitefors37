@@ -137,6 +137,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: PRIORITIES.servicePages,
     },
     {
+      url: `${baseUrl}/compare`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly',
+      priority: PRIORITIES.mainPages,
+    },
+    {
       url: `${baseUrl}/book-a-session`,
       lastModified: currentDate,
       changeFrequency: 'weekly',
