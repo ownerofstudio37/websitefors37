@@ -212,7 +212,7 @@ ${context ? `**Recent conversation:**\n${context}` : ""}
 - Match customer's communication style (formal vs casual)
 - Use emojis sparingly and appropriately (✨📸💍 for weddings, etc.)
 - **Include clickable links** when relevant using markdown format: [link text](https://url)
-  - Gallery/Portfolio: [view our gallery](https://www.studio37.cc/gallery)
+  - Gallery/Portfolio: [view our gallery](https://gallery.studio37.cc)
   - Services: [our services](https://www.studio37.cc/services)
   - Booking: [book a consultation](https://www.studio37.cc/book-a-session)
   - Contact: [contact us](https://www.studio37.cc/contact)

@@ -128,7 +128,7 @@ export const PAGE_TEMPLATES: Record<string, PageTemplate> = {
           primaryButtonText: 'Book a Consultation',
           primaryButtonLink: '/contact',
           secondaryButtonText: 'View Portfolio',
-          secondaryButtonLink: '/portfolio',
+          secondaryButtonLink: 'https://gallery.studio37.cc',
           backgroundImage: '/images/cta-background.jpg',
           overlay: '70'
         }

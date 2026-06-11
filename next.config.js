@@ -1,8 +1,10 @@
+const hasUnsafeBuildPath = process.cwd().includes("'");
+
 const withPWABuilder = require('@ducanh2912/next-pwa').default({
   dest: 'public',
   register: true,
   skipWaiting: true,
-  disable: process.env.NODE_ENV === 'development',
+  disable: process.env.NODE_ENV === 'development' || hasUnsafeBuildPath,
   runtimeCaching: [
     // Cache Cloudinary images safely
     {
@@ -209,10 +211,6 @@ const nextConfig = {
             key: "X-Content-Type-Options",
             value: "nosniff",
           },
-          {
-            key: "Cache-Control",
-            value: "public, max-age=3600",
-          },
         ],
       },
       {
@@ -225,10 +223,6 @@ const nextConfig = {
           {
             key: "X-Content-Type-Options",
             value: "nosniff",
-          },
-          {
-            key: "Cache-Control",
-            value: "public, max-age=3600",
           },
         ],
       },

@@ -2,4 +2,5 @@
 /*    /index.html   200
 
 # Base redirects
-/portfolio    /gallery    301!
+/portfolio    https://gallery.studio37.cc    301!
+/gallery      https://gallery.studio37.cc    301!

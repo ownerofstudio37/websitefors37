@@ -111,10 +111,10 @@ export async function POST(req: NextRequest) {
       entries.push({
         category: "portfolio",
         question: "Can I see examples of your work?",
-        answer: `Absolutely! Here are some featured examples from our portfolio:\n\n${portfolioSummary}\n\nYou can [view our full gallery](${SITE_URL}/gallery) to see more.`,
+        answer: `Absolutely! Here are some featured examples from our portfolio:\n\n${portfolioSummary}\n\nYou can [view our full gallery](https://gallery.studio37.cc) to see more.`,
         keywords: ["portfolio", "examples", "work", "gallery", "photos"],
         is_active: true,
-        source_url: `${SITE_URL}/gallery`,
+        source_url: 'https://gallery.studio37.cc',
       });
     }
 
@@ -490,7 +490,7 @@ function getServicePageContent(siteUrl: string): any[] {
         question: `Do you offer ${type.toLowerCase()}?`,
         answer: `Yes! ${type} is one of our specialties in ${service.name.toLowerCase()}. ${
           service.description.split(".")[0]
-        }. [View our ${service.name.toLowerCase()} portfolio](${siteUrl}/gallery) or [schedule a consultation](${siteUrl}/book-a-session) to discuss your ${type.toLowerCase()} needs!`,
+        }. [View our ${service.name.toLowerCase()} portfolio](https://gallery.studio37.cc) or [schedule a consultation](${siteUrl}/book-a-session) to discuss your ${type.toLowerCase()} needs!`,
         keywords: extractKeywords(type + " " + service.name),
         is_active: true,
         source_url: `${siteUrl}/services/${service.slug}`,

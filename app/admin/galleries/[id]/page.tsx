@@ -184,7 +184,7 @@ export default function GalleryManagePage() {
                 <p className="text-gray-600 mt-2">{gallery.client_name} • {images.length} photos</p>
               </div>
               <a
-                href={`/gallery/${gallery.access_code}`}
+                href={`https://gallery.studio37.cc/${gallery.access_code}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-all"

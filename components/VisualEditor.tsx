@@ -2933,9 +2933,9 @@ export default function VisualEditor({
         return {
           heading: "Browse by Category",
           categories: [
-            { id: "c1", name: "Portraits", link: "/gallery?category=portraits", count: 45 },
-            { id: "c2", name: "Weddings", link: "/gallery?category=weddings", count: 32 },
-            { id: "c3", name: "Events", link: "/gallery?category=events", count: 28 },
+            { id: "c1", name: "Portraits", link: "https://gallery.studio37.cc?category=portraits", count: 45 },
+            { id: "c2", name: "Weddings", link: "https://gallery.studio37.cc?category=weddings", count: 32 },
+            { id: "c3", name: "Events", link: "https://gallery.studio37.cc?category=events", count: 28 },
           ],
           layout: "grid",
           columns: 3,
@@ -12585,7 +12585,7 @@ function ProjectShowcaseProperties({
           value={data.link}
           onChange={(e) => onUpdate({ link: e.target.value })}
           className="w-full px-3 py-2 border rounded text-sm"
-          placeholder="/portfolio/project-name"
+          placeholder="https://gallery.studio37.cc/project-name"
         />
       </div>
       <div>
@@ -13318,7 +13318,7 @@ function HeroProperties({
           onChange={(e) => handleUpdate({ secondaryButtonLink: e.target.value })}
           className="w-full border rounded px-3 py-2"
           title="Secondary button link"
-          placeholder="e.g., /gallery"
+          placeholder="e.g., https://gallery.studio37.cc"
         />
       </div>
       <div>
@@ -15597,7 +15597,7 @@ function ImageProperties({
           onChange={(e) => handleUpdate({ link: e.target.value })}
           className="w-full border rounded px-3 py-2"
           title="Image link"
-          placeholder="/gallery or https://example.com"
+          placeholder="https://gallery.studio37.cc or https://example.com"
         />
         <p className="text-xs text-gray-500 mt-1">
           Make image clickable - links to another page

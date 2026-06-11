@@ -1,13 +1,10 @@
 import { createClient } from '@supabase/supabase-js'
-import { MetadataRoute } from 'next'
+import type { MetadataRoute } from 'next'
 import { locationPages } from '@/lib/location-pages'
-
-// Cache sitemap generation for 30 minutes (more frequent for blog updates)
-export const revalidate = 1800
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co'
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key'
-const baseUrl = 'https://www.studio37.cc'
+export const sitemapBaseUrl = 'https://www.studio37.cc'
 
 const hasRealSupabaseConfig =
   !!process.env.NEXT_PUBLIC_SUPABASE_URL &&
@@ -58,9 +55,9 @@ const REDIRECTED_LOCATION_SLUGS = new Set([
 
 // Helper to determine priority based on post age
 function getBlogPostPriority(publishedAt: string | null, updatedAt: string | null): number {
-  if (!publishedAt && !updatedAt) return PRIORITIES.blogPostsOld
-  
-  const compareDate = publishedAt || updatedAt
+  const compareDate = publishedAt ?? updatedAt
+  if (!compareDate) return PRIORITIES.blogPostsOld
+
   const ageInDays = Math.floor((Date.now() - new Date(compareDate).getTime()) / (1000 * 60 * 60 * 24))
   
   if (ageInDays <= 30) return PRIORITIES.blogPostsRecent
@@ -70,9 +67,9 @@ function getBlogPostPriority(publishedAt: string | null, updatedAt: string | nul
 
 // Helper to determine change frequency based on post age
 function getBlogPostChangeFrequency(publishedAt: string | null, updatedAt: string | null): 'daily' | 'weekly' | 'monthly' | 'yearly' {
-  if (!publishedAt && !updatedAt) return 'yearly'
-  
-  const compareDate = publishedAt || updatedAt
+  const compareDate = publishedAt ?? updatedAt
+  if (!compareDate) return 'yearly'
+
   const ageInDays = Math.floor((Date.now() - new Date(compareDate).getTime()) / (1000 * 60 * 60 * 24))
   
   if (ageInDays <= 7) return 'daily'
@@ -80,373 +77,373 @@ function getBlogPostChangeFrequency(publishedAt: string | null, updatedAt: strin
   return 'monthly'
 }
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+export async function getSitemapRoutes(): Promise<MetadataRoute.Sitemap> {
   const currentDate = new Date()
   
   // Static routes - Main pages optimized for local SEO and user journey
   const routes: MetadataRoute.Sitemap = [
     // Homepage - Highest priority
     {
-      url: baseUrl,
+      url: sitemapBaseUrl,
       lastModified: currentDate,
       changeFrequency: 'weekly',
       priority: PRIORITIES.homepage,
     },
     // Main service pages - High priority for conversions
     {
-      url: `${baseUrl}/services`,
+      url: `${sitemapBaseUrl}/services`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.mainPages,
     },
     // Individual service pages - High priority for local SEO
     {
-      url: `${baseUrl}/services/wedding-photography`,
+      url: `${sitemapBaseUrl}/services/wedding-photography`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
     {
-      url: `${baseUrl}/services/portrait-photography`,
+      url: `${sitemapBaseUrl}/services/portrait-photography`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
     {
-      url: `${baseUrl}/services/event-photography`,
+      url: `${sitemapBaseUrl}/services/event-photography`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
     {
-      url: `${baseUrl}/services/commercial-photography`,
+      url: `${sitemapBaseUrl}/services/commercial-photography`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
     {
-      url: `${baseUrl}/services/engagement-session`,
+      url: `${sitemapBaseUrl}/services/engagement-session`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
     {
-      url: `${baseUrl}/services/branding-marketing`,
+      url: `${sitemapBaseUrl}/services/branding-marketing`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
     {
-      url: `${baseUrl}/compare`,
+      url: `${sitemapBaseUrl}/compare`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.mainPages,
     },
     {
-      url: `${baseUrl}/book-a-session`,
+      url: `${sitemapBaseUrl}/book-a-session`,
       lastModified: currentDate,
       changeFrequency: 'weekly',
       priority: PRIORITIES.mainPages,
     },
     {
-      url: `${baseUrl}/book-consultation`,
+      url: `${sitemapBaseUrl}/book-consultation`,
       lastModified: currentDate,
       changeFrequency: 'weekly',
       priority: PRIORITIES.mainPages,
     },
     {
-      url: `${baseUrl}/get-quote`,
+      url: `${sitemapBaseUrl}/get-quote`,
       lastModified: currentDate,
       changeFrequency: 'weekly',
       priority: PRIORITIES.mainPages,
     },
     {
-      url: `${baseUrl}/contact`,
+      url: `${sitemapBaseUrl}/contact`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.mainPages,
     },
     // Session prep guides
     {
-      url: `${baseUrl}/session-prep`,
+      url: `${sitemapBaseUrl}/session-prep`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
     {
-      url: `${baseUrl}/session-prep/portrait`,
+      url: `${sitemapBaseUrl}/session-prep/portrait`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
     {
-      url: `${baseUrl}/session-prep/engagement`,
+      url: `${sitemapBaseUrl}/session-prep/engagement`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
     {
-      url: `${baseUrl}/session-prep/wedding`,
+      url: `${sitemapBaseUrl}/session-prep/wedding`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
     {
-      url: `${baseUrl}/session-prep/event`,
+      url: `${sitemapBaseUrl}/session-prep/event`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
     {
-      url: `${baseUrl}/session-prep/commercial`,
+      url: `${sitemapBaseUrl}/session-prep/commercial`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
     // Local SEO landing page
     {
-      url: `${baseUrl}/local-photographer-pinehurst-tx`,
+      url: `${sitemapBaseUrl}/local-photographer-pinehurst-tx`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
     {
-      url: `${baseUrl}/local-photographer-the-woodlands-tx`,
+      url: `${sitemapBaseUrl}/local-photographer-the-woodlands-tx`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
     {
-      url: `${baseUrl}/local-photographer-spring-tx`,
+      url: `${sitemapBaseUrl}/local-photographer-spring-tx`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
     {
-      url: `${baseUrl}/local-photographer-tomball-tx`,
+      url: `${sitemapBaseUrl}/local-photographer-tomball-tx`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
     {
-      url: `${baseUrl}/local-photographer-conroe-tx`,
+      url: `${sitemapBaseUrl}/local-photographer-conroe-tx`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
     {
-      url: `${baseUrl}/local-photographer-magnolia-tx`,
+      url: `${sitemapBaseUrl}/local-photographer-magnolia-tx`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
     {
-      url: `${baseUrl}/local-photographer-montgomery-tx`,
+      url: `${sitemapBaseUrl}/local-photographer-montgomery-tx`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
     {
-      url: `${baseUrl}/local-photographer-willis-tx`,
+      url: `${sitemapBaseUrl}/local-photographer-willis-tx`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
     {
-      url: `${baseUrl}/local-photographer-huntsville-tx`,
+      url: `${sitemapBaseUrl}/local-photographer-huntsville-tx`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
     {
-      url: `${baseUrl}/local-photographer-new-caney-tx`,
+      url: `${sitemapBaseUrl}/local-photographer-new-caney-tx`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
     {
-      url: `${baseUrl}/local-photographer-hockley-tx`,
+      url: `${sitemapBaseUrl}/local-photographer-hockley-tx`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
     {
-      url: `${baseUrl}/local-photographer-bryan-tx`,
+      url: `${sitemapBaseUrl}/local-photographer-bryan-tx`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
     {
-      url: `${baseUrl}/local-photographer-college-station-tx`,
+      url: `${sitemapBaseUrl}/local-photographer-college-station-tx`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
     {
-      url: `${baseUrl}/local-photographer-houston-tx`,
+      url: `${sitemapBaseUrl}/local-photographer-houston-tx`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
     {
-      url: `${baseUrl}/local-photographer-new-waverly-tx`,
+      url: `${sitemapBaseUrl}/local-photographer-new-waverly-tx`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
     // Service + city landing pages
     {
-      url: `${baseUrl}/wedding-photographer-katy-tx`,
+      url: `${sitemapBaseUrl}/wedding-photographer-katy-tx`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
     {
-      url: `${baseUrl}/portrait-photographer-katy-tx`,
+      url: `${sitemapBaseUrl}/portrait-photographer-katy-tx`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
     {
-      url: `${baseUrl}/wedding-photographer-the-woodlands-tx`,
+      url: `${sitemapBaseUrl}/wedding-photographer-the-woodlands-tx`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
     {
-      url: `${baseUrl}/portrait-photographer-conroe-tx`,
+      url: `${sitemapBaseUrl}/portrait-photographer-conroe-tx`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
     {
-      url: `${baseUrl}/family-photographer-magnolia-tx`,
+      url: `${sitemapBaseUrl}/family-photographer-magnolia-tx`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
     {
-      url: `${baseUrl}/headshot-photographer-houston-tx`,
+      url: `${sitemapBaseUrl}/headshot-photographer-houston-tx`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
     {
-      url: `${baseUrl}/wedding-photographer-tomball-tx`,
+      url: `${sitemapBaseUrl}/wedding-photographer-tomball-tx`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
     {
-      url: `${baseUrl}/family-photographer-spring-tx`,
+      url: `${sitemapBaseUrl}/family-photographer-spring-tx`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
     {
-      url: `${baseUrl}/wedding-photographer-montgomery-tx`,
+      url: `${sitemapBaseUrl}/wedding-photographer-montgomery-tx`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
     {
-      url: `${baseUrl}/portrait-photographer-willis-tx`,
+      url: `${sitemapBaseUrl}/portrait-photographer-willis-tx`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
     {
-      url: `${baseUrl}/portrait-photographer-huntsville-tx`,
+      url: `${sitemapBaseUrl}/portrait-photographer-huntsville-tx`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
     {
-      url: `${baseUrl}/family-photographer-new-caney-tx`,
+      url: `${sitemapBaseUrl}/family-photographer-new-caney-tx`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
     {
-      url: `${baseUrl}/portrait-photographer-hockley-tx`,
+      url: `${sitemapBaseUrl}/portrait-photographer-hockley-tx`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
     {
-      url: `${baseUrl}/family-photographer-porter-tx`,
+      url: `${sitemapBaseUrl}/family-photographer-porter-tx`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
     {
-      url: `${baseUrl}/portrait-photographer-splendora-tx`,
+      url: `${sitemapBaseUrl}/portrait-photographer-splendora-tx`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
     {
-      url: `${baseUrl}/family-photographer-cleveland-tx`,
+      url: `${sitemapBaseUrl}/family-photographer-cleveland-tx`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
     {
-      url: `${baseUrl}/wedding-photographer-waller-tx`,
+      url: `${sitemapBaseUrl}/wedding-photographer-waller-tx`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
     {
-      url: `${baseUrl}/wedding-photographer-plantersville-tx`,
+      url: `${sitemapBaseUrl}/wedding-photographer-plantersville-tx`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
     {
-      url: `${baseUrl}/wedding-photographer-navasota-tx`,
+      url: `${sitemapBaseUrl}/wedding-photographer-navasota-tx`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
     {
-      url: `${baseUrl}/wedding-photographer-bryan-tx`,
+      url: `${sitemapBaseUrl}/wedding-photographer-bryan-tx`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
     {
-      url: `${baseUrl}/wedding-photographer-college-station-tx`,
+      url: `${sitemapBaseUrl}/wedding-photographer-college-station-tx`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
     {
-      url: `${baseUrl}/portrait-photographer-cypress-tx`,
+      url: `${sitemapBaseUrl}/portrait-photographer-cypress-tx`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
     {
-      url: `${baseUrl}/portrait-photographer-new-waverly-tx`,
+      url: `${sitemapBaseUrl}/portrait-photographer-new-waverly-tx`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
     {
-      url: `${baseUrl}/family-photographer-kingwood-tx`,
+      url: `${sitemapBaseUrl}/family-photographer-kingwood-tx`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
     {
-      url: `${baseUrl}/portrait-photographer-humble-tx`,
+      url: `${sitemapBaseUrl}/portrait-photographer-humble-tx`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
     {
-      url: `${baseUrl}/family-photographer-atascocita-tx`,
+      url: `${sitemapBaseUrl}/family-photographer-atascocita-tx`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
@@ -454,56 +451,86 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     // Portfolio and content pages
     {
-      url: `${baseUrl}/about`,
+      url: `${sitemapBaseUrl}/about`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
     {
-      url: `${baseUrl}/blog`,
+      url: `${sitemapBaseUrl}/blog`,
       lastModified: currentDate,
       changeFrequency: 'daily',
       priority: PRIORITIES.servicePages,
     },
     {
-      url: `${baseUrl}/locations`,
+      url: `${sitemapBaseUrl}/locations`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
+    {
+      url: `${sitemapBaseUrl}/family-photography`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly',
+      priority: PRIORITIES.servicePages,
+    },
+    {
+      url: `${sitemapBaseUrl}/professional-headshots`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly',
+      priority: PRIORITIES.servicePages,
+    },
+    {
+      url: `${sitemapBaseUrl}/senior-portraits`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly',
+      priority: PRIORITIES.servicePages,
+    },
+    {
+      url: `${sitemapBaseUrl}/maternity-sessions`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly',
+      priority: PRIORITIES.servicePages,
+    },
+    {
+      url: `${sitemapBaseUrl}/tools/pricing`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly',
+      priority: PRIORITIES.contentPages,
+    },
     // Hardcoded event service pages
     {
-      url: `${baseUrl}/corporate-events`,
+      url: `${sitemapBaseUrl}/corporate-events`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.contentPages,
     },
     {
-      url: `${baseUrl}/birthday-party`,
+      url: `${sitemapBaseUrl}/birthday-party`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.contentPages,
     },
     {
-      url: `${baseUrl}/graduation`,
+      url: `${sitemapBaseUrl}/graduation`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.contentPages,
     },
     {
-      url: `${baseUrl}/fundraiser`,
+      url: `${sitemapBaseUrl}/fundraiser`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.contentPages,
     },
     {
-      url: `${baseUrl}/anniversary-party`,
+      url: `${sitemapBaseUrl}/anniversary-party`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.contentPages,
     },
     {
-      url: `${baseUrl}/holiday-party`,
+      url: `${sitemapBaseUrl}/holiday-party`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.contentPages,
@@ -512,10 +539,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   for (const location of locationPages) {
     const shortSlug = location.slug.replace(/-tx$/, '')
+
+    routes.push({
+      url: `${sitemapBaseUrl}/locations/${location.slug}`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly',
+      priority: PRIORITIES.contentPages,
+    })
+
     if (REDIRECTED_LOCATION_SLUGS.has(shortSlug)) continue
 
     routes.push({
-      url: `${baseUrl}/${shortSlug}`,
+      url: `${sitemapBaseUrl}/${shortSlug}`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.contentPages,
@@ -546,7 +581,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         })
 
         const contentRoutes = filteredPages.map(page => ({
-          url: `${baseUrl}/${page.slug}`,
+          url: `${sitemapBaseUrl}/${page.slug}`,
           lastModified: new Date(page.updated_at),
           changeFrequency: 'weekly' as const,
           priority: 0.7,
@@ -572,7 +607,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           const changeFrequency = getBlogPostChangeFrequency(post.published_at, post.updated_at)
 
           return {
-            url: `${baseUrl}/blog/${post.slug}`,
+            url: `${sitemapBaseUrl}/blog/${post.slug}`,
             lastModified: new Date(lastModSource),
             changeFrequency,
             priority,

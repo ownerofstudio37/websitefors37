@@ -1,9 +1,12 @@
 import PricingCalculator from "@/components/PricingCalculator"
+import { generateSEOMetadata } from "@/lib/seo-helpers"
 
-export const metadata = {
+export const metadata = generateSEOMetadata({
   title: "Portrait Pricing Calculator | Studio37",
-  description: "Instantly estimate portrait session pricing based on duration and group size.",
-}
+  description: "Instantly estimate Studio37 portrait session pricing based on duration, group size, and package needs.",
+  keywords: ["portrait pricing", "photography pricing calculator", "Pinehurst photographer pricing"],
+  canonicalUrl: "https://www.studio37.cc/tools/pricing",
+})
 
 export default function PricingToolPage() {
   return (

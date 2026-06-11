@@ -89,7 +89,7 @@ export default function GalleriesPage() {
   }
 
   const copyLink = (accessCode: string) => {
-    const link = `${window.location.origin}/gallery/${accessCode}`
+    const link = `https://gallery.studio37.cc/${accessCode}`
     navigator.clipboard.writeText(link)
     alert('Gallery link copied to clipboard!')
   }
@@ -379,7 +379,7 @@ export default function GalleriesPage() {
                         Manage
                       </a>
                       <a
-                        href={`/gallery/${gallery.access_code}`}
+                        href={`https://gallery.studio37.cc/${gallery.access_code}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"

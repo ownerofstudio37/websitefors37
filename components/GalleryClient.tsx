@@ -171,7 +171,7 @@ export default function GalleryClient({ initialImages, categories }: GalleryProp
             {/* Previous Button */}
             {selectedIndex > 0 && (
               <button
-                className=\"absolute left-4 top-1/2 -translate-y-1/2 text-white hover:text-gray-300 transition-colors p-2 md:p-3 hover:bg-white/10 rounded-full z-10 min-h-[44px] min-w-[44px] md:min-h-[48px] md:min-w-[48px] flex items-center justify-center\"\n                aria-label=\"Previous image\"
+                className="absolute left-4 top-1/2 -translate-y-1/2 text-white hover:text-gray-300 transition-colors p-2 md:p-3 hover:bg-white/10 rounded-full z-10 min-h-[44px] min-w-[44px] md:min-h-[48px] md:min-w-[48px] flex items-center justify-center"
                 onClick={(e) => {
                   e.stopPropagation()
                   navigateImage(-1)
@@ -179,14 +179,14 @@ export default function GalleryClient({ initialImages, categories }: GalleryProp
                 aria-label="Previous image"
                 title="Previous (←)"
               >
-                <ChevronLeft size={40} className=\"md:w-10 md:h-10\" />
+                <ChevronLeft size={40} className="md:w-10 md:h-10" />
               </button>
             )}
             
             {/* Next Button */}
             {selectedIndex < filteredImages.length - 1 && (
               <button
-                className=\"absolute right-4 top-1/2 -translate-y-1/2 text-white hover:text-gray-300 transition-colors p-2 md:p-3 hover:bg-white/10 rounded-full z-10 min-h-[44px] min-w-[44px] md:min-h-[48px] md:min-w-[48px] flex items-center justify-center\"\n                aria-label=\"Next image\"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-white hover:text-gray-300 transition-colors p-2 md:p-3 hover:bg-white/10 rounded-full z-10 min-h-[44px] min-w-[44px] md:min-h-[48px] md:min-w-[48px] flex items-center justify-center"
                 onClick={(e) => {
                   e.stopPropagation()
                   navigateImage(1)
@@ -194,7 +194,7 @@ export default function GalleryClient({ initialImages, categories }: GalleryProp
                 aria-label="Next image"
                 title="Next (→)"
               >
-                <ChevronRight size={40} className=\"md:w-10 md:h-10\" />
+                <ChevronRight size={40} className="md:w-10 md:h-10" />
               </button>
             )}
             
@@ -213,7 +213,7 @@ export default function GalleryClient({ initialImages, categories }: GalleryProp
                     src={selectedImage.image_url}
                     alt={selectedImage.alt_text || selectedImage.title}
                     fill
-                    sizes=\"(max-width: 640px) 95vw, (max-width: 768px) 90vw, 85vw\"
+                    sizes="(max-width: 640px) 95vw, (max-width: 768px) 90vw, 85vw"
                     imgClassName="object-contain"
                     priority
                   />
