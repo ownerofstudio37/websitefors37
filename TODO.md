@@ -1,5 +1,74 @@
 # Studio37 UX/UI, SEO, and Feature TODO
 
+## Fresh Audit Backlog - June 11, 2026
+
+### UI/UX
+
+- [ ] Audit the live CMS/page-builder homepage against the source fallback homepage so critical sections like package recommender, curated recent work, and service-area modules are guaranteed to render even when a stored layout exists.
+- [ ] Add a compact first-viewport "choose your path" module for Portrait, Wedding, Event, Commercial, and Branding so visitors can self-segment before reading long homepage copy.
+- [ ] Reduce homepage cognitive load by moving dense SEO copy below stronger scannable cards, FAQs, or accordions.
+- [ ] Add clear "starting at" pricing microcopy near every major service CTA, with a link to `/tools/pricing` or `/tools/package-recommender`.
+- [ ] Improve mobile sticky CTA behavior so the chatbot, save-quote popup, and sticky action bar never stack over each other on small screens.
+- [ ] Add visible active states and descriptive helper text for dropdown navigation on service and service-area menus.
+- [ ] Add service-specific "what to expect" cards above the fold on high-intent pages instead of relying only on long-form page copy.
+- [ ] Add trust proof near the booking form itself: review count, insurance/PPA, delivery timeline, and two-photographer promise.
+- [ ] Add a lightweight gallery handoff page or modal explaining that final galleries open on ShootProof at `https://gallery.studio37.cc`.
+
+### SEO
+
+- [ ] Add `/tools/package-recommender` to the sitemap and required sitemap endpoint test coverage.
+- [ ] Add metadata and sitemap coverage for any future ShootProof handoff/gallery explainer page while keeping `/gallery` and `/portfolio` redirects out of the sitemap.
+- [ ] Recheck Netlify/Next sitemap cache behavior because live sitemap headers show very old cache age even when `lastmod` is current.
+- [ ] Add a deployment verification script that compares live sitemap URLs against `lib/sitemap-data.ts` required URLs after every push.
+- [ ] Add FAQ schema to package recommender, pricing, and session prep hub pages.
+- [ ] Add SoftwareApplication or WebApplication schema for `/tools/pricing` and `/tools/package-recommender`.
+- [ ] Add BreadcrumbList schema to pricing, package recommender, service-area index, and prep-guide pages.
+- [ ] Standardize local landing page canonical strategy so short city redirects and canonical destination pages cannot compete.
+- [ ] Add image metadata audit coverage for Cloudinary assets used in public conversion sections and recent-work cards.
+- [ ] Add internal links from top location pages to package recommender, pricing tool, and relevant prep guides.
+- [ ] Review title/meta uniqueness across generated city/service pages to reduce template similarity.
+- [ ] Add indexability checks for newly added tools and lead magnet pages in the admin SEO dashboard.
+
+### Conversion And Lead Capture
+
+- [ ] Refine save-quote popup timing and triggers by page type, with less aggressive behavior on first-page visitors.
+- [ ] Add analytics events for package recommender selections, pricing duration changes, save-quote opens/submits/dismissals, and prep-guide downloads.
+- [ ] Send admin notifications with richer context from save-quote captures: page URL, selected package if present, calculator query params, and referrer.
+- [ ] Make the client-facing save-quote auto-response a dedicated template instead of reusing generic contact confirmation.
+- [ ] Add UTM/source capture to lead submissions and persist it in lead records.
+- [ ] Add calendar availability confidence near booking CTAs, even if the exact slot is selected later.
+- [ ] Add a "compare packages" CTA after blog posts and session-prep pages.
+
+### Content And Public Features
+
+- [ ] Build the ShootProof-aware gallery launch page noted above, with expectations for downloads, favorites, sharing, print options, and client access.
+- [ ] Add curated recent-work management data in code or CMS so recent-work cards are not hard-coded in a component long term.
+- [ ] Create service-specific prep-guide download pages for Portrait, Wedding, Event, and Commercial instead of a single hub-only lead magnet.
+- [ ] Add "best locations for photos" sections for top markets: Pinehurst, The Woodlands, Conroe, Magnolia, Tomball, Spring, Montgomery, Bryan, and College Station.
+- [ ] Add venue-style examples for weddings and events without naming unsupported venues as partners.
+- [ ] Add a content block for turnaround expectations by service: sneak peeks, highlights, final gallery, rush options.
+- [ ] Add seasonal campaign pages for mini sessions, senior portraits, holiday parties, graduations, and brand refreshes.
+- [ ] Add testimonial modules mapped by service type instead of one generic testimonial pool.
+
+### Admin And Operations
+
+- [ ] Add a CMS/admin toggle to feature or reorder recent-work cards without editing code.
+- [ ] Add an admin view for lead magnets showing guide requests, conversion source, and follow-up status.
+- [ ] Add admin alerting when sitemap required URLs are missing from live production.
+- [ ] Add a "public launch checklist" in admin for new pages: metadata, schema, sitemap, internal links, CTA, analytics event, and visual QA.
+- [ ] Add a reusable email template specifically for saved quote follow-up.
+- [ ] Add lead timeline events for package recommender selections and prep-guide downloads.
+
+### Technical Quality And Performance
+
+- [ ] Reduce homepage client JS by reviewing dynamic imports, page-builder hydration, and chatbot/save-quote mounting behavior.
+- [ ] Add Playwright smoke tests for homepage, services, pricing, package recommender, session prep, locations, and booking.
+- [ ] Add visual regression screenshots for mobile sticky CTA, save-quote popup, and navigation dropdowns.
+- [ ] Add a link checker for internal public links plus expected external links to `https://gallery.studio37.cc`.
+- [ ] Add automated checks for overlapping fixed UI elements on mobile.
+- [ ] Add a production smoke test that fetches live headers for homepage, robots, sitemap, and top conversion pages after deploy.
+- [ ] Review CSP differences between homepage HTML responses and static XML/text endpoints to keep security consistent without breaking analytics or widgets.
+
 ## Public Site UX/UI
 
 - [x] Add consistent sticky/mobile CTAs for booking, pricing, and gallery.
