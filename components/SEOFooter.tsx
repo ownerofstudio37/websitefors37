@@ -21,7 +21,7 @@ export default function SEOFooter() {
           </div>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div>
             <h2 className="text-xl font-semibold text-white mb-3">{legalName}</h2>
             <p className="text-sm text-stone-300 mb-4 leading-6">White-glove photography and brand services for growth-focused clients in Texas.</p>
@@ -52,16 +52,30 @@ export default function SEOFooter() {
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wide text-stone-400 mb-3">Quick Links</h3>
+            <h3 className="text-sm font-semibold uppercase tracking-wide text-stone-400 mb-3">Services</h3>
             <ul className="space-y-2 text-sm">
-              <li><Link href="/services" className="hover:text-white transition-colors">Services</Link></li>
-              <li><Link href="/locations" className="hover:text-white transition-colors">Service Areas</Link></li>
+              <li><Link href="/services" className="hover:text-white transition-colors">All Services</Link></li>
+              <li><Link href="/services/wedding-photography" className="hover:text-white transition-colors">Wedding Photography</Link></li>
+              <li><Link href="/services/portrait-photography" className="hover:text-white transition-colors">Portrait Sessions</Link></li>
+              <li><Link href="/services/event-photography" className="hover:text-white transition-colors">Event Photography</Link></li>
+              <li><Link href="/services/commercial-photography" className="hover:text-white transition-colors">Commercial Photography</Link></li>
               <li><Link href="/services/branding-marketing" className="hover:text-white transition-colors">Branding &amp; Marketing</Link></li>
+              <li><Link href="/locations" className="hover:text-white transition-colors">Service Areas</Link></li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="text-sm font-semibold uppercase tracking-wide text-stone-400 mb-3">Resources</h3>
+            <ul className="space-y-2 text-sm">
+              <li><Link href="/blog" className="hover:text-white transition-colors">Blog &amp; Tips</Link></li>
+              <li><Link href="/about" className="hover:text-white transition-colors">About Studio37</Link></li>
+              <li><Link href="/session-prep" className="hover:text-white transition-colors">Session Prep Guides</Link></li>
               <li><Link href="/book-consultation" className="hover:text-white transition-colors">Book Consultation</Link></li>
-              <li><Link href="/contact" className="hover:text-white transition-colors">Contact</Link></li>
+              <li><Link href="/contact" className="hover:text-white transition-colors">Contact Us</Link></li>
+              <li><a href="https://gallery.studio37.cc" className="hover:text-white transition-colors">View Portfolio</a></li>
             </ul>
             <p className="mt-4 text-xs text-stone-400 leading-6">
-              Serving {serviceAreas.join(', ')}.
+              Serving {serviceAreas.slice(0, 8).join(', ')} &amp; more.
             </p>
           </div>
         </div>

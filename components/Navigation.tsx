@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Menu, X, Camera, ChevronDown } from '@/icons'
@@ -28,12 +28,31 @@ export default function Navigation({
   const [mobileDropdownStates, setMobileDropdownStates] = useState<Record<string, boolean>>({})
   // Small hover-intent close delays so menus don't vanish while moving cursor
   const dropdownCloseTimers = React.useRef<Record<string, ReturnType<typeof setTimeout> | null>>({})
+  const navRef = useRef<HTMLElement>(null)
   // Badge concept (light/dark) as default fallbacks
   const DEFAULT_LOGO_LIGHT = '/brand/studio37-badge-light.svg'
   const DEFAULT_LOGO_DARK = '/brand/studio37-badge-dark.svg'
   // User-requested default brand logo (Cloudinary) - optimized
   const DEFAULT_BRAND_LOGO = 'https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_200,c_limit/v1756077115/My%20Brand/IMG_2115_mtuowt.png'
   
+  // Close mobile menu on route change
+  useEffect(() => {
+    setIsOpen(false)
+    setMobileDropdownStates({})
+  }, [pathname])
+
+  // Close mobile menu on outside click
+  useEffect(() => {
+    if (!isOpen) return
+    const handleClickOutside = (e: MouseEvent) => {
+      if (navRef.current && !navRef.current.contains(e.target as Node)) {
+        setIsOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [isOpen])
+
   useEffect(() => {
     let ticking = false
     const onScroll = () => {
@@ -124,6 +143,7 @@ export default function Navigation({
 
   return (
     <nav 
+      ref={navRef}
       id="site-navigation"
       className={`fixed w-full z-50 transition-all duration-300 ${
         scrolled ? 'bg-white/88 backdrop-blur-xl shadow-[0_10px_30px_rgba(15,23,42,0.08)] border-b border-stone-200/80' : 'bg-transparent'

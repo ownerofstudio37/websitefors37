@@ -23,19 +23,25 @@ const statCards = [
     key: 'totalLeads',
     label: 'Total Leads',
     icon: Users,
-    accent: 'bg-blue-100 text-blue-700',
+    accent: 'bg-amber-100 text-amber-700',
+    href: '/admin/leads',
+    hint: 'View all leads →',
   },
   {
     key: 'totalRevenue',
     label: 'Tracked Revenue',
     icon: TrendingUp,
     accent: 'bg-green-100 text-green-700',
+    href: '/admin/lead-cost-analytics',
+    hint: 'Revenue analytics →',
   },
   {
     key: 'totalBookings',
     label: 'Total Bookings',
     icon: CalendarDays,
     accent: 'bg-purple-100 text-purple-700',
+    href: '/admin/bookings',
+    hint: 'View bookings →',
   },
 ] as const
 
@@ -76,20 +82,20 @@ export default function AdminPage() {
               ? formatCurrency(stats?.totalRevenue || 0)
               : stats?.[card.key] || 0
 
-          return (
-            <div key={card.key} className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+          return (            <Link key={card.key} href={card.href} className="group rounded-2xl border border-gray-200 bg-white p-5 shadow-sm hover:shadow-md hover:border-amber-300 transition-all">
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <p className="text-sm font-medium text-gray-500">{card.label}</p>
                   <div className="mt-2 text-3xl font-bold text-gray-900">
                     {loading ? <div className="h-9 w-24 rounded bg-gray-100 animate-pulse" /> : value}
                   </div>
+                  <p className="mt-1 text-xs text-amber-700 opacity-0 group-hover:opacity-100 transition-opacity">{card.hint}</p>
                 </div>
                 <div className={`rounded-xl p-3 ${card.accent}`}>
                   <Icon className="h-6 w-6" />
                 </div>
               </div>
-            </div>
+            </Link>
           )
         })}
       </section>

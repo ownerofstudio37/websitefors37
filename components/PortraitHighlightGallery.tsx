@@ -49,10 +49,18 @@ export default function PortraitHighlightGallery() {
     <section className="py-16 bg-white">
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4">Featured Portfolio</h2>
-          <p className="text-lg text-gray-700">
-            A curated selection of our favorite work
+          <div className="eyebrow mb-3">Portfolio</div>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">Recent Client Work</h2>
+          <p className="text-lg text-stone-600 mb-6">
+            A curated look at weddings, portraits, and brand sessions from Studio37.
           </p>
+          <div className="flex flex-wrap justify-center gap-3 text-sm mb-2">
+            <a href="https://gallery.studio37.cc" className="px-4 py-2 rounded-full bg-stone-100 hover:bg-amber-100 hover:text-amber-800 transition-colors text-stone-700 font-medium">All Work</a>
+            <a href="https://gallery.studio37.cc" className="px-4 py-2 rounded-full bg-stone-100 hover:bg-amber-100 hover:text-amber-800 transition-colors text-stone-700 font-medium">Weddings</a>
+            <a href="https://gallery.studio37.cc" className="px-4 py-2 rounded-full bg-stone-100 hover:bg-amber-100 hover:text-amber-800 transition-colors text-stone-700 font-medium">Portraits</a>
+            <a href="https://gallery.studio37.cc" className="px-4 py-2 rounded-full bg-stone-100 hover:bg-amber-100 hover:text-amber-800 transition-colors text-stone-700 font-medium">Events</a>
+            <a href="https://gallery.studio37.cc" className="px-4 py-2 rounded-full bg-stone-100 hover:bg-amber-100 hover:text-amber-800 transition-colors text-stone-700 font-medium">Commercial</a>
+          </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {staticImages.map((image, index) => (
@@ -91,6 +99,16 @@ export default function PortraitHighlightGallery() {
               </div>
             </a>
           ))}
+        </div>
+        <div className="text-center mt-10">
+          <a
+            href="https://gallery.studio37.cc"
+            className="btn-primary inline-flex items-center gap-2 text-base px-8 py-4"
+          >
+            View Full Portfolio
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+          </a>
+          <p className="mt-3 text-sm text-stone-500">500+ sessions · gallery.studio37.cc</p>
         </div>
       </div>
     </section>
