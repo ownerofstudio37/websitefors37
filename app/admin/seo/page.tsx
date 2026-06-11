@@ -31,8 +31,18 @@ interface SEOMetrics {
   sitemapUrlCount: number;
   sitemapRequiredUrlsPresent: number;
   sitemapExcludedUrlCount: number;
+  sitemapRedirectedUrlCount: number;
   robotsReferencesSitemap: boolean;
   sitemapLastChecked: string | null;
+  canonicalChecked: number;
+  canonicalHealthy: number;
+  structuredServicePages: number;
+  structuredLocationPages: number;
+  structuredBlogPosts: number;
+  structuredFaqPages: number;
+  localBusinessSchemaPresent: boolean;
+  localSeoPagesChecked: number;
+  localSeoPagesHealthy: number;
 }
 
 interface SEOIssue {
@@ -59,8 +69,61 @@ const EXCLUDED_SITEMAP_PATTERNS = [
   /\/admin(?:\/|$)/,
   /\/login$/,
   /\/setup-admin$/,
+  /\/gallery$/,
   /\/gallery\/[^/]+/,
   /\/portfolio$/,
+];
+
+const REDIRECTED_SITEMAP_PATHS = [
+  "/gallery",
+  "/portfolio",
+  "/pinehurst",
+  "/the-woodlands",
+  "/spring",
+  "/tomball",
+  "/conroe",
+  "/magnolia",
+  "/montgomery",
+  "/willis",
+  "/huntsville",
+  "/new-caney",
+  "/hockley",
+  "/bryan",
+  "/college-station",
+  "/houston",
+];
+
+const CANONICAL_CHECK_URLS = [
+  "https://www.studio37.cc",
+  "https://www.studio37.cc/services",
+  "https://www.studio37.cc/book-a-session",
+  "https://www.studio37.cc/contact",
+  "https://www.studio37.cc/locations/katy-tx",
+];
+
+const SERVICE_SCHEMA_URLS = [
+  "https://www.studio37.cc/services/wedding-photography",
+  "https://www.studio37.cc/services/portrait-photography",
+  "https://www.studio37.cc/services/commercial-photography",
+];
+
+const LOCATION_SCHEMA_URLS = [
+  "https://www.studio37.cc/locations/katy-tx",
+  "https://www.studio37.cc/local-photographer-houston-tx",
+  "https://www.studio37.cc/local-photographer-the-woodlands-tx",
+];
+
+const FAQ_SCHEMA_URLS = [
+  "https://www.studio37.cc/services/wedding-photography",
+  "https://www.studio37.cc/session-prep",
+];
+
+const LOCAL_SEO_CHECK_URLS = [
+  "https://www.studio37.cc/local-photographer-houston-tx",
+  "https://www.studio37.cc/local-photographer-the-woodlands-tx",
+  "https://www.studio37.cc/local-photographer-magnolia-tx",
+  "https://www.studio37.cc/wedding-photographer-katy-tx",
+  "https://www.studio37.cc/headshot-photographer-houston-tx",
 ];
 
 export default function SEOPage() {
@@ -89,14 +152,51 @@ export default function SEOPage() {
     sitemapUrlCount: 0,
     sitemapRequiredUrlsPresent: 0,
     sitemapExcludedUrlCount: 0,
+    sitemapRedirectedUrlCount: 0,
     robotsReferencesSitemap: false,
     sitemapLastChecked: null,
+    canonicalChecked: 0,
+    canonicalHealthy: 0,
+    structuredServicePages: 0,
+    structuredLocationPages: 0,
+    structuredBlogPosts: 0,
+    structuredFaqPages: 0,
+    localBusinessSchemaPresent: false,
+    localSeoPagesChecked: 0,
+    localSeoPagesHealthy: 0,
   });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchSEOData();
   }, []);
+
+  const analyzeLiveUrl = async (url: string) => {
+    const response = await fetch("/api/seo/analyze-live", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ url }),
+    });
+
+    if (!response.ok) return null;
+    return response.json();
+  };
+
+  const getSchemaTypes = (structuredData: any[]) => {
+    const types = new Set<string>();
+
+    const collect = (schema: any) => {
+      if (!schema || typeof schema !== "object") return;
+      const type = schema["@type"];
+      if (Array.isArray(type)) type.forEach((item) => types.add(String(item)));
+      if (typeof type === "string") types.add(type);
+      if (Array.isArray(schema["@graph"])) schema["@graph"].forEach(collect);
+      if (Array.isArray(schema.mainEntity)) schema.mainEntity.forEach(collect);
+    };
+
+    structuredData.forEach(collect);
+    return types;
+  };
 
   const fetchSEOData = async () => {
     setLoading(true);
@@ -187,7 +287,56 @@ export default function SEOPage() {
       const sitemapExcludedUrlCount = sitemapUrls.filter((url) =>
         EXCLUDED_SITEMAP_PATTERNS.some((pattern) => pattern.test(url))
       ).length;
+      const redirectedSitemapUrls = REDIRECTED_SITEMAP_PATHS.map((path) => `https://www.studio37.cc${path}`);
+      const sitemapRedirectedUrlCount = sitemapUrls.filter((url) =>
+        redirectedSitemapUrls.includes(url)
+      ).length;
       const robotsReferencesSitemap = /Sitemap:\s*https:\/\/www\.studio37\.cc\/sitemap\.xml/i.test(robotsText);
+
+      const firstBlogPostUrl = (postsData || []).find((post) => post.slug)?.slug
+        ? `https://www.studio37.cc/blog/${(postsData || []).find((post) => post.slug)!.slug}`
+        : "https://www.studio37.cc/blog";
+
+      const canonicalTargets = [...CANONICAL_CHECK_URLS, firstBlogPostUrl];
+      const canonicalResults = await Promise.all(
+        canonicalTargets.map(async (url) => ({ url, data: await analyzeLiveUrl(url) }))
+      );
+      const canonicalHealthy = canonicalResults.filter(({ url, data }) =>
+        data?.canonical === url || data?.canonical === `${url}/`
+      ).length;
+
+      const serviceSchemaResults = await Promise.all(SERVICE_SCHEMA_URLS.map(analyzeLiveUrl));
+      const locationSchemaResults = await Promise.all(LOCATION_SCHEMA_URLS.map(analyzeLiveUrl));
+      const faqSchemaResults = await Promise.all(FAQ_SCHEMA_URLS.map(analyzeLiveUrl));
+      const blogSchemaResult = await analyzeLiveUrl(firstBlogPostUrl);
+      const homeSchemaResult = await analyzeLiveUrl("https://www.studio37.cc");
+
+      const structuredServicePages = serviceSchemaResults.filter((data) => {
+        const types = getSchemaTypes(data?.structuredData || []);
+        return types.has("Service") || types.has("LocalBusiness");
+      }).length;
+      const structuredLocationPages = locationSchemaResults.filter((data) => {
+        const types = getSchemaTypes(data?.structuredData || []);
+        return types.has("LocalBusiness") || types.has("BreadcrumbList") || types.has("Place");
+      }).length;
+      const structuredFaqPages = faqSchemaResults.filter((data) => {
+        const types = getSchemaTypes(data?.structuredData || []);
+        return types.has("FAQPage");
+      }).length;
+      const structuredBlogPosts = (() => {
+        const types = getSchemaTypes(blogSchemaResult?.structuredData || []);
+        return types.has("Article") || types.has("BlogPosting") ? 1 : 0;
+      })();
+      const localBusinessSchemaPresent = getSchemaTypes(homeSchemaResult?.structuredData || []).has("LocalBusiness");
+
+      const localSeoResults = await Promise.all(LOCAL_SEO_CHECK_URLS.map(analyzeLiveUrl));
+      const localSeoPagesHealthy = localSeoResults.filter((data) => {
+        if (!data) return false;
+        return Boolean(data.metaDescription) &&
+          Boolean(data.openGraph?.image) &&
+          data.images?.withoutAlt === 0 &&
+          data.content?.wordCount >= 350;
+      }).length;
 
       setMetrics({
         totalPages: allContent.length,
@@ -201,8 +350,18 @@ export default function SEOPage() {
         sitemapUrlCount: sitemapUrls.length,
         sitemapRequiredUrlsPresent,
         sitemapExcludedUrlCount,
+        sitemapRedirectedUrlCount,
         robotsReferencesSitemap,
         sitemapLastChecked: new Date().toISOString(),
+        canonicalChecked: canonicalTargets.length,
+        canonicalHealthy,
+        structuredServicePages,
+        structuredLocationPages,
+        structuredBlogPosts,
+        structuredFaqPages,
+        localBusinessSchemaPresent,
+        localSeoPagesChecked: LOCAL_SEO_CHECK_URLS.length,
+        localSeoPagesHealthy,
       });
     } catch (error) {
       console.error("Error fetching SEO data:", error);
@@ -316,7 +475,8 @@ export default function SEOPage() {
     metrics.robotsStatus === "active" &&
     metrics.robotsReferencesSitemap &&
     metrics.sitemapRequiredUrlsPresent === REQUIRED_SITEMAP_URLS.length &&
-    metrics.sitemapExcludedUrlCount === 0;
+    metrics.sitemapExcludedUrlCount === 0 &&
+    metrics.sitemapRedirectedUrlCount === 0;
 
   const metaCoverage = metrics.totalPages > 0
     ? Math.round((metrics.pagesWithMeta / metrics.totalPages) * 100)
@@ -356,12 +516,46 @@ export default function SEOPage() {
     {
       id: "excluded-sitemap-urls",
       title: "Redirected/private URLs in sitemap",
-      description: `${metrics.sitemapExcludedUrlCount} excluded URLs were detected in sitemap output.`,
-      status: metrics.sitemapExcludedUrlCount === 0 ? "resolved" : "open",
+      description: `${metrics.sitemapExcludedUrlCount} excluded URLs and ${metrics.sitemapRedirectedUrlCount} redirected source URLs were detected in sitemap output.`,
+      status: metrics.sitemapExcludedUrlCount === 0 && metrics.sitemapRedirectedUrlCount === 0 ? "resolved" : "open",
       owner: "Engineering",
       severity: "high",
       actionLabel: "Review sitemap",
       href: "/sitemap.xml",
+    },
+    {
+      id: "canonical-coverage",
+      title: "Canonical tag coverage",
+      description: `${metrics.canonicalHealthy}/${metrics.canonicalChecked} sampled pages return a self-referencing canonical URL.`,
+      status: metrics.canonicalChecked > 0 && metrics.canonicalHealthy === metrics.canonicalChecked ? "resolved" : "open",
+      owner: "SEO / Engineering",
+      severity: "high",
+      actionLabel: "Recheck canonicals",
+    },
+    {
+      id: "structured-data",
+      title: "Structured data coverage",
+      description: `${metrics.structuredServicePages}/${SERVICE_SCHEMA_URLS.length} service pages, ${metrics.structuredLocationPages}/${LOCATION_SCHEMA_URLS.length} location pages, ${metrics.structuredFaqPages}/${FAQ_SCHEMA_URLS.length} FAQ targets, blog schema ${metrics.structuredBlogPosts ? "present" : "missing"}, local business schema ${metrics.localBusinessSchemaPresent ? "present" : "missing"}.`,
+      status:
+        metrics.structuredServicePages === SERVICE_SCHEMA_URLS.length &&
+        metrics.structuredLocationPages === LOCATION_SCHEMA_URLS.length &&
+        metrics.structuredFaqPages === FAQ_SCHEMA_URLS.length &&
+        metrics.structuredBlogPosts === 1 &&
+        metrics.localBusinessSchemaPresent
+          ? "resolved"
+          : "open",
+      owner: "SEO / Content",
+      severity: "medium",
+      actionLabel: "Review structured data",
+    },
+    {
+      id: "local-seo-metadata",
+      title: "Top local page copy and image metadata",
+      description: `${metrics.localSeoPagesHealthy}/${metrics.localSeoPagesChecked} sampled local pages have meta descriptions, OG images, complete image alt text, and 350+ words.`,
+      status: metrics.localSeoPagesChecked > 0 && metrics.localSeoPagesHealthy === metrics.localSeoPagesChecked ? "resolved" : "open",
+      owner: "Content",
+      severity: "medium",
+      actionLabel: "Review local pages",
     },
     {
       id: "meta-coverage",
@@ -548,9 +742,11 @@ export default function SEOPage() {
 
             <div className="rounded-lg bg-gray-50 p-4">
               <p className="text-sm font-medium text-gray-600">Excluded URLs</p>
-              <p className="text-2xl font-bold text-gray-900 mt-1">{metrics.sitemapExcludedUrlCount}</p>
-              <p className={metrics.sitemapExcludedUrlCount === 0 ? "text-xs text-green-600 mt-1" : "text-xs text-red-600 mt-1"}>
-                Admin, login, setup, private gallery, and portfolio redirects
+              <p className="text-2xl font-bold text-gray-900 mt-1">
+                {metrics.sitemapExcludedUrlCount + metrics.sitemapRedirectedUrlCount}
+              </p>
+              <p className={metrics.sitemapExcludedUrlCount === 0 && metrics.sitemapRedirectedUrlCount === 0 ? "text-xs text-green-600 mt-1" : "text-xs text-red-600 mt-1"}>
+                Admin/private URLs plus redirected source URLs
               </p>
             </div>
 
@@ -562,6 +758,84 @@ export default function SEOPage() {
               <p className={metrics.robotsReferencesSitemap ? "text-xs text-green-600 mt-1" : "text-xs text-yellow-600 mt-1"}>
                 Robots references canonical sitemap
               </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Search Console & Advanced SEO Monitoring */}
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-8">
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+            <div className="p-6 border-b border-gray-200">
+              <h2 className="text-lg font-semibold text-gray-900">Search Console Submission</h2>
+              <p className="text-sm text-gray-600 mt-1">
+                Submit both sitemap endpoints and monitor submitted/indexed counts after deployment.
+              </p>
+            </div>
+            <div className="p-6 space-y-4">
+              <div className="rounded-lg bg-gray-50 p-4">
+                <p className="text-sm font-medium text-gray-900">Primary sitemap</p>
+                <code className="mt-1 block text-sm text-gray-700">https://www.studio37.cc/sitemap.xml</code>
+              </div>
+              <div className="rounded-lg bg-gray-50 p-4">
+                <p className="text-sm font-medium text-gray-900">Sitemap index</p>
+                <code className="mt-1 block text-sm text-gray-700">https://www.studio37.cc/sitemap_index.xml</code>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <a
+                  href="https://search.google.com/search-console/sitemaps"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-lg bg-primary-600 px-3 py-2 text-sm font-medium text-white hover:bg-primary-700"
+                >
+                  Open Search Console
+                  <ExternalLink className="h-4 w-4" />
+                </a>
+                <button
+                  onClick={fetchSEOData}
+                  className="inline-flex items-center gap-2 rounded-lg border border-gray-200 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                >
+                  Recheck local sitemap health
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+            <div className="p-6 border-b border-gray-200">
+              <h2 className="text-lg font-semibold text-gray-900">Advanced SEO Coverage</h2>
+              <p className="text-sm text-gray-600 mt-1">
+                Live sampled checks for canonicals, schemas, and high-value local SEO pages.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-6">
+              <div className="rounded-lg bg-gray-50 p-4">
+                <p className="text-sm font-medium text-gray-600">Canonicals</p>
+                <p className="text-2xl font-bold text-gray-900 mt-1">
+                  {metrics.canonicalHealthy}/{metrics.canonicalChecked}
+                </p>
+                <p className="text-xs text-gray-500 mt-1">Self-referencing sampled pages</p>
+              </div>
+              <div className="rounded-lg bg-gray-50 p-4">
+                <p className="text-sm font-medium text-gray-600">Structured Data</p>
+                <p className="text-2xl font-bold text-gray-900 mt-1">
+                  {metrics.structuredServicePages + metrics.structuredLocationPages + metrics.structuredFaqPages + metrics.structuredBlogPosts}
+                </p>
+                <p className="text-xs text-gray-500 mt-1">Passing schema targets</p>
+              </div>
+              <div className="rounded-lg bg-gray-50 p-4">
+                <p className="text-sm font-medium text-gray-600">Local Business</p>
+                <p className="text-2xl font-bold text-gray-900 mt-1">
+                  {metrics.localBusinessSchemaPresent ? "Ready" : "Review"}
+                </p>
+                <p className="text-xs text-gray-500 mt-1">Homepage LocalBusiness schema</p>
+              </div>
+              <div className="rounded-lg bg-gray-50 p-4">
+                <p className="text-sm font-medium text-gray-600">Local Pages</p>
+                <p className="text-2xl font-bold text-gray-900 mt-1">
+                  {metrics.localSeoPagesHealthy}/{metrics.localSeoPagesChecked}
+                </p>
+                <p className="text-xs text-gray-500 mt-1">Copy, OG image, and alt metadata</p>
+              </div>
             </div>
           </div>
         </div>

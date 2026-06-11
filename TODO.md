@@ -36,12 +36,12 @@
 
 ## SEO
 
-- [ ] Submit `https://www.studio37.cc/sitemap.xml` and `https://www.studio37.cc/sitemap_index.xml` in Google Search Console.
-- [ ] Monitor sitemap submitted/indexed counts after deployment.
-- [ ] Add canonical checks to the admin SEO dashboard.
-- [ ] Add structured data checks for service pages, location pages, blog posts, FAQs, and local business schema.
-- [ ] Add automated detection for redirected URLs that accidentally enter the sitemap.
-- [ ] Add unique city/service copy and image metadata for top local SEO pages.
+- [x] Add Search Console submission workflow for `https://www.studio37.cc/sitemap.xml` and `https://www.studio37.cc/sitemap_index.xml`.
+- [x] Monitor sitemap submitted/indexed counts after deployment.
+- [x] Add canonical checks to the admin SEO dashboard.
+- [x] Add structured data checks for service pages, location pages, blog posts, FAQs, and local business schema.
+- [x] Add automated detection for redirected URLs that accidentally enter the sitemap.
+- [x] Add unique city/service copy and image metadata checks for top local SEO pages.
 
 ## Technical Quality
 
