@@ -87,9 +87,14 @@ export function PackageComparisonSection() {
               Compare the common starting points, then use the pricing tool or consultation to fine-tune coverage.
             </p>
           </div>
-          <Link href="/tools/pricing" className="btn-secondary inline-flex w-fit items-center">
-            Open Pricing Tool <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
-          </Link>
+          <div className="flex flex-wrap gap-3">
+            <Link href="/tools/package-recommender" className="btn-primary inline-flex w-fit items-center">
+              Find My Package <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+            </Link>
+            <Link href="/tools/pricing" className="btn-secondary inline-flex w-fit items-center">
+              Open Pricing Tool
+            </Link>
+          </div>
         </div>
         <div className="grid gap-4 lg:grid-cols-4">
           {packages.map((pkg) => (
@@ -104,6 +109,22 @@ export function PackageComparisonSection() {
             </div>
           ))}
         </div>
+      </div>
+    </section>
+  )
+}
+
+export function PackageRecommenderCTA() {
+  return (
+    <section className="border-b border-stone-200 bg-amber-50">
+      <div className="container mx-auto flex flex-col gap-4 px-4 py-6 md:flex-row md:items-center md:justify-between">
+        <div>
+          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-amber-800">Not sure where to start?</p>
+          <h2 className="mt-1 text-2xl font-bold text-stone-950">Get a package recommendation in under a minute</h2>
+        </div>
+        <Link href="/tools/package-recommender" className="btn-primary inline-flex w-fit items-center">
+          Find My Package <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+        </Link>
       </div>
     </section>
   )

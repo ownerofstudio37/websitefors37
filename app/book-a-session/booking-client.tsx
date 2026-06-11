@@ -2,6 +2,7 @@
 
 import React, { useEffect, useMemo, useState } from 'react'
 import { supabase } from '@/lib/supabase'
+import { calculatePortraitSessionTotalCents } from '@/lib/portrait-pricing'
 import Image from 'next/image'
 import { trackBookingClick, trackFormSubmit } from '@/lib/analytics'
 
@@ -156,6 +157,12 @@ const PACKAGES: Record<Exclude<PackageKey, 'consultation'>, Package> = {
   }
 }
 
+const PACKAGE_KEYS = Object.keys(PACKAGES) as Array<Exclude<PackageKey, 'consultation'>>
+
+function isPackageKey(value: string | null): value is Exclude<PackageKey, 'consultation'> {
+  return !!value && PACKAGE_KEYS.includes(value as Exclude<PackageKey, 'consultation'>)
+}
+
 const ADD_ONS: AddOn[] = [
   { id: 'rush-editing', name: 'Rush Editing (48hr)', priceCents: 5000, description: 'Get your photos in 2 days instead of 2 weeks' },
   { id: 'extra-outfit', name: 'Extra Outfit/Look', priceCents: 2500, description: 'Add another wardrobe change' },
@@ -229,8 +236,12 @@ export default function BookSessionPage() {
       const pplStr = params.get('people')
       const typeParam = params.get('type') // solo|couple|family|consultation
       const priceStr = params.get('price_cents')
-      const packageParam = params.get('package') // from service page CTAs
-      if (packageParam) {
+      const packageParam = params.get('package') // from service page CTAs and package recommender
+      if (isPackageKey(packageParam)) {
+        setBookingOption('packages')
+        setSelectedType(packageParam)
+        setNotes(prev => prev ? prev : `Interested in: ${PACKAGES[packageParam].name}`)
+      } else if (packageParam) {
         setNotes(prev => prev ? prev : `Interested in: ${packageParam}`)
       }
 
@@ -238,20 +249,20 @@ export default function BookSessionPage() {
       const ppl = pplStr ? parseInt(pplStr, 10) : NaN
       const price = priceStr ? parseInt(priceStr, 10) : NaN
 
-      // Map duration to nearest package if available
-      if (!Number.isNaN(dur)) {
-        if (dur <= 30) {
+      // Map exact package durations only; short/custom calculator sessions keep their quoted duration.
+      if (!Number.isNaN(dur) && !isPackageKey(packageParam)) {
+        if (dur === 30) {
           setBookingOption('packages')
           setSelectedType('portrait_mini')
-        } else if (dur <= 60) {
+        } else if (dur === 60) {
           setBookingOption('packages')
           setSelectedType('portrait_standard')
-        } else if (dur <= 90) {
+        } else if (dur === 90) {
           setBookingOption('packages')
           setSelectedType('portrait_extended')
         } else {
           setBookingOption('custom')
-          setCustomDuration(Math.max(30, Math.min(180, dur)))
+          setCustomDuration(Math.max(15, Math.min(180, dur)))
         }
       }
 
@@ -277,17 +288,11 @@ export default function BookSessionPage() {
   const totalPrice = useMemo(() => {
     if (bookingOption === 'consultation') return 0
     if (bookingOption === 'custom') {
-      // Custom pricing formula - match PricingCalculator.tsx logic
-      const hourlyRate = 500_00 // $500/hr for all types
-      const proratedBase = Math.round((hourlyRate * customDuration) / 60)
-      
-      // Family group surcharge: $50 per person over 5
-      const extraPersonFee = customType === 'family' && customPeople > 5 
-        ? (customPeople - 5) * 50_00 
-        : 0
-      
-      const total = proratedBase + extraPersonFee
-      return Math.max(total, 350_00) // minimum $350 to align with mini session floor
+      return calculatePortraitSessionTotalCents({
+        minutes: customDuration,
+        category: customType,
+        people: customPeople,
+      })
     }
     // Package pricing
     if (selectedType === 'consultation') return 0
@@ -864,11 +869,11 @@ export default function BookSessionPage() {
                             onChange={(e) => setCustomDuration(parseInt(e.target.value))}
                             className="w-full border border-gray-300 rounded-lg px-3 py-2 bg-white"
                           >
-                            {[30, 45, 60, 75, 90, 120, 150, 180].map(mins => (
+                            {[15, 30, 45, 60, 75, 90, 120, 150, 180].map(mins => (
                               <option key={mins} value={mins}>{mins} minutes</option>
                             ))}
                           </select>
-                          <p className="text-xs text-gray-500 mt-1">Billed pro-rata by minutes. Custom sessions start at $350.</p>
+                          <p className="text-xs text-gray-500 mt-1">60+ minutes is billed at $500/hr. Short sessions use mini-session minimums.</p>
                         </div>
 
                         {/* Price display with breakdown */}

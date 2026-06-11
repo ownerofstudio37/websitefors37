@@ -1,4 +1,5 @@
 import PricingCalculator from "@/components/PricingCalculator"
+import PackageRecommender from "@/components/PackageRecommender"
 import { generateSEOMetadata } from "@/lib/seo-helpers"
 
 export const metadata = generateSEOMetadata({
@@ -17,6 +18,7 @@ export default function PricingToolPage() {
           <p className="text-gray-600 mt-2">Use this tool to plan your session and compare package deals.</p>
         </div>
         <PricingCalculator />
+        <PackageRecommender className="mt-10" />
       </div>
     </div>
   )

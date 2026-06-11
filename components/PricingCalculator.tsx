@@ -3,12 +3,13 @@
 import React, { useMemo, useState } from "react"
 import { Calculator, Users, Clock, Info, Sparkles, ChevronRight } from "lucide-react"
 import Link from "next/link"
+import { calculatePortraitSessionTotalCents } from "@/lib/portrait-pricing"
 
 // Assumptions (easy to tweak):
-// - All types: $500/hr (minimum $100)
+// - All types: $500/hr once a session reaches 60 minutes
+// - Short-session minimums: 15m $250, 30m $350, 45m $425
 // - Family (6+): $50 per person over 5 (flat session surcharge)
 // - Packages (deals): 30m $350, 60m $500, 90m $750
-// - Duration billed pro‑rata by minutes
 
 export type PortraitCategory = "solo" | "couple" | "family"
 
@@ -18,15 +19,6 @@ export interface PricingCalculatorProps {
   defaultPeople?: number
   defaultMinutes?: number
   showBookCta?: boolean
-}
-
-const RATES = {
-  solo: 500_00, // cents per hour
-  couple: 500_00,
-  family_3_5: 500_00,
-  family_6_plus: 500_00,
-  extraPersonOver5: 50_00, // flat session surcharge per person over 5
-  min: 100_00, // minimum charge in cents
 }
 
 const PACKAGES = [
@@ -54,22 +46,14 @@ export default function PricingCalculator({
   const [people, setPeople] = useState<number>(defaultPeople)
   const [minutes, setMinutes] = useState<number>(defaultMinutes)
 
-  const hourlyRate = useMemo(() => {
-    // All categories use $400/hr
-    return RATES.solo
-  }, [category, people])
-
   const extraPersonFee = useMemo(() => {
     if (category !== "family") return 0
-    const over = Math.max(people - 5, 0)
-    return over * RATES.extraPersonOver5
-  }, [category, people])
+    return calculatePortraitSessionTotalCents({ minutes, category, people }) - calculatePortraitSessionTotalCents({ minutes, category, people: Math.min(people, 5) })
+  }, [minutes, category, people])
 
   const proratedPrice = useMemo(() => {
-    const base = Math.round((hourlyRate * minutes) / 60)
-    const total = base + extraPersonFee
-    return Math.max(total, RATES.min)
-  }, [hourlyRate, minutes, extraPersonFee])
+    return calculatePortraitSessionTotalCents({ minutes, category, people })
+  }, [minutes, category, people])
 
   const eligibleForPackages = useMemo(() => category !== "family" && people <= 2, [category, people])
 
@@ -154,7 +138,7 @@ export default function PricingCalculator({
               <option key={m} value={m}>{m} minutes</option>
             ))}
           </select>
-          <p className="text-xs text-gray-500 mt-2">Billed pro‑rata by minutes.</p>
+          <p className="text-xs text-gray-500 mt-2">60+ minutes is billed at $500/hr. Short sessions use mini-session minimums.</p>
         </div>
       </div>
 

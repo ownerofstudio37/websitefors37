@@ -12,11 +12,13 @@
 
 ## Public Site Features
 
-- [ ] Build an interactive package recommender that routes users to booking with a prefilled package/service.
-- [ ] Add portfolio filtering on the gallery subdomain by service, city, venue type, and visual style.
-- [ ] Add automated "recent work" blocks powered by gallery tags.
+- [x] Build an interactive package recommender that routes users to booking with a prefilled package/service.
+- [ ] Add a ShootProof-aware gallery launch page that explains the external gallery experience and routes visitors to `https://gallery.studio37.cc`.
+- [ ] Add curated recent-work highlights managed inside the Studio37 site, without depending on ShootProof tags or APIs.
 - [ ] Add quote/booking abandonment capture with email/SMS follow-up.
 - [ ] Add richer service-area landing modules for top markets and high-intent services.
+- [ ] Add downloadable prep-guide lead magnets for portraits, weddings, events, and commercial shoots.
+- [x] Add a service matcher CTA to homepage and service pages that sends visitors into the package recommender.
 
 ## Admin Dashboard UX/UI
 

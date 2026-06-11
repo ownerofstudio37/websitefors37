@@ -570,7 +570,7 @@ export default function CommercialPhotographyPage() {
             </Link>
             {/* Digital Marketing CTA */}
             <Link
-              href="/digital-marketing"
+              href="/services/branding-marketing"
               className="btn-ghost border-white/40 text-white hover:text-white"
             >
               Grow with Digital Marketing
