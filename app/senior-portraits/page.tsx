@@ -19,7 +19,7 @@ const seniorPackages = [
     name: 'Classic Session',
     price: '$350',
     image:
-      'https://res.cloudinary.com/dmjxho2rl/image/upload/v1778036134/Untitled-2_1_convert.io_1_ykmwfr.jpg',
+      'https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033087/Untitled-4_1_osac8b.jpg',
   },
   {
     name: 'Style Session',
@@ -31,7 +31,7 @@ const seniorPackages = [
     name: 'Ultimate Session',
     price: '$750',
     image:
-      'https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033087/Untitled-4_1_osac8b.jpg',
+      'https://res.cloudinary.com/dmjxho2rl/image/upload/v1779268257/PS374813_vuos93.jpg',
   },
 ]
 

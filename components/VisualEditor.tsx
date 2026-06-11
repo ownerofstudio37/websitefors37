@@ -7196,7 +7196,7 @@ function buildHomepageTemplate(): PageComponent[] {
       services: [
         {
           image:
-            "https://images.unsplash.com/photo-1519741497674-611481863552?w=600&h=400&fit=crop",
+            "https://res.cloudinary.com/dmjxho2rl/image/upload/v1779268256/Untitled-30_fliqiq.jpg",
           title: "Wedding Photography",
           description:
             "Capture your special day with romantic and timeless images that tell your love story.",
@@ -7210,7 +7210,7 @@ function buildHomepageTemplate(): PageComponent[] {
         },
         {
           image:
-            "https://images.unsplash.com/photo-1511895426328-dc8714191300?w=600&h=400&fit=crop",
+            "https://res.cloudinary.com/dmjxho2rl/image/upload/v1779268257/PS375315_zyvbbi.jpg",
           title: "Portrait Sessions",
           description:
             "Professional headshots, family portraits, and individual sessions in studio or on location.",
@@ -7224,7 +7224,7 @@ function buildHomepageTemplate(): PageComponent[] {
         },
         {
           image:
-            "https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=600&h=400&fit=crop",
+            "https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033087/IMG_4591_1_r62hly.jpg",
           title: "Event Photography",
           description:
             "Document your corporate events, parties, and celebrations with candid and posed shots.",
@@ -7238,7 +7238,7 @@ function buildHomepageTemplate(): PageComponent[] {
         },
         {
           image:
-            "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=600&h=400&fit=crop",
+            "https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255706/PS373287_d7fl9k.jpg",
           title: "Commercial Photography",
           description:
             "Product photography, business headshots, and marketing materials for your brand.",

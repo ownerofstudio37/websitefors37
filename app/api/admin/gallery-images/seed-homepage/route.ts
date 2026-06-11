@@ -17,7 +17,7 @@ export async function POST(_req: NextRequest) {
     // Static Cloudinary images to seed
     const TARGET_IMAGES = [
       {
-        image_url: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255715/PS374317_mqqiyv.jpg',
+        image_url: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1780810835/Katies_Grad_Shoot_-_77_1_convert.io_ayhrsi.jpg',
         title: 'Portfolio Highlight 1',
         alt_text: 'Studio37 portfolio highlight',
         description: 'Featured work — homepage',
@@ -41,7 +41,7 @@ export async function POST(_req: NextRequest) {
         featured: true,
       },
       {
-        image_url: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255706/PS373287_d7fl9k.jpg',
+        image_url: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1779268255/Untitled-3_2_u4p9kx.jpg',
         title: 'Portfolio Highlight 4',
         alt_text: 'Studio37 portfolio highlight',
         description: 'Featured work — homepage',

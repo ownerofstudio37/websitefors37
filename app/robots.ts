@@ -8,10 +8,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/admin/'],
     },
-    sitemap: [
-      `${businessInfo.contact.website}/sitemap_index.xml`,
-      `${businessInfo.contact.website}/sitemap.xml`,
-      `${businessInfo.contact.website}/sitemap-static.xml`,
-    ],
+    sitemap: [`${businessInfo.contact.website}/sitemap_index.xml`],
   }
 }

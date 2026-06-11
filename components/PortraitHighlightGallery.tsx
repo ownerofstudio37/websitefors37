@@ -11,7 +11,7 @@ export default function PortraitHighlightGallery() {
       id: 'cloudinary-1',
       title: 'Portfolio Highlight 1',
       description: 'Studio37 featured work',
-      image_url: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033156/Untitled-6_2_teayff.jpg',
+      image_url: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1780810835/Katies_Grad_Shoot_-_77_1_convert.io_ayhrsi.jpg',
     },
     {
       id: 'cloudinary-2',
@@ -29,7 +29,7 @@ export default function PortraitHighlightGallery() {
       id: 'cloudinary-4',
       title: 'Portfolio Highlight 4',
       description: 'Studio37 featured work',
-      image_url: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033084/Untitled_1_zwsrnm.jpg',
+      image_url: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1779268255/Untitled-3_2_u4p9kx.jpg',
     },
     {
       id: 'cloudinary-5',

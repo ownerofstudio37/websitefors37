@@ -229,11 +229,11 @@ export default function EventPhotographyPage() {
             
             <div className="relative">
               <Image
-                src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&h=400&fit=crop"
+                src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1779268257/Untitled_iz4geh.jpg"
                 alt="Corporate event photography in Montgomery County TX"
                 width={600}
                 height={400}
-                className="rounded-[var(--radius-card)] shadow-[var(--shadow-strong)]"
+                className="rounded-[var(--radius-card)] shadow-[var(--shadow-strong)] object-cover object-[50%_20%]"
               />
             </div>
           </div>

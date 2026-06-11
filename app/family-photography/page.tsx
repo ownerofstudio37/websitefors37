@@ -20,7 +20,7 @@ const familyPackages = [
     price: '$750',
     description: 'Extended family coverage with multiple combinations and premium retouching.',
     image:
-      'https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033085/PS379134_eofcb9.jpg',
+      'https://res.cloudinary.com/dmjxho2rl/image/upload/v1779269044/Untitled_tpoc5r.jpg',
   },
   {
     name: 'Milestone Package',
@@ -34,7 +34,7 @@ const familyPackages = [
     price: '$350',
     description: 'Quick and beautiful family session with edited highlights delivered fast.',
     image:
-      'https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033086/PS374628_gqxvd5.jpg',
+      'https://res.cloudinary.com/dmjxho2rl/image/upload/v1779269044/Untitled-4-2_m7z6p6.jpg',
   },
 ]
 

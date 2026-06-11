@@ -20,7 +20,7 @@ const services = [
 			],
 			category: 'wedding',
 			slug: 'wedding-photography',
-			image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033153/KELLY_-_1_26_ujpd2l.jpg',
+			image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1779268256/Untitled-30_fliqiq.jpg',
 		},
 		{
 			icon: Users,
@@ -36,7 +36,7 @@ const services = [
 			],
 			category: 'professional portraits',
 			slug: 'portrait-photography',
-			image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033087/Untitled-8_1_bomfcg.jpg',
+			image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1779268257/PS375315_zyvbbi.jpg',
 		},
 		{
 			icon: HeartHandshake,
@@ -126,6 +126,8 @@ export default function Services() {
 				>
 					{services.map((service, index) => {
 						const Icon = service.icon
+							const serviceImagePosition =
+								service.slug === 'event-photography' ? 'object-[50%_18%]' : 'object-cover'
 						return (
 							<Link
 								key={service.title}
@@ -146,7 +148,7 @@ export default function Services() {
 						alt={service.title}
 						fill
 						className="!relative w-full h-full"
-						imgClassName="object-cover group-hover:scale-105 transition-transform duration-500"
+							imgClassName={`${serviceImagePosition} group-hover:scale-105 transition-transform duration-500`}
 						priority={index < 2}
 						quality={70}
 						sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
