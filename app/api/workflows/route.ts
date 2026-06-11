@@ -4,6 +4,8 @@ import { supabaseAdmin } from '@/lib/supabaseAdmin'
 
 const log = createLogger('api/workflows')
 
+export const dynamic = 'force-dynamic'
+
 // GET /api/workflows - List workflow templates
 export async function GET(request: NextRequest) {
   try {

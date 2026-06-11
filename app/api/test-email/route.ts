@@ -3,6 +3,8 @@ import { createLogger } from '@/lib/logger'
 
 const log = createLogger('api/test-email')
 
+export const dynamic = 'force-dynamic'
+
 /**
  * Test Email Configuration Endpoint
  * Use this to verify that email notifications are working correctly
