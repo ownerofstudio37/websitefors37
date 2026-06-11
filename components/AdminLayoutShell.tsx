@@ -6,6 +6,7 @@ import AdminDesktopSidebar from '@/components/AdminDesktopSidebar'
 import { ChevronRight } from 'lucide-react'
 import NotificationCenter from '@/components/NotificationCenter'
 import Link from 'next/link'
+import AdminCommandPalette from '@/components/AdminCommandPalette'
 
 export default function AdminLayoutShell({
   children
@@ -55,6 +56,7 @@ export default function AdminLayoutShell({
 
           {/* Right side: Notifications & Actions */}
           <div className="flex items-center gap-4">
+            <AdminCommandPalette />
             <Link
               href="/admin/ai-site-builder"
               className="bg-purple-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-purple-700 transition duration-200 flex items-center gap-2"

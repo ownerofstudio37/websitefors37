@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { Menu, X, LogOut, Search } from 'lucide-react'
 import NotificationCenter from './NotificationCenter'
+import AdminCommandPalette from '@/components/AdminCommandPalette'
 import {
   ADMIN_SIDEBAR_GROUP_ORDER,
   ADMIN_TOOL_GROUP_META,
@@ -113,6 +114,11 @@ export default function AdminMobileNav() {
             Studio37 Admin
           </Link>
           <div className="flex items-center gap-2">
+            <AdminCommandPalette
+              enableKeyboard={false}
+              buttonLabel="Search"
+              buttonClassName="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+            />
             <NotificationCenter />
             <button
               onClick={() => setIsOpen(!isOpen)}
