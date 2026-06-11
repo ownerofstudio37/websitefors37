@@ -12,13 +12,6 @@
 [[plugins]]
   package = "@netlify/plugin-nextjs"
 
-# Serve a deterministic static sitemap to crawlers (build-generated)
-[[redirects]]
-  from = "/sitemap.xml"
-  to = "/sitemap-static.xml"
-  status = 200
-  force = true
-
 # PRIORITY: Exclude XML files from CSP to prevent crawl blocking (must come BEFORE global headers)
 [[headers]]
   for = "/*.xml"
