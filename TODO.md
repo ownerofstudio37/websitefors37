@@ -2,13 +2,13 @@
 
 ## Public Site UX/UI
 
-- [ ] Add consistent sticky/mobile CTAs for booking, pricing, and gallery.
-- [ ] Add clearer package comparison sections across key service pages.
-- [ ] Add a "what happens next" booking flow section after every major CTA.
-- [ ] Add stronger portfolio proof near service-page CTAs, linking to `https://gallery.studio37.cc`.
-- [ ] Add above-the-fold trust signals: awards, review count, recent work, delivery timeline, and service-area confidence.
-- [ ] Make location pages feel less templated with city-specific images, nearby venue examples, and service-specific internal links.
-- [ ] Improve portfolio/gallery calls-to-action so all public-facing gallery and portfolio links point to `https://gallery.studio37.cc`.
+- [x] Add consistent sticky/mobile CTAs for booking, pricing, and gallery.
+- [x] Add clearer package comparison sections across key service pages.
+- [x] Add a "what happens next" booking flow section after every major CTA.
+- [x] Add stronger portfolio proof near service-page CTAs, linking to `https://gallery.studio37.cc`.
+- [x] Add above-the-fold trust signals: awards, review count, recent work, delivery timeline, and service-area confidence.
+- [x] Make location pages feel less templated with city-specific images, nearby venue examples, and service-specific internal links.
+- [x] Improve portfolio/gallery calls-to-action so all public-facing gallery and portfolio links point to `https://gallery.studio37.cc`.
 
 ## Public Site Features
 

@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { CheckCircle, ArrowRight } from 'lucide-react'
 import { generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
 import { generateFAQSchema } from '@/lib/seo-helpers'
+import { PortfolioProofSection, WhatHappensNextSection } from '@/components/PublicConversionSections'
 
 type ServiceCityLandingPageProps = {
   serviceName: string
@@ -39,6 +40,12 @@ export default function ServiceCityLandingPage({
   ])
 
   const faqSchema = generateFAQSchema(faqs)
+  const serviceLinks = [
+    { label: 'Wedding photography', href: '/services/wedding-photography' },
+    { label: 'Portrait photography', href: '/services/portrait-photography' },
+    { label: 'Event photography', href: '/services/event-photography' },
+    { label: 'Commercial photography', href: '/services/commercial-photography' },
+  ]
 
   const normalizedHighlights = highlights.map((item) => {
     if (typeof item === 'string') {
@@ -90,6 +97,18 @@ export default function ServiceCityLandingPage({
               ))}
             </div>
 
+            <div className="mt-10 rounded-lg border border-amber-200 bg-amber-50 p-5">
+              <h3 className="text-lg font-semibold text-amber-950 mb-3">Local planning examples in {city}</h3>
+              <div className="grid gap-3 sm:grid-cols-3">
+                {nearbyCities.slice(0, 3).map((nearby) => (
+                  <div key={nearby} className="rounded-lg bg-white p-3 text-sm text-stone-700">
+                    <span className="font-semibold text-stone-950">{nearby}</span>
+                    <p className="mt-1">Good nearby reference point for timing, venue access, or multi-stop coverage.</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
             <div className="mt-10">
               <h3 className="text-xl font-bold text-gray-900 mb-4">FAQ</h3>
               <div className="space-y-3">
@@ -118,10 +137,23 @@ export default function ServiceCityLandingPage({
               <Link href={serviceUrl} className="w-full text-center block border border-gray-300 rounded-md py-2 hover:bg-gray-50">
                 View Main {serviceName} Page
               </Link>
+              <Link href="https://gallery.studio37.cc" className="w-full text-center block border border-gray-300 rounded-md py-2 hover:bg-gray-50">
+                View Portfolio
+              </Link>
             </div>
             <div className="mt-5 pt-5 border-t border-gray-200">
               <p className="text-xs uppercase tracking-wide text-gray-500 mb-2">Nearby Cities</p>
               <p className="text-sm text-gray-700">{nearbyCities.join(' · ')}</p>
+            </div>
+            <div className="mt-5 pt-5 border-t border-gray-200">
+              <p className="text-xs uppercase tracking-wide text-gray-500 mb-3">Related Services</p>
+              <div className="space-y-2">
+                {serviceLinks.map((service) => (
+                  <Link key={service.label} href={service.href} className="block text-sm text-primary-700 hover:underline">
+                    {service.label}
+                  </Link>
+                ))}
+              </div>
             </div>
           </aside>
         </div>
@@ -151,6 +183,9 @@ export default function ServiceCityLandingPage({
           </Link>
         </div>
       </section>
+
+      <PortfolioProofSection serviceName={`${serviceName} in ${cityLabel}`} />
+      <WhatHappensNextSection serviceName={`${serviceName} in ${cityLabel}`} />
     </main>
   )
 }

@@ -250,7 +250,7 @@ export const PAGE_TEMPLATES: Record<string, PageTemplate> = {
           videoType: 'youtube',
           overlay: '50',
           buttonText: 'View Gallery',
-          buttonLink: '#gallery',
+          buttonLink: 'https://gallery.studio37.cc',
           autoplay: 'true',
           muted: 'true',
           loop: 'true'

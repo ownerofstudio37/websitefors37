@@ -1,6 +1,8 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { LocationPage } from '@/lib/location-pages'
 import { businessInfo } from '@/lib/seo-config'
+import { PortfolioProofSection, WhatHappensNextSection } from '@/components/PublicConversionSections'
 
 interface LocationPageTemplateProps {
   location: LocationPage
@@ -8,6 +10,15 @@ interface LocationPageTemplateProps {
 }
 
 export default function LocationPageTemplate({ location, related }: LocationPageTemplateProps) {
+  const heroImage = 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1759639187/A4B03835-ED8B-4FBB-A27E-1F2EE6CA1A18_1_105_c_gstgil_e_gen_restore_e_improve_e_sharpen_l_image_upload_My_Brand_IMG_2115_mtuowt_c_scale_fl_relative_w_0.40_o_80_fl_layer_apply_g_south_x_0.03_y_0.04_yqgycj.jpg'
+  const venueExamples = location.nearbySpots.slice(0, 3)
+  const serviceLinks = [
+    { label: `Wedding photography in ${location.city}`, href: '/services/wedding-photography' },
+    { label: `Portrait sessions in ${location.city}`, href: '/services/portrait-photography' },
+    { label: `Event coverage in ${location.city}`, href: '/services/event-photography' },
+    { label: `Commercial content in ${location.city}`, href: '/services/commercial-photography' },
+  ]
+
   const locationSchema = {
     '@context': 'https://schema.org',
     '@type': 'Service',
@@ -46,31 +57,55 @@ export default function LocationPageTemplate({ location, related }: LocationPage
         dangerouslySetInnerHTML={{ __html: JSON.stringify(locationSchema) }}
       />
 
-      <section className="py-14 bg-gray-50 border-b border-gray-200">
-        <div className="container mx-auto px-4">
-          <nav className="text-sm text-gray-600 mb-5">
+      <section className="relative overflow-hidden border-b border-stone-200 bg-stone-950 text-white">
+        <div className="absolute inset-0 opacity-35">
+          <Image
+            src={heroImage}
+            alt={`Studio37 photography near ${location.city}, TX`}
+            fill
+            priority
+            className="object-cover"
+            sizes="100vw"
+          />
+        </div>
+        <div className="relative z-10 container mx-auto grid gap-10 px-4 py-16 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
+          <div>
+          <nav className="text-sm text-stone-300 mb-5">
             <Link href="/" className="hover:text-primary-700">Home</Link>
             <span className="mx-2">/</span>
             <Link href="/locations" className="hover:text-primary-700">Locations</Link>
             <span className="mx-2">/</span>
-            <span className="text-gray-900 font-medium">{location.city}, TX</span>
+            <span className="text-white font-medium">{location.city}, TX</span>
           </nav>
 
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+          <p className="eyebrow-hero mb-3">{location.region} · {location.county}</p>
+          <h1 className="text-4xl font-bold mb-4 md:text-5xl">
             Photography Services in {location.city}, Texas
           </h1>
-          <p className="text-lg text-gray-700 max-w-4xl">
+          <p className="text-lg text-stone-100 max-w-4xl leading-8">
             Studio37 serves {location.city} and surrounding communities with wedding, portrait,
             event, and commercial photography. {location.intro} We provide two-photographer
             coverage, professional editing, and dependable communication from planning through
             delivery.
           </p>
-          <p className="text-sm text-gray-500 mt-4">
+          <p className="text-sm text-stone-300 mt-4">
             {location.county} · {location.region} · Call{' '}
-            <a href={`tel:${businessInfo.contact.phone}`} className="hover:text-primary-700">
+            <a href={`tel:${businessInfo.contact.phone}`} className="hover:text-amber-200">
               {businessInfo.contact.phone}
             </a>
           </p>
+          </div>
+          <div className="rounded-lg border border-white/15 bg-white/10 p-5 backdrop-blur-md">
+            <p className="text-sm uppercase tracking-[0.18em] text-amber-200">Local Planning Notes</p>
+            <div className="mt-4 grid gap-3">
+              {venueExamples.map((spot) => (
+                <div key={spot} className="rounded-lg bg-white/10 p-3">
+                  <p className="font-medium">{spot}</p>
+                  <p className="mt-1 text-sm text-stone-300">Useful for portraits, engagement looks, event coverage, or nearby venue timing.</p>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
@@ -96,14 +131,20 @@ export default function LocationPageTemplate({ location, related }: LocationPage
               <h3 className="text-xl font-semibold mb-3">
                 Popular services in {location.city}
               </h3>
-              <ul className="grid sm:grid-cols-2 gap-2 text-gray-700">
-                <li>• Wedding photography</li>
-                <li>• Engagement sessions</li>
-                <li>• Family portraits</li>
-                <li>• Senior portraits</li>
-                <li>• Corporate events</li>
-                <li>• Commercial brand content</li>
-              </ul>
+              <div className="grid gap-3 sm:grid-cols-2">
+                {serviceLinks.map((service) => (
+                  <Link
+                    key={service.label}
+                    href={service.href}
+                    className="rounded-lg border border-stone-200 bg-white px-4 py-3 text-sm font-medium text-stone-800 hover:border-amber-300 hover:text-amber-800"
+                  >
+                    {service.label}
+                  </Link>
+                ))}
+              </div>
+              <div className="mt-5 rounded-lg bg-white p-4 text-sm leading-6 text-stone-700">
+                Session ideas near {location.city}: {location.nearbySpots.join(', ')}. We can build a shot list around natural light, parking, timeline pressure, and your final gallery goals.
+              </div>
             </div>
           </div>
 
@@ -157,6 +198,9 @@ export default function LocationPageTemplate({ location, related }: LocationPage
           </div>
         </section>
       )}
+
+      <PortfolioProofSection serviceName={`${location.city} photography`} />
+      <WhatHappensNextSection serviceName={`${location.city} photography session`} />
     </div>
   )
 }

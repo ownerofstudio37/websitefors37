@@ -19,6 +19,7 @@ import ToasterClient from "@/components/ToasterClient";
 import ChatBotMount from "@/components/ChatBotMount";
 import AnalyticsSetup from "@/components/AnalyticsSetup";
 import SEOFooter from "@/components/SEOFooter";
+import PublicStickyCTA from "@/components/PublicStickyCTA";
 import { FALLBACK_NAV_ITEMS, type NavigationItem } from "@/lib/navigation-config";
 
 const inter = Inter({
@@ -202,10 +203,13 @@ export default async function RootLayout({
             />
           </ClientErrorBoundary>
           <ClientErrorBoundary label="page">
-            <main id="main" className="min-h-screen">{children}</main>
+            <main id="main" className="min-h-screen pb-16 md:pb-0">{children}</main>
           </ClientErrorBoundary>
           <ClientErrorBoundary label="footer">
             <SEOFooter />
+          </ClientErrorBoundary>
+          <ClientErrorBoundary label="sticky-cta">
+            <PublicStickyCTA />
           </ClientErrorBoundary>
           {/* Interaction-based ChatBot mount for performance */}
           <ClientErrorBoundary label="chatbot">

@@ -5,6 +5,7 @@ import LeadCaptureForm from "@/components/LeadCaptureForm";
 import LocalBusinessSchema from "@/components/LocalBusinessSchema";
 import LazyMount from "@/components/LazyMount";
 import { PressCredentialsBlock } from "@/components/BuilderRuntime";
+import { PublicTrustStrip, WhatHappensNextSection } from "@/components/PublicConversionSections";
 import { generateSEOMetadata } from "@/lib/seo-helpers";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
@@ -201,6 +202,7 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
         </div>
         <LocalBusinessSchema />
         <Hero />
+        <PublicTrustStrip />
         <LazyMount minHeight={400}>
           <PortraitHighlightGallery />
         </LazyMount>
@@ -265,6 +267,7 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
     <>
       <LocalBusinessSchema />
       <Hero />
+      <PublicTrustStrip />
       {/* Two Photographers Announcement */}
       <div className="bg-amber-50 border-y border-amber-200/80">
         <div className="container mx-auto px-4 py-3">
@@ -320,6 +323,7 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
       <LazyMount minHeight={400}>
         <Testimonials />
       </LazyMount>
+      <WhatHappensNextSection serviceName="photography session" />
 
       {/* Press & Credentials Section */}
       <PressCredentialsBlock 
