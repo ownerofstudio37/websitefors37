@@ -1,10 +1,34 @@
 import { useQuery } from '@tanstack/react-query'
 import { supabase } from '@/lib/supabase'
 
+function startOfToday() {
+  const date = new Date()
+  date.setHours(0, 0, 0, 0)
+  return date
+}
+
+function daysAgo(days: number) {
+  const date = new Date()
+  date.setDate(date.getDate() - days)
+  return date
+}
+
+function daysFromNow(days: number) {
+  const date = new Date()
+  date.setDate(date.getDate() + days)
+  return date
+}
+
 export interface DashboardStats {
   totalLeads: number
   totalRevenue: number
   totalBookings: number
+  todayOps: {
+    newLeadsToday: number
+    staleLeads: number
+    followUpsDue: number
+    upcomingAppointments: number
+  }
   leadsByStatus: {
     new: number
     contacted: number
@@ -41,7 +65,11 @@ export function useDashboardData() {
         { data: allLeadStatuses, error: leadStatusesError },
         { data: appointmentRevenueRows, count: totalBookingsCount, error: appointmentsError },
         { data: recentLeadsData, error: recentLeadsError },
-        { data: recentAppointmentsData, error: recentAppointmentsError }
+        { data: recentAppointmentsData, error: recentAppointmentsError },
+        { count: newLeadsTodayCount, error: newLeadsTodayError },
+        { count: staleLeadsCount, error: staleLeadsError },
+        { count: followUpsDueCount, error: followUpsDueError },
+        { count: upcomingAppointmentsCount, error: upcomingAppointmentsError }
       ] = await Promise.all([
         // Total leads count
         supabase
@@ -70,7 +98,31 @@ export function useDashboardData() {
           .from('appointments')
           .select('id, name, type, package_name, start_time, price_cents, status')
           .order('start_time', { ascending: false })
-          .limit(5)
+          .limit(5),
+
+        supabase
+          .from('leads')
+          .select('id', { count: 'exact', head: true })
+          .gte('created_at', startOfToday().toISOString()),
+
+        supabase
+          .from('leads')
+          .select('id', { count: 'exact', head: true })
+          .in('status', ['new', 'contacted'])
+          .lte('created_at', daysAgo(2).toISOString()),
+
+        supabase
+          .from('lead_follow_ups')
+          .select('id', { count: 'exact', head: true })
+          .eq('status', 'pending')
+          .lte('scheduled_for', new Date().toISOString()),
+
+        supabase
+          .from('appointments')
+          .select('id', { count: 'exact', head: true })
+          .in('status', ['pending', 'confirmed', 'scheduled'])
+          .gte('start_time', new Date().toISOString())
+          .lte('start_time', daysFromNow(7).toISOString())
       ])
 
       // Handle errors
@@ -79,6 +131,10 @@ export function useDashboardData() {
       if (appointmentsError) throw new Error(`Appointments fetch failed: ${appointmentsError.message}`)
       if (recentLeadsError) throw new Error(`Recent leads fetch failed: ${recentLeadsError.message}`)
       if (recentAppointmentsError) throw new Error(`Recent appointments fetch failed: ${recentAppointmentsError.message}`)
+      if (newLeadsTodayError) throw new Error(`Today's leads fetch failed: ${newLeadsTodayError.message}`)
+      if (staleLeadsError) throw new Error(`Stale leads fetch failed: ${staleLeadsError.message}`)
+      if (followUpsDueError) throw new Error(`Follow-ups fetch failed: ${followUpsDueError.message}`)
+      if (upcomingAppointmentsError) throw new Error(`Upcoming appointments fetch failed: ${upcomingAppointmentsError.message}`)
 
       // Calculate stats from real data
       const totalLeads = totalLeadsCount || 0
@@ -112,6 +168,12 @@ export function useDashboardData() {
         totalLeads,
         totalRevenue,
         totalBookings,
+        todayOps: {
+          newLeadsToday: newLeadsTodayCount || 0,
+          staleLeads: staleLeadsCount || 0,
+          followUpsDue: followUpsDueCount || 0,
+          upcomingAppointments: upcomingAppointmentsCount || 0,
+        },
         leadsByStatus,
         recentLeads: recentLeadsData || [],
         recentBookings: recentAppointmentsData?.map(apt => ({

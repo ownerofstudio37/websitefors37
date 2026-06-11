@@ -22,7 +22,7 @@
 
 - [ ] Consolidate overlapping content/editor/page-builder tools into a clearer primary editing flow.
 - [ ] Add a unified command/search palette for leads, pages, galleries, settings, and admin tools.
-- [ ] Add a "today" operations view: new leads, stale follow-ups, upcoming appointments, campaigns due, broken SEO items.
+- [x] Add a "today" operations view: new leads, stale follow-ups, upcoming appointments, campaigns due, broken SEO items.
 - [ ] Add clearer admin navigation grouping for content, gallery, CRM, marketing, SEO, and settings.
 - [ ] Add empty/loading/error states across admin dashboards that explain the next action.
 
@@ -46,6 +46,6 @@
 ## Technical Quality
 
 - [ ] Work through the current repo-wide TypeScript backlog now that `tsconfig.json` checks source files.
-- [ ] Mark dynamic API routes explicitly dynamic where Next probes them during build.
+- [x] Mark dynamic API routes explicitly dynamic where Next probes them during build.
 - [ ] Review CI configuration because GitHub Actions currently appears out of sync with the Netlify root app build.
 - [ ] Add a lightweight sitemap endpoint test that verifies XML validity, URL count, excluded paths, and required URLs.
