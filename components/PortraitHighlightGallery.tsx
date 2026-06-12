@@ -75,14 +75,14 @@ export default function PortraitHighlightGallery() {
                   <OptimizedImage
                     src={image.image_url}
                     alt={image.alt_text || image.title}
-                    width={400}
-                    height={300}
+                    width={1200}
+                    height={900}
                     className="w-full h-full"
                     imgClassName={`w-full h-full group-hover:scale-110 transition-transform duration-500 ${
                       index === 0 ? 'object-cover object-[50%_18%]' : 'object-cover'
                     }`}
                     sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    quality={80}
+                    quality={95}
                   />
                 </div>
                 
