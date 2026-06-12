@@ -15,7 +15,7 @@ export const recentWorkItems = [
     title: 'Warm Family Session',
     service: 'Family',
     location: 'Montgomery County',
-    image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255559/PS379799_ayoxbp.jpg',
+    image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1779269044/Untitled-4-3_dvlcs6.jpg',
     alt: 'Warm Studio37 family photography session in Montgomery County Texas',
     note: 'Relaxed posing, detail coverage, and natural connection moments.',
     featured: true,

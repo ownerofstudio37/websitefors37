@@ -34,10 +34,10 @@ export default function ServiceAreaMarketModules({ compact = false }: { compact?
     <section className={`${compact ? 'py-12' : 'section-shell'} bg-white`}>
       <div className="container mx-auto px-4">
         <div className="mb-8 max-w-3xl">
-          <p className="eyebrow mb-3">Service-Area Strategy</p>
-          <h2 className="text-3xl font-bold text-stone-950 md:text-4xl">Top markets and high-intent photography services</h2>
+          <p className="eyebrow mb-3">Where We Work</p>
+          <h2 className="text-3xl font-bold text-stone-950 md:text-4xl">Photography for the places and moments our clients book most</h2>
           <p className="mt-3 text-stone-600">
-            Use these modules to jump from a city search into the service that best matches the session.
+            Start with your area, then choose the kind of coverage that fits what you are planning.
           </p>
         </div>
 
