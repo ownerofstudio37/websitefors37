@@ -3,8 +3,15 @@
 import { useEffect, useMemo, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { Mail, MessageSquare, X } from 'lucide-react'
+import { getLeadContext, withLeadContext } from '@/lib/client-lead-context'
+import { trackSaveQuoteDismiss, trackSaveQuoteOpen, trackSaveQuoteSubmit } from '@/lib/analytics'
 
-const eligiblePaths = ['/book-a-session', '/get-quote', '/tools/pricing', '/tools/package-recommender']
+const captureRules = [
+  { path: '/book-a-session', delayMs: 60000, scrollPercent: 25 },
+  { path: '/get-quote', delayMs: 45000, scrollPercent: 20 },
+  { path: '/tools/pricing', delayMs: 40000, scrollPercent: 20 },
+  { path: '/tools/package-recommender', delayMs: 35000, scrollPercent: 15 },
+] as const
 
 export default function QuoteAbandonmentCapture() {
   const pathname = usePathname()
@@ -14,17 +21,63 @@ export default function QuoteAbandonmentCapture() {
   const [submitting, setSubmitting] = useState(false)
   const [form, setForm] = useState({ name: '', email: '', phone: '' })
 
-  const isEligible = useMemo(() => eligiblePaths.some((path) => pathname?.startsWith(path)), [pathname])
+  const activeRule = useMemo(() => captureRules.find((rule) => pathname?.startsWith(rule.path)), [pathname])
+  const isEligible = Boolean(activeRule)
 
   useEffect(() => {
-    if (!isEligible || dismissed || submitted) return
+    if (!activeRule || dismissed || submitted) return
     if (window.localStorage.getItem('studio37_quote_capture_done') === 'true') return
 
-    const timer = window.setTimeout(() => setVisible(true), 25000)
-    return () => window.clearTimeout(timer)
-  }, [isEligible, dismissed, submitted])
+    const pageViewsKey = 'studio37_quote_capture_page_views'
+    const pageViews = Number(window.sessionStorage.getItem(pageViewsKey) || '0') + 1
+    window.sessionStorage.setItem(pageViewsKey, String(pageViews))
+
+    const firstPageVisit = pageViews <= 1
+    const delayMs = activeRule.delayMs + (firstPageVisit ? 25000 : 0)
+    const scrollTarget = activeRule.scrollPercent + (firstPageVisit ? 10 : 0)
+    let timerReady = false
+    let scrollReady = false
+
+    const maybeOpen = () => {
+      if (!timerReady || !scrollReady) return
+      setVisible(true)
+      trackSaveQuoteOpen({
+        path: pathname || '',
+        delay_ms: delayMs,
+        scroll_target: scrollTarget,
+        first_page_visit: firstPageVisit,
+      })
+    }
+
+    const timer = window.setTimeout(() => {
+      timerReady = true
+      maybeOpen()
+    }, delayMs)
+
+    const handleScroll = () => {
+      const scrollable = document.documentElement.scrollHeight - window.innerHeight
+      const scrollPercent = scrollable <= 0 ? 100 : Math.round((window.scrollY / scrollable) * 100)
+      if (scrollPercent >= scrollTarget) {
+        scrollReady = true
+        maybeOpen()
+      }
+    }
+
+    handleScroll()
+    window.addEventListener('scroll', handleScroll, { passive: true })
+
+    return () => {
+      window.clearTimeout(timer)
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [activeRule, dismissed, pathname, submitted])
 
   if (!isEligible || dismissed || submitted || !visible) return null
+
+  function dismissCapture() {
+    trackSaveQuoteDismiss({ path: pathname || '' })
+    setDismissed(true)
+  }
 
   async function submitCapture(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -32,21 +85,39 @@ export default function QuoteAbandonmentCapture() {
 
     setSubmitting(true)
     try {
+      const context = getLeadContext({
+        capture_path: pathname || '',
+        capture_reason: 'quote-booking-abandonment',
+      })
       const response = await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+        body: JSON.stringify(withLeadContext({
           name: form.name.trim() || 'Saved quote visitor',
           email: form.email.trim(),
           phone: form.phone.trim() || undefined,
           service_interest: 'Saved quote or booking follow-up',
-          message: `Visitor saved their place before finishing a quote or booking flow. Page: ${pathname}. Follow up by email${form.phone.trim() ? ' and SMS' : ''}.`,
+          message: [
+            'Visitor saved their place before finishing a quote or booking flow.',
+            `Page: ${pathname}.`,
+            context.selected_package ? `Selected package: ${JSON.stringify(context.selected_package)}.` : '',
+            context.calculator_context ? `Calculator context: ${JSON.stringify(context.calculator_context)}.` : '',
+            context.referrer ? `Referrer: ${context.referrer}.` : '',
+            `Follow up by email${form.phone.trim() ? ' and SMS' : ''}.`,
+          ].filter(Boolean).join(' '),
           source: 'quote-booking-abandonment-capture',
-        }),
+        }, {
+          capture_path: pathname || '',
+          capture_reason: 'quote-booking-abandonment',
+        })),
       })
 
       if (!response.ok) throw new Error('Capture failed')
       window.localStorage.setItem('studio37_quote_capture_done', 'true')
+      trackSaveQuoteSubmit({
+        path: pathname || '',
+        has_phone: Boolean(form.phone.trim()),
+      })
       setSubmitted(true)
     } catch {
       setDismissed(true)
@@ -59,7 +130,7 @@ export default function QuoteAbandonmentCapture() {
     <div className="fixed bottom-24 left-3 right-20 z-40 max-w-sm rounded-lg border border-stone-200 bg-white p-4 shadow-2xl sm:left-4 sm:right-auto md:bottom-6">
       <button
         type="button"
-        onClick={() => setDismissed(true)}
+        onClick={dismissCapture}
         className="absolute right-2 top-2 rounded-full p-1 text-stone-500 hover:bg-stone-100 hover:text-stone-900"
         aria-label="Dismiss save quote form"
       >

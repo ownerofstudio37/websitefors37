@@ -5,6 +5,7 @@ import { supabase } from '@/lib/supabase'
 import { calculatePortraitSessionTotalCents } from '@/lib/portrait-pricing'
 import Image from 'next/image'
 import { trackBookingClick, trackFormSubmit } from '@/lib/analytics'
+import { withLeadContext } from '@/lib/client-lead-context'
 
 // Inline simple SVG icons to avoid lucide-react bundle (reduces ~50KB)
 const Loader2 = ({ className }: { className?: string }) => (
@@ -475,7 +476,7 @@ export default function BookSessionPage() {
         const leadRes = await fetch('/api/leads', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
+          body: JSON.stringify(withLeadContext({
             name,
             email,
             phone,
@@ -483,7 +484,13 @@ export default function BookSessionPage() {
             service_interest: serviceInterest,
             event_date: selectedDate,
             source: 'book-a-session'
-          })
+          }, {
+            booking_option: bookingOption,
+            selected_package: bookingOption === 'packages' ? selectedType : undefined,
+            selected_date: selectedDate,
+            selected_time: selectedTime,
+            estimated_price_cents: totalPrice > 0 ? totalPrice : undefined,
+          }))
         })
 
         if (!leadRes.ok) {

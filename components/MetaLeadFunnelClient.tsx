@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
+import { withLeadContext } from '@/lib/client-lead-context'
 
 const SERVICES = [
   { id: 'family', label: 'Family Photos', emoji: '👨‍👩‍👧‍👦' },
@@ -124,7 +125,7 @@ export default function MetaLeadFunnelClient() {
       .map((q) => `${q.label}: ${answers[q.key] || '(not answered)'}`)
       .join('\n')
 
-    const payload = {
+    const payload = withLeadContext({
       name: contact.name,
       email: contact.email,
       phone: contact.phone,
@@ -133,7 +134,9 @@ export default function MetaLeadFunnelClient() {
       event_date: answers.wedding_date || answers.timeline || undefined,
       message: qualifyingText,
       source: 'meta-ad-funnel',
-    }
+    }, {
+      funnel_service: service,
+    })
 
     try {
       const res = await fetch('/api/leads', {

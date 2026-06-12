@@ -29,8 +29,73 @@ const LeadSchema = z.object({
     return isNaN(Number(num)) ? 18.48 : num
   }, z.number().nonnegative().optional()),
   message: z.string().min(10).max(5000),
-  source: z.string().optional().default('web-form')
+  source: z.string().optional().default('web-form'),
+  page_url: z.string().optional(),
+  landing_page: z.string().optional(),
+  referrer: z.string().optional(),
+  utm_source: z.string().optional(),
+  utm_medium: z.string().optional(),
+  utm_campaign: z.string().optional(),
+  utm_term: z.string().optional(),
+  utm_content: z.string().optional(),
+  source_metadata: z.record(z.unknown()).optional(),
 })
+
+function escapeHtml(value: unknown) {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+}
+
+function compactObject<T extends Record<string, unknown>>(value: T) {
+  return Object.fromEntries(
+    Object.entries(value).filter(([, entry]) => entry !== undefined && entry !== null && entry !== '')
+  )
+}
+
+function buildSourceMetadata(payload: z.infer<typeof LeadSchema>, req: NextRequest) {
+  const userAgent = req.headers.get('user-agent') || undefined
+  const metadata = compactObject({
+    ...(payload.source_metadata || {}),
+    page_url: payload.page_url,
+    landing_page: payload.landing_page,
+    referrer: payload.referrer,
+    utm_source: payload.utm_source,
+    utm_medium: payload.utm_medium,
+    utm_campaign: payload.utm_campaign,
+    utm_term: payload.utm_term,
+    utm_content: payload.utm_content,
+    user_agent: userAgent,
+  })
+
+  return Object.keys(metadata).length ? metadata : null
+}
+
+function renderAdminContextHtml(sourceMetadata: Record<string, unknown> | null) {
+  if (!sourceMetadata) return ''
+
+  const queryParams = sourceMetadata.query_params
+  const selectedPackage = sourceMetadata.selected_package
+  const calculatorContext = sourceMetadata.calculator_context
+  const utmSummary = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content']
+    .map((key) => sourceMetadata[key] ? `${key}: ${sourceMetadata[key]}` : '')
+    .filter(Boolean)
+    .join(' | ')
+
+  return `
+    <hr style="margin:20px 0;border:none;border-top:1px solid #e5e7eb;" />
+    <h3>Lead Context</h3>
+    <p><strong>Page URL:</strong> ${escapeHtml(sourceMetadata.page_url || '—')}</p>
+    <p><strong>Landing Page:</strong> ${escapeHtml(sourceMetadata.landing_page || '—')}</p>
+    <p><strong>Referrer:</strong> ${escapeHtml(sourceMetadata.referrer || '—')}</p>
+    <p><strong>UTM:</strong> ${escapeHtml(utmSummary || '—')}</p>
+    <p><strong>Selected Package:</strong> ${escapeHtml(selectedPackage ? JSON.stringify(selectedPackage) : '—')}</p>
+    <p><strong>Calculator Context:</strong> ${escapeHtml(calculatorContext ? JSON.stringify(calculatorContext) : '—')}</p>
+    <p><strong>Query Params:</strong> ${escapeHtml(queryParams ? JSON.stringify(queryParams) : '—')}</p>
+  `
+}
 
 /**
  * Send auto-response email based on form type
@@ -96,7 +161,7 @@ async function sendAutoResponseEmail(lead: any, payload: any, siteUrl: string) {
 
     // If source is newsletter signup, use newsletter welcome template
     if (isQuoteCapture) {
-      templateSlug = 'contact-form-confirmation'
+      templateSlug = 'saved-quote-follow-up'
     } else if (
       payload.source === 'newsletter-modal' ||
       payload.source === 'newsletter-footer' ||
@@ -110,16 +175,20 @@ async function sendAutoResponseEmail(lead: any, payload: any, siteUrl: string) {
     }
     
     // Get preferred template ID from database
-    let { data: template, error: templateError } = await supabaseAdmin
+    const { data: initialTemplate, error: templateError } = await supabaseAdmin
       .from('email_templates')
       .select('id')
       .eq('slug', templateSlug)
       .eq('is_active', true)
       .single()
+    let template = initialTemplate
 
     if (templateError || !template) {
       log.warn('Auto-response template not found, trying fallback', { slug: templateSlug, error: templateError })
 
+      if (isQuoteCapture) {
+        template = null
+      } else {
       // Fallback to generic contact confirmation template
       const fallback = await supabaseAdmin
         .from('email_templates')
@@ -131,6 +200,7 @@ async function sendAutoResponseEmail(lead: any, payload: any, siteUrl: string) {
       if (!fallback.error && fallback.data) {
         template = fallback.data
         templateSlug = 'contact-form-confirmation'
+      }
       }
     }
 
@@ -180,7 +250,29 @@ async function sendAutoResponseEmail(lead: any, payload: any, siteUrl: string) {
       const safeService = String(payload.service_interest || 'Photography').replace(/</g, '&lt;')
       const safeDate = String(payload.event_date || 'To be determined').replace(/</g, '&lt;')
       const safeBudget = String(payload.budget_range || 'Not specified').replace(/</g, '&lt;')
-      emailPayload.html = `
+      if (isQuoteCapture) {
+        emailPayload.html = `
+          <div style="font-family:Inter,Arial,sans-serif;background:#f8fafc;padding:24px;">
+            <div style="max-width:640px;margin:0 auto;background:#ffffff;border:1px solid #e5e7eb;border-radius:12px;overflow:hidden;">
+              <div style="background:#b45309;color:#ffffff;padding:22px 24px;">
+                <p style="margin:0;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#fff7ed;">Studio37</p>
+                <h2 style="margin:8px 0 0;font-size:26px;line-height:1.25;">Your quote is saved</h2>
+              </div>
+              <div style="padding:24px;color:#111827;">
+                <p style="margin:0 0 14px;font-size:16px;">Hi ${firstName || 'there'},</p>
+                <p style="margin:0 0 14px;color:#374151;">Thanks for saving your Studio37 quote. We have your contact info and will follow up with package guidance, availability, and next steps.</p>
+                <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:14px 16px;margin:16px 0;">
+                  <p style="margin:0 0 8px;"><strong>What happens next:</strong></p>
+                  <p style="margin:0;color:#374151;">A real person reviews your request, checks the best package fit, and replies within 24 hours.</p>
+                </div>
+                <p style="margin:0;color:#6b7280;font-size:14px;">Best regards,<br/><strong>Studio37 Team</strong></p>
+              </div>
+            </div>
+          </div>
+        `
+        emailPayload.text = `Hi ${firstName || 'there'},\n\nThanks for saving your Studio37 quote. We have your contact info and will follow up with package guidance, availability, and next steps within 24 hours.\n\nBest regards,\nStudio37 Team`
+      } else {
+        emailPayload.html = `
         <div style="font-family:Inter,Arial,sans-serif;background:#f8fafc;padding:24px;">
           <div style="max-width:640px;margin:0 auto;background:#ffffff;border:1px solid #e5e7eb;border-radius:12px;overflow:hidden;">
             <div style="background:#111827;color:#ffffff;padding:20px 24px;">
@@ -201,7 +293,8 @@ async function sendAutoResponseEmail(lead: any, payload: any, siteUrl: string) {
           </div>
         </div>
       `
-      emailPayload.text = `Hi ${firstName || 'there'},\n\nThank you for reaching out to Studio37. We received your request and will follow up within 24 hours.\n\nService: ${payload.service_interest || 'Photography'}\nPreferred Date: ${payload.event_date || 'To be determined'}\nBudget Range: ${payload.budget_range || 'Not specified'}\n\nBest regards,\nStudio37 Team`
+        emailPayload.text = `Hi ${firstName || 'there'},\n\nThank you for reaching out to Studio37. We received your request and will follow up within 24 hours.\n\nService: ${payload.service_interest || 'Photography'}\nPreferred Date: ${payload.event_date || 'To be determined'}\nBudget Range: ${payload.budget_range || 'Not specified'}\n\nBest regards,\nStudio37 Team`
+      }
       log.warn('Auto-response sending with HTML fallback (template unavailable)', { leadId: lead.id, requestedTemplate: templateSlug })
     }
 
@@ -314,6 +407,7 @@ export async function POST(req: NextRequest) {
     const normalizedLeadCost = typeof payload.lead_cost === 'number'
       ? Number(payload.lead_cost.toFixed(2))
       : 18.48
+    const sourceMetadata = buildSourceMetadata(payload, req)
 
     // Insert the lead
     let { data: insertedLead, error } = await publicSupabase.from('leads').insert([
@@ -327,13 +421,14 @@ export async function POST(req: NextRequest) {
         lead_cost: normalizedLeadCost,
         message: payload.message,
         status: 'new',
-        source: payload.source || 'web-form'
+        source: payload.source || 'web-form',
+        source_metadata: sourceMetadata,
       }
     ])
       .select()
       .single()
 
-    if (error && /lead_cost/i.test(error.message || '')) {
+    if (error && /(lead_cost|source_metadata)/i.test(error.message || '')) {
       log.warn('Lead insert failed with extended schema, retrying minimal payload', { error: error.message })
       const retryResult = await publicSupabase.from('leads').insert([
         {
@@ -366,7 +461,7 @@ export async function POST(req: NextRequest) {
     // Send admin notification (fire and forget with improved error handling)
     try {
       const adminHtml = `
-        <h2>🔔 New Lead Received</h2>
+        <h2>New Lead Received</h2>
         <p><strong>Name:</strong> ${insertedLead.name || '—'}</p>
         <p><strong>Email:</strong> ${insertedLead.email || '—'}</p>
         <p><strong>Phone:</strong> ${insertedLead.phone || '—'}</p>
@@ -376,6 +471,7 @@ export async function POST(req: NextRequest) {
         <p><strong>Message:</strong></p>
         <p>${insertedLead.message ? insertedLead.message.replace(/</g, '&lt;').replace(/\n/g, '<br>') : '—'}</p>
         <p><strong>Source:</strong> ${insertedLead.source || payload.source || 'web-form'}</p>
+        ${renderAdminContextHtml(sourceMetadata)}
         <p><strong>Submitted:</strong> ${new Date().toLocaleString('en-US', { timeZone: 'America/New_York' })}</p>
         <p style="margin-top: 20px;"><a href="${siteUrl}/admin/leads" style="background: #3B82F6; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">View Lead in Admin →</a></p>
       `
@@ -411,6 +507,16 @@ export async function POST(req: NextRequest) {
                   eventDate: insertedLead.event_date || '',
                   message: insertedLead.message || '',
                   source: insertedLead.source || payload.source || 'web-form',
+                  pageUrl: sourceMetadata?.page_url || '',
+                  landingPage: sourceMetadata?.landing_page || '',
+                  referrer: sourceMetadata?.referrer || '',
+                  selectedPackage: sourceMetadata?.selected_package ? JSON.stringify(sourceMetadata.selected_package) : '',
+                  calculatorContext: sourceMetadata?.calculator_context ? JSON.stringify(sourceMetadata.calculator_context) : '',
+                  queryParams: sourceMetadata?.query_params ? JSON.stringify(sourceMetadata.query_params) : '',
+                  utmSource: sourceMetadata?.utm_source || '',
+                  utmMedium: sourceMetadata?.utm_medium || '',
+                  utmCampaign: sourceMetadata?.utm_campaign || '',
+                  sourceMetadata: sourceMetadata ? JSON.stringify(sourceMetadata) : '',
                   leadId: insertedLead.id,
                   siteUrl,
                 },

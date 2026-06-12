@@ -2,6 +2,8 @@
 
 import { useMemo, useState } from 'react'
 import { Download, Mail } from 'lucide-react'
+import { trackPrepGuideDownload } from '@/lib/analytics'
+import { withLeadContext } from '@/lib/client-lead-context'
 
 const guides = [
   { value: 'portrait', label: 'Portrait Prep Checklist' },
@@ -42,16 +44,20 @@ export default function PrepGuideLeadMagnet() {
       const response = await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+        body: JSON.stringify(withLeadContext({
           name: form.name,
           email: form.email,
           phone: form.phone || undefined,
           service_interest: `${selectedGuide.label} lead magnet`,
           message: `Requested downloadable prep guide: ${selectedGuide.label}.`,
           source: 'prep-guide-lead-magnet',
-        }),
+        }, {
+          guide: selectedGuide.value,
+          guide_label: selectedGuide.label,
+        })),
       })
       if (!response.ok) throw new Error('Lead magnet failed')
+      trackPrepGuideDownload(selectedGuide.value, 'submit')
       setReady(true)
     } finally {
       setSubmitting(false)
@@ -88,6 +94,7 @@ export default function PrepGuideLeadMagnet() {
               <a
                 href={`data:text/plain;charset=utf-8,${encodeURIComponent(downloadText)}`}
                 download={`${guide}-studio37-prep-guide.txt`}
+                onClick={() => trackPrepGuideDownload(guide)}
                 className="btn-secondary inline-flex items-center justify-center"
               >
                 <Download className="mr-2 h-4 w-4" aria-hidden="true" />

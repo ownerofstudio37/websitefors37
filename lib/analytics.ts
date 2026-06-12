@@ -15,6 +15,12 @@ type EventName =
   | 'page_scroll'
   | 'video_play'
   | 'image_gallery_open'
+  | 'package_recommender_selection'
+  | 'pricing_duration_change'
+  | 'save_quote_open'
+  | 'save_quote_submit'
+  | 'save_quote_dismiss'
+  | 'prep_guide_download'
 
 interface EventParams {
   [key: string]: string | number | boolean | undefined
@@ -146,6 +152,55 @@ export function trackScrollDepth(depth: 'top' | '25%' | '50%' | '75%' | 'bottom'
 export function trackImageGalleryOpen(galleryName?: string) {
   trackEvent('image_gallery_open', {
     gallery_name: galleryName || 'default'
+  })
+}
+
+export function trackPackageRecommenderSelection(params: {
+  goal: string
+  coverage: string
+  people?: number
+  packageKey?: string
+  packageTitle?: string
+}) {
+  trackEvent('package_recommender_selection', {
+    goal: params.goal,
+    coverage: params.coverage,
+    people: params.people,
+    package_key: params.packageKey,
+    package_title: params.packageTitle,
+  })
+}
+
+export function trackPricingDurationChange(params: {
+  minutes: number
+  category?: string
+  people?: number
+  priceCents?: number
+}) {
+  trackEvent('pricing_duration_change', {
+    minutes: params.minutes,
+    category: params.category,
+    people: params.people,
+    price_cents: params.priceCents,
+  })
+}
+
+export function trackSaveQuoteOpen(params?: EventParams) {
+  trackEvent('save_quote_open', params)
+}
+
+export function trackSaveQuoteSubmit(params?: EventParams) {
+  trackEvent('save_quote_submit', params)
+}
+
+export function trackSaveQuoteDismiss(params?: EventParams) {
+  trackEvent('save_quote_dismiss', params)
+}
+
+export function trackPrepGuideDownload(guide: string, source: 'submit' | 'download_click' = 'download_click') {
+  trackEvent('prep_guide_download', {
+    guide,
+    source,
   })
 }
 

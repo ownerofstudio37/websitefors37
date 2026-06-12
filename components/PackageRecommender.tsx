@@ -1,9 +1,10 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import Link from "next/link"
 import { ArrowRight, Briefcase, Calendar, Camera, CheckCircle2, Heart, Users } from "lucide-react"
 import { calculatePortraitSessionTotalCents } from "@/lib/portrait-pricing"
+import { trackPackageRecommenderSelection } from "@/lib/analytics"
 
 type ServiceGoal = "portrait" | "wedding" | "event" | "commercial"
 type CoverageNeed = "quick" | "standard" | "expanded" | "full"
@@ -199,6 +200,29 @@ export default function PackageRecommender({ className = "" }: { className?: str
   const [coverage, setCoverage] = useState<CoverageNeed>("standard")
   const [people, setPeople] = useState(1)
   const recommendation = useMemo(() => getRecommendation(goal, coverage, people), [goal, coverage, people])
+  const packageContext = useMemo(() => ({
+    goal,
+    coverage,
+    people,
+    packageKey: recommendation.packageKey,
+    title: recommendation.title,
+    price: recommendation.price,
+    duration: recommendation.duration,
+  }), [coverage, goal, people, recommendation.duration, recommendation.packageKey, recommendation.price, recommendation.title])
+
+  useEffect(() => {
+    window.sessionStorage.setItem("studio37_package_context", JSON.stringify(packageContext))
+  }, [packageContext])
+
+  function trackSelection(nextContext = packageContext) {
+    trackPackageRecommenderSelection({
+      goal: nextContext.goal,
+      coverage: nextContext.coverage,
+      people: nextContext.people,
+      packageKey: nextContext.packageKey,
+      packageTitle: nextContext.title,
+    })
+  }
 
   return (
     <section className={`rounded-2xl border border-stone-200 bg-white p-6 shadow-lg ${className}`}>
@@ -218,7 +242,19 @@ export default function PackageRecommender({ className = "" }: { className?: str
                   <button
                     key={key}
                     type="button"
-                    onClick={() => setGoal(key)}
+                    onClick={() => {
+                      const nextRecommendation = getRecommendation(key, coverage, people)
+                      setGoal(key)
+                      trackSelection({
+                        goal: key,
+                        coverage,
+                        people,
+                        packageKey: nextRecommendation.packageKey,
+                        title: nextRecommendation.title,
+                        price: nextRecommendation.price,
+                        duration: nextRecommendation.duration,
+                      })
+                    }}
                     className={`min-h-[76px] rounded-lg border px-3 py-3 text-sm font-semibold transition ${
                       goal === key ? "border-primary-600 bg-primary-600 text-white" : "border-stone-200 bg-stone-50 text-stone-800 hover:border-primary-300"
                     }`}
@@ -237,7 +273,19 @@ export default function PackageRecommender({ className = "" }: { className?: str
                   <button
                     key={option.key}
                     type="button"
-                    onClick={() => setCoverage(option.key)}
+                    onClick={() => {
+                      const nextRecommendation = getRecommendation(goal, option.key, people)
+                      setCoverage(option.key)
+                      trackSelection({
+                        goal,
+                        coverage: option.key,
+                        people,
+                        packageKey: nextRecommendation.packageKey,
+                        title: nextRecommendation.title,
+                        price: nextRecommendation.price,
+                        duration: nextRecommendation.duration,
+                      })
+                    }}
                     className={`rounded-lg border p-3 text-left transition ${
                       coverage === option.key ? "border-primary-600 bg-primary-50" : "border-stone-200 bg-white hover:border-primary-300"
                     }`}
@@ -260,7 +308,20 @@ export default function PackageRecommender({ className = "" }: { className?: str
                   min={1}
                   max={50}
                   value={people}
-                  onChange={(event) => setPeople(Math.max(1, Math.min(50, parseInt(event.target.value || "1", 10))))}
+                  onChange={(event) => {
+                    const nextPeople = Math.max(1, Math.min(50, parseInt(event.target.value || "1", 10)))
+                    const nextRecommendation = getRecommendation(goal, coverage, nextPeople)
+                    setPeople(nextPeople)
+                    trackSelection({
+                      goal,
+                      coverage,
+                      people: nextPeople,
+                      packageKey: nextRecommendation.packageKey,
+                      title: nextRecommendation.title,
+                      price: nextRecommendation.price,
+                      duration: nextRecommendation.duration,
+                    })
+                  }}
                   className="mt-3 w-28 rounded-lg border border-stone-300 px-3 py-2 text-center"
                 />
               </div>
@@ -284,7 +345,7 @@ export default function PackageRecommender({ className = "" }: { className?: str
               </li>
             ))}
           </ul>
-          <Link href={recommendation.href} className="btn-primary mt-6 inline-flex w-full items-center justify-center">
+          <Link href={recommendation.href} onClick={() => trackSelection()} className="btn-primary mt-6 inline-flex w-full items-center justify-center">
             Continue to Booking <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
           </Link>
         </div>

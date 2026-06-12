@@ -31,13 +31,13 @@
 
 ### Conversion And Lead Capture
 
-- [ ] Refine save-quote popup timing and triggers by page type, with less aggressive behavior on first-page visitors.
-- [ ] Add analytics events for package recommender selections, pricing duration changes, save-quote opens/submits/dismissals, and prep-guide downloads.
-- [ ] Send admin notifications with richer context from save-quote captures: page URL, selected package if present, calculator query params, and referrer.
-- [ ] Make the client-facing save-quote auto-response a dedicated template instead of reusing generic contact confirmation.
-- [ ] Add UTM/source capture to lead submissions and persist it in lead records.
-- [ ] Add calendar availability confidence near booking CTAs, even if the exact slot is selected later.
-- [ ] Add a "compare packages" CTA after blog posts and session-prep pages.
+- [x] Refine save-quote popup timing and triggers by page type, with less aggressive behavior on first-page visitors.
+- [x] Add analytics events for package recommender selections, pricing duration changes, save-quote opens/submits/dismissals, and prep-guide downloads.
+- [x] Send admin notifications with richer context from save-quote captures: page URL, selected package if present, calculator query params, and referrer.
+- [x] Make the client-facing save-quote auto-response a dedicated template instead of reusing generic contact confirmation.
+- [x] Add UTM/source capture to lead submissions and persist it in lead records.
+- [x] Add calendar availability confidence near booking CTAs, even if the exact slot is selected later.
+- [x] Add a "compare packages" CTA after blog posts and session-prep pages.
 
 ### Content And Public Features
 

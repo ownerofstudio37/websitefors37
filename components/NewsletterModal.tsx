@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Mail, Phone, Percent, User } from 'lucide-react'
+import { withLeadContext } from '@/lib/client-lead-context'
 
 interface NewsletterModalProps {
   isOpen: boolean
@@ -32,7 +33,7 @@ export default function NewsletterModal({ isOpen, onClose }: NewsletterModalProp
       const response = await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+        body: JSON.stringify(withLeadContext({
           name,
           email,
           phone,
@@ -40,7 +41,7 @@ export default function NewsletterModal({ isOpen, onClose }: NewsletterModalProp
           budget_range: '10% discount offer',
           source: 'newsletter_popup',
           message: 'Subscribed to newsletter for 10% discount offer'
-        })
+        }))
       })
 
       if (!response.ok) {

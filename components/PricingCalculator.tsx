@@ -1,9 +1,10 @@
 "use client"
 
-import React, { useMemo, useState } from "react"
+import React, { useEffect, useMemo, useState } from "react"
 import { Calculator, Users, Clock, Info, Sparkles, ChevronRight } from "lucide-react"
 import Link from "next/link"
 import { calculatePortraitSessionTotalCents } from "@/lib/portrait-pricing"
+import { trackPricingDurationChange } from "@/lib/analytics"
 
 // Assumptions (easy to tweak):
 // - All types: $500/hr once a session reaches 60 minutes
@@ -75,6 +76,26 @@ export default function PricingCalculator({
     }))
   }, [proratedPrice, eligibleForPackages])
 
+  useEffect(() => {
+    window.sessionStorage.setItem('studio37_pricing_context', JSON.stringify({
+      category,
+      people,
+      minutes,
+      price_cents: proratedPrice,
+      package_match: packageMatch?.key || null,
+    }))
+  }, [category, minutes, packageMatch?.key, people, proratedPrice])
+
+  function updateMinutes(nextMinutes: number) {
+    setMinutes(nextMinutes)
+    trackPricingDurationChange({
+      minutes: nextMinutes,
+      category,
+      people,
+      priceCents: calculatePortraitSessionTotalCents({ minutes: nextMinutes, category, people }),
+    })
+  }
+
   return (
     <div className={`bg-white/95 backdrop-blur rounded-2xl shadow-xl p-6 ${className || ""}`}>
       <div className="flex items-center gap-3 mb-4">
@@ -131,7 +152,7 @@ export default function PricingCalculator({
           <label className="block text-sm font-medium mb-2 flex items-center gap-2"><Clock className="h-4 w-4" /> Duration (minutes)</label>
           <select
             value={minutes}
-            onChange={(e)=>setMinutes(parseInt(e.target.value,10))}
+            onChange={(e)=>updateMinutes(parseInt(e.target.value,10))}
             className="w-full border rounded-lg px-3 py-2"
           >
             {[15,30,45,60,75,90,120,150].map(m => (

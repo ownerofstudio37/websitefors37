@@ -7,6 +7,7 @@ import { z } from 'zod'
 import toast from 'react-hot-toast'
 import { Check, AlertCircle, Loader2 } from 'lucide-react'
 import { trackFormSubmit, trackLeadCapture } from '@/lib/analytics'
+import { withLeadContext } from '@/lib/client-lead-context'
 import ThankYouWithSMS from './ThankYouWithSMS'
 import BookingTrustProof from './BookingTrustProof'
 
@@ -65,7 +66,7 @@ export default function LeadCaptureForm() {
       const res = await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...data, source: 'web-form' })
+        body: JSON.stringify(withLeadContext({ ...data, source: 'web-form' }))
       })
 
       if (!res.ok) {

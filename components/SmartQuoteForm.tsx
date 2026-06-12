@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Calendar, Users, DollarSign, MapPin, Camera, CheckCircle, ArrowRight, ArrowLeft, Sparkles } from 'lucide-react'
 import toast from 'react-hot-toast'
+import { withLeadContext } from '@/lib/client-lead-context'
 
 interface QuoteFormData {
   serviceType: string
@@ -116,7 +117,7 @@ export default function SmartQuoteForm() {
       const response = await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+        body: JSON.stringify(withLeadContext({
           name: formData.name,
           email: formData.email,
           phone: formData.phone,
@@ -133,7 +134,10 @@ Recommended Package: ${recommendation?.name}
 
 Additional Details: ${formData.additionalDetails || 'None'}`,
           source: 'smart-quote-generator'
-        })
+        }, {
+          recommended_package: recommendation?.name,
+          quote_service_type: formData.serviceType,
+        }))
       })
 
       if (!response.ok) throw new Error('Failed to submit quote')

@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import { Mail, CheckCircle } from 'lucide-react'
 import EditableChrome from '../editor/EditableChrome'
+import { withLeadContext } from '@/lib/client-lead-context'
 
 export interface LeadSignupBlockClientProps {
   heading?: string
@@ -51,13 +52,13 @@ export default function LeadSignupBlockClient({
       const res = await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+        body: JSON.stringify(withLeadContext({
           name,
           email,
           service_interest: 'newsletter_subscription',
           source: 'newsletter-block',
           message: 'Subscribed to newsletter via page block',
-        }),
+        })),
       })
       if (!res.ok) throw new Error('Subscribe failed')
       setDone(true)

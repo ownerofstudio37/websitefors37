@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight, CheckCircle, Clock, Image as ImageIcon, MapPin, ShieldCheck, Star } from 'lucide-react'
+import AvailabilityConfidence from '@/components/AvailabilityConfidence'
 import CuratedRecentWork from '@/components/CuratedRecentWork'
 import ServiceAreaMarketModules from '@/components/ServiceAreaMarketModules'
 
@@ -65,6 +66,7 @@ export function WhatHappensNextSection({ serviceName = 'session' }: { serviceNam
             Compare Pricing
           </Link>
         </div>
+        <AvailabilityConfidence />
       </div>
     </section>
   )

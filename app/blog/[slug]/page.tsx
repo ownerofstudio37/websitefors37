@@ -11,6 +11,7 @@ import rehypeRaw from 'rehype-raw'
 import { generateSEOMetadata, generateArticleSchema } from '@/lib/seo-helpers'
 import { businessInfo } from '@/lib/seo-config'
 import { generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
+import ComparePackagesCTA from '@/components/ComparePackagesCTA'
 
 const isValidSlug = (s: string) => /^[a-z0-9-]{1,200}$/.test(s) // Increased from 64 to 200 chars for longer blog titles
 
@@ -178,6 +179,8 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
               }}
             />
           </article>
+
+            <ComparePackagesCTA context="this session" />
           
             {relatedPosts && relatedPosts.length > 0 && (
               <div className="mt-16 pt-12 border-t">
