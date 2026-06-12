@@ -18,16 +18,16 @@
 
 - [x] Add `/tools/package-recommender` to the sitemap and required sitemap endpoint test coverage.
 - [x] Add metadata and sitemap coverage for any future ShootProof handoff/gallery explainer page while keeping `/gallery` and `/portfolio` redirects out of the sitemap.
-- [ ] Recheck Netlify/Next sitemap cache behavior because live sitemap headers show very old cache age even when `lastmod` is current.
-- [ ] Add a deployment verification script that compares live sitemap URLs against `lib/sitemap-data.ts` required URLs after every push.
-- [ ] Add FAQ schema to package recommender, pricing, and session prep hub pages.
-- [ ] Add SoftwareApplication or WebApplication schema for `/tools/pricing` and `/tools/package-recommender`.
-- [ ] Add BreadcrumbList schema to pricing, package recommender, service-area index, and prep-guide pages.
-- [ ] Standardize local landing page canonical strategy so short city redirects and canonical destination pages cannot compete.
-- [ ] Add image metadata audit coverage for Cloudinary assets used in public conversion sections and recent-work cards.
-- [ ] Add internal links from top location pages to package recommender, pricing tool, and relevant prep guides.
-- [ ] Review title/meta uniqueness across generated city/service pages to reduce template similarity.
-- [ ] Add indexability checks for newly added tools and lead magnet pages in the admin SEO dashboard.
+- [x] Recheck Netlify/Next sitemap cache behavior because live sitemap headers show very old cache age even when `lastmod` is current.
+- [x] Add a deployment verification script that compares live sitemap URLs against `lib/sitemap-data.ts` required URLs after every push.
+- [x] Add FAQ schema to package recommender, pricing, and session prep hub pages.
+- [x] Add SoftwareApplication or WebApplication schema for `/tools/pricing` and `/tools/package-recommender`.
+- [x] Add BreadcrumbList schema to pricing, package recommender, service-area index, and prep-guide pages.
+- [x] Standardize local landing page canonical strategy so short city redirects and canonical destination pages cannot compete.
+- [x] Add image metadata audit coverage for Cloudinary assets used in public conversion sections and recent-work cards.
+- [x] Add internal links from top location pages to package recommender, pricing tool, and relevant prep guides.
+- [x] Review title/meta uniqueness across generated city/service pages to reduce template similarity.
+- [x] Add indexability checks for newly added tools and lead magnet pages in the admin SEO dashboard.
 
 ### Conversion And Lead Capture
 

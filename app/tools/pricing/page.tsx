@@ -1,6 +1,8 @@
 import PricingCalculator from "@/components/PricingCalculator"
 import PackageRecommender from "@/components/PackageRecommender"
 import { generateSEOMetadata } from "@/lib/seo-helpers"
+import Schema from "@/components/Schema"
+import { generateBreadcrumbSchema, generateFAQSchema, generateWebApplicationSchema } from "@/lib/schema"
 
 export const metadata = generateSEOMetadata({
   title: "Portrait Pricing Calculator | Studio37",
@@ -9,9 +11,37 @@ export const metadata = generateSEOMetadata({
   canonicalUrl: "https://www.studio37.cc/tools/pricing",
 })
 
+const pricingFaqs = [
+  {
+    question: "Is the portrait pricing calculator a final quote?",
+    answer: "The calculator gives a planning estimate based on current Studio37 portrait pricing. Final quotes can change if you need travel, rush delivery, special usage, or a custom production scope.",
+  },
+  {
+    question: "Why do shorter portrait sessions cost more per minute?",
+    answer: "Mini sessions require the same planning, setup, editing workflow, and gallery delivery as longer sessions, so sessions under one hour use package minimums instead of simple hourly math.",
+  },
+  {
+    question: "Can I use this tool for weddings or commercial shoots?",
+    answer: "Use it for portrait planning. Weddings, events, and commercial work are better matched through the package recommender or a consultation because timeline, usage, and deliverables matter more.",
+  },
+]
+
 export default function PricingToolPage() {
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: "Home", url: "https://www.studio37.cc" },
+    { name: "Tools", url: "https://www.studio37.cc/tools/pricing" },
+    { name: "Pricing Calculator", url: "https://www.studio37.cc/tools/pricing" },
+  ])
+  const faqSchema = generateFAQSchema(pricingFaqs)
+  const appSchema = generateWebApplicationSchema({
+    name: "Studio37 Portrait Pricing Calculator",
+    description: "Interactive portrait photography pricing calculator for Studio37 sessions.",
+    url: "https://www.studio37.cc/tools/pricing",
+  })
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-16">
+      <Schema schema={[breadcrumbSchema, faqSchema, appSchema]} />
       <div className="container mx-auto px-4 max-w-5xl">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-extrabold text-gray-900">Portrait Pricing Calculator</h1>
@@ -19,6 +49,17 @@ export default function PricingToolPage() {
         </div>
         <PricingCalculator />
         <PackageRecommender className="mt-10" />
+        <section className="mt-12 rounded-lg border border-stone-200 bg-white p-6">
+          <h2 className="text-2xl font-bold text-stone-950">Pricing calculator FAQ</h2>
+          <div className="mt-5 space-y-3">
+            {pricingFaqs.map((faq) => (
+              <details key={faq.question} className="rounded-lg bg-stone-50 p-4">
+                <summary className="cursor-pointer font-semibold text-stone-900">{faq.question}</summary>
+                <p className="mt-3 text-sm leading-6 text-stone-700">{faq.answer}</p>
+              </details>
+            ))}
+          </div>
+        </section>
       </div>
     </div>
   )

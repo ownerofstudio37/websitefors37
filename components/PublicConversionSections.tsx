@@ -145,9 +145,18 @@ export function PackageRecommenderCTA() {
 
 export function PortfolioProofSection({ serviceName = 'portfolio' }: { serviceName?: string }) {
   const images = [
-    'https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033155/KELLY_-_1_11_wgadni.jpg',
-    'https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033088/PS379444_2_1_pge2hl.jpg',
-    'https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033152/IMG_4582_1_lmosd6.jpg',
+    {
+      src: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033155/KELLY_-_1_11_wgadni.jpg',
+      alt: `Studio37 finished ${serviceName} gallery highlight with warm editorial editing`,
+    },
+    {
+      src: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033088/PS379444_2_1_pge2hl.jpg',
+      alt: `Studio37 ${serviceName} portrait proof showing polished final delivery`,
+    },
+    {
+      src: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033152/IMG_4582_1_lmosd6.jpg',
+      alt: `Studio37 ${serviceName} gallery image with candid storytelling detail`,
+    },
   ]
 
   return (
@@ -170,9 +179,9 @@ export function PortfolioProofSection({ serviceName = 'portfolio' }: { serviceNa
           </Link>
         </div>
         <div className="grid grid-cols-3 gap-3">
-          {images.map((src, index) => (
-            <div key={src} className={`relative overflow-hidden rounded-lg bg-stone-800 ${index === 0 ? 'col-span-2 row-span-2 aspect-square' : 'aspect-square'}`}>
-              <Image src={src} alt={`Studio37 ${serviceName} proof ${index + 1}`} fill className="object-cover" sizes="(min-width: 1024px) 25vw, 50vw" />
+          {images.map((image, index) => (
+            <div key={image.src} className={`relative overflow-hidden rounded-lg bg-stone-800 ${index === 0 ? 'col-span-2 row-span-2 aspect-square' : 'aspect-square'}`}>
+              <Image src={image.src} alt={image.alt} fill className="object-cover" sizes="(min-width: 1024px) 25vw, 50vw" />
             </div>
           ))}
         </div>

@@ -99,6 +99,7 @@ const nextConfig = {
       { source: '/willis', destination: '/local-photographer-willis-tx', permanent: true },
       { source: '/huntsville', destination: '/local-photographer-huntsville-tx', permanent: true },
       { source: '/new-caney', destination: '/local-photographer-new-caney-tx', permanent: true },
+      { source: '/new-waverly', destination: '/local-photographer-new-waverly-tx', permanent: true },
       { source: '/hockley', destination: '/local-photographer-hockley-tx', permanent: true },
       { source: '/bryan', destination: '/local-photographer-bryan-tx', permanent: true },
       { source: '/college-station', destination: '/local-photographer-college-station-tx', permanent: true },

@@ -8,6 +8,8 @@ const requiredUrls = [
   'https://www.studio37.cc/tools/pricing',
   'https://www.studio37.cc/tools/package-recommender',
   'https://www.studio37.cc/gallery-experience',
+  'https://www.studio37.cc/session-prep',
+  'https://www.studio37.cc/locations',
   'https://www.studio37.cc/locations/katy-tx',
 ]
 
@@ -33,6 +35,7 @@ const redirectedPaths = [
   '/willis',
   '/huntsville',
   '/new-caney',
+  '/new-waverly',
   '/hockley',
   '/bryan',
   '/college-station',

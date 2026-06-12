@@ -2,9 +2,9 @@ import LocalPhotographerCityPage from '@/components/LocalPhotographerCityPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 
 export const metadata = generateSEOMetadata({
-  title: 'Professional Photographer The Woodlands TX - Studio37 Photography',
+  title: 'The Woodlands TX Photography Service Area - Studio37',
   description:
-    'Professional photographer in The Woodlands, Texas for weddings, portraits, engagement, event, and commercial photography. Transparent pricing and local expertise.',
+    'The Woodlands photography service area guide for Studio37 weddings, portraits, events, and brand content around Market Street and the Waterway.',
   keywords: [
     'photographer The Woodlands TX',
     'wedding photographer The Woodlands Texas',

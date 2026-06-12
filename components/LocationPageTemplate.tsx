@@ -174,6 +174,20 @@ export default function LocationPageTemplate({ location, related }: LocationPage
                 Contact Studio37
               </Link>
             </div>
+            <div className="mt-5 pt-5 border-t border-gray-200">
+              <p className="text-xs uppercase tracking-wide text-gray-500 mb-3">Plan Before You Book</p>
+              <div className="space-y-2 text-sm">
+                <Link href="/tools/package-recommender" className="block text-primary-700 hover:underline">
+                  Find the best package
+                </Link>
+                <Link href="/tools/pricing" className="block text-primary-700 hover:underline">
+                  Compare portrait pricing
+                </Link>
+                <Link href="/session-prep" className="block text-primary-700 hover:underline">
+                  Review session prep guides
+                </Link>
+              </div>
+            </div>
           </aside>
         </div>
       </section>

@@ -2,9 +2,9 @@ import LocalPhotographerCityPage from '@/components/LocalPhotographerCityPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 
 export const metadata = generateSEOMetadata({
-  title: 'Professional Photographer Conroe TX - Studio37 Photography',
+  title: 'Conroe TX Photography Service Area - Studio37',
   description:
-    'Professional photographer in Conroe, Texas for weddings, portraits, engagement sessions, events, and commercial photography. Serving Montgomery County.',
+    'Conroe photography service area guide for Studio37 wedding, portrait, event, and commercial coverage near Lake Conroe and Montgomery County.',
   keywords: [
     'photographer Conroe TX',
     'wedding photographer Conroe Texas',

@@ -14,6 +14,8 @@
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
     "test:sitemap": "node scripts/validate-sitemap-endpoints.mjs",
+    "audit:seo-assets": "node scripts/audit-public-seo-assets.mjs",
+    "verify:seo": "node scripts/verify-production-seo.mjs",
     "repo:dev": "turbo run dev --parallel",
     "repo:build": "turbo run build",
     "repo:lint": "turbo run lint",

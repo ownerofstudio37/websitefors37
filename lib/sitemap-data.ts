@@ -50,6 +50,7 @@ const REDIRECTED_LOCATION_SLUGS = new Set([
   'willis',
   'huntsville',
   'new-caney',
+  'new-waverly',
   'hockley',
   'bryan',
   'college-station',

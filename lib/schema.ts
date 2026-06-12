@@ -189,6 +189,36 @@ export function generateFAQSchema(faqs: Array<{ question: string; answer: string
   }
 }
 
+export function generateWebApplicationSchema(app: {
+  name: string
+  description: string
+  url: string
+  applicationCategory?: string
+}): SchemaType {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: app.name,
+    description: app.description,
+    url: app.url,
+    applicationCategory: app.applicationCategory || 'BusinessApplication',
+    operatingSystem: 'Any',
+    browserRequirements: 'Requires JavaScript',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'USD',
+      availability: 'https://schema.org/InStock',
+    },
+    provider: {
+      '@type': 'LocalBusiness',
+      name: businessInfo.name,
+      url: businessInfo.contact.website,
+      telephone: businessInfo.contact.phone,
+    },
+  }
+}
+
 export function generateReviewSchema(reviews: Array<{
   author: string
   rating: number

@@ -2,9 +2,9 @@ import LocalPhotographerCityPage from '@/components/LocalPhotographerCityPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 
 export const metadata = generateSEOMetadata({
-  title: 'Professional Photographer Houston TX - Studio37 Photography',
+  title: 'Houston TX Photography Service Area - Studio37',
   description:
-    'Professional photographer in Houston, Texas for weddings, portraits, engagement sessions, events, and commercial photography with clear package pricing.',
+    'Houston photography service area guide for Studio37 portraits, events, commercial branding, and wedding coverage across Greater Houston.',
   keywords: [
     'photographer Houston TX',
     'wedding photographer Houston Texas',

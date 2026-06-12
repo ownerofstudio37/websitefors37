@@ -20,7 +20,7 @@ export async function GET() {
   return new NextResponse(body, {
     headers: {
       'Content-Type': 'text/plain; charset=utf-8',
-      'Cache-Control': 'public, max-age=1800, stale-while-revalidate=3600',
+      'Cache-Control': 'public, max-age=600, s-maxage=600, stale-while-revalidate=60',
     },
   })
 }

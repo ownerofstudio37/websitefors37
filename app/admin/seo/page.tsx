@@ -18,6 +18,7 @@ import Link from "next/link";
 import SEOAnalyzerModal from "@/components/SEOAnalyzerModal";
 import GAHealthCheckModal from "@/components/GAHealthCheckModal";
 import type { ContentPage, BlogPost } from "@/lib/supabase";
+import { INDEXABILITY_CHECK_URLS, REQUIRED_SITEMAP_URLS } from "@/lib/seo-audit-config";
 
 interface SEOMetrics {
   totalPages: number;
@@ -43,6 +44,8 @@ interface SEOMetrics {
   localBusinessSchemaPresent: boolean;
   localSeoPagesChecked: number;
   localSeoPagesHealthy: number;
+  indexabilityChecked: number;
+  indexabilityHealthy: number;
 }
 
 interface SEOIssue {
@@ -55,15 +58,6 @@ interface SEOIssue {
   actionLabel: string;
   href?: string;
 }
-
-const REQUIRED_SITEMAP_URLS = [
-  "https://www.studio37.cc",
-  "https://www.studio37.cc/services",
-  "https://www.studio37.cc/book-a-session",
-  "https://www.studio37.cc/contact",
-  "https://www.studio37.cc/tools/pricing",
-  "https://www.studio37.cc/locations/katy-tx",
-];
 
 const EXCLUDED_SITEMAP_PATTERNS = [
   /\/admin(?:\/|$)/,
@@ -87,6 +81,7 @@ const REDIRECTED_SITEMAP_PATHS = [
   "/willis",
   "/huntsville",
   "/new-caney",
+  "/new-waverly",
   "/hockley",
   "/bryan",
   "/college-station",
@@ -98,6 +93,10 @@ const CANONICAL_CHECK_URLS = [
   "https://www.studio37.cc/services",
   "https://www.studio37.cc/book-a-session",
   "https://www.studio37.cc/contact",
+  "https://www.studio37.cc/tools/pricing",
+  "https://www.studio37.cc/tools/package-recommender",
+  "https://www.studio37.cc/session-prep",
+  "https://www.studio37.cc/locations",
   "https://www.studio37.cc/locations/katy-tx",
 ];
 
@@ -114,6 +113,8 @@ const LOCATION_SCHEMA_URLS = [
 ];
 
 const FAQ_SCHEMA_URLS = [
+  "https://www.studio37.cc/tools/pricing",
+  "https://www.studio37.cc/tools/package-recommender",
   "https://www.studio37.cc/services/wedding-photography",
   "https://www.studio37.cc/session-prep",
 ];
@@ -164,6 +165,8 @@ export default function SEOPage() {
     localBusinessSchemaPresent: false,
     localSeoPagesChecked: 0,
     localSeoPagesHealthy: 0,
+    indexabilityChecked: 0,
+    indexabilityHealthy: 0,
   });
   const [loading, setLoading] = useState(true);
 
@@ -338,6 +341,17 @@ export default function SEOPage() {
           data.content?.wordCount >= 350;
       }).length;
 
+      const indexabilityResults = await Promise.all(
+        INDEXABILITY_CHECK_URLS.map(async (url) => ({ url, data: await analyzeLiveUrl(url) }))
+      );
+      const indexabilityHealthy = indexabilityResults.filter(({ url, data }) => {
+        if (!data) return false;
+        return Boolean(data.title) &&
+          Boolean(data.metaDescription) &&
+          (data.canonical === url || data.canonical === `${url}/`) &&
+          data.structuredData?.length > 0;
+      }).length;
+
       setMetrics({
         totalPages: allContent.length,
         pagesWithMeta,
@@ -362,6 +376,8 @@ export default function SEOPage() {
         localBusinessSchemaPresent,
         localSeoPagesChecked: LOCAL_SEO_CHECK_URLS.length,
         localSeoPagesHealthy,
+        indexabilityChecked: INDEXABILITY_CHECK_URLS.length,
+        indexabilityHealthy,
       });
     } catch (error) {
       console.error("Error fetching SEO data:", error);
@@ -556,6 +572,15 @@ export default function SEOPage() {
       owner: "Content",
       severity: "medium",
       actionLabel: "Review local pages",
+    },
+    {
+      id: "tools-lead-magnets-indexability",
+      title: "Tools and lead magnet indexability",
+      description: `${metrics.indexabilityHealthy}/${metrics.indexabilityChecked} sampled tools and prep-guide pages have title, meta description, self-canonical URL, and structured data.`,
+      status: metrics.indexabilityChecked > 0 && metrics.indexabilityHealthy === metrics.indexabilityChecked ? "resolved" : "open",
+      owner: "SEO / Engineering",
+      severity: "medium",
+      actionLabel: "Review tools",
     },
     {
       id: "meta-coverage",

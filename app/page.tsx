@@ -46,7 +46,7 @@ const DiscountNewsletterModal = dynamic(
 );
 
 export const metadata = generateSEOMetadata({
-  title: "Professional Photography Services in Pinehurst, TX",
+  title: "Studio37 Photography | Pinehurst Wedding, Portrait & Event Photographer",
   description:
     "Award-winning wedding, portrait & event photography in Pinehurst, Texas. Blending vintage film warmth with modern precision. Serving Montgomery County & Houston. Book today!",
   keywords: [

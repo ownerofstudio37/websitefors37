@@ -21,8 +21,9 @@
     X-XSS-Protection = "1; mode=block"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
-    Cache-Control = "public, max-age=3600"
-    Content-Security-Policy = "default-src 'self'"
+    Cache-Control = "public, max-age=600, s-maxage=600, stale-while-revalidate=60"
+    Content-Security-Policy = "default-src 'none'"
+    X-Robots-Tag = "noindex"
 
 # Security headers for all pages (CSP defined in next.config.js)
 [[headers]]

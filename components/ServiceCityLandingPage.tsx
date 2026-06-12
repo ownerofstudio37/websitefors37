@@ -137,6 +137,12 @@ export default function ServiceCityLandingPage({
               <Link href={serviceUrl} className="w-full text-center block border border-gray-300 rounded-md py-2 hover:bg-gray-50">
                 View Main {serviceName} Page
               </Link>
+              <Link href="/tools/package-recommender" className="w-full text-center block border border-gray-300 rounded-md py-2 hover:bg-gray-50">
+                Find Best Package
+              </Link>
+              <Link href="/tools/pricing" className="w-full text-center block border border-gray-300 rounded-md py-2 hover:bg-gray-50">
+                Compare Pricing
+              </Link>
               <Link href="https://gallery.studio37.cc" className="w-full text-center block border border-gray-300 rounded-md py-2 hover:bg-gray-50">
                 View Portfolio
               </Link>
@@ -153,6 +159,9 @@ export default function ServiceCityLandingPage({
                     {service.label}
                   </Link>
                 ))}
+                <Link href="/session-prep" className="block text-sm text-primary-700 hover:underline">
+                  Session prep guides
+                </Link>
               </div>
             </div>
           </aside>

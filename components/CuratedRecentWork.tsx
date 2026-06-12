@@ -10,6 +10,7 @@ const recentWork = [
     service: 'Portraits',
     location: 'Pinehurst, TX',
     image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033088/PS379444_2_1_pge2hl.jpg',
+    alt: 'Studio37 editorial portrait session in Pinehurst Texas',
     note: 'Clean direction, polished editing, and gallery-ready portrait variety.',
   },
   {
@@ -17,6 +18,7 @@ const recentWork = [
     service: 'Family',
     location: 'Montgomery County',
     image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255559/PS379799_ayoxbp.jpg',
+    alt: 'Warm Studio37 family photography session in Montgomery County Texas',
     note: 'Relaxed posing, detail coverage, and natural connection moments.',
   },
   {
@@ -24,6 +26,7 @@ const recentWork = [
     service: 'Commercial',
     location: 'Greater Houston',
     image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255703/PS373409_pwmxmp.jpg',
+    alt: 'Studio37 commercial brand photography refresh in Greater Houston',
     note: 'Business-ready images for web, social, profiles, and campaigns.',
   },
 ]
@@ -48,7 +51,7 @@ export default function CuratedRecentWork({ className = '' }: { className?: stri
           {recentWork.map((item) => (
             <article key={item.title} className="overflow-hidden rounded-lg border border-stone-200 bg-stone-50">
               <div className="relative aspect-[4/3] bg-stone-200">
-                <Image src={item.image} alt={`${item.title} by Studio37`} fill className="object-cover" sizes="(min-width: 768px) 33vw, 100vw" />
+                <Image src={item.image} alt={item.alt} fill className="object-cover" sizes="(min-width: 768px) 33vw, 100vw" />
               </div>
               <div className="p-5">
                 <div className="mb-3 flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-stone-500">

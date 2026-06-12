@@ -2,6 +2,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 import { generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
+import { generateFAQSchema } from '@/lib/schema'
 import { HeartHandshake, Users, Cake, Briefcase, Camera } from 'lucide-react'
 import PrepGuideLeadMagnet from '@/components/PrepGuideLeadMagnet'
 
@@ -77,12 +78,33 @@ const breadcrumbSchema = generateBreadcrumbSchema([
   { name: 'Session Prep', url: 'https://www.studio37.cc/session-prep' },
 ])
 
+const prepFaqs = [
+  {
+    question: 'Which prep guide should I choose?',
+    answer: 'Choose the guide that matches your main session type. If your session blends services, such as branding portraits with commercial content, start with the closest match and Studio37 can customize the plan after you inquire.',
+  },
+  {
+    question: 'When should I review my prep guide?',
+    answer: 'Review your guide at least one week before your session so wardrobe, locations, timing, and must-have shots can be confirmed without last-minute pressure.',
+  },
+  {
+    question: 'Can Studio37 help with location and outfit planning?',
+    answer: 'Yes. Studio37 helps with wardrobe direction, location flow, timing, and shot priorities so your final gallery feels intentional and complete.',
+  },
+]
+
+const faqSchema = generateFAQSchema(prepFaqs)
+
 export default function SessionPrepHub() {
   return (
     <main className="min-h-screen bg-white">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
       {/* Hero */}
@@ -151,6 +173,20 @@ export default function SessionPrepHub() {
 
       <PrepGuideLeadMagnet />
 
+      <section className="border-t border-gray-200 bg-white px-4 py-14 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-4xl">
+          <h2 className="text-2xl font-bold text-gray-900">Session prep FAQ</h2>
+          <div className="mt-6 space-y-3">
+            {prepFaqs.map((faq) => (
+              <details key={faq.question} className="rounded-lg border border-gray-200 bg-gray-50 p-4">
+                <summary className="cursor-pointer font-semibold text-gray-900">{faq.question}</summary>
+                <p className="mt-3 text-sm leading-6 text-gray-700">{faq.answer}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* General Tips */}
       <section className="border-t border-gray-200 bg-gray-50 px-4 py-16 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl">
@@ -186,7 +222,7 @@ export default function SessionPrepHub() {
             <div>
               <h3 className="font-semibold text-gray-900">Preparation</h3>
               <ul className="mt-3 space-y-2 text-sm text-gray-700">
-                <li>• Get a good night's sleep beforehand</li>
+                <li>• Get a good night&apos;s sleep beforehand</li>
                 <li>• Plan your outfit the day before</li>
                 <li>• Review your session guide</li>
                 <li>• Bring any needed personal items</li>
@@ -201,7 +237,7 @@ export default function SessionPrepHub() {
         <div className="mx-auto max-w-2xl rounded-lg bg-gradient-to-r from-pink-50 to-rose-50 p-8 text-center">
           <h2 className="text-2xl font-bold text-gray-900">Ready to Schedule?</h2>
           <p className="mt-3 text-gray-700">
-            Let's book your session and create beautiful memories together.
+            Let&apos;s book your session and create beautiful memories together.
           </p>
           <div className="mt-6 flex gap-4 justify-center">
             <Link

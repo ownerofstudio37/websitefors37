@@ -47,7 +47,8 @@ ${urls}
   return new NextResponse(xml, {
     headers: {
       'Content-Type': 'application/xml; charset=utf-8',
-      'Cache-Control': 'public, max-age=1800, stale-while-revalidate=3600',
+      'Cache-Control': 'public, max-age=600, s-maxage=600, stale-while-revalidate=60',
+      'X-Robots-Tag': 'noindex',
     },
   })
 }
