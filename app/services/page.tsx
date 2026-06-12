@@ -130,6 +130,24 @@ export default function ServicesPage() {
         </div>
       </section>
 
+      <section className="py-12 bg-white border-y border-stone-200">
+        <div className="container mx-auto px-4">
+          <div className="max-w-5xl mx-auto">
+            <h2 className="text-2xl font-bold text-gray-900 mb-3">Seasonal Campaigns</h2>
+            <p className="text-gray-700 mb-6">
+              Fast-start pages for the sessions people book around school years, holidays, and business refresh cycles.
+            </p>
+            <div className="flex flex-wrap gap-3 text-sm">
+              <Link href="/mini-sessions" className="px-4 py-2.5 rounded-full bg-stone-50 border border-stone-300 hover:border-amber-300">Mini Sessions</Link>
+              <Link href="/senior-portraits" className="px-4 py-2.5 rounded-full bg-stone-50 border border-stone-300 hover:border-amber-300">Senior Portraits</Link>
+              <Link href="/holiday-party" className="px-4 py-2.5 rounded-full bg-stone-50 border border-stone-300 hover:border-amber-300">Holiday Parties</Link>
+              <Link href="/graduation" className="px-4 py-2.5 rounded-full bg-stone-50 border border-stone-300 hover:border-amber-300">Graduations</Link>
+              <Link href="/brand-refresh-sessions" className="px-4 py-2.5 rounded-full bg-stone-50 border border-stone-300 hover:border-amber-300">Brand Refreshes</Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Two Photographers Announcement */}
       <div className="bg-amber-50 border-y border-amber-200/80">
         <div className="container mx-auto px-4 py-4">

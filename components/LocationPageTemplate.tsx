@@ -4,6 +4,7 @@ import { LocationPage } from '@/lib/location-pages'
 import { businessInfo } from '@/lib/seo-config'
 import { PortfolioProofSection, WhatHappensNextSection } from '@/components/PublicConversionSections'
 import ServiceAreaMarketModules from '@/components/ServiceAreaMarketModules'
+import { BestPhotoLocationsSection } from '@/components/PublicFeatureContent'
 
 interface LocationPageTemplateProps {
   location: LocationPage
@@ -215,6 +216,7 @@ export default function LocationPageTemplate({ location, related }: LocationPage
       )}
 
       <ServiceAreaMarketModules compact />
+      <BestPhotoLocationsSection slug={location.slug} city={location.city} />
       <PortfolioProofSection serviceName={`${location.city} photography`} />
       <WhatHappensNextSection serviceName={`${location.city} photography session`} />
     </div>

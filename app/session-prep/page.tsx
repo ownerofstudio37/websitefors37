@@ -5,6 +5,7 @@ import { generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
 import { generateFAQSchema } from '@/lib/schema'
 import { HeartHandshake, Users, Cake, Briefcase, Camera } from 'lucide-react'
 import PrepGuideLeadMagnet from '@/components/PrepGuideLeadMagnet'
+import { prepGuideDownloads } from '@/lib/public-content'
 
 export const metadata = generateSEOMetadata({
   title: 'Session Prep Guides | Studio37',
@@ -167,6 +168,20 @@ export default function SessionPrepHub() {
                 </Link>
               )
             })}
+          </div>
+          <div className="mt-10 rounded-lg border border-stone-200 bg-stone-50 p-5">
+            <h2 className="text-xl font-semibold text-stone-950">Download a service-specific checklist</h2>
+            <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              {Object.entries(prepGuideDownloads).map(([key, guide]) => (
+                <Link
+                  key={key}
+                  href={`/session-prep/${key}/download`}
+                  className="rounded-lg border border-stone-200 bg-white p-4 text-sm font-semibold text-stone-800 hover:border-amber-300 hover:text-amber-800"
+                >
+                  {guide.title}
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
       </section>

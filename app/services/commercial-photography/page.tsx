@@ -8,6 +8,7 @@ import CommercialHighlightGallery from '@/components/CommercialHighlightGallery'
 import FAQSection from '@/components/FAQSection'
 import { generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
 import { Building2, Camera, Users, Briefcase, CheckCircle, ArrowRight, Star } from 'lucide-react'
+import { ServiceTestimonialsSection, TurnaroundExpectationsSection } from '@/components/PublicFeatureContent'
 
 export const metadata = generateSEOMetadata({
   title: 'Commercial Photography Pinehurst TX – Duo Production Team | Studio37',
@@ -525,6 +526,9 @@ export default function CommercialPhotographyPage() {
           </div>
         </div>
       </section>
+
+      <TurnaroundExpectationsSection service="commercial" />
+      <ServiceTestimonialsSection service="commercial" />
 
       <FAQSection
         title="Commercial Photography FAQ"

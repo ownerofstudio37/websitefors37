@@ -204,6 +204,30 @@ export async function getSitemapRoutes(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
+    {
+      url: `${sitemapBaseUrl}/session-prep/portrait/download`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly',
+      priority: PRIORITIES.servicePages,
+    },
+    {
+      url: `${sitemapBaseUrl}/session-prep/wedding/download`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly',
+      priority: PRIORITIES.servicePages,
+    },
+    {
+      url: `${sitemapBaseUrl}/session-prep/event/download`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly',
+      priority: PRIORITIES.servicePages,
+    },
+    {
+      url: `${sitemapBaseUrl}/session-prep/commercial/download`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly',
+      priority: PRIORITIES.servicePages,
+    },
     // Local SEO landing page
     {
       url: `${sitemapBaseUrl}/local-photographer-pinehurst-tx`,
@@ -486,6 +510,18 @@ export async function getSitemapRoutes(): Promise<MetadataRoute.Sitemap> {
     },
     {
       url: `${sitemapBaseUrl}/senior-portraits`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly',
+      priority: PRIORITIES.servicePages,
+    },
+    {
+      url: `${sitemapBaseUrl}/mini-sessions`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly',
+      priority: PRIORITIES.servicePages,
+    },
+    {
+      url: `${sitemapBaseUrl}/brand-refresh-sessions`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,

@@ -7,6 +7,7 @@ import { generateServiceSchema } from '@/lib/seo-config'
 import { generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
 import { Heart, Camera, Clock, Star, CheckCircle, ArrowRight } from 'lucide-react'
 import FAQSection from '@/components/FAQSection'
+import { ServiceTestimonialsSection, TurnaroundExpectationsSection, VenueStyleExamplesSection } from '@/components/PublicFeatureContent'
 
 export const metadata = generateSEOMetadata({
   title: 'Wedding Photography Pinehurst TX - Studio37 Professional Wedding Photographer',
@@ -455,6 +456,10 @@ export default function WeddingPhotographyPage() {
           </div>
         </div>
       </section>
+
+      <VenueStyleExamplesSection type="wedding" />
+      <TurnaroundExpectationsSection service="wedding" />
+      <ServiceTestimonialsSection service="wedding" />
 
       {/* FAQ Section */}
       <FAQSection

@@ -1,37 +1,15 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
+import { recentWorkItems } from '@/lib/public-content'
 
 const galleryUrl = 'https://gallery.studio37.cc'
 
-const recentWork = [
-  {
-    title: 'Editorial Portrait Session',
-    service: 'Portraits',
-    location: 'Pinehurst, TX',
-    image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033088/PS379444_2_1_pge2hl.jpg',
-    alt: 'Studio37 editorial portrait session in Pinehurst Texas',
-    note: 'Clean direction, polished editing, and gallery-ready portrait variety.',
-  },
-  {
-    title: 'Warm Family Session',
-    service: 'Family',
-    location: 'Montgomery County',
-    image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255559/PS379799_ayoxbp.jpg',
-    alt: 'Warm Studio37 family photography session in Montgomery County Texas',
-    note: 'Relaxed posing, detail coverage, and natural connection moments.',
-  },
-  {
-    title: 'Commercial Brand Refresh',
-    service: 'Commercial',
-    location: 'Greater Houston',
-    image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255703/PS373409_pwmxmp.jpg',
-    alt: 'Studio37 commercial brand photography refresh in Greater Houston',
-    note: 'Business-ready images for web, social, profiles, and campaigns.',
-  },
-]
-
 export default function CuratedRecentWork({ className = '' }: { className?: string }) {
+  const recentWork = recentWorkItems
+    .filter((item) => item.featured)
+    .sort((a, b) => a.order - b.order)
+
   return (
     <section className={`section-shell bg-white ${className}`}>
       <div className="container mx-auto px-4">

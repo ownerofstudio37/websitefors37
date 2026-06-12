@@ -42,13 +42,13 @@
 ### Content And Public Features
 
 - [x] Build the ShootProof-aware gallery launch page noted above, with expectations for downloads, favorites, sharing, print options, and client access.
-- [ ] Add curated recent-work management data in code or CMS so recent-work cards are not hard-coded in a component long term.
-- [ ] Create service-specific prep-guide download pages for Portrait, Wedding, Event, and Commercial instead of a single hub-only lead magnet.
-- [ ] Add "best locations for photos" sections for top markets: Pinehurst, The Woodlands, Conroe, Magnolia, Tomball, Spring, Montgomery, Bryan, and College Station.
-- [ ] Add venue-style examples for weddings and events without naming unsupported venues as partners.
-- [ ] Add a content block for turnaround expectations by service: sneak peeks, highlights, final gallery, rush options.
-- [ ] Add seasonal campaign pages for mini sessions, senior portraits, holiday parties, graduations, and brand refreshes.
-- [ ] Add testimonial modules mapped by service type instead of one generic testimonial pool.
+- [x] Add curated recent-work management data in code or CMS so recent-work cards are not hard-coded in a component long term.
+- [x] Create service-specific prep-guide download pages for Portrait, Wedding, Event, and Commercial instead of a single hub-only lead magnet.
+- [x] Add "best locations for photos" sections for top markets: Pinehurst, The Woodlands, Conroe, Magnolia, Tomball, Spring, Montgomery, Bryan, and College Station.
+- [x] Add venue-style examples for weddings and events without naming unsupported venues as partners.
+- [x] Add a content block for turnaround expectations by service: sneak peeks, highlights, final gallery, rush options.
+- [x] Add seasonal campaign pages for mini sessions, senior portraits, holiday parties, graduations, and brand refreshes.
+- [x] Add testimonial modules mapped by service type instead of one generic testimonial pool.
 
 ### Admin And Operations
 

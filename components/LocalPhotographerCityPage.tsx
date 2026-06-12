@@ -5,6 +5,7 @@ import FAQSection from '@/components/FAQSection'
 import GoogleBusinessWidget from '@/components/GoogleBusinessWidget'
 import { generateEnhancedLocalBusinessSchema, generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
 import { generateFAQSchema } from '@/lib/seo-helpers'
+import { BestPhotoLocationsSection } from '@/components/PublicFeatureContent'
 
 type LocalPhotographerCityPageProps = {
   city: string
@@ -249,6 +250,7 @@ export default function LocalPhotographerCityPage({
   nearbyCities,
   heroImage,
 }: LocalPhotographerCityPageProps) {
+  const locationIdeaSlug = `${city.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}-${stateAbbr.toLowerCase()}`
   const cityLabel = `${city}, ${stateAbbr}`
   const cityKey = city.toLowerCase()
   const cityProfile = CITY_PROFILES[cityKey]
@@ -720,6 +722,8 @@ export default function LocalPhotographerCityPage({
         title={faqTitle}
         faqs={cityFaqs}
       />
+
+      <BestPhotoLocationsSection slug={locationIdeaSlug} city={cityLabel} />
 
       <section className="py-16 bg-gradient-to-r from-primary-600 to-blue-600 text-white">
         <div className="container mx-auto px-4 text-center">
