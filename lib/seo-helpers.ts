@@ -9,6 +9,7 @@ interface SEOProps {
   ogImage?: string
   structuredData?: object
   pageType?: 'website' | 'service' | 'article' | 'contact'
+  noIndex?: boolean
 }
 
 export function generateSEOMetadata({
@@ -18,7 +19,8 @@ export function generateSEOMetadata({
   canonicalUrl,
   ogImage = '/api/og',
   structuredData,
-  pageType = 'website'
+  pageType = 'website',
+  noIndex = false
 }: SEOProps): Metadata {
   const fullTitle = title
   const resolvedTitle: Metadata['title'] = title.includes(businessInfo.name)
@@ -81,11 +83,11 @@ export function generateSEOMetadata({
       creator: '@studio37photo'
     },
     robots: {
-      index: true,
-      follow: true,
+      index: !noIndex,
+      follow: !noIndex,
       googleBot: {
-        index: true,
-        follow: true,
+        index: !noIndex,
+        follow: !noIndex,
         'max-video-preview': -1,
         'max-image-preview': 'large',
         'max-snippet': -1,

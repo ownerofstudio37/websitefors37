@@ -27,7 +27,7 @@ export default function OptimizedImage({
   imgClassName = '',
   priority = false,
   sizes = '100vw',
-  quality = 75
+  quality = 85
 }: OptimizedImageProps) {
   const [isLoading, setIsLoading] = useState(true)
 

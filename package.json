@@ -12,9 +12,17 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "lint:errors": "next lint --quiet",
     "typecheck": "tsc --noEmit",
+    "test:smoke": "playwright test",
     "test:sitemap": "node scripts/validate-sitemap-endpoints.mjs",
     "audit:seo-assets": "node scripts/audit-public-seo-assets.mjs",
+    "audit:cloudinary-images": "node scripts/audit-cloudinary-image-quality.mjs",
+    "audit:public-links": "node scripts/audit-public-links.mjs",
+    "audit:route-metadata": "node scripts/audit-route-metadata.mjs",
+    "audit:headers": "node scripts/audit-response-headers.mjs",
+    "audit:fixed-ui": "node scripts/audit-fixed-ui-overlap.mjs",
+    "audit:technical": "npm run audit:cloudinary-images && npm run audit:public-links && npm run audit:route-metadata && npm run audit:headers && npm run audit:fixed-ui",
     "verify:seo": "node scripts/verify-production-seo.mjs",
     "repo:dev": "turbo run dev --parallel",
     "repo:build": "turbo run build",
@@ -37,6 +45,7 @@
     "twilio": "^5.3.5"
   },
   "devDependencies": {
+    "@playwright/test": "^1.61.1",
     "turbo": "^1.11.2"
   },
   "browserslist": [

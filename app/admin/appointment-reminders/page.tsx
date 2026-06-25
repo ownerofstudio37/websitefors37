@@ -131,7 +131,11 @@ export default function AppointmentRemindersSettingsPage() {
         ...prev.slice(0, 9),
       ])
 
-      ok ? toast.success(message) : toast.error(message)
+      if (ok) {
+        toast.success(message)
+      } else {
+        toast.error(message)
+      }
     } catch (e: any) {
       const message = 'Network error: ' + (e?.message || 'unknown')
       setRunLog((prev) => [

@@ -1,12 +1,21 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import VisualEditor from '@/components/VisualEditor'
 import { supabase } from '@/lib/supabase'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
+import dynamic from 'next/dynamic'
 import { useSearchParams } from 'next/navigation'
 import { revalidateContent } from '@/lib/revalidate'
+
+const VisualEditor = dynamic(() => import('@/components/VisualEditor'), {
+  ssr: false,
+  loading: () => (
+    <div className="flex min-h-[520px] items-center justify-center bg-white text-sm text-gray-500">
+      Loading visual editor...
+    </div>
+  ),
+})
 
 export default function PageBuilderPage() {
   const [components, setComponents] = useState<any[]>([])

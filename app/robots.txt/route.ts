@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server'
 import { sitemapBaseUrl } from '@/lib/sitemap-data'
 
-export const revalidate = 1800
+export const revalidate = 0
+export const dynamic = 'force-dynamic'
 
 export async function GET() {
   const body = [
@@ -20,7 +21,7 @@ export async function GET() {
   return new NextResponse(body, {
     headers: {
       'Content-Type': 'text/plain; charset=utf-8',
-      'Cache-Control': 'public, max-age=600, s-maxage=600, stale-while-revalidate=60',
+      'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0, s-maxage=0',
     },
   })
 }

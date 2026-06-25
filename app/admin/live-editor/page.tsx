@@ -3,9 +3,17 @@
 import React, { useState, useEffect } from 'react'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { Loader2, Eye, EyeOff, Save, AlertTriangle, RotateCcw, FileEdit, Globe, Menu, Settings as Cog, Image as ImageIcon, Calendar, Plus, Trash2, GripVertical, ChevronDown, ChevronRight } from 'lucide-react'
-import VisualEditor from '@/components/VisualEditor'
 import { revalidateContent } from '@/lib/revalidate'
 import dynamic from 'next/dynamic'
+
+const VisualEditor = dynamic(() => import('@/components/VisualEditor'), {
+  ssr: false,
+  loading: () => (
+    <div className="flex min-h-[520px] items-center justify-center bg-white text-sm text-gray-500">
+      Loading visual editor...
+    </div>
+  ),
+})
 
 type PageComponent = {
   id: string

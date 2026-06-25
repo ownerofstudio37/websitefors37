@@ -45,13 +45,13 @@ Audit notes: `npm run audit:seo-assets` passed across public metadata/source fil
 
 ### Technical Quality And Performance
 
-- [ ] Add CI/deploy workflow coverage for `typecheck`, focused lint, `audit:seo-assets`, local sitemap endpoint tests, and production `verify:seo` after deploy.
-- [ ] Add Playwright smoke and screenshot tests for homepage, services, tools/pricing, package recommender, prep guides, booking, admin leads, and admin SEO.
-- [ ] Add Cloudinary URL helper tests to prevent undersized widths or low-quality transforms on large public image cards.
-- [ ] Split heavy admin editors and builders behind dynamic imports and track admin route JavaScript budgets separately from public-site budgets.
-- [ ] Build an internal link checker for public routes plus expected external links to `https://gallery.studio37.cc`.
-- [ ] Add fixed-element overlap tests for chatbot, sticky CTA, quote popup, mobile nav, and booking CTA on small screens.
-- [ ] Add header/CSP regression checks for homepage HTML, robots, sitemap XML, admin pages, and API responses.
+- [x] Add CI/deploy workflow coverage for `typecheck`, focused lint, `audit:seo-assets`, local sitemap endpoint tests, and production `verify:seo` after deploy.
+- [x] Add Playwright smoke and screenshot tests for homepage, services, tools/pricing, package recommender, prep guides, booking, admin leads, and admin SEO.
+- [x] Add Cloudinary URL helper tests to prevent undersized widths or low-quality transforms on large public image cards.
+- [x] Split heavy admin editors and builders behind dynamic imports and track admin route JavaScript budgets separately from public-site budgets.
+- [x] Build an internal link checker for public routes plus expected external links to `https://gallery.studio37.cc`.
+- [x] Add fixed-element overlap tests for chatbot, sticky CTA, quote popup, mobile nav, and booking CTA on small screens.
+- [x] Add header/CSP regression checks for homepage HTML, robots, sitemap XML, admin pages, and API responses.
 
 ## Fresh Audit Backlog - June 11, 2026
 

@@ -180,6 +180,8 @@ export interface Lead {
     service_interest?: string;
     budget_range?: string;
     event_date?: string;
+    lead_cost?: number;
+    revenue_generated?: number;
 }
 export interface GalleryImage {
     id: string;

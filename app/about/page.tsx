@@ -28,7 +28,7 @@ export default function AboutPage() {
       <section className="relative overflow-hidden bg-stone-950 text-white py-24 md:py-32">
         <div className="absolute inset-0 opacity-25">
           <Image
-            src={optimizeCloudinaryUrl("https://res.cloudinary.com/dmjxho2rl/image/upload/v1759639187/A4B03835-ED8B-4FBB-A27E-1F2EE6CA1A18_1_105_c_gstgil_e_gen_restore_e_improve_e_sharpen_l_image_upload_My_Brand_IMG_2115_mtuowt_c_scale_fl_relative_w_0.40_o_80_fl_layer_apply_g_south_x_0.03_y_0.04_yqgycj.jpg", 1920, 'auto:low')}
+            src={optimizeCloudinaryUrl("https://res.cloudinary.com/dmjxho2rl/image/upload/v1759639187/A4B03835-ED8B-4FBB-A27E-1F2EE6CA1A18_1_105_c_gstgil_e_gen_restore_e_improve_e_sharpen_l_image_upload_My_Brand_IMG_2115_mtuowt_c_scale_fl_relative_w_0.40_o_80_fl_layer_apply_g_south_x_0.03_y_0.04_yqgycj.jpg", 1920, 'auto:good')}
             alt="Studio37 Photography workspace"
             fill
             className="object-cover"
@@ -65,7 +65,7 @@ export default function AboutPage() {
               <div className="relative mb-8">
                 <div className="w-72 h-72 md:w-80 md:h-80 mx-auto rounded-[32px] overflow-hidden shadow-[0_18px_50px_rgba(15,23,42,0.12)]">
                   <Image
-                    src={optimizeCloudinaryUrl("https://res.cloudinary.com/dmjxho2rl/image/upload/v1758315615/_MG_9234_aerdni_e_gen_restore_e_improve_l_image_upload_My_Brand_IMG_2115_mtuowt_c_scale_fl_relative_w_0.36_o_80_fl_layer_apply_g_west_x_0.03_y_0.04_bmly4s.jpg", 640, 'auto:low')}
+                    src={optimizeCloudinaryUrl("https://res.cloudinary.com/dmjxho2rl/image/upload/v1758315615/_MG_9234_aerdni_e_gen_restore_e_improve_l_image_upload_My_Brand_IMG_2115_mtuowt_c_scale_fl_relative_w_0.36_o_80_fl_layer_apply_g_west_x_0.03_y_0.04_bmly4s.jpg", 640, 'auto:good')}
                     alt="Christian - CEO, Marketing Lead, Producer and Photographer at Studio37"
                     width={320}
                     height={320}
@@ -101,7 +101,7 @@ export default function AboutPage() {
               <div className="relative mb-8">
                 <div className="w-72 h-72 md:w-80 md:h-80 mx-auto rounded-[32px] overflow-hidden shadow-[0_18px_50px_rgba(15,23,42,0.12)]">
                   <Image
-                    src={optimizeCloudinaryUrl("https://res.cloudinary.com/dmjxho2rl/image/upload/v1758315656/IMG_6580_axayxe_e_gen_restore_e_improve_e_sharpen_l_image_upload_My_Brand_IMG_2115_mtuowt_c_scale_fl_relative_w_0.36_o_80_fl_layer_apply_g_west_x_0.03_y_0.04_nkjfev.jpg", 640, 'auto:low')}
+                    src={optimizeCloudinaryUrl("https://res.cloudinary.com/dmjxho2rl/image/upload/v1758315656/IMG_6580_axayxe_e_gen_restore_e_improve_e_sharpen_l_image_upload_My_Brand_IMG_2115_mtuowt_c_scale_fl_relative_w_0.36_o_80_fl_layer_apply_g_west_x_0.03_y_0.04_nkjfev.jpg", 640, 'auto:good')}
                     alt="Caitie - Co-Owner, Photographer and Editor at Studio37"
                     width={320}
                     height={320}

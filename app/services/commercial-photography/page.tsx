@@ -159,7 +159,7 @@ export default function CommercialPhotographyPage() {
           </div>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <Link href="/product-photography" className="group surface-panel text-center p-6 transition-transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-primary-300">
+            <Link href="/services/commercial-photography#product-photography" className="group surface-panel text-center p-6 transition-transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-primary-300">
               <div className="bg-primary-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-105 transition-transform">
                 <Camera className="h-8 w-8 text-primary-600" />
               </div>
@@ -170,7 +170,7 @@ export default function CommercialPhotographyPage() {
               <span className="inline-flex items-center gap-1 mt-3 text-sm font-medium text-primary-600 group-hover:underline">View Product Photography <ArrowRight className="h-4 w-4" /></span>
             </Link>
             
-            <Link href="/corporate-headshots" className="group surface-panel text-center p-6 transition-transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-primary-300">
+            <Link href="/professional-headshots" className="group surface-panel text-center p-6 transition-transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-primary-300">
               <div className="bg-primary-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-105 transition-transform">
                 <Users className="h-8 w-8 text-primary-600" />
               </div>
@@ -181,7 +181,7 @@ export default function CommercialPhotographyPage() {
               <span className="inline-flex items-center gap-1 mt-3 text-sm font-medium text-primary-600 group-hover:underline">View Corporate Headshots <ArrowRight className="h-4 w-4" /></span>
             </Link>
             
-            <Link href="/architectural-photography" className="group surface-panel text-center p-6 transition-transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-primary-300">
+            <Link href="/services/commercial-photography#architectural-photography" className="group surface-panel text-center p-6 transition-transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-primary-300">
               <div className="bg-primary-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-105 transition-transform">
                 <Building2 className="h-8 w-8 text-primary-600" />
               </div>
@@ -192,7 +192,7 @@ export default function CommercialPhotographyPage() {
               <span className="inline-flex items-center gap-1 mt-3 text-sm font-medium text-primary-600 group-hover:underline">View Architectural Photography <ArrowRight className="h-4 w-4" /></span>
             </Link>
             
-            <Link href="/brand-photography" className="group surface-panel text-center p-6 transition-transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-primary-300">
+            <Link href="/services/branding-marketing" className="group surface-panel text-center p-6 transition-transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-primary-300">
               <div className="bg-primary-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-105 transition-transform">
                 <Briefcase className="h-8 w-8 text-primary-600" />
               </div>

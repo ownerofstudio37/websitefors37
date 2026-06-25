@@ -11,7 +11,7 @@
  * For more advanced transformations, use lib/cloudinary.ts with CloudinaryOptions.
  */
 
-export function optimizeCloudinaryUrl(url: string, maxWidth?: number, quality: 'auto:low' | 'auto:good' | 'auto:best' = 'auto:good'): string {
+export function optimizeCloudinaryUrl(url: string, maxWidth?: number, quality: 'auto:good' | 'auto:best' = 'auto:good'): string {
   // Only optimize Cloudinary URLs
   if (!url || !url.includes('cloudinary.com')) {
     return url
@@ -50,6 +50,6 @@ export function optimizeCloudinaryUrl(url: string, maxWidth?: number, quality: '
 /**
  * Optimize multiple Cloudinary URLs
  */
-export function optimizeCloudinaryUrls(urls: string[], maxWidth?: number, quality: 'auto:low' | 'auto:good' | 'auto:best' = 'auto:good'): string[] {
+export function optimizeCloudinaryUrls(urls: string[], maxWidth?: number, quality: 'auto:good' | 'auto:best' = 'auto:good'): string[] {
   return urls.map(url => optimizeCloudinaryUrl(url, maxWidth, quality))
 }

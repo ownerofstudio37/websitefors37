@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 
-export const revalidate = 1800
+export const revalidate = 0
+export const dynamic = 'force-dynamic'
 
 export async function GET() {
   const baseUrl = 'https://www.studio37.cc'
@@ -18,7 +19,7 @@ export async function GET() {
   return new NextResponse(xml, {
     headers: {
       'Content-Type': 'application/xml; charset=utf-8',
-      'Cache-Control': 'public, max-age=600, s-maxage=600, stale-while-revalidate=60',
+      'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0, s-maxage=0',
       'X-Robots-Tag': 'noindex',
     },
   })

@@ -2,26 +2,24 @@
 
 import { useEffect, useRef } from 'react'
 
+type GoogleMapTypeStyle = Record<string, unknown>
+type GoogleMapInstance = Record<string, unknown>
+type GoogleMarkerInstance = {
+  addListener(eventName: string, handler: () => void): void
+}
+
+interface GoogleMapsApi {
+  Map: new (element: HTMLElement, options: Record<string, unknown>) => GoogleMapInstance
+  Marker: new (options: Record<string, unknown>) => GoogleMarkerInstance
+  InfoWindow: new (options: Record<string, unknown>) => {
+    open(map: GoogleMapInstance, marker: GoogleMarkerInstance): void
+  }
+}
+
 declare global {
   interface Window {
-    google?: typeof google
-  }
-
-  namespace google.maps {
-    type MapTypeStyle = Record<string, unknown>
-
-    class Map {
-      constructor(element: HTMLElement, options: Record<string, unknown>)
-    }
-
-    class Marker {
-      constructor(options: Record<string, unknown>)
-      addListener(eventName: string, handler: () => void): void
-    }
-
-    class InfoWindow {
-      constructor(options: Record<string, unknown>)
-      open(map: Map, marker: Marker): void
+    google?: {
+      maps: GoogleMapsApi
     }
   }
 }
@@ -57,7 +55,7 @@ export default function InteractiveMapClient({
   style = 'default'
 }: InteractiveMapClientProps) {
   const mapRef = useRef<HTMLDivElement>(null)
-  const mapInstanceRef = useRef<google.maps.Map | null>(null)
+  const mapInstanceRef = useRef<GoogleMapInstance | null>(null)
 
   useEffect(() => {
     if (!apiKey || !mapRef.current) {
@@ -82,7 +80,8 @@ export default function InteractiveMapClient({
   const initMap = () => {
     if (!mapRef.current || !window.google) return
 
-    const mapStyles: Record<string, google.maps.MapTypeStyle[]> = {
+    const googleMaps = window.google.maps
+    const mapStyles: Record<string, GoogleMapTypeStyle[]> = {
       silver: [
         { elementType: 'geometry', stylers: [{ color: '#f5f5f5' }] },
         { elementType: 'labels.icon', stylers: [{ visibility: 'off' }] },
@@ -103,7 +102,7 @@ export default function InteractiveMapClient({
       ]
     }
 
-    const map = new google.maps.Map(mapRef.current, {
+    const map = new googleMaps.Map(mapRef.current, {
       center,
       zoom,
       styles: mapStyles[style] || [],
@@ -118,14 +117,14 @@ export default function InteractiveMapClient({
 
     // Add markers
     markers.forEach((marker) => {
-      const mapMarker = new google.maps.Marker({
+      const mapMarker = new googleMaps.Marker({
         position: { lat: marker.lat, lng: marker.lng },
         map,
         title: marker.title
       })
 
       if (marker.description) {
-        const infoWindow = new google.maps.InfoWindow({
+        const infoWindow = new googleMaps.InfoWindow({
           content: `<div class="p-2"><strong>${marker.title}</strong><br>${marker.description}</div>`
         })
 

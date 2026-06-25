@@ -1,8 +1,17 @@
 'use client'
 
 import React, { useState } from 'react'
-import VisualEditor from '@/components/VisualEditor'
+import dynamic from 'next/dynamic'
 import { Loader2, Sparkles, RefreshCw, AlertCircle, Save, CheckCircle, Edit2, Eye } from 'lucide-react'
+
+const VisualEditor = dynamic(() => import('@/components/VisualEditor'), {
+  ssr: false,
+  loading: () => (
+    <div className="flex min-h-[520px] items-center justify-center bg-white text-sm text-gray-500">
+      Loading visual editor...
+    </div>
+  ),
+})
 
 interface GeneratedPage {
   title: string
