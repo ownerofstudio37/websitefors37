@@ -98,6 +98,8 @@ interface AIClientOptions {
   systemInstruction?: string;
   retries?: number;
   retryDelayMs?: number;
+  timeoutMs?: number;
+  maxFallbackModels?: number;
   temperature?: number;
   topP?: number;
   topK?: number;
@@ -136,7 +138,7 @@ export function createAIClient(options: AIClientOptions = {}): GenerativeModel {
   config = { ...config, ...optionConfig };
 
   const modelParams: any = {
-    model: options.model || AI_MODELS.FLASH,
+    model: options.model || ENV_MODEL || AI_MODELS.FLASH,
     generationConfig: config,
   };
 
@@ -145,6 +147,34 @@ export function createAIClient(options: AIClientOptions = {}): GenerativeModel {
   }
 
   return genAI.getGenerativeModel(modelParams);
+}
+
+function getRequestTimeoutMs(options: AIClientOptions) {
+  const configured = Number(options.timeoutMs ?? process.env.GOOGLE_GENAI_TIMEOUT_MS ?? process.env.GEMINI_TIMEOUT_MS);
+  return Number.isFinite(configured) && configured >= 5000 ? configured : 18000;
+}
+
+function isTransientProviderError(statusCode: number, errorMsg: string) {
+  return (
+    statusCode === 408 ||
+    statusCode === 429 ||
+    statusCode >= 500 ||
+    /timeout|timed out|temporarily unavailable|high demand|overloaded|service unavailable|rate limit/i.test(errorMsg)
+  );
+}
+
+async function withTimeout<T>(promise: Promise<T>, timeoutMs: number, label: string): Promise<T> {
+  let timeout: ReturnType<typeof setTimeout> | undefined;
+  try {
+    return await Promise.race([
+      promise,
+      new Promise<T>((_, reject) => {
+        timeout = setTimeout(() => reject(new Error(`${label} timed out after ${timeoutMs}ms`)), timeoutMs);
+      }),
+    ]);
+  } finally {
+    if (timeout) clearTimeout(timeout);
+  }
 }
 
 /**
@@ -156,19 +186,20 @@ export async function generateText(
 ): Promise<string> {
   const maxRetries = options.retries || 3;
   const retryDelay = options.retryDelayMs || 1000;
+  const requestTimeoutMs = getRequestTimeoutMs(options);
   
   let lastError: Error | null = null;
   
-  // Try with progressive model fallbacks if the model is not available
-  const candidates = [options.model || AI_MODELS.FLASH, ...MODEL_FALLBACKS].filter(
-    (v, i, arr) => !!v && arr.indexOf(v) === i
-  );
+  // Try with progressive model fallbacks if the preferred model is overloaded or unavailable.
+  const preferredModel = options.model || ENV_MODEL || AI_MODELS.FLASH;
+  const allCandidates = [preferredModel, ...MODEL_FALLBACKS].filter((v, i, arr) => !!v && arr.indexOf(v) === i);
+  const candidates = options.maxFallbackModels ? allCandidates.slice(0, options.maxFallbackModels) : allCandidates;
 
   for (const candidate of candidates) {
     for (let attempt = 1; attempt <= maxRetries; attempt++) {
       try {
         const model = createAIClient({ ...options, model: candidate });
-        const result = await model.generateContent(prompt);
+        const result = await withTimeout(model.generateContent(prompt), requestTimeoutMs, `AI request to ${candidate}`);
         
         // Handle different response formats (text vs JSON mode)
         let text: string;
@@ -186,7 +217,7 @@ export async function generateText(
         }
         
         if (!text) throw new Error("Empty response from AI");
-        if (candidate !== (options.model || AI_MODELS.FLASH)) {
+        if (candidate !== preferredModel) {
           log.info("Model fallback used", { candidate });
         }
         return text;
@@ -221,21 +252,32 @@ export async function generateText(
         }
 
         // Rate limit errors - wait longer
-        if (error.status === 429 || errorMsg.includes("rate limit")) {
+        if (statusCode === 429 || errorMsg.includes("rate limit")) {
           const waitTime = retryDelay * Math.pow(2, attempt - 1);
-          log.warn(`Rate limited, waiting ${waitTime}ms before retry ${attempt}/${maxRetries}`);
+          log.warn(`Rate limited, waiting ${waitTime}ms before retry ${attempt}/${maxRetries}`, { candidate });
           await new Promise((resolve) => setTimeout(resolve, waitTime));
           continue;
         }
 
-        // Server errors - retry with exponential backoff
-        if (error.status >= 500 || errorMsg.includes("timeout")) {
+        // Transient provider errors get retries, then move to the next model.
+        if (isTransientProviderError(statusCode, errorMsg)) {
           if (attempt < maxRetries) {
             const waitTime = retryDelay * Math.pow(2, attempt - 1);
-            log.warn(`Server error, retrying in ${waitTime}ms (${attempt}/${maxRetries})`);
+            log.warn(`Transient AI provider error, retrying in ${waitTime}ms (${attempt}/${maxRetries})`, {
+              candidate,
+              statusCode,
+              error: errorMsg,
+            });
             await new Promise((resolve) => setTimeout(resolve, waitTime));
             continue;
           }
+
+          log.warn("AI provider still overloaded, trying next fallback model", {
+            candidate,
+            statusCode,
+            error: errorMsg,
+          });
+          break;
         }
 
         // Other errors - fail immediately
@@ -474,6 +516,8 @@ JSON structure:
         },
         retries: 2,
         retryDelayMs: 1500,
+        timeoutMs: 18000,
+        maxFallbackModels: 4,
         ...options,
       });
 
@@ -548,6 +592,9 @@ JSON structure:
       if (isHard || attempt >= MAX_BLOG_ATTEMPTS) {
         if (error?.message?.includes("Empty response")) {
           throw new Error("AI service returned empty response. The model may be temporarily unavailable.");
+        }
+        if (/high demand|overloaded|service unavailable|timed out|timeout/i.test(error?.message || "")) {
+          throw new Error("AI service is temporarily busy. Please try again in a moment or choose a shorter word count.");
         }
         throw error;
       }

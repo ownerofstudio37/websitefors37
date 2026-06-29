@@ -132,6 +132,13 @@ export async function POST(req: Request) {
         );
       }
 
+      if (/high demand|overloaded|service unavailable|timed out|timeout|temporarily busy/i.test(aiError.message || "")) {
+        return NextResponse.json(
+          { error: "AI blog writer is temporarily busy. Please try again in a moment, or choose a shorter word count." },
+          { status: 503 }
+        );
+      }
+
       if (aiError.message?.includes("Empty response")) {
         return NextResponse.json(
           { error: "AI service returned empty response. The model may be unavailable. Try again in a moment." },

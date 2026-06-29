@@ -67,6 +67,7 @@ export default function BlogManagementPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState("all");
   const [tagInput, setTagInput] = useState("");
+  const showRawAiDebug = process.env.NODE_ENV !== "production";
   // Raw AI response for debugging
   const [rawPreview, setRawPreview] = useState<string>("");
   // Suggestions for AI modal
@@ -275,7 +276,7 @@ export default function BlogManagementPage() {
     setRawPreview("");
 
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 30000); // 30s client timeout
+    const timeout = setTimeout(() => controller.abort(), 60000); // match server AI fallback window
 
     try {
       const res = await fetch("/api/blog/generate", {
@@ -285,7 +286,7 @@ export default function BlogManagementPage() {
         signal: controller.signal,
       }).catch((err) => {
         if (err.name === "AbortError") {
-          throw new Error("Request timed out after 30s. Try a shorter word count.");
+          throw new Error("The AI writer took too long. Try a shorter word count or run it again in a moment.");
         }
         throw err;
       });
@@ -294,7 +295,9 @@ export default function BlogManagementPage() {
 
       const responseText = await res.text();
       console.log("API Response (raw):", responseText);
-      setRawPreview(responseText || "(empty response)");
+      if (showRawAiDebug) {
+        setRawPreview(responseText || "(empty response)");
+      }
 
       if (!res.ok) {
         let errorMessage = `Server error: ${res.status} ${res.statusText}`;
@@ -968,7 +971,7 @@ export default function BlogManagementPage() {
                 )}
 
                 {/* Raw AI response preview (helps debug 502/empty response) */}
-                {rawPreview && (
+                {showRawAiDebug && rawPreview && (
                   <div className="bg-gray-50 border border-gray-200 text-gray-800 px-4 py-3 rounded-lg">
                     <div className="text-sm font-semibold mb-2">AI Raw Response (debug)</div>
                     <pre className="whitespace-pre-wrap text-xs max-h-48 overflow-auto">{rawPreview}</pre>
