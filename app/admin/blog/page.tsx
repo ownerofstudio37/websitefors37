@@ -276,7 +276,7 @@ export default function BlogManagementPage() {
     setRawPreview("");
 
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 60000); // match server AI fallback window
+    const timeout = setTimeout(() => controller.abort(), 28000); // stay under Netlify inactivity timeout
 
     try {
       const res = await fetch("/api/blog/generate", {
@@ -286,7 +286,7 @@ export default function BlogManagementPage() {
         signal: controller.signal,
       }).catch((err) => {
         if (err.name === "AbortError") {
-          throw new Error("The AI writer took too long. Try a shorter word count or run it again in a moment.");
+          throw new Error("The AI writer took too long. Try the short or medium length and run it again in a moment.");
         }
         throw err;
       });
@@ -294,7 +294,9 @@ export default function BlogManagementPage() {
       if (!res) throw new Error("No response from server");
 
       const responseText = await res.text();
-      console.log("API Response (raw):", responseText);
+      if (showRawAiDebug) {
+        console.log("API Response (raw):", responseText);
+      }
       if (showRawAiDebug) {
         setRawPreview(responseText || "(empty response)");
       }
@@ -307,6 +309,8 @@ export default function BlogManagementPage() {
         } catch {
           if (!responseText) {
             errorMessage = `Server error (${res.status}). Empty response. Possibly model quota / invalid model / missing key in production.`;
+          } else if (/<title>\s*inactivity timeout\s*<\/title>|<h1>\s*inactivity timeout\s*<\/h1>/i.test(responseText)) {
+            errorMessage = "The AI writer took too long and Netlify closed the request. Try the short or medium length and run it again.";
           } else {
             errorMessage = `Server error (${res.status}): ${responseText.substring(0, 300)}`;
           }
@@ -1093,8 +1097,7 @@ export default function BlogManagementPage() {
                     >
                       <option value="500">Short (~500 words)</option>
                       <option value="800">Medium (~800 words)</option>
-                      <option value="1200">Long (~1200 words)</option>
-                      <option value="1500">Very Long (~1500 words)</option>
+                      <option value="900">Long (~900 words)</option>
                     </select>
                   </div>
                 </div>

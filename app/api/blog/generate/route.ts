@@ -6,7 +6,7 @@ import { createLogger } from "@/lib/logger";
 const log = createLogger("api/blog/generate");
 
 export const dynamic = "force-dynamic";
-export const maxDuration = 60;
+export const maxDuration = 30;
 
 export async function POST(req: Request) {
   try {
@@ -51,10 +51,13 @@ export async function POST(req: Request) {
       ? keywords 
       : ["photography", "Studio37", "Pinehurst TX"];
 
-    log.info("Calling generateBlogPost with gemini-3.1-pro-preview", { 
+    const requestedWordCount = Number(wordCount) || 800;
+    const boundedWordCount = Math.min(Math.max(Math.round(requestedWordCount), 400), 900);
+
+    log.info("Calling generateBlogPost with bounded AI budget", {
       topic, 
       keywordCount: keywordArray.length,
-      wordCount: wordCount || 800,
+      wordCount: boundedWordCount,
       tone: tone || "professional and friendly"
     });
 
@@ -62,7 +65,7 @@ export async function POST(req: Request) {
       const blogPost = await generateBlogPost(
         topic,
         keywordArray,
-        wordCount || 800,
+        boundedWordCount,
         tone || "professional and friendly"
       );
 

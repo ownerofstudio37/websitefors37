@@ -473,11 +473,13 @@ export async function generateBlogPost(
   tone: string = "professional",
   options: AIClientOptions = {}
 ): Promise<BlogPost> {
+  const targetWordCount = Math.min(Math.max(Math.round(Number(wordCount) || 800), 400), 900);
+  const maxOutputTokens = targetWordCount <= 550 ? 4096 : 6144;
   const prompt = `Write a comprehensive, SEO-optimized blog post about: ${topic}
 
 Requirements:
 - Target keywords: ${keywords.join(", ")}
-- Word count: approximately ${wordCount} words
+- Word count: approximately ${targetWordCount} words
 - Tone: ${tone}
 - Include H2 and H3 headings for structure
 - Write in an engaging, natural style
@@ -496,28 +498,25 @@ JSON structure:
   "excerpt": "brief 2-sentence summary for preview"
 }`;
 
-  // Up to 3 full generation+parse attempts before surfacing an error to the UI.
-  const MAX_BLOG_ATTEMPTS = 3;
+  const MAX_PARSE_ATTEMPTS = 2;
 
-  for (let attempt = 1; attempt <= MAX_BLOG_ATTEMPTS; attempt++) {
+  for (let attempt = 1; attempt <= MAX_PARSE_ATTEMPTS; attempt++) {
     try {
-      log.info("Generating blog post (attempt)", { attempt, topic, wordCount, keywordsCount: keywords.length });
+      log.info("Generating blog post (attempt)", { attempt, topic, wordCount: targetWordCount, keywordsCount: keywords.length });
 
-      // Use a higher token ceiling so a full blog post + JSON wrapper never gets
-      // truncated mid-object (truncation is the most common cause of parse failures).
       const response = await generateText(prompt, {
         model: AI_MODELS.PRO,
         config: {
           temperature: 0.7,
           topP: 0.9,
           topK: 40,
-          maxOutputTokens: 8192,          // was 4096 — doubled to prevent truncation
+          maxOutputTokens,
           responseMimeType: "application/json",
         },
-        retries: 2,
-        retryDelayMs: 1500,
-        timeoutMs: 18000,
-        maxFallbackModels: 4,
+        retries: 1,
+        retryDelayMs: 500,
+        timeoutMs: 6500,
+        maxFallbackModels: 3,
         ...options,
       });
 
@@ -538,12 +537,11 @@ JSON structure:
           error: parseError?.message,
           responsePreview: response?.substring(0, 300),
         });
-        if (attempt < MAX_BLOG_ATTEMPTS) {
-          // Brief pause before next attempt so the model isn't hammered immediately
-          await new Promise((r) => setTimeout(r, 1000 * attempt));
+        if (attempt < MAX_PARSE_ATTEMPTS) {
+          await new Promise((r) => setTimeout(r, 500 * attempt));
           continue;
         }
-        throw new Error("Invalid JSON response from AI after multiple attempts");
+        throw new Error("Invalid JSON response from AI. Please try again.");
       }
 
       log.info("Blog post JSON parsed", {
@@ -560,8 +558,8 @@ JSON structure:
           attempt,
           blogPostKeys: Object.keys(blogPost || {}),
         });
-        if (attempt < MAX_BLOG_ATTEMPTS) {
-          await new Promise((r) => setTimeout(r, 1000 * attempt));
+        if (attempt < MAX_PARSE_ATTEMPTS) {
+          await new Promise((r) => setTimeout(r, 500 * attempt));
           continue;
         }
         throw new Error("Generated blog post missing required fields (title or content)");
@@ -579,7 +577,7 @@ JSON structure:
       // stop retrying and surface it immediately.
       const isHard =
         error?.message?.includes("API key") ||
-        error?.message?.includes("after multiple attempts") ||
+        error?.message?.includes("Invalid JSON response") ||
         error?.status === 403 ||
         error?.status === 400;
 
@@ -589,7 +587,7 @@ JSON structure:
         isHard,
       });
 
-      if (isHard || attempt >= MAX_BLOG_ATTEMPTS) {
+      if (isHard || attempt >= MAX_PARSE_ATTEMPTS) {
         if (error?.message?.includes("Empty response")) {
           throw new Error("AI service returned empty response. The model may be temporarily unavailable.");
         }
@@ -599,8 +597,7 @@ JSON structure:
         throw error;
       }
 
-      // Soft error (timeout, 500, transient) — pause and retry
-      await new Promise((r) => setTimeout(r, 1200 * attempt));
+      await new Promise((r) => setTimeout(r, 500 * attempt));
     }
   }
 
