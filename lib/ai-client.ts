@@ -24,14 +24,24 @@ const ENV_MODEL =
   process.env.AI_MODEL ||
   "gemini-3.5-flash";
 
-// Current live models as of May 2026 (from Google AI Studio).
-// Latest production models first, with older stable fallbacks after them.
+// Current live models as of June 2026 (from Google AI Studio).
+// Fast production models first, with latest aliases and older stable fallbacks after them.
 export const MODEL_FALLBACKS = [
   "gemini-3.5-flash",       // Gemini 3.5 Flash — latest fast default
-  "gemini-3.1-pro-preview", // Gemini 3.1 Pro Preview — complex tasks + deep reasoning
+  "gemini-flash-latest",    // Latest Flash alias — useful when a specific endpoint is saturated
+  "gemini-3.1-flash-lite",  // Gemini 3.1 Flash-Lite — lower latency fallback
   "gemini-2.5-flash",       // Gemini 2.5 Flash — stable fallback
-  "gemini-2.5-pro",         // Gemini 2.5 Pro — stable complex-task fallback
   "gemini-2.5-flash-lite",  // Gemini 2.5 Flash-Lite — fastest / cheapest fallback
+  "gemini-3.1-pro-preview", // Gemini 3.1 Pro Preview — complex-task fallback
+  "gemini-2.5-pro",         // Gemini 2.5 Pro — stable complex-task fallback
+];
+
+const BLOG_MODEL_FALLBACKS = [
+  "gemini-3.5-flash",
+  "gemini-flash-latest",
+  "gemini-3.1-flash-lite",
+  "gemini-2.5-flash",
+  "gemini-2.5-flash-lite",
 ];
 
 // Model configurations for different use cases
@@ -99,6 +109,7 @@ interface AIClientOptions {
   retries?: number;
   retryDelayMs?: number;
   timeoutMs?: number;
+  fallbackModels?: AIModel[];
   maxFallbackModels?: number;
   temperature?: number;
   topP?: number;
@@ -192,7 +203,8 @@ export async function generateText(
   
   // Try with progressive model fallbacks if the preferred model is overloaded or unavailable.
   const preferredModel = options.model || ENV_MODEL || AI_MODELS.FLASH;
-  const allCandidates = [preferredModel, ...MODEL_FALLBACKS].filter((v, i, arr) => !!v && arr.indexOf(v) === i);
+  const fallbackModels = options.fallbackModels?.length ? options.fallbackModels : MODEL_FALLBACKS;
+  const allCandidates = [preferredModel, ...fallbackModels].filter((v, i, arr) => !!v && arr.indexOf(v) === i);
   const candidates = options.maxFallbackModels ? allCandidates.slice(0, options.maxFallbackModels) : allCandidates;
 
   for (const candidate of candidates) {
@@ -498,14 +510,14 @@ JSON structure:
   "excerpt": "brief 2-sentence summary for preview"
 }`;
 
-  const MAX_PARSE_ATTEMPTS = 2;
+  const MAX_PARSE_ATTEMPTS = 1;
 
   for (let attempt = 1; attempt <= MAX_PARSE_ATTEMPTS; attempt++) {
     try {
       log.info("Generating blog post (attempt)", { attempt, topic, wordCount: targetWordCount, keywordsCount: keywords.length });
 
       const response = await generateText(prompt, {
-        model: AI_MODELS.PRO,
+        model: BLOG_MODEL_FALLBACKS[0],
         config: {
           temperature: 0.7,
           topP: 0.9,
@@ -515,8 +527,9 @@ JSON structure:
         },
         retries: 1,
         retryDelayMs: 500,
-        timeoutMs: 6500,
-        maxFallbackModels: 3,
+        timeoutMs: 4500,
+        fallbackModels: BLOG_MODEL_FALLBACKS,
+        maxFallbackModels: BLOG_MODEL_FALLBACKS.length,
         ...options,
       });
 
@@ -541,7 +554,8 @@ JSON structure:
           await new Promise((r) => setTimeout(r, 500 * attempt));
           continue;
         }
-        throw new Error("Invalid JSON response from AI. Please try again.");
+        log.warn("Gemini returned invalid blog JSON, returning starter draft", { topic, targetWordCount });
+        return buildFallbackBlogPost(topic, keywords, targetWordCount, tone);
       }
 
       log.info("Blog post JSON parsed", {
@@ -589,10 +603,12 @@ JSON structure:
 
       if (isHard || attempt >= MAX_PARSE_ATTEMPTS) {
         if (error?.message?.includes("Empty response")) {
-          throw new Error("AI service returned empty response. The model may be temporarily unavailable.");
+          log.warn("Gemini returned empty blog response, returning starter draft", { topic, targetWordCount });
+          return buildFallbackBlogPost(topic, keywords, targetWordCount, tone);
         }
         if (/high demand|overloaded|service unavailable|timed out|timeout/i.test(error?.message || "")) {
-          throw new Error("AI service is temporarily busy. Please try again in a moment or choose a shorter word count.");
+          log.warn("All Gemini blog models busy, returning starter draft", { topic, targetWordCount });
+          return buildFallbackBlogPost(topic, keywords, targetWordCount, tone);
         }
         throw error;
       }
@@ -603,6 +619,51 @@ JSON structure:
 
   // Should never reach here, but TypeScript needs a return
   throw new Error("Blog post generation failed after all attempts");
+}
+
+function buildFallbackBlogPost(topic: string, keywords: string[], wordCount: number, tone: string): BlogPost {
+  const cleanTopic = topic.trim() || "Photography Planning Tips";
+  const primaryKeyword = keywords.find(Boolean) || "professional photography";
+  const title = cleanTopic.length > 58 ? `${cleanTopic.slice(0, 55).trim()}...` : cleanTopic;
+  const tagSet = Array.from(new Set([primaryKeyword, ...keywords, "Studio37", "photography tips"].filter(Boolean))).slice(0, 8);
+  const category = /wedding|bride|groom|venue|luminaire/i.test(cleanTopic) ? "wedding" : /brand|business|headshot/i.test(cleanTopic) ? "business" : "tips";
+
+  const content = `# ${title}
+
+When clients search for ${primaryKeyword}, they are usually looking for practical advice, confidence, and a clear reason to trust the photographer they choose. This starter draft is designed to give you a strong editing base while the AI provider is temporarily busy.
+
+## Why This Topic Matters
+
+${cleanTopic} is a helpful subject for clients because it connects planning decisions to better final images. For Studio37 Photography, this is also a chance to educate readers before they book and show the kind of detail-oriented guidance they can expect during a session.
+
+## Practical Tips for Better Results
+
+- Start with the client goal: what should these photos help them remember, announce, sell, or celebrate?
+- Plan around light quality, not just the clock. Indoor venues, shaded spaces, and mixed lighting all need a clear strategy.
+- Keep the shot list focused so the session feels calm instead of rushed.
+- Build in a few flexible minutes for transitions, outfit adjustments, and natural moments.
+- Communicate expectations before the session so clients arrive prepared.
+
+## Studio37's Approach
+
+Studio37 Photography focuses on clean planning, natural direction, and images that feel polished without losing personality. Whether the session is for a wedding, brand, family, or event, the best results come from matching the location, lighting, and timeline to the story the client wants to tell.
+
+## Final Takeaway
+
+The right preparation turns a good photo session into a smooth experience and a stronger gallery. Use this draft as a foundation, then add venue-specific details, client examples, and your own voice before publishing.
+
+---
+
+**Ready to create something beautiful?** [Book a session with Studio37](https://www.studio37.cc/book-a-session) or [contact us](https://www.studio37.cc/contact) to discuss your photography needs.`;
+
+  return {
+    title,
+    metaDescription: `Learn ${cleanTopic.toLowerCase()} tips from Studio37 Photography, including planning, lighting, and preparation advice for stronger photos.`,
+    content,
+    tags: tagSet,
+    category,
+    excerpt: `A practical Studio37 guide to ${cleanTopic.toLowerCase()}, with planning tips you can use before your next session.`,
+  };
 }
 
 /**
