@@ -55,19 +55,25 @@ export default function PortraitHighlightGallery() {
             A curated look at weddings, portraits, and brand sessions from Studio37.
           </p>
           <div className="flex flex-wrap justify-center gap-3 text-sm mb-2">
-            <a href="https://gallery.studio37.cc" className="px-4 py-2 rounded-full bg-stone-100 hover:bg-amber-100 hover:text-amber-800 transition-colors text-stone-700 font-medium">All Work</a>
-            <a href="https://gallery.studio37.cc" className="px-4 py-2 rounded-full bg-stone-100 hover:bg-amber-100 hover:text-amber-800 transition-colors text-stone-700 font-medium">Weddings</a>
-            <a href="https://gallery.studio37.cc" className="px-4 py-2 rounded-full bg-stone-100 hover:bg-amber-100 hover:text-amber-800 transition-colors text-stone-700 font-medium">Portraits</a>
-            <a href="https://gallery.studio37.cc" className="px-4 py-2 rounded-full bg-stone-100 hover:bg-amber-100 hover:text-amber-800 transition-colors text-stone-700 font-medium">Events</a>
-            <a href="https://gallery.studio37.cc" className="px-4 py-2 rounded-full bg-stone-100 hover:bg-amber-100 hover:text-amber-800 transition-colors text-stone-700 font-medium">Commercial</a>
+            {['All Work', 'Weddings', 'Portraits', 'Events', 'Commercial'].map((label) => (
+              <a
+                key={label}
+                href="https://gallery.studio37.cc"
+                aria-label={`Open Studio37 ${label.toLowerCase()} gallery`}
+                className="px-4 py-2 rounded-full bg-stone-100 hover:bg-amber-100 hover:text-amber-800 transition-colors text-stone-700 font-medium focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2"
+              >
+                {label}
+              </a>
+            ))}
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {staticImages.map((image, index) => (
             <a
               href="https://gallery.studio37.cc"
+              aria-label={`Open Studio37 gallery for ${image.title}`}
               key={image.id} 
-              className="group relative block overflow-hidden rounded-xl shadow-md hover:shadow-xl transition-all duration-300"
+              className="group relative block overflow-hidden rounded-xl shadow-md hover:shadow-xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2"
             >
               {/* Aspect ratio container with 4:3 ratio */}
               <div className="relative w-full bg-gray-200" style={{ paddingBottom: '75%' }}>
@@ -103,6 +109,7 @@ export default function PortraitHighlightGallery() {
         <div className="text-center mt-10">
           <a
             href="https://gallery.studio37.cc"
+            aria-label="Open the full Studio37 portfolio gallery"
             className="btn-primary inline-flex items-center gap-2 text-base px-8 py-4"
           >
             View Full Portfolio

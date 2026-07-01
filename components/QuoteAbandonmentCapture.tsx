@@ -21,6 +21,7 @@ export default function QuoteAbandonmentCapture() {
   const [dismissed, setDismissed] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState('')
   const [form, setForm] = useState({ name: '', email: '', phone: '' })
 
   const activeRule = useMemo(() => captureRules.find((rule) => pathname?.startsWith(rule.path)), [pathname])
@@ -86,6 +87,7 @@ export default function QuoteAbandonmentCapture() {
     if (!form.email.trim()) return
 
     setSubmitting(true)
+    setError('')
     try {
       const context = getLeadContext({
         capture_path: pathname || '',
@@ -124,7 +126,7 @@ export default function QuoteAbandonmentCapture() {
       })
       setSubmitted(true)
     } catch {
-      setDismissed(true)
+      setError('We could not save this yet. Please try again or use the contact page.')
     } finally {
       setSubmitting(false)
     }
@@ -178,6 +180,7 @@ export default function QuoteAbandonmentCapture() {
           <MessageSquare className="mr-2 h-4 w-4" aria-hidden="true" />
           {submitting ? 'Saving...' : 'Save My Quote'}
         </button>
+        {error && <p className="text-sm font-medium text-red-700">{error}</p>}
       </form>
     </div>
   )

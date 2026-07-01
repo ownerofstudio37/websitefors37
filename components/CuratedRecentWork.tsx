@@ -18,10 +18,10 @@ export default function CuratedRecentWork({ className = '' }: { className?: stri
             <p className="eyebrow mb-3">Recent Work</p>
             <h2 className="text-3xl font-bold text-stone-950 md:text-4xl">Curated highlights from Studio37 sessions</h2>
             <p className="mt-3 max-w-2xl text-stone-600">
-              A few site-managed examples visitors can scan before jumping to the full ShootProof gallery experience.
+              A few recent examples to preview the style, pacing, and polish of a finished Studio37 gallery.
             </p>
           </div>
-          <Link href={galleryUrl} className="btn-secondary inline-flex w-fit items-center">
+          <Link href={galleryUrl} aria-label="Open the full Studio37 gallery in a new tab" className="btn-secondary inline-flex w-fit items-center">
             Open Full Gallery <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
           </Link>
         </div>
@@ -29,7 +29,7 @@ export default function CuratedRecentWork({ className = '' }: { className?: stri
           {recentWork.map((item) => (
             <article key={item.title} className="overflow-hidden rounded-lg border border-stone-200 bg-stone-50">
               <div className="relative aspect-[4/3] bg-stone-200">
-                <Image src={item.image} alt={item.alt} fill className="object-cover" sizes="(min-width: 768px) 33vw, 100vw" />
+                <Image src={item.image} alt={item.alt} fill className="object-cover" sizes="(min-width: 1280px) 420px, (min-width: 768px) 33vw, 100vw" quality={88} />
               </div>
               <div className="p-5">
                 <div className="mb-3 flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-stone-500">
@@ -40,7 +40,7 @@ export default function CuratedRecentWork({ className = '' }: { className?: stri
                 <h3 className="text-xl font-semibold text-stone-950">{item.title}</h3>
                 <p className="mt-2 text-sm leading-6 text-stone-600">{item.note}</p>
                 {'galleryUrl' in item && item.galleryUrl ? (
-                  <Link href={item.galleryUrl} className="mt-4 inline-flex text-sm font-semibold text-primary-700 hover:underline">
+                  <Link href={item.galleryUrl} aria-label={`View the full Studio37 gallery for ${item.title}`} className="mt-4 inline-flex text-sm font-semibold text-primary-700 hover:underline focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2">
                     View full gallery
                   </Link>
                 ) : null}

@@ -10,7 +10,9 @@ const routes = [
   { name: 'pricing', path: '/tools/pricing' },
   { name: 'package-recommender', path: '/tools/package-recommender' },
   { name: 'session-prep', path: '/session-prep' },
+  { name: 'prep-guide-download', path: '/session-prep/portrait/download' },
   { name: 'booking', path: '/book-a-session' },
+  { name: 'admin-login', path: '/login' },
   { name: 'admin-leads', path: '/admin/leads' },
   { name: 'admin-seo', path: '/admin/seo' },
 ]

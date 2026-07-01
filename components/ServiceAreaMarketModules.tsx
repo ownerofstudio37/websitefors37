@@ -3,26 +3,26 @@ import { ArrowRight, MapPin } from 'lucide-react'
 
 const topMarkets = [
   {
-    market: 'Montgomery County Core',
-    cities: ['Pinehurst', 'The Woodlands', 'Conroe', 'Magnolia', 'Montgomery'],
-    angle: 'Highest-intent mix for weddings, portraits, business branding, and local events.',
+    market: 'Montgomery County',
+    cities: 'Pinehurst, The Woodlands, Conroe, Magnolia, and Montgomery',
+    angle: 'Local coverage for weddings, portraits, business branding, and community events.',
     href: '/locations',
   },
   {
     market: 'Northwest Houston',
-    cities: ['Tomball', 'Cypress', 'Hockley', 'Waller'],
-    angle: 'Strong family, senior, wedding, and small-business content demand.',
+    cities: 'Tomball, Cypress, Hockley, and Waller',
+    angle: 'Easy planning for family sessions, senior portraits, weddings, and business content.',
     href: '/local-photographer-tomball-tx',
   },
   {
     market: 'Brazos Valley',
-    cities: ['Bryan', 'College Station', 'Navasota'],
-    angle: 'High-value graduation, event, commercial, and wedding search opportunities.',
+    cities: 'Bryan, College Station, and Navasota',
+    angle: 'Helpful coverage for graduations, events, commercial projects, and wedding weekends.',
     href: '/local-photographer-college-station-tx',
   },
 ]
 
-const serviceModules = [
+const serviceGuides = [
   { label: 'Wedding photography', href: '/services/wedding-photography', copy: 'Timeline-first coverage for venues, churches, estates, and intimate celebrations.' },
   { label: 'Portrait sessions', href: '/services/portrait-photography', copy: 'Family, senior, headshot, maternity, and personal branding sessions by city.' },
   { label: 'Event coverage', href: '/services/event-photography', copy: 'Corporate events, parties, graduations, galas, and community milestones.' },
@@ -48,17 +48,17 @@ export default function ServiceAreaMarketModules({ compact = false }: { compact?
                 <MapPin className="h-4 w-4" aria-hidden="true" />
                 {market.market}
               </div>
-              <p className="font-semibold text-stone-950">{market.cities.join(' / ')}</p>
+              <p className="font-semibold text-stone-950">{market.cities}</p>
               <p className="mt-3 text-sm leading-6 text-stone-600">{market.angle}</p>
               <span className="mt-4 inline-flex items-center text-sm font-semibold text-amber-800">
-                Explore Market <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+                Explore this area <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
               </span>
             </Link>
           ))}
         </div>
 
         <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          {serviceModules.map((service) => (
+          {serviceGuides.map((service) => (
             <Link key={service.label} href={service.href} className="rounded-lg border border-stone-200 bg-white p-5 shadow-sm hover:border-amber-300">
               <h3 className="font-semibold text-stone-950">{service.label}</h3>
               <p className="mt-2 text-sm leading-6 text-stone-600">{service.copy}</p>
