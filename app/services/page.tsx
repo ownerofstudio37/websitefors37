@@ -245,7 +245,7 @@ export default function ServicesPage() {
                 <div className="bg-pink-100 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-pink-200 transition-colors">
                   <span className="text-3xl">💖</span>
                 </div>
-                <h3 className="text-xl font-semibold mb-2 text-gray-800">Engagement Sessions</h3>
+                <h3 className="text-xl font-semibold mb-2 text-gray-800">Engagement Photography</h3>
                 <p className="text-gray-600 mb-4">Signature engagement sessions plus full concierge proposal planning</p>
                 <div className="flex items-center justify-center text-pink-700 group-hover:text-pink-800">
                   <span className="font-medium">Learn More</span>

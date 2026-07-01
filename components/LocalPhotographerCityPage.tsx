@@ -432,7 +432,7 @@ export default function LocalPhotographerCityPage({
                 <div className="bg-pink-100 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-pink-200 transition-colors">
                   <span className="text-3xl">💖</span>
                 </div>
-                <h3 className="text-xl font-semibold mb-1 text-gray-800">Engagement Sessions</h3>
+                <h3 className="text-xl font-semibold mb-1 text-gray-800">Engagement Photography</h3>
                 <p className="text-sm uppercase tracking-wide text-pink-700 font-semibold mb-3">Starting at {STARTING_PRICES.engagement}</p>
                 <p className="text-gray-600 mb-4">Romantic save-the-date sessions and proposal-friendly planning support.</p>
                 <ul className="text-sm text-stone-600 space-y-1 mb-4">

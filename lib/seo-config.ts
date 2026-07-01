@@ -56,7 +56,7 @@ export const businessInfo = {
     'Commercial Photography',
     'Family Portraits',
     'Corporate Headshots',
-    'Engagement Sessions',
+    'Engagement Photography',
     'Bridal Photography'
   ],
   socialMedia: {

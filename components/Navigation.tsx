@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation'
 import { Menu, X, Camera, ChevronDown } from '@/icons'
 import { supabase } from '@/lib/supabase'
 import { Phone } from 'lucide-react'
-import { FALLBACK_NAV_ITEMS, type NavigationItem } from '@/lib/navigation-config'
+import { FALLBACK_NAV_ITEMS, normalizeNavigationItems, type NavigationItem } from '@/lib/navigation-config'
 
 interface NavigationProps {
   initialLogoUrl?: string | null
@@ -22,7 +22,7 @@ export default function Navigation({
   const [scrolled, setScrolled] = useState(false)
   const [logoUrl, setLogoUrl] = useState<string | null>(null)
   const [dbLogoUrl, setDbLogoUrl] = useState<string | null>(initialLogoUrl)
-  const [navItems, setNavItems] = useState<NavigationItem[]>(initialNavItems)
+  const [navItems, setNavItems] = useState<NavigationItem[]>(() => normalizeNavigationItems(initialNavItems))
   const [dropdownStates, setDropdownStates] = useState<Record<string, boolean>>({})
   const [mobileDropdownStates, setMobileDropdownStates] = useState<Record<string, boolean>>({})
   // Small hover-intent close delays so menus don't vanish while moving cursor
@@ -100,7 +100,7 @@ export default function Navigation({
               .filter(item => item.visible)
               .sort((a, b) => a.order - b.order)
             if (visibleItems.length > 0) {
-              setNavItems(visibleItems)
+              setNavItems(normalizeNavigationItems(visibleItems))
             }
           } else {
             // No navigation items in DB, use fallback
@@ -115,7 +115,7 @@ export default function Navigation({
         console.warn('[Navigation] Using fallback navigation:', err instanceof Error ? err.message : 'Unknown error')
         if (mounted) {
           setDbLogoUrl(null)
-          setNavItems((prev) => (prev.length > 0 ? prev : FALLBACK_NAV_ITEMS))
+          setNavItems((prev) => normalizeNavigationItems(prev.length > 0 ? prev : FALLBACK_NAV_ITEMS))
         }
       }
     })()

@@ -21,7 +21,7 @@ import AnalyticsSetup from "@/components/AnalyticsSetup";
 import SEOFooter from "@/components/SEOFooter";
 import PublicStickyCTA from "@/components/PublicStickyCTA";
 import QuoteAbandonmentCapture from "@/components/QuoteAbandonmentCapture";
-import { FALLBACK_NAV_ITEMS, type NavigationItem } from "@/lib/navigation-config";
+import { FALLBACK_NAV_ITEMS, normalizeNavigationItems, type NavigationItem } from "@/lib/navigation-config";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -122,12 +122,12 @@ async function getInitialNavigationSettings(): Promise<{
 
     return {
       logoUrl,
-      navItems: navItems.length > 0 ? navItems : FALLBACK_NAV_ITEMS,
+      navItems: normalizeNavigationItems(navItems.length > 0 ? navItems : FALLBACK_NAV_ITEMS),
     }
   } catch {
     return {
       logoUrl: null,
-      navItems: FALLBACK_NAV_ITEMS,
+      navItems: normalizeNavigationItems(FALLBACK_NAV_ITEMS),
     }
   }
 }

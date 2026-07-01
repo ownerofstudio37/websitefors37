@@ -8,7 +8,7 @@ import FAQSection from '@/components/FAQSection'
 import { generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
 
 export const metadata = generateSEOMetadata({
-  title: 'Full Service Engagement Session Photography - Pinehurst, TX',
+  title: 'Full Service Engagement Photography - Pinehurst, TX',
   description: 'Studio37 Full Service Engagement Sessions in Pinehurst, TX. Signature engagement photography packages plus concierge proposal planning with decor, location scouting, and photo/video coverage.',
   keywords: [
     'engagement photographer Pinehurst TX',
@@ -108,7 +108,7 @@ const CONCIERGE_PACKAGES = [
 
 export default function EngagementSessionPage() {
   const serviceSchema = generateServiceSchema(
-    'Full Service Engagement Session Photography',
+    'Full Service Engagement Photography',
     'Engagement session and concierge proposal photography services in Pinehurst, Texas including planning, decor support, and photo/video coverage.'
   )
 
@@ -131,7 +131,7 @@ export default function EngagementSessionPage() {
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Home', url: 'https://www.studio37.cc' },
     { name: 'Services', url: 'https://www.studio37.cc/services' },
-    { name: 'Engagement Session', url: 'https://www.studio37.cc/services/engagement-session' },
+    { name: 'Engagement Photography', url: 'https://www.studio37.cc/services/engagement-session' },
   ])
 
   return (
@@ -161,7 +161,7 @@ export default function EngagementSessionPage() {
         <div className="relative z-10 container mx-auto px-4 py-24">
           <div className="max-w-3xl">
             <p className="eyebrow-hero mb-3">Engagement Concierge · Pinehurst, TX</p>
-            <h1 className="text-4xl md:text-6xl font-bold mb-4">Full Service Engagement Sessions</h1>
+            <h1 className="text-4xl md:text-6xl font-bold mb-4">Full Service Engagement Photography</h1>
             <p className="text-lg md:text-xl text-stone-100 mb-4 leading-relaxed">
               Elevated engagement photography with planning support from concept to final gallery.
               Signature sessions are priced 10%–30% above standard portraits for premium direction and experience.
@@ -207,7 +207,7 @@ export default function EngagementSessionPage() {
         </div>
       </section>
 
-      <section className="section-shell bg-white">
+      <section id="concierge" className="section-shell scroll-mt-28 bg-white">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center mb-10">
             <p className="eyebrow mb-2">Custom Concierge Packages</p>
