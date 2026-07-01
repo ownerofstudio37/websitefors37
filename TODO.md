@@ -78,14 +78,14 @@ Audit notes: `npm run audit:seo-assets` passed across public metadata/source fil
 
 ### Admin And Operations
 
-- [ ] Replace browser `alert()` and `confirm()` usage in admin workflows with shared `AdminToast` and `AdminConfirmDialog` patterns across calendar, projects, inbox, theme, editor, and blog tools.
-- [ ] Fix the lint-blocking issue in `app/admin/appointment-reminders/page.tsx:134` and add focused lint coverage to CI so admin lint regressions are caught before deploy.
-- [ ] Replace raw JSON textarea block editors in `app/admin/editor/EditorFormClient.tsx` with structured repeatable controls and validation for FAQ, services, stats, pricing, and feature-list blocks.
-- [ ] Add a real preview or remove the dead placeholder state in `app/admin/site-editor/page.tsx` that currently says "Preview coming soon for this page."
-- [ ] Remove debug console output from admin AI/blog generation and show raw AI diagnostics only in a collapsible admin-only error panel.
-- [ ] Add an admin recent-work manager backed by shared public-content/CMS data with feature toggle, ordering, image quality controls, alt text, service tag, and `https://gallery.studio37.cc` link validation.
-- [ ] Add an admin lead-magnet report with requests by guide, source page, UTM, follow-up status, and conversion to booking.
-- [ ] Add admin route inventory cleanup for legacy or overlapping editors (`content`, `content-enhanced`, `page-builder`, `live-editor`, `visual-editor`, `site-editor`) so the preferred editing tool is obvious.
+- [x] Replace browser `alert()` and `confirm()` usage in admin workflows with shared `AdminToast` and `AdminConfirmDialog` patterns across calendar, projects, inbox, theme, editor, and blog tools.
+- [x] Fix the lint-blocking issue in `app/admin/appointment-reminders/page.tsx:134` and add focused lint coverage to CI so admin lint regressions are caught before deploy.
+- [x] Replace raw JSON textarea block editors in `app/admin/editor/EditorFormClient.tsx` with structured repeatable controls and validation for FAQ, services, stats, pricing, and feature-list blocks.
+- [x] Add a real preview or remove the dead placeholder state in `app/admin/site-editor/page.tsx` that currently says "Preview coming soon for this page."
+- [x] Remove debug console output from admin AI/blog generation and show raw AI diagnostics only in a collapsible admin-only error panel.
+- [x] Add an admin recent-work manager backed by shared public-content/CMS data with feature toggle, ordering, image quality controls, alt text, service tag, and `https://gallery.studio37.cc` link validation.
+- [x] Add an admin lead-magnet report with requests by guide, source page, UTM, follow-up status, and conversion to booking.
+- [x] Add admin route inventory cleanup for legacy or overlapping editors (`content`, `content-enhanced`, `page-builder`, `live-editor`, `visual-editor`, `site-editor`) so the preferred editing tool is obvious.
 
 ### Technical Quality And Performance
 
@@ -155,6 +155,19 @@ Audit notes: `npm run audit:seo-assets` passed across public metadata/source fil
 - [ ] Add a "public launch checklist" in admin for new pages: metadata, schema, sitemap, internal links, CTA, analytics event, and visual QA.
 - [ ] Add a reusable email template specifically for saved quote follow-up.
 - [ ] Add lead timeline events for package recommender selections and prep-guide downloads.
+
+### Public Polish And Mobile Optimization
+
+- [x] Remove nav logo placeholder swap by hydrating the header with the real Studio37 Cloudinary logo on first paint.
+- [x] Make recent-work gallery CTAs uniform across every highlighted card.
+- [x] Make service-card images and titles link to the matching service pages while keeping Learn More and pricing-tool actions.
+- [x] Add mobile screenshot QA coverage for blog, service pages, and the Pinehurst service-area page.
+- [x] Add an automated public polish audit for logo hydration, card links, gallery CTA consistency, and mobile route coverage.
+- [ ] Run manual mobile screenshots after the next deploy for homepage, services, blog, and `/local-photographer-pinehurst-tx`.
+- [ ] Normalize older service-area, service-detail, blog-list, and blog-post section spacing/type scale to match the homepage system.
+- [ ] Review mobile header, sticky CTA, chat, save-quote, and pricing-tool stacking across 390px, 430px, and tablet widths.
+- [ ] Reduce above-the-fold mobile payload on public pages by deferring non-critical widgets and large below-fold images.
+- [ ] Add visual regression snapshots for the most important public routes once the design direction settles.
 
 ### Technical Quality And Performance
 

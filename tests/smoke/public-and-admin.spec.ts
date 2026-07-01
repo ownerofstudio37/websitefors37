@@ -7,6 +7,9 @@ const screenshotDir = path.join(process.cwd(), '.playwright-artifacts')
 const routes = [
   { name: 'homepage', path: '/' },
   { name: 'services', path: '/services' },
+  { name: 'portrait-service', path: '/services/portrait-photography' },
+  { name: 'service-area-pinehurst', path: '/local-photographer-pinehurst-tx' },
+  { name: 'blog', path: '/blog' },
   { name: 'pricing', path: '/tools/pricing' },
   { name: 'package-recommender', path: '/tools/package-recommender' },
   { name: 'session-prep', path: '/session-prep' },

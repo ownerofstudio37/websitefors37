@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { supabase as sharedSupabase } from '@/lib/supabase'
 import { MessageSquare, Send, Search, Archive, Tag, Phone, User } from 'lucide-react'
+import AdminToast from '@/components/admin/AdminToast'
 
 interface Conversation {
   id: string
@@ -35,6 +36,7 @@ export default function InboxPage() {
   const [searchQuery, setSearchQuery] = useState('')
   const [loading, setLoading] = useState(true)
   const [sending, setSending] = useState(false)
+  const [toast, setToast] = useState<{ type: 'success' | 'error'; message: string } | null>(null)
 
   // Load conversations
   useEffect(() => {
@@ -105,14 +107,15 @@ export default function InboxPage() {
 
       if (response.ok) {
         setNewMessage('')
+        setToast({ type: 'success', message: 'Message sent.' })
         loadMessages(selectedConversation.id)
         loadConversations()
       } else {
-        alert('Failed to send message')
+        setToast({ type: 'error', message: 'Failed to send message.' })
       }
     } catch (error) {
       console.error('Send error:', error)
-      alert('Error sending message')
+      setToast({ type: 'error', message: 'Error sending message.' })
     } finally {
       setSending(false)
     }
@@ -126,6 +129,11 @@ export default function InboxPage() {
 
   return (
     <div className="h-[calc(100vh-4rem)] flex">
+      {toast && (
+        <div className="fixed right-4 top-20 z-50 w-full max-w-sm">
+          <AdminToast type={toast.type} message={toast.message} onClose={() => setToast(null)} />
+        </div>
+      )}
       {/* Conversations List */}
       <div className="w-80 border-r flex flex-col bg-white">
         <div className="p-4 border-b">

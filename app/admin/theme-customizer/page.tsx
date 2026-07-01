@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Palette, Save, RotateCcw, Eye, Download } from 'lucide-react'
+import AdminToast from '@/components/admin/AdminToast'
+import AdminConfirmDialog from '@/components/admin/AdminConfirmDialog'
 
 interface ThemeSettings {
   primaryColor: string
@@ -28,6 +30,8 @@ export default function ThemeCustomizerPage() {
   const [theme, setTheme] = useState<ThemeSettings>(defaultTheme)
   const [saving, setSaving] = useState(false)
   const [showPreview, setShowPreview] = useState(true)
+  const [toast, setToast] = useState<{ type: 'success' | 'error' | 'info'; message: string } | null>(null)
+  const [confirmReset, setConfirmReset] = useState(false)
 
   useEffect(() => {
     fetchTheme()
@@ -58,22 +62,20 @@ export default function ThemeCustomizerPage() {
       const data = await response.json()
       
       if (data.success) {
-        alert('Theme saved successfully!')
+        setToast({ type: 'success', message: 'Theme saved successfully.' })
       } else {
-        alert('Failed to save theme')
+        setToast({ type: 'error', message: 'Failed to save theme.' })
       }
     } catch (error) {
       console.error('Save theme error:', error)
-      alert('Error saving theme')
+      setToast({ type: 'error', message: 'Error saving theme.' })
     } finally {
       setSaving(false)
     }
   }
 
   const handleReset = () => {
-    if (confirm('Are you sure you want to reset to default theme?')) {
-      setTheme(defaultTheme)
-    }
+    setConfirmReset(true)
   }
 
   const exportTheme = () => {
@@ -88,6 +90,11 @@ export default function ThemeCustomizerPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 pb-20 lg:pb-8">
+      {toast && (
+        <div className="fixed right-4 top-20 z-50 w-full max-w-sm">
+          <AdminToast type={toast.type} message={toast.message} onClose={() => setToast(null)} />
+        </div>
+      )}
       {/* Header */}
       <div className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
@@ -401,6 +408,19 @@ export default function ThemeCustomizerPage() {
           )}
         </div>
       </div>
+      <AdminConfirmDialog
+        open={confirmReset}
+        title="Reset theme?"
+        message="This will reset the editor theme controls to the default values. You can still review before saving."
+        confirmLabel="Reset"
+        danger
+        onCancel={() => setConfirmReset(false)}
+        onConfirm={() => {
+          setTheme(defaultTheme)
+          setConfirmReset(false)
+          setToast({ type: 'info', message: 'Theme reset locally. Save to publish the default theme.' })
+        }}
+      />
     </div>
   )
 }

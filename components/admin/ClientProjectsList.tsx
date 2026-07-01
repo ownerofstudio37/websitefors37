@@ -3,6 +3,8 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import AdminToast from './AdminToast'
+import AdminConfirmDialog from './AdminConfirmDialog'
 
 interface Project {
   id: string
@@ -73,6 +75,8 @@ export default function ClientProjectsList({ projects: initialProjects }: { proj
   const router = useRouter()
   const [editingProject, setEditingProject] = useState<Project | null>(null)
   const [isSaving, setIsSaving] = useState(false)
+  const [toast, setToast] = useState<{ type: 'success' | 'error'; message: string } | null>(null)
+  const [confirmDelete, setConfirmDelete] = useState(false)
 
   const handleEdit = (project: Project) => {
     setEditingProject(project)
@@ -107,20 +111,21 @@ export default function ClientProjectsList({ projects: initialProjects }: { proj
       
       if (res.ok) {
         setEditingProject(null)
+        setToast({ type: 'success', message: 'Project updated.' })
         router.refresh()
       } else {
-        alert('Failed to update project')
+        setToast({ type: 'error', message: 'Failed to update project.' })
       }
     } catch (error) {
       console.error('Error updating project:', error)
-      alert('Error updating project')
+      setToast({ type: 'error', message: 'Error updating project.' })
     } finally {
       setIsSaving(false)
     }
   }
 
   const handleDelete = async () => {
-    if (!editingProject || !confirm('Are you sure you want to delete this project? This cannot be undone.')) return
+    if (!editingProject) return
 
     setIsSaving(true)
     try {
@@ -130,13 +135,15 @@ export default function ClientProjectsList({ projects: initialProjects }: { proj
       
       if (res.ok) {
         setEditingProject(null)
+        setConfirmDelete(false)
+        setToast({ type: 'success', message: 'Project deleted.' })
         router.refresh()
       } else {
-        alert('Failed to delete project')
+        setToast({ type: 'error', message: 'Failed to delete project.' })
       }
     } catch (error) {
       console.error('Error deleting project:', error)
-      alert('Error deleting project')
+      setToast({ type: 'error', message: 'Error deleting project.' })
     } finally {
       setIsSaving(false)
     }
@@ -144,6 +151,7 @@ export default function ClientProjectsList({ projects: initialProjects }: { proj
 
   return (
     <>
+      {toast && <AdminToast type={toast.type} message={toast.message} onClose={() => setToast(null)} />}
       <div className="space-y-4">
         {initialProjects.map((project) => (
           <div 
@@ -394,7 +402,7 @@ export default function ClientProjectsList({ projects: initialProjects }: { proj
               <div className="flex gap-3 pt-4 border-t mt-4">
                 <button
                   type="button"
-                  onClick={handleDelete}
+                  onClick={() => setConfirmDelete(true)}
                   className="px-4 py-2 border border-red-200 text-red-600 rounded-lg hover:bg-red-50 transition text-sm font-medium mr-auto"
                 >
                   Delete Project
@@ -418,6 +426,16 @@ export default function ClientProjectsList({ projects: initialProjects }: { proj
           </div>
         </div>
       )}
+      <AdminConfirmDialog
+        open={confirmDelete}
+        title="Delete project?"
+        message="This cannot be undone. The project record will be removed from admin."
+        confirmLabel="Delete"
+        danger
+        loading={isSaving}
+        onCancel={() => setConfirmDelete(false)}
+        onConfirm={handleDelete}
+      />
     </>
   )
 }

@@ -14,6 +14,11 @@ interface NavigationProps {
   initialNavItems?: NavigationItem[]
 }
 
+const DEFAULT_LOGO_LIGHT = '/brand/studio37-badge-light.svg'
+const DEFAULT_LOGO_DARK = '/brand/studio37-badge-dark.svg'
+const DEFAULT_BRAND_LOGO =
+  'https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_220,c_limit/v1762887052/IMG_2115_mtuowt_tayodz.png'
+
 export default function Navigation({
   initialLogoUrl = null,
   initialNavItems = FALLBACK_NAV_ITEMS,
@@ -21,19 +26,14 @@ export default function Navigation({
   const pathname = usePathname()
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-  const [logoUrl, setLogoUrl] = useState<string | null>(null)
-  const [dbLogoUrl, setDbLogoUrl] = useState<string | null>(initialLogoUrl)
+  const [logoUrl, setLogoUrl] = useState<string | null>(() => initialLogoUrl || DEFAULT_BRAND_LOGO)
+  const [dbLogoUrl, setDbLogoUrl] = useState<string | null>(() => initialLogoUrl || DEFAULT_BRAND_LOGO)
   const [navItems, setNavItems] = useState<NavigationItem[]>(() => normalizeNavigationItems(initialNavItems))
   const [dropdownStates, setDropdownStates] = useState<Record<string, boolean>>({})
   const [mobileDropdownStates, setMobileDropdownStates] = useState<Record<string, boolean>>({})
   // Small hover-intent close delays so menus don't vanish while moving cursor
   const dropdownCloseTimers = React.useRef<Record<string, ReturnType<typeof setTimeout> | null>>({})
   const navRef = useRef<HTMLElement>(null)
-  // Badge concept (light/dark) as default fallbacks
-  const DEFAULT_LOGO_LIGHT = '/brand/studio37-badge-light.svg'
-  const DEFAULT_LOGO_DARK = '/brand/studio37-badge-dark.svg'
-  // User-requested default brand logo (Cloudinary) - optimized
-  const DEFAULT_BRAND_LOGO = 'https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_200,c_limit/v1756077115/My%20Brand/IMG_2115_mtuowt.png'
   
   // Close mobile menu on route change
   useEffect(() => {
@@ -115,7 +115,7 @@ export default function Navigation({
         // Log error for debugging but don't crash - use fallback navigation
         console.warn('[Navigation] Using fallback navigation:', err instanceof Error ? err.message : 'Unknown error')
         if (mounted) {
-          setDbLogoUrl(null)
+          setDbLogoUrl(DEFAULT_BRAND_LOGO)
           setNavItems((prev) => normalizeNavigationItems(prev.length > 0 ? prev : FALLBACK_NAV_ITEMS))
         }
       }
@@ -134,7 +134,7 @@ export default function Navigation({
       // Fallback to badge variants depending on scroll state for contrast
       setLogoUrl(scrolled ? DEFAULT_LOGO_LIGHT : DEFAULT_LOGO_DARK)
     }
-  }, [dbLogoUrl, scrolled, DEFAULT_LOGO_LIGHT, DEFAULT_LOGO_DARK, DEFAULT_BRAND_LOGO])
+  }, [dbLogoUrl, scrolled])
 
   const dropdownHelpText = (item: NavigationItem) => {
     const label = item.label.toLowerCase()

@@ -11,6 +11,80 @@ import {
   SpacingPicker,
   AnimationPicker 
 } from '@/components/editor/ThemeControls'
+import AdminToast from '@/components/admin/AdminToast'
+
+type JsonField = { key: string; label: string; type?: 'text' | 'number' | 'boolean' | 'list' }
+
+function parseRows(value: string) {
+  try {
+    const parsed = JSON.parse(value || '[]')
+    return Array.isArray(parsed) ? parsed : []
+  } catch {
+    return []
+  }
+}
+
+function StructuredListEditor({
+  label,
+  value,
+  onChange,
+  fields,
+  emptyRow,
+}: {
+  label: string
+  value: string
+  onChange: (value: string) => void
+  fields: JsonField[]
+  emptyRow: Record<string, any>
+}) {
+  const rows = parseRows(value)
+  const updateRows = (nextRows: any[]) => onChange(JSON.stringify(nextRows, null, 2))
+  const updateField = (index: number, key: string, nextValue: any) => {
+    const nextRows = rows.map((row, rowIndex) => rowIndex === index ? { ...row, [key]: nextValue } : row)
+    updateRows(nextRows)
+  }
+
+  return (
+    <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
+      <div className="mb-3 flex items-center justify-between gap-3">
+        <div>
+          <p className="text-sm font-semibold text-gray-800">{label}</p>
+          <p className="text-xs text-gray-500">Structured fields are saved as compatible block JSON.</p>
+        </div>
+        <button type="button" onClick={() => updateRows([...rows, emptyRow])} className="rounded-md bg-primary-600 px-3 py-2 text-sm font-semibold text-white hover:bg-primary-700">
+          Add
+        </button>
+      </div>
+      <div className="space-y-3">
+        {rows.length === 0 && <p className="rounded-md bg-white px-3 py-3 text-sm text-gray-500">No items yet.</p>}
+        {rows.map((row, index) => (
+          <div key={index} className="rounded-md border border-gray-200 bg-white p-3">
+            <div className="grid gap-3 md:grid-cols-2">
+              {fields.map((field) => (
+                <label key={field.key} className="block">
+                  <span className="mb-1 block text-xs font-medium text-gray-600">{field.label}</span>
+                  {field.type === 'boolean' ? (
+                    <input type="checkbox" checked={Boolean(row[field.key])} onChange={(e) => updateField(index, field.key, e.target.checked)} />
+                  ) : (
+                    <input
+                      type={field.type === 'number' ? 'number' : 'text'}
+                      value={Array.isArray(row[field.key]) ? row[field.key].join(', ') : row[field.key] || ''}
+                      onChange={(e) => updateField(index, field.key, field.type === 'list' ? e.target.value.split(',').map((item) => item.trim()).filter(Boolean) : e.target.value)}
+                      className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
+                    />
+                  )}
+                </label>
+              ))}
+            </div>
+            <button type="button" onClick={() => updateRows(rows.filter((_, rowIndex) => rowIndex !== index))} className="mt-3 text-sm font-semibold text-red-600 hover:text-red-700">
+              Remove item
+            </button>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
 
 function TextInput({ label, value, onChange, placeholder }: any) {
   return (
@@ -174,6 +248,7 @@ export default function EditorFormClient() {
     variant: 'card',
     showFeatureChecks: 'true',
   })
+  const [toast, setToast] = useState<{ type: 'success' | 'error' | 'info'; message: string } | null>(null)
 
   const isHero = block === 'HeroBlock'
   const isCalc = block === 'PricingCalculatorBlock'
@@ -240,7 +315,7 @@ export default function EditorFormClient() {
     })
     if (!res.ok) {
       const msg = await res.json().catch(()=>({error:'Error'}))
-      alert(`Save failed: ${msg.error || res.statusText}`)
+      setToast({ type: 'error', message: `Save failed: ${msg.error || res.statusText}` })
       return
     }
     // Return to page with overlay
@@ -255,10 +330,10 @@ export default function EditorFormClient() {
     })
     if (!res.ok) {
       const msg = await res.json().catch(()=>({error:'Error'}))
-      alert(`Draft save failed: ${msg.error || res.statusText}`)
+      setToast({ type: 'error', message: `Draft save failed: ${msg.error || res.statusText}` })
       return
     }
-    alert('Draft saved')
+    setToast({ type: 'success', message: 'Draft saved.' })
   }
 
   async function publish() {
@@ -269,7 +344,7 @@ export default function EditorFormClient() {
     })
     if (!res.ok) {
       const msg = await res.json().catch(()=>({error:'Error'}))
-      alert(`Publish failed: ${msg.error || res.statusText}`)
+      setToast({ type: 'error', message: `Publish failed: ${msg.error || res.statusText}` })
       return
     }
     router.push(`${path}?edit=1`)
@@ -277,6 +352,7 @@ export default function EditorFormClient() {
 
   return (
     <div className="rounded-lg border bg-white p-4">
+      {toast && <div className="mb-4"><AdminToast type={toast.type} message={toast.message} onClose={() => setToast(null)} /></div>}
       <div className="mb-4">
         <div className="text-sm text-gray-500">Editing</div>
         <div className="text-lg font-semibold">{block}{id ? ` · ${id}` : ''}</div>
@@ -413,7 +489,7 @@ export default function EditorFormClient() {
       {isFaq && (
         <div className="grid gap-4">
           <TextInput label="Heading" value={faqBlock.heading} onChange={(v:any)=>setFaqBlock({...faqBlock, heading: v})} placeholder="Frequently Asked Questions" />
-          <TextArea label="Items JSON (array of {question, answer})" value={faqBlock.itemsJson} onChange={(v:any)=>setFaqBlock({...faqBlock, itemsJson: v})} placeholder='[{"question":"...","answer":"..."}]' />
+          <StructuredListEditor label="FAQ Items" value={faqBlock.itemsJson} onChange={(v)=>setFaqBlock({...faqBlock, itemsJson: v})} fields={[{ key: 'question', label: 'Question' }, { key: 'answer', label: 'Answer' }]} emptyRow={{ question: '', answer: '' }} />
           <NumberInput label="Columns (1-2)" value={faqBlock.columns} onChange={(v:any)=>setFaqBlock({...faqBlock, columns: v})} min={1} max={2} />
           <TextInput label="Animation" value={faqBlock.animation} onChange={(v:any)=>setFaqBlock({...faqBlock, animation: v})} />
         </div>
@@ -423,7 +499,7 @@ export default function EditorFormClient() {
         <div className="grid gap-4">
           <TextInput label="Heading" value={servicesGrid.heading} onChange={(v:any)=>setServicesGrid({...servicesGrid, heading: v})} placeholder="Our Services" />
           <TextInput label="Subheading" value={servicesGrid.subheading} onChange={(v:any)=>setServicesGrid({...servicesGrid, subheading: v})} placeholder="Optional subheading" />
-          <TextArea label="Services JSON (array of {image, title, description, features[], link?})" value={servicesGrid.servicesJson} onChange={(v:any)=>setServicesGrid({...servicesGrid, servicesJson: v})} placeholder='[{"image":"...","title":"...","description":"...","features":["..."],"link":"/..."}]' />
+          <StructuredListEditor label="Services" value={servicesGrid.servicesJson} onChange={(v)=>setServicesGrid({...servicesGrid, servicesJson: v})} fields={[{ key: 'image', label: 'Image URL' }, { key: 'title', label: 'Title' }, { key: 'description', label: 'Description' }, { key: 'features', label: 'Features', type: 'list' }, { key: 'link', label: 'Link' }]} emptyRow={{ image: '', title: '', description: '', features: [], link: '' }} />
           <TextInput label="Columns (2|3|4)" value={servicesGrid.columns} onChange={(v:any)=>setServicesGrid({...servicesGrid, columns: v})} placeholder="3" />
           <TextInput label="Animation" value={servicesGrid.animation} onChange={(v:any)=>setServicesGrid({...servicesGrid, animation: v})} />
         </div>
@@ -432,7 +508,7 @@ export default function EditorFormClient() {
       {isStats && (
         <div className="grid gap-4">
           <TextInput label="Heading" value={stats.heading} onChange={(v:any)=>setStats({...stats, heading: v})} placeholder="By the Numbers" />
-          <TextArea label="Stats JSON (array of {icon, number, label, suffix?})" value={stats.statsJson} onChange={(v:any)=>setStats({...stats, statsJson: v})} placeholder='[{"icon":"📷","number":"1000","label":"Happy Clients","suffix":"+"}]' />
+          <StructuredListEditor label="Stats" value={stats.statsJson} onChange={(v)=>setStats({...stats, statsJson: v})} fields={[{ key: 'icon', label: 'Icon' }, { key: 'number', label: 'Number' }, { key: 'label', label: 'Label' }, { key: 'suffix', label: 'Suffix' }]} emptyRow={{ icon: '', number: '', label: '', suffix: '' }} />
           <TextInput label="Columns (2|3|4)" value={stats.columns} onChange={(v:any)=>setStats({...stats, columns: v})} placeholder="3" />
           <TextInput label="Style (default|cards|minimal)" value={stats.style} onChange={(v:any)=>setStats({...stats, style: v})} />
           <TextInput label="Animation" value={stats.animation} onChange={(v:any)=>setStats({...stats, animation: v})} />
@@ -495,7 +571,7 @@ export default function EditorFormClient() {
         <div className="grid gap-4">
           <TextInput label="Heading" value={iconFeatures.heading} onChange={(v:any)=>setIconFeatures({...iconFeatures, heading: v})} placeholder="Why Choose Us" />
           <TextInput label="Subheading" value={iconFeatures.subheading} onChange={(v:any)=>setIconFeatures({...iconFeatures, subheading: v})} placeholder="Optional subheading" />
-          <TextArea label="Features JSON (array of {icon, title, description})" value={iconFeatures.featuresJson} onChange={(v:any)=>setIconFeatures({...iconFeatures, featuresJson: v})} placeholder='[{"icon":"📷","title":"Professional","description":"High-quality results"}]' />
+          <StructuredListEditor label="Features" value={iconFeatures.featuresJson} onChange={(v)=>setIconFeatures({...iconFeatures, featuresJson: v})} fields={[{ key: 'icon', label: 'Icon' }, { key: 'title', label: 'Title' }, { key: 'description', label: 'Description' }]} emptyRow={{ icon: '', title: '', description: '' }} />
           <TextInput label="Columns (2|3|4)" value={iconFeatures.columns} onChange={(v:any)=>setIconFeatures({...iconFeatures, columns: v})} placeholder="4" />
           <TextInput label="Animation" value={iconFeatures.animation} onChange={(v:any)=>setIconFeatures({...iconFeatures, animation: v})} />
         </div>
@@ -515,7 +591,7 @@ export default function EditorFormClient() {
         <div className="grid gap-4">
           <TextInput label="Heading" value={pricingTable.heading} onChange={(v:any)=>setPricingTable({...pricingTable, heading: v})} placeholder="Pricing Plans" />
           <TextInput label="Subheading" value={pricingTable.subheading} onChange={(v:any)=>setPricingTable({...pricingTable, subheading: v})} placeholder="Choose the right plan for you" />
-          <TextArea label="Plans JSON (array of {title, price, period?, features[], ctaText?, ctaLink?, highlight?})" value={pricingTable.plansJson} onChange={(v:any)=>setPricingTable({...pricingTable, plansJson: v})} placeholder='[{"title":"Basic","price":"$99","period":"month","features":["..."],"ctaText":"Get Started","ctaLink":"/book","highlight":false}]' />
+          <StructuredListEditor label="Pricing Plans" value={pricingTable.plansJson} onChange={(v)=>setPricingTable({...pricingTable, plansJson: v})} fields={[{ key: 'title', label: 'Title' }, { key: 'price', label: 'Price' }, { key: 'period', label: 'Period' }, { key: 'features', label: 'Features', type: 'list' }, { key: 'ctaText', label: 'CTA Text' }, { key: 'ctaLink', label: 'CTA Link' }, { key: 'highlight', label: 'Highlight', type: 'boolean' }]} emptyRow={{ title: '', price: '', period: '', features: [], ctaText: '', ctaLink: '', highlight: false }} />
           <TextInput label="Columns (2|3|4)" value={pricingTable.columns} onChange={(v:any)=>setPricingTable({...pricingTable, columns: v})} placeholder="3" />
           <TextInput label="Style (light|dark)" value={pricingTable.style} onChange={(v:any)=>setPricingTable({...pricingTable, style: v})} />
           <TextInput label="Variant (card|flat)" value={pricingTable.variant} onChange={(v:any)=>setPricingTable({...pricingTable, variant: v})} />

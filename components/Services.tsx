@@ -138,22 +138,31 @@ export default function Services() {
 										<Icon className="h-8 w-8 text-primary-600 group-hover:text-white transition-colors duration-300" />
 									</div>
 
-					{/* Static service image - optimized for performance */}
-				<div className="mb-5 aspect-[4/3] relative rounded-2xl overflow-hidden bg-stone-200 w-full">
-					<OptimizedImage
-						src={service.image}
-						alt={service.title}
-						fill
-						className="!relative w-full h-full"
-							imgClassName="object-cover group-hover:scale-105 transition-transform duration-500"
-						priority={index < 2}
-						quality={70}
-						sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
-						/>
-					</div>
-					<h3 className="text-2xl font-semibold mb-1 text-left group-hover:text-primary-700 transition-colors duration-300">
-						{service.title}
-					</h3>
+									{/* Static service image - optimized for performance */}
+									<Link
+										href={`/services/${service.slug}`}
+										aria-label={`View ${service.title}`}
+										className="mb-5 block aspect-[4/3] relative rounded-2xl overflow-hidden bg-stone-200 w-full focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2"
+									>
+										<OptimizedImage
+											src={service.image}
+											alt={service.title}
+											fill
+											className="!relative w-full h-full"
+											imgClassName="object-cover group-hover:scale-105 transition-transform duration-500"
+											priority={index < 2}
+											quality={70}
+											sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
+										/>
+									</Link>
+									<h3 className="text-2xl font-semibold mb-1 text-left group-hover:text-primary-700 transition-colors duration-300">
+										<Link
+											href={`/services/${service.slug}`}
+											className="rounded-sm focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2"
+										>
+											{service.title}
+										</Link>
+									</h3>
 									<p className="text-left text-sm font-semibold text-primary-700 mb-3">
 										{service.startingPrice}
 									</p>

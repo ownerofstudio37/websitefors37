@@ -26,27 +26,29 @@ export default function CuratedRecentWork({ className = '' }: { className?: stri
           </Link>
         </div>
         <div className="grid gap-5 md:grid-cols-3">
-          {recentWork.map((item) => (
-            <article key={item.title} className="overflow-hidden rounded-lg border border-stone-200 bg-stone-50">
-              <div className="relative aspect-[4/3] bg-stone-200">
-                <Image src={item.image} alt={item.alt} fill className="object-cover" sizes="(min-width: 1280px) 420px, (min-width: 768px) 33vw, 100vw" quality={88} />
-              </div>
-              <div className="p-5">
-                <div className="mb-3 flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-stone-500">
-                  <span>{item.service}</span>
-                  <span aria-hidden="true">/</span>
-                  <span>{item.location}</span>
+          {recentWork.map((item) => {
+            const itemGalleryUrl = 'galleryUrl' in item && item.galleryUrl ? item.galleryUrl : galleryUrl
+
+            return (
+              <article key={item.title} className="flex h-full flex-col overflow-hidden rounded-lg border border-stone-200 bg-stone-50">
+                <div className="relative aspect-[4/3] bg-stone-200">
+                  <Image src={item.image} alt={item.alt} fill className="object-cover" sizes="(min-width: 1280px) 420px, (min-width: 768px) 33vw, 100vw" quality={88} />
                 </div>
-                <h3 className="text-xl font-semibold text-stone-950">{item.title}</h3>
-                <p className="mt-2 text-sm leading-6 text-stone-600">{item.note}</p>
-                {'galleryUrl' in item && item.galleryUrl ? (
-                  <Link href={item.galleryUrl} aria-label={`View the full Studio37 gallery for ${item.title}`} className="mt-4 inline-flex text-sm font-semibold text-primary-700 hover:underline focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2">
+                <div className="flex flex-1 flex-col p-5">
+                  <div className="mb-3 flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-stone-500">
+                    <span>{item.service}</span>
+                    <span aria-hidden="true">/</span>
+                    <span>{item.location}</span>
+                  </div>
+                  <h3 className="text-xl font-semibold text-stone-950">{item.title}</h3>
+                  <p className="mt-2 flex-1 text-sm leading-6 text-stone-600">{item.note}</p>
+                  <Link href={itemGalleryUrl} aria-label={`View the full Studio37 gallery for ${item.title}`} className="mt-4 inline-flex text-sm font-semibold text-primary-700 hover:underline focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2">
                     View full gallery
                   </Link>
-                ) : null}
-              </div>
-            </article>
-          ))}
+                </div>
+              </article>
+            )
+          })}
         </div>
       </div>
     </section>

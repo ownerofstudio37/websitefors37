@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
+import AdminToast from '@/components/admin/AdminToast'
 
 interface Appointment {
   id: string
@@ -27,6 +28,7 @@ export default function CalendarPage() {
   const [editMode, setEditMode] = useState(false)
   const [saving, setSaving] = useState(false)
   const [deleteConfirm, setDeleteConfirm] = useState(false)
+  const [toast, setToast] = useState<{ type: 'success' | 'error'; message: string } | null>(null)
 
   const fetchAppointments = async (date: Date) => {
     setLoading(true)
@@ -147,12 +149,13 @@ export default function CalendarPage() {
       const data = await res.json()
       if (data.success) {
         setShowDetailModal(false)
+        setToast({ type: 'success', message: 'Appointment updated.' })
         fetchAppointments(currentDate)
       } else {
-        alert('Failed to update: ' + data.error)
+        setToast({ type: 'error', message: `Failed to update: ${data.error}` })
       }
     } catch {
-      alert('Error updating appointment')
+      setToast({ type: 'error', message: 'Error updating appointment.' })
     } finally {
       setSaving(false)
     }
@@ -168,12 +171,13 @@ export default function CalendarPage() {
       const data = await res.json()
       if (data.success) {
         setShowDetailModal(false)
+        setToast({ type: 'success', message: 'Appointment deleted.' })
         fetchAppointments(currentDate)
       } else {
-        alert('Failed to delete: ' + data.error)
+        setToast({ type: 'error', message: `Failed to delete: ${data.error}` })
       }
     } catch {
-      alert('Error deleting appointment')
+      setToast({ type: 'error', message: 'Error deleting appointment.' })
     } finally {
       setSaving(false)
       setDeleteConfirm(false)
@@ -198,6 +202,11 @@ export default function CalendarPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      {toast && (
+        <div className="fixed right-4 top-20 z-50 w-full max-w-sm">
+          <AdminToast type={toast.type} message={toast.message} onClose={() => setToast(null)} />
+        </div>
+      )}
       {/* Header */}
       <div className="bg-white border-b px-6 py-4 sticky top-0 z-10 shadow-sm">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
@@ -474,12 +483,13 @@ export default function CalendarPage() {
                     const data = await res.json()
                     if (data.success) {
                       setShowAddModal(false)
+                      setToast({ type: 'success', message: 'Appointment created.' })
                       fetchAppointments(currentDate)
                     } else {
-                      alert('Failed to create appointment: ' + data.error)
+                      setToast({ type: 'error', message: `Failed to create appointment: ${data.error}` })
                     }
                   } catch (error) {
-                    alert('Error creating appointment')
+                    setToast({ type: 'error', message: 'Error creating appointment.' })
                   }
                 }}
                 className="space-y-4"

@@ -75,10 +75,10 @@ const operationCards = [
   {
     key: 'followUpsDue',
     label: 'Automations due',
-    href: '/admin/marketing',
+    href: '/admin/operations',
     icon: CalendarCheck,
     tone: 'bg-emerald-50 text-emerald-700 border-emerald-100',
-    action: 'Open marketing',
+    action: 'Open operations',
   },
   {
     key: 'upcomingAppointments',

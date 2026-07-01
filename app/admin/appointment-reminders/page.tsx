@@ -21,6 +21,7 @@ export default function AppointmentRemindersSettingsPage() {
   const [saving, setSaving] = useState(false)
   const [testEmail, setTestEmail] = useState('')
   const [testPhone, setTestPhone] = useState('')
+  const [cronSecret, setCronSecret] = useState('')
   const [sendingTest, setSendingTest] = useState(false)
   const [runningNow, setRunningNow] = useState(false)
   const [runLog, setRunLog] = useState<{ ts: string; message: string; ok: boolean }[]>([])
@@ -103,19 +104,18 @@ export default function AppointmentRemindersSettingsPage() {
   }
 
   const handleRunNow = async () => {
+    if (!cronSecret.trim()) {
+      toast.error('Enter CRON_SECRET before running reminders manually')
+      return
+    }
+
     setRunningNow(true)
     try {
-      const cronSecret = prompt('Enter CRON_SECRET to authorize manual run:')
-      if (!cronSecret) {
-        setRunningNow(false)
-        return
-      }
-
       const res = await fetch('/api/appointments/send-reminders', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-Cron-Secret': cronSecret,
+          'X-Cron-Secret': cronSecret.trim(),
         },
       })
 
@@ -136,8 +136,8 @@ export default function AppointmentRemindersSettingsPage() {
       } else {
         toast.error(message)
       }
-    } catch (e: any) {
-      const message = 'Network error: ' + (e?.message || 'unknown')
+    } catch (e: unknown) {
+      const message = 'Network error: ' + (e instanceof Error ? e.message : 'unknown')
       setRunLog((prev) => [
         { ts: new Date().toLocaleTimeString(), message, ok: false },
         ...prev.slice(0, 9),
@@ -384,9 +384,20 @@ export default function AppointmentRemindersSettingsPage() {
           <p className="text-sm text-gray-600 mb-4">
             Run the reminder job immediately — useful for testing outside the daily cron window.
           </p>
+          <label className="mb-3 block">
+            <span className="mb-1 block text-sm font-medium text-gray-700">CRON_SECRET</span>
+            <input
+              type="password"
+              value={cronSecret}
+              onChange={(event) => setCronSecret(event.target.value)}
+              className="w-full max-w-md rounded-lg border border-gray-300 px-3 py-2 text-sm"
+              placeholder="Paste secret for this run"
+              autoComplete="off"
+            />
+          </label>
           <button
             onClick={handleRunNow}
-            disabled={runningNow}
+            disabled={runningNow || !cronSecret.trim()}
             className="flex items-center gap-2 px-5 py-2 bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white rounded-lg font-medium transition"
           >
             {runningNow ? <Loader2 className="w-4 h-4 animate-spin" /> : <Play className="w-4 h-4" />}

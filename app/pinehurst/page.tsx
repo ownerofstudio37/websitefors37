@@ -26,7 +26,7 @@ export default function PinehurstPage() {
       county="Montgomery County"
       slug="pinehurst"
       nearbyCities={['The Woodlands, TX', 'Spring, TX', 'Tomball, TX', 'Magnolia, TX', 'Conroe, TX', 'Houston, TX']}
-      heroImage="https://images.unsplash.com/photo-1554048612-b6a482b224b0?w=1200&h=600&fit=crop"
+      heroImage="https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_1400,c_limit/v1778033088/PS379444_2_1_pge2hl.jpg"
     />
   )
 }

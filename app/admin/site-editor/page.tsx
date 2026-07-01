@@ -156,7 +156,14 @@ export default function SiteEditorPage() {
               </div>
             )}
             {slug !== 'home' && (
-              <div className="text-gray-600">Preview coming soon for this page.</div>
+              <div className="rounded-lg border border-gray-200 bg-gray-50 p-6">
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-gray-500">{slug} page</p>
+                <h3 className="mt-2 text-3xl font-bold text-gray-950">{data.intro_title || 'Intro title preview'}</h3>
+                <p className="mt-3 text-sm leading-6 text-gray-600">{data.intro_text || 'Intro text preview will update as you edit.'}</p>
+                <div className="mt-5 rounded-md bg-white p-4 text-sm text-gray-500">
+                  Saved fields here update the matching public page configuration.
+                </div>
+              </div>
             )}
           </div>
         </div>

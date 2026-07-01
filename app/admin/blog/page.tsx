@@ -26,6 +26,8 @@ const MarkdownEditor = dynamic(() => import("@/components/MarkdownEditor"), {
 import { supabase } from "@/lib/supabase";
 import type { BlogPost } from "@/lib/supabase";
 import { revalidateBlog } from "@/lib/revalidate";
+import AdminToast from "@/components/admin/AdminToast";
+import AdminConfirmDialog from "@/components/admin/AdminConfirmDialog";
 
 // Suggestion type for AI modal
 type BlogSuggestions = {
@@ -67,6 +69,8 @@ export default function BlogManagementPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState("all");
   const [tagInput, setTagInput] = useState("");
+  const [toast, setToast] = useState<{ type: "success" | "error" | "info"; message: string } | null>(null);
+  const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
   const showRawAiDebug = process.env.NODE_ENV !== "production";
   // Raw AI response for debugging
   const [rawPreview, setRawPreview] = useState<string>("");
@@ -225,14 +229,6 @@ export default function BlogManagementPage() {
 
   // Delete a blog post
   const deletePost = async (id: string) => {
-    if (
-      !confirm(
-        "Are you sure you want to delete this post? This action cannot be undone."
-      )
-    ) {
-      return;
-    }
-
     try {
       const response = await fetch(`/api/blog/save?id=${id}`, {
         method: 'DELETE',
@@ -245,9 +241,11 @@ export default function BlogManagementPage() {
 
       // Update local state
       setBlogPosts(blogPosts.filter((post) => post.id !== id));
+      setDeleteTargetId(null);
+      setToast({ type: "success", message: "Blog post deleted." });
     } catch (error: any) {
       console.error("Error deleting post:", error);
-      alert(error.message || "Failed to delete post");
+      setToast({ type: "error", message: error.message || "Failed to delete post" });
     }
   };
 
@@ -294,9 +292,6 @@ export default function BlogManagementPage() {
       if (!res) throw new Error("No response from server");
 
       const responseText = await res.text();
-      if (showRawAiDebug) {
-        console.log("API Response (raw):", responseText);
-      }
       if (showRawAiDebug) {
         setRawPreview(responseText || "(empty response)");
       }
@@ -422,7 +417,7 @@ export default function BlogManagementPage() {
       );
     } catch (error) {
       console.error("Error toggling publish status:", error);
-      alert("Failed to update publish status");
+      setToast({ type: "error", message: "Failed to update publish status." });
     }
   };
 
@@ -439,6 +434,11 @@ export default function BlogManagementPage() {
 
   return (
     <div className="min-h-screen pt-16 bg-gray-50">
+      {toast && (
+        <div className="fixed right-4 top-20 z-50 w-full max-w-sm">
+          <AdminToast type={toast.type} message={toast.message} onClose={() => setToast(null)} />
+        </div>
+      )}
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
@@ -618,7 +618,7 @@ export default function BlogManagementPage() {
                       </a>
                     )}
                     <button
-                      onClick={() => deletePost(post.id)}
+                      onClick={() => setDeleteTargetId(post.id)}
                       title="Delete post"
                       className="p-2 text-red-400 hover:text-red-600 transition-colors"
                     >
@@ -1158,6 +1158,17 @@ export default function BlogManagementPage() {
           </div>
         )}
       </div>
+      <AdminConfirmDialog
+        open={Boolean(deleteTargetId)}
+        title="Delete blog post?"
+        message="This action cannot be undone. The post will be removed from the blog admin."
+        confirmLabel="Delete"
+        danger
+        onCancel={() => setDeleteTargetId(null)}
+        onConfirm={() => {
+          if (deleteTargetId) deletePost(deleteTargetId)
+        }}
+      />
     </div>
   );
 }
