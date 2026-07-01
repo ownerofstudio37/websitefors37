@@ -8,6 +8,7 @@ const routes = [
   { name: 'homepage', path: '/' },
   { name: 'services', path: '/services' },
   { name: 'portrait-service', path: '/services/portrait-photography' },
+  { name: 'locations', path: '/locations' },
   { name: 'service-area-pinehurst', path: '/local-photographer-pinehurst-tx' },
   { name: 'blog', path: '/blog' },
   { name: 'pricing', path: '/tools/pricing' },

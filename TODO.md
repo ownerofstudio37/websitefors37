@@ -172,13 +172,13 @@ Audit notes: `npm run audit:seo-assets` passed across public metadata/source fil
 
 ### Technical Quality And Performance
 
-- [ ] Reduce homepage client JS by reviewing dynamic imports, page-builder hydration, and chatbot/save-quote mounting behavior.
-- [ ] Add Playwright smoke tests for homepage, services, pricing, package recommender, session prep, locations, and booking.
-- [ ] Add visual regression screenshots for mobile sticky CTA, save-quote popup, and navigation dropdowns.
-- [ ] Add a link checker for internal public links plus expected external links to `https://gallery.studio37.cc`.
-- [ ] Add automated checks for overlapping fixed UI elements on mobile.
-- [ ] Add a production smoke test that fetches live headers for homepage, robots, sitemap, and top conversion pages after deploy.
-- [ ] Review CSP differences between homepage HTML responses and static XML/text endpoints to keep security consistent without breaking analytics or widgets.
+- [x] Reduce homepage client JS by reviewing dynamic imports, page-builder hydration, and chatbot/save-quote mounting behavior.
+- [x] Add Playwright smoke tests for homepage, services, pricing, package recommender, session prep, locations, and booking.
+- [x] Add visual regression screenshots for mobile sticky CTA, save-quote popup, and navigation dropdowns.
+- [x] Add a link checker for internal public links plus expected external links to `https://gallery.studio37.cc`.
+- [x] Add automated checks for overlapping fixed UI elements on mobile.
+- [x] Add a production smoke test that fetches live headers for homepage, robots, sitemap, and top conversion pages after deploy.
+- [x] Review CSP differences between homepage HTML responses and static XML/text endpoints to keep security consistent without breaking analytics or widgets.
 
 ## Public Site UX/UI
 
