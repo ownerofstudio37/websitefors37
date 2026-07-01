@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { ArrowRight, Briefcase, Camera, CalendarHeart, Heart, Megaphone } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import CuratedRecentWork from '@/components/CuratedRecentWork'
 import ServiceAreaMarketModules from '@/components/ServiceAreaMarketModules'
 import { PackageRecommenderCTA } from '@/components/PublicConversionSections'
@@ -9,64 +9,70 @@ const pathOptions = [
     label: 'Portrait',
     href: '/services/portrait-photography',
     price: 'from $350',
-    icon: Camera,
     copy: 'Families, seniors, headshots, maternity, and personal branding.',
   },
   {
     label: 'Wedding',
     href: '/services/wedding-photography',
     price: 'from $1,200',
-    icon: Heart,
     copy: 'Elopements, intimate weddings, and full-day celebrations.',
+  },
+  {
+    label: 'Engagement',
+    href: '/services/engagement-session',
+    price: 'from $450',
+    copy: 'Couple sessions, proposal coverage, and save-the-date portraits.',
   },
   {
     label: 'Event',
     href: '/services/event-photography',
     price: 'from $600',
-    icon: CalendarHeart,
     copy: 'Corporate events, milestones, parties, and community coverage.',
   },
   {
     label: 'Commercial',
     href: '/services/commercial-photography',
     price: 'from $500',
-    icon: Briefcase,
     copy: 'Brand, product, workplace, and campaign image libraries.',
   },
   {
-    label: 'Branding',
+    label: 'Branding & Marketing',
     href: '/services/branding-marketing',
     price: 'custom plans',
-    icon: Megaphone,
-    copy: 'Marketing support and visual systems for growth-focused brands.',
+    copy: 'Web, SEO, PPC, content, and visual systems for growth-focused brands.',
   },
 ]
 
 export function ChooseYourPathSection() {
   return (
-    <section className="border-y border-stone-200 bg-white">
-      <div className="container mx-auto px-4 py-6">
-        <div className="mb-4 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+    <section className="border-b border-stone-200 bg-white">
+      <div className="container mx-auto px-4 py-8">
+        <div className="mb-5 max-w-3xl">
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.18em] text-amber-800">Choose Your Path</p>
-            <h2 className="text-2xl font-bold text-stone-950">Start with the service that fits your story</h2>
+            <h2 className="text-3xl font-bold text-stone-950">Start with what you&apos;re planning</h2>
           </div>
-          <Link href="/tools/package-recommender" className="inline-flex w-fit items-center text-sm font-semibold text-amber-800 hover:text-amber-900">
-            Not sure? Use the recommender <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
-          </Link>
         </div>
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
-          {pathOptions.map(({ label, href, price, icon: Icon, copy }) => (
-            <Link key={label} href={href} className="group rounded-lg border border-stone-200 bg-stone-50 p-4 transition hover:border-amber-300 hover:bg-amber-50">
-              <div className="mb-3 flex items-center justify-between gap-3">
-                <Icon className="h-5 w-5 text-amber-800" aria-hidden="true" />
-                <span className="rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-stone-700">{price}</span>
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {pathOptions.map(({ label, href, price, copy }) => (
+            <Link key={label} href={href} className="group rounded-lg border border-stone-200 bg-white p-5 transition hover:border-amber-300 hover:bg-amber-50">
+              <div className="flex items-start justify-between gap-3">
+                <h3 className="font-semibold text-stone-950 group-hover:text-amber-900">{label}</h3>
+                <span className="text-xs font-semibold uppercase tracking-wide text-stone-500">{price}</span>
               </div>
-              <h3 className="font-semibold text-stone-950 group-hover:text-amber-900">{label}</h3>
               <p className="mt-2 text-sm leading-5 text-stone-600">{copy}</p>
             </Link>
           ))}
         </div>
+        <Link href="/services/concierge-services" className="mt-4 flex flex-col gap-2 rounded-lg border border-amber-200 bg-amber-50 px-5 py-4 transition hover:border-amber-300 sm:flex-row sm:items-center sm:justify-between">
+          <span>
+            <span className="block text-sm font-semibold uppercase tracking-[0.14em] text-amber-800">Planning a proposal?</span>
+            <span className="mt-1 block text-sm text-stone-700">Add concierge support for location, decor, timing, photo, and video.</span>
+          </span>
+          <span className="inline-flex items-center text-sm font-semibold text-amber-900">
+            Explore Concierge <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+          </span>
+        </Link>
       </div>
     </section>
   )
