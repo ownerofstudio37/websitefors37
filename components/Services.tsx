@@ -51,7 +51,7 @@ const services = [
 				'Book consultation to customize',
 			],
 			category: 'engagement concierge',
-			slug: 'engagement-session',
+			slug: 'concierge-services',
 			image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033152/IMG_4555_1_ppdkum.jpg',
 		},
 		{

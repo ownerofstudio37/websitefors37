@@ -9,10 +9,10 @@ const galleryUrl = 'https://gallery.studio37.cc'
 
 export function PublicTrustStrip() {
   const items = [
-    { icon: Star, label: '500+ client sessions' },
-    { icon: ShieldCheck, label: 'PPA member and insured' },
-    { icon: Clock, label: 'Sneak peeks in 24-48 hours' },
-    { icon: MapPin, label: 'Pinehurst to Greater Houston' },
+    { icon: Star, label: '500+ sessions and local reviews' },
+    { icon: Clock, label: 'Clear previews and delivery timelines' },
+    { icon: ShieldCheck, label: 'PPA member, insured, and prepared' },
+    { icon: MapPin, label: 'Two photographers across Greater Houston' },
   ]
 
   return (

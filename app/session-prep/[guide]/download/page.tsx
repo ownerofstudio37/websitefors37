@@ -2,13 +2,13 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ArrowLeft, CheckCircle2 } from 'lucide-react'
 import PrepGuideDownloadForm from '@/components/PrepGuideDownloadForm'
-import { prepGuideDownloads, ServiceKey } from '@/lib/public-content'
+import { prepGuideDownloads, PrepGuideKey } from '@/lib/public-content'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 
-const guideKeys = Object.keys(prepGuideDownloads) as ServiceKey[]
+const guideKeys = Object.keys(prepGuideDownloads) as PrepGuideKey[]
 
-function isGuide(value: string): value is ServiceKey {
-  return guideKeys.includes(value as ServiceKey)
+function isGuide(value: string): value is PrepGuideKey {
+  return guideKeys.includes(value as PrepGuideKey)
 }
 
 export function generateStaticParams() {

@@ -11,6 +11,8 @@ const captureRules = [
   { path: '/get-quote', delayMs: 45000, scrollPercent: 20 },
   { path: '/tools/pricing', delayMs: 40000, scrollPercent: 20 },
   { path: '/tools/package-recommender', delayMs: 35000, scrollPercent: 15 },
+  { path: '/services/concierge-services', delayMs: 35000, scrollPercent: 20 },
+  { path: '/services/engagement-session', delayMs: 40000, scrollPercent: 25 },
 ] as const
 
 export default function QuoteAbandonmentCapture() {
@@ -98,7 +100,9 @@ export default function QuoteAbandonmentCapture() {
           phone: form.phone.trim() || undefined,
           service_interest: 'Saved quote or booking follow-up',
           message: [
-            'Visitor saved their place before finishing a quote or booking flow.',
+            pathname?.includes('concierge') || pathname?.includes('engagement')
+              ? 'Visitor saved their place before finishing an engagement or concierge inquiry.'
+              : 'Visitor saved their place before finishing a quote or booking flow.',
             `Page: ${pathname}.`,
             context.selected_package ? `Selected package: ${JSON.stringify(context.selected_package)}.` : '',
             context.calculator_context ? `Calculator context: ${JSON.stringify(context.calculator_context)}.` : '',
@@ -127,7 +131,7 @@ export default function QuoteAbandonmentCapture() {
   }
 
   return (
-    <div className="fixed bottom-24 left-3 right-20 z-40 max-w-sm rounded-lg border border-stone-200 bg-white p-4 shadow-2xl sm:left-4 sm:right-auto md:bottom-6">
+    <div className="fixed bottom-28 left-3 right-24 z-40 max-w-sm rounded-lg border border-stone-200 bg-white p-4 shadow-2xl sm:left-4 sm:right-auto md:bottom-6">
       <button
         type="button"
         onClick={dismissCapture}

@@ -677,6 +677,8 @@ export default function LocalPhotographerCityPage({
               <Link href="/locations" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">All Service Areas</Link>
               <Link href="/services/wedding-photography" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">Wedding</Link>
               <Link href="/services/portrait-photography" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">Portrait</Link>
+              <Link href="/services/engagement-session" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">Engagement</Link>
+              <Link href="/services/concierge-services" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">Concierge</Link>
               <Link href="/services/event-photography" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">Event</Link>
               <Link href="/services/commercial-photography" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">Commercial</Link>
             </div>

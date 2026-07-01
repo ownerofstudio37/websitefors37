@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic'
 import { CheckCircle, ArrowRight } from 'lucide-react'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 import { generateServiceSchema } from '@/lib/seo-config'
+import { PackageRecommenderCTA } from '@/components/PublicConversionSections'
 
 export const metadata = generateSEOMetadata({
   title: 'Professional Photography Services in Pinehurst, TX',
@@ -94,6 +95,8 @@ export default function ServicesPage() {
           </div>
         </div>
       </div>
+
+      <PackageRecommenderCTA />
 
       {/* Main Services Component */}
             {/* Main Services Component */}

@@ -20,6 +20,7 @@ import {
   CheckCircle,
   ArrowRight,
 } from 'lucide-react'
+import { PortfolioProofSection } from '@/components/PublicConversionSections'
 
 export const metadata = generateSEOMetadata({
   title: 'Branding & Marketing Services Pinehurst TX - White-Glove Growth Partner | Studio37',
@@ -298,6 +299,8 @@ export default function BrandingMarketingPage() {
           </div>
         </div>
       </section>
+
+      <PortfolioProofSection serviceName="branding and marketing content" />
 
       <FAQSection
         title="Branding & Marketing FAQs"

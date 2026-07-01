@@ -19,7 +19,7 @@ const ENGAGEMENT_NAV_ITEM: NavigationItem = {
 const CONCIERGE_NAV_ITEM: NavigationItem = {
   id: 'services-concierge',
   label: 'Concierge Services',
-  href: '/services/engagement-session#concierge',
+  href: '/services/concierge-services',
   order: 4,
   visible: true,
 }

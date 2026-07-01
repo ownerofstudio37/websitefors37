@@ -249,6 +249,8 @@ export default function LeadCaptureForm() {
                 <option value="">Select a service</option>
                 <option value="wedding">Wedding Photography</option>
                 <option value="portrait">Portrait Session</option>
+                <option value="engagement">Engagement Photography</option>
+                <option value="concierge">Concierge Services</option>
                 <option value="event">Event Photography</option>
                 <option value="commercial">Commercial Photography</option>
                 <option value="other">Other</option>

@@ -9,7 +9,7 @@ const checks = [
   },
   {
     file: 'components/QuoteAbandonmentCapture.tsx',
-    required: ['fixed bottom-24', 'right-20', 'md:bottom-6'],
+    required: ['fixed bottom-28', 'right-24', 'md:bottom-6'],
   },
   {
     file: 'components/EnhancedChatBot.tsx',

@@ -8,6 +8,7 @@ import { generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
 import { Heart, Camera, Clock, Star, CheckCircle, ArrowRight } from 'lucide-react'
 import FAQSection from '@/components/FAQSection'
 import { ServiceTestimonialsSection, TurnaroundExpectationsSection, VenueStyleExamplesSection } from '@/components/PublicFeatureContent'
+import { PortfolioProofSection } from '@/components/PublicConversionSections'
 
 export const metadata = generateSEOMetadata({
   title: 'Wedding Photography Pinehurst TX - Studio37 Professional Wedding Photographer',
@@ -459,6 +460,7 @@ export default function WeddingPhotographyPage() {
 
       <VenueStyleExamplesSection type="wedding" />
       <TurnaroundExpectationsSection service="wedding" />
+      <PortfolioProofSection serviceName="wedding photography" />
       <ServiceTestimonialsSection service="wedding" />
 
       {/* FAQ Section */}
@@ -484,6 +486,9 @@ export default function WeddingPhotographyPage() {
             </p>
             <p className="text-sm mt-2 text-primary-700">
               Planning tips: <Link href="/blog/10-essential-tips-for-choosing-your-wedding-photographer" className="hover:underline">How to choose a wedding photographer</Link>.
+            </p>
+            <p className="text-sm mt-2 text-primary-700">
+              Before the wedding: <Link href="/services/engagement-session" className="hover:underline">Engagement photography</Link> and <Link href="/services/concierge-services" className="hover:underline">concierge proposal planning</Link>.
             </p>
           </div>
         </div>

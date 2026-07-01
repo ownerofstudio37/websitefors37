@@ -122,6 +122,19 @@ export default function SessionPrepHub() {
         </div>
       </section>
 
+      <section className="px-4 pb-10 sm:px-6 lg:px-8">
+        <div className="mx-auto grid max-w-6xl gap-4 md:grid-cols-2">
+          <Link href="/services/engagement-session" className="rounded-2xl border border-rose-200 bg-rose-50 p-5 transition hover:border-rose-300">
+            <p className="text-sm font-semibold uppercase tracking-wide text-rose-700">Engagement Photography</p>
+            <p className="mt-2 text-sm text-gray-700">Plan wardrobe, locations, timing, and portraits before the session.</p>
+          </Link>
+          <Link href="/services/concierge-services" className="rounded-2xl border border-amber-200 bg-amber-50 p-5 transition hover:border-amber-300">
+            <p className="text-sm font-semibold uppercase tracking-wide text-amber-800">Concierge Services</p>
+            <p className="mt-2 text-sm text-gray-700">Get help with proposal timing, privacy, decor, and photo or video coverage.</p>
+          </Link>
+        </div>
+      </section>
+
       {/* Guides Grid */}
       <section className="px-4 pb-20 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-6xl">

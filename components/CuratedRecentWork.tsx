@@ -39,6 +39,11 @@ export default function CuratedRecentWork({ className = '' }: { className?: stri
                 </div>
                 <h3 className="text-xl font-semibold text-stone-950">{item.title}</h3>
                 <p className="mt-2 text-sm leading-6 text-stone-600">{item.note}</p>
+                {'galleryUrl' in item && item.galleryUrl ? (
+                  <Link href={item.galleryUrl} className="mt-4 inline-flex text-sm font-semibold text-primary-700 hover:underline">
+                    View full gallery
+                  </Link>
+                ) : null}
               </div>
             </article>
           ))}

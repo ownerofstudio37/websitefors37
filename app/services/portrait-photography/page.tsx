@@ -9,6 +9,7 @@ import { generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
 import { Users, Camera, Clock, Star, CheckCircle, ArrowRight } from 'lucide-react'
 import PricingCalculator from '@/components/PricingCalculator'
 import { ServiceTestimonialsSection, TurnaroundExpectationsSection } from '@/components/PublicFeatureContent'
+import { PortfolioProofSection } from '@/components/PublicConversionSections'
 
 export const metadata = generateSEOMetadata({
   title: 'Portrait Photography Pinehurst TX - Professional Portrait Sessions Studio37',
@@ -440,6 +441,7 @@ export default function PortraitPhotographyPage() {
       </div>
 
       <TurnaroundExpectationsSection service="portrait" />
+      <PortfolioProofSection serviceName="portrait photography" />
       <ServiceTestimonialsSection service="portrait" />
 
       <FAQSection

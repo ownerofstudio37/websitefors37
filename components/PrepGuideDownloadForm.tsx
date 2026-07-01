@@ -2,11 +2,11 @@
 
 import { useMemo, useState } from 'react'
 import { Download, Mail } from 'lucide-react'
-import { prepGuideDownloads, ServiceKey } from '@/lib/public-content'
+import { prepGuideDownloads, PrepGuideKey } from '@/lib/public-content'
 import { withLeadContext } from '@/lib/client-lead-context'
 import { trackPrepGuideDownload } from '@/lib/analytics'
 
-export default function PrepGuideDownloadForm({ guide }: { guide: ServiceKey }) {
+export default function PrepGuideDownloadForm({ guide }: { guide: PrepGuideKey }) {
   const guideData = prepGuideDownloads[guide]
   const [form, setForm] = useState({ name: '', email: '', phone: '' })
   const [ready, setReady] = useState(false)

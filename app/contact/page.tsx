@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from 'next/link'
 import { Mail, Phone, MapPin, Instagram, Facebook, Twitter } from 'lucide-react'
 import Image from 'next/image'
 import LeadCaptureForm from '@/components/LeadCaptureForm'
@@ -61,6 +62,9 @@ export default async function ContactPage() {
           <p className="text-xl text-stone-100 mb-1 leading-relaxed">
           Get in touch with our team to discuss your photography needs, book a session, or ask any questions.
           </p>
+          <Link href="/tools/package-recommender" className="btn-primary mt-5 inline-flex">
+            Not sure what to book?
+          </Link>
         </div>
         {/* Contact Form and Information */}
         <section className="pb-8">

@@ -57,6 +57,8 @@ export default function SEOFooter() {
               <li><Link href="/services" className="hover:text-white transition-colors">All Services</Link></li>
               <li><Link href="/services/wedding-photography" className="hover:text-white transition-colors">Wedding Photography</Link></li>
               <li><Link href="/services/portrait-photography" className="hover:text-white transition-colors">Portrait Sessions</Link></li>
+              <li><Link href="/services/engagement-session" className="hover:text-white transition-colors">Engagement Photography</Link></li>
+              <li><Link href="/services/concierge-services" className="hover:text-white transition-colors">Concierge Services</Link></li>
               <li><Link href="/services/event-photography" className="hover:text-white transition-colors">Event Photography</Link></li>
               <li><Link href="/services/commercial-photography" className="hover:text-white transition-colors">Commercial Photography</Link></li>
               <li><Link href="/services/branding-marketing" className="hover:text-white transition-colors">Branding &amp; Marketing</Link></li>

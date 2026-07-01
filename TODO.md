@@ -5,33 +5,44 @@
 ### Navigation And Service Positioning
 
 - [x] Add Engagement Photography to the Services dropdown and point it to the engagement service page.
-- [x] Add Concierge Services to the Services dropdown with a direct anchor link to proposal and engagement concierge packages.
-- [ ] Create a dedicated Concierge Services landing page if concierge search demand grows beyond the engagement page anchor.
-- [ ] Add homepage entry points for Engagement Photography and Concierge Services above or near the main service grid.
-- [ ] Add internal links from wedding, proposal, session prep, and location pages into Engagement Photography and Concierge Services.
+- [x] Add Concierge Services to the Services dropdown and point it to a dedicated concierge landing page.
+- [x] Create a dedicated Concierge Services landing page if concierge search demand grows beyond the engagement page anchor.
+- [x] Add homepage entry points for Engagement Photography and Concierge Services above or near the main service grid.
+- [x] Add internal links from wedding, proposal, session prep, and location pages into Engagement Photography and Concierge Services.
+
+### General Public Site Improvements
+
+- [x] Tighten homepage first-viewport copy so the main offer, service area, and booking path are clear in under 5 seconds.
+- [x] Add a public proof strip with review count, delivery timeline, insurance/PPA trust, and two-photographer value.
+- [x] Add service-specific portfolio snippets to wedding, portrait, event, commercial, and branding pages.
+- [x] Improve footer service links so every major service page is reachable without using the top nav.
+- [x] Add a lightweight "not sure what to book?" route from homepage, services, pricing, and contact into the package recommender.
+- [x] Audit mobile spacing for sticky CTA, chatbot, newsletter modal, and quote capture on 390px-wide screens.
+- [x] Add schema and metadata QA for new service pages before each deploy.
+- [x] Review Cloudinary hero crops and image quality on the homepage and top service pages.
 
 ### Conversion Improvements
 
-- [ ] Add a short concierge inquiry flow that captures proposal date, location ideas, budget range, privacy needs, decor needs, and photo/video preference.
-- [ ] Add "starting at" or "custom planning starts with a consult" microcopy near concierge CTAs so visitors understand pricing expectations.
-- [ ] Add service-specific testimonials for engagement, proposal, and concierge clients near the booking CTAs.
-- [ ] Track nav clicks, concierge CTA clicks, quote starts, and booking starts as separate conversion events.
-- [ ] Add abandoned inquiry follow-up for visitors who open concierge or engagement quote flows but do not submit.
+- [x] Add a short concierge inquiry flow that captures proposal date, location ideas, budget range, privacy needs, decor needs, and photo/video preference.
+- [x] Add "starting at" or "custom planning starts with a consult" microcopy near concierge CTAs so visitors understand pricing expectations.
+- [x] Add service-specific testimonials for engagement, proposal, and concierge clients near the booking CTAs.
+- [x] Track nav clicks, concierge CTA clicks, quote starts, and booking starts as separate conversion events.
+- [x] Add abandoned inquiry follow-up for visitors who open concierge or engagement quote flows but do not submit.
 
 ### SEO And Content
 
-- [ ] Build local engagement/proposal pages for The Woodlands, Magnolia, Montgomery, Conroe, Tomball, and Houston.
-- [ ] Add FAQ schema for proposal photography, engagement photography pricing, concierge planning, and photo/video coverage.
-- [ ] Add recent engagement/proposal portfolio examples with strong alt text and links to `https://gallery.studio37.cc`.
-- [ ] Publish blog posts targeting proposal planning, engagement session locations, what to wear, and golden-hour engagement photos.
-- [ ] Audit title/meta uniqueness across engagement, wedding, portrait, and city landing pages to avoid repeated templates.
+- [x] Build local engagement/proposal pages for The Woodlands, Magnolia, Montgomery, Conroe, Tomball, and Houston.
+- [x] Add FAQ schema for proposal photography, engagement photography pricing, concierge planning, and photo/video coverage.
+- [x] Add recent engagement/proposal portfolio examples with strong alt text and links to `https://gallery.studio37.cc`.
+- [x] Publish blog posts targeting proposal planning, engagement session locations, what to wear, and golden-hour engagement photos.
+- [x] Audit title/meta uniqueness across engagement, wedding, portrait, and city landing pages to avoid repeated templates.
 
 ### UX And Performance
 
-- [ ] Run mobile screenshot QA for the Services dropdown, engagement page anchor jump, sticky CTA, quote popup, and booking CTA.
-- [ ] Improve image selection and crop QA on engagement and concierge sections so the first viewport feels premium and specific.
-- [ ] Add a compact "choose your engagement path" module: session only, proposal coverage, full concierge, photo + video.
-- [ ] Review Core Web Vitals for public service pages and reduce above-the-fold image weight where needed.
+- [x] Run mobile screenshot QA for the Services dropdown, engagement page anchor jump, sticky CTA, quote popup, and booking CTA.
+- [x] Improve image selection and crop QA on engagement and concierge sections so the first viewport feels premium and specific.
+- [x] Add a compact "choose your engagement path" module: session only, proposal coverage, full concierge, photo + video.
+- [x] Review Core Web Vitals for public service pages and reduce above-the-fold image weight where needed.
 
 ## Fresh Audit Backlog - June 25, 2026
 

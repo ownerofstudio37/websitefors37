@@ -80,3 +80,42 @@ test('mobile fixed conversion UI does not overlap incoherently', async ({ page }
     }
   }
 })
+
+test('mobile prelaunch UX surfaces render without overlap', async ({ page }, testInfo) => {
+  test.skip(!testInfo.project.name.includes('mobile'), 'mobile UX QA only runs in the mobile project')
+
+  await page.goto('/services', { waitUntil: 'domcontentloaded' })
+  await page.getByRole('button', { name: /open main navigation/i }).click()
+  await page.getByRole('button', { name: /services submenu toggle/i }).click()
+  await expect(page.getByLabel('Main navigation', { exact: true }).getByRole('link', { name: 'Engagement Photography' })).toBeVisible()
+  await page.screenshot({ path: path.join(screenshotDir, `${testInfo.project.name}-services-dropdown.png`), fullPage: true })
+
+  await page.goto('/services/engagement-session#concierge', { waitUntil: 'domcontentloaded' })
+  await expect(page.getByRole('heading', { name: /proposal \+ engagement concierge/i })).toBeVisible()
+  await expect(page.getByRole('heading', { name: /pick the engagement experience/i })).toBeVisible()
+  await page.screenshot({ path: path.join(screenshotDir, `${testInfo.project.name}-engagement-anchor.png`), fullPage: true })
+
+  await page.goto('/', { waitUntil: 'domcontentloaded' })
+  await expect(page.getByRole('navigation', { name: /quick actions/i })).toBeVisible()
+  await page.screenshot({ path: path.join(screenshotDir, `${testInfo.project.name}-sticky-cta.png`), fullPage: true })
+
+  await page.addInitScript(() => {
+    const nativeSetTimeout = window.setTimeout
+    window.setTimeout = ((handler: TimerHandler, timeout?: number, ...args: unknown[]) => {
+      const nextTimeout = typeof timeout === 'number' && timeout > 1000 ? 25 : timeout
+      return nativeSetTimeout(handler, nextTimeout, ...args)
+    }) as typeof window.setTimeout
+  })
+  await page.goto('/get-quote', { waitUntil: 'domcontentloaded' })
+  await page.evaluate(() => {
+    window.localStorage.removeItem('studio37_quote_capture_done')
+    window.scrollTo(0, document.documentElement.scrollHeight)
+  })
+  await expect(page.getByText(/save your quote before you go/i)).toBeVisible()
+  await page.screenshot({ path: path.join(screenshotDir, `${testInfo.project.name}-quote-popup.png`), fullPage: true })
+
+  await page.goto('/book-a-session', { waitUntil: 'domcontentloaded' })
+  await expect(page.getByRole('heading', { name: /book your session/i })).toBeVisible()
+  await expect(page.getByText(/choose booking type/i)).toBeVisible()
+  await page.screenshot({ path: path.join(screenshotDir, `${testInfo.project.name}-booking-cta.png`), fullPage: true })
+})

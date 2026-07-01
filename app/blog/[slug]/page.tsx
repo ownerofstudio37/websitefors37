@@ -12,6 +12,7 @@ import { generateSEOMetadata, generateArticleSchema } from '@/lib/seo-helpers'
 import { businessInfo } from '@/lib/seo-config'
 import { generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
 import ComparePackagesCTA from '@/components/ComparePackagesCTA'
+import { getStaticBlogPost, staticBlogPosts } from '@/lib/static-blog-posts'
 
 const isValidSlug = (s: string) => /^[a-z0-9-]{1,200}$/.test(s) // Increased from 64 to 200 chars for longer blog titles
 
@@ -35,13 +36,32 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     .eq('published', true)
     .maybeSingle()
   
+  const staticPost = getStaticBlogPost(params.slug)
+
+  if (!post && !staticPost) {
+    return {
+      title: 'Post Not Found',
+      description: 'The requested blog post could not be found'
+    }
+  }
+
+  if (staticPost) {
+    return generateSEOMetadata({
+      title: staticPost.title,
+      description: staticPost.meta_description,
+      keywords: staticPost.meta_keywords,
+      canonicalUrl: `${businessInfo.contact.website}/blog/${staticPost.slug}`,
+      pageType: 'article'
+    })
+  }
+
   if (!post) {
     return {
       title: 'Post Not Found',
       description: 'The requested blog post could not be found'
     }
   }
-  
+
   return generateSEOMetadata({
     title: post.title,
     description: post.meta_description || post.excerpt || 'Studio 37 Photography Blog',
@@ -64,34 +84,41 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
     .eq('published', true)
     .maybeSingle()
   
-  if (!post || (error && (error as any).status === 406)) {
+  const staticPost = getStaticBlogPost(params.slug)
+
+  if ((!post || (error && (error as any).status === 406)) && !staticPost) {
     notFound()
   }
+
+  const articlePost = post || staticPost!
   
   // Get related posts using same admin client
   const { data: relatedPosts } = await supabase
     .from('blog_posts')
     .select('id, title, slug, published_at')
     .eq('published', true)
-    .neq('id', post.id)
+    .neq('id', articlePost.id || '')
     .order('published_at', { ascending: false })
     .limit(3)
+  const fallbackRelatedPosts = staticBlogPosts
+    .filter((item) => item.slug !== articlePost.slug)
+    .slice(0, 3)
 
   // Generate Article schema for SEO
   const articleSchema = generateArticleSchema({
-    headline: post.title,
-    description: post.meta_description || post.excerpt || '',
-    image: post.featured_image || `${businessInfo.contact.website}/api/og?title=${encodeURIComponent(post.title)}`,
-    datePublished: post.published_at || post.created_at,
-    dateModified: post.updated_at,
-    author: post.author || 'Studio 37',
-    url: `${businessInfo.contact.website}/blog/${post.slug}`
+    headline: articlePost.title,
+    description: articlePost.meta_description || articlePost.excerpt || '',
+    image: articlePost.featured_image || `${businessInfo.contact.website}/api/og?title=${encodeURIComponent(articlePost.title)}`,
+    datePublished: articlePost.published_at || articlePost.created_at,
+    dateModified: articlePost.updated_at,
+    author: articlePost.author || 'Studio 37',
+    url: `${businessInfo.contact.website}/blog/${articlePost.slug}`
   })
 
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Home', url: businessInfo.contact.website },
     { name: 'Blog', url: `${businessInfo.contact.website}/blog` },
-    { name: post.title, url: `${businessInfo.contact.website}/blog/${post.slug}` },
+    { name: articlePost.title, url: `${businessInfo.contact.website}/blog/${articlePost.slug}` },
   ])
   
   return (
@@ -112,26 +139,26 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back to Blog
           </Link>
-          <h1 className="text-4xl font-bold mb-4">{post.title}</h1>
+          <h1 className="text-4xl font-bold mb-4">{articlePost.title}</h1>
           
           <div className="flex flex-wrap items-center text-sm text-gray-600 mb-6">
             <div className="flex items-center mr-6 mb-2">
               <Calendar className="h-4 w-4 mr-1" />
               <span>
-                {post.published_at 
-                  ? new Date(post.published_at).toLocaleDateString() 
-                  : new Date(post.created_at || Date.now()).toLocaleDateString()
+                {articlePost.published_at
+                  ? new Date(articlePost.published_at).toLocaleDateString()
+                  : new Date(articlePost.created_at || Date.now()).toLocaleDateString()
                 }
               </span>
             </div>
             <div className="flex items-center mr-6 mb-2">
               <User className="h-4 w-4 mr-1" />
-              <span>{post.author}</span>
+              <span>{articlePost.author}</span>
             </div>
-            {post.tags && post.tags.length > 0 && (
+            {articlePost.tags && articlePost.tags.length > 0 && (
               <div className="flex items-center flex-wrap">
                 <Tag className="h-4 w-4 mr-2" />
-                {post.tags.map((tag: string, index: number) => (
+                {articlePost.tags.map((tag: string, index: number) => (
                   <span 
                     key={index} 
                     className="text-xs bg-gray-200 px-2 py-1 rounded mr-2 mb-2"
@@ -145,12 +172,12 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
         </div>
       </div>
 
-      {post.featured_image && (
+      {articlePost.featured_image && (
         <div className="container mx-auto px-4 py-6">
           <div className="relative h-96 w-full">
             <Image
-              src={post.featured_image}
-              alt={post.title}
+              src={articlePost.featured_image}
+              alt={articlePost.title}
               fill
               className="object-cover rounded-lg"
             />
@@ -161,15 +188,15 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-4xl mx-auto">
           <div className="w-full">
-          {post.excerpt && (
+          {articlePost.excerpt && (
             <div className="text-xl text-gray-600 mb-8 italic border-l-4 border-primary-500 pl-4 py-2">
-              {post.excerpt}
+              {articlePost.excerpt}
             </div>
           )}
           
           <article className="prose lg:prose-lg max-w-none">
             <MDXRemote 
-              source={post.content}
+              source={articlePost.content}
               options={{
                 mdxOptions: {
                   rehypePlugins: [[rehypeRaw as any, {
@@ -182,13 +209,13 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
 
             <ComparePackagesCTA context="this session" />
           
-            {relatedPosts && relatedPosts.length > 0 && (
+            {((relatedPosts && relatedPosts.length > 0) || fallbackRelatedPosts.length > 0) && (
               <div className="mt-16 pt-12 border-t">
                 <h3 className="text-2xl font-bold mb-6">Related Articles</h3>
                 <div className="grid md:grid-cols-3 gap-6">
-                  {relatedPosts.map((relatedPost) => (
+                  {(relatedPosts && relatedPosts.length > 0 ? relatedPosts : fallbackRelatedPosts).map((relatedPost) => (
                     <Link 
-                      key={relatedPost.id} 
+                      key={relatedPost.slug}
                       href={`/blog/${relatedPost.slug}`}
                       className="p-4 border rounded-lg hover:shadow-md transition-shadow"
                     >

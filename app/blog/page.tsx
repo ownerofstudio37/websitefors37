@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { Suspense } from 'react'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
+import { staticBlogPosts } from '@/lib/static-blog-posts'
 
 export const metadata = generateSEOMetadata({
   title: 'Photography Blog - Tips & Insights from Studio37 Pinehurst, TX',
@@ -51,10 +52,16 @@ export default async function BlogPage() {
       throw new Error(text || `HTTP ${res.status}`)
     }
     const json = await res.json()
-    posts = json.posts || []
+    const remotePosts = json.posts || []
+    const remoteSlugs = new Set(remotePosts.map((post: any) => post.slug))
+    posts = [
+      ...remotePosts,
+      ...staticBlogPosts.filter((post) => !remoteSlugs.has(post.slug)),
+    ]
   } catch (e: any) {
     console.error('Blog fetch via API failed:', e)
     error = e
+    posts = staticBlogPosts
   }
 
   return (
@@ -69,7 +76,7 @@ export default async function BlogPage() {
       </div>
 
       <div className="container mx-auto px-4 py-12">
-        {error ? (
+        {error && posts.length === 0 ? (
           <div className="text-center py-12">
             <p className="text-red-600">Error loading blog posts</p>
             <p className="text-sm text-gray-500 mt-2">{typeof error === 'string' ? error : (error?.message || 'Unknown error')}</p>

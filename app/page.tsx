@@ -1,5 +1,6 @@
 import React from "react";
 import dynamic from "next/dynamic";
+import Link from "next/link";
 import Hero from "@/components/Hero";
 import LeadCaptureForm from "@/components/LeadCaptureForm";
 import LocalBusinessSchema from "@/components/LocalBusinessSchema";
@@ -44,6 +45,27 @@ const DiscountNewsletterModal = dynamic(
     loading: () => null,
   }
 );
+
+function EngagementConciergeEntry() {
+  return (
+    <section className="bg-white py-10 border-y border-stone-200">
+      <div className="container mx-auto px-4">
+        <div className="grid gap-4 md:grid-cols-2">
+          <Link href="/services/engagement-session" className="surface-panel p-6 transition hover:-translate-y-1">
+            <p className="text-sm font-semibold uppercase tracking-wide text-rose-700">Engagement Photography</p>
+            <h2 className="mt-2 text-2xl font-bold text-stone-950">Directed couple sessions with location and light planning</h2>
+            <p className="mt-3 text-stone-600">Save-the-date images, editorial portraits, and relaxed direction for couples.</p>
+          </Link>
+          <Link href="/services/concierge-services" className="surface-panel p-6 transition hover:-translate-y-1">
+            <p className="text-sm font-semibold uppercase tracking-wide text-amber-800">Concierge Services</p>
+            <h2 className="mt-2 text-2xl font-bold text-stone-950">Proposal planning, decor support, and photo or video coverage</h2>
+            <p className="mt-3 text-stone-600">A managed plan for high-stakes moments where timing and privacy matter.</p>
+          </Link>
+        </div>
+      </div>
+    </section>
+  )
+}
 
 export const metadata = generateSEOMetadata({
   title: "Studio37 Photography | Pinehurst Wedding, Portrait & Event Photographer",
@@ -205,6 +227,7 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
         <Hero />
         <PublicTrustStrip />
         <ChooseYourPathSection />
+        <EngagementConciergeEntry />
         <PackageRecommenderCTA />
         <LazyMount minHeight={400}>
           <PortraitHighlightGallery />
@@ -257,6 +280,7 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
       <Hero />
       <PublicTrustStrip />
       <ChooseYourPathSection />
+      <EngagementConciergeEntry />
       <PackageRecommenderCTA />
       {/* Two Photographers Announcement */}
       <div className="bg-amber-50 border-y border-amber-200/80">

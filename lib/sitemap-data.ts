@@ -1,6 +1,7 @@
 import { createClient } from '@supabase/supabase-js'
 import type { MetadataRoute } from 'next'
 import { locationPages } from '@/lib/location-pages'
+import { staticBlogPosts } from '@/lib/static-blog-posts'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co'
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key'
@@ -132,11 +133,36 @@ export async function getSitemapRoutes(): Promise<MetadataRoute.Sitemap> {
       priority: PRIORITIES.servicePages,
     },
     {
+      url: `${sitemapBaseUrl}/services/concierge-services`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly',
+      priority: PRIORITIES.servicePages,
+    },
+    {
       url: `${sitemapBaseUrl}/services/branding-marketing`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
+    ...[
+      'the-woodlands',
+      'magnolia',
+      'montgomery',
+      'conroe',
+      'tomball',
+      'houston',
+    ].map((city) => ({
+      url: `${sitemapBaseUrl}/engagement-photographer-${city}-tx`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly' as const,
+      priority: PRIORITIES.servicePages,
+    })),
+    ...staticBlogPosts.map((post) => ({
+      url: `${sitemapBaseUrl}/blog/${post.slug}`,
+      lastModified: new Date(post.updated_at),
+      changeFrequency: 'monthly' as const,
+      priority: PRIORITIES.blogPostsModerate,
+    })),
     {
       url: `${sitemapBaseUrl}/compare`,
       lastModified: currentDate,

@@ -1,5 +1,6 @@
 import PricingCalculator from "@/components/PricingCalculator"
 import PackageRecommender from "@/components/PackageRecommender"
+import Link from "next/link"
 import { generateSEOMetadata } from "@/lib/seo-helpers"
 import Schema from "@/components/Schema"
 import { generateBreadcrumbSchema, generateFAQSchema, generateWebApplicationSchema } from "@/lib/schema"
@@ -46,6 +47,9 @@ export default function PricingToolPage() {
         <div className="text-center mb-8">
           <h1 className="text-4xl font-extrabold text-gray-900">Portrait Pricing Calculator</h1>
           <p className="text-gray-600 mt-2">Use this tool to plan your session and compare package deals.</p>
+          <Link href="/tools/package-recommender" className="mt-4 inline-flex text-sm font-semibold text-amber-800 hover:text-amber-900">
+            Not sure what to book? Start with the package recommender.
+          </Link>
         </div>
         <PricingCalculator />
         <PackageRecommender className="mt-10" />

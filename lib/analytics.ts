@@ -21,6 +21,10 @@ type EventName =
   | 'save_quote_submit'
   | 'save_quote_dismiss'
   | 'prep_guide_download'
+  | 'navigation_click'
+  | 'concierge_cta_click'
+  | 'quote_start'
+  | 'booking_start'
 
 interface EventParams {
   [key: string]: string | number | boolean | undefined
@@ -204,6 +208,22 @@ export function trackPrepGuideDownload(guide: string, source: 'submit' | 'downlo
   })
 }
 
+export function trackNavigationClick(params: EventParams) {
+  trackEvent('navigation_click', params)
+}
+
+export function trackConciergeCtaClick(params?: EventParams) {
+  trackEvent('concierge_cta_click', params)
+}
+
+export function trackQuoteStart(params?: EventParams) {
+  trackEvent('quote_start', params)
+}
+
+export function trackBookingStart(params?: EventParams) {
+  trackEvent('booking_start', params)
+}
+
 /**
  * Setup scroll depth tracking on page load
  * Tracks when user scrolls to 25%, 50%, 75%, and bottom of page
@@ -317,16 +337,27 @@ export function setupPrimaryCtaTracking() {
 
     if (href.includes('/book-a-session')) {
       trackBookingClick('book-session-cta')
+      trackBookingStart({ cta_href: href })
       return
     }
 
     if (href.includes('/get-quote')) {
       trackBookingClick('get-quote-cta')
+      trackQuoteStart({ cta_href: href })
       return
     }
 
     if (href.includes('/book-consultation')) {
       trackBookingClick('consultation-cta')
+      trackBookingStart({ cta_href: href })
+      if (href.toLowerCase().includes('concierge')) {
+        trackConciergeCtaClick({ cta_href: href })
+      }
+      return
+    }
+
+    if (href.includes('/services/concierge-services')) {
+      trackConciergeCtaClick({ cta_href: href })
       return
     }
 

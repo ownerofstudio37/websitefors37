@@ -7,6 +7,7 @@ import { Menu, X, Camera, ChevronDown } from '@/icons'
 import { supabase } from '@/lib/supabase'
 import { Phone } from 'lucide-react'
 import { FALLBACK_NAV_ITEMS, normalizeNavigationItems, type NavigationItem } from '@/lib/navigation-config'
+import { trackNavigationClick } from '@/lib/analytics'
 
 interface NavigationProps {
   initialLogoUrl?: string | null
@@ -140,6 +141,10 @@ export default function Navigation({
     if (label.includes('service area')) return 'Browse local markets and nearby city pages.'
     if (label.includes('service')) return 'Choose a service to compare pricing, prep, and next steps.'
     return 'Open related Studio37 pages.'
+  }
+
+  const trackNav = (label: string, href: string, location: 'desktop' | 'mobile') => {
+    trackNavigationClick({ label, href, nav_location: location })
   }
 
   const isActiveHref = (href: string) => {
@@ -328,6 +333,7 @@ export default function Navigation({
                                     : 'text-stone-800 hover:bg-amber-50 hover:text-amber-700'
                                 }`}
                                 aria-current={isChildActive ? 'page' : undefined}
+                                onClick={() => trackNav(child.label, childHref, 'desktop')}
                               >
                                 {child.label}
                               </Link>
@@ -359,6 +365,7 @@ export default function Navigation({
                         }`
                   }`}
                   aria-current={isActiveHref(normalizeHref(item.href)) ? 'page' : undefined}
+                  onClick={() => trackNav(item.label, normalizeHref(item.href), 'desktop')}
                 >
                   {item.label}
                 </Link>
@@ -470,7 +477,7 @@ export default function Navigation({
                                     : 'text-stone-800 hover:bg-amber-50 hover:text-amber-700'
                                 }`}
                                 aria-current={isChildActive ? 'page' : undefined}
-                                onClick={() => { setIsOpen(false); }}
+                                onClick={() => { trackNav(child.label, childHref, 'mobile'); setIsOpen(false); }}
                               >
                                 {child.label}
                               </Link>
@@ -495,7 +502,7 @@ export default function Navigation({
                           : 'hover:bg-amber-50 hover:text-amber-700 focus:text-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2'
                     }`}
                     aria-current={isActiveHref(normalizeHref(item.href)) ? 'page' : undefined}
-                    onClick={() => { setIsOpen(false); }}
+                    onClick={() => { trackNav(item.label, normalizeHref(item.href), 'mobile'); setIsOpen(false); }}
                   >
                     {item.label}
                   </Link>

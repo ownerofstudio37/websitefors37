@@ -1,6 +1,28 @@
-export type ServiceKey = 'portrait' | 'wedding' | 'event' | 'commercial'
+export type ServiceKey = 'portrait' | 'wedding' | 'event' | 'commercial' | 'engagement' | 'concierge'
 
 export const recentWorkItems = [
+  {
+    title: 'Golden-Hour Engagement Session',
+    service: 'Engagement',
+    location: 'The Woodlands, TX',
+    image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1770033072/PS370397-1_ooxygn.jpg',
+    alt: 'Studio37 golden-hour engagement photography session in The Woodlands Texas',
+    note: 'Soft sunset portraits with location planning, relaxed direction, and save-the-date variety.',
+    galleryUrl: 'https://gallery.studio37.cc',
+    featured: true,
+    order: 1,
+  },
+  {
+    title: 'Private Proposal Coverage',
+    service: 'Proposal',
+    location: 'Montgomery County',
+    image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033152/IMG_4555_1_ppdkum.jpg',
+    alt: 'Studio37 surprise proposal photography with concierge planning in Montgomery County Texas',
+    note: 'A discreet reveal plan with privacy notes, portrait timing, and post-proposal gallery coverage.',
+    galleryUrl: 'https://gallery.studio37.cc',
+    featured: true,
+    order: 2,
+  },
   {
     title: 'Editorial Portrait Session',
     service: 'Portraits',
@@ -9,7 +31,7 @@ export const recentWorkItems = [
     alt: 'Studio37 editorial portrait session in Pinehurst Texas',
     note: 'Clean direction, polished editing, and gallery-ready portrait variety.',
     featured: true,
-    order: 1,
+    order: 3,
   },
   {
     title: 'Warm Family Session',
@@ -19,7 +41,7 @@ export const recentWorkItems = [
     alt: 'Warm Studio37 family photography session in Montgomery County Texas',
     note: 'Relaxed posing, detail coverage, and natural connection moments.',
     featured: true,
-    order: 2,
+    order: 4,
   },
   {
     title: 'Commercial Brand Refresh',
@@ -29,7 +51,7 @@ export const recentWorkItems = [
     alt: 'Studio37 commercial brand photography refresh in Greater Houston',
     note: 'Business-ready images for web, social, profiles, and campaigns.',
     featured: true,
-    order: 3,
+    order: 5,
   },
 ]
 
@@ -119,6 +141,18 @@ export const turnaroundByService: Record<ServiceKey, { sneakPeek: string; highli
     finalGallery: 'Most brand and product galleries deliver within 5-10 business days.',
     rush: 'Rush production is available for launches, ads, websites, and press deadlines.',
   },
+  engagement: {
+    sneakPeek: 'Engagement previews can be prioritized within 24-48 hours.',
+    highlights: 'Save-the-date favorites and story images are edited first.',
+    finalGallery: 'Most engagement galleries are delivered in about two weeks.',
+    rush: 'Rush delivery can be quoted for announcements or invitations.',
+  },
+  concierge: {
+    sneakPeek: 'Proposal previews can be prioritized quickly for family and social sharing.',
+    highlights: 'Reveal, reaction, and portrait highlights are edited first.',
+    finalGallery: 'Final delivery depends on photo/video scope and planning complexity.',
+    rush: 'Rush photo and video highlights can be scoped during consultation.',
+  },
 }
 
 export const testimonialsByService: Record<ServiceKey, Array<{ quote: string; name: string; context: string; source: string }>> = {
@@ -138,9 +172,19 @@ export const testimonialsByService: Record<ServiceKey, Array<{ quote: string; na
     { quote: 'The images immediately made our website and social content feel more professional.', name: 'Business owner', context: 'Brand refresh', source: 'Verified review' },
     { quote: 'They understood the marketing goal, not just the photo list.', name: 'Commercial client', context: 'Content library', source: 'Verified review' },
   ],
+  engagement: [
+    { quote: 'The direction made us feel comfortable, and the final gallery felt like us.', name: 'Engagement client', context: 'Couple session', source: 'Verified review' },
+    { quote: 'They helped with timing and locations so the session felt easy instead of stressful.', name: 'Engagement client', context: 'Golden-hour portraits', source: 'Verified review' },
+  ],
+  concierge: [
+    { quote: 'The planning support made the surprise feel calm, private, and beautifully photographed.', name: 'Proposal client', context: 'Concierge proposal', source: 'Verified review' },
+    { quote: 'They thought through timing, access, and backup options before the moment happened.', name: 'Concierge client', context: 'Proposal planning', source: 'Verified review' },
+  ],
 }
 
-export const prepGuideDownloads: Record<ServiceKey, { title: string; summary: string; bullets: string[]; filename: string; serviceInterest: string }> = {
+export type PrepGuideKey = 'portrait' | 'wedding' | 'event' | 'commercial'
+
+export const prepGuideDownloads: Record<PrepGuideKey, { title: string; summary: string; bullets: string[]; filename: string; serviceInterest: string }> = {
   portrait: {
     title: 'Portrait Prep Checklist',
     summary: 'A practical checklist for outfits, grooming, timing, kids, props, and gallery-ready portrait planning.',

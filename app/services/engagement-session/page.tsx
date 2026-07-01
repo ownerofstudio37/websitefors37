@@ -1,11 +1,12 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { CheckCircle, ArrowRight, HeartHandshake, Sparkles, MapPinned, Video } from 'lucide-react'
+import { CheckCircle, ArrowRight, HeartHandshake, Sparkles, MapPinned, Video, Camera } from 'lucide-react'
 import { generateSEOMetadata, generateFAQSchema } from '@/lib/seo-helpers'
 import { generateServiceSchema } from '@/lib/seo-config'
 import FAQSection from '@/components/FAQSection'
 import { generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
+import { ServiceTestimonialsSection } from '@/components/PublicFeatureContent'
 
 export const metadata = generateSEOMetadata({
   title: 'Full Service Engagement Photography - Pinehurst, TX',
@@ -106,6 +107,37 @@ const CONCIERGE_PACKAGES = [
   },
 ]
 
+const ENGAGEMENT_PATHS = [
+  {
+    title: 'Session Only',
+    copy: 'A polished engagement session with location guidance, posing, and gallery delivery.',
+    href: '/book-a-session?package=Signature%20Engagement',
+    cta: 'Book Session',
+    Icon: Camera,
+  },
+  {
+    title: 'Proposal Coverage',
+    copy: 'Discreet reveal coverage plus portraits immediately after the yes.',
+    href: '/book-consultation?package=Proposal%20Coverage',
+    cta: 'Plan Proposal',
+    Icon: HeartHandshake,
+  },
+  {
+    title: 'Full Concierge',
+    copy: 'Location, privacy, decor, timing, and coverage planned together.',
+    href: '/services/concierge-services',
+    cta: 'View Concierge',
+    Icon: Sparkles,
+  },
+  {
+    title: 'Photo + Video',
+    copy: 'Engagement or proposal coverage with a short cinematic highlight.',
+    href: '/book-consultation?package=Photo%20and%20Video%20Engagement',
+    cta: 'Ask About Video',
+    Icon: Video,
+  },
+]
+
 export default function EngagementSessionPage() {
   const serviceSchema = generateServiceSchema(
     'Full Service Engagement Photography',
@@ -154,7 +186,8 @@ export default function EngagementSessionPage() {
           src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1770033072/PS370397-1_ooxygn.jpg"
           alt="Full service engagement session by Studio37"
           fill
-          className="object-cover opacity-40"
+          className="object-cover object-[52%_34%] opacity-40"
+          sizes="100vw"
           priority
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/65 to-black/35" />
@@ -167,12 +200,34 @@ export default function EngagementSessionPage() {
               Signature sessions are priced 10%–30% above standard portraits for premium direction and experience.
             </p>
             <p className="text-stone-200 mb-8">
-              Need a surprise proposal? Our engagement concierge team can plan location, decor, reveal timing, and photo/video coverage.
+              Need a surprise proposal? Our engagement concierge team can plan location, decor, reveal timing, and photo/video coverage. Concierge scopes are custom-quoted after a planning call.
             </p>
             <div className="flex flex-wrap gap-3">
               <Link href="/get-quote" className="btn-primary inline-flex items-center">Get Instant Quote <ArrowRight className="ml-2 h-4 w-4" /></Link>
+              <Link href="/services/concierge-services" className="btn-secondary inline-flex items-center">Explore Concierge Services</Link>
               <Link href="/book-consultation" className="btn-secondary inline-flex items-center">Book a Planning Call</Link>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="section-shell bg-white">
+        <div className="container mx-auto px-4">
+          <div className="mb-8 max-w-3xl">
+            <p className="eyebrow mb-2">Choose Your Path</p>
+            <h2 className="text-3xl font-bold text-stone-950">Pick the engagement experience that fits the moment</h2>
+          </div>
+          <div className="grid gap-4 md:grid-cols-4">
+            {ENGAGEMENT_PATHS.map(({ title, copy, href, cta, Icon }) => (
+              <Link key={title} href={href} className="surface-panel group block p-5 transition hover:-translate-y-0.5 hover:border-primary-300">
+                <Icon className="mb-4 h-6 w-6 text-primary-700" aria-hidden="true" />
+                <h3 className="text-lg font-bold text-stone-950">{title}</h3>
+                <p className="mt-2 min-h-20 text-sm leading-6 text-stone-600">{copy}</p>
+                <span className="mt-4 inline-flex items-center text-sm font-semibold text-primary-700">
+                  {cta} <ArrowRight className="ml-2 h-4 w-4 transition group-hover:translate-x-1" aria-hidden="true" />
+                </span>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
@@ -244,6 +299,7 @@ export default function EngagementSessionPage() {
             </div>
             <div className="mt-7 flex flex-wrap gap-3">
               <Link href="/book-consultation?package=Engagement+Concierge" className="btn-primary inline-flex items-center">Book Consultation <ArrowRight className="ml-2 h-4 w-4" /></Link>
+              <Link href="/services/concierge-services" className="btn-secondary inline-flex items-center">View Concierge Services</Link>
               <Link href="/contact" className="btn-secondary inline-flex items-center">Talk to Our Concierge Team</Link>
             </div>
           </div>
@@ -255,6 +311,7 @@ export default function EngagementSessionPage() {
         serviceName="engagement photography"
         faqs={engagementFaqs}
       />
+      <ServiceTestimonialsSection service="engagement" />
     </div>
   )
 }
