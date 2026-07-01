@@ -297,8 +297,8 @@ export default function LocalPhotographerCityPage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
-      <section className="relative bg-gradient-to-r from-blue-900 to-purple-900 text-white py-20">
-        <div className="absolute inset-0 opacity-30">
+      <section className="relative overflow-hidden bg-stone-950 py-20 text-white md:py-24">
+        <div className="absolute inset-0 opacity-45">
           <Image
             src={heroImage}
             alt={`Professional photographer in ${cityLabel}`}
@@ -307,21 +307,22 @@ export default function LocalPhotographerCityPage({
             priority
           />
         </div>
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(28,25,23,0.92),rgba(28,25,23,0.68),rgba(28,25,23,0.36))]" aria-hidden="true" />
         <div className="relative z-10 container mx-auto px-4">
           <div className="max-w-4xl">
-            <div className="flex items-center gap-2 mb-4">
-              <MapPin className="h-5 w-5 text-blue-300" />
-              <span className="text-blue-200">Proudly serving {cityLabel} & {county}</span>
+            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-2 text-sm font-semibold text-amber-100 backdrop-blur">
+              <MapPin className="h-4 w-4" />
+              <span>Proudly serving {cityLabel} and {county}</span>
             </div>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6">Photographer in {cityLabel} for Weddings, Portraits &amp; Events</h1>
-            <p className="text-xl mb-6 text-gray-200">
+            <h1 className="mb-6 text-4xl font-bold leading-tight md:text-6xl">Photographer in {cityLabel} for Weddings, Portraits &amp; Events</h1>
+            <p className="mb-7 max-w-3xl text-lg leading-8 text-stone-100 md:text-xl">
               Looking for a trusted photographer in {cityLabel}? Studio37 delivers wedding, portrait, engagement, event, and commercial photography for families and businesses across {county}.
               We bring a two-photographer team and clear pricing on every session.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link
                 href="/book-a-session"
-                className="bg-primary-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-primary-700 transition-colors text-center"
+                className="btn-primary text-center"
               >
                 Book Your Session
               </Link>
@@ -329,7 +330,7 @@ export default function LocalPhotographerCityPage({
 
               <Link
                 href="https://gallery.studio37.cc"
-                className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-primary-600 transition-colors text-center"
+                className="btn-secondary border-white/60 bg-white/10 text-center text-white hover:bg-white hover:text-stone-950"
               >
                 View Portfolio
               </Link>
@@ -338,43 +339,44 @@ export default function LocalPhotographerCityPage({
         </div>
       </section>
 
-      <section className="py-16 bg-white">
+      <section className="section-shell bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">Why Clients in {city} Choose Studio37</h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+            <div className="eyebrow mb-4">Local Confidence</div>
+            <h2 className="text-3xl font-bold mb-4 text-stone-950 md:text-4xl">Why Clients in {city} Choose Studio37</h2>
+            <p className="text-lg text-stone-600 max-w-3xl mx-auto">
               We combine local knowledge, professional direction, and fast delivery to create photos you will actually use and love.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-4 gap-8 mb-14">
-            <div className="text-center">
-              <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Star className="h-8 w-8 text-blue-600" />
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-14">
+            <div className="surface-panel p-5 text-center">
+              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-amber-50">
+                <Star className="h-6 w-6 text-amber-700" />
               </div>
-              <h3 className="text-2xl font-bold text-blue-600 mb-2">5.0★</h3>
-              <p className="text-gray-600">Average Rating</p>
+              <h3 className="text-2xl font-bold text-stone-950 mb-2">5.0</h3>
+              <p className="text-stone-600">Average Rating</p>
             </div>
-            <div className="text-center">
-              <div className="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Users className="h-8 w-8 text-green-600" />
+            <div className="surface-panel p-5 text-center">
+              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-amber-50">
+                <Users className="h-6 w-6 text-amber-700" />
               </div>
-              <h3 className="text-2xl font-bold text-green-600 mb-2">500+</h3>
-              <p className="text-gray-600">Happy Clients</p>
+              <h3 className="text-2xl font-bold text-stone-950 mb-2">500+</h3>
+              <p className="text-stone-600">Happy Clients</p>
             </div>
-            <div className="text-center">
-              <div className="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Camera className="h-8 w-8 text-purple-600" />
+            <div className="surface-panel p-5 text-center">
+              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-amber-50">
+                <Camera className="h-6 w-6 text-amber-700" />
               </div>
-              <h3 className="text-2xl font-bold text-purple-600 mb-2">1000+</h3>
-              <p className="text-gray-600">Sessions Completed</p>
+              <h3 className="text-2xl font-bold text-stone-950 mb-2">1000+</h3>
+              <p className="text-stone-600">Sessions Completed</p>
             </div>
-            <div className="text-center">
-              <div className="bg-amber-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Award className="h-8 w-8 text-amber-600" />
+            <div className="surface-panel p-5 text-center">
+              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-amber-50">
+                <Award className="h-6 w-6 text-amber-700" />
               </div>
-              <h3 className="text-2xl font-bold text-amber-600 mb-2">Local</h3>
-              <p className="text-gray-600">Area Expertise</p>
+              <h3 className="text-2xl font-bold text-stone-950 mb-2">Local</h3>
+              <p className="text-stone-600">Area Expertise</p>
             </div>
           </div>
 

@@ -163,11 +163,12 @@ Audit notes: `npm run audit:seo-assets` passed across public metadata/source fil
 - [x] Make service-card images and titles link to the matching service pages while keeping Learn More and pricing-tool actions.
 - [x] Add mobile screenshot QA coverage for blog, service pages, and the Pinehurst service-area page.
 - [x] Add an automated public polish audit for logo hydration, card links, gallery CTA consistency, and mobile route coverage.
-- [ ] Run manual mobile screenshots after the next deploy for homepage, services, blog, and `/local-photographer-pinehurst-tx`.
-- [ ] Normalize older service-area, service-detail, blog-list, and blog-post section spacing/type scale to match the homepage system.
-- [ ] Review mobile header, sticky CTA, chat, save-quote, and pricing-tool stacking across 390px, 430px, and tablet widths.
-- [ ] Reduce above-the-fold mobile payload on public pages by deferring non-critical widgets and large below-fold images.
-- [ ] Add visual regression snapshots for the most important public routes once the design direction settles.
+- [x] Run local mobile screenshots for homepage, services, blog, and `/local-photographer-pinehurst-tx`.
+- [x] Normalize shared service-area and blog-list spacing/type scale to better match the homepage system.
+- [x] Review mobile header, sticky CTA, chat, save-quote, and pricing-tool stacking across 390px, 430px, and tablet widths.
+- [x] Reduce above-the-fold mobile payload on public pages by deferring quote capture and chat widgets until eligible/idle states.
+- [x] Add visual screenshot snapshots for the most important public routes.
+- [ ] After the next production deploy, compare live mobile screenshots against local smoke artifacts for homepage, services, blog, and `/local-photographer-pinehurst-tx`.
 
 ### Technical Quality And Performance
 

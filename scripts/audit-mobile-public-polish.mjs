@@ -20,6 +20,22 @@ const checks = [
     patterns: ['aria-label={`View ${service.title}`}', 'href={`/services/${service.slug}`}'],
   },
   {
+    file: 'components/QuoteCaptureMount.tsx',
+    patterns: ['dynamic(() => import', 'requestIdleCallback', 'eligiblePrefixes'],
+  },
+  {
+    file: 'app/layout.tsx',
+    patterns: ['QuoteCaptureMount', '<QuoteCaptureMount />'],
+  },
+  {
+    file: 'components/LocalPhotographerCityPage.tsx',
+    patterns: ['Local Confidence', 'bg-stone-950', 'surface-panel p-5 text-center'],
+  },
+  {
+    file: 'app/blog/page.tsx',
+    patterns: ['Studio37 Journal', 'section-shell bg-stone-50', 'rounded-lg border border-stone-200 bg-white'],
+  },
+  {
     file: 'tests/smoke/public-and-admin.spec.ts',
     patterns: [
       '/services/portrait-photography',
