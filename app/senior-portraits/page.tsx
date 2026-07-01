@@ -2,6 +2,7 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
+import { generateServiceSchema } from '@/lib/seo-config'
 
 export const metadata = generateSEOMetadata({
   title: 'Senior Portraits in Pinehurst, TX | Studio37',
@@ -36,8 +37,14 @@ const seniorPackages = [
 ]
 
 export default function SeniorPortraitsPage() {
+  const serviceSchema = generateServiceSchema(
+    'Senior Portraits',
+    'Senior portrait photography in Pinehurst, Texas with classic, style, and ultimate session options.'
+  )
+
   return (
     <div className="pt-16">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
       <section className="relative h-[440px] bg-stone-900">
         <Image
           src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033092/Untitled-12_hih9qs.jpg"

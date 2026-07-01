@@ -35,12 +35,22 @@ interface SEOMetrics {
   sitemapRedirectedUrlCount: number;
   robotsReferencesSitemap: boolean;
   sitemapLastChecked: string | null;
+  sitemapCacheAge: string | null;
+  sitemapIndexCacheAge: string | null;
+  sitemapCacheStatus: string | null;
+  sitemapIndexCacheStatus: string | null;
+  sitemapNetlifyCache: string | null;
+  sitemapIndexNetlifyCache: string | null;
   canonicalChecked: number;
   canonicalHealthy: number;
+  canonicalConflictChecked: number;
+  canonicalConflictHealthy: number;
   structuredServicePages: number;
   structuredLocationPages: number;
   structuredBlogPosts: number;
   structuredFaqPages: number;
+  structuredLeadMagnetsChecked: number;
+  structuredLeadMagnetsHealthy: number;
   localBusinessSchemaPresent: boolean;
   localSeoPagesChecked: number;
   localSeoPagesHealthy: number;
@@ -119,12 +129,31 @@ const FAQ_SCHEMA_URLS = [
   "https://www.studio37.cc/session-prep",
 ];
 
+const LEAD_MAGNET_SCHEMA_URLS = [
+  "https://www.studio37.cc/mini-sessions",
+  "https://www.studio37.cc/brand-refresh-sessions",
+  "https://www.studio37.cc/senior-portraits",
+  "https://www.studio37.cc/holiday-party",
+  "https://www.studio37.cc/graduation",
+  "https://www.studio37.cc/session-prep/portrait/download",
+  "https://www.studio37.cc/session-prep/wedding/download",
+  "https://www.studio37.cc/session-prep/event/download",
+  "https://www.studio37.cc/session-prep/commercial/download",
+];
+
 const LOCAL_SEO_CHECK_URLS = [
   "https://www.studio37.cc/local-photographer-houston-tx",
   "https://www.studio37.cc/local-photographer-the-woodlands-tx",
   "https://www.studio37.cc/local-photographer-magnolia-tx",
   "https://www.studio37.cc/wedding-photographer-katy-tx",
   "https://www.studio37.cc/headshot-photographer-houston-tx",
+];
+
+const CANONICAL_CONFLICT_GROUPS = [
+  ["https://www.studio37.cc/the-woodlands", "https://www.studio37.cc/locations/the-woodlands-tx", "https://www.studio37.cc/local-photographer-the-woodlands-tx"],
+  ["https://www.studio37.cc/houston", "https://www.studio37.cc/locations/houston-tx", "https://www.studio37.cc/local-photographer-houston-tx"],
+  ["https://www.studio37.cc/magnolia", "https://www.studio37.cc/locations/magnolia-tx", "https://www.studio37.cc/local-photographer-magnolia-tx"],
+  ["https://www.studio37.cc/tomball", "https://www.studio37.cc/locations/tomball-tx", "https://www.studio37.cc/local-photographer-tomball-tx"],
 ];
 
 export default function SEOPage() {
@@ -156,12 +185,22 @@ export default function SEOPage() {
     sitemapRedirectedUrlCount: 0,
     robotsReferencesSitemap: false,
     sitemapLastChecked: null,
+    sitemapCacheAge: null,
+    sitemapIndexCacheAge: null,
+    sitemapCacheStatus: null,
+    sitemapIndexCacheStatus: null,
+    sitemapNetlifyCache: null,
+    sitemapIndexNetlifyCache: null,
     canonicalChecked: 0,
     canonicalHealthy: 0,
+    canonicalConflictChecked: 0,
+    canonicalConflictHealthy: 0,
     structuredServicePages: 0,
     structuredLocationPages: 0,
     structuredBlogPosts: 0,
     structuredFaqPages: 0,
+    structuredLeadMagnetsChecked: 0,
+    structuredLeadMagnetsHealthy: 0,
     localBusinessSchemaPresent: false,
     localSeoPagesChecked: 0,
     localSeoPagesHealthy: 0,
@@ -184,6 +223,9 @@ export default function SEOPage() {
     if (!response.ok) return null;
     return response.json();
   };
+
+  const headerValue = (response: Response | null, name: string) =>
+    response?.headers.get(name) || null;
 
   const getSchemaTypes = (structuredData: any[]) => {
     const types = new Set<string>();
@@ -307,10 +349,20 @@ export default function SEOPage() {
       const canonicalHealthy = canonicalResults.filter(({ url, data }) =>
         data?.canonical === url || data?.canonical === `${url}/`
       ).length;
+      const canonicalConflictResults = await Promise.all(
+        CANONICAL_CONFLICT_GROUPS.map(async (group) => {
+          const results = await Promise.all(group.map(async (url) => ({ url, data: await analyzeLiveUrl(url) })))
+          const canonicals = results
+            .map(({ data }) => data?.canonical)
+            .filter((value): value is string => Boolean(value))
+          return new Set(canonicals).size === canonicals.length
+        })
+      );
 
       const serviceSchemaResults = await Promise.all(SERVICE_SCHEMA_URLS.map(analyzeLiveUrl));
       const locationSchemaResults = await Promise.all(LOCATION_SCHEMA_URLS.map(analyzeLiveUrl));
       const faqSchemaResults = await Promise.all(FAQ_SCHEMA_URLS.map(analyzeLiveUrl));
+      const leadMagnetSchemaResults = await Promise.all(LEAD_MAGNET_SCHEMA_URLS.map(analyzeLiveUrl));
       const blogSchemaResult = await analyzeLiveUrl(firstBlogPostUrl);
       const homeSchemaResult = await analyzeLiveUrl("https://www.studio37.cc");
 
@@ -330,6 +382,10 @@ export default function SEOPage() {
         const types = getSchemaTypes(blogSchemaResult?.structuredData || []);
         return types.has("Article") || types.has("BlogPosting") ? 1 : 0;
       })();
+      const structuredLeadMagnetsHealthy = leadMagnetSchemaResults.filter((data) => {
+        const types = getSchemaTypes(data?.structuredData || []);
+        return types.has("Service") || types.has("FAQPage") || types.has("BreadcrumbList");
+      }).length;
       const localBusinessSchemaPresent = getSchemaTypes(homeSchemaResult?.structuredData || []).has("LocalBusiness");
 
       const localSeoResults = await Promise.all(LOCAL_SEO_CHECK_URLS.map(analyzeLiveUrl));
@@ -367,12 +423,22 @@ export default function SEOPage() {
         sitemapRedirectedUrlCount,
         robotsReferencesSitemap,
         sitemapLastChecked: new Date().toISOString(),
+        sitemapCacheAge: headerValue(sitemapResponse, "age"),
+        sitemapIndexCacheAge: headerValue(sitemapIndexResponse, "age"),
+        sitemapCacheStatus: headerValue(sitemapResponse, "cache-status"),
+        sitemapIndexCacheStatus: headerValue(sitemapIndexResponse, "cache-status"),
+        sitemapNetlifyCache: headerValue(sitemapResponse, "x-nf-cache"),
+        sitemapIndexNetlifyCache: headerValue(sitemapIndexResponse, "x-nf-cache"),
         canonicalChecked: canonicalTargets.length,
         canonicalHealthy,
+        canonicalConflictChecked: CANONICAL_CONFLICT_GROUPS.length,
+        canonicalConflictHealthy: canonicalConflictResults.filter(Boolean).length,
         structuredServicePages,
         structuredLocationPages,
         structuredBlogPosts,
         structuredFaqPages,
+        structuredLeadMagnetsChecked: LEAD_MAGNET_SCHEMA_URLS.length,
+        structuredLeadMagnetsHealthy,
         localBusinessSchemaPresent,
         localSeoPagesChecked: LOCAL_SEO_CHECK_URLS.length,
         localSeoPagesHealthy,
@@ -549,13 +615,23 @@ export default function SEOPage() {
       actionLabel: "Recheck canonicals",
     },
     {
+      id: "canonical-conflicts",
+      title: "Canonical conflict report",
+      description: `${metrics.canonicalConflictHealthy}/${metrics.canonicalConflictChecked} sampled city route groups have distinct canonical targets across short, location, and service pages.`,
+      status: metrics.canonicalConflictChecked > 0 && metrics.canonicalConflictHealthy === metrics.canonicalConflictChecked ? "resolved" : "open",
+      owner: "SEO / Engineering",
+      severity: "medium",
+      actionLabel: "Recheck conflicts",
+    },
+    {
       id: "structured-data",
       title: "Structured data coverage",
-      description: `${metrics.structuredServicePages}/${SERVICE_SCHEMA_URLS.length} service pages, ${metrics.structuredLocationPages}/${LOCATION_SCHEMA_URLS.length} location pages, ${metrics.structuredFaqPages}/${FAQ_SCHEMA_URLS.length} FAQ targets, blog schema ${metrics.structuredBlogPosts ? "present" : "missing"}, local business schema ${metrics.localBusinessSchemaPresent ? "present" : "missing"}.`,
+      description: `${metrics.structuredServicePages}/${SERVICE_SCHEMA_URLS.length} service pages, ${metrics.structuredLocationPages}/${LOCATION_SCHEMA_URLS.length} location pages, ${metrics.structuredFaqPages}/${FAQ_SCHEMA_URLS.length} FAQ targets, ${metrics.structuredLeadMagnetsHealthy}/${metrics.structuredLeadMagnetsChecked} lead magnets, blog schema ${metrics.structuredBlogPosts ? "present" : "missing"}, local business schema ${metrics.localBusinessSchemaPresent ? "present" : "missing"}.`,
       status:
         metrics.structuredServicePages === SERVICE_SCHEMA_URLS.length &&
         metrics.structuredLocationPages === LOCATION_SCHEMA_URLS.length &&
         metrics.structuredFaqPages === FAQ_SCHEMA_URLS.length &&
+        metrics.structuredLeadMagnetsHealthy === metrics.structuredLeadMagnetsChecked &&
         metrics.structuredBlogPosts === 1 &&
         metrics.localBusinessSchemaPresent
           ? "resolved"
@@ -744,7 +820,7 @@ export default function SEOPage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 p-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-6 gap-4 p-6">
             <div className="rounded-lg bg-gray-50 p-4">
               <p className="text-sm font-medium text-gray-600">Sitemap URLs</p>
               <p className="text-2xl font-bold text-gray-900 mt-1">{metrics.sitemapUrlCount}</p>
@@ -784,6 +860,26 @@ export default function SEOPage() {
                 Robots references canonical sitemap
               </p>
             </div>
+
+            <div className="rounded-lg bg-gray-50 p-4">
+              <p className="text-sm font-medium text-gray-600">Sitemap Cache</p>
+              <p className="text-2xl font-bold text-gray-900 mt-1">
+                {metrics.sitemapCacheAge ?? "fresh"}
+              </p>
+              <p className="text-xs text-gray-500 mt-1">
+                age · {metrics.sitemapCacheStatus || metrics.sitemapNetlifyCache || "no cache header"}
+              </p>
+            </div>
+
+            <div className="rounded-lg bg-gray-50 p-4">
+              <p className="text-sm font-medium text-gray-600">Index Cache</p>
+              <p className="text-2xl font-bold text-gray-900 mt-1">
+                {metrics.sitemapIndexCacheAge ?? "fresh"}
+              </p>
+              <p className="text-xs text-gray-500 mt-1">
+                age · {metrics.sitemapIndexCacheStatus || metrics.sitemapIndexNetlifyCache || "no cache header"}
+              </p>
+            </div>
           </div>
         </div>
 
@@ -819,7 +915,7 @@ export default function SEOPage() {
                   onClick={fetchSEOData}
                   className="inline-flex items-center gap-2 rounded-lg border border-gray-200 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
                 >
-                  Recheck local sitemap health
+                  Recheck sitemap/cache health
                 </button>
               </div>
             </div>
@@ -860,6 +956,20 @@ export default function SEOPage() {
                   {metrics.localSeoPagesHealthy}/{metrics.localSeoPagesChecked}
                 </p>
                 <p className="text-xs text-gray-500 mt-1">Copy, OG image, and alt metadata</p>
+              </div>
+              <div className="rounded-lg bg-gray-50 p-4">
+                <p className="text-sm font-medium text-gray-600">Lead Magnets</p>
+                <p className="text-2xl font-bold text-gray-900 mt-1">
+                  {metrics.structuredLeadMagnetsHealthy}/{metrics.structuredLeadMagnetsChecked}
+                </p>
+                <p className="text-xs text-gray-500 mt-1">Seasonal and prep-guide schema targets</p>
+              </div>
+              <div className="rounded-lg bg-gray-50 p-4">
+                <p className="text-sm font-medium text-gray-600">Canonical Conflicts</p>
+                <p className="text-2xl font-bold text-gray-900 mt-1">
+                  {metrics.canonicalConflictHealthy}/{metrics.canonicalConflictChecked}
+                </p>
+                <p className="text-xs text-gray-500 mt-1">Sampled city route groups</p>
               </div>
             </div>
           </div>

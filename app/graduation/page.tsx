@@ -2,6 +2,7 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
+import { generateServiceSchema } from '@/lib/seo-config'
 
 export const metadata = generateSEOMetadata({
   title: 'Professional Graduation Photography - Studio37',
@@ -36,8 +37,14 @@ const packages = [
 ]
 
 export default function GraduationPage() {
+  const serviceSchema = generateServiceSchema(
+    'Graduation Photography',
+    'Professional graduation photography for senior portraits, cap and gown sessions, ceremonies, and celebrations in the Houston area.'
+  )
+
   return (
     <main className="w-full">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
       {/* Hero Section */}
       <section className="relative w-full h-[500px] md:h-[600px] overflow-hidden bg-black">
         <Image

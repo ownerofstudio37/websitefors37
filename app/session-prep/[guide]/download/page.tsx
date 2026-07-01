@@ -4,6 +4,7 @@ import { ArrowLeft, CheckCircle2 } from 'lucide-react'
 import PrepGuideDownloadForm from '@/components/PrepGuideDownloadForm'
 import { prepGuideDownloads, PrepGuideKey } from '@/lib/public-content'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
+import { generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
 
 const guideKeys = Object.keys(prepGuideDownloads) as PrepGuideKey[]
 
@@ -36,9 +37,15 @@ export function generateMetadata({ params }: { params: { guide: string } }) {
 export default function PrepGuideDownloadPage({ params }: { params: { guide: string } }) {
   if (!isGuide(params.guide)) notFound()
   const guide = prepGuideDownloads[params.guide]
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', url: 'https://www.studio37.cc' },
+    { name: 'Session Prep', url: 'https://www.studio37.cc/session-prep' },
+    { name: guide.title, url: `https://www.studio37.cc/session-prep/${params.guide}/download` },
+  ])
 
   return (
     <main className="min-h-screen bg-stone-50 pt-20">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <section className="px-4 py-14 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-5xl">
           <Link href="/session-prep" className="inline-flex items-center text-sm font-semibold text-amber-800 hover:text-amber-900">

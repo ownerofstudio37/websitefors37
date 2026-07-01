@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight, CheckCircle2 } from 'lucide-react'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
+import { generateServiceSchema } from '@/lib/seo-config'
 import { TurnaroundExpectationsSection, ServiceTestimonialsSection } from '@/components/PublicFeatureContent'
 
 export const metadata = generateSEOMetadata({
@@ -16,8 +17,14 @@ export const revalidate = 86400
 const miniFits = ['Family updates', 'Holiday cards', 'Couples portraits', 'Senior add-ons', 'Professional profile refreshes']
 
 export default function MiniSessionsPage() {
+  const serviceSchema = generateServiceSchema(
+    'Mini Sessions',
+    'Seasonal mini sessions in Pinehurst, Texas for families, couples, seniors, and quick portrait updates.'
+  )
+
   return (
     <main className="pt-16">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
       <section className="relative min-h-[520px] overflow-hidden bg-stone-950 text-white">
         <Image
           src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255559/PS379799_ayoxbp.jpg"
