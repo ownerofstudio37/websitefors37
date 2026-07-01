@@ -5,6 +5,8 @@ import Link from "next/link"
 import { ArrowRight, Briefcase, Calendar, Camera, CheckCircle2, Heart, Users } from "lucide-react"
 import { calculatePortraitSessionTotalCents } from "@/lib/portrait-pricing"
 import { trackPackageRecommenderSelection } from "@/lib/analytics"
+import { recordLeadTimelineEvent } from "@/lib/client-lead-timeline"
+import { conversionCopy } from "@/lib/conversion-copy"
 
 type ServiceGoal = "portrait" | "wedding" | "event" | "commercial"
 type CoverageNeed = "quick" | "standard" | "expanded" | "full"
@@ -215,6 +217,13 @@ export default function PackageRecommender({ className = "" }: { className?: str
   }, [packageContext])
 
   function trackSelection(nextContext = packageContext) {
+    recordLeadTimelineEvent("package_recommender_selection", {
+      goal: nextContext.goal,
+      coverage: nextContext.coverage,
+      people: nextContext.people,
+      package_key: nextContext.packageKey,
+      package_title: nextContext.title,
+    })
     trackPackageRecommenderSelection({
       goal: nextContext.goal,
       coverage: nextContext.coverage,
@@ -231,7 +240,7 @@ export default function PackageRecommender({ className = "" }: { className?: str
           <p className="eyebrow mb-3">Package Recommender</p>
           <h2 className="text-2xl font-bold text-stone-950 md:text-3xl">Find the right starting package</h2>
           <p className="mt-3 text-stone-600">
-            Pick the goal and coverage level, then continue into booking with the recommended package preselected.
+            {conversionCopy.packageRecommenderIntro}
           </p>
 
           <div className="mt-6 space-y-6">

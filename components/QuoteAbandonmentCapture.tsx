@@ -4,6 +4,8 @@ import { useEffect, useMemo, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { Mail, MessageSquare, X } from 'lucide-react'
 import { getLeadContext, withLeadContext } from '@/lib/client-lead-context'
+import { recordLeadTimelineEvent } from '@/lib/client-lead-timeline'
+import { conversionCopy } from '@/lib/conversion-copy'
 import { trackSaveQuoteDismiss, trackSaveQuoteOpen, trackSaveQuoteSubmit } from '@/lib/analytics'
 
 const captureRules = [
@@ -89,11 +91,16 @@ export default function QuoteAbandonmentCapture() {
     setSubmitting(true)
     setError('')
     try {
-      const context = getLeadContext({
-        capture_path: pathname || '',
-        capture_reason: 'quote-booking-abandonment',
-      })
-      const response = await fetch('/api/leads', {
+    const context = getLeadContext({
+      capture_path: pathname || '',
+      capture_reason: 'quote-booking-abandonment',
+    })
+    const abandonedType = pathname?.startsWith('/book-a-session') ? 'booking_package_abandoned' : 'quote_capture_submitted'
+    recordLeadTimelineEvent(abandonedType, {
+      path: pathname || '',
+      selected_package: context.selected_package ? JSON.stringify(context.selected_package) : undefined,
+    })
+    const response = await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(withLeadContext({
@@ -145,10 +152,10 @@ export default function QuoteAbandonmentCapture() {
       <div className="pr-6">
         <p className="flex items-center gap-2 text-sm font-semibold text-stone-950">
           <Mail className="h-4 w-4 text-amber-700" aria-hidden="true" />
-          Save your quote before you go
+          {conversionCopy.quoteCaptureHeadline}
         </p>
         <p className="mt-2 text-sm leading-6 text-stone-600">
-          Drop your email and we will follow up with your package context. Add a phone number if SMS is easier.
+          {conversionCopy.quoteCaptureBody}
         </p>
       </div>
       <form onSubmit={submitCapture} className="mt-4 space-y-2">

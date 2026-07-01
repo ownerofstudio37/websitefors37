@@ -5,6 +5,7 @@ import { Calculator, Users, Clock, Info, Sparkles, ChevronRight } from "lucide-r
 import Link from "next/link"
 import { calculatePortraitSessionTotalCents } from "@/lib/portrait-pricing"
 import { trackPricingDurationChange } from "@/lib/analytics"
+import { recordLeadTimelineEvent } from "@/lib/client-lead-timeline"
 
 // Assumptions (easy to tweak):
 // - All types: $500/hr once a session reaches 60 minutes
@@ -77,13 +78,15 @@ export default function PricingCalculator({
   }, [proratedPrice, eligibleForPackages])
 
   useEffect(() => {
-    window.sessionStorage.setItem('studio37_pricing_context', JSON.stringify({
+    const pricingContext = {
       category,
       people,
       minutes,
       price_cents: proratedPrice,
       package_match: packageMatch?.key || null,
-    }))
+    }
+    window.sessionStorage.setItem('studio37_pricing_context', JSON.stringify(pricingContext))
+    recordLeadTimelineEvent('pricing_calculator_update', pricingContext)
   }, [category, minutes, packageMatch?.key, people, proratedPrice])
 
   function updateMinutes(nextMinutes: number) {

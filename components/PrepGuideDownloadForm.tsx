@@ -4,6 +4,8 @@ import { useMemo, useState } from 'react'
 import { Download, Mail } from 'lucide-react'
 import { prepGuideDownloads, PrepGuideKey } from '@/lib/public-content'
 import { withLeadContext } from '@/lib/client-lead-context'
+import { recordLeadTimelineEvent } from '@/lib/client-lead-timeline'
+import { leadMagnetSegments } from '@/lib/conversion-copy'
 import { trackPrepGuideDownload } from '@/lib/analytics'
 
 export default function PrepGuideDownloadForm({ guide }: { guide: PrepGuideKey }) {
@@ -32,6 +34,7 @@ export default function PrepGuideDownloadForm({ guide }: { guide: PrepGuideKey }
     setError('')
 
     try {
+      const segment = leadMagnetSegments[guide]
       const response = await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -40,15 +43,22 @@ export default function PrepGuideDownloadForm({ guide }: { guide: PrepGuideKey }
           email: form.email,
           phone: form.phone || undefined,
           service_interest: guideData.serviceInterest,
-          message: `Requested service-specific prep guide: ${guideData.title}.`,
+          message: `Requested service-specific prep guide: ${guideData.title}. ${segment.task}`,
           source: 'prep-guide-download-page',
         }, {
           guide,
           guide_label: guideData.title,
+          follow_up_template: segment.template,
+          admin_follow_up_task: segment.task,
         })),
       })
 
       if (!response.ok) throw new Error('Guide request failed')
+      recordLeadTimelineEvent('prep_guide_requested', {
+        guide,
+        guide_label: guideData.title,
+        follow_up_template: segment.template,
+      })
       trackPrepGuideDownload(guide, 'submit')
       setReady(true)
     } catch {

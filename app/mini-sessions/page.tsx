@@ -4,6 +4,7 @@ import { ArrowRight, CheckCircle2 } from 'lucide-react'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 import { generateServiceSchema } from '@/lib/seo-config'
 import { TurnaroundExpectationsSection, ServiceTestimonialsSection } from '@/components/PublicFeatureContent'
+import PrepGuideLeadMagnet from '@/components/PrepGuideLeadMagnet'
 
 export const metadata = generateSEOMetadata({
   title: 'Mini Sessions in Pinehurst TX | Studio37',
@@ -69,6 +70,7 @@ export default function MiniSessionsPage() {
       </section>
 
       <TurnaroundExpectationsSection service="portrait" />
+      <PrepGuideLeadMagnet />
       <ServiceTestimonialsSection service="portrait" />
     </main>
   )

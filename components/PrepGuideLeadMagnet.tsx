@@ -4,8 +4,12 @@ import { useMemo, useState } from 'react'
 import { Download, Mail } from 'lucide-react'
 import { trackPrepGuideDownload } from '@/lib/analytics'
 import { withLeadContext } from '@/lib/client-lead-context'
+import { recordLeadTimelineEvent } from '@/lib/client-lead-timeline'
+import { leadMagnetSegments } from '@/lib/conversion-copy'
 
-const guides = [
+type GuideKey = keyof typeof leadMagnetSegments
+
+const guides: Array<{ value: GuideKey; label: string }> = [
   { value: 'portrait', label: 'Portrait Prep Checklist' },
   { value: 'wedding', label: 'Wedding Day Photo Prep' },
   { value: 'event', label: 'Event Coverage Planner' },
@@ -20,7 +24,7 @@ const checklistCopy: Record<string, string[]> = {
 }
 
 export default function PrepGuideLeadMagnet() {
-  const [guide, setGuide] = useState('portrait')
+  const [guide, setGuide] = useState<GuideKey>('portrait')
   const [form, setForm] = useState({ name: '', email: '', phone: '' })
   const [submitting, setSubmitting] = useState(false)
   const [ready, setReady] = useState(false)
@@ -41,6 +45,7 @@ export default function PrepGuideLeadMagnet() {
     event.preventDefault()
     setSubmitting(true)
     try {
+      const segment = leadMagnetSegments[guide]
       const response = await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -49,14 +54,21 @@ export default function PrepGuideLeadMagnet() {
           email: form.email,
           phone: form.phone || undefined,
           service_interest: `${selectedGuide.label} lead magnet`,
-          message: `Requested downloadable prep guide: ${selectedGuide.label}.`,
+          message: `Requested downloadable prep guide: ${selectedGuide.label}. ${segment.task}`,
           source: 'prep-guide-lead-magnet',
         }, {
           guide: selectedGuide.value,
           guide_label: selectedGuide.label,
+          follow_up_template: segment.template,
+          admin_follow_up_task: segment.task,
         })),
       })
       if (!response.ok) throw new Error('Lead magnet failed')
+      recordLeadTimelineEvent('prep_guide_requested', {
+        guide,
+        guide_label: selectedGuide.label,
+        follow_up_template: segment.template,
+      })
       trackPrepGuideDownload(selectedGuide.value, 'submit')
       setReady(true)
     } finally {
@@ -76,7 +88,7 @@ export default function PrepGuideLeadMagnet() {
         </div>
         <form onSubmit={submit} className="rounded-lg border border-white/10 bg-white/10 p-5 backdrop-blur">
           <div className="grid gap-3 md:grid-cols-2">
-            <select value={guide} onChange={(event) => setGuide(event.target.value)} className="rounded-md border border-white/20 bg-white px-3 py-3 text-stone-950">
+            <select value={guide} onChange={(event) => setGuide(event.target.value as GuideKey)} className="rounded-md border border-white/20 bg-white px-3 py-3 text-stone-950">
               {guides.map((item) => (
                 <option key={item.value} value={item.value}>{item.label}</option>
               ))}

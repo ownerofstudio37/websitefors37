@@ -4,6 +4,7 @@ import { ArrowRight, CheckCircle2 } from 'lucide-react'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 import { generateServiceSchema } from '@/lib/seo-config'
 import { ServiceTestimonialsSection, TurnaroundExpectationsSection } from '@/components/PublicFeatureContent'
+import PrepGuideLeadMagnet from '@/components/PrepGuideLeadMagnet'
 
 export const metadata = generateSEOMetadata({
   title: 'Brand Refresh Photography Sessions | Studio37',
@@ -69,6 +70,7 @@ export default function BrandRefreshSessionsPage() {
       </section>
 
       <TurnaroundExpectationsSection service="commercial" />
+      <PrepGuideLeadMagnet />
       <ServiceTestimonialsSection service="commercial" />
     </main>
   )

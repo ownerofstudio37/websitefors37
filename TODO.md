@@ -69,12 +69,12 @@ Audit notes: `npm run audit:seo-assets` passed across public metadata/source fil
 
 ### Conversion And Lead Capture
 
-- [ ] Add a lead-source dashboard for save quote, prep-guide downloads, package recommender CTAs, pricing CTAs, campaign pages, and gallery handoff clicks.
-- [ ] Persist pricing calculator and package recommender interactions as lead timeline events, not only analytics events or browser session data.
-- [ ] Add conversion QA for every seasonal page: above-fold CTA, booking prefill, lead context, source metadata, thank-you copy, and autoresponse template.
-- [ ] Add editable A/B copy hooks for homepage CTAs, service CTAs, package recommender intro text, and quote-capture popup headlines without code changes.
-- [ ] Add abandoned booking recovery for visitors who choose a package or slot but do not complete appointment creation.
-- [ ] Add follow-up segmentation for lead magnets so portrait, wedding, event, and commercial guide requests trigger different admin tasks and email copy.
+- [x] Add a lead-source dashboard for save quote, prep-guide downloads, package recommender CTAs, pricing CTAs, campaign pages, and gallery handoff clicks.
+- [x] Persist pricing calculator and package recommender interactions as lead timeline events, not only analytics events or browser session data.
+- [x] Add conversion QA for every seasonal page: above-fold CTA, booking prefill, lead context, source metadata, thank-you copy, and autoresponse template.
+- [x] Add editable A/B copy hooks for homepage CTAs, service CTAs, package recommender intro text, and quote-capture popup headlines without code changes.
+- [x] Add abandoned booking recovery for visitors who choose a package or slot but do not complete appointment creation.
+- [x] Add follow-up segmentation for lead magnets so portrait, wedding, event, and commercial guide requests trigger different admin tasks and email copy.
 
 ### Admin And Operations
 

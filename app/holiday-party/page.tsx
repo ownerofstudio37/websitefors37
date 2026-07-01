@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 import { generateServiceSchema } from '@/lib/seo-config'
+import PrepGuideLeadMagnet from '@/components/PrepGuideLeadMagnet'
 
 export const metadata = generateSEOMetadata({
   title: 'Holiday Party Photography - Studio37',
@@ -95,9 +96,9 @@ export default function HolidayPartyPage() {
                     </li>
                   ))}
                 </ul>
-                <button className="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition">
+                <Link href={`/book-a-session?package=${encodeURIComponent(pkg.name)}`} className="block w-full text-center bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition font-semibold">
                   Book Now
-                </button>
+                </Link>
               </div>
             ))}
           </div>
@@ -164,6 +165,7 @@ export default function HolidayPartyPage() {
           </div>
         </div>
       </section>
+      <PrepGuideLeadMagnet />
     </main>
   )
 }

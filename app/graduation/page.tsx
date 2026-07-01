@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 import { generateServiceSchema } from '@/lib/seo-config'
+import PrepGuideLeadMagnet from '@/components/PrepGuideLeadMagnet'
 
 export const metadata = generateSEOMetadata({
   title: 'Professional Graduation Photography - Studio37',
@@ -95,7 +96,7 @@ export default function GraduationPage() {
                     </li>
                   ))}
                 </ul>
-                <Link href={`/book-consultation?package=${encodeURIComponent(pkg.name)}`} className="block w-full text-center bg-amber-600 text-white py-2 rounded-lg hover:bg-amber-700 transition font-semibold">
+                <Link href={`/book-a-session?package=${encodeURIComponent(pkg.name)}`} className="block w-full text-center bg-amber-600 text-white py-2 rounded-lg hover:bg-amber-700 transition font-semibold">
                   Book Now
                 </Link>
               </div>
@@ -162,6 +163,7 @@ export default function GraduationPage() {
           </div>
         </div>
       </section>
+      <PrepGuideLeadMagnet />
     </main>
   )
 }
