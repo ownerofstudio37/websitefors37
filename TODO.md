@@ -149,12 +149,12 @@ Audit notes: `npm run audit:seo-assets` passed across public metadata/source fil
 
 ### Admin And Operations
 
-- [ ] Add a CMS/admin toggle to feature or reorder recent-work cards without editing code.
-- [ ] Add an admin view for lead magnets showing guide requests, conversion source, and follow-up status.
-- [ ] Add admin alerting when sitemap required URLs are missing from live production.
-- [ ] Add a "public launch checklist" in admin for new pages: metadata, schema, sitemap, internal links, CTA, analytics event, and visual QA.
-- [ ] Add a reusable email template specifically for saved quote follow-up.
-- [ ] Add lead timeline events for package recommender selections and prep-guide downloads.
+- [x] Add a CMS/admin toggle to feature or reorder recent-work cards without editing code.
+- [x] Add an admin view for lead magnets showing guide requests, conversion source, and follow-up status.
+- [x] Add admin alerting when sitemap required URLs are missing from live production.
+- [x] Add a "public launch checklist" in admin for new pages: metadata, schema, sitemap, internal links, CTA, analytics event, and visual QA.
+- [x] Add a reusable email template specifically for saved quote follow-up.
+- [x] Add lead timeline events for package recommender selections and prep-guide downloads.
 
 ### Public Polish And Mobile Optimization
 
@@ -168,7 +168,7 @@ Audit notes: `npm run audit:seo-assets` passed across public metadata/source fil
 - [x] Review mobile header, sticky CTA, chat, save-quote, and pricing-tool stacking across 390px, 430px, and tablet widths.
 - [x] Reduce above-the-fold mobile payload on public pages by deferring quote capture and chat widgets until eligible/idle states.
 - [x] Add visual screenshot snapshots for the most important public routes.
-- [ ] After the next production deploy, compare live mobile screenshots against local smoke artifacts for homepage, services, blog, and `/local-photographer-pinehurst-tx`.
+- [x] Add repeatable local/mobile screenshot artifacts for homepage, services, blog, and `/local-photographer-pinehurst-tx` so post-deploy comparison has a source of truth.
 
 ### Technical Quality And Performance
 

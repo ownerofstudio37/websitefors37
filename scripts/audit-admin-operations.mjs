@@ -25,7 +25,11 @@ const markerChecks = [
   { file: 'app/admin/editor/EditorFormClient.tsx', markers: ['StructuredListEditor', 'FAQ Items', 'Pricing Plans'] },
   { file: 'app/admin/site-editor/page.tsx', markers: ['Intro title preview', 'Intro text preview'] },
   { file: 'app/admin/blog/page.tsx', markers: ['AdminConfirmDialog', 'rawPreview', 'AdminToast'] },
-  { file: 'app/admin/operations/page.tsx', markers: ['Recent Work Manager', 'Lead Magnet Report', 'Admin Route Inventory'] },
+  { file: 'app/admin/operations/page.tsx', markers: ['Recent Work Manager', 'Lead Magnet Report', 'Admin Route Inventory', 'Sitemap Alerting', 'Public Launch Checklist', 'Saved Quote Template', 'Lead Timeline Events'] },
+  { file: 'app/api/leads/route.ts', markers: ['saved-quote-follow-up', 'source_metadata'] },
+  { file: 'components/QuoteAbandonmentCapture.tsx', markers: ['quote_capture_submitted', 'booking_package_abandoned'] },
+  { file: 'components/PackageRecommender.tsx', markers: ['recordLeadTimelineEvent("package_recommender_selection"'] },
+  { file: 'components/PrepGuideLeadMagnet.tsx', markers: ["recordLeadTimelineEvent('prep_guide_requested'"] },
   { file: 'app/admin/appointment-reminders/page.tsx', markers: ['CRON_SECRET', 'cronSecret'] },
 ]
 

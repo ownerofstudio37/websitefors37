@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { recentWorkItems, prepGuideDownloads } from '@/lib/public-content'
-import { leadMagnetSegments } from '@/lib/conversion-copy'
+import { conversionCopy, leadMagnetSegments } from '@/lib/conversion-copy'
 
 const editorRoutes = [
   { route: '/admin/content', status: 'Legacy', note: 'Keep for fallback content review.' },
@@ -13,6 +13,22 @@ const editorRoutes = [
 
 const expectedGalleryHost = 'https://gallery.studio37.cc'
 
+const launchChecklist = [
+  'Metadata and canonical URL',
+  'Schema target confirmed',
+  'Sitemap inclusion checked',
+  'Internal links and CTA path',
+  'Analytics event named',
+  'Mobile visual QA captured',
+]
+
+const timelineEvents = [
+  { event: 'package_recommender_selection', source: 'Package recommender', status: 'Recorded in browser lead timeline' },
+  { event: 'pricing_calculator_update', source: 'Pricing calculator', status: 'Recorded in browser lead timeline' },
+  { event: 'prep_guide_requested', source: 'Prep guides', status: 'Recorded from hub and download forms' },
+  { event: 'quote_capture_submitted', source: 'Saved quote', status: 'Submitted to leads with source metadata' },
+]
+
 export default function AdminOperationsPage() {
   const leadMagnets = Object.entries(prepGuideDownloads)
 
@@ -23,7 +39,7 @@ export default function AdminOperationsPage() {
           <div>
             <Link href="/admin" className="text-sm font-medium text-blue-700 hover:underline">Back to admin</Link>
             <h1 className="mt-2 text-3xl font-bold text-gray-950">Admin Operations</h1>
-            <p className="mt-1 text-sm text-gray-600">Recent work, lead magnets, and editor route ownership in one review surface.</p>
+            <p className="mt-1 text-sm text-gray-600">Recent work, lead magnets, launch QA, lead timelines, and editor route ownership in one review surface.</p>
           </div>
           <Link href="/admin/page-builder" className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700">
             Open primary builder
@@ -73,6 +89,35 @@ export default function AdminOperationsPage() {
           </div>
         </section>
 
+        <section className="grid gap-6 lg:grid-cols-3">
+          <div className="rounded-xl border bg-white p-5 shadow-sm">
+            <h2 className="text-xl font-semibold text-gray-950">Sitemap Alerting</h2>
+            <p className="mt-1 text-sm text-gray-600">Admin SEO already tracks required URL coverage and sitemap health before launch.</p>
+            <Link href="/admin/seo" className="mt-4 inline-flex text-sm font-semibold text-blue-700 hover:underline">
+              Review sitemap health
+            </Link>
+          </div>
+
+          <div className="rounded-xl border bg-white p-5 shadow-sm">
+            <h2 className="text-xl font-semibold text-gray-950">Public Launch Checklist</h2>
+            <ul className="mt-3 space-y-2 text-sm text-gray-700">
+              {launchChecklist.map((item) => (
+                <li key={item} className="flex gap-2">
+                  <span className="mt-1 h-2 w-2 rounded-full bg-green-500" aria-hidden="true" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="rounded-xl border bg-white p-5 shadow-sm">
+            <h2 className="text-xl font-semibold text-gray-950">Saved Quote Template</h2>
+            <p className="mt-2 text-sm font-medium text-gray-900">{conversionCopy.quoteCaptureHeadline}</p>
+            <p className="mt-2 text-sm text-gray-600">{conversionCopy.quoteCaptureBody}</p>
+            <p className="mt-3 rounded-lg bg-amber-50 px-3 py-2 text-xs font-semibold text-amber-800">Email route uses template slug: saved-quote-follow-up</p>
+          </div>
+        </section>
+
         <section className="grid gap-6 lg:grid-cols-2">
           <div className="rounded-xl border bg-white p-5 shadow-sm">
             <h2 className="text-xl font-semibold text-gray-950">Lead Magnet Report</h2>
@@ -113,6 +158,20 @@ export default function AdminOperationsPage() {
                 </div>
               ))}
             </div>
+          </div>
+        </section>
+
+        <section className="rounded-xl border bg-white p-5 shadow-sm">
+          <h2 className="text-xl font-semibold text-gray-950">Lead Timeline Events</h2>
+          <p className="mt-1 text-sm text-gray-600">Conversion interactions are captured as lead context so admin follow-up has a trail.</p>
+          <div className="mt-4 grid gap-3 md:grid-cols-2">
+            {timelineEvents.map((item) => (
+              <div key={item.event} className="rounded-lg border border-gray-200 p-4">
+                <code className="text-sm font-semibold text-gray-950">{item.event}</code>
+                <p className="mt-2 text-sm text-gray-600">{item.source}</p>
+                <p className="mt-1 text-xs font-semibold text-green-700">{item.status}</p>
+              </div>
+            ))}
           </div>
         </section>
       </div>

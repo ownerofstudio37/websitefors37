@@ -9,6 +9,7 @@ const checks = [
     patterns: [
       'v1762887052/IMG_2115_mtuowt_tayodz.png',
       'useState<string | null>(() => initialLogoUrl || DEFAULT_BRAND_LOGO)',
+      "scrolled ? 'h-11' : 'h-14'",
     ],
   },
   {
