@@ -6,8 +6,8 @@ import { generateSEOMetadata } from '@/lib/seo-helpers'
 import { staticBlogPosts } from '@/lib/static-blog-posts'
 
 export const metadata = generateSEOMetadata({
-  title: 'Photography Blog - Tips & Insights from Studio37 Pinehurst, TX',
-  description: 'Read the latest photography tips, techniques, and insights from Studio37\'s professional photography team in Pinehurst, Texas. Learn about wedding, portrait, and event photography.',
+  title: 'Photography Planning Guides | Studio37 Pinehurst, TX',
+  description: 'Clear Studio37 guides for choosing a photography service, planning locations, preparing for portraits, weddings, events, and brand shoots around Pinehurst and Greater Houston.',
   keywords: [
     'photography blog',
     'photography tips Texas',
@@ -63,25 +63,29 @@ export default async function BlogPage() {
     posts = staticBlogPosts
   }
 
+  const featuredPost = posts[0]
+  const articlePosts = posts.slice(featuredPost ? 1 : 0, 18)
+
   return (
     <div className="min-h-screen pt-16">
-      <div className="bg-stone-950 py-16 text-white md:py-20">
+      <div className="bg-stone-950 py-14 text-white md:py-20">
         <div className="container mx-auto px-4">
-          <div className="mx-auto max-w-3xl text-center">
-            <p className="eyebrow-hero mb-4">Studio37 Journal</p>
-            <h1 className="text-4xl font-bold leading-tight md:text-6xl">Photography planning, prep, and local insight</h1>
-            <p className="mt-5 text-lg leading-8 text-stone-200">
-              Practical guidance for portraits, weddings, events, brand work, and polished sessions across Pinehurst and Greater Houston.
+          <div className="mx-auto max-w-4xl text-center">
+            <p className="eyebrow-hero mb-4">Studio37 Guides</p>
+            <h1 className="text-4xl font-bold leading-tight md:text-6xl">Plan better photos before you book.</h1>
+            <p className="mx-auto mt-5 max-w-3xl text-lg leading-8 text-stone-200">
+              Straightforward advice for choosing a service, preparing for your session, picking locations, and knowing what to expect from Studio37.
             </p>
           </div>
         </div>
       </div>
 
       <div className="border-b border-stone-200 bg-white">
-        <div className="container mx-auto grid gap-3 px-4 py-5 text-sm font-semibold text-stone-700 md:grid-cols-3">
-          <span className="rounded-lg bg-stone-50 px-4 py-3">Local planning and timing</span>
-          <span className="rounded-lg bg-stone-50 px-4 py-3">Wardrobe and session prep</span>
-          <span className="rounded-lg bg-stone-50 px-4 py-3">Business content strategy</span>
+        <div className="container mx-auto grid gap-3 px-4 py-5 text-sm font-semibold text-stone-700 md:grid-cols-4">
+          <Link href="/session-prep" className="rounded-lg bg-stone-50 px-4 py-3 transition hover:bg-amber-50 hover:text-amber-900">Session prep guides</Link>
+          <Link href="/locations" className="rounded-lg bg-stone-50 px-4 py-3 transition hover:bg-amber-50 hover:text-amber-900">Location ideas</Link>
+          <Link href="/tools/package-recommender" className="rounded-lg bg-stone-50 px-4 py-3 transition hover:bg-amber-50 hover:text-amber-900">Choose a package</Link>
+          <Link href="/book-a-session" className="rounded-lg bg-stone-950 px-4 py-3 text-white transition hover:bg-amber-700">Book or consult</Link>
         </div>
       </div>
 
@@ -89,9 +93,9 @@ export default async function BlogPage() {
         <div className="container mx-auto px-4">
           <div className="mb-10 max-w-3xl">
             <p className="eyebrow mb-3">Latest Articles</p>
-            <h2 className="text-3xl font-bold text-stone-950 md:text-4xl">Fresh notes from the Studio37 team</h2>
+            <h2 className="text-3xl font-bold text-stone-950 md:text-4xl">Guides for real shoots, not generic photo tips</h2>
             <p className="mt-3 text-stone-600">
-              Use these as quick references before a session, while comparing services, or when planning a visual refresh.
+              Start here if you are comparing services, planning outfits, choosing a location, or getting ready for a wedding, portrait, event, or brand shoot.
             </p>
           </div>
           {error && posts.length === 0 ? (
@@ -105,15 +109,40 @@ export default async function BlogPage() {
             </div>
           ) : (
             <>
-            <div className="grid lg:grid-cols-4 gap-10">
-              <div className="lg:col-span-4 grid sm:grid-cols-2 xl:grid-cols-3 gap-8">
-                {posts.slice(0, 18).map((post: any) => {
+            {featuredPost && (
+              <Link href={`/blog/${featuredPost.slug}`} className="group mb-10 grid overflow-hidden rounded-lg border border-stone-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl lg:grid-cols-[1.15fr_0.85fr]">
+                <div className="relative min-h-[260px] bg-gradient-to-br from-stone-100 via-amber-50 to-stone-200">
+                  {featuredPost.featured_image && isAllowedImageDomain(featuredPost.featured_image) ? (
+                    <Image
+                      src={featuredPost.featured_image}
+                      alt={featuredPost.title}
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                      className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      priority
+                    />
+                  ) : (
+                    <div className="absolute inset-0 flex items-end p-6">
+                      <span className="rounded-full bg-white/80 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-stone-700">Featured Guide</span>
+                    </div>
+                  )}
+                </div>
+                <div className="flex flex-col justify-center p-6 md:p-8">
+                  <p className="eyebrow mb-3">Featured Guide</p>
+                  <h2 className="text-3xl font-bold leading-tight text-stone-950 group-hover:text-primary-700">{featuredPost.title}</h2>
+                  {featuredPost.excerpt && <p className="mt-4 text-stone-600 leading-7">{featuredPost.excerpt}</p>}
+                  <span className="mt-6 text-sm font-semibold text-primary-700">Read the guide →</span>
+                </div>
+              </Link>
+            )}
+            <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-8">
+                {articlePosts.map((post: any) => {
                   const hasImage = post.featured_image && isAllowedImageDomain(post.featured_image)
                   return (
                     <Link
                       key={post.id}
                       href={`/blog/${post.slug}`}
-                      className="group flex h-full flex-col overflow-hidden rounded-lg border border-stone-200 bg-white transition hover:-translate-y-1 hover:shadow-xl"
+                      className="group flex h-full flex-col overflow-hidden rounded-lg border border-stone-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
                     >
                       <div className="relative aspect-[16/10] w-full overflow-hidden bg-gradient-to-br from-stone-100 via-amber-50 to-stone-200">
                         {hasImage ? (
@@ -153,10 +182,9 @@ export default async function BlogPage() {
                   )
                 })}
               </div>
-            </div>
             {posts.length > 18 && (
               <p className="mt-8 text-center text-sm text-stone-600">
-                Showing the latest 18 articles. Use search or admin categories for deeper archive browsing.
+                Showing the newest guides first. More archive filtering is coming as the guide library grows.
               </p>
             )}
             </>
@@ -168,9 +196,9 @@ export default async function BlogPage() {
       <section className="section-shell bg-white border-t border-stone-200">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-2xl font-bold text-stone-950 mb-4">Photography Tips, Inspiration &amp; Insights from Studio37 in Pinehurst, TX</h2>
+            <h2 className="text-2xl font-bold text-stone-950 mb-4">Practical photography planning from Studio37</h2>
             <p className="text-stone-700 leading-relaxed mb-4">
-              Welcome to the Studio37 Photography blog — your resource for professional photography tips, wedding planning advice, portrait session preparation guides, and behind-the-scenes insights from Pinehurst, Texas's premier photography team. Our articles cover everything from how to choose the best outfit for your family portrait session to the top wedding venues in Montgomery County, TX, SEO strategies for local businesses using visual content, and how-to guides for getting the most out of your photography investment. Written by Christian and Caitie — the photographers and marketers behind Studio37 — each post draws on real-world experience serving clients across The Woodlands, Conroe, Magnolia, Tomball, Spring, Montgomery, Willis, New Caney, Hockley, Huntsville, and Greater Houston. Whether you're a soon-to-be bride researching wedding photographers in Pinehurst TX, a parent booking your teenager's senior portrait session, or a local business owner looking to improve your brand photography, you'll find actionable, honest guidance here. Explore our latest posts above, and when you're ready to book, contact Studio37 at (832) 713-9944 or visit www.studio37.cc.
+              The Studio37 guide library helps clients make confident photography decisions before they book. You will find planning notes for portraits, weddings, events, engagement sessions, local photo locations, wardrobe prep, gallery expectations, and commercial content shoots. Each article is written from real Studio37 experience serving Pinehurst, Montgomery County, The Woodlands, Conroe, Magnolia, Tomball, Spring, and Greater Houston.
             </p>
             <p className="text-sm text-stone-500">
               Studio37 Photography Blog · Pinehurst, TX · Montgomery County · The Woodlands · Conroe · Magnolia · Tomball · Spring · Montgomery · Willis · New Caney · Hockley · Huntsville · Houston Area
