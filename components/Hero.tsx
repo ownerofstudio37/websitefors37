@@ -19,7 +19,7 @@ export default function Hero() {
   const heroImageSmall = optimizeCloudinaryUrl(rawHeroImage, 800, 'auto:good');
   // Use the medium as default src (balanced quality vs size).
   const heroImage = heroImageMedium;
-  const heroMinHeight = "88svh";
+  const heroMinHeight = "min(88svh, 760px)";
   const overlayPct = 68;
 
   return (
@@ -64,33 +64,33 @@ export default function Hero() {
       {/* Film grain removed for performance - dark overlay provides depth */}
 
       <div className="relative z-20 container mx-auto px-4">
-        <div className="max-w-6xl mx-auto pt-24 md:pt-32 pb-16 md:pb-24">
+        <div className="max-w-6xl mx-auto pt-20 md:pt-32 pb-14 md:pb-24">
           <div className="max-w-3xl text-left">
-            <div className="eyebrow-hero mb-5">Pinehurst, TX · Weddings · Portraits · Events · Brand · Concierge</div>
+            <div className="eyebrow-hero mb-4">Pinehurst, TX · Weddings · Portraits · Events · Brand · Concierge</div>
             <h1
-              className="font-serif text-5xl md:text-7xl lg:text-[5.5rem] font-bold mb-6 leading-[0.95] text-white drop-shadow-lg"
+              className="font-serif text-4xl sm:text-5xl md:text-7xl lg:text-[5.5rem] font-bold mb-5 leading-[0.98] text-white drop-shadow-lg"
               suppressHydrationWarning
             >
               {heroTitle}
             </h1>
 
             <p
-              className="text-lg md:text-2xl mb-8 text-stone-100 max-w-2xl leading-relaxed"
+              className="text-base md:text-2xl mb-6 text-stone-100 max-w-2xl leading-relaxed"
               suppressHydrationWarning
             >
               {heroSubtitle}
             </p>
 
-            <div className="flex flex-wrap gap-3 text-sm text-stone-100/90 mb-8">
+            <div className="flex flex-wrap gap-2 text-xs sm:text-sm text-stone-100/90 mb-6">
               <span className="rounded-full bg-white/10 px-4 py-2 border border-white/10">500+ client sessions</span>
               <span className="rounded-full bg-white/10 px-4 py-2 border border-white/10">Two-photographer coverage</span>
-              <span className="rounded-full bg-white/10 px-4 py-2 border border-white/10">Packages from $350</span>
+              <span className="hidden rounded-full bg-white/10 px-4 py-2 border border-white/10 sm:inline-flex">Packages from $350</span>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
             <Link
               href="/book-consultation"
-              className="btn-primary text-lg px-8 py-4 focus:outline-none focus:ring-4 focus:ring-amber-500 focus:ring-offset-2"
+              className="btn-primary text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 focus:outline-none focus:ring-4 focus:ring-amber-500 focus:ring-offset-2"
               aria-label="Get instant photography quote"
             >
               Book a Consultation
@@ -99,7 +99,7 @@ export default function Hero() {
 
             <Link
               href="/get-quote"
-              className="btn-secondary text-lg px-8 py-4 focus:outline-none focus:ring-4 focus:ring-amber-500 focus:ring-offset-2"
+              className="btn-secondary text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 focus:outline-none focus:ring-4 focus:ring-amber-500 focus:ring-offset-2"
               aria-label="Get instant photography quote"
             >
               Get Instant Quote
@@ -107,7 +107,7 @@ export default function Hero() {
 
             <Link
               href="https://gallery.studio37.cc"
-              className="btn-ghost text-lg px-8 py-4 focus:outline-none focus:ring-4 focus:ring-amber-500 focus:ring-offset-2"
+              className="btn-ghost text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 focus:outline-none focus:ring-4 focus:ring-amber-500 focus:ring-offset-2"
               aria-label="View our photography portfolio"
             >
               View Portfolio

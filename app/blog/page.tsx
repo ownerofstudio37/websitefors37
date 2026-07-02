@@ -104,9 +104,10 @@ export default async function BlogPage() {
               <p className="text-stone-500">No blog posts yet. Check back soon!</p>
             </div>
           ) : (
+            <>
             <div className="grid lg:grid-cols-4 gap-10">
               <div className="lg:col-span-4 grid sm:grid-cols-2 xl:grid-cols-3 gap-8">
-                {posts.map((post: any) => (
+                {posts.slice(0, 18).map((post: any) => (
                   <Link
                     key={post.id}
                     href={`/blog/${post.slug}`}
@@ -144,6 +145,12 @@ export default async function BlogPage() {
                 ))}
               </div>
             </div>
+            {posts.length > 18 && (
+              <p className="mt-8 text-center text-sm text-stone-600">
+                Showing the latest 18 articles. Use search or admin categories for deeper archive browsing.
+              </p>
+            )}
+            </>
           )}
         </div>
       </div>

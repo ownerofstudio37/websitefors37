@@ -339,7 +339,23 @@ export default function LocalPhotographerCityPage({
         </div>
       </section>
 
-      <section className="section-shell bg-white">
+      <nav className="border-b border-stone-200 bg-white" aria-label={`${cityLabel} page sections`}>
+        <div className="container mx-auto flex gap-2 overflow-x-auto px-4 py-3 text-sm font-semibold text-stone-700">
+          {[
+            ['Why Studio37', '#local-confidence'],
+            ['Services', '#local-services'],
+            ['How it works', '#local-process'],
+            ['Locations', '#local-locations'],
+            ['FAQ', '#local-faq'],
+          ].map(([label, href]) => (
+            <Link key={href} href={href} className="shrink-0 rounded-full border border-stone-200 bg-stone-50 px-4 py-2 hover:border-amber-300">
+              {label}
+            </Link>
+          ))}
+        </div>
+      </nav>
+
+      <section id="local-confidence" className="section-shell scroll-mt-24 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <div className="eyebrow mb-4">Local Confidence</div>
@@ -401,7 +417,7 @@ export default function LocalPhotographerCityPage({
         </div>
       </section>
 
-      <section className="section-shell bg-stone-50">
+      <section id="local-services" className="section-shell scroll-mt-24 bg-stone-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12 max-w-3xl mx-auto">
             <div className="eyebrow mb-4">Pricing</div>
@@ -506,7 +522,7 @@ export default function LocalPhotographerCityPage({
         </div>
       </section>
 
-      <section className="section-shell bg-white">
+      <section id="local-process" className="section-shell scroll-mt-24 bg-white">
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-10 max-w-6xl mx-auto">
             <div className="section-soft p-8 md:p-10">
@@ -613,7 +629,7 @@ export default function LocalPhotographerCityPage({
       </section>
 
       {cityProfile && (
-        <section className="py-12 bg-white border-t border-gray-200">
+        <section id="local-locations" className="scroll-mt-24 py-12 bg-white border-t border-gray-200">
           <div className="container mx-auto px-4">
             <div className="max-w-5xl mx-auto">
               <h2 className="text-2xl font-bold text-gray-900 mb-3">Local Planning Tips for {cityLabel} Sessions</h2>
@@ -646,7 +662,7 @@ export default function LocalPhotographerCityPage({
         </section>
       )}
 
-      <section className="py-16 bg-white">
+      <section id="local-faq" className="scroll-mt-24 py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold mb-4">Areas We Serve Nearby</h2>

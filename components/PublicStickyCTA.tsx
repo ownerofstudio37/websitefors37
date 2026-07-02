@@ -4,7 +4,16 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Calendar, Calculator, Image as ImageIcon } from 'lucide-react'
 
-const hiddenPrefixes = ['/admin', '/login', '/setup-admin']
+const hiddenPrefixes = [
+  '/admin',
+  '/login',
+  '/setup-admin',
+  '/book-a-session',
+  '/book-consultation',
+  '/get-quote',
+  '/tools/pricing',
+  '/tools/package-recommender',
+]
 
 export default function PublicStickyCTA() {
   const pathname = usePathname()

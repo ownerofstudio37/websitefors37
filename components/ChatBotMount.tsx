@@ -2,6 +2,7 @@
 
 import React from 'react'
 import dynamic from 'next/dynamic'
+import { usePathname } from 'next/navigation'
 
 const LazyChatBot = dynamic(() => import('@/components/EnhancedChatBot'), {
   ssr: false,
@@ -10,8 +11,12 @@ const LazyChatBot = dynamic(() => import('@/components/EnhancedChatBot'), {
 
 export default function ChatBotMount() {
   const [ready, setReady] = React.useState(false)
+  const pathname = usePathname()
+  const hiddenPrefixes = ['/book-a-session', '/book-consultation', '/get-quote', '/tools/pricing', '/tools/package-recommender']
+  const hidden = hiddenPrefixes.some((prefix) => pathname?.startsWith(prefix))
 
   React.useEffect(() => {
+    if (hidden) return
     let timeout: any
     const onFirstInteract = () => {
       setReady(true)
@@ -34,7 +39,7 @@ export default function ChatBotMount() {
       window.removeEventListener('pointerdown', onFirstInteract)
       window.removeEventListener('keydown', onFirstInteract)
     }
-  }, [])
+  }, [hidden])
 
-  return ready ? <LazyChatBot /> : null
+  return !hidden && ready ? <LazyChatBot /> : null
 }
