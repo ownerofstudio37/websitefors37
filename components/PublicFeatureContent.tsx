@@ -116,8 +116,8 @@ export function ServiceTestimonialsSection({ service }: { service: ServiceKey })
             </figure>
           ))}
         </div>
-        <Link href="https://gallery.studio37.cc" className="btn-secondary mt-8 inline-flex items-center">
-          See finished galleries <Sparkles className="ml-2 h-4 w-4" aria-hidden="true" />
+        <Link href="/request-portfolio" className="btn-secondary mt-8 inline-flex items-center">
+          Request finished galleries <Sparkles className="ml-2 h-4 w-4" aria-hidden="true" />
         </Link>
       </div>
     </section>

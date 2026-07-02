@@ -403,10 +403,10 @@ export default function LocalPhotographerCityPage({
 
 
               <Link
-                href="https://gallery.studio37.cc"
+                href="/request-portfolio"
                 className="btn-secondary border-white/60 bg-white/10 text-center text-white hover:bg-white hover:text-stone-950"
               >
-                View Portfolio
+                Request Portfolio
               </Link>
             </div>
           </div>
@@ -497,15 +497,15 @@ export default function LocalPhotographerCityPage({
                   A local page should feel local. These examples show the type of direction, timing, and detail coverage we adapt for {cityLabel} sessions.
                 </p>
               </div>
-              <Link href="https://gallery.studio37.cc" className="text-sm font-semibold text-amber-800 hover:text-amber-950">
-                View finished galleries
+              <Link href="/request-portfolio" className="text-sm font-semibold text-amber-800 hover:text-amber-950">
+                Request finished galleries
               </Link>
             </div>
             <div className="grid gap-5 md:grid-cols-3">
               {localProofImages.map((image) => (
                 <Link
                   key={`${cityKey}-${image.label}`}
-                  href="https://gallery.studio37.cc"
+                  href="/request-portfolio"
                   className="group overflow-hidden rounded-xl border border-stone-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
                 >
                   <div className="relative aspect-[4/3] overflow-hidden bg-stone-100">

@@ -5,7 +5,7 @@ import AvailabilityConfidence from '@/components/AvailabilityConfidence'
 import CuratedRecentWork from '@/components/CuratedRecentWork'
 import ServiceAreaMarketModules from '@/components/ServiceAreaMarketModules'
 
-const galleryUrl = 'https://gallery.studio37.cc'
+const galleryUrl = '/request-portfolio'
 
 export function PublicTrustStrip() {
   const items = [
@@ -177,7 +177,7 @@ export function PortfolioProofSection({ serviceName = 'portfolio' }: { serviceNa
             <span className="rounded-full border border-white/10 bg-white/10 px-4 py-2">Commercial</span>
           </div>
           <Link href={galleryUrl} className="btn-primary mt-8 inline-flex items-center">
-            View Gallery <ImageIcon className="ml-2 h-4 w-4" aria-hidden="true" />
+            Request Tailored Portfolio <ImageIcon className="ml-2 h-4 w-4" aria-hidden="true" />
           </Link>
         </div>
         <div className="grid grid-cols-3 gap-3">
