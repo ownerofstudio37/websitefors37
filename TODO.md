@@ -180,6 +180,32 @@ Audit notes: `npm run audit:seo-assets` passed across public metadata/source fil
 - [x] Add a production smoke test that fetches live headers for homepage, robots, sitemap, and top conversion pages after deploy.
 - [x] Review CSP differences between homepage HTML responses and static XML/text endpoints to keep security consistent without breaking analytics or widgets.
 
+### Live UX Audit - Services Flow
+
+- [x] Rework the "What To Expect" module so it feels like a premium process strip instead of four generic cards.
+- [x] Move or restyle the module so it supports the services hero instead of visually competing with it at the top of `/services`.
+- [x] Add mobile bottom padding or layout protection so the sticky CTA does not cover the final "Gallery" card copy.
+- [x] Improve desktop spacing around the fixed header so the nav/logo never overlaps the module heading or package CTA.
+- [x] Make the process steps more cohesive: numbered flow, connecting line, tighter copy, and consistent vertical rhythm.
+- [x] Consider service-aware copy for portrait, wedding, event, commercial, engagement, and concierge pages instead of the same generic wording everywhere.
+- [x] Re-test desktop and mobile screenshots for `/services` and `/services/portrait-photography` after the module redesign.
+
+### Live Mobile Walkthrough Findings
+
+- [ ] Homepage: reduce above-fold compression so hero, trust badges, and first CTA feel less cramped on 390px screens.
+- [ ] Homepage: fix gray recent-work image placeholders or provide polished fallback cards when images are missing/slow.
+- [ ] Services: fix gray service-card image placeholders and confirm all service images load reliably on mobile.
+- [ ] Services: shorten the mobile scroll before the user reaches the primary service cards or add a compact jump link/section nav.
+- [ ] Blog: replace gray featured-image placeholders with branded fallbacks and consider paginating or grouping posts to reduce the extremely long mobile page.
+- [ ] Blog: tighten post-card vertical rhythm so cards feel editorial instead of repetitive CMS output.
+- [ ] Booking: hide or reposition sticky quick actions/chat while the booking form is active so they do not cover form controls.
+- [ ] Pricing: hide or reposition sticky quick actions/chat around calculator summary and "Continue to Book" controls.
+- [ ] Package recommender: hide or reposition sticky quick actions/chat while visitors are choosing package options.
+- [ ] Pinehurst/local pages: reduce mobile page length by collapsing secondary sections or adding a compact section navigator.
+- [ ] Pinehurst/local pages: prevent sticky/chat overlap with above-fold booking/gallery CTAs.
+- [ ] Cross-site mobile: define a single rule for sticky CTA + chat visibility on interactive tools and forms.
+- [ ] Re-run mobile screenshots for homepage, services, blog, Pinehurst, booking, pricing, and package recommender after fixes.
+
 ## Public Site UX/UI
 
 - [x] Add consistent sticky/mobile CTAs for booking, pricing, and gallery.
