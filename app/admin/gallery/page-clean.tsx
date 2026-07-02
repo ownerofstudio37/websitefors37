@@ -422,7 +422,6 @@ export default function AdminGalleryPage() {
                   <GalleryHighlightsEditor
                     allImages={allImages}
                     onSave={async (config) => {
-                      console.log("Gallery Highlights Config:", config);
                       // TODO: Save to site settings or page builder config
                     }}
                   />

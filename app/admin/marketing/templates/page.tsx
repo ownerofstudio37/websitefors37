@@ -3,6 +3,8 @@
 import React, { useEffect, useState } from 'react'
 import { Plus, Mail, MessageSquare, Loader2, Edit, Trash2, Save, X, Eye } from 'lucide-react'
 import Link from 'next/link'
+import AdminToast from '@/components/admin/AdminToast'
+import AdminConfirmDialog from '@/components/admin/AdminConfirmDialog'
 
 type Template = any & { type: 'email' | 'sms' }
 
@@ -15,6 +17,13 @@ export default function TemplatesPage() {
   const [creating, setCreating] = useState(false)
   const [editId, setEditId] = useState<string | null>(null)
   const [editData, setEditData] = useState<any>({})
+  const [toast, setToast] = useState<{ message: string; type?: 'success' | 'error' | 'info' } | null>(null)
+  const [deleteTemplateId, setDeleteTemplateId] = useState<string | null>(null)
+
+  const showToast = (message: string, type: 'success' | 'error' | 'info' = 'success') => {
+    setToast({ message, type })
+    setTimeout(() => setToast(null), 3000)
+  }
 
   const fetchTemplates = async () => {
     try {
@@ -59,20 +68,27 @@ export default function TemplatesPage() {
       const json = await res.json()
       if (!res.ok) throw new Error(json.error || 'Failed to create template')
       setShowCreate(false)
+      showToast('Template created')
       fetchTemplates()
     } catch (e: any) {
-      alert(e.message)
+      showToast(e.message || 'Failed to create template', 'error')
     } finally {
       setCreating(false)
     }
   }
 
   const deleteTemplate = async (id: string) => {
-    if (!confirm('Delete this template?')) return
-    const res = await fetch(`/api/marketing/templates/${id}`, { method: 'DELETE' })
-    const json = await res.json()
-    if (!res.ok) return alert(json.error || 'Failed to delete')
-    fetchTemplates()
+    try {
+      const res = await fetch(`/api/marketing/templates/${id}`, { method: 'DELETE' })
+      const json = await res.json()
+      if (!res.ok) throw new Error(json.error || 'Failed to delete')
+      showToast('Template deleted')
+      fetchTemplates()
+    } catch (e: any) {
+      showToast(e.message || 'Failed to delete template', 'error')
+    } finally {
+      setDeleteTemplateId(null)
+    }
   }
 
   const startEdit = (tpl: Template) => {
@@ -88,8 +104,9 @@ export default function TemplatesPage() {
       body: JSON.stringify(editData)
     })
     const json = await res.json()
-    if (!res.ok) return alert(json.error || 'Failed to update')
+    if (!res.ok) return showToast(json.error || 'Failed to update', 'error')
     setEditId(null)
+    showToast('Template updated')
     fetchTemplates()
   }
 
@@ -195,7 +212,7 @@ export default function TemplatesPage() {
                       )}
                     </>
                   )}
-                  <button onClick={()=>deleteTemplate(tpl.id)} className="border border-red-300 text-red-600 px-3 py-1 rounded hover:bg-red-50 flex items-center gap-1 text-sm"><Trash2 className="h-4 w-4" /> Delete</button>
+                  <button onClick={()=>setDeleteTemplateId(tpl.id)} className="border border-red-300 text-red-600 px-3 py-1 rounded hover:bg-red-50 flex items-center gap-1 text-sm"><Trash2 className="h-4 w-4" /> Delete</button>
                 </div>
               </div>
             </div>
@@ -212,6 +229,20 @@ export default function TemplatesPage() {
           creating={creating}
         />
       )}
+      {toast && (
+        <div className="fixed bottom-6 right-6 z-[110] w-[min(92vw,420px)]">
+          <AdminToast message={toast.message} type={toast.type} onClose={() => setToast(null)} />
+        </div>
+      )}
+      <AdminConfirmDialog
+        open={Boolean(deleteTemplateId)}
+        title="Delete template?"
+        message="This removes the email or SMS template from marketing automation. Make sure no active workflow still depends on it."
+        confirmLabel="Delete template"
+        danger
+        onCancel={() => setDeleteTemplateId(null)}
+        onConfirm={() => deleteTemplateId && deleteTemplate(deleteTemplateId)}
+      />
     </div>
   )
 }

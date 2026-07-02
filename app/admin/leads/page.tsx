@@ -130,8 +130,6 @@ export default function LeadsPage() {
       setLeads(data || [])
       setTotalCount(count || 0)
       setPageCount(Math.ceil((count || 0) / itemsPerPage))
-      
-      console.log('Fetched leads:', { data, count, filter, q })
     } catch (error: any) {
       console.error('Error fetching leads:', error)
       setError(error.message || 'Failed to load leads')

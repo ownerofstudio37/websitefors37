@@ -12,12 +12,31 @@ const noBrowserDialogs = [
   'app/admin/blog/page.tsx',
   'components/admin/ClientProjectsList.tsx',
   'app/admin/appointment-reminders/page.tsx',
+  'app/admin/galleries/page.tsx',
+  'app/admin/galleries/[id]/page.tsx',
+  'app/admin/marketing/templates/page.tsx',
+  'app/admin/chatbot-training/page.tsx',
 ]
 
 for (const file of noBrowserDialogs) {
   const source = fs.readFileSync(path.join(root, file), 'utf8')
   if (/\b(alert|confirm|prompt)\s*\(/.test(source)) {
     issues.push(`${file} still uses a browser dialog`)
+  }
+}
+
+const noDebugLogs = [
+  'app/admin/leads/page.tsx',
+  'app/admin/page-builder/page.tsx',
+  'app/admin/live-editor/page.tsx',
+  'app/admin/gallery/page-clean.tsx',
+  'app/admin/page-backup.tsx',
+]
+
+for (const file of noDebugLogs) {
+  const source = fs.readFileSync(path.join(root, file), 'utf8')
+  if (/console\.log\s*\(/.test(source)) {
+    issues.push(`${file} still has console.log debug output`)
   }
 }
 
@@ -31,6 +50,19 @@ const markerChecks = [
   { file: 'components/PackageRecommender.tsx', markers: ['recordLeadTimelineEvent("package_recommender_selection"'] },
   { file: 'components/PrepGuideLeadMagnet.tsx', markers: ["recordLeadTimelineEvent('prep_guide_requested'"] },
   { file: 'app/admin/appointment-reminders/page.tsx', markers: ['CRON_SECRET', 'cronSecret'] },
+  { file: 'app/admin/galleries/page.tsx', markers: ['AdminToast', 'AdminConfirmDialog', 'https://gallery.studio37.cc'] },
+  { file: 'app/admin/galleries/[id]/page.tsx', markers: ['AdminToast', 'AdminConfirmDialog', 'gallery.studio37.cc'] },
+  { file: 'app/admin/marketing/templates/page.tsx', markers: ['AdminToast', 'AdminConfirmDialog', 'Make sure no active workflow still depends on it'] },
+  { file: 'app/admin/chatbot-training/page.tsx', markers: ['AdminConfirmDialog', 'Custom Q&A entries remain separate'] },
+  { file: 'app/admin/database-migrations/page.tsx', markers: ['Run migration', 'backup'] },
+  { file: 'app/admin/page-builder/page.tsx', markers: ['Loading visual editor', 'Cache cleared'] },
+  { file: 'app/admin/live-editor/page.tsx', markers: ['replace your current unsaved changes', 'Import'] },
+  { file: 'app/admin/client-portals/page.tsx', markers: ['Client Portal', 'portal'] },
+  { file: 'app/admin/lead-scoring/page.tsx', markers: ['Lead Scoring', 'recalculate'] },
+  { file: 'app/admin/operations/page.tsx', markers: ['Primary builder', 'Legacy'] },
+  { file: 'components/ChatBotMount.tsx', markers: ['EnhancedChatBot'] },
+  { file: 'app/api/chat/respond/route.ts', markers: ['view our ShootProof gallery', 'imageAnalysisContext', 'fallback', '$350'] },
+  { file: 'components/EnhancedChatBot.tsx', markers: ['uploadError', 'quoteFormError', 'Call Studio37', 'https://gallery.studio37.cc'] },
 ]
 
 for (const check of markerChecks) {
@@ -46,4 +78,4 @@ if (issues.length) {
   process.exit(1)
 }
 
-console.log(`Admin operations audit passed across ${noBrowserDialogs.length + markerChecks.length} checks.`)
+console.log(`Admin operations audit passed across ${noBrowserDialogs.length + noDebugLogs.length + markerChecks.length} checks.`)

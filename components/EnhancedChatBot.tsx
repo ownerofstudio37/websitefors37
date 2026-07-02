@@ -145,6 +145,8 @@ export default function EnhancedChatBot() {
     additionalNotes: "",
   });
   const [attachedImage, setAttachedImage] = useState<string | null>(null);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+  const [quoteFormError, setQuoteFormError] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const leadCapturedRef = useRef(false);
 
@@ -218,14 +220,15 @@ export default function EnhancedChatBot() {
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+    setUploadError(null);
 
     if (!file.type.startsWith("image/")) {
-      alert("Please select an image file");
+      setUploadError("Please select an image file.");
       return;
     }
 
     if (file.size > 5 * 1024 * 1024) {
-      alert("Image must be under 5MB");
+      setUploadError("Image must be under 5MB.");
       return;
     }
 
@@ -323,14 +326,19 @@ export default function EnhancedChatBot() {
       } else {
         // Fallback response
         const errorText = await res.text();
+        let fallback = "I am having trouble answering live right now. You can book a consultation, browse services, check pricing, or call Studio37 at (832) 713-9944.";
+        try {
+          const parsed = JSON.parse(errorText);
+          if (parsed?.fallback) fallback = parsed.fallback;
+        } catch {}
         console.error("Chat API error:", { 
           status: res.status, 
           statusText: res.statusText,
           errorText 
         });
         addBotMessage(
-          "I'm here to help! Our team can answer any questions. Would you like to book a consultation or learn about our services?",
-          ["Book consultation", "View services", "Pricing info"]
+          fallback,
+          ["Book consultation", "View services", "Pricing info", "Call Studio37"]
         );
       }
     } catch (error) {
@@ -371,6 +379,26 @@ export default function EnhancedChatBot() {
   };
 
   const handleQuickReply = (reply: string) => {
+    if (reply === "Book consultation") {
+      window.open("/book-a-session", "_blank");
+      return;
+    }
+    if (reply === "View services") {
+      window.open("/services", "_blank");
+      return;
+    }
+    if (reply === "Pricing info") {
+      window.open("/tools/pricing", "_blank");
+      return;
+    }
+    if (reply === "Call Studio37") {
+      window.location.href = "tel:+18327139944";
+      return;
+    }
+    if (reply === "View portfolio" || reply === "See portfolio") {
+      window.open("https://gallery.studio37.cc", "_blank", "noopener,noreferrer");
+      return;
+    }
     if (reply === "View details" && servicePageUrl) {
       window.open(servicePageUrl, "_blank");
       return;
@@ -446,6 +474,14 @@ export default function EnhancedChatBot() {
   const handleQuoteFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setShowQuoteForm(false);
+    setQuoteFormError(null);
+
+    if (!leadData.email && !leadData.phone) {
+      setShowQuoteForm(true);
+      setQuoteFormError("Please share an email or phone in the chat first so we can send the quote.");
+      addBotMessage("I can build the quote request, but I need an email or phone first so our team can send it to you.");
+      return;
+    }
 
     try {
       // Build structured metadata
@@ -738,7 +774,12 @@ ${conversationSummary}`;
 
                     {!leadData.email && !leadData.phone && (
                       <div className="bg-amber-50 border border-amber-200 rounded-lg p-2 text-xs text-amber-800">
-                        💡 Don't forget to share your email or phone so we can send you the quote!
+                        Please share your email or phone in chat before submitting so we can send the quote.
+                      </div>
+                    )}
+                    {quoteFormError && (
+                      <div className="rounded-lg border border-red-200 bg-red-50 p-2 text-xs text-red-700">
+                        {quoteFormError}
                       </div>
                     )}
 
@@ -838,6 +879,11 @@ ${conversationSummary}`;
                   >
                     <X className="h-4 w-4" />
                   </button>
+                </div>
+              )}
+              {uploadError && (
+                <div className="mb-2 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+                  {uploadError}
                 </div>
               )}
               <div className="flex gap-2">

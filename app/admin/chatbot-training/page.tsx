@@ -11,6 +11,7 @@ import {
   MessageSquare,
   Brain,
 } from "lucide-react";
+import AdminConfirmDialog from "@/components/admin/AdminConfirmDialog";
 
 interface TrainingExample {
   id: string;
@@ -51,6 +52,7 @@ export default function ChatbotTrainingPage() {
   const [saving, setSaving] = useState(false);
   const [importing, setImporting] = useState(false);
   const [message, setMessage] = useState("");
+  const [confirmImportOpen, setConfirmImportOpen] = useState(false);
 
   const categories = [
     "general",
@@ -178,10 +180,6 @@ export default function ChatbotTrainingPage() {
   };
 
   const handleImportContent = async () => {
-    if (!confirm("This will re-import all website content into chatbot training. Existing auto-imported entries will be replaced. Continue?")) {
-      return;
-    }
-
     setImporting(true);
     setMessage("Importing content... This may take a minute.");
 
@@ -231,7 +229,7 @@ export default function ChatbotTrainingPage() {
               </div>
             </div>
             <button
-              onClick={handleImportContent}
+              onClick={() => setConfirmImportOpen(true)}
               disabled={importing}
               className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
             >
@@ -240,6 +238,18 @@ export default function ChatbotTrainingPage() {
             </button>
           </div>
         </div>
+        <AdminConfirmDialog
+          open={confirmImportOpen}
+          title="Re-import website content?"
+          message="This will replace existing auto-imported chatbot training entries with fresh website content. Custom Q&A entries remain separate."
+          confirmLabel="Re-import content"
+          loading={importing}
+          onCancel={() => setConfirmImportOpen(false)}
+          onConfirm={() => {
+            setConfirmImportOpen(false);
+            handleImportContent();
+          }}
+        />
 
         {/* Success/Error Message */}
         {message && (

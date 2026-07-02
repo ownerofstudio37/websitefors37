@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react'
 import { Camera, Plus, Eye, Lock, Calendar, Download, Trash2, Edit, Copy, ExternalLink } from 'lucide-react'
 import AdminProtected from '@/components/AdminProtected'
 import AdminState from '@/components/admin/AdminState'
+import AdminToast from '@/components/admin/AdminToast'
+import AdminConfirmDialog from '@/components/admin/AdminConfirmDialog'
 
 interface Gallery {
   id: string
@@ -28,6 +30,8 @@ export default function GalleriesPage() {
   const [galleries, setGalleries] = useState<Gallery[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [toast, setToast] = useState<{ message: string; type?: 'success' | 'error' | 'info' } | null>(null)
+  const [deleteGalleryId, setDeleteGalleryId] = useState<string | null>(null)
   const [showCreate, setShowCreate] = useState(false)
   const [formData, setFormData] = useState({
     client_name: '',
@@ -95,23 +99,32 @@ export default function GalleriesPage() {
     }
   }
 
-  const copyLink = (accessCode: string) => {
+  const showToast = (message: string, type: 'success' | 'error' | 'info' = 'success') => {
+    setToast({ message, type })
+    setTimeout(() => setToast(null), 3000)
+  }
+
+  const copyLink = async (accessCode: string) => {
     const link = `https://gallery.studio37.cc/${accessCode}`
-    navigator.clipboard.writeText(link)
-    alert('Gallery link copied to clipboard!')
+    await navigator.clipboard.writeText(link)
+    showToast('Gallery link copied to clipboard')
   }
 
   const deleteGallery = async (id: string) => {
-    if (!confirm('Delete this gallery? This will remove all photos and cannot be undone.')) return
-    
     try {
       const res = await fetch(`/api/admin/galleries/${id}`, { method: 'DELETE' })
       const data = await res.json()
       if (data.success) {
         setGalleries(galleries.filter(g => g.id !== id))
+        showToast('Gallery deleted')
+      } else {
+        showToast(data.error || 'Failed to delete gallery', 'error')
       }
     } catch (error) {
       console.error('Failed to delete gallery:', error)
+      showToast('Failed to delete gallery', 'error')
+    } finally {
+      setDeleteGalleryId(null)
     }
   }
 
@@ -403,7 +416,7 @@ export default function GalleriesPage() {
                         <ExternalLink className="w-4 h-4" />
                       </a>
                       <button
-                        onClick={() => deleteGallery(gallery.id)}
+                        onClick={() => setDeleteGalleryId(gallery.id)}
                         className="px-4 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors"
                         title="Delete gallery"
                       >
@@ -416,6 +429,20 @@ export default function GalleriesPage() {
             </div>
           )}
         </div>
+        {toast && (
+          <div className="fixed bottom-6 right-6 z-[110] w-[min(92vw,420px)]">
+            <AdminToast message={toast.message} type={toast.type} onClose={() => setToast(null)} />
+          </div>
+        )}
+        <AdminConfirmDialog
+          open={Boolean(deleteGalleryId)}
+          title="Delete gallery?"
+          message="This will remove the client gallery record and its photos. This cannot be undone."
+          confirmLabel="Delete gallery"
+          danger
+          onCancel={() => setDeleteGalleryId(null)}
+          onConfirm={() => deleteGalleryId && deleteGallery(deleteGalleryId)}
+        />
       </div>
     </AdminProtected>
   )

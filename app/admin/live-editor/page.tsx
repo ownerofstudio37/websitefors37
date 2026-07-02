@@ -433,8 +433,6 @@ export default function LiveEditorPage() {
 
       if (error) throw error
 
-      console.log('Raw page_configs data:', data)
-
       // Combine existing pages with core pages that might not exist yet
       const existingSlugs = new Set((data || []).map(p => p.slug))
       const allPages: PageConfig[] = [
@@ -471,7 +469,6 @@ export default function LiveEditorPage() {
       if (!error && data) {
         const slugs = data.map(p => p.slug)
         setAvailablePublishedPages(slugs)
-        console.log('Available published pages:', slugs)
       }
     } catch (e) {
       console.error('Failed to check published pages:', e)
@@ -497,8 +494,6 @@ export default function LiveEditorPage() {
       const pageData = data?.data || {}
       const comps = Array.isArray(pageData.components) ? pageData.components : []
       const nav = pageData.navigation || null
-      
-      console.log('Loaded page:', slug, 'Components:', comps.length, 'Data:', pageData)
       
       setComponents(comps)
       setOriginalComponents(JSON.parse(JSON.stringify(comps)))
@@ -1069,16 +1064,12 @@ export default function LiveEditorPage() {
     setMessage(null)
     
     try {
-      console.log('Importing from published:', selectedSlug)
-      
       const { data, error } = await supabase
         .from('content_pages')
         .select('content')
         .eq('slug', selectedSlug)
         .eq('published', true)
         .maybeSingle()
-
-      console.log('Published content fetch result:', { data, error, hasContent: !!data?.content })
 
       if (error) throw error
       if (!data?.content) {
@@ -1103,11 +1094,7 @@ export default function LiveEditorPage() {
         return
       }
 
-      console.log('MDX content length:', data.content.length, 'First 500 chars:', data.content.substring(0, 500))
-
       const imported = mdxToComponents(data.content)
-      
-      console.log('Parsed components:', imported.length, 'Sample:', imported[0])
 
       if (imported.length === 0) {
         setMessage({ type: 'warning', text: 'Could not parse any components from published content. The page might be using a different format.' })

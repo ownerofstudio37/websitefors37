@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { Upload, Image as ImageIcon, Trash2, Star, Eye, Download, ArrowLeft, Copy, ExternalLink, Mail } from 'lucide-react'
 import AdminProtected from '@/components/AdminProtected'
+import AdminToast from '@/components/admin/AdminToast'
+import AdminConfirmDialog from '@/components/admin/AdminConfirmDialog'
 
 interface Gallery {
   id: string
@@ -43,6 +45,8 @@ export default function GalleryManagePage() {
   const [urlInput, setUrlInput] = useState('')
   const [urlUploading, setUrlUploading] = useState(false)
   const [copiedLink, setCopiedLink] = useState(false)
+  const [toast, setToast] = useState<{ message: string; type?: 'success' | 'error' | 'info' } | null>(null)
+  const [deleteImageId, setDeleteImageId] = useState<string | null>(null)
 
   useEffect(() => {
     fetchGallery()
@@ -113,9 +117,12 @@ export default function GalleryManagePage() {
     }
   }
 
-  const deleteImage = async (imageId: string) => {
-    if (!confirm('Delete this image?')) return
+  const showToast = (message: string, type: 'success' | 'error' | 'info' = 'success') => {
+    setToast({ message, type })
+    setTimeout(() => setToast(null), 3000)
+  }
 
+  const deleteImage = async (imageId: string) => {
     try {
       const res = await fetch(`/api/admin/galleries/${params.id}/images/${imageId}`, {
         method: 'DELETE'
@@ -123,9 +130,15 @@ export default function GalleryManagePage() {
       const data = await res.json()
       if (data.success) {
         setImages(images.filter(img => img.id !== imageId))
+        showToast('Image deleted')
+      } else {
+        showToast(data.error || 'Failed to delete image', 'error')
       }
     } catch (error) {
       console.error('Failed to delete image:', error)
+      showToast('Failed to delete image', 'error')
+    } finally {
+      setDeleteImageId(null)
     }
   }
 
@@ -404,7 +417,7 @@ export default function GalleryManagePage() {
                         <Star className="w-5 h-5" />
                       </button>
                       <button
-                        onClick={() => deleteImage(image.id)}
+                        onClick={() => setDeleteImageId(image.id)}
                         className="p-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
                       >
                         <Trash2 className="w-5 h-5" />
@@ -431,6 +444,20 @@ export default function GalleryManagePage() {
             </div>
           )}
         </div>
+        {toast && (
+          <div className="fixed bottom-6 right-6 z-[110] w-[min(92vw,420px)]">
+            <AdminToast message={toast.message} type={toast.type} onClose={() => setToast(null)} />
+          </div>
+        )}
+        <AdminConfirmDialog
+          open={Boolean(deleteImageId)}
+          title="Delete image?"
+          message="This removes the image from this client gallery. Make sure it is not needed for delivery or proofing before continuing."
+          confirmLabel="Delete image"
+          danger
+          onCancel={() => setDeleteImageId(null)}
+          onConfirm={() => deleteImageId && deleteImage(deleteImageId)}
+        />
       </div>
     </AdminProtected>
   )

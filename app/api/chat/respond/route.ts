@@ -159,6 +159,22 @@ export async function POST(req: Request) {
       .map((u) => `- ${u}`)
       .join("\n");
 
+    // Add image analysis context before building the final prompt so uploaded references actually inform the response.
+    let imageAnalysisContext = "";
+    if (imageData) {
+      try {
+        const { analyzeImage } = await import("@/lib/ai-client");
+        const imageAnalysis = await analyzeImage(
+          imageData,
+          "Describe this image in detail, focusing on photography style, composition, lighting, and any relevant details for a photography consultation.",
+          { config: "concise" }
+        );
+        imageAnalysisContext = `\n\n**Customer shared an image:** ${imageAnalysis}`;
+      } catch (error) {
+        log.warn("Image analysis failed", { error });
+      }
+    }
+
     const prompt = `${systemInstructions}
 
 ## Your Role
@@ -170,13 +186,13 @@ You are the AI assistant for Studio37 Photography, a professional photography st
 - **Style:** Engaging, knowledgeable, and empathetic. Mirror the customer's energy level.
 
 ## Services & Pricing
-- **Wedding Photography:** $2,500-$5,000+ (full-day coverage, engagement session, albums)
-- **Portrait Sessions:** $800-$2,000 (family, senior, maternity, newborn)
-- **Event Photography:** $1,200-$3,500 (corporate, birthday, graduation)
-- **Commercial Photography:** $1,500-$5,000+ (product, real estate, brand)
-- **Headshots:** $300-$800 (individual or team packages)
+- **Wedding Photography:** starts at $1,200 for micro/elopement coverage; larger wedding packages commonly range from $2,200-$4,500+ depending on hours and deliverables.
+- **Portrait Sessions:** start at $350 for mini sessions; standard and extended portrait sessions commonly range from $500-$750+.
+- **Event Photography:** starts at $600; common event packages range from $1,000-$1,800+ depending on hours.
+- **Commercial Photography:** starts at $500; brand/content sessions commonly range from $850-$2,800+ depending on usage, shot list, and production scope.
+- **Headshots:** route users to portrait or commercial/business options depending on whether they need individual portraits or team/business content.
 
-All packages include professional editing, online gallery, and print rights.
+Most packages include professional editing and online gallery delivery. Usage rights vary by service; commercial work includes commercial usage terms.
 
 ## Key Information
 - **Location:** Pinehurst, TX (serving Houston metro area)
@@ -198,6 +214,7 @@ ${linkHints ? `\n\n### Knowledge Sources (links)\n${linkHints}` : ''}
 ${leadData && Object.keys(leadData).length > 0 ? `**Known about customer:**\n${Object.entries(leadData).map(([k, v]) => `- ${k}: ${v}`).join('\n')}` : "First interaction with this customer."}
 
 ${context ? `**Recent conversation:**\n${context}` : ""}
+${imageAnalysisContext}
 
 ## Customer Message
 "${message}"
@@ -212,7 +229,7 @@ ${context ? `**Recent conversation:**\n${context}` : ""}
 - Match customer's communication style (formal vs casual)
 - Use emojis sparingly and appropriately (✨📸💍 for weddings, etc.)
 - **Include clickable links** when relevant using markdown format: [link text](https://url)
-  - Gallery/Portfolio: [view our gallery](https://gallery.studio37.cc)
+  - Gallery/Portfolio: [view our ShootProof gallery](https://gallery.studio37.cc)
   - Services: [our services](https://www.studio37.cc/services)
   - Booking: [book a consultation](https://www.studio37.cc/book-a-session)
   - Contact: [contact us](https://www.studio37.cc/contact)
@@ -220,22 +237,6 @@ ${context ? `**Recent conversation:**\n${context}` : ""}
   - Blog: [read our blog](https://www.studio37.cc/blog)
 
 Respond now:`;
-
-    // Add image analysis context if image is provided
-    let imageAnalysisContext = "";
-    if (imageData) {
-      try {
-        const { analyzeImage } = await import("@/lib/ai-client");
-        const imageAnalysis = await analyzeImage(
-          imageData,
-          "Describe this image in detail, focusing on photography style, composition, lighting, and any relevant details for a photography consultation.",
-          { config: "concise" }
-        );
-        imageAnalysisContext = `\n\n**Customer shared an image:** ${imageAnalysis}`;
-      } catch (error) {
-        log.warn("Image analysis failed", { error });
-      }
-    }
 
     let response = "";
     try {
@@ -258,7 +259,10 @@ Respond now:`;
         return NextResponse.json({ error: "API key was reported as leaked or misconfigured. Rotate key and redeploy.", code: "API_KEY_LEAKED" }, { status: 403 });
       }
       log.error("AI generation failed", { error: msg });
-      return NextResponse.json({ error: "Chat response generation failed" }, { status: 500 });
+      return NextResponse.json({
+        error: "Chat response generation failed",
+        fallback: "I am having trouble answering live right now. You can book a consultation, browse services, check pricing, or call Studio37 at (832) 713-9944.",
+      }, { status: 500 });
     }
 
   // Enhanced lead information detection

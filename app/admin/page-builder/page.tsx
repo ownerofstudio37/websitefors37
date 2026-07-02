@@ -658,9 +658,6 @@ export default function PageBuilderPage() {
       // Build MDX content from components
       const mdx = componentsToMDX(components)
       
-      // Log MDX for debugging
-      console.log('Generated MDX:', mdx)
-
       // Use AI-generated or manually entered SEO data if available
       const derivedTitle = pageTitle || (function() {
         let t = cleanSlug.replace(/-/g, ' ')
@@ -704,7 +701,6 @@ export default function PageBuilderPage() {
         if (revalResponse.ok) {
           const result = await revalResponse.json()
           revalidated = result.revalidated
-          console.log('✅ Page cache cleared successfully')
         } else {
           const errorData = await revalResponse.json().catch(() => ({ error: 'Unknown error' }))
           console.error('Revalidation failed:', revalResponse.status, errorData)

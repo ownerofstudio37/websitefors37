@@ -2,6 +2,21 @@
 
 ## Next Public Site Audit Priorities - July 2, 2026
 
+### Chatbot And Admin Tools Audit
+
+- [x] Chatbot: keep portfolio/gallery links pointed to `https://gallery.studio37.cc`, but update link copy so users understand it opens the ShootProof gallery experience.
+- [x] Chatbot: align the AI prompt pricing ranges with current public pricing and package positioning so it does not quote stale portrait, event, wedding, or commercial ranges.
+- [x] Chatbot: fix image upload context so `imageAnalysisContext` is actually included in the AI prompt before generation.
+- [x] Chatbot: replace image upload `alert()` calls with inline error states inside the chat window.
+- [x] Chatbot: require or strongly prompt for email/phone before quote-form submission so chat quote leads do not arrive without usable contact info.
+- [x] Chatbot: add a short fallback path when AI generation fails that routes users to book consultation, services, pricing, or phone contact without sounding broken.
+- [x] Chatbot: audit legacy `components/ChatBot.tsx` and `app/api/chat/route.ts`; confirmed public mount uses `EnhancedChatBot` and `/api/chat/respond`.
+- [x] Admin audit: expand `audit:admin-operations` to include galleries, gallery image editor, marketing templates, database migrations, page builder, live editor, client portals, lead scoring, chatbot training, chatbot mount, and admin route ownership.
+- [x] Admin UX: replace remaining browser `alert()`, `confirm()`, and `prompt()` calls in high-use gallery, template, and chatbot-training tools with shared toast/confirm patterns.
+- [x] Admin cleanup: remove production `console.log` debug output from leads, page builder, live editor, gallery clean page, and backup admin pages.
+- [x] Admin safety: add stronger destructive-action confirmation copy for gallery deletion, image deletion, template deletion, and chatbot content re-import flows.
+- [x] Admin navigation: verify old builder/editor routes are either clearly labeled as legacy or hidden from the primary admin path.
+
 ### Local Page Differentiation Pass
 
 - [x] Add a real Studio37 proof block to local photographer pages so they feel less templated.

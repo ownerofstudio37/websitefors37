@@ -91,7 +91,6 @@ export default function AdminPage() {
         throw error
       }
       
-      console.log('Fetched leads:', data)
       setLeads(data || [])
     } catch (error: any) {
       console.error('Error fetching leads:', error)
