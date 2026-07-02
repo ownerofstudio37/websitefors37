@@ -26,7 +26,7 @@ export default function LocalPhotographerHockleyPage() {
       county="Waller County"
       slug="local-photographer-hockley-tx"
       nearbyCities={['Tomball, TX', 'Magnolia, TX', 'The Woodlands, TX', 'Spring, TX', 'Pinehurst, TX', 'Houston, TX']}
-      heroImage="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=1200&h=600&fit=crop"
+      heroImage="https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_1400,c_limit/v1778033088/PS379444_2_1_pge2hl.jpg"
     />
   )
 }

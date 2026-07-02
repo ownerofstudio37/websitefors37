@@ -121,7 +121,7 @@ export default function CommercialPhotographyPage() {
       <section className="relative h-[480px] bg-gradient-to-r from-gray-900 to-blue-900">
         <div className="absolute inset-0 opacity-40">
           <Image
-            src="https://images.unsplash.com/photo-1560472355-536de3962603?w=1200&h=600&fit=crop"
+            src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255703/PS373409_pwmxmp.jpg"
             alt="Commercial photography by Studio37 in Pinehurst TX"
             fill
             className="object-cover"
@@ -243,7 +243,7 @@ export default function CommercialPhotographyPage() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="relative">
               <Image
-                src="https://images.unsplash.com/photo-1556761175-4b46a572b786?w=600&h=400&fit=crop"
+                src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255706/PS373287_d7fl9k.jpg"
                 alt="Professional business photography in Montgomery County TX"
                 width={600}
                 height={400}

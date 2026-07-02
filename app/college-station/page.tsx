@@ -27,7 +27,7 @@ export default function CollegeStationPage() {
       county="Brazos County"
       slug="college-station"
       nearbyCities={['Bryan, TX', 'Navasota, TX', 'Huntsville, TX', 'Montgomery, TX', 'Conroe, TX', 'Houston, TX']}
-      heroImage="https://images.unsplash.com/photo-1532712938310-34cb3982ef74?w=1200&h=600&fit=crop"
+      heroImage="https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_1400,c_limit/v1778033088/PS379444_2_1_pge2hl.jpg"
     />
   )
 }

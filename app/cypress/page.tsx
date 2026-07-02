@@ -27,7 +27,7 @@ export default function CypressPage() {
       county="Harris County"
       slug="cypress"
       nearbyCities={['Tomball, TX', 'Spring, TX', 'Katy, TX', 'Hockley, TX', 'Waller, TX', 'Houston, TX']}
-      heroImage="https://images.unsplash.com/photo-1513519245088-0e12902e35a6?w=1200&h=600&fit=crop"
+      heroImage="https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_1400,c_limit/v1778033088/PS379444_2_1_pge2hl.jpg"
     />
   )
 }

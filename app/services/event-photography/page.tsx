@@ -77,7 +77,7 @@ export default function EventPhotographyPage() {
       <section className="relative h-[480px] bg-gradient-to-r from-green-900 to-blue-900">
         <div className="absolute inset-0 opacity-40">
           <Image
-            src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=1200&h=600&fit=crop"
+            src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033087/IMG_4591_1_r62hly.jpg"
             alt="Event photography by Studio37 in Pinehurst TX"
             fill
             className="object-cover"
@@ -89,8 +89,8 @@ export default function EventPhotographyPage() {
             <p className="eyebrow-hero mb-3">Signature Duo Coverage · Pinehurst, TX</p>
             <h1 className="text-5xl font-bold mb-4">Event Photography in Pinehurst, TX</h1>
             <p className="text-xl mb-3 text-white/90">
-              Make your special event unforgettable with professional event photography. 
-              From corporate functions to celebrations, we capture every important moment.
+              Two-photographer event coverage for corporate programs, parties, fundraisers, and milestones across Montgomery County.
+              We prioritize run-of-show moments, guests, details, and quick highlight delivery.
             </p>
             <p className="text-base mb-8 text-white/70">
               Event coverage starts at $600 with two photographers on every package.

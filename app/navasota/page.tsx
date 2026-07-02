@@ -26,7 +26,7 @@ export default function NavasotaPage() {
       county="Grimes County"
       slug="navasota"
       nearbyCities={['Plantersville, TX', 'Bryan, TX', 'College Station, TX', 'Magnolia, TX', 'Montgomery, TX', 'Houston, TX']}
-      heroImage="https://images.unsplash.com/photo-1518982380512-5a3b5e9b5c3a?w=1200&h=600&fit=crop"
+      heroImage="https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_1400,c_limit/v1778033088/PS379444_2_1_pge2hl.jpg"
     />
   )
 }

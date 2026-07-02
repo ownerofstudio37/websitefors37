@@ -27,7 +27,7 @@ export default function HuntsvillePage() {
       county="Walker County"
       slug="huntsville"
       nearbyCities={['Willis, TX', 'Conroe, TX', 'Montgomery, TX', 'Pinehurst, TX', 'The Woodlands, TX', 'College Station, TX']}
-      heroImage="https://images.unsplash.com/photo-1473186578172-c141e6798cf4?w=1200&h=600&fit=crop"
+      heroImage="https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_1400,c_limit/v1778033088/PS379444_2_1_pge2hl.jpg"
     />
   )
 }

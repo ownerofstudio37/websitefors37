@@ -8,45 +8,45 @@ import { ArrowRight, Building2, Package, Briefcase, TrendingUp } from '@/icons'
 const commercialHighlights = [
   {
     id: 1,
-    title: 'Product Photography',
-    description: 'High-end product shots for e-commerce and marketing',
-    src: 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=500&h=600&fit=crop',
-    category: 'product'
+    title: 'Campaign Detail Images',
+    description: 'Close-up visuals for web pages, ads, and social launch assets',
+    src: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255703/PS373409_pwmxmp.jpg',
+    category: 'campaign'
   },
   {
     id: 2,
-    title: 'Corporate Headshots',
-    description: 'Professional team portraits for business use',
-    src: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=500&h=600&fit=crop',
-    category: 'corporate'
+    title: 'Founder + Team Portraits',
+    description: 'Clean direction for profiles, about pages, and press kits',
+    src: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1779268257/PS375315_zyvbbi.jpg',
+    category: 'team'
   },
   {
     id: 3,
-    title: 'Brand Photography',
-    description: 'Lifestyle and brand story images for marketing',
-    src: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=500&h=600&fit=crop',
+    title: 'Brand Story Coverage',
+    description: 'People, place, product, and process images in one planned session',
+    src: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255706/PS373287_d7fl9k.jpg',
     category: 'branding'
   },
   {
     id: 4,
-    title: 'Restaurant Photography',
-    description: 'Appetizing food and restaurant atmosphere shots',
-    src: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=500&h=600&fit=crop',
-    category: 'food'
+    title: 'Venue + Atmosphere',
+    description: 'Environmental visuals for hospitality, events, and local campaigns',
+    src: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033087/IMG_4591_1_r62hly.jpg',
+    category: 'venue'
   },
   {
     id: 5,
-    title: 'Real Estate',
-    description: 'Professional property and architectural photography',
-    src: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=500&h=600&fit=crop',
-    category: 'real estate'
+    title: 'Content Library Builds',
+    description: 'A full bank of usable images for websites, email, ads, and social',
+    src: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1781169103/carlos-muza-hpjSkU2UYSU-unsplash_ploflu.jpg',
+    category: 'library'
   },
   {
     id: 6,
-    title: 'Industrial Photography',
-    description: 'Manufacturing and industrial facility documentation',
-    src: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=500&h=600&fit=crop',
-    category: 'industrial'
+    title: 'Two-Pro Event Coverage',
+    description: 'Wide room context and close candid moments without slowing the event',
+    src: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033152/IMG_4555_1_ppdkum.jpg',
+    category: 'event'
   }
 ]
 
@@ -105,13 +105,11 @@ export default function CommercialHighlightGallery() {
             }`}
           >
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              Commercial Photography
+              Studio37 Commercial Work
               <span className="block text-amber-600">Showcase</span>
             </h2>
                         <p className="text-xl text-gray-700 max-w-3xl mx-auto mb-8">
-              Transforming brands through powerful visual storytelling. From
-              product showcases to corporate events, we deliver images that
-              drive results.
+              Real Studio37 image libraries built for local businesses, venues, events, and campaigns. We plan the shot list around how the images will be used after delivery.
             </p>
           </div>
 

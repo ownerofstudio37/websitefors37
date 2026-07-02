@@ -26,7 +26,7 @@ export default function ClevelandPage() {
       county="Liberty County"
       slug="cleveland"
       nearbyCities={['Splendora, TX', 'New Caney, TX', 'Conroe, TX', 'Humble, TX', 'Kingwood, TX', 'Houston, TX']}
-      heroImage="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&h=600&fit=crop"
+      heroImage="https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_1400,c_limit/v1778033088/PS379444_2_1_pge2hl.jpg"
     />
   )
 }

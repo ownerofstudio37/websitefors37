@@ -26,7 +26,7 @@ export default function HockleyPage() {
       county="Harris County"
       slug="hockley"
       nearbyCities={['Tomball, TX', 'Magnolia, TX', 'Pinehurst, TX', 'Spring, TX', 'Waller, TX', 'Houston, TX']}
-      heroImage="https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?w=1200&h=600&fit=crop"
+      heroImage="https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_1400,c_limit/v1778033088/PS379444_2_1_pge2hl.jpg"
     />
   )
 }

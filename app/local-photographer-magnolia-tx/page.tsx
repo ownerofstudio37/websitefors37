@@ -26,7 +26,7 @@ export default function LocalPhotographerMagnoliaPage() {
       county="Montgomery County"
       slug="local-photographer-magnolia-tx"
       nearbyCities={['Pinehurst, TX', 'The Woodlands, TX', 'Tomball, TX', 'Conroe, TX', 'Spring, TX', 'Houston, TX']}
-      heroImage="https://images.unsplash.com/photo-1523438885200-e635ba2c371e?w=1200&h=600&fit=crop"
+      heroImage="https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_1400,c_limit/v1778033088/PS379444_2_1_pge2hl.jpg"
     />
   )
 }

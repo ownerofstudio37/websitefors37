@@ -26,7 +26,7 @@ export default function WallerPage() {
       county="Waller County"
       slug="waller"
       nearbyCities={['Hockley, TX', 'Tomball, TX', 'Magnolia, TX', 'Pinehurst, TX', 'Cypress, TX', 'Houston, TX']}
-      heroImage="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=1200&h=600&fit=crop"
+      heroImage="https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_1400,c_limit/v1778033088/PS379444_2_1_pge2hl.jpg"
     />
   )
 }

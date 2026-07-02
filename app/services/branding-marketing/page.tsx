@@ -153,8 +153,8 @@ export default function BrandingMarketingPage() {
       <section className="relative h-[30rem] bg-gradient-to-r from-gray-900 to-primary-900">
         <div className="absolute inset-0 opacity-35">
           <Image
-            src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1400&h=700&fit=crop"
-            alt="Branding and marketing strategy session"
+            src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1781169103/carlos-muza-hpjSkU2UYSU-unsplash_ploflu.jpg"
+            alt="Studio37 branding and marketing planning workspace for campaign content"
             fill
             className="object-cover"
             priority

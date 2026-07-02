@@ -26,7 +26,7 @@ export default function PlantersvillePage() {
       county="Grimes County"
       slug="plantersville"
       nearbyCities={['Magnolia, TX', 'Navasota, TX', 'Conroe, TX', 'Pinehurst, TX', 'Montgomery, TX', 'Houston, TX']}
-      heroImage="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=1200&h=600&fit=crop"
+      heroImage="https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_1400,c_limit/v1778033088/PS379444_2_1_pge2hl.jpg"
     />
   )
 }

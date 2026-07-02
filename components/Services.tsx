@@ -11,7 +11,7 @@ const services = [
 			title: 'Wedding Photography',
 			startingPrice: 'Starting at $1,200',
 			description:
-				'Capture your special day with romantic and timeless images that tell your love story.',
+				'Timeline-aware wedding coverage with two photographers, family-formal planning, and sneak peeks built into the delivery rhythm.',
 			features: [
 				'Full day coverage',
 				'Engagement session',
@@ -27,7 +27,7 @@ const services = [
 			title: 'Portrait Sessions',
 			startingPrice: 'Starting at $350',
 			description:
-				'Professional headshots, family portraits, and individual sessions in studio or on location.',
+				'Directed family, senior, maternity, and headshot sessions with wardrobe guidance, location planning, and polished private galleries.',
 			features: [
 				'Studio or outdoor',
 				'Multiple outfits',
@@ -59,7 +59,7 @@ const services = [
 			title: 'Event Photography',
 			startingPrice: 'Starting at $600',
 			description:
-				'Document your corporate events, parties, and celebrations with candid and posed shots.',
+				'Run-of-show coverage for parties, corporate programs, and milestones with quick highlight delivery for sharing and promotion.',
 			features: [
 				'Event coverage',
 				'Candid moments',
@@ -75,7 +75,7 @@ const services = [
 			title: 'Commercial Photography',
 			startingPrice: 'Starting at $500',
 			description:
-				'Brand imagery, product photography, and business content captured by our Two-Pro Production Team — more coverage, same rate.',
+				'Brand, product, workplace, and campaign images planned around actual usage: web, ads, profiles, listings, and social content.',
 			features: [
 				'Product shots',
 				'Brand imagery',

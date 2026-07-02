@@ -26,7 +26,7 @@ export default function TomballPage() {
       county="Harris County"
       slug="tomball"
       nearbyCities={['Pinehurst, TX', 'The Woodlands, TX', 'Spring, TX', 'Conroe, TX', 'Magnolia, TX', 'Houston, TX']}
-      heroImage="https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=1200&h=600&fit=crop"
+      heroImage="https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_1400,c_limit/v1778033088/PS379444_2_1_pge2hl.jpg"
     />
   )
 }

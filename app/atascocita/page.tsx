@@ -27,7 +27,7 @@ export default function AtascocitaPage() {
       county="Harris County"
       slug="atascocita"
       nearbyCities={['Humble, TX', 'Kingwood, TX', 'Porter, TX', 'New Caney, TX', 'Spring, TX', 'Houston, TX']}
-      heroImage="https://images.unsplash.com/photo-1501854140801-50d01698950b?w=1200&h=600&fit=crop"
+      heroImage="https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_1400,c_limit/v1778033088/PS379444_2_1_pge2hl.jpg"
     />
   )
 }
