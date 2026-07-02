@@ -23,9 +23,9 @@
 
 ### Commercial Service Temporary State
 
-- [ ] Replace the removed commercial showcase with a slim, polished "commercial portfolio is being curated / request sample gallery" CTA.
-- [ ] Keep commercial service trust intact with real process proof: usage planning, delivery expectations, licensing support, and brand-ready exports.
-- [ ] Add an admin/content note for the future commercial portfolio rebuild once stronger work samples are ready.
+- [x] Replace the removed commercial showcase with a slim, polished "commercial portfolio is being curated / request sample gallery" CTA.
+- [x] Keep commercial service trust intact with real process proof: usage planning, delivery expectations, licensing support, and brand-ready exports.
+- [x] Add an admin/content note for the future commercial portfolio rebuild once stronger work samples are ready.
 
 ### Booking Confidence Pass
 

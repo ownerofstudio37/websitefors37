@@ -291,6 +291,39 @@ export default function CommercialPhotographyPage() {
         </div>
       </section>
 
+      <section className="section-shell bg-white">
+        <div className="container mx-auto px-4">
+          <div className="mx-auto max-w-5xl rounded-2xl border border-amber-200 bg-amber-50/70 p-6 shadow-sm md:p-8">
+            <div className="grid gap-6 md:grid-cols-[1.35fr_0.65fr] md:items-center">
+              <div>
+                <p className="eyebrow mb-3">Commercial Portfolio Preview</p>
+                <h2 className="text-2xl font-bold text-stone-950 md:text-3xl">A tighter commercial showcase is being curated.</h2>
+                <p className="mt-3 text-stone-700 leading-7">
+                  We&apos;re rebuilding this portfolio around stronger Studio37 business work. For now, book a consult and we&apos;ll send relevant sample galleries based on your industry, shot list, and usage needs.
+                </p>
+              </div>
+              <div className="rounded-xl border border-amber-200 bg-white p-5">
+                <ul className="space-y-3 text-sm text-stone-700">
+                  {[
+                    'Usage planning for web, ads, listings, and social',
+                    'Brand-ready export sets and licensing support',
+                    'Two-pro coverage for teams, spaces, products, and details',
+                  ].map((item) => (
+                    <li key={item} className="flex gap-2">
+                      <CheckCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-green-600" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+                <Link href="/book-consultation" className="btn-primary mt-5 block text-center">
+                  Request Sample Galleries
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Service Areas */}
       <section className="section-shell bg-stone-50">
         <div className="container mx-auto px-4">
