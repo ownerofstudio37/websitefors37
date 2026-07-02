@@ -4,7 +4,6 @@ import Link from 'next/link'
 import { generateSEOMetadata, generateFAQSchema } from '@/lib/seo-helpers'
 import { generateServiceSchema } from '@/lib/seo-config'
 import { generateOfferSchema } from '@/lib/enhanced-seo-helpers'
-import CommercialHighlightGallery from '@/components/CommercialHighlightGallery'
 import FAQSection from '@/components/FAQSection'
 import { generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
 import { Building2, Camera, Users, Briefcase, CheckCircle, ArrowRight, Star } from 'lucide-react'
@@ -291,9 +290,6 @@ export default function CommercialPhotographyPage() {
           </div>
         </div>
       </section>
-
-      {/* Commercial Highlight Gallery */}
-      <CommercialHighlightGallery />
 
       {/* Service Areas */}
       <section className="section-shell bg-stone-50">
