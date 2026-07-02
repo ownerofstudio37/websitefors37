@@ -58,6 +58,36 @@ export default function ServiceCityLandingPage({
       key: `${item.title}-${item.description}`,
     }
   })
+  const serviceLower = serviceName.toLowerCase()
+  const planningFocus = serviceLower.includes('wedding')
+    ? [
+        ['Timeline fit', `Ceremony, family-formal, reception, and exit timing planned around ${cityLabel} venue flow.`],
+        ['Coverage priority', 'Two-photographer coverage protects reactions, details, and candid guest moments.'],
+        ['Delivery expectation', 'Sneak peeks and a polished final gallery built for albums, sharing, and print.'],
+      ]
+    : serviceLower.includes('family')
+      ? [
+          ['Session pacing', `Kid-friendly timing, shade, and short movement sets around ${cityLabel}.`],
+          ['Location fit', 'Parking, walking distance, and backup spots checked before the session.'],
+          ['Delivery expectation', 'A polished gallery with family, sibling, parent, and candid combinations.'],
+        ]
+      : serviceLower.includes('portrait') || serviceLower.includes('headshot')
+        ? [
+            ['Direction style', `Guided posing and clean backgrounds matched to ${cityLabel} parks, streets, or indoor options.`],
+            ['Image usage', 'Personal branding, senior, maternity, profile, and print-friendly crops considered upfront.'],
+            ['Delivery expectation', 'Retouched favorites plus a gallery that gives you variety without overwhelm.'],
+          ]
+        : serviceLower.includes('engagement')
+          ? [
+              ['Light and privacy', `Golden-hour timing, arrival flow, and quiet angles planned around ${cityLabel}.`],
+              ['Couple direction', 'Relaxed prompts for save-the-date portraits, proposal coverage, and editorial moments.'],
+              ['Delivery expectation', 'Romantic wide, close, candid, and detail images ready for announcements.'],
+            ]
+          : [
+              ['Shoot plan', `Shot list, access, and content usage mapped before the ${cityLabel} session.`],
+              ['Coverage priority', `Images planned for websites, profiles, listings, social, and campaigns across ${county}.`],
+              ['Delivery expectation', 'Clean export sets with brand-ready crops and licensing support when needed.'],
+            ]
 
   return (
     <main className="min-h-screen pt-16 bg-white">
@@ -81,6 +111,17 @@ export default function ServiceCityLandingPage({
         </div>
       </section>
 
+      <section className="border-b border-stone-200 bg-white py-8">
+        <div className="container mx-auto grid gap-4 px-4 md:grid-cols-3">
+          {planningFocus.map(([title, copy]) => (
+            <div key={title} className="rounded-xl border border-stone-200 bg-stone-50 p-5">
+              <p className="text-xs font-bold uppercase tracking-[0.18em] text-amber-800">{title}</p>
+              <p className="mt-2 text-sm leading-6 text-stone-700">{copy}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
       <section className="py-12">
         <div className="container mx-auto px-4 grid lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
@@ -98,12 +139,12 @@ export default function ServiceCityLandingPage({
             </div>
 
             <div className="mt-10 rounded-lg border border-amber-200 bg-amber-50 p-5">
-              <h3 className="text-lg font-semibold text-amber-950 mb-3">Local planning examples in {city}</h3>
+              <h3 className="text-lg font-semibold text-amber-950 mb-3">{serviceName} planning examples in {city}</h3>
               <div className="grid gap-3 sm:grid-cols-3">
                 {nearbyCities.slice(0, 3).map((nearby) => (
                   <div key={nearby} className="rounded-lg bg-white p-3 text-sm text-stone-700">
                     <span className="font-semibold text-stone-950">{nearby}</span>
-                    <p className="mt-1">Good nearby reference point for timing, venue access, or multi-stop coverage.</p>
+                    <p className="mt-1">Useful reference point for light, arrival timing, parking, or multi-stop coverage.</p>
                   </div>
                 ))}
               </div>

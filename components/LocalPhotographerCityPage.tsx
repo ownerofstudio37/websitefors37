@@ -36,6 +36,20 @@ type LocalProofImage = {
   caption: string
 }
 
+type ServiceIntent = {
+  title: string
+  href: string
+  copy: string
+  details: string[]
+}
+
+const LOCAL_HERO_IMAGES = [
+  'https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_1800,c_limit/v1778033088/PS379444_2_1_pge2hl.jpg',
+  'https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_1800,c_limit/v1778033087/IMG_4591_1_r62hly.jpg',
+  'https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_1800,c_limit/v1769255703/PS373409_pwmxmp.jpg',
+  'https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_1800,c_limit/v1769255706/PS373287_d7fl9k.jpg',
+]
+
 const LOCAL_PROOF_IMAGES: LocalProofImage[] = [
   {
     src: 'https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_900,c_limit/v1778033088/PS379444_2_1_pge2hl.jpg',
@@ -284,8 +298,37 @@ export default function LocalPhotographerCityPage({
   const cityKey = city.toLowerCase()
   const cityProfile = CITY_PROFILES[cityKey]
   const serviceGuides = CITY_SERVICE_GUIDES[cityKey] || []
-  const proofStartIndex = cityKey.split('').reduce((total, char) => total + char.charCodeAt(0), 0) % LOCAL_PROOF_IMAGES.length
+  const cityHash = cityKey.split('').reduce((total, char) => total + char.charCodeAt(0), 0)
+  const proofStartIndex = cityHash % LOCAL_PROOF_IMAGES.length
   const localProofImages = [0, 1, 2].map((offset) => LOCAL_PROOF_IMAGES[(proofStartIndex + offset) % LOCAL_PROOF_IMAGES.length])
+  const rotatedHeroImage = LOCAL_HERO_IMAGES[cityHash % LOCAL_HERO_IMAGES.length] || heroImage
+  const topLocalBackdrops = cityProfile?.venueHighlights.slice(0, 2).join(' and ') || `${cityLabel} parks and local venues`
+  const serviceIntentCards: ServiceIntent[] = [
+    {
+      title: 'Family and portrait sessions',
+      href: '/services/portrait-photography',
+      copy: `For portraits in ${cityLabel}, we plan around shade, walking distance, and kid-friendly pacing so the session feels relaxed instead of rushed.`,
+      details: [`Best around ${topLocalBackdrops}`, 'Wardrobe and posing guidance', 'Gallery-ready edits for prints and sharing'],
+    },
+    {
+      title: 'Engagement and proposal coverage',
+      href: '/services/engagement-session',
+      copy: `For couples in ${cityLabel}, we map light, privacy, and arrival timing before the session so proposal and save-the-date moments feel intentional.`,
+      details: ['Golden-hour timeline support', 'Multi-stop location flow', 'Optional concierge planning help'],
+    },
+    {
+      title: 'Weddings and events',
+      href: '/services/wedding-photography',
+      copy: `For weddings and events across ${county}, our two-photographer model protects the ceremony, reactions, details, and candid guest moments.`,
+      details: ['Timeline-aware coverage', 'Run-of-show planning', 'Fast highlights and full gallery delivery'],
+    },
+    {
+      title: 'Commercial and brand work',
+      href: '/services/commercial-photography',
+      copy: `For local businesses near ${cityLabel}, we plan images around website sections, profiles, listings, campaigns, and social content needs.`,
+      details: ['Shot list and usage planning', 'Brand-ready export sets', 'Licensing support available'],
+    },
+  ]
 
   const localBusinessSchema = generateEnhancedLocalBusinessSchema()
   const breadcrumbSchema = generateBreadcrumbSchema([
@@ -331,7 +374,7 @@ export default function LocalPhotographerCityPage({
       <section className="relative overflow-hidden bg-stone-950 py-20 text-white md:py-24">
         <div className="absolute inset-0 opacity-45">
           <Image
-            src={heroImage}
+            src={rotatedHeroImage}
             alt={`Professional photographer in ${cityLabel}`}
             fill
             className="object-cover"
@@ -348,7 +391,7 @@ export default function LocalPhotographerCityPage({
             <h1 className="mb-6 text-4xl font-bold leading-tight md:text-6xl">Photographer in {cityLabel} for Weddings, Portraits &amp; Events</h1>
             <p className="mb-7 max-w-3xl text-lg leading-8 text-stone-100 md:text-xl">
               Looking for a trusted photographer in {cityLabel}? Studio37 delivers wedding, portrait, engagement, event, and commercial photography for families and businesses across {county}.
-              We bring a two-photographer team and clear pricing on every session.
+              We bring a two-photographer team, clear pricing, and location planning shaped around local light, access, and timing.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link
@@ -433,7 +476,7 @@ export default function LocalPhotographerCityPage({
                 'Two-photographer coverage included in our core service model',
                 'Clear, published package pricing aligned with our main services pages',
                 'Fast turnaround with sneak peeks for most session types',
-                'Local venue and location knowledge across Montgomery County',
+                `Local planning around ${topLocalBackdrops}`,
               ].map((item) => (
                 <div key={item} className="flex items-start gap-3">
                   <CheckCircle className="h-6 w-6 text-green-600 flex-shrink-0 mt-1" />
@@ -490,9 +533,23 @@ export default function LocalPhotographerCityPage({
           <div className="text-center mb-12 max-w-3xl mx-auto">
             <div className="eyebrow mb-4">Pricing</div>
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Popular Services & Starting Prices in {city}</h2>
-            <p className="text-lg text-stone-600">
-              Designed to match our main service pages with clearer package details. Final pricing may increase based on hours, travel, add-ons, and deliverables.
+              <p className="text-lg text-stone-600">
+              Each service below is shaped around how people actually book in {cityLabel}: easy access, flattering light, clear timelines, and galleries with a real use after delivery.
             </p>
+          </div>
+
+          <div className="mb-8 grid gap-4 lg:grid-cols-4">
+            {serviceIntentCards.map((service) => (
+              <Link key={service.title} href={service.href} className="group rounded-xl border border-stone-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-amber-300 hover:shadow-md">
+                <h3 className="text-lg font-bold text-stone-950 group-hover:text-amber-900">{service.title}</h3>
+                <p className="mt-2 text-sm leading-6 text-stone-600">{service.copy}</p>
+                <ul className="mt-4 space-y-1 text-xs font-semibold uppercase tracking-[0.12em] text-stone-500">
+                  {service.details.map((detail) => (
+                    <li key={detail}>{detail}</li>
+                  ))}
+                </ul>
+              </Link>
+            ))}
           </div>
 
           <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
@@ -503,7 +560,7 @@ export default function LocalPhotographerCityPage({
                 </div>
                 <h3 className="text-xl font-semibold mb-1 text-gray-800">Portrait Photography</h3>
                 <p className="text-sm uppercase tracking-wide text-blue-700 font-semibold mb-3">Starting at {STARTING_PRICES.portrait}</p>
-                <p className="text-gray-600 mb-4">Family portraits, seniors, maternity, and professional headshots around {cityLabel}.</p>
+                <p className="text-gray-600 mb-4">Family portraits, seniors, maternity, and professional headshots planned around {topLocalBackdrops}.</p>
                 <ul className="text-sm text-stone-600 space-y-1 mb-4">
                   <li>• Guided posing + location planning</li>
                   <li>• Professionally edited gallery</li>
@@ -520,7 +577,7 @@ export default function LocalPhotographerCityPage({
                 </div>
                 <h3 className="text-xl font-semibold mb-1 text-gray-800">Engagement Photography</h3>
                 <p className="text-sm uppercase tracking-wide text-pink-700 font-semibold mb-3">Starting at {STARTING_PRICES.engagement}</p>
-                <p className="text-gray-600 mb-4">Romantic save-the-date sessions and proposal-friendly planning support.</p>
+                <p className="text-gray-600 mb-4">Romantic save-the-date sessions and proposal-friendly planning support in {cityLabel}.</p>
                 <ul className="text-sm text-stone-600 space-y-1 mb-4">
                   <li>• Style and concept guidance</li>
                   <li>• Golden-hour timeline support</li>
@@ -537,7 +594,7 @@ export default function LocalPhotographerCityPage({
                 </div>
                 <h3 className="text-xl font-semibold mb-1 text-gray-800">Event Photography</h3>
                 <p className="text-sm uppercase tracking-wide text-green-700 font-semibold mb-3">Starting at {STARTING_PRICES.event}</p>
-                <p className="text-gray-600 mb-4">Corporate events, birthday parties, private celebrations, and community events.</p>
+                <p className="text-gray-600 mb-4">Corporate events, birthday parties, private celebrations, and community events across {county}.</p>
                 <ul className="text-sm text-stone-600 space-y-1 mb-4">
                   <li>• Candid + key moment coverage</li>
                   <li>• Team portraits on request</li>
@@ -571,7 +628,7 @@ export default function LocalPhotographerCityPage({
                 </div>
                 <h3 className="text-xl font-semibold mb-1 text-gray-800">Commercial Photography</h3>
                 <p className="text-sm uppercase tracking-wide text-gray-700 font-semibold mb-3">Starting at {STARTING_PRICES.commercial}</p>
-                <p className="text-gray-600 mb-4">Branding sessions, products, headshots, and business content for local teams.</p>
+                <p className="text-gray-600 mb-4">Branding sessions, products, headshots, and business content for teams near {cityLabel}.</p>
                 <ul className="text-sm text-stone-600 space-y-1 mb-4">
                   <li>• Brand-consistent image direction</li>
                   <li>• Website + social-ready exports</li>
@@ -705,7 +762,7 @@ export default function LocalPhotographerCityPage({
                 We tailor every shoot plan to local conditions in {cityLabel} so timelines, location flow, and lighting decisions translate to stronger final galleries.
               </p>
 
-              <div className="grid md:grid-cols-3 gap-5">
+              <div className="grid md:grid-cols-4 gap-5">
                 <div className="bg-gray-50 border border-gray-200 rounded-lg p-5">
                   <h3 className="font-semibold text-gray-900 mb-2">Venue Highlights</h3>
                   <ul className="text-sm text-gray-700 space-y-1">
@@ -718,6 +775,13 @@ export default function LocalPhotographerCityPage({
                 <div className="bg-gray-50 border border-gray-200 rounded-lg p-5">
                   <h3 className="font-semibold text-gray-900 mb-2">Best Light Window</h3>
                   <p className="text-sm text-gray-700">{cityProfile.bestLightWindow}</p>
+                </div>
+
+                <div className="bg-gray-50 border border-gray-200 rounded-lg p-5">
+                  <h3 className="font-semibold text-gray-900 mb-2">Access Notes</h3>
+                  <p className="text-sm text-gray-700">
+                    We confirm parking, walking distance, restroom access, and backup shade before recommending a final meeting spot.
+                  </p>
                 </div>
 
                 <div className="bg-gray-50 border border-gray-200 rounded-lg p-5">

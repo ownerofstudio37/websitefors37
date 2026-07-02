@@ -1,5 +1,38 @@
 # Studio37 UX/UI, SEO, and Feature TODO
 
+## Next Public Site Audit Priorities - July 2, 2026
+
+### Local Page Differentiation Pass
+
+- [x] Add a real Studio37 proof block to local photographer pages so they feel less templated.
+- [x] Improve local/service-area hero image rotation so nearby pages do not all rely on the same visual treatment.
+- [x] Add stronger nearby location confidence by market: favorite local backdrops, parking/walking notes, best light windows, and seasonal planning guidance.
+- [x] Add more service-specific local copy so wedding, portrait, family, engagement, event, and commercial local pages feel intentionally matched to the search intent.
+
+### Mobile Nav / Logo Final Polish
+
+- [x] Restore the public polish audit guardrail for logo sizing and scroll-state behavior.
+- [ ] Fine-tune mobile header spacing, tap targets, and menu rhythm on 390px, 430px, and tablet widths.
+- [ ] Recheck logo size and scroll transition on light pages, dark hero pages, and long service pages.
+
+### Homepage Performance / Layout Pass
+
+- [x] Increase homepage lazy-section reserved height to reduce layout jump and satisfy the performance guardrail.
+- [ ] Review each homepage `LazyMount` section visually and set reserved heights based on real rendered content instead of one default value.
+- [ ] Re-run homepage desktop/mobile screenshots after lazy-height tuning to confirm spacing still feels intentional.
+
+### Commercial Service Temporary State
+
+- [ ] Replace the removed commercial showcase with a slim, polished "commercial portfolio is being curated / request sample gallery" CTA.
+- [ ] Keep commercial service trust intact with real process proof: usage planning, delivery expectations, licensing support, and brand-ready exports.
+- [ ] Add an admin/content note for the future commercial portfolio rebuild once stronger work samples are ready.
+
+### Booking Confidence Pass
+
+- [ ] Add one more trust layer near booking: what happens after inquiry, delivery expectations, two-photographer promise, and consultation reassurance.
+- [ ] Make booking fallback paths clearer for visitors who are unsure of package, date, or final service type.
+- [ ] Re-run booking mobile/desktop QA to confirm trust modules do not add friction or crowd the form.
+
 ## Public Site Improvement Backlog - June 30, 2026
 
 ### Navigation And Service Positioning
