@@ -87,22 +87,26 @@ export default function Hero() {
               <span className="hidden rounded-full bg-white/10 px-4 py-2 border border-white/10 sm:inline-flex">Packages from $350</span>
             </div>
 
+            <div className="mb-3 rounded-2xl border border-white/15 bg-white/10 px-4 py-3 text-sm leading-6 text-stone-100 backdrop-blur">
+              Ready to plan? Start with a free consultation. Comparing options? Use the quote or package tools first.
+            </div>
+
             <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
             <Link
               href="/book-consultation"
               className="btn-primary text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 focus:outline-none focus:ring-4 focus:ring-amber-500 focus:ring-offset-2"
-              aria-label="Get instant photography quote"
+              aria-label="Book a free Studio37 consultation"
             >
-              Book a Consultation
+              Book Free Consultation
               <ArrowRight className="ml-2 h-5 w-5" aria-hidden="true" />
             </Link>
 
             <Link
-              href="/get-quote"
+              href="/tools/package-recommender"
               className="btn-secondary text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 focus:outline-none focus:ring-4 focus:ring-amber-500 focus:ring-offset-2"
-              aria-label="Get instant photography quote"
+              aria-label="Find the best Studio37 package"
             >
-              Get Instant Quote
+              Find My Package
             </Link>
 
             <Link

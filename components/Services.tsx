@@ -114,9 +114,7 @@ export default function Services() {
 						Our Photography Services
 					</h2>
 					<p className="text-lg md:text-xl text-stone-600 max-w-2xl mx-auto leading-relaxed">
-						From intimate portraits to grand celebrations, we offer
-						comprehensive photography services tailored to your unique
-						needs.
+						Choose a service first, compare the package fit, then book with the right context already in place.
 					</p>
 				</div>
 
@@ -167,7 +165,7 @@ export default function Services() {
 										{service.startingPrice}
 									</p>
 									<p className="mb-4 rounded-lg bg-amber-50 px-3 py-2 text-left text-xs leading-5 text-amber-900">
-										Want exact fit? Compare packages in the pricing tool before you book.
+										Best next step: view the service details, then use the package tool if you are comparing options.
 									</p>
 									<p className="text-stone-600 mb-5 text-left flex-grow leading-relaxed">
 										{service.description}
@@ -185,17 +183,26 @@ export default function Services() {
 										))}
 									</ul>
 
-									<Link href={`/services/${service.slug}`} className="flex items-center text-primary-700 font-semibold text-sm group-hover:text-primary-800 mt-auto">
-										Learn More
-										<ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" />
-									</Link>
-									<Link
-										href="/tools/pricing"
-										className="mt-4 inline-flex items-center text-sm font-semibold text-stone-700 hover:text-primary-700"
-									>
-										Open pricing tool
-										<ArrowRight className="ml-2 h-4 w-4" />
-									</Link>
+									<div className="mt-auto flex flex-col gap-3 border-t border-stone-100 pt-5">
+										<Link href={`/services/${service.slug}`} className="btn-primary w-full text-sm">
+											View Service Details
+											<ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" />
+										</Link>
+										<div className="grid grid-cols-2 gap-2">
+											<Link
+												href="/tools/package-recommender"
+												className="rounded-lg border border-stone-200 px-3 py-2 text-center text-xs font-semibold text-stone-800 hover:border-amber-300 hover:text-amber-800"
+											>
+												Find fit
+											</Link>
+											<Link
+												href="/tools/pricing"
+												className="rounded-lg border border-stone-200 px-3 py-2 text-center text-xs font-semibold text-stone-800 hover:border-amber-300 hover:text-amber-800"
+											>
+												Price it
+											</Link>
+										</div>
+									</div>
 								</div>
 							</div>
 						)

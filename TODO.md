@@ -226,6 +226,19 @@ Audit notes: `npm run audit:seo-assets` passed across public metadata/source fil
 - [x] Footer: review desktop footer CTA scale and spacing on short tool pages so it supports conversion without overpowering the main task.
 - [x] Re-run desktop screenshots for homepage, services, blog, Pinehurst, booking, pricing, package recommender, session prep, and locations after fixes.
 
+### Homepage / Service-Page Conversion Pass
+
+- [x] Homepage hero: make the primary CTA the clearest low-friction next step, with quote/package/gallery as secondary options.
+- [x] Homepage hero: add a short decision cue so visitors know whether to book, price, or browse before scrolling.
+- [x] Homepage path cards: make the next click obvious for known service type vs unsure visitors.
+- [x] Service cards: strengthen hierarchy between service detail, package/pricing fit, and booking next step.
+- [x] Service cards: keep photography services prioritized while still including branding and marketing.
+- [x] Pricing/package recommender: keep recommender near service discovery and pricing near service comparison.
+- [x] Sticky CTA: tune labels so mobile visitors understand Book, Price, and Gallery actions instantly.
+- [x] Booking page: reduce friction by clarifying consultation/package/custom choices before date selection.
+- [x] Booking page: add reassurance copy near the form so visitors know what happens after confirming.
+- [x] Re-run homepage, services, pricing, recommender, and booking smoke checks after conversion copy/layout changes.
+
 ## Public Site UX/UI
 
 - [x] Add consistent sticky/mobile CTAs for booking, pricing, and gallery.

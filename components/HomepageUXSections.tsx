@@ -47,11 +47,17 @@ export function ChooseYourPathSection() {
   return (
     <section className="border-b border-stone-200 bg-white">
       <div className="container mx-auto px-4 py-8">
-        <div className="mb-5 max-w-3xl">
+        <div className="mb-5 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.18em] text-amber-800">Choose Your Path</p>
             <h2 className="text-3xl font-bold text-stone-950">Start with what you&apos;re planning</h2>
+            <p className="mt-2 max-w-2xl text-sm leading-6 text-stone-600">
+              Know the session type? Pick a service. Still comparing? Use the recommender before booking.
+            </p>
           </div>
+          <Link href="/tools/package-recommender" className="inline-flex w-fit items-center text-sm font-semibold text-amber-800 hover:text-amber-900">
+            Not sure? Get matched <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+          </Link>
         </div>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {pathOptions.map(({ label, href, price, copy }) => (
@@ -61,6 +67,9 @@ export function ChooseYourPathSection() {
                 <span className="text-xs font-semibold uppercase tracking-wide text-stone-500">{price}</span>
               </div>
               <p className="mt-2 text-sm leading-5 text-stone-600">{copy}</p>
+              <span className="mt-4 inline-flex text-sm font-semibold text-amber-800">
+                View service details <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+              </span>
             </Link>
           ))}
         </div>

@@ -648,6 +648,9 @@ export default function BookSessionPage() {
           <p className="text-xl text-gray-100 max-w-2xl mx-auto drop-shadow">
             Choose from a free consultation, our curated packages, or build your own custom session. We'll find the perfect time that works for you.
           </p>
+          <p className="mx-auto mt-4 max-w-2xl rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm text-stone-100 backdrop-blur">
+            Unsure what to choose? Select Free Consultation and we will recommend the right package before you commit.
+          </p>
         </div>
 
         {success ? (
@@ -720,7 +723,7 @@ export default function BookSessionPage() {
                       />
                       <div className="flex-1">
                         <div className="font-semibold text-lg">Free Consultation</div>
-                        <div className="text-sm text-gray-600 mt-1">30-minute session to discuss your photography needs</div>
+                        <div className="text-sm text-gray-600 mt-1">Best if you want guidance before choosing a package</div>
                         <div className="text-primary-600 font-medium mt-2">Free</div>
                       </div>
                     </div>
@@ -742,7 +745,7 @@ export default function BookSessionPage() {
                         />
                         <div className="flex-1">
                           <div className="font-semibold text-lg">Standard Packages</div>
-                          <div className="text-sm text-gray-600 mt-1">Choose from our pre-designed photography packages</div>
+                          <div className="text-sm text-gray-600 mt-1">Best if you already know the service and coverage level</div>
                         </div>
                       </div>
                     </label>
@@ -800,7 +803,7 @@ export default function BookSessionPage() {
                         />
                         <div className="flex-1">
                           <div className="font-semibold text-lg">Custom Package</div>
-                          <div className="text-sm text-gray-600 mt-1">Build your own package with our calculator</div>
+                          <div className="text-sm text-gray-600 mt-1">Best for unusual timing, groups, or custom portrait scope</div>
                         </div>
                       </div>
                     </label>
