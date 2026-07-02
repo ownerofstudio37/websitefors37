@@ -12,8 +12,8 @@
 ### Mobile Nav / Logo Final Polish
 
 - [x] Restore the public polish audit guardrail for logo sizing and scroll-state behavior.
-- [ ] Fine-tune mobile header spacing, tap targets, and menu rhythm on 390px, 430px, and tablet widths.
-- [ ] Recheck logo size and scroll transition on light pages, dark hero pages, and long service pages.
+- [x] Fine-tune mobile header spacing, tap targets, and menu rhythm on 390px, 430px, and tablet widths.
+- [x] Recheck logo size and scroll transition on light pages, dark hero pages, and long service pages.
 
 ### Homepage Performance / Layout Pass
 

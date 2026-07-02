@@ -180,16 +180,19 @@ export default function Navigation({
       suppressHydrationWarning
     >
       <div className="container mx-auto px-4">
-        <div className="flex justify-between items-center h-20">
+        <div className="flex h-[4.5rem] items-center justify-between md:h-20">
           <Link 
             href="/" 
-            className="flex items-center space-x-2"
+            className="flex min-h-11 items-center space-x-2"
             aria-label="Studio 37 Photography - Home"
           >
             {logoUrl ? (
               <div className="flex items-center gap-2" suppressHydrationWarning>
                 {/* Watermarked logo with responsive sizing */}
-                <div className={`relative transition-all duration-300 ${scrolled ? 'h-11' : 'h-14'} w-auto`} style={{ minWidth: scrolled ? 158 : 184 }}>
+                <div
+                  className={`relative max-w-[10.75rem] transition-all duration-300 sm:max-w-[11.5rem] md:max-w-[12rem] ${scrolled ? 'h-11' : 'h-14'} w-auto`}
+                  style={{ minWidth: scrolled ? 148 : 164 }}
+                >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img 
                     src={logoUrl} 
@@ -400,7 +403,7 @@ export default function Navigation({
 
           <button
             type="button"
-            className={`md:hidden p-2.5 rounded-full focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2 ${solidNav ? 'text-stone-900 bg-stone-100' : 'text-white bg-white/10 backdrop-blur-sm'}`}
+            className={`min-h-11 min-w-11 rounded-full p-2.5 transition md:hidden focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2 ${solidNav ? 'text-stone-900 bg-stone-100 hover:bg-stone-200' : 'text-white bg-white/10 backdrop-blur-sm hover:bg-white/20'}`}
             onClick={() => setIsOpen(!isOpen)}
             aria-expanded={isOpen ? 'true' : 'false'}
             aria-controls="mobile-menu"
@@ -413,10 +416,10 @@ export default function Navigation({
 
         {isOpen && (
           <div 
-            className="md:hidden py-4 pb-20 border-t border-stone-200 bg-white/98 backdrop-blur-xl overflow-y-auto max-h-[calc(100vh-80px)]" 
+            className="fixed inset-x-0 top-[4.5rem] z-50 max-h-[calc(100dvh-4.5rem)] overflow-y-auto border-t border-stone-200 bg-white/98 py-3 pb-20 shadow-[0_20px_40px_rgba(15,23,42,0.16)] backdrop-blur-xl md:hidden"
             id="mobile-menu"
           >
-            <div className="flex flex-col space-y-4 px-4">
+            <div className="mx-auto flex max-w-screen-sm flex-col gap-2 px-4">
               {navItems.map((item) => {
                 const normalizeHref = (href: string, parentHref?: string) => {
                   try {
@@ -460,7 +463,7 @@ export default function Navigation({
                     <div key={item.id}>
                       <button
                         onClick={() => setMobileDropdownStates(prev => ({ ...prev, [item.id]: !prev[item.id] }))}
-                        className={`w-full flex items-center justify-between text-left transition-colors font-medium px-3 py-3 rounded-2xl hover:bg-amber-50 hover:text-amber-700 focus:text-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2 ${
+                        className={`flex min-h-12 w-full items-center justify-between rounded-xl px-4 py-3 text-left font-medium transition-colors hover:bg-amber-50 hover:text-amber-700 focus:text-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2 ${
                           isParentActive ? 'bg-amber-50 text-amber-800 ring-1 ring-amber-200' : 'text-stone-900'
                         }`}
                         aria-expanded={isMobileDropdownOpen}
@@ -473,11 +476,11 @@ export default function Navigation({
                       
                       {isMobileDropdownOpen && (
                         <div
-                          className={`pl-4 mt-2 overflow-y-auto overscroll-contain ${
-                            isLargeDropdown ? 'max-h-80 pr-1' : 'space-y-2'
+                          className={`mt-2 overflow-y-auto overscroll-contain rounded-xl border border-stone-200 bg-stone-50 p-2 ${
+                            isLargeDropdown ? 'max-h-80 pr-1' : 'space-y-1'
                           }`}
                         >
-                          <p className="px-4 pb-1 text-xs text-stone-500">{dropdownHelpText(item)}</p>
+                          <p className="px-3 pb-1 pt-1 text-xs text-stone-500">{dropdownHelpText(item)}</p>
                           {item.children.map((child) => {
                             const childHref = normalizeHref(child.href, parentHref)
                             const isChildActive = isActiveHref(childHref)
@@ -485,7 +488,7 @@ export default function Navigation({
                               <Link
                                 key={child.id}
                                 href={childHref}
-                                className={`block transition-colors px-4 py-3 rounded-xl focus:bg-amber-50 focus:text-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2 touch-target ${
+                                className={`block min-h-11 rounded-lg px-3 py-3 transition-colors focus:bg-amber-50 focus:text-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2 ${
                                   isChildActive
                                     ? 'bg-amber-100 text-amber-900 font-semibold'
                                     : 'text-stone-800 hover:bg-amber-50 hover:text-amber-700'
@@ -508,9 +511,9 @@ export default function Navigation({
                   <Link
                     key={item.id}
                     href={normalizeHref(item.href)}
-                    className={`transition-all font-medium text-stone-900 px-4 py-3 rounded-2xl touch-target ${
+                    className={`min-h-12 rounded-xl px-4 py-3 font-medium text-stone-900 transition-all ${
                       item.highlighted
-                        ? 'btn-primary w-fit'
+                        ? 'btn-primary w-full text-center'
                         : isActiveHref(normalizeHref(item.href))
                           ? 'bg-amber-50 text-amber-800 ring-1 ring-amber-200'
                           : 'hover:bg-amber-50 hover:text-amber-700 focus:text-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2'
@@ -525,7 +528,7 @@ export default function Navigation({
               {/* Phone click-to-call */}
               <a
                 href="tel:+18327139944"
-                className="flex items-center gap-2 font-medium text-stone-900 hover:text-amber-700 px-4 py-3 rounded-2xl hover:bg-amber-50 focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2"
+                className="flex min-h-12 items-center gap-2 rounded-xl px-4 py-3 font-medium text-stone-900 hover:bg-amber-50 hover:text-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2"
                 onClick={() => setIsOpen(false)}
                 aria-label="Call Studio37 at (832) 713-9944"
               >
