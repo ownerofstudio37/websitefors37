@@ -676,7 +676,7 @@ export default function BookSessionPage() {
               </p>
             </div>
             <p className="text-sm text-gray-500 mb-6">
-              Need to make changes? Contact us at <a href="tel:+18325551234" className="text-blue-600 hover:underline">(832) 555-1234</a>
+              Need to make changes? Contact us at <a href="tel:+18327139944" className="text-blue-600 hover:underline">(832) 713-9944</a>
             </p>
             <button 
               onClick={() => {
@@ -915,6 +915,18 @@ export default function BookSessionPage() {
                   <textarea name="notes" className="w-full border rounded px-3 py-2" placeholder="Notes (optional)" value={notes} onChange={e=>setNotes(e.target.value)} />
                 </div>
               </div>
+
+              <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 shadow">
+                <h3 className="font-semibold text-amber-950">Not totally sure yet?</h3>
+                <p className="mt-2 text-sm leading-6 text-amber-900">
+                  Choose Free Consultation and tell us what you are planning. We will confirm package fit, timing, location needs, and next steps before you commit to a paid session.
+                </p>
+                <div className="mt-3 flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-wide text-amber-800">
+                  <span>Package help</span>
+                  <span>Location fit</span>
+                  <span>Date guidance</span>
+                </div>
+              </div>
             </div>
 
             {/* Date/time picker */}
@@ -964,9 +976,9 @@ export default function BookSessionPage() {
         {!success && (
           <section className="mt-10 grid gap-4 rounded-xl border border-stone-200 bg-white p-5 text-stone-900 shadow-xl md:grid-cols-3">
             {[
-              ['Fast confirmation', 'You will receive a clear confirmation and next-step note after booking.'],
-              ['Planning support', 'We help with timing, locations, wardrobe, and must-have photos before the session.'],
-              ['Need help?', 'Book the free consultation if you want us to recommend the best package first.'],
+              ['After you inquire', 'You receive confirmation, then we clarify package fit, timing, location details, and must-have photos.'],
+              ['Delivery expectations', 'Most sessions include a polished online gallery, clear download access, and sneak peeks when the package includes them.'],
+              ['Two-photographer promise', 'Our core coverage model gives you more angles, candid moments, and detail coverage without guesswork.'],
             ].map(([title, copy]) => (
               <div key={title} className="rounded-lg bg-stone-50 p-4">
                 <h2 className="font-semibold">{title}</h2>

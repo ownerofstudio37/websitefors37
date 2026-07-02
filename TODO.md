@@ -29,9 +29,9 @@
 
 ### Booking Confidence Pass
 
-- [ ] Add one more trust layer near booking: what happens after inquiry, delivery expectations, two-photographer promise, and consultation reassurance.
-- [ ] Make booking fallback paths clearer for visitors who are unsure of package, date, or final service type.
-- [ ] Re-run booking mobile/desktop QA to confirm trust modules do not add friction or crowd the form.
+- [x] Add one more trust layer near booking: what happens after inquiry, delivery expectations, two-photographer promise, and consultation reassurance.
+- [x] Make booking fallback paths clearer for visitors who are unsure of package, date, or final service type.
+- [x] Re-run booking mobile/desktop QA to confirm trust modules do not add friction or crowd the form.
 
 ## Public Site Improvement Backlog - June 30, 2026
 
