@@ -189,14 +189,14 @@ export default function Navigation({
             {logoUrl ? (
               <div className="flex items-center gap-2" suppressHydrationWarning>
                 {/* Watermarked logo with responsive sizing */}
-                <div className={`relative transition-all duration-300 ${solidNav ? 'h-11' : 'h-14'} w-auto`} style={{ minWidth: solidNav ? 158 : 184 }}>
+                <div className={`relative transition-all duration-300 ${scrolled ? 'h-11' : 'h-14'} w-auto`} style={{ minWidth: scrolled ? 158 : 184 }}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img 
                     src={logoUrl} 
                     alt="Studio 37 Photography - Professional photography in Pinehurst, TX" 
                     width="184"
                     height="56"
-                    className={`w-auto object-contain transition-all duration-300 ${solidNav ? 'h-11' : 'h-14'}`}
+                    className={`w-auto object-contain transition-all duration-300 ${scrolled ? 'h-11' : 'h-14'}`}
                     loading="eager"
                     referrerPolicy="strict-origin-when-cross-origin"
                   />

@@ -30,6 +30,35 @@ type CityProfile = {
   seasonalTip: string
 }
 
+type LocalProofImage = {
+  src: string
+  label: string
+  caption: string
+}
+
+const LOCAL_PROOF_IMAGES: LocalProofImage[] = [
+  {
+    src: 'https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_900,c_limit/v1778033088/PS379444_2_1_pge2hl.jpg',
+    label: 'Portrait direction',
+    caption: 'Clean outdoor posing with natural light and polished gallery delivery.',
+  },
+  {
+    src: 'https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_900,c_limit/v1778033087/IMG_4591_1_r62hly.jpg',
+    label: 'Event coverage',
+    caption: 'Run-of-show coverage for key people, details, and candid moments.',
+  },
+  {
+    src: 'https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_900,c_limit/v1769255703/PS373409_pwmxmp.jpg',
+    label: 'Business content',
+    caption: 'Brand-ready images for websites, profiles, campaigns, and social posts.',
+  },
+  {
+    src: 'https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_900,c_limit/v1769255706/PS373287_d7fl9k.jpg',
+    label: 'Commercial details',
+    caption: 'Intentional detail coverage when the finished gallery needs to sell trust.',
+  },
+]
+
 const CITY_PROFILES: Record<string, CityProfile> = {
   'katy': {
     venueHighlights: ['LaCenterra corridors', 'Mary Jo Peckham Park', 'Cinco Ranch trails'],
@@ -255,6 +284,8 @@ export default function LocalPhotographerCityPage({
   const cityKey = city.toLowerCase()
   const cityProfile = CITY_PROFILES[cityKey]
   const serviceGuides = CITY_SERVICE_GUIDES[cityKey] || []
+  const proofStartIndex = cityKey.split('').reduce((total, char) => total + char.charCodeAt(0), 0) % LOCAL_PROOF_IMAGES.length
+  const localProofImages = [0, 1, 2].map((offset) => LOCAL_PROOF_IMAGES[(proofStartIndex + offset) % LOCAL_PROOF_IMAGES.length])
 
   const localBusinessSchema = generateEnhancedLocalBusinessSchema()
   const breadcrumbSchema = generateBreadcrumbSchema([
@@ -412,6 +443,43 @@ export default function LocalPhotographerCityPage({
             </div>
             <div>
               <GoogleBusinessWidget />
+            </div>
+          </div>
+
+          <div className="mt-14">
+            <div className="mb-6 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+              <div>
+                <h3 className="text-2xl font-bold text-stone-950">Real Studio37 Planning Proof</h3>
+                <p className="mt-2 max-w-2xl text-stone-600">
+                  A local page should feel local. These examples show the type of direction, timing, and detail coverage we adapt for {cityLabel} sessions.
+                </p>
+              </div>
+              <Link href="https://gallery.studio37.cc" className="text-sm font-semibold text-amber-800 hover:text-amber-950">
+                View finished galleries
+              </Link>
+            </div>
+            <div className="grid gap-5 md:grid-cols-3">
+              {localProofImages.map((image) => (
+                <Link
+                  key={`${cityKey}-${image.label}`}
+                  href="https://gallery.studio37.cc"
+                  className="group overflow-hidden rounded-xl border border-stone-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+                >
+                  <div className="relative aspect-[4/3] overflow-hidden bg-stone-100">
+                    <Image
+                      src={image.src}
+                      alt={`${image.label} example for ${cityLabel} photography planning`}
+                      fill
+                      sizes="(min-width: 768px) 33vw, 100vw"
+                      className="object-cover transition duration-500 group-hover:scale-105"
+                    />
+                  </div>
+                  <div className="p-5">
+                    <p className="text-xs font-bold uppercase tracking-[0.18em] text-amber-800">{image.label}</p>
+                    <p className="mt-2 text-sm leading-6 text-stone-600">{image.caption}</p>
+                  </div>
+                </Link>
+              ))}
             </div>
           </div>
         </div>
