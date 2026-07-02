@@ -18,8 +18,8 @@
 ### Homepage Performance / Layout Pass
 
 - [x] Increase homepage lazy-section reserved height to reduce layout jump and satisfy the performance guardrail.
-- [ ] Review each homepage `LazyMount` section visually and set reserved heights based on real rendered content instead of one default value.
-- [ ] Re-run homepage desktop/mobile screenshots after lazy-height tuning to confirm spacing still feels intentional.
+- [x] Review each homepage `LazyMount` section visually and set reserved heights based on real rendered content instead of one default value.
+- [x] Re-run homepage desktop/mobile screenshots after lazy-height tuning to confirm spacing still feels intentional.
 
 ### Commercial Service Temporary State
 

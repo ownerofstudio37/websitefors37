@@ -205,14 +205,14 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
         <Hero />
         <ChooseYourPathSection />
         <PackageRecommenderCTA />
-        <LazyMount minHeight={400}>
+        <LazyMount minHeight={560}>
           <PortraitHighlightGallery />
         </LazyMount>
         <CuratedRecentWork />
-        <LazyMount minHeight={400}>
+        <LazyMount minHeight={720}>
           <Services />
         </LazyMount>
-        <LazyMount minHeight={400}>
+        <LazyMount minHeight={520}>
           <ServiceAreaSEO />
         </LazyMount>
 
@@ -256,14 +256,14 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
       <Hero />
       <ChooseYourPathSection />
       <PackageRecommenderCTA />
-      <LazyMount minHeight={400}>
+      <LazyMount minHeight={560}>
         <PortraitHighlightGallery />
       </LazyMount>
       <CuratedRecentWork />
-      <LazyMount minHeight={400}>
+      <LazyMount minHeight={720}>
         <Services />
       </LazyMount>
-      <LazyMount minHeight={400}>
+      <LazyMount minHeight={520}>
         <ServiceAreaSEO />
       </LazyMount>
 
