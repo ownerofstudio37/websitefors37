@@ -41,7 +41,7 @@ export default function PricingToolPage() {
   })
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-16">
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white pb-16 pt-28">
       <Schema schema={[breadcrumbSchema, faqSchema, appSchema]} />
       <div className="container mx-auto px-4 max-w-5xl">
         <div className="text-center mb-8">
@@ -53,6 +53,18 @@ export default function PricingToolPage() {
         </div>
         <PricingCalculator />
         <PackageRecommender className="mt-10" />
+        <section className="mt-10 grid gap-4 rounded-lg border border-amber-200 bg-amber-50 p-5 md:grid-cols-3">
+          {[
+            ['Estimate first', 'Use the calculator to compare timing and coverage before you inquire.'],
+            ['Confirm scope', 'Final quotes account for location, usage, rush needs, and custom production details.'],
+            ['Continue booking', 'Send the selected package into booking so the next step is already prepared.'],
+          ].map(([title, copy]) => (
+            <div key={title} className="rounded-lg bg-white/70 p-4">
+              <h2 className="font-semibold text-stone-950">{title}</h2>
+              <p className="mt-2 text-sm leading-6 text-stone-700">{copy}</p>
+            </div>
+          ))}
+        </section>
         <section className="mt-12 rounded-lg border border-stone-200 bg-white p-6">
           <h2 className="text-2xl font-bold text-stone-950">Pricing calculator FAQ</h2>
           <div className="mt-5 space-y-3">

@@ -339,8 +339,8 @@ export default function LocalPhotographerCityPage({
         </div>
       </section>
 
-      <nav className="border-b border-stone-200 bg-white" aria-label={`${cityLabel} page sections`}>
-        <div className="container mx-auto flex gap-2 overflow-x-auto px-4 py-3 text-sm font-semibold text-stone-700">
+      <nav className="border-b border-stone-200 bg-white shadow-[0_10px_30px_rgba(15,23,42,0.04)]" aria-label={`${cityLabel} page sections`}>
+        <div className="container mx-auto flex gap-3 overflow-x-auto px-4 py-4 text-sm font-semibold text-stone-700 md:justify-center">
           {[
             ['Why Studio37', '#local-confidence'],
             ['Services', '#local-services'],
@@ -348,7 +348,7 @@ export default function LocalPhotographerCityPage({
             ['Locations', '#local-locations'],
             ['FAQ', '#local-faq'],
           ].map(([label, href]) => (
-            <Link key={href} href={href} className="shrink-0 rounded-full border border-stone-200 bg-stone-50 px-4 py-2 hover:border-amber-300">
+            <Link key={href} href={href} className="shrink-0 rounded-full border border-stone-200 bg-white px-5 py-2.5 shadow-sm transition hover:border-amber-300 hover:bg-amber-50 hover:text-amber-900">
               {label}
             </Link>
           ))}

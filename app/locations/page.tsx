@@ -3,6 +3,7 @@ import { generateSEOMetadata } from '@/lib/seo-helpers'
 import { generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
 import { locationPages } from '@/lib/location-pages'
 import ServiceAreaMarketModules from '@/components/ServiceAreaMarketModules'
+import LocationsFilterGrid from '@/components/LocationsFilterGrid'
 
 export const metadata = generateSEOMetadata({
   title: 'Photography Service Areas in Texas',
@@ -28,7 +29,7 @@ const breadcrumbSchema = generateBreadcrumbSchema([
 
 export default function LocationsIndexPage() {
   return (
-    <div className="min-h-screen pt-16 bg-gray-50">
+    <div className="min-h-screen pt-24 bg-gray-50">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
@@ -62,23 +63,7 @@ export default function LocationsIndexPage() {
         </div>
       </section>
 
-      <section className="py-12">
-        <div className="container mx-auto px-4">
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {locationPages.map((location) => (
-              <Link
-                key={location.slug}
-                href={`/${location.slug.replace(/-tx$/, '')}`}
-                className="bg-white border border-gray-200 rounded-lg p-5 hover:border-primary-300 hover:shadow-md transition-all"
-              >
-                <h2 className="text-xl font-semibold text-gray-900">{location.city}, TX</h2>
-                <p className="text-sm text-gray-600 mt-1">{location.county} · {location.region}</p>
-                <p className="text-sm text-gray-700 mt-3">{location.intro}</p>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
+      <LocationsFilterGrid locations={locationPages} />
 
       <ServiceAreaMarketModules />
     </div>

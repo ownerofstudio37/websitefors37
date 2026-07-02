@@ -153,6 +153,16 @@ export default function Navigation({
     return pathname === normalized || (normalized !== '/' && pathname.startsWith(`${normalized}/`))
   }
 
+  const lightPagePrefixes = [
+    '/tools/pricing',
+    '/tools/package-recommender',
+    '/session-prep',
+    '/locations',
+    '/book-consultation',
+    '/get-quote',
+  ]
+  const solidNav = scrolled || lightPagePrefixes.some((prefix) => pathname === prefix || pathname?.startsWith(`${prefix}/`))
+
   // Hide navigation on admin pages
   if (pathname?.startsWith('/admin')) {
     return null
@@ -163,7 +173,7 @@ export default function Navigation({
       ref={navRef}
       id="site-navigation"
       className={`fixed w-full z-50 transition-all duration-300 ${
-        scrolled ? 'bg-white/88 backdrop-blur-xl shadow-[0_10px_30px_rgba(15,23,42,0.08)] border-b border-stone-200/80' : 'bg-transparent'
+        solidNav ? 'bg-white/92 backdrop-blur-xl shadow-[0_10px_30px_rgba(15,23,42,0.08)] border-b border-stone-200/80' : 'bg-transparent'
       }`}
       role="navigation"
       aria-label="Main navigation"
@@ -179,14 +189,14 @@ export default function Navigation({
             {logoUrl ? (
               <div className="flex items-center gap-2" suppressHydrationWarning>
                 {/* Watermarked logo with responsive sizing */}
-                <div className={`relative transition-all duration-300 ${scrolled ? 'h-11' : 'h-14'} w-auto`} style={{ minWidth: scrolled ? 158 : 184 }}>
+                <div className={`relative transition-all duration-300 ${solidNav ? 'h-11' : 'h-14'} w-auto`} style={{ minWidth: solidNav ? 158 : 184 }}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img 
                     src={logoUrl} 
                     alt="Studio 37 Photography - Professional photography in Pinehurst, TX" 
                     width="184"
                     height="56"
-                    className={`w-auto object-contain transition-all duration-300 ${scrolled ? 'h-11' : 'h-14'}`}
+                    className={`w-auto object-contain transition-all duration-300 ${solidNav ? 'h-11' : 'h-14'}`}
                     loading="eager"
                     referrerPolicy="strict-origin-when-cross-origin"
                   />
@@ -194,13 +204,13 @@ export default function Navigation({
               </div>
             ) : (
               <>
-                <div className={`rounded-full p-1 ${scrolled ? 'bg-amber-100' : 'bg-white/20'}`}>
+                <div className={`rounded-full p-1 ${solidNav ? 'bg-amber-100' : 'bg-white/20'}`}>
                   <Camera 
-                    className={`h-8 w-8 ${scrolled ? 'text-amber-700' : 'text-amber-200'}`} 
+                    className={`h-8 w-8 ${solidNav ? 'text-amber-700' : 'text-amber-200'}`}
                     aria-hidden="true"
                   />
                 </div>
-                <span className={`text-xl font-serif font-bold ${scrolled ? 'text-amber-900' : 'text-white'}`}>
+                <span className={`text-xl font-serif font-bold ${solidNav ? 'text-amber-900' : 'text-white'}`}>
                   Studio 37
                 </span>
               </>
@@ -284,10 +294,10 @@ export default function Navigation({
                       href={parentHref}
                       className={`transition-all font-medium px-3 py-2 rounded-full flex items-center gap-1 ${
                         isParentActive
-                          ? scrolled
+                          ? solidNav
                             ? 'bg-amber-50 text-amber-800 ring-1 ring-amber-200'
                             : 'bg-white/15 text-white ring-1 ring-white/25'
-                          : scrolled
+                          : solidNav
                             ? 'text-stone-800 hover:text-amber-700 hover:bg-amber-50'
                             : 'text-white hover:text-white hover:bg-white/10'
                       } focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2`}
@@ -355,13 +365,17 @@ export default function Navigation({
                     item.highlighted
                       ? scrolled
                         ? 'btn-primary'
-                        : 'bg-amber-500 hover:bg-amber-400 text-white px-5 py-2.5 rounded-full shadow-lg'
+                        : solidNav
+                          ? 'btn-primary'
+                          : 'bg-amber-500 hover:bg-amber-400 text-white px-5 py-2.5 rounded-full shadow-lg'
                       : `hover:text-amber-700 hover:bg-amber-50 focus:text-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2 ${
                           isActiveHref(normalizeHref(item.href))
                             ? scrolled
                               ? 'bg-amber-50 text-amber-800 ring-1 ring-amber-200'
-                              : 'bg-white/15 text-white ring-1 ring-white/25'
-                            : scrolled ? 'text-stone-800' : 'text-white hover:bg-white/10'
+                              : solidNav
+                                ? 'bg-amber-50 text-amber-800 ring-1 ring-amber-200'
+                                : 'bg-white/15 text-white ring-1 ring-white/25'
+                            : solidNav ? 'text-stone-800' : 'text-white hover:bg-white/10'
                         }`
                   }`}
                   aria-current={isActiveHref(normalizeHref(item.href)) ? 'page' : undefined}
@@ -375,7 +389,7 @@ export default function Navigation({
             <a
               href="tel:+18327139944"
               className={`hidden xl:flex items-center gap-2 font-medium transition-colors rounded-full px-3 py-2 hover:text-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2 ${
-                scrolled ? 'text-stone-800 hover:bg-amber-50' : 'text-stone-100 hover:bg-white/10'
+                solidNav ? 'text-stone-800 hover:bg-amber-50' : 'text-stone-100 hover:bg-white/10'
               }`}
               aria-label="Call Studio37 at (832) 713-9944"
             >
@@ -386,7 +400,7 @@ export default function Navigation({
 
           <button
             type="button"
-            className={`md:hidden p-2.5 rounded-full focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2 ${scrolled ? 'text-stone-900 bg-stone-100' : 'text-white bg-white/10 backdrop-blur-sm'}`}
+            className={`md:hidden p-2.5 rounded-full focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2 ${solidNav ? 'text-stone-900 bg-stone-100' : 'text-white bg-white/10 backdrop-blur-sm'}`}
             onClick={() => setIsOpen(!isOpen)}
             aria-expanded={isOpen ? 'true' : 'false'}
             aria-controls="mobile-menu"

@@ -109,7 +109,7 @@ export default function SessionPrepHub() {
       />
 
       {/* Hero */}
-      <section className="bg-gradient-to-b from-gray-50 to-white px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+      <section className="bg-gradient-to-b from-gray-50 to-white px-4 pb-16 pt-28 sm:px-6 lg:px-8 lg:pb-20">
         <div className="mx-auto max-w-4xl text-center">
           <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-rose-500">Studio37 Resources</p>
           <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
@@ -138,14 +138,15 @@ export default function SessionPrepHub() {
       {/* Guides Grid */}
       <section className="px-4 pb-20 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-6xl">
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {prepGuides.map((guide) => {
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-6">
+            {prepGuides.map((guide, index) => {
               const Icon = guide.icon
+              const balancedSpan = prepGuides.length === 5 && index < 2 ? 'lg:col-span-3' : 'lg:col-span-2'
               return (
                 <Link
                   key={guide.serviceType}
                   href={guide.href}
-                  className="group relative flex flex-col overflow-hidden rounded-2xl shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+                  className={`group relative flex flex-col overflow-hidden rounded-2xl shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${balancedSpan}`}
                 >
                   {/* Image with overlay */}
                   <div className="relative h-64 overflow-hidden bg-gray-200">

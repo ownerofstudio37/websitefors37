@@ -205,14 +205,14 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
         <Hero />
         <ChooseYourPathSection />
         <PackageRecommenderCTA />
-        <LazyMount minHeight={400}>
+        <LazyMount minHeight={180}>
           <PortraitHighlightGallery />
         </LazyMount>
         <CuratedRecentWork />
-        <LazyMount minHeight={400}>
+        <LazyMount minHeight={180}>
           <Services />
         </LazyMount>
-        <LazyMount minHeight={400}>
+        <LazyMount minHeight={180}>
           <ServiceAreaSEO />
         </LazyMount>
 
@@ -232,7 +232,7 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
             <LeadCaptureForm />
           </div>
         </section>
-        <LazyMount minHeight={400}>
+        <LazyMount minHeight={180}>
           <Testimonials />
         </LazyMount>
         
@@ -256,14 +256,14 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
       <Hero />
       <ChooseYourPathSection />
       <PackageRecommenderCTA />
-      <LazyMount minHeight={400}>
+      <LazyMount minHeight={180}>
         <PortraitHighlightGallery />
       </LazyMount>
       <CuratedRecentWork />
-      <LazyMount minHeight={400}>
+      <LazyMount minHeight={180}>
         <Services />
       </LazyMount>
-      <LazyMount minHeight={400}>
+      <LazyMount minHeight={180}>
         <ServiceAreaSEO />
       </LazyMount>
 
@@ -284,7 +284,7 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
           <LeadCaptureForm />
         </div>
       </section>
-      <LazyMount minHeight={400}>
+      <LazyMount minHeight={180}>
         <Testimonials />
       </LazyMount>
       <WhatHappensNextSection serviceName="photography session" />

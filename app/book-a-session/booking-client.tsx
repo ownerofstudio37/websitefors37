@@ -642,7 +642,7 @@ export default function BookSessionPage() {
           role="presentation"
         />
       </div>
-      <div className="container mx-auto px-4 py-12 max-w-5xl w-full flex-1 relative z-10">
+      <div className="container mx-auto px-4 pb-12 pt-28 max-w-5xl w-full flex-1 relative z-10">
         <div className="text-center mb-8">
           <h1 className="text-5xl font-bold mb-3 text-white drop-shadow-lg">Book Your Session</h1>
           <p className="text-xl text-gray-100 max-w-2xl mx-auto drop-shadow">
@@ -699,7 +699,7 @@ export default function BookSessionPage() {
           <form
             onSubmit={onSubmit}
           >
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:items-start">
             {/* Package selector - New 3-option structure */}
             <div className="lg:col-span-1 space-y-4">
               <div className="bg-white rounded-lg shadow p-4">
@@ -958,10 +958,24 @@ export default function BookSessionPage() {
             </div>
           </form>
         )}
+        {!success && (
+          <section className="mt-10 grid gap-4 rounded-xl border border-stone-200 bg-white p-5 text-stone-900 shadow-xl md:grid-cols-3">
+            {[
+              ['Fast confirmation', 'You will receive a clear confirmation and next-step note after booking.'],
+              ['Planning support', 'We help with timing, locations, wardrobe, and must-have photos before the session.'],
+              ['Need help?', 'Book the free consultation if you want us to recommend the best package first.'],
+            ].map(([title, copy]) => (
+              <div key={title} className="rounded-lg bg-stone-50 p-4">
+                <h2 className="font-semibold">{title}</h2>
+                <p className="mt-2 text-sm leading-6 text-stone-600">{copy}</p>
+              </div>
+            ))}
+          </section>
+        )}
       </div>
 
       {/* Trust Badges */}
-      <div className="mt-12 py-8 border-t border-gray-200 flex flex-wrap justify-center gap-8 items-center">
+      <div className="mt-4 py-8 border-t border-white/10 flex flex-wrap justify-center gap-8 items-center bg-white/95">
         <a href="https://ppa.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-90 transition-opacity">
           <img 
             src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1774328861/PPA-Logo_wblk6k.png"

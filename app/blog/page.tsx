@@ -107,42 +107,51 @@ export default async function BlogPage() {
             <>
             <div className="grid lg:grid-cols-4 gap-10">
               <div className="lg:col-span-4 grid sm:grid-cols-2 xl:grid-cols-3 gap-8">
-                {posts.slice(0, 18).map((post: any) => (
-                  <Link
-                    key={post.id}
-                    href={`/blog/${post.slug}`}
-                    className="group flex h-full flex-col overflow-hidden rounded-lg border border-stone-200 bg-white transition hover:-translate-y-1 hover:shadow-xl"
-                  >
-                    {post.featured_image && isAllowedImageDomain(post.featured_image) && (
-                      <div className="relative aspect-[16/10] w-full bg-stone-200">
-                        <Image
-                          src={post.featured_image}
-                          alt={post.title}
-                          fill
-                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                          className="object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
+                {posts.slice(0, 18).map((post: any) => {
+                  const hasImage = post.featured_image && isAllowedImageDomain(post.featured_image)
+                  return (
+                    <Link
+                      key={post.id}
+                      href={`/blog/${post.slug}`}
+                      className="group flex h-full flex-col overflow-hidden rounded-lg border border-stone-200 bg-white transition hover:-translate-y-1 hover:shadow-xl"
+                    >
+                      <div className="relative aspect-[16/10] w-full overflow-hidden bg-gradient-to-br from-stone-100 via-amber-50 to-stone-200">
+                        {hasImage ? (
+                          <Image
+                            src={post.featured_image}
+                            alt={post.title}
+                            fill
+                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                            className="object-cover transition-transform duration-300 group-hover:scale-105"
+                          />
+                        ) : (
+                          <div className="absolute inset-0 flex items-end p-5">
+                            <span className="rounded-full bg-white/80 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-stone-700">
+                              Studio37 Journal
+                            </span>
+                          </div>
+                        )}
                       </div>
-                    )}
-                    <div className="flex flex-1 flex-col p-6">
-                      <h2 className="text-xl font-semibold text-stone-950 mb-2 group-hover:text-primary-700 transition-colors">
-                        {post.title}
-                      </h2>
-                      {post.excerpt && (
-                        <p className="mb-5 line-clamp-3 flex-1 text-stone-600">{post.excerpt}</p>
-                      )}
-                      <div className="mt-auto flex justify-between gap-4 border-t border-stone-100 pt-4 text-sm text-stone-500">
-                        <span>{post.author || 'Admin'}</span>
-                        <span>
-                          {post.published_at
-                            ? new Date(post.published_at).toLocaleDateString()
-                            : new Date(post.created_at || Date.now()).toLocaleDateString()
-                          }
-                        </span>
+                      <div className="flex flex-1 flex-col p-6">
+                        <h2 className="text-xl font-semibold text-stone-950 mb-2 group-hover:text-primary-700 transition-colors">
+                          {post.title}
+                        </h2>
+                        {post.excerpt && (
+                          <p className="mb-5 line-clamp-3 flex-1 text-stone-600">{post.excerpt}</p>
+                        )}
+                        <div className="mt-auto flex justify-between gap-4 border-t border-stone-100 pt-4 text-sm text-stone-500">
+                          <span>{post.author || 'Admin'}</span>
+                          <span>
+                            {post.published_at
+                              ? new Date(post.published_at).toLocaleDateString()
+                              : new Date(post.created_at || Date.now()).toLocaleDateString()
+                            }
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                  </Link>
-                ))}
+                    </Link>
+                  )
+                })}
               </div>
             </div>
             {posts.length > 18 && (

@@ -39,7 +39,7 @@ export default function PackageRecommenderPage() {
   })
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-stone-50 to-white py-16">
+    <main className="min-h-screen bg-gradient-to-b from-stone-50 to-white pb-16 pt-28">
       <Schema schema={[breadcrumbSchema, faqSchema, appSchema]} />
       <div className="container mx-auto max-w-6xl px-4">
         <div className="mx-auto mb-8 max-w-3xl text-center">
@@ -49,6 +49,18 @@ export default function PackageRecommenderPage() {
           </p>
         </div>
         <PackageRecommender />
+        <section className="mx-auto mt-10 grid max-w-5xl gap-4 rounded-lg border border-amber-200 bg-amber-50 p-5 md:grid-cols-3">
+          {[
+            ['Good starting point', 'The recommendation narrows the decision without locking you into a final quote.'],
+            ['Built for real shoots', 'Coverage, people, timing, and deliverables matter more than a generic package name.'],
+            ['Easy handoff', 'Continue to booking with the package context carried into your inquiry.'],
+          ].map(([title, copy]) => (
+            <div key={title} className="rounded-lg bg-white/70 p-4">
+              <h2 className="font-semibold text-stone-950">{title}</h2>
+              <p className="mt-2 text-sm leading-6 text-stone-700">{copy}</p>
+            </div>
+          ))}
+        </section>
         <section className="mx-auto mt-12 max-w-4xl rounded-lg border border-stone-200 bg-white p-6">
           <h2 className="text-2xl font-bold text-stone-950">Package recommender FAQ</h2>
           <div className="mt-5 space-y-3">

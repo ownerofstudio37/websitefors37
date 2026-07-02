@@ -206,6 +206,26 @@ Audit notes: `npm run audit:seo-assets` passed across public metadata/source fil
 - [x] Cross-site mobile: define a single rule for sticky CTA + chat visibility on interactive tools and forms.
 - [x] Re-run mobile screenshots for homepage, services, blog, Pinehurst, booking, pricing, and package recommender after fixes.
 
+### Live Desktop Walkthrough Findings
+
+- [x] Header: improve nav/logo contrast on light desktop pages like pricing, package recommender, session prep, locations, and booking.
+- [x] Header: prevent the desktop nav and large "Book a Session" pill from visually crowding page titles on tool/form pages.
+- [x] Homepage: reduce the oversized blank vertical gaps between recent work, local proof, quote form, process, and credentials.
+- [x] Homepage: tighten the recent-work desktop grid so five cards do not leave an awkward empty third-column slot.
+- [x] Services: verify loaded gallery images in the desktop "Curated highlights" module; replace gray capture states with stable image fallbacks if needed.
+- [x] Services: reduce section repetition after the service cards so process, highlights, finished-gallery, and final-gallery modules feel like one guided flow.
+- [x] Blog: replace gray article image states with stable fallbacks or lazy-load placeholders that feel intentional on desktop.
+- [x] Blog: add desktop filtering/search or featured grouping so the 18-card archive does not feel like a long CMS wall.
+- [x] Pricing/package recommender: make the top spacing account for the fixed header and increase nav legibility against white backgrounds.
+- [x] Pricing/package recommender: add a stronger secondary proof/next-step module so the page does not jump from tool to FAQ to footer.
+- [x] Booking: reduce the large empty desktop area below the booking form and add helpful proof, expectations, or contact fallback content.
+- [x] Booking: make the date/time card and client info card feel like one cohesive booking workflow on wide screens.
+- [x] Local/service-area pages: keep the new section navigator, but make desktop anchors feel more premium than small utility pills.
+- [x] Locations: add a quick search/filter for long city lists so desktop visitors can find their market faster.
+- [x] Session prep: rebalance the top card grid so five prep guide cards do not leave the final row feeling incomplete.
+- [x] Footer: review desktop footer CTA scale and spacing on short tool pages so it supports conversion without overpowering the main task.
+- [x] Re-run desktop screenshots for homepage, services, blog, Pinehurst, booking, pricing, package recommender, session prep, and locations after fixes.
+
 ## Public Site UX/UI
 
 - [x] Add consistent sticky/mobile CTAs for booking, pricing, and gallery.

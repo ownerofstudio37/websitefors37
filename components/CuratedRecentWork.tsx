@@ -25,13 +25,14 @@ export default function CuratedRecentWork({ className = '' }: { className?: stri
             Open Full Gallery <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
           </Link>
         </div>
-        <div className="grid gap-5 md:grid-cols-3">
-          {recentWork.map((item) => {
+        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-6">
+          {recentWork.map((item, index) => {
             const itemGalleryUrl = 'galleryUrl' in item && item.galleryUrl ? item.galleryUrl : galleryUrl
+            const balancedSpan = recentWork.length === 5 && index < 2 ? 'lg:col-span-3' : 'lg:col-span-2'
 
             return (
-              <article key={item.title} className="flex h-full flex-col overflow-hidden rounded-lg border border-stone-200 bg-stone-50">
-                <div className="relative aspect-[4/3] bg-stone-200">
+              <article key={item.title} className={`flex h-full flex-col overflow-hidden rounded-lg border border-stone-200 bg-stone-50 ${balancedSpan}`}>
+                <div className="relative aspect-[4/3] bg-gradient-to-br from-stone-100 via-amber-50 to-stone-200">
                   <Image src={item.image} alt={item.alt} fill className="object-cover" sizes="(min-width: 1280px) 420px, (min-width: 768px) 33vw, 100vw" quality={88} />
                 </div>
                 <div className="flex flex-1 flex-col p-5">

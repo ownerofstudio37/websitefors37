@@ -38,7 +38,7 @@ export function WhatHappensNextSection({ serviceName = 'session' }: { serviceNam
   ]
 
   return (
-    <section className="section-shell bg-stone-50">
+    <section className="bg-stone-50 py-14 md:py-16">
       <div className="container mx-auto px-4">
         <div className="mx-auto max-w-3xl text-center">
           <p className="eyebrow mb-3">What Happens Next</p>
@@ -81,7 +81,7 @@ export function PackageComparisonSection() {
   ]
 
   return (
-    <section className="section-shell bg-white">
+    <section className="bg-white py-14 md:py-16">
       <div className="container mx-auto px-4">
         <div className="mb-10 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
@@ -162,7 +162,7 @@ export function PortfolioProofSection({ serviceName = 'portfolio' }: { serviceNa
   ]
 
   return (
-    <section className="section-shell bg-stone-950 text-white">
+    <section className="bg-stone-950 py-14 text-white md:py-16">
       <div className="container mx-auto grid gap-10 px-4 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
         <div>
           <p className="eyebrow-hero mb-3">Portfolio Proof</p>
@@ -182,7 +182,7 @@ export function PortfolioProofSection({ serviceName = 'portfolio' }: { serviceNa
         </div>
         <div className="grid grid-cols-3 gap-3">
           {images.map((image, index) => (
-            <div key={image.src} className={`relative overflow-hidden rounded-lg bg-stone-800 ${index === 0 ? 'col-span-2 row-span-2 aspect-square' : 'aspect-square'}`}>
+            <div key={image.src} className={`relative overflow-hidden rounded-lg bg-gradient-to-br from-stone-800 to-stone-700 ${index === 0 ? 'col-span-2 row-span-2 aspect-square' : 'aspect-square'}`}>
               <Image src={image.src} alt={image.alt} fill className="object-cover" sizes="(min-width: 1024px) 25vw, 50vw" />
             </div>
           ))}
@@ -196,7 +196,7 @@ export function PublicConversionStack({ serviceName }: { serviceName?: string })
   return (
     <>
       <PackageComparisonSection />
-      <CuratedRecentWork />
+      <CuratedRecentWork className="py-14 md:py-16" />
       <PortfolioProofSection serviceName={serviceName || 'Studio37'} />
       <ServiceAreaMarketModules compact />
       <WhatHappensNextSection serviceName={serviceName || 'session'} />
