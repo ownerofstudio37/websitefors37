@@ -93,6 +93,11 @@ const markerChecks = [
   { file: 'lib/ai-page-builder-quality.ts', markers: ['AI_PAGE_TEMPLATES', 'STUDIO37_IMAGE_POOL', 'applyAIPageQuality', 'Request a Portfolio'] },
   { file: 'app/api/site/generate/route.ts', markers: ['getTemplateGuidance', 'applyAIPageQuality', 'HOMEPAGE-QUALITY DESIGN RULES'] },
   { file: 'app/admin/ai-site-builder/page.tsx', markers: ['AI_PAGE_TEMPLATES', 'Page Type', 'Quality guardrails'] },
+  { file: 'lib/ai-page-builder-quality.ts', markers: ['evaluateAIPageQuality', 'AIPageQualityCheck', 'Mobile Flow'] },
+  { file: 'app/admin/ai-site-builder/page.tsx', markers: ['Publish Readiness', 'qualityStyles', 'hasFailingQualityChecks'] },
+  { file: 'app/admin/page.tsx', markers: ['Command center', 'Action alerts', 'Booking pipeline', 'Mobile quick actions'] },
+  { file: 'components/AdminCommandPalette.tsx', markers: ['badgeTone', 'Strategic', 'Legacy'] },
+  { file: 'app/admin/galleries/page.tsx', markers: ['Delivery checklist', 'Delivery readiness', 'Email ready'] },
 ]
 
 for (const check of markerChecks) {

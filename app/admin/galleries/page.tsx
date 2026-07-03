@@ -128,6 +128,15 @@ export default function GalleriesPage() {
     }
   }
 
+  const getDeliveryChecklist = (gallery: Gallery) => [
+    { label: 'Access code', done: Boolean(gallery.access_code) },
+    { label: 'Client email', done: Boolean(gallery.client_email) },
+    { label: 'Images uploaded', done: gallery.total_photos > 0 },
+    { label: 'Preview link', done: Boolean(gallery.access_code) },
+    { label: 'Delivery settings', done: Boolean(gallery.expires_at || gallery.allow_downloads || gallery.require_purchase) },
+    { label: 'Email ready', done: Boolean(gallery.client_email && gallery.access_code && gallery.total_photos > 0) },
+  ]
+
   return (
     <AdminProtected>
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">
@@ -332,12 +341,17 @@ export default function GalleriesPage() {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {galleries.map((gallery) => (
+                (() => {
+                  const checklist = getDeliveryChecklist(gallery)
+                  const completed = checklist.filter((item) => item.done).length
+                  const ready = completed === checklist.length
+                  return (
                 <div
                   key={gallery.id}
                   className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all overflow-hidden border border-gray-100"
                 >
                   {/* Card Header */}
-                  <div className="bg-gradient-to-r from-indigo-500 to-purple-600 p-6 text-white">
+                  <div className={`p-6 text-white ${ready ? 'bg-gradient-to-r from-emerald-600 to-teal-600' : 'bg-gradient-to-r from-indigo-500 to-purple-600'}`}>
                     <div className="flex items-start justify-between mb-3">
                       <h3 className="text-lg font-bold">{gallery.title}</h3>
                       <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
@@ -348,6 +362,9 @@ export default function GalleriesPage() {
                     </div>
                     <p className="text-indigo-100 text-sm">{gallery.client_name}</p>
                     <p className="text-indigo-200 text-xs mt-1">{gallery.client_email}</p>
+                    <p className="mt-3 w-fit rounded-full bg-white/15 px-2.5 py-1 text-xs font-semibold">
+                      Delivery readiness: {completed}/{checklist.length}
+                    </p>
                   </div>
 
                   {/* Card Body */}
@@ -397,6 +414,23 @@ export default function GalleriesPage() {
                       </div>
                     </div>
 
+                    <div className="rounded-lg border border-gray-200 bg-white p-3">
+                      <div className="mb-2 flex items-center justify-between gap-2">
+                        <p className="text-xs font-semibold uppercase tracking-[0.12em] text-gray-500">Delivery checklist</p>
+                        <span className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${ready ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-800'}`}>
+                          {ready ? 'Ready' : 'Review'}
+                        </span>
+                      </div>
+                      <div className="grid grid-cols-2 gap-1.5">
+                        {checklist.map((item) => (
+                          <div key={item.label} className="flex items-center gap-1.5 text-xs text-gray-600">
+                            <span className={`h-2 w-2 rounded-full ${item.done ? 'bg-green-500' : 'bg-gray-300'}`} />
+                            <span>{item.label}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
                     {/* Action Buttons */}
                     <div className="flex gap-2 pt-2">
                       <a
@@ -415,6 +449,13 @@ export default function GalleriesPage() {
                       >
                         <ExternalLink className="w-4 h-4" />
                       </a>
+                      <a
+                        href={`mailto:${gallery.client_email}?subject=${encodeURIComponent(`Your Studio37 gallery: ${gallery.title}`)}&body=${encodeURIComponent(`Hi ${gallery.client_name},\n\nYour Studio37 gallery is ready here:\nhttps://gallery.studio37.cc/${gallery.access_code}\n\nAccess code: ${gallery.access_code}\n\nBest,\nStudio37`)}`}
+                        className="px-4 py-2 bg-emerald-50 text-emerald-700 rounded-lg hover:bg-emerald-100 transition-colors"
+                        title="Email client"
+                      >
+                        Email
+                      </a>
                       <button
                         onClick={() => setDeleteGalleryId(gallery.id)}
                         className="px-4 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors"
@@ -425,6 +466,8 @@ export default function GalleriesPage() {
                     </div>
                   </div>
                 </div>
+                  )
+                })()
               ))}
             </div>
           )}

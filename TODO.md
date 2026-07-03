@@ -2,6 +2,19 @@
 
 ## Next Public Site Audit Priorities - July 2, 2026
 
+### Next Admin Dash / Tools Roadmap
+
+- [x] Admin Command Center: turn `/admin` into a daily cockpit with today’s leads, overdue follow-ups, upcoming shoots, gallery delivery status, and SEO/site alerts.
+- [x] Lead Workspace Upgrade: add dashboard-level lead quick actions for email, project creation, and portfolio sending, plus stronger service/source context.
+- [x] AI Page Builder Preview QA: after generation, run a publish-readiness checklist for missing CTA, generic copy, no real image, weak SEO title, mobile risk, missing proof, and missing local context.
+- [x] AI Page Builder Preview QA: show pass/warn/fail badges before publishing so generated pages can be corrected before going live.
+- [x] Admin Tool Ownership Cleanup: surface Primary, Strategic, Legacy, Internal, Experimental, and Backup badges in command palette, dashboard cards, and operations inventory.
+- [x] Booking + Project Pipeline: connect inquiry → quote → booking → project → gallery delivery with lifecycle shortcuts on `/admin`.
+- [x] Notification System: add actionable dashboard alerts for stale leads, gallery delivery review, SEO/site health, and weekly bookings.
+- [x] Admin Mobile Pass: add phone-friendly quick actions for responding to leads, calling, viewing bookings, and checking gallery links.
+- [x] Client Gallery Tool: make `/admin/galleries` the polished delivery hub for creating private galleries, copying gallery.studio37.cc links, emailing clients, tracking status, and confirming delivery readiness.
+- [x] Client Gallery Tool: add gallery delivery checklist states for access code, client email, expiration/download settings, image count, preview link, email ready, and follow-up readiness.
+
 ### Expansive Admin Audit - July 2, 2026
 
 - [x] Admin route consolidation: inventory all 60 admin-facing route/client files and decide which are primary, legacy, experimental, backup, internal, strategic, utility, or active.

@@ -23,6 +23,15 @@ const externalCommands = [
   },
 ]
 
+const badgeTone: Record<string, string> = {
+  Primary: 'bg-green-100 text-green-700',
+  Strategic: 'bg-purple-100 text-purple-700',
+  Legacy: 'bg-amber-100 text-amber-800',
+  Internal: 'bg-red-100 text-red-700',
+  Experimental: 'bg-blue-100 text-blue-700',
+  Backup: 'bg-gray-100 text-gray-700',
+}
+
 interface AdminCommandPaletteProps {
   buttonClassName?: string
   buttonLabel?: string
@@ -286,7 +295,7 @@ export default function AdminCommandPalette({
                             </span>
                             <span className="flex flex-shrink-0 items-center gap-2">
                               {tool.badge && (
-                                <span className="rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-medium text-gray-600">
+                                <span className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${badgeTone[tool.badge] || 'bg-gray-100 text-gray-600'}`}>
                                   {tool.badge}
                                 </span>
                               )}

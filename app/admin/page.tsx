@@ -11,6 +11,10 @@ import {
   SearchCheck,
   TrendingUp,
   Users,
+  Image,
+  FileText,
+  Bell,
+  FolderKanban,
 } from 'lucide-react'
 import { useDashboardData } from '@/hooks/useDashboardData'
 import PageList from '@/components/admin/PageList'
@@ -102,6 +106,37 @@ export default function AdminPage() {
           t.description.toLowerCase().includes(searchQuery.toLowerCase())
       )
     : dashboardTools
+
+  const commandAlerts = [
+    {
+      label: 'Hot lead queue',
+      value: stats?.todayOps.staleLeads || 0,
+      href: '/admin/leads',
+      detail: 'New/contacted leads older than 48 hours',
+      tone: 'border-amber-200 bg-amber-50 text-amber-800',
+    },
+    {
+      label: 'Shoots this week',
+      value: stats?.todayOps.upcomingAppointments || 0,
+      href: '/admin/bookings',
+      detail: 'Pending, scheduled, or confirmed appointments',
+      tone: 'border-violet-200 bg-violet-50 text-violet-800',
+    },
+    {
+      label: 'Follow-ups due',
+      value: stats?.todayOps.followUpsDue || 0,
+      href: '/admin/leads',
+      detail: 'Lead follow-up tasks waiting',
+      tone: 'border-blue-200 bg-blue-50 text-blue-800',
+    },
+    {
+      label: 'SEO/site health',
+      value: 'Check',
+      href: '/admin/seo',
+      detail: 'Review sitemap, metadata, and Search Console status',
+      tone: 'border-emerald-200 bg-emerald-50 text-emerald-800',
+    },
+  ]
 
   return (
     <div className="max-w-7xl mx-auto space-y-8">
@@ -202,6 +237,90 @@ export default function AdminPage() {
         </div>
       </section>
 
+      <section className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+        <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+          <div>
+            <h2 className="text-xl font-semibold text-gray-900">Command center</h2>
+            <p className="mt-1 text-sm text-gray-600">What needs attention before you go hunting through tools.</p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <Link href="/admin/galleries" className="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-700">
+              <Image className="h-4 w-4" />
+              Client galleries
+            </Link>
+            <Link href="/admin/ai-site-builder" className="inline-flex items-center gap-2 rounded-lg border border-gray-200 px-3 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50">
+              <FileText className="h-4 w-4" />
+              AI page draft
+            </Link>
+          </div>
+        </div>
+        <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+          {commandAlerts.map((alert) => (
+            <Link key={alert.label} href={alert.href} className={`rounded-xl border p-4 transition hover:shadow-sm ${alert.tone}`}>
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <p className="text-sm font-semibold">{alert.label}</p>
+                  <p className="mt-1 text-xs opacity-80">{alert.detail}</p>
+                </div>
+                <span className="rounded-full bg-white/70 px-2 py-1 text-xs font-bold">{loading ? '...' : alert.value}</span>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <section className="grid gap-4 lg:grid-cols-3">
+        <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+          <h2 className="flex items-center gap-2 text-lg font-semibold text-gray-900">
+            <Bell className="h-5 w-5 text-amber-600" />
+            Action alerts
+          </h2>
+          <div className="mt-4 space-y-3 text-sm">
+            <Link href="/admin/leads" className="block rounded-lg border border-gray-200 p-3 hover:border-amber-300 hover:bg-amber-50">
+              {stats?.todayOps.staleLeads || 0} hot or stale lead follow-up{(stats?.todayOps.staleLeads || 0) === 1 ? '' : 's'} waiting
+            </Link>
+            <Link href="/admin/galleries" className="block rounded-lg border border-gray-200 p-3 hover:border-indigo-300 hover:bg-indigo-50">
+              Check gallery drafts before sending client links
+            </Link>
+            <Link href="/admin/seo" className="block rounded-lg border border-gray-200 p-3 hover:border-emerald-300 hover:bg-emerald-50">
+              Review sitemap and SEO health before next publish
+            </Link>
+          </div>
+        </div>
+
+        <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+          <h2 className="flex items-center gap-2 text-lg font-semibold text-gray-900">
+            <FolderKanban className="h-5 w-5 text-indigo-600" />
+            Booking pipeline
+          </h2>
+          <div className="mt-4 grid grid-cols-2 gap-2 text-sm">
+            {[
+              ['Inquiry', '/admin/leads'],
+              ['Quote', '/admin/leads'],
+              ['Booking', '/admin/bookings'],
+              ['Project', '/admin/projects'],
+              ['Gallery', '/admin/galleries'],
+              ['Follow-up', '/admin/operations'],
+            ].map(([label, href]) => (
+              <Link key={label} href={href} className="rounded-lg border border-gray-200 px-3 py-2 text-center font-medium text-gray-700 hover:border-indigo-300 hover:bg-indigo-50">
+                {label}
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+          <h2 className="text-lg font-semibold text-gray-900">Mobile quick actions</h2>
+          <p className="mt-1 text-sm text-gray-600">Fast paths for phone admin work.</p>
+          <div className="mt-4 grid grid-cols-2 gap-2 text-sm">
+            <Link href="/admin/leads" className="rounded-lg border border-gray-200 px-3 py-2 text-center hover:bg-gray-50">Respond</Link>
+            <Link href="tel:+18327139944" className="rounded-lg border border-gray-200 px-3 py-2 text-center hover:bg-gray-50">Call</Link>
+            <Link href="/admin/bookings" className="rounded-lg border border-gray-200 px-3 py-2 text-center hover:bg-gray-50">Booking</Link>
+            <Link href="/admin/galleries" className="rounded-lg border border-gray-200 px-3 py-2 text-center hover:bg-gray-50">Gallery link</Link>
+          </div>
+        </div>
+      </section>
+
       <section className="grid grid-cols-1 xl:grid-cols-3 gap-6">
         <div className="xl:col-span-2 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
           <div className="flex flex-col gap-3 mb-4">
@@ -260,6 +379,7 @@ export default function AdminPage() {
                               <ArrowRight className="h-4 w-4 opacity-0 -translate-x-1 transition-all group-hover:opacity-100 group-hover:translate-x-0" />
                             </h4>
                             <p className="mt-1 text-sm text-gray-600 leading-6">{tool.description}</p>
+                            <p className="mt-3 text-xs font-medium text-gray-400">{tool.badge || 'Active'} tool</p>
                           </div>
                         </Link>
                       )
@@ -323,14 +443,19 @@ export default function AdminPage() {
               ))
             ) : stats?.recentLeads?.length ? (
               stats.recentLeads.map((lead) => (
-                <div key={lead.id} className="flex items-center justify-between gap-4 border-b border-gray-100 pb-4 last:border-b-0 last:pb-0">
+                <div key={lead.id} className="flex flex-col gap-3 border-b border-gray-100 pb-4 last:border-b-0 last:pb-0 sm:flex-row sm:items-center sm:justify-between">
                   <div>
                     <p className="font-medium text-gray-900">{lead.name}</p>
-                    <p className="text-sm text-gray-600">{lead.service_interest}</p>
+                    <p className="text-sm text-gray-600">{lead.service_interest || 'Service not set'} • {lead.email}</p>
                   </div>
-                  <span className="text-xs font-medium rounded-full px-2.5 py-1 bg-gray-100 text-gray-700 capitalize">
-                    {lead.status}
-                  </span>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="text-xs font-medium rounded-full px-2.5 py-1 bg-gray-100 text-gray-700 capitalize">
+                      {lead.status}
+                    </span>
+                    <a href={`mailto:${lead.email}`} className="rounded-lg border border-gray-200 px-2.5 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50">Email</a>
+                    <Link href="/admin/projects/new" className="rounded-lg border border-gray-200 px-2.5 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50">Project</Link>
+                    <Link href="/request-portfolio" className="rounded-lg border border-gray-200 px-2.5 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50">Portfolio</Link>
+                  </div>
                 </div>
               ))
             ) : (

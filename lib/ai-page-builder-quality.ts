@@ -192,3 +192,78 @@ export function applyAIPageQuality(rawComponents: any[], template: AIPageTemplat
 
   return components.slice(0, 15)
 }
+
+export type AIPageQualityStatus = 'pass' | 'warn' | 'fail'
+
+export interface AIPageQualityCheck {
+  id: string
+  label: string
+  status: AIPageQualityStatus
+  detail: string
+}
+
+export function evaluateAIPageQuality(page: {
+  title?: string
+  metaDescription?: string
+  components?: any[]
+}): AIPageQualityCheck[] {
+  const components = page.components || []
+  const allText = JSON.stringify(components).toLowerCase()
+  const hasType = (type: string) => components.some((component) => component?.type === type)
+  const hero = components.find((component) => component?.type === 'hero')
+  const hasRealImage = components.some((component) => {
+    const data = component?.data || {}
+    if (typeof data.backgroundImage === 'string' && !isGenericImage(data.backgroundImage)) return true
+    if (typeof data.image === 'string' && !isGenericImage(data.image)) return true
+    return Array.isArray(data.services) && data.services.some((service: any) => service?.image && !isGenericImage(service.image))
+  })
+  const hasCta = components.some((component) => {
+    const data = component?.data || {}
+    return Boolean(data.buttonText || data.primaryButtonText || data.ctaText || data.primaryButtonLink)
+  })
+
+  return [
+    {
+      id: 'cta',
+      label: 'Clear CTA',
+      status: hasCta ? 'pass' : 'fail',
+      detail: hasCta ? 'Primary action is present.' : 'Add a clear booking, inquiry, or portfolio request CTA.',
+    },
+    {
+      id: 'copy',
+      label: 'Specific Copy',
+      status: /lorem ipsum|your headline here|service one|feature 1/.test(allText) ? 'fail' : 'pass',
+      detail: /lorem ipsum|your headline here|service one|feature 1/.test(allText) ? 'Generic placeholder copy remains.' : 'No obvious placeholder copy found.',
+    },
+    {
+      id: 'image',
+      label: 'Real Visuals',
+      status: hasRealImage ? 'pass' : 'warn',
+      detail: hasRealImage ? 'At least one non-placeholder image is used.' : 'Add a real Studio37 or carefully selected page-specific image.',
+    },
+    {
+      id: 'seo',
+      label: 'SEO Basics',
+      status: page.title && page.title.length >= 20 && page.metaDescription && page.metaDescription.length >= 80 ? 'pass' : 'warn',
+      detail: 'Title should be specific; meta description should be roughly 80-160 characters.',
+    },
+    {
+      id: 'proof',
+      label: 'Proof',
+      status: hasType('testimonials') || /review|gallery|delivered|two photographer|studio37/.test(allText) ? 'pass' : 'warn',
+      detail: 'Include reviews, delivery expectations, gallery proof, or Studio37 process confidence.',
+    },
+    {
+      id: 'local',
+      label: 'Local Context',
+      status: /pinehurst|montgomery|houston|woodlands|tomball|magnolia|conroe/.test(allText) ? 'pass' : 'warn',
+      detail: 'Add service-area or location confidence when the page is local or service-driven.',
+    },
+    {
+      id: 'mobile',
+      label: 'Mobile Flow',
+      status: components.length <= 15 && Boolean(hero?.data?.subtitle) ? 'pass' : 'warn',
+      detail: 'Keep section count focused and make sure the first screen has headline, subtitle, and CTA.',
+    },
+  ]
+}

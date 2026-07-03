@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import dynamic from 'next/dynamic'
 import { Loader2, Sparkles, RefreshCw, AlertCircle, Save, CheckCircle, Edit2, Eye } from 'lucide-react'
-import { AI_PAGE_TEMPLATES, type AIPageTemplate } from '@/lib/ai-page-builder-quality'
+import { AI_PAGE_TEMPLATES, evaluateAIPageQuality, type AIPageQualityStatus, type AIPageTemplate } from '@/lib/ai-page-builder-quality'
 
 const VisualEditor = dynamic(() => import('@/components/VisualEditor'), {
   ssr: false,
@@ -138,6 +138,16 @@ export default function AISiteBuilderPage() {
 
   const handleSlugChange = (value: string) => {
     setCustomSlug(normalizeSlug(value))
+  }
+
+  const qualityChecks = data
+    ? evaluateAIPageQuality({ title: pageTitle, metaDescription, components: data.components })
+    : []
+  const hasFailingQualityChecks = qualityChecks.some((check) => check.status === 'fail')
+  const qualityStyles: Record<AIPageQualityStatus, string> = {
+    pass: 'border-green-200 bg-green-50 text-green-700',
+    warn: 'border-amber-200 bg-amber-50 text-amber-800',
+    fail: 'border-red-200 bg-red-50 text-red-700',
   }
 
   return (
@@ -291,6 +301,29 @@ export default function AISiteBuilderPage() {
             </div>
 
             {/* Publish Actions */}
+            <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
+              <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <h3 className="text-sm font-semibold text-gray-900">Publish Readiness</h3>
+                  <p className="text-xs text-gray-600">Pass/warn/fail checks before this page goes live.</p>
+                </div>
+                <span className={`w-fit rounded-full px-2.5 py-1 text-xs font-semibold ${hasFailingQualityChecks ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'}`}>
+                  {hasFailingQualityChecks ? 'Fix required' : 'Ready with review'}
+                </span>
+              </div>
+              <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+                {qualityChecks.map((check) => (
+                  <div key={check.id} className={`rounded-lg border px-3 py-2 ${qualityStyles[check.status]}`}>
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-xs font-semibold">{check.label}</span>
+                      <span className="text-[10px] font-bold uppercase">{check.status}</span>
+                    </div>
+                    <p className="mt-1 text-xs opacity-85">{check.detail}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
             <div className="flex items-center justify-between pt-4 border-t">
               <div className="text-sm text-gray-600">
                 <p><strong>Components:</strong> {data.components.length}</p>
@@ -306,7 +339,7 @@ export default function AISiteBuilderPage() {
                 </button>
                 <button
                   onClick={() => handlePublish(true)}
-                  disabled={publishing || !customSlug}
+                  disabled={publishing || !customSlug || hasFailingQualityChecks}
                   className="px-4 py-2 rounded bg-green-600 text-white flex items-center gap-2 hover:bg-green-700 disabled:opacity-50"
                 >
                   {publishing ? <Loader2 className="h-4 w-4 animate-spin" /> : <Eye className="h-4 w-4" />}
