@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import dynamic from 'next/dynamic'
 import { Loader2, Sparkles, RefreshCw, AlertCircle, Save, CheckCircle, Edit2, Eye } from 'lucide-react'
+import { AI_PAGE_TEMPLATES, type AIPageTemplate } from '@/lib/ai-page-builder-quality'
 
 const VisualEditor = dynamic(() => import('@/components/VisualEditor'), {
   ssr: false,
@@ -27,6 +28,7 @@ export default function AISiteBuilderPage() {
   const [data, setData] = useState<GeneratedPage | null>(null)
   const [style, setStyle] = useState('friendly, premium, trustworthy')
   const [wordCount, setWordCount] = useState(650)
+  const [template, setTemplate] = useState<AIPageTemplate>('service')
   
   // New state for slug customization and publishing
   const [customSlug, setCustomSlug] = useState('')
@@ -44,7 +46,7 @@ export default function AISiteBuilderPage() {
       const res = await fetch('/api/site/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt, style, wordCount })
+        body: JSON.stringify({ prompt, style, wordCount, template })
       })
       const json = await res.json()
       if (!res.ok) {
@@ -141,7 +143,7 @@ export default function AISiteBuilderPage() {
   return (
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between flex-wrap gap-4">
-        <h1 className="text-xl font-semibold flex items-center gap-2"><Sparkles className="h-5 w-5 text-primary-600"/> AI Site Builder</h1>
+        <h1 className="text-xl font-semibold flex items-center gap-2"><Sparkles className="h-5 w-5 text-primary-600"/> AI Page Builder</h1>
         <div className="flex gap-2">
           <button
             onClick={handleGenerate}
@@ -166,7 +168,20 @@ export default function AISiteBuilderPage() {
             placeholder="Describe the purpose, audience, offers, tone, and conversion goal..."
           />
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div>
+            <label className="block text-sm font-medium mb-1" htmlFor="template">Page Type</label>
+            <select
+              id="template"
+              className="w-full border rounded px-3 py-2 text-sm"
+              value={template}
+              onChange={e=>setTemplate(e.target.value as AIPageTemplate)}
+            >
+              {AI_PAGE_TEMPLATES.map(item => (
+                <option key={item.id} value={item.id}>{item.label}</option>
+              ))}
+            </select>
+          </div>
           <div>
             <label className="block text-sm font-medium mb-1" htmlFor="style">Writing Style/Tone</label>
             <input
@@ -189,7 +204,7 @@ export default function AISiteBuilderPage() {
             />
           </div>
           <div className="flex flex-col justify-end text-xs text-gray-600">
-            <p>Guide: Include audience, primary offer, differentiation, desired actions, location context.</p>
+            <p>Quality guardrails: real imagery, specific proof, clear CTA hierarchy, FAQ, portfolio request path, and mobile-safe section flow.</p>
           </div>
         </div>
         {error && (

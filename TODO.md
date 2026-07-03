@@ -24,9 +24,9 @@
 ### AI Page Builder Quality
 
 - [x] AI Page Builder: keep as an active strategic tool, not a removal candidate; position it as the premium page draft generator.
-- [ ] AI Page Builder: improve generated page quality through stronger visual builder components, section presets, spacing rules, image handling, CTA hierarchy, and responsive defaults.
-- [ ] AI Page Builder: add homepage-quality templates for service pages, local landing pages, blog landing pages, campaign pages, lead magnets, and commercial/branding pages.
-- [ ] AI Page Builder: add guardrails so generated pages avoid generic copy, weak stock-looking visuals, poor mobile spacing, and unclear conversion paths.
+- [x] AI Page Builder: improve generated page quality through stronger visual builder components, section presets, spacing rules, image handling, CTA hierarchy, and responsive defaults.
+- [x] AI Page Builder: add homepage-quality templates for service pages, local landing pages, blog landing pages, campaign pages, lead magnets, and commercial/branding pages.
+- [x] AI Page Builder: add guardrails so generated pages avoid generic copy, weak stock-looking visuals, poor mobile spacing, and unclear conversion paths.
 
 ### Chatbot And Admin Tools Audit
 

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { supabase } from "@/lib/supabase";
+import { applyAIPageQuality, getTemplateGuidance, type AIPageTemplate } from "@/lib/ai-page-builder-quality";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;
@@ -9,7 +10,7 @@ type PageComponent = any; // We validate minimally and let the client editor enf
 
 export async function POST(req: Request) {
   try {
-    const { prompt, style, wordCount } = await req.json();
+    const { prompt, style, wordCount, template = "auto" } = await req.json();
     if (!prompt || typeof prompt !== "string") {
       return NextResponse.json({ error: "Missing prompt" }, { status: 400 });
     }
@@ -61,6 +62,8 @@ export async function POST(req: Request) {
       "contactForm",
       "seoFooter",
     ];
+
+    const templateGuidance = getTemplateGuidance(template as AIPageTemplate);
 
     const sysPrompt = `You are an expert UX/UI landing page architect and professional copywriter.
 Your task is to design a high-converting, beautifully structured page based on the user's brief.
@@ -282,11 +285,21 @@ PUBLISHER SITE CONTEXT:
 - Serves: Montgomery County, The Woodlands, Houston area
 - Available internal links: "/services", "/book-consultation", "/contact", "/about" and external gallery link "https://gallery.studio37.cc"
 - Adapt these links to the specific page context
+- Page template target: ${templateGuidance}
 
 IMAGE SELECTION:
-- Choose high-quality Unsplash photography URLs
-- Match images to THE SPECIFIC TOPIC in the brief (not generic photography)
+- Prefer real Studio37/Cloudinary image URLs when the page relates to photography, sessions, local services, commercial visuals, or branding
+- Only use third-party imagery when the brief is clearly outside Studio37 photo/marketing work
+- Never use placeholder URLs, gray boxes, or vague stock-looking hero imagery
 - Hero images should be dramatic and engaging for the topic
+
+HOMEPAGE-QUALITY DESIGN RULES:
+- Use a strong first screen: specific H1, practical subtitle, primary CTA, secondary proof/portfolio CTA
+- Build a clear conversion path: proof before pricing, FAQ before final CTA, final CTA with one obvious next action
+- Use 8-12 components for most pages; avoid clutter and repeated text blocks
+- Service/local/campaign pages need concrete process proof, delivery expectations, and client reassurance
+- Commercial/branding pages should mention usage planning, licensing support, delivery expectations, and request-sample-gallery CTAs
+- Blog landing pages should feel editorial, not like a sales page; include category clarity and a gentle lead magnet CTA
 
 STRUCTURE RULES:
 1. ALWAYS include: hero → intro text → services/offerings → social proof → pricing → final CTA
@@ -421,7 +434,7 @@ RESPOND WITH ONLY THE COMPLETE JSON - NO OTHER TEXT.`;
         push({ type: "seoFooter" });
       }
 
-      return { title, suggestedSlug, notes, components };
+      return { title, suggestedSlug, notes, components: applyAIPageQuality(components, template as AIPageTemplate) };
     };
 
     try {

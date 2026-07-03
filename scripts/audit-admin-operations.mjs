@@ -90,6 +90,9 @@ const markerChecks = [
   { file: 'components/ChatBotMount.tsx', markers: ['EnhancedChatBot'] },
   { file: 'app/api/chat/respond/route.ts', markers: ['view our ShootProof gallery', 'imageAnalysisContext', 'fallback', '$350'] },
   { file: 'components/EnhancedChatBot.tsx', markers: ['uploadError', 'quoteFormError', 'Call Studio37', 'https://gallery.studio37.cc'] },
+  { file: 'lib/ai-page-builder-quality.ts', markers: ['AI_PAGE_TEMPLATES', 'STUDIO37_IMAGE_POOL', 'applyAIPageQuality', 'Request a Portfolio'] },
+  { file: 'app/api/site/generate/route.ts', markers: ['getTemplateGuidance', 'applyAIPageQuality', 'HOMEPAGE-QUALITY DESIGN RULES'] },
+  { file: 'app/admin/ai-site-builder/page.tsx', markers: ['AI_PAGE_TEMPLATES', 'Page Type', 'Quality guardrails'] },
 ]
 
 for (const check of markerChecks) {
