@@ -13,7 +13,7 @@ export async function GET(
     const supabase = getSupabaseAdmin()
     // Fetch gallery base record first
     const { data: gallery, error: galleryError } = await supabase
-      .from('galleries')
+      .from('client_galleries')
       .select('*')
       .eq('id', params.id)
       .single()
@@ -71,7 +71,7 @@ export async function DELETE(
     
     // Delete gallery (cascade will handle images)
     const { error } = await supabase
-      .from('galleries')
+      .from('client_galleries')
       .delete()
       .eq('id', params.id)
 
@@ -105,7 +105,7 @@ export async function PATCH(
     const supabase = getSupabaseAdmin()
     
     const { data: gallery, error } = await supabase
-      .from('galleries')
+      .from('client_galleries')
       .update({
         ...body,
         updated_at: new Date().toISOString()

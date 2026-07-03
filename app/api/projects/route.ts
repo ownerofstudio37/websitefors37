@@ -45,20 +45,46 @@ export async function GET(request: NextRequest) {
       query = query.or(`project_manager_id.eq.${assignedTo},assigned_photographer_id.eq.${assignedTo},assigned_editor_id.eq.${assignedTo}`)
     }
 
-    const { data: projects, error, count } = await query
+    const { data: richProjects, error, count } = await query
 
     if (error) {
-      log.error('Failed to fetch projects', { error: error.message })
-      return NextResponse.json({ error: 'Failed to fetch projects' }, { status: 500 })
+      log.warn('Project relation list fetch failed; falling back to base project list', { error: error.message })
+
+      let fallbackQuery = supabaseAdmin
+        .from('project_management')
+        .select('*')
+        .order('created_at', { ascending: false })
+        .range(offset, offset + limit - 1)
+
+      if (status) fallbackQuery = fallbackQuery.eq('status', status)
+      if (priority) fallbackQuery = fallbackQuery.eq('priority', priority)
+      if (health) fallbackQuery = fallbackQuery.eq('health_status', health)
+
+      const { data: fallbackProjects, error: fallbackError } = await fallbackQuery
+
+      if (fallbackError) {
+        log.error('Failed to fetch base projects', { error: fallbackError.message })
+        return NextResponse.json({ error: 'Failed to fetch projects' }, { status: 500 })
+      }
+
+      return NextResponse.json({
+        projects: fallbackProjects || [],
+        pagination: {
+          total: fallbackProjects?.length || 0,
+          limit,
+          offset,
+          hasMore: (fallbackProjects?.length || 0) === limit
+        }
+      })
     }
 
     return NextResponse.json({
-      projects: projects || [],
+      projects: richProjects || [],
       pagination: {
-        total: count || projects?.length || 0,
+        total: count || richProjects?.length || 0,
         limit,
         offset,
-        hasMore: (projects?.length || 0) === limit
+        hasMore: (richProjects?.length || 0) === limit
       }
     })
   } catch (error: any) {

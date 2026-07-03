@@ -103,6 +103,10 @@ const markerChecks = [
   { file: 'app/admin/leads/[id]/page.tsx', markers: ['redirect(`/admin/leads?lead='] },
   { file: 'app/admin/projects/[id]/page.tsx', markers: ['Gallery delivery handoff', 'Start Gallery Delivery', 'galleryHref'] },
   { file: 'app/api/projects/[id]/route.ts', markers: ['baseProject', 'richProject', 'falling back to base project'] },
+  { file: 'app/api/projects/route.ts', markers: ['fallbackQuery', 'falling back to base project list'] },
+  { file: 'app/api/admin/galleries/[id]/route.ts', markers: ['client_galleries'] },
+  { file: 'app/api/admin/galleries/[id]/images/route.ts', markers: ['client_galleries'] },
+  { file: 'app/api/admin/galleries/[id]/images/remote/route.ts', markers: ['client_galleries'] },
   { file: 'app/admin/galleries/page.tsx', markers: ['Project → gallery delivery workflow', 'searchParams.get', 'Upload images'] },
   { file: 'hooks/useDashboardData.ts', markers: ['portfolioDrafts', 'quotesStarted', 'leadProjects', 'galleryDeliveryTasks'] },
 ]

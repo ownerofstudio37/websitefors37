@@ -35,7 +35,7 @@ export async function POST(
 
     // Verify gallery exists
     const { data: gallery, error: galleryError } = await supabase
-      .from('galleries')
+      .from('client_galleries')
       .select('id, total_photos')
       .eq('id', params.id)
       .single()
@@ -129,7 +129,7 @@ export async function POST(
 
     // Update gallery total_photos count
     await supabase
-      .from('galleries')
+      .from('client_galleries')
       .update({ 
         total_photos: gallery.total_photos + uploadCount,
         updated_at: new Date().toISOString()
