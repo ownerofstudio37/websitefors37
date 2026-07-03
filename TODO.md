@@ -2,6 +2,32 @@
 
 ## Next Public Site Audit Priorities - July 2, 2026
 
+### Expansive Admin Audit - July 2, 2026
+
+- [x] Admin route consolidation: inventory all 60 admin-facing route/client files and decide which are primary, legacy, experimental, backup, internal, strategic, utility, or active.
+- [x] Admin dashboard cleanup: redirect duplicate dashboard surfaces (`/admin/dashboard`, `redirect-page`) to `/admin` so `/admin` is the single trusted control center.
+- [x] Admin navigation cleanup: hide or badge experimental/legacy tools in the sidebar and dashboard, especially old gallery, content, page-builder-v2, block-editor, editor-test, database migrations, and backup routes.
+- [x] Admin gallery consolidation: clarify ownership between `/admin/gallery` and `/admin/galleries`; make client delivery/gallery.studio37.cc workflows the primary path and mark the old image manager as legacy.
+- [x] Admin content/editor consolidation: choose Content Hub, AI Page Builder, and Visual Page Builder as the strategic path; move older live/content/gallery editor paths out of primary navigation.
+- [x] Admin browser-dialog cleanup: replace active quick-win `alert()` usage in AI block suggestions, template selector, and lead scoring; catalog remaining legacy/internal browser-dialog cleanup behind route ownership.
+- [x] Admin destructive-action safety: add route ownership notes for migration, legacy gallery, live-editor import, page-builder cache, client portal, and project creation risk areas so dangerous tools are not promoted as primary.
+- [x] Admin notification consistency: move quick-win copy and lead-scoring feedback to inline/toast patterns and guard additional cleanup through the expanded audit.
+- [x] Admin data quality: identify duplicate/mock dashboard risk and collapse the old `/admin/dashboard` surface into `/admin`.
+- [x] Admin mobile QA: preserve mobile admin nav/search patterns while reducing primary navigation clutter from legacy/internal tools.
+- [x] Admin forms polish: identify active forms needing deeper validation and keep risky/internal tools out of primary routes until polished.
+- [x] Admin empty/error states: preserve current AdminState guardrails and add lower-use tools to the route ownership audit for future standardization.
+- [x] Admin security review: classify auth-sensitive tools such as migrations, revalidation, gallery mutation, chatbot import, marketing sends, and portals as internal/active review surfaces.
+- [x] Admin external-link review: keep gallery.studio37.cc explicit in client gallery ownership and command palette copy.
+- [x] Admin performance review: keep heavy legacy/experimental builders out of primary nav and preserve the AI/visual builder path as the strategic investment.
+- [x] Admin audit automation: expand `audit:admin-operations` into checks for route ownership, browser dialogs, debug logs, dashboard redirects, AI Page Builder positioning, gallery host consistency, and deprecated admin files.
+
+### AI Page Builder Quality
+
+- [x] AI Page Builder: keep as an active strategic tool, not a removal candidate; position it as the premium page draft generator.
+- [ ] AI Page Builder: improve generated page quality through stronger visual builder components, section presets, spacing rules, image handling, CTA hierarchy, and responsive defaults.
+- [ ] AI Page Builder: add homepage-quality templates for service pages, local landing pages, blog landing pages, campaign pages, lead magnets, and commercial/branding pages.
+- [ ] AI Page Builder: add guardrails so generated pages avoid generic copy, weak stock-looking visuals, poor mobile spacing, and unclear conversion paths.
+
 ### Chatbot And Admin Tools Audit
 
 - [x] Chatbot: keep portfolio/gallery links pointed to `https://gallery.studio37.cc`, but update link copy so users understand it opens the ShootProof gallery experience.

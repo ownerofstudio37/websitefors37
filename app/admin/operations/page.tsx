@@ -1,15 +1,7 @@
 import Link from 'next/link'
 import { recentWorkItems, prepGuideDownloads } from '@/lib/public-content'
 import { conversionCopy, leadMagnetSegments } from '@/lib/conversion-copy'
-
-const editorRoutes = [
-  { route: '/admin/content', status: 'Legacy', note: 'Keep for fallback content review.' },
-  { route: '/admin/content-enhanced', status: 'Legacy', note: 'Use only when enhanced CMS data must be inspected.' },
-  { route: '/admin/page-builder', status: 'Primary builder', note: 'Preferred visual page-building workflow.' },
-  { route: '/admin/live-editor', status: 'Legacy', note: 'Use only for historical pages that still depend on it.' },
-  { route: '/admin/visual-editor/[slug]', status: 'Specialized', note: 'Deep-link visual editor for a known slug.' },
-  { route: '/admin/site-editor', status: 'Simple settings', note: 'Small config edits with live preview.' },
-]
+import { adminRouteOwnership } from '@/lib/admin-route-ownership'
 
 const expectedGalleryHost = 'https://gallery.studio37.cc'
 
@@ -31,6 +23,10 @@ const timelineEvents = [
 
 export default function AdminOperationsPage() {
   const leadMagnets = Object.entries(prepGuideDownloads)
+  const routeCounts = adminRouteOwnership.reduce<Record<string, number>>((acc, item) => {
+    acc[item.status] = (acc[item.status] || 0) + 1
+    return acc
+  }, {})
 
   return (
     <main className="min-h-screen bg-gray-50 p-6">
@@ -147,12 +143,19 @@ export default function AdminOperationsPage() {
           <div className="rounded-xl border bg-white p-5 shadow-sm">
             <h2 className="text-xl font-semibold text-gray-950">Admin Route Inventory</h2>
             <p className="mt-1 text-sm text-gray-600">Preferred ownership for overlapping content and editor routes.</p>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {Object.entries(routeCounts).map(([status, count]) => (
+                <span key={status} className="rounded-full bg-gray-100 px-2 py-1 text-xs font-semibold capitalize text-gray-700">
+                  {status}: {count}
+                </span>
+              ))}
+            </div>
             <div className="mt-4 space-y-3">
-              {editorRoutes.map((item) => (
-                <div key={item.route} className="rounded-lg border border-gray-200 p-4">
+              {adminRouteOwnership.map((item) => (
+                <div key={item.file} className="rounded-lg border border-gray-200 p-4">
                   <div className="flex items-center justify-between gap-3">
                     <code className="text-sm font-semibold text-gray-950">{item.route}</code>
-                    <span className="rounded-full bg-gray-100 px-2 py-1 text-xs font-semibold text-gray-700">{item.status}</span>
+                    <span className="rounded-full bg-gray-100 px-2 py-1 text-xs font-semibold capitalize text-gray-700">{item.status}</span>
                   </div>
                   <p className="mt-2 text-sm text-gray-600">{item.note}</p>
                 </div>

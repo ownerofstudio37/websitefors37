@@ -35,6 +35,7 @@ export default function AIBlockSuggestions({
   const [isLoading, setIsLoading] = useState(false)
   const [suggestions, setSuggestions] = useState<BlockSuggestion[]>([])
   const [error, setError] = useState<string | null>(null)
+  const [copiedMessage, setCopiedMessage] = useState<string | null>(null)
 
   const categoryColors: Record<string, { bg: string; text: string; icon: string }> = {
     hero: { bg: 'bg-purple-100', text: 'text-purple-700', icon: '🎬' },
@@ -108,7 +109,7 @@ export default function AIBlockSuggestions({
     setIsOpen(false)
   }
 
-  const copyToClipboard = (suggestion: BlockSuggestion) => {
+  const copyToClipboard = async (suggestion: BlockSuggestion) => {
     // Generate MDX code
     const propsStr = Object.entries(suggestion.props)
       .map(([key, value]) => {
@@ -124,8 +125,9 @@ export default function AIBlockSuggestions({
     
     const mdxCode = `<${suggestion.block}\n  ${propsStr}\n/>`
     
-    navigator.clipboard.writeText(mdxCode)
-    alert('Block code copied to clipboard!')
+    await navigator.clipboard.writeText(mdxCode)
+    setCopiedMessage('Block code copied to clipboard.')
+    setTimeout(() => setCopiedMessage(null), 2500)
   }
 
   return (
@@ -156,6 +158,11 @@ export default function AIBlockSuggestions({
       {error && !isOpen && (
         <div className="mt-2 p-3 bg-red-50 border border-red-200 rounded text-red-700 text-sm">
           {error}
+        </div>
+      )}
+      {copiedMessage && (
+        <div className="mt-2 rounded border border-green-200 bg-green-50 p-3 text-sm text-green-700">
+          {copiedMessage}
         </div>
       )}
 

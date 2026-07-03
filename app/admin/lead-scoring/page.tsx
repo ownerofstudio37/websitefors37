@@ -127,11 +127,11 @@ export default function LeadScoringPage() {
       const res = await fetch('/api/admin/leads-scored', { method: 'POST' })
       const data = await res.json()
       if (data.success) {
-        alert(`Successfully recalculated ${data.count} lead scores!`)
+        toast.success(`Successfully recalculated ${data.count} lead scores`)
         fetchLeads()
       }
     } catch (e: any) {
-      alert('Failed to recalculate scores: ' + e.message)
+      toast.error('Failed to recalculate scores: ' + e.message)
     } finally {
       setRecalculating(false)
     }

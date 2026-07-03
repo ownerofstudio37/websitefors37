@@ -32,6 +32,7 @@ export default function TemplateSelector({
   const [isOpen, setIsOpen] = useState(false)
   const [selectedCategory, setSelectedCategory] = useState<'page' | 'section' | 'all'>(filterCategory)
   const [previewTemplate, setPreviewTemplate] = useState<PageTemplate | null>(null)
+  const [copiedMessage, setCopiedMessage] = useState<string | null>(null)
 
   const templates = selectedCategory === 'all' 
     ? getAllTemplates() 
@@ -52,10 +53,11 @@ export default function TemplateSelector({
     setPreviewTemplate(null)
   }
 
-  const copyToClipboard = (template: PageTemplate) => {
+  const copyToClipboard = async (template: PageTemplate) => {
     const mdx = generateMDXFromTemplate(template)
-    navigator.clipboard.writeText(mdx)
-    alert('Template code copied to clipboard!')
+    await navigator.clipboard.writeText(mdx)
+    setCopiedMessage('Template code copied to clipboard.')
+    setTimeout(() => setCopiedMessage(null), 2500)
   }
 
   const getCategoryColor = (category: 'page' | 'section') => {
@@ -74,6 +76,11 @@ export default function TemplateSelector({
         <span className="text-xl">📋</span>
         <span>Use Template</span>
       </button>
+      {copiedMessage && (
+        <div className="mt-2 rounded border border-green-200 bg-green-50 p-3 text-sm text-green-700">
+          {copiedMessage}
+        </div>
+      )}
 
       {/* Modal */}
       {isOpen && (
