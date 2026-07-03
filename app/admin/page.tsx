@@ -164,6 +164,21 @@ export default function AdminPage() {
       detail: 'Review sitemap, metadata, and Search Console status',
       tone: 'border-emerald-200 bg-emerald-50 text-emerald-800',
     },
+    {
+      label: 'Blog drafts',
+      value: 'Review',
+      href: '/admin/blog',
+      detail: 'Check unpublished/generated content before publishing',
+      tone: 'border-stone-200 bg-stone-50 text-stone-800',
+    },
+  ]
+
+  const qaCheckpoints = [
+    ['Lead → project → ShootProof', '/admin/leads', 'Convert a test lead, create a project, then track delivery.'],
+    ['Booking flow', '/book-a-session', 'Test consultation, package, custom, confirmation, and errors.'],
+    ['Chatbot conversion', '/', 'Ask about galleries, pricing, engagement, wedding, commercial, and booking.'],
+    ['Public conversion path', '/services', 'Click services → pricing/recommender → booking.'],
+    ['Admin cockpit', '/admin', 'Review hot leads, shoots, projects, drafts, and SEO alerts.'],
   ]
 
   return (
@@ -292,6 +307,26 @@ export default function AdminPage() {
                 </div>
                 <span className="rounded-full bg-white/70 px-2 py-1 text-xs font-bold">{loading ? '...' : alert.value}</span>
               </div>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <section className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <h2 className="text-xl font-semibold text-gray-900">Feature QA lane</h2>
+            <p className="mt-1 text-sm text-gray-600">Fast links for the workflows that should be tested before the next feature push.</p>
+          </div>
+          <Link href="/admin/projects" className="text-sm font-semibold text-amber-700 hover:text-amber-900">
+            Open projects →
+          </Link>
+        </div>
+        <div className="mt-5 grid gap-3 md:grid-cols-5">
+          {qaCheckpoints.map(([label, href, detail]) => (
+            <Link key={label} href={href} className="rounded-xl border border-gray-200 bg-gray-50/60 p-4 transition hover:border-amber-300 hover:bg-white hover:shadow-sm">
+              <p className="text-sm font-semibold text-gray-900">{label}</p>
+              <p className="mt-2 text-xs leading-5 text-gray-600">{detail}</p>
             </Link>
           ))}
         </div>

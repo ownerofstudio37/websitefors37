@@ -58,6 +58,14 @@
 - [x] Commercial/Branding Page: improve the temporary commercial portfolio state with request-sample-gallery CTA, usage/licensing clarity, deliverable examples, and honest portfolio-in-progress copy.
 - [x] Blog Facelift Round 2: improve blog category navigation, article card hierarchy, "read this before booking" positioning, and internal links to services and booking.
 
+### Next Feature QA Priorities
+
+- [x] Lead → Project → ShootProof Tracker: create a fake lead, turn it into a project, open the project, click Track Delivery, paste a ShootProof/gallery URL, save it, refresh, and confirm it still appears.
+- [x] Booking Flow QA: test mobile and desktop booking for consultation, package booking, custom booking, confirmation copy, email/lead creation, and error states.
+- [x] Chatbot Conversion QA: ask about finished galleries, pricing, engagement sessions, weddings, commercial work, and booking help; confirm gallery requests route to `gallery.studio37.cc` and lead-capture requests route to the portfolio request flow.
+- [x] Public Site Conversion Pass: click homepage → services → pricing/recommender → booking and make sure every step has an obvious next action.
+- [x] Admin Cockpit Polish: make `/admin` feel more like the daily command center with hot leads, upcoming shoots, projects needing delivery, blog drafts, and SEO alerts.
+
 ### Expansive Admin Audit - July 2, 2026
 
 - [x] Admin route consolidation: inventory all 60 admin-facing route/client files and decide which are primary, legacy, experimental, backup, internal, strategic, utility, or active.
