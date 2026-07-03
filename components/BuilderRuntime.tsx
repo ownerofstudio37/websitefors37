@@ -1488,8 +1488,8 @@ export function ProjectNavigationBlock({ prevLink, prevTitle, nextLink, nextTitl
           </Link>
         ) : <div />}
         
-        <Link href="https://gallery.studio37.cc" className="text-sm font-medium text-gray-500 hover:text-gray-900">
-          View All Projects
+        <Link href="/request-portfolio" className="text-sm font-medium text-gray-500 hover:text-gray-900">
+          Request Similar Galleries
         </Link>
 
         {finalNextLink ? (

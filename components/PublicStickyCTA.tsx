@@ -35,7 +35,7 @@ export default function PublicStickyCTA() {
         </Link>
         <Link href="/request-portfolio" className="flex min-h-[64px] flex-col items-center justify-center gap-1 text-xs font-semibold text-stone-900">
           <ImageIcon className="h-5 w-5 text-amber-700" aria-hidden="true" />
-          Work
+          Galleries
         </Link>
       </nav>
     </div>

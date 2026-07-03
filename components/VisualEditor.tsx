@@ -2934,9 +2934,9 @@ export default function VisualEditor({
         return {
           heading: "Browse by Category",
           categories: [
-            { id: "c1", name: "Portraits", link: "https://gallery.studio37.cc?category=portraits", count: 45 },
-            { id: "c2", name: "Weddings", link: "https://gallery.studio37.cc?category=weddings", count: 32 },
-            { id: "c3", name: "Events", link: "https://gallery.studio37.cc?category=events", count: 28 },
+            { id: "c1", name: "Portraits", link: "/request-portfolio?service=portraits", count: 45 },
+            { id: "c2", name: "Weddings", link: "/request-portfolio?service=weddings", count: 32 },
+            { id: "c3", name: "Events", link: "/request-portfolio?service=events", count: 28 },
           ],
           layout: "grid",
           columns: 3,
@@ -5990,7 +5990,7 @@ function DualCTAProperties({
             value={data.secondaryButtonLink || ""}
             onChange={(e) => onUpdate({ secondaryButtonLink: e.target.value })}
             className="w-full border rounded px-3 py-2"
-            placeholder="https://gallery.studio37.cc"
+            placeholder="/request-portfolio"
           />
         </div>
       </div>
@@ -12586,7 +12586,7 @@ function ProjectShowcaseProperties({
           value={data.link}
           onChange={(e) => onUpdate({ link: e.target.value })}
           className="w-full px-3 py-2 border rounded text-sm"
-          placeholder="https://gallery.studio37.cc/project-name"
+          placeholder="/request-portfolio"
         />
       </div>
       <div>
@@ -13319,7 +13319,7 @@ function HeroProperties({
           onChange={(e) => handleUpdate({ secondaryButtonLink: e.target.value })}
           className="w-full border rounded px-3 py-2"
           title="Secondary button link"
-          placeholder="e.g., https://gallery.studio37.cc"
+          placeholder="e.g., /request-portfolio"
         />
       </div>
       <div>
@@ -15598,7 +15598,7 @@ function ImageProperties({
           onChange={(e) => handleUpdate({ link: e.target.value })}
           className="w-full border rounded px-3 py-2"
           title="Image link"
-          placeholder="https://gallery.studio37.cc or https://example.com"
+          placeholder="/gallery-experience or /request-portfolio"
         />
         <p className="text-xs text-gray-500 mt-1">
           Make image clickable - links to another page

@@ -504,8 +504,8 @@ Here is the fastest path:
 
 1. Review the services page: https://www.studio37.cc/services
 2. Book a consultation: https://www.studio37.cc/book-consultation
-3. View featured work: https://gallery.studio37.cc
-4. Send private complete galleries when proof is needed: https://www.studio37.cc/request-portfolio
+3. View the featured public preview: https://www.studio37.cc/gallery-experience
+4. Request private complete galleries when proof is needed: https://www.studio37.cc/request-portfolio
 
 Reply with any must-have details and I can tailor the quote from there.
 
@@ -536,8 +536,7 @@ Studio37`)
 
 Thank you again for working with Studio37. If you loved the experience, a quick review would mean a lot and helps future clients feel confident booking with us.
 
-You can also share your gallery link with family or your team from here:
-https://gallery.studio37.cc
+You can share your finished ShootProof gallery link with family or your team from the private gallery delivery email.
 
 Best,
 Studio37`)

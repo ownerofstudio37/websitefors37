@@ -234,14 +234,14 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
             <section className="mt-16 pt-12 border-t border-gray-200">
               <h3 className="text-2xl font-bold mb-4">Plan Your Session with Studio37</h3>
               <p className="text-gray-600 mb-6">
-                Explore our most requested services and service areas when you&apos;re ready to book.
+                Compare services, check package fit, or request complete galleries when you&apos;re ready to see proof that matches your project.
               </p>
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
                 <Link href="/services/wedding-photography" className="px-4 py-3 rounded-lg border border-stone-300 hover:border-primary-400 hover:bg-primary-50 transition-colors">Wedding Photography</Link>
                 <Link href="/services/portrait-photography" className="px-4 py-3 rounded-lg border border-stone-300 hover:border-primary-400 hover:bg-primary-50 transition-colors">Portrait Sessions</Link>
                 <Link href="/services/event-photography" className="px-4 py-3 rounded-lg border border-stone-300 hover:border-primary-400 hover:bg-primary-50 transition-colors">Event Photography</Link>
-                <Link href="/services/commercial-photography" className="px-4 py-3 rounded-lg border border-stone-300 hover:border-primary-400 hover:bg-primary-50 transition-colors">Commercial Photography</Link>
-                <Link href="/locations" className="px-4 py-3 rounded-lg border border-stone-300 hover:border-primary-400 hover:bg-primary-50 transition-colors">Service Areas</Link>
+                <Link href="/tools/package-recommender" className="px-4 py-3 rounded-lg border border-stone-300 hover:border-primary-400 hover:bg-primary-50 transition-colors">Compare Packages</Link>
+                <Link href="/request-portfolio" className="px-4 py-3 rounded-lg border border-stone-300 hover:border-primary-400 hover:bg-primary-50 transition-colors">Request Complete Galleries</Link>
                 <Link href="/book-consultation" className="px-4 py-3 rounded-lg border border-primary-600 bg-primary-600 text-white hover:bg-primary-700 transition-colors">Book Consultation</Link>
               </div>
             </section>

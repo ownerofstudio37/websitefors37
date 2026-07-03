@@ -99,12 +99,28 @@
 
 ### Wide UI/UX, Admin, SEO, Design, And Conversion Audit
 
-- [ ] UI/UX audit: review homepage, services, local pages, blog, booking, request-portfolio, and core admin flows across desktop and mobile.
-- [ ] Admin audit: review `/admin`, leads, bookings, projects, gallery tracker, blog tools, AI Page Builder, navigation, SEO, and legacy-tool visibility.
-- [ ] SEO audit: review titles, descriptions, internal links, sitemap/robots behavior, local/service page differentiation, and conversion-intent keywords.
-- [ ] Design audit: identify sections that feel less polished than the homepage, too dense, misaligned, or visually inconsistent.
-- [ ] Conversion audit: verify each major public route has a clear next click to consult, package/pricing, request portfolio, or contact.
-- [ ] Performance/accessibility audit: check image weight, lazy loading, layout shift, mobile tap targets, headings, alt text, and form accessibility.
+- [x] UI/UX audit: review homepage, services, local pages, blog, booking, request-portfolio, and core admin flows across desktop and mobile.
+- [x] Admin audit: review `/admin`, leads, bookings, projects, gallery tracker, blog tools, AI Page Builder, navigation, SEO, and legacy-tool visibility.
+- [x] SEO audit: review titles, descriptions, internal links, sitemap/robots behavior, local/service page differentiation, and conversion-intent keywords.
+- [x] Design audit: identify sections that feel less polished than the homepage, too dense, misaligned, or visually inconsistent.
+- [x] Conversion audit: verify each major public route has a clear next click to consult, package/pricing, request portfolio, or contact.
+- [x] Performance/accessibility audit: check image weight, lazy loading, layout shift, mobile tap targets, headings, alt text, and form accessibility.
+
+### Wide UI/UX, Admin, SEO, Design, And Conversion Audit Findings
+
+- [x] Public route containment: replace the hard `/portfolio` and `/gallery` external redirects with an internal bridge page that explains featured work, complete private galleries, and the request flow before sending visitors off-site.
+- [x] Gallery-link governance: classify every remaining `gallery.studio37.cc` link as `Featured Work`, `Client Delivery`, `ShootProof Admin`, or `Legacy Placeholder` so public CTAs, admin delivery links, and builder samples stop blending together.
+- [x] AI Page Builder proof CTA cleanup: update `app/api/site/generate/route.ts`, `BuilderRuntime`, legacy VisualEditor placeholders, and block template sample data so generated pages prefer `/request-portfolio` for proof CTAs and use the public gallery only as featured work.
+- [x] Admin dashboard CTA wording: rename the generic `/admin` recent-lead `Portfolio` quick action to `Send Galleries` or `Complete Gallery Request` so the admin flow matches the private-gallery strategy.
+- [x] Admin email/template split: separate client gallery delivery templates from public featured-work/private complete-gallery request templates; current lead and marketing templates still mix `gallery.studio37.cc` with proof-request language.
+- [x] Request-portfolio SEO expansion: add FAQ/schema content for curated public preview, private complete galleries, response timing, privacy, and tailored proof sets.
+- [x] Blog conversion pass: add consistent article-level CTAs for booking, pricing/package comparison, and requesting complete galleries so education traffic has an obvious next click.
+- [x] Service/local CTA hierarchy QA: verify each service and city page has the same conversion triad: book consult, compare pricing/package, and request complete galleries.
+- [x] Form accessibility sweep: audit booking, contact, quote, prep guide, and lead capture forms for visible labels, mobile-friendly inputs, inline errors, and useful success next steps.
+- [x] Mobile sticky CTA QA: test sticky CTA labels, safe-area spacing, and tap targets on homepage, services, local pages, blog, booking, and request-portfolio.
+- [x] Design consistency pass: identify older admin/public sections whose typography, radius, shadows, spacing, or empty states do not match the polished homepage and request-portfolio styling.
+- [x] Admin mobile operations pass: test lead triage, send galleries, create project, open ShootProof, update follow-ups, and review alerts at phone widths.
+- [x] Performance/layout pass: review image sizing, lazy-load reserve heights, and above-the-fold section weights on homepage, services, local pages, blog, and request-portfolio to reduce layout shift.
 
 ### Expansive Admin Audit - July 2, 2026
 

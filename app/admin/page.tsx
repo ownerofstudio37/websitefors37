@@ -523,7 +523,7 @@ export default function AdminPage() {
                     </span>
                     <a href={`mailto:${lead.email}`} className="rounded-lg border border-gray-200 px-2.5 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50">Email</a>
                     <Link href="/admin/projects/new" className="rounded-lg border border-gray-200 px-2.5 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50">Project</Link>
-                    <Link href="/request-portfolio" className="rounded-lg border border-gray-200 px-2.5 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50">Portfolio</Link>
+                    <Link href="/request-portfolio" className="rounded-lg border border-gray-200 px-2.5 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50">Send Galleries</Link>
                   </div>
                 </div>
               ))
