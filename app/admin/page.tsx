@@ -130,6 +130,34 @@ export default function AdminPage() {
       tone: 'border-blue-200 bg-blue-50 text-blue-800',
     },
     {
+      label: 'Portfolio drafts',
+      value: stats?.todayOps.portfolioDrafts || 0,
+      href: '/admin/leads',
+      detail: 'Tailored portfolio workflows started from leads',
+      tone: 'border-fuchsia-200 bg-fuchsia-50 text-fuchsia-800',
+    },
+    {
+      label: 'Quote starts',
+      value: stats?.todayOps.quotesStarted || 0,
+      href: '/admin/leads',
+      detail: 'Quote emails started from lead workspace',
+      tone: 'border-orange-200 bg-orange-50 text-orange-800',
+    },
+    {
+      label: 'Lead projects',
+      value: stats?.todayOps.leadProjects || 0,
+      href: '/admin/projects',
+      detail: 'Projects started from lead records',
+      tone: 'border-indigo-200 bg-indigo-50 text-indigo-800',
+    },
+    {
+      label: 'Gallery delivery',
+      value: stats?.todayOps.galleryDeliveryTasks || 0,
+      href: '/admin/galleries',
+      detail: 'Galleries needing images or delivery review',
+      tone: 'border-rose-200 bg-rose-50 text-rose-800',
+    },
+    {
       label: 'SEO/site health',
       value: 'Check',
       href: '/admin/seo',
@@ -280,7 +308,13 @@ export default function AdminPage() {
               {stats?.todayOps.staleLeads || 0} hot or stale lead follow-up{(stats?.todayOps.staleLeads || 0) === 1 ? '' : 's'} waiting
             </Link>
             <Link href="/admin/galleries" className="block rounded-lg border border-gray-200 p-3 hover:border-indigo-300 hover:bg-indigo-50">
-              Check gallery drafts before sending client links
+              {stats?.todayOps.galleryDeliveryTasks || 0} gallery delivery task{(stats?.todayOps.galleryDeliveryTasks || 0) === 1 ? '' : 's'} need images or review
+            </Link>
+            <Link href="/admin/leads" className="block rounded-lg border border-gray-200 p-3 hover:border-fuchsia-300 hover:bg-fuchsia-50">
+              {stats?.todayOps.portfolioDrafts || 0} portfolio draft{(stats?.todayOps.portfolioDrafts || 0) === 1 ? '' : 's'} and {stats?.todayOps.quotesStarted || 0} quote start{(stats?.todayOps.quotesStarted || 0) === 1 ? '' : 's'} to review
+            </Link>
+            <Link href="/admin/projects" className="block rounded-lg border border-gray-200 p-3 hover:border-indigo-300 hover:bg-indigo-50">
+              {stats?.todayOps.leadProjects || 0} project handoff{(stats?.todayOps.leadProjects || 0) === 1 ? '' : 's'} started from leads
             </Link>
             <Link href="/admin/seo" className="block rounded-lg border border-gray-200 p-3 hover:border-emerald-300 hover:bg-emerald-50">
               Review sitemap and SEO health before next publish

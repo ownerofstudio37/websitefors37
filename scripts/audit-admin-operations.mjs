@@ -95,12 +95,15 @@ const markerChecks = [
   { file: 'app/admin/ai-site-builder/page.tsx', markers: ['AI_PAGE_TEMPLATES', 'Page Type', 'Quality guardrails'] },
   { file: 'lib/ai-page-builder-quality.ts', markers: ['evaluateAIPageQuality', 'AIPageQualityCheck', 'Mobile Flow'] },
   { file: 'app/admin/ai-site-builder/page.tsx', markers: ['Publish Readiness', 'qualityStyles', 'hasFailingQualityChecks'] },
-  { file: 'app/admin/page.tsx', markers: ['Command center', 'Action alerts', 'Booking pipeline', 'Mobile quick actions'] },
+  { file: 'app/admin/page.tsx', markers: ['Command center', 'Action alerts', 'Booking pipeline', 'Mobile quick actions', 'Portfolio drafts', 'Gallery delivery'] },
   { file: 'components/AdminCommandPalette.tsx', markers: ['badgeTone', 'Strategic', 'Legacy'] },
   { file: 'app/admin/galleries/page.tsx', markers: ['Delivery checklist', 'Delivery readiness', 'Email ready'] },
   { file: 'app/admin/leads/page.tsx', markers: ['getLeadPriorityCues', 'getPackageFit', 'getSuggestedNextAction', 'Portfolio request handoff', 'Send Portfolio', 'Create Project', 'showPortfolioModal', 'saveFollowUpDate', 'overdueFollowUps'] },
   { file: 'app/admin/projects/new/page.tsx', markers: ['useSearchParams', 'normalizeProjectType', 'Lead message:', 'submitError'] },
   { file: 'app/admin/leads/[id]/page.tsx', markers: ['redirect(`/admin/leads?lead='] },
+  { file: 'app/admin/projects/[id]/page.tsx', markers: ['Gallery delivery handoff', 'Start Gallery Delivery', 'galleryHref'] },
+  { file: 'app/admin/galleries/page.tsx', markers: ['Project → gallery delivery workflow', 'searchParams.get', 'Upload images'] },
+  { file: 'hooks/useDashboardData.ts', markers: ['portfolioDrafts', 'quotesStarted', 'leadProjects', 'galleryDeliveryTasks'] },
 ]
 
 for (const check of markerChecks) {

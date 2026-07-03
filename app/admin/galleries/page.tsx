@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { Camera, Plus, Eye, Lock, Calendar, Download, Trash2, Edit, Copy, ExternalLink } from 'lucide-react'
 import AdminProtected from '@/components/AdminProtected'
 import AdminState from '@/components/admin/AdminState'
@@ -27,6 +28,7 @@ interface Gallery {
 }
 
 export default function GalleriesPage() {
+  const searchParams = useSearchParams()
   const [galleries, setGalleries] = useState<Gallery[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -49,6 +51,21 @@ export default function GalleriesPage() {
   useEffect(() => {
     fetchGalleries()
   }, [])
+
+  useEffect(() => {
+    if (searchParams.get('open') !== 'create') return
+    setFormData(prev => ({
+      ...prev,
+      client_name: searchParams.get('client_name') || prev.client_name,
+      client_email: searchParams.get('client_email') || prev.client_email,
+      session_date: searchParams.get('session_date') || prev.session_date,
+      session_type: searchParams.get('session_type') || prev.session_type,
+      title: searchParams.get('title') || prev.title,
+      description: searchParams.get('description') || prev.description,
+      password: prev.password || `studio37-${new Date().getFullYear()}`,
+    }))
+    setShowCreate(true)
+  }, [searchParams])
 
   const fetchGalleries = async () => {
     try {
@@ -81,6 +98,7 @@ export default function GalleriesPage() {
       if (data.success) {
         setGalleries([data.gallery, ...galleries])
         setShowCreate(false)
+        showToast('Gallery created. Upload images, copy or email the client link, then schedule delivery follow-up.')
         setFormData({
           client_name: '',
           client_email: '',
@@ -93,9 +111,12 @@ export default function GalleriesPage() {
           require_purchase: true,
           expires_days: 90
         })
+      } else {
+        showToast(data.error || 'Failed to create gallery', 'error')
       }
     } catch (error) {
       console.error('Failed to create gallery:', error)
+      showToast('Failed to create gallery', 'error')
     }
   }
 
@@ -159,12 +180,23 @@ export default function GalleriesPage() {
             </button>
           </div>
 
+          <div className="mb-6 rounded-xl border border-indigo-100 bg-indigo-50 p-4">
+            <p className="text-sm font-semibold text-indigo-900">Project → gallery delivery workflow</p>
+            <div className="mt-3 grid gap-2 text-sm text-indigo-800 sm:grid-cols-4">
+              <span className="rounded-lg bg-white/70 px-3 py-2">1. Create gallery</span>
+              <span className="rounded-lg bg-white/70 px-3 py-2">2. Upload images</span>
+              <span className="rounded-lg bg-white/70 px-3 py-2">3. Send gallery link</span>
+              <span className="rounded-lg bg-white/70 px-3 py-2">4. Schedule follow-up</span>
+            </div>
+          </div>
+
           {/* Create Modal */}
           {showCreate && (
             <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
               <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
                 <div className="p-8">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-6">Create New Gallery</h2>
+                  <h2 className="text-2xl font-bold text-gray-900 mb-2">Create New Gallery</h2>
+                  <p className="mb-6 text-sm text-gray-600">If this came from a project, client and session context is prefilled. Confirm delivery settings before creating.</p>
                   <form onSubmit={handleCreate} className="space-y-6">
                     <div className="grid grid-cols-2 gap-4">
                       <div>

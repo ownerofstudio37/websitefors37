@@ -28,6 +28,10 @@ export interface DashboardStats {
     staleLeads: number
     followUpsDue: number
     upcomingAppointments: number
+    portfolioDrafts: number
+    quotesStarted: number
+    leadProjects: number
+    galleryDeliveryTasks: number
   }
   leadsByStatus: {
     new: number
@@ -69,7 +73,11 @@ export function useDashboardData() {
         { count: newLeadsTodayCount, error: newLeadsTodayError },
         { count: staleLeadsCount, error: staleLeadsError },
         { count: followUpsDueCount, error: followUpsDueError },
-        { count: upcomingAppointmentsCount, error: upcomingAppointmentsError }
+        { count: upcomingAppointmentsCount, error: upcomingAppointmentsError },
+        { count: portfolioDraftsCount, error: portfolioDraftsError },
+        { count: quotesStartedCount, error: quotesStartedError },
+        { count: leadProjectsCount, error: leadProjectsError },
+        { count: galleryDeliveryTasksCount, error: galleryDeliveryTasksError }
       ] = await Promise.all([
         // Total leads count
         supabase
@@ -122,7 +130,27 @@ export function useDashboardData() {
           .select('id', { count: 'exact', head: true })
           .in('status', ['pending', 'confirmed', 'scheduled'])
           .gte('start_time', new Date().toISOString())
-          .lte('start_time', daysFromNow(7).toISOString())
+          .lte('start_time', daysFromNow(7).toISOString()),
+
+        supabase
+          .from('communication_logs')
+          .select('id', { count: 'exact', head: true })
+          .ilike('content', '%Portfolio workflow prepared%'),
+
+        supabase
+          .from('communication_logs')
+          .select('id', { count: 'exact', head: true })
+          .ilike('content', '%quote email%'),
+
+        supabase
+          .from('communication_logs')
+          .select('id', { count: 'exact', head: true })
+          .ilike('content', '%project creation%'),
+
+        supabase
+          .from('client_galleries')
+          .select('id', { count: 'exact', head: true })
+          .eq('total_photos', 0)
       ])
 
       // Handle errors
@@ -135,6 +163,10 @@ export function useDashboardData() {
       if (staleLeadsError) throw new Error(`Stale leads fetch failed: ${staleLeadsError.message}`)
       if (followUpsDueError) throw new Error(`Follow-ups fetch failed: ${followUpsDueError.message}`)
       if (upcomingAppointmentsError) throw new Error(`Upcoming appointments fetch failed: ${upcomingAppointmentsError.message}`)
+      if (portfolioDraftsError) throw new Error(`Portfolio draft fetch failed: ${portfolioDraftsError.message}`)
+      if (quotesStartedError) throw new Error(`Quote action fetch failed: ${quotesStartedError.message}`)
+      if (leadProjectsError) throw new Error(`Project action fetch failed: ${leadProjectsError.message}`)
+      if (galleryDeliveryTasksError) throw new Error(`Gallery delivery fetch failed: ${galleryDeliveryTasksError.message}`)
 
       // Calculate stats from real data
       const totalLeads = totalLeadsCount || 0
@@ -173,6 +205,10 @@ export function useDashboardData() {
           staleLeads: staleLeadsCount || 0,
           followUpsDue: followUpsDueCount || 0,
           upcomingAppointments: upcomingAppointmentsCount || 0,
+          portfolioDrafts: portfolioDraftsCount || 0,
+          quotesStarted: quotesStartedCount || 0,
+          leadProjects: leadProjectsCount || 0,
+          galleryDeliveryTasks: galleryDeliveryTasksCount || 0,
         },
         leadsByStatus,
         recentLeads: recentLeadsData || [],

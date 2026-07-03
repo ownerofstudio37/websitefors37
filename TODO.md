@@ -37,6 +37,17 @@
 - [x] Lead intelligence refinement: replace heuristic package fit with a stored score/source metadata model once enough real lead data accumulates.
 - [x] Mobile admin walkthrough: QA lead scanning, call/text/email, send portfolio, and follow-up completion on phone widths.
 
+### Project + Gallery Pipeline Upgrade
+
+- [x] Admin Lead Workflow QA: test a real-ish lead through `/admin/leads` → lead detail → send tailored portfolio → schedule follow-up → create project → verify project prefill.
+- [x] Project pipeline polish: refine `/admin/projects/new` so the lead-conversion flow feels like a continuation of the lead workspace instead of a separate legacy form.
+- [x] Project pipeline polish: replace remaining project creation browser alerts with inline admin errors and success states.
+- [x] Project to gallery handoff: add a clear create-gallery path from project records using client name, email, service type, session date, and project context.
+- [x] Gallery delivery workflow: connect project → gallery delivery checklist → gallery link send → delivery follow-up.
+- [x] Dashboard alerts: surface overdue follow-ups, portfolio drafts, quotes started but not sent, projects created from leads, and gallery delivery tasks on `/admin`.
+- [x] Structured action review: confirm quote, portfolio, booking, gallery, project, prep, review, and follow-up metadata appears consistently in communication logs.
+- [x] Mobile workflow QA: test the full lead → project → gallery flow on phone widths for tap targets, modal fit, and action clarity.
+
 ### Expansive Admin Audit - July 2, 2026
 
 - [x] Admin route consolidation: inventory all 60 admin-facing route/client files and decide which are primary, legacy, experimental, backup, internal, strategic, utility, or active.

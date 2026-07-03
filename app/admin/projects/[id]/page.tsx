@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useParams, useRouter } from 'next/navigation'
-import { ArrowLeft, AlertTriangle, Calendar, CheckCircle2, Clock, FileText, FolderKanban, Loader2, PackageOpen } from 'lucide-react'
+import { ArrowLeft, AlertTriangle, Calendar, CheckCircle2, Clock, FileText, FolderKanban, Image, Loader2, PackageOpen } from 'lucide-react'
 
 type Project = {
   id: string
@@ -103,6 +103,7 @@ export default function ProjectDetailPage() {
   }
 
   const progress = Math.max(0, Math.min(100, project.overall_progress || 0))
+  const galleryHref = `/admin/galleries?client_name=${encodeURIComponent(project.client_name || '')}&client_email=${encodeURIComponent(project.client_email || '')}&session_type=${encodeURIComponent(project.project_type || '')}&session_date=${encodeURIComponent((project.session_date || project.start_date || '').split('T')[0])}&title=${encodeURIComponent(project.project_name || '')}&description=${encodeURIComponent(`Created from project ${project.project_code || project.id}. Confirm image count, delivery settings, gallery link send, and delivery follow-up before marking complete.`)}&open=create`
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
@@ -122,9 +123,18 @@ export default function ProjectDetailPage() {
           </div>
 
           <div className="shrink-0">
-            <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-slate-900 text-white">
-              {project.status.replace('-', ' ')}
-            </span>
+            <div className="flex flex-wrap justify-end gap-2">
+              <Link
+                href={galleryHref}
+                className="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-700"
+              >
+                <Image size={16} />
+                Create Gallery
+              </Link>
+              <span className="inline-flex items-center px-3 py-2 rounded-lg text-sm font-medium bg-slate-900 text-white">
+                {project.status.replace('-', ' ')}
+              </span>
+            </div>
           </div>
         </div>
 
@@ -188,6 +198,17 @@ export default function ProjectDetailPage() {
 
           {/* Timeline */}
           <div className="space-y-4">
+            <div className="rounded-lg border bg-white p-4">
+              <div className="flex items-center gap-2 font-semibold text-slate-900">
+                <Image size={18} /> Gallery delivery handoff
+              </div>
+              <p className="mt-2 text-sm text-slate-600">
+                Create the client gallery from this project, upload images, copy or email the gallery.studio37.cc link, then schedule delivery follow-up.
+              </p>
+              <Link href={galleryHref} className="mt-3 inline-flex rounded-lg bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-700">
+                Start Gallery Delivery
+              </Link>
+            </div>
             <div className="flex items-center gap-2 text-slate-800 font-semibold">
               <FileText size={18} /> Recent Activity
             </div>
