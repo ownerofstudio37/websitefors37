@@ -222,7 +222,13 @@ export default function ProjectDetailPage() {
                 <Link href={galleryHref} className="inline-flex rounded-lg bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-700">
                   Track Delivery
                 </Link>
+                <Link href="/admin/leads" className="inline-flex rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">
+                  Follow Up
+                </Link>
               </div>
+              <p className="mt-3 text-xs text-slate-500">
+                Recommended: paste the ShootProof link into the tracker, email the client, then mark a follow-up on the lead record.
+              </p>
             </div>
             <div className="flex items-center gap-2 text-slate-800 font-semibold">
               <FileText size={18} /> Recent Activity

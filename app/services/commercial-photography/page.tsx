@@ -299,15 +299,16 @@ export default function CommercialPhotographyPage() {
                 <p className="eyebrow mb-3">Commercial Portfolio Preview</p>
                 <h2 className="text-2xl font-bold text-stone-950 md:text-3xl">A tighter commercial showcase is being curated.</h2>
                 <p className="mt-3 text-stone-700 leading-7">
-                  We&apos;re rebuilding this portfolio around stronger Studio37 business work. For now, book a consult and we&apos;ll send relevant sample galleries based on your industry, shot list, and usage needs.
+                  We&apos;re rebuilding this portfolio around stronger Studio37 business work. For now, request a tailored sample set and we&apos;ll send examples that match your industry, shot list, usage needs, and delivery expectations.
                 </p>
               </div>
               <div className="rounded-xl border border-amber-200 bg-white p-5">
                 <ul className="space-y-3 text-sm text-stone-700">
                   {[
                     'Usage planning for web, ads, listings, and social',
+                    'Deliverable examples for teams, spaces, products, and launch campaigns',
                     'Brand-ready export sets and licensing support',
-                    'Two-pro coverage for teams, spaces, products, and details',
+                    'Two-pro coverage for people, environment, product, and detail coverage',
                   ].map((item) => (
                     <li key={item} className="flex gap-2">
                       <CheckCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-green-600" />

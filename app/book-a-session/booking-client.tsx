@@ -651,6 +651,17 @@ export default function BookSessionPage() {
           <p className="mx-auto mt-4 max-w-2xl rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm text-stone-100 backdrop-blur">
             Unsure what to choose? Select Free Consultation and we will recommend the right package before you commit.
           </p>
+          <div className="mx-auto mt-5 grid max-w-3xl gap-3 text-left text-sm text-white sm:grid-cols-3">
+            {[
+              'We confirm fit, timing, and location before anything is locked in.',
+              'Two-photographer coverage is planned into the right sessions.',
+              'You receive clear next steps after the inquiry or booking.',
+            ].map((item) => (
+              <div key={item} className="rounded-lg border border-white/15 bg-white/10 p-3 backdrop-blur">
+                {item}
+              </div>
+            ))}
+          </div>
         </div>
 
         {success ? (

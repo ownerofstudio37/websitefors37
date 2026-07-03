@@ -50,13 +50,13 @@
 
 ### Next Tools + Public Site Audit Priorities
 
-- [ ] ShootProof Delivery Tracker 2.0: make `/admin/galleries` purely a ShootProof delivery tracker with actual ShootProof gallery URL, invoice status, contract status, client notified, follow-up sent, delivered status, and no wording that implies Studio37 hosts the galleries.
-- [ ] Admin Tool Cleanup: clean up older internal tools with rough patterns, especially legacy gallery/image tools, legacy visual editor, page builder v1/v2 overlap, client portals, and database migrations.
-- [ ] Project List Reliability: harden project list/detail UX with inline API errors, refresh buttons, recently-created success state, and empty-state copy that explains active filters.
-- [ ] Lead → ShootProof → Follow-Up Workflow: connect lead → project → ShootProof dashboard/link tracking → delivery follow-up task on `/admin`.
-- [ ] Booking Friction Audit: manually test mobile booking for package clarity, form length, calendar slot confidence, error states, and confirmation copy.
-- [ ] Commercial/Branding Page: improve the temporary commercial portfolio state with request-sample-gallery CTA, usage/licensing clarity, deliverable examples, and honest portfolio-in-progress copy.
-- [ ] Blog Facelift Round 2: improve blog category navigation, article card hierarchy, "read this before booking" positioning, and internal links to services and booking.
+- [x] ShootProof Delivery Tracker 2.0: make `/admin/galleries` purely a ShootProof delivery tracker with actual ShootProof gallery URL, invoice status, contract status, client notified, follow-up sent, delivered status, and no wording that implies Studio37 hosts the galleries.
+- [x] Admin Tool Cleanup: clean up older internal tools with rough patterns, especially legacy gallery/image tools, legacy visual editor, page builder v1/v2 overlap, client portals, and database migrations.
+- [x] Project List Reliability: harden project list/detail UX with inline API errors, refresh buttons, recently-created success state, and empty-state copy that explains active filters.
+- [x] Lead → ShootProof → Follow-Up Workflow: connect lead → project → ShootProof dashboard/link tracking → delivery follow-up task on `/admin`.
+- [x] Booking Friction Audit: manually test mobile booking for package clarity, form length, calendar slot confidence, error states, and confirmation copy.
+- [x] Commercial/Branding Page: improve the temporary commercial portfolio state with request-sample-gallery CTA, usage/licensing clarity, deliverable examples, and honest portfolio-in-progress copy.
+- [x] Blog Facelift Round 2: improve blog category navigation, article card hierarchy, "read this before booking" positioning, and internal links to services and booking.
 
 ### Expansive Admin Audit - July 2, 2026
 

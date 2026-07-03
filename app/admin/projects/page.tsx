@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { 
-  FolderKanban, Plus, Search, AlertCircle, CheckCircle2, Clock
+  FolderKanban, Plus, Search, AlertCircle, CheckCircle2, Clock, RefreshCw
 } from 'lucide-react'
 
 interface Project {
@@ -50,6 +50,8 @@ export default function ProjectsPage() {
   const router = useRouter()
   const [projects, setProjects] = useState<Project[]>([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [recentlyCreated, setRecentlyCreated] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
   const [statusFilter, setStatusFilter] = useState<string>('')
   const [healthFilter, setHealthFilter] = useState<string>('')
@@ -64,9 +66,14 @@ export default function ProjectsPage() {
     fetchProjects()
   }, [statusFilter, healthFilter])
 
+  useEffect(() => {
+    setRecentlyCreated(new URLSearchParams(window.location.search).get('created') === '1')
+  }, [])
+
   async function fetchProjects() {
     try {
       setLoading(true)
+      setError(null)
       const params = new URLSearchParams()
       if (statusFilter) params.append('status', statusFilter)
       if (healthFilter) params.append('health_status', healthFilter)
@@ -89,9 +96,12 @@ export default function ProjectsPage() {
             ['at-risk', 'delayed', 'blocked'].includes(p.health_status)
           ).length
         })
+      } else {
+        setError(data.error || 'Projects could not load')
       }
     } catch (error) {
       console.error('Failed to fetch projects:', error)
+      setError('Projects could not load. Check the API or database connection, then refresh.')
     } finally {
       setLoading(false)
     }
@@ -102,11 +112,12 @@ export default function ProjectsPage() {
     project.client_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     project.project_code?.toLowerCase().includes(searchTerm.toLowerCase())
   )
+  const hasActiveFilters = Boolean(searchTerm || statusFilter || healthFilter)
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
       <div className="max-w-7xl mx-auto p-6 space-y-6">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between gap-4">
           <div>
             <h1 className="text-3xl font-bold text-slate-900 flex items-center gap-3">
               <FolderKanban className="text-[#b46e14]" size={32} />
@@ -114,14 +125,41 @@ export default function ProjectsPage() {
             </h1>
             <p className="text-slate-600 mt-1">Track projects from booking through delivery</p>
           </div>
-          <Link
-            href="/admin/projects/new"
-            className="flex items-center gap-2 px-4 py-2 bg-[#b46e14] text-white rounded-lg hover:bg-[#a17a07] transition-colors"
-          >
-            <Plus size={20} />
-            New Project
-          </Link>
+          <div className="flex flex-wrap justify-end gap-2">
+            <button
+              type="button"
+              onClick={fetchProjects}
+              className="flex items-center gap-2 px-4 py-2 border border-slate-300 bg-white text-slate-700 rounded-lg hover:bg-slate-50 transition-colors"
+            >
+              <RefreshCw size={18} />
+              Refresh
+            </button>
+            <Link
+              href="/admin/projects/new"
+              className="flex items-center gap-2 px-4 py-2 bg-[#b46e14] text-white rounded-lg hover:bg-[#a17a07] transition-colors"
+            >
+              <Plus size={20} />
+              New Project
+            </Link>
+          </div>
         </div>
+
+        {recentlyCreated && (
+          <div className="rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm font-medium text-green-800">
+            Project created. If it does not appear yet, use Refresh to reload the project list.
+          </div>
+        )}
+
+        {error && (
+          <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
+            <div className="flex items-center justify-between gap-3">
+              <span>{error}</span>
+              <button type="button" onClick={fetchProjects} className="font-semibold underline">
+                Try again
+              </button>
+            </div>
+          </div>
+        )}
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div className="bg-white rounded-lg shadow-sm p-4 border border-slate-200">
@@ -218,7 +256,12 @@ export default function ProjectsPage() {
           ) : filteredProjects.length === 0 ? (
             <div className="text-center py-12">
               <FolderKanban className="mx-auto text-slate-300 mb-4" size={48} />
-              <p className="text-slate-600">No projects found</p>
+              <p className="font-medium text-slate-700">
+                {hasActiveFilters ? 'No projects match these filters' : 'No projects yet'}
+              </p>
+              <p className="mt-1 text-sm text-slate-500">
+                {hasActiveFilters ? 'Clear the search or status filters, then refresh if you just created one.' : 'Create a project from a lead or start one manually.'}
+              </p>
             </div>
           ) : (
             <div className="overflow-x-auto">

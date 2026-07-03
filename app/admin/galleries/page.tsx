@@ -9,6 +9,12 @@ import AdminToast from '@/components/admin/AdminToast'
 import AdminConfirmDialog from '@/components/admin/AdminConfirmDialog'
 
 const SHOOTPROOF_STUDIO_URL = 'https://studio.shootproof.com/v3/717956/dashboard'
+const TRACKER_TEMPLATE = `ShootProof URL:
+Invoice status:
+Contract status:
+Client notified:
+Follow-up sent:
+Delivery status:`
 
 interface Gallery {
   id: string
@@ -43,7 +49,7 @@ export default function GalleriesPage() {
     session_date: '',
     session_type: 'portrait',
     title: '',
-    description: '',
+    description: TRACKER_TEMPLATE,
     password: '',
     allow_downloads: false,
     require_purchase: true,
@@ -63,7 +69,7 @@ export default function GalleriesPage() {
       session_date: searchParams.get('session_date') || prev.session_date,
       session_type: searchParams.get('session_type') || prev.session_type,
       title: searchParams.get('title') || prev.title,
-      description: searchParams.get('description') || prev.description,
+      description: [searchParams.get('description'), TRACKER_TEMPLATE].filter(Boolean).join('\n\n'),
       password: prev.password || `studio37-${new Date().getFullYear()}`,
     }))
     setShowCreate(true)
@@ -100,14 +106,14 @@ export default function GalleriesPage() {
       if (data.success) {
         setGalleries([data.gallery, ...galleries])
         setShowCreate(false)
-        showToast('Gallery created. Upload images, copy or email the client link, then schedule delivery follow-up.')
+        showToast('Delivery tracker saved. Manage the real gallery in ShootProof, then update the link/status notes here.')
         setFormData({
           client_name: '',
           client_email: '',
           session_date: '',
           session_type: 'portrait',
           title: '',
-          description: '',
+          description: TRACKER_TEMPLATE,
           password: '',
           allow_downloads: false,
           require_purchase: true,
@@ -127,10 +133,15 @@ export default function GalleriesPage() {
     setTimeout(() => setToast(null), 3000)
   }
 
-  const copyLink = async (accessCode: string) => {
-    const link = `https://gallery.studio37.cc/${accessCode}`
+  const getTrackedShootProofUrl = (gallery: Gallery) => {
+    const match = gallery.description?.match(/https?:\/\/[^\s)]+/i)
+    return match?.[0] || 'https://gallery.studio37.cc'
+  }
+
+  const copyLink = async (gallery: Gallery) => {
+    const link = getTrackedShootProofUrl(gallery)
     await navigator.clipboard.writeText(link)
-    showToast('Gallery link copied to clipboard')
+    showToast('ShootProof/gallery link copied to clipboard')
   }
 
   const deleteGallery = async (id: string) => {
@@ -152,12 +163,13 @@ export default function GalleriesPage() {
   }
 
   const getDeliveryChecklist = (gallery: Gallery) => [
-    { label: 'Access code', done: Boolean(gallery.access_code) },
+    { label: 'ShootProof URL', done: /https?:\/\/|gallery\.studio37\.cc|shootproof/i.test(gallery.description || '') },
     { label: 'Client email', done: Boolean(gallery.client_email) },
-    { label: 'Images uploaded', done: gallery.total_photos > 0 },
-    { label: 'Preview link', done: Boolean(gallery.access_code) },
-    { label: 'Delivery settings', done: Boolean(gallery.expires_at || gallery.allow_downloads || gallery.require_purchase) },
-    { label: 'Email ready', done: Boolean(gallery.client_email && gallery.access_code && gallery.total_photos > 0) },
+    { label: 'Invoice noted', done: /invoice status:\s*\S/i.test(gallery.description || '') },
+    { label: 'Contract noted', done: /contract status:\s*\S/i.test(gallery.description || '') },
+    { label: 'Client notified', done: /client notified:\s*(yes|sent|done|complete)/i.test(gallery.description || '') },
+    { label: 'Email ready', done: Boolean(gallery.client_email && /https?:\/\/|gallery\.studio37\.cc|shootproof/i.test(gallery.description || '')) },
+    { label: 'Follow-up set', done: /follow-up sent:\s*(yes|sent|done|scheduled|complete)/i.test(gallery.description || '') },
   ]
 
   return (
@@ -275,18 +287,19 @@ export default function GalleriesPage() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Description (Optional)</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">ShootProof URL + Status Notes</label>
                       <textarea
                         value={formData.description}
                         onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                        rows={3}
+                        rows={7}
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                        placeholder="A beautiful autumn wedding at..."
+                        placeholder={TRACKER_TEMPLATE}
                       />
+                      <p className="mt-1 text-xs text-gray-500">ShootProof controls the real gallery, invoices, contracts, passwords, and downloads. This record tracks your admin handoff.</p>
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Gallery Password</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Internal Tracker Password</label>
                       <input
                         type="text"
                         required
@@ -295,7 +308,7 @@ export default function GalleriesPage() {
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                         placeholder="Create a secure password"
                       />
-                      <p className="text-xs text-gray-500 mt-1">Clients will need this to access the gallery</p>
+                      <p className="text-xs text-gray-500 mt-1">Internal compatibility field only. Client access is handled in ShootProof.</p>
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
@@ -377,8 +390,8 @@ export default function GalleriesPage() {
             <AdminState
               icon={Camera}
               title="No client galleries yet"
-              description="Create a client gallery, then share it from gallery.studio37.cc with the generated access code."
-              actionLabel="Create gallery"
+              description="Create a delivery tracker after the real gallery exists in ShootProof. Paste the ShootProof/gallery URL and track invoice, contract, notification, and follow-up status."
+              actionLabel="Track delivery"
               onAction={() => setShowCreate(true)}
               secondaryActionLabel="Open gallery site"
               onSecondaryAction={() => window.open('https://gallery.studio37.cc', '_blank', 'noopener,noreferrer')}
@@ -450,9 +463,9 @@ export default function GalleriesPage() {
                           <code className="font-mono text-gray-900">{gallery.access_code}</code>
                         </div>
                         <button
-                          onClick={() => copyLink(gallery.access_code)}
+                          onClick={() => copyLink(gallery)}
                           className="p-1.5 hover:bg-gray-200 rounded transition-colors"
-                          title="Copy gallery link"
+                          title="Copy tracked ShootProof/gallery link"
                         >
                           <Copy className="w-4 h-4 text-gray-600" />
                         </button>
@@ -486,16 +499,16 @@ export default function GalleriesPage() {
                         Manage
                       </a>
                       <a
-                        href={`https://gallery.studio37.cc/${gallery.access_code}`}
+                        href={getTrackedShootProofUrl(gallery)}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
-                        title="View gallery"
+                        title="Open tracked gallery"
                       >
                         <ExternalLink className="w-4 h-4" />
                       </a>
                       <a
-                        href={`mailto:${gallery.client_email}?subject=${encodeURIComponent(`Your Studio37 gallery: ${gallery.title}`)}&body=${encodeURIComponent(`Hi ${gallery.client_name},\n\nYour Studio37 gallery is ready here:\nhttps://gallery.studio37.cc/${gallery.access_code}\n\nAccess code: ${gallery.access_code}\n\nBest,\nStudio37`)}`}
+                        href={`mailto:${gallery.client_email}?subject=${encodeURIComponent(`Your Studio37 gallery: ${gallery.title}`)}&body=${encodeURIComponent(`Hi ${gallery.client_name},\n\nYour Studio37 gallery is ready here:\n${getTrackedShootProofUrl(gallery)}\n\nBest,\nStudio37`)}`}
                         className="px-4 py-2 bg-emerald-50 text-emerald-700 rounded-lg hover:bg-emerald-100 transition-colors"
                         title="Email client"
                       >

@@ -81,9 +81,10 @@ export default async function BlogPage() {
       </div>
 
       <div className="border-b border-stone-200 bg-white">
-        <div className="container mx-auto grid gap-3 px-4 py-5 text-sm font-semibold text-stone-700 md:grid-cols-4">
-          <Link href="/session-prep" className="rounded-lg bg-stone-50 px-4 py-3 transition hover:bg-amber-50 hover:text-amber-900">Session prep guides</Link>
-          <Link href="/locations" className="rounded-lg bg-stone-50 px-4 py-3 transition hover:bg-amber-50 hover:text-amber-900">Location ideas</Link>
+        <div className="container mx-auto grid gap-3 px-4 py-5 text-sm font-semibold text-stone-700 md:grid-cols-5">
+          <Link href="/services/portrait-photography" className="rounded-lg bg-stone-50 px-4 py-3 transition hover:bg-amber-50 hover:text-amber-900">Portrait planning</Link>
+          <Link href="/services/wedding-photography" className="rounded-lg bg-stone-50 px-4 py-3 transition hover:bg-amber-50 hover:text-amber-900">Wedding planning</Link>
+          <Link href="/services/engagement-photography" className="rounded-lg bg-stone-50 px-4 py-3 transition hover:bg-amber-50 hover:text-amber-900">Engagement prep</Link>
           <Link href="/tools/package-recommender" className="rounded-lg bg-stone-50 px-4 py-3 transition hover:bg-amber-50 hover:text-amber-900">Choose a package</Link>
           <Link href="/book-a-session" className="rounded-lg bg-stone-950 px-4 py-3 text-white transition hover:bg-amber-700">Book or consult</Link>
         </div>
@@ -95,8 +96,13 @@ export default async function BlogPage() {
             <p className="eyebrow mb-3">Latest Articles</p>
             <h2 className="text-3xl font-bold text-stone-950 md:text-4xl">Guides for real shoots, not generic photo tips</h2>
             <p className="mt-3 text-stone-600">
-              Start here if you are comparing services, planning outfits, choosing a location, or getting ready for a wedding, portrait, event, or brand shoot.
+              Start here if you want to know what to book, how we plan locations and light, what clients usually ask, and what happens after your inquiry.
             </p>
+            <div className="mt-5 flex flex-wrap gap-2 text-sm font-semibold">
+              <Link href="/book-a-session" className="rounded-full bg-primary-700 px-4 py-2 text-white hover:bg-primary-800">Ready to talk</Link>
+              <Link href="/services" className="rounded-full border border-stone-300 px-4 py-2 text-stone-800 hover:bg-stone-100">Compare services</Link>
+              <Link href="/locations" className="rounded-full border border-stone-300 px-4 py-2 text-stone-800 hover:bg-stone-100">Browse local areas</Link>
+            </div>
           </div>
           {error && posts.length === 0 ? (
             <div className="text-center py-12">
