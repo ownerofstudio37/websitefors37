@@ -434,7 +434,7 @@ export default function LeadsPage() {
     if (hoursOld > 72 && !['converted', 'lost'].includes(lead.status)) cues.push({ label: 'Stale', tone: 'bg-amber-50 text-amber-800 border-amber-200' })
     if (!lead.email || !lead.phone) cues.push({ label: 'Incomplete contact', tone: 'bg-gray-50 text-gray-700 border-gray-200' })
     if (lead.priority === 'high' || /book|quote|pricing|package|consult|proposal|wedding|urgent/.test(text)) cues.push({ label: 'High intent', tone: 'bg-green-50 text-green-700 border-green-200' })
-    if (/portfolio|gallery|finished gallery|sample/.test(text)) cues.push({ label: 'Portfolio request', tone: 'bg-blue-50 text-blue-700 border-blue-200' })
+    if (/complete gallery request|portfolio-request|portfolio|gallery|finished gallery|sample/.test(text)) cues.push({ label: 'Complete gallery request', tone: 'bg-blue-50 text-blue-700 border-blue-200' })
 
     return cues.length ? cues : [{ label: 'Normal follow-up', tone: 'bg-gray-50 text-gray-600 border-gray-200' }]
   }
@@ -452,7 +452,7 @@ export default function LeadsPage() {
   const getSuggestedNextAction = (lead: Lead) => {
     const cues = getLeadPriorityCues(lead).map((cue) => cue.label)
     if (lead.status === 'new') return lead.phone ? 'Call or text, then send a tailored portfolio.' : 'Email a tailored portfolio and ask for phone number.'
-    if (cues.includes('Portfolio request')) return 'Send tailored portfolio and log the follow-up.'
+    if (cues.includes('Complete gallery request')) return 'Send private complete gallery examples and log the send status.'
     if (lead.status === 'contacted') return 'Send quote or booking link based on package fit.'
     if (lead.status === 'qualified') return 'Create project and move toward booking.'
     if (lead.status === 'converted') return 'Create gallery workflow and confirm delivery expectations.'
@@ -543,15 +543,22 @@ Studio37`)
     }
 
     if (template === 'portfolio') {
-      setComposeSubject(`Studio37 examples for your ${service}`)
+      setComposeSubject(`Private Studio37 gallery examples for your ${service}`)
       setComposeHtml(`Hi ${firstName},
 
-Thanks for asking about ${service}. Based on your inquiry, I would send examples closest to ${fit.label}.
+Thanks for asking about ${service}. Based on your inquiry, I would send private examples closest to ${fit.label}.
 
-I can send a complete finished gallery or a tighter tailored portfolio for your project type. The best next step is:
+I can send one of these:
+
+- Wedding full gallery
+- Portrait session gallery
+- Event coverage sample
+- Commercial sample set
+
+The best next step is:
 
 1. Confirm the session type and location.
-2. Send the most relevant finished examples.
+2. Send the most relevant complete gallery examples privately.
 3. Talk through timing, delivery expectations, and the right package.
 
 Reply with any must-have style notes and I will tailor what I send.
@@ -590,8 +597,8 @@ Studio37`)
       setSelectedLead(lead)
       setPortfolioData({
         projectType: getPackageFit(lead).label,
-        sampleGallery: 'Best matching finished gallery',
-        message: `Send ${lead.name || 'this lead'} a complete finished gallery or tailored portfolio for ${getPackageFit(lead).label}.`,
+        sampleGallery: 'Best matching complete gallery',
+        message: `Send ${lead.name || 'this lead'} private complete gallery examples or a tailored portfolio for ${getPackageFit(lead).label}.`,
         sentStatus: 'draft'
       })
       setShowPortfolioModal(true)
@@ -635,7 +642,7 @@ Studio37`)
   const sendPortfolioWorkflow = async () => {
     if (!selectedLead) return
     openTemplateEmail(selectedLead, 'portfolio')
-    await logCommunication(selectedLead, 'email', `Portfolio workflow prepared: ${portfolioData.projectType} / ${portfolioData.sampleGallery}`, {
+    await logCommunication(selectedLead, 'email', `Complete gallery request prepared: ${portfolioData.projectType} / ${portfolioData.sampleGallery}`, {
       action: 'portfolio_send_prepared',
       project_type: portfolioData.projectType,
       sample_gallery: portfolioData.sampleGallery,
@@ -788,8 +795,8 @@ Studio37`)
       ...(/portfolio|gallery|finished gallery|sample/i.test(`${lead.source || ''} ${lead.message || ''}`)
         ? [{
             id: `portfolio-${lead.id}`,
-            title: 'Portfolio request handoff',
-            description: 'Send a complete finished gallery or a tailored portfolio based on the project type, then log the send history here.',
+            title: 'Complete gallery request',
+            description: 'Send private complete gallery examples or a tailored portfolio based on the project type, then log the send history here.',
             timestamp: lead.updated_at || lead.created_at,
             icon: Image,
             tone: 'bg-blue-50 text-blue-700',
@@ -1520,21 +1527,21 @@ Studio37`)
             </div>
             <div className="space-y-4">
               <div className="rounded-lg border border-blue-100 bg-blue-50 p-3 text-sm text-blue-800">
-                {selectedLead.name} asked about {selectedLead.service_interest || 'photography'}. Choose what to send, then the workspace will draft the email and log the handoff.
+                {selectedLead.name} asked about {selectedLead.service_interest || 'photography'}. Choose the private gallery set to send, then the workspace will draft the email and log the handoff.
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Project Type</label>
                 <input value={portfolioData.projectType} onChange={(e) => setPortfolioData({ ...portfolioData, projectType: e.target.value })} className="w-full px-3 py-2 border rounded-lg" />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Sample Gallery</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Response Template</label>
                 <select value={portfolioData.sampleGallery} onChange={(e) => setPortfolioData({ ...portfolioData, sampleGallery: e.target.value })} className="w-full px-3 py-2 border rounded-lg">
-                  <option>Best matching finished gallery</option>
-                  <option>Wedding finished gallery</option>
+                  <option>Best matching complete gallery</option>
+                  <option>Wedding full gallery</option>
                   <option>Engagement/proposal portfolio</option>
-                  <option>Portrait session examples</option>
-                  <option>Event coverage examples</option>
-                  <option>Commercial/branding samples</option>
+                  <option>Portrait session gallery</option>
+                  <option>Event coverage sample</option>
+                  <option>Commercial sample set</option>
                 </select>
               </div>
               <div>

@@ -236,6 +236,7 @@ ${imageAnalysisContext}
   - Contact: [contact us](https://www.studio37.cc/contact)
   - About: [learn more about us](https://www.studio37.cc/about)
   - Blog: [read our blog](https://www.studio37.cc/blog)
+- If someone asks to see a full, complete, finished, or sample gallery, explain that gallery.studio37.cc is a curated best-of preview and route them to [request complete galleries](https://www.studio37.cc/request-portfolio) so Studio37 can send relevant private examples.
 
 Respond now:`;
 

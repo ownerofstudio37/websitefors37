@@ -25,6 +25,8 @@ type EventName =
   | 'concierge_cta_click'
   | 'quote_start'
   | 'booking_start'
+  | 'portfolio_request_view'
+  | 'portfolio_request_submit'
 
 interface EventParams {
   [key: string]: string | number | boolean | undefined

@@ -66,6 +66,15 @@
 - [x] Public Site Conversion Pass: click homepage → services → pricing/recommender → booking and make sure every step has an obvious next action.
 - [x] Admin Cockpit Polish: make `/admin` feel more like the daily command center with hot leads, upcoming shoots, projects needing delivery, blog drafts, and SEO alerts.
 
+### Portfolio Request Flow Polish
+
+- [x] Public request page polish: make `/request-portfolio` clearly explain that visitors can describe what they are planning and Studio37 will send relevant complete galleries privately.
+- [x] Request form fields: capture project type, location/city, date or timeline, what they want to compare, email, and phone.
+- [x] Admin lead handoff: make portfolio requests show in `/admin/leads` with a clear `Complete gallery request` label, project type, and send status.
+- [x] Response workflow: add template options for `Wedding full gallery`, `Portrait session gallery`, `Event coverage sample`, and `Commercial sample set`.
+- [x] Chatbot alignment: when someone asks to see a full gallery, explain that the public link is a curated preview and offer the complete gallery request form.
+- [x] Analytics/conversion tracking: track clicks to `/request-portfolio`, submissions, and requested service type.
+
 ### Expansive Admin Audit - July 2, 2026
 
 - [x] Admin route consolidation: inventory all 60 admin-facing route/client files and decide which are primary, legacy, experimental, backup, internal, strategic, utility, or active.
