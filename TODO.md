@@ -26,6 +26,17 @@
 - [x] Lead priority cues: flag hot, stale, incomplete-contact, high-intent, and needs-response leads so the admin knows what to handle first.
 - [x] Mobile lead workflow: make the lead workspace usable from a phone for quick call/text/email/follow-up actions.
 
+### Next Lead/Admin Steps
+
+- [ ] Lead workspace live QA: test `/admin/leads` with real lead records, empty contact fields, portfolio requests, phone-only leads, and converted leads.
+- [ ] Lead action persistence: add structured tracking for portfolio sent, quote sent, booking link sent, project created, and follow-up completed instead of relying only on communication notes.
+- [ ] Lead detail route: consider adding `/admin/leads/[id]` so lead records can be linked directly from alerts, emails, dashboards, and mobile bookmarks.
+- [ ] Project pipeline connection: turn the create-project shortcut into a prefilled inquiry → project flow using the lead’s contact, service, date, budget, source, and notes.
+- [ ] Portfolio send workflow: create a dedicated send-portfolio modal with project type, sample gallery choice, message template, send status, and timeline logging.
+- [ ] Follow-up scheduling: add next-follow-up editing from the lead workspace with dashboard alerts for overdue follow-ups.
+- [ ] Lead intelligence refinement: replace heuristic package fit with a stored score/source metadata model once enough real lead data accumulates.
+- [ ] Mobile admin walkthrough: QA lead scanning, call/text/email, send portfolio, and follow-up completion on phone widths.
+
 ### Expansive Admin Audit - July 2, 2026
 
 - [x] Admin route consolidation: inventory all 60 admin-facing route/client files and decide which are primary, legacy, experimental, backup, internal, strategic, utility, or active.
