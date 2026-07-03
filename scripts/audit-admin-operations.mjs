@@ -98,6 +98,7 @@ const markerChecks = [
   { file: 'app/admin/page.tsx', markers: ['Command center', 'Action alerts', 'Booking pipeline', 'Mobile quick actions'] },
   { file: 'components/AdminCommandPalette.tsx', markers: ['badgeTone', 'Strategic', 'Legacy'] },
   { file: 'app/admin/galleries/page.tsx', markers: ['Delivery checklist', 'Delivery readiness', 'Email ready'] },
+  { file: 'app/admin/leads/page.tsx', markers: ['getLeadPriorityCues', 'getPackageFit', 'getSuggestedNextAction', 'Portfolio request handoff', 'Send Portfolio', 'Create Project'] },
 ]
 
 for (const check of markerChecks) {

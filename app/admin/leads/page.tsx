@@ -405,6 +405,41 @@ export default function LeadsPage() {
     }
   }
 
+  const getLeadPriorityCues = (lead: Lead) => {
+    const created = new Date(lead.created_at).getTime()
+    const hoursOld = Number.isFinite(created) ? (Date.now() - created) / 36e5 : 0
+    const text = `${lead.service_interest || ''} ${lead.message || ''} ${lead.source || ''}`.toLowerCase()
+    const cues: Array<{ label: string; tone: string }> = []
+
+    if (lead.status === 'new' && hoursOld > 24) cues.push({ label: 'Needs response', tone: 'bg-red-50 text-red-700 border-red-200' })
+    if (hoursOld > 72 && !['converted', 'lost'].includes(lead.status)) cues.push({ label: 'Stale', tone: 'bg-amber-50 text-amber-800 border-amber-200' })
+    if (!lead.email || !lead.phone) cues.push({ label: 'Incomplete contact', tone: 'bg-gray-50 text-gray-700 border-gray-200' })
+    if (lead.priority === 'high' || /book|quote|pricing|package|consult|proposal|wedding|urgent/.test(text)) cues.push({ label: 'High intent', tone: 'bg-green-50 text-green-700 border-green-200' })
+    if (/portfolio|gallery|finished gallery|sample/.test(text)) cues.push({ label: 'Portfolio request', tone: 'bg-blue-50 text-blue-700 border-blue-200' })
+
+    return cues.length ? cues : [{ label: 'Normal follow-up', tone: 'bg-gray-50 text-gray-600 border-gray-200' }]
+  }
+
+  const getPackageFit = (lead: Lead) => {
+    const text = `${lead.service_interest || ''} ${lead.message || ''} ${lead.budget_range || ''}`.toLowerCase()
+    if (/wedding|elopement/.test(text)) return { label: 'Wedding coverage', detail: 'Start with consultation, coverage length, second-photographer needs, and gallery delivery expectations.' }
+    if (/engagement|proposal|concierge/.test(text)) return { label: 'Engagement concierge', detail: 'Lead with location scouting, timing/privacy planning, and tailored proposal or engagement gallery examples.' }
+    if (/family|portrait|senior|headshot|maternity/.test(text)) return { label: 'Portrait session', detail: 'Confirm session type, location preference, outfit needs, and delivery timeline.' }
+    if (/event|party|corporate/.test(text)) return { label: 'Event coverage', detail: 'Clarify run-of-show, venue rules, guest count, delivery deadline, and image usage.' }
+    if (/commercial|brand|business|content|marketing/.test(text)) return { label: 'Commercial/branding', detail: 'Send relevant sample work and ask about usage, shot list, location, and launch date.' }
+    return { label: 'Discovery needed', detail: 'Ask one qualifying question, then send a tailored portfolio or booking link.' }
+  }
+
+  const getSuggestedNextAction = (lead: Lead) => {
+    const cues = getLeadPriorityCues(lead).map((cue) => cue.label)
+    if (lead.status === 'new') return lead.phone ? 'Call or text, then send a tailored portfolio.' : 'Email a tailored portfolio and ask for phone number.'
+    if (cues.includes('Portfolio request')) return 'Send tailored portfolio and log the follow-up.'
+    if (lead.status === 'contacted') return 'Send quote or booking link based on package fit.'
+    if (lead.status === 'qualified') return 'Create project and move toward booking.'
+    if (lead.status === 'converted') return 'Create gallery workflow and confirm delivery expectations.'
+    return 'Review context and choose the next follow-up.'
+  }
+
   const viewLeadDetails = async (lead: Lead) => {
     setSelectedLead(lead)
     setShowLeadModal(true)
@@ -431,9 +466,10 @@ Studio37`)
     setShowComposeModal(true)
   }
 
-  const openTemplateEmail = (lead: Lead, template: 'quote' | 'prep' | 'review') => {
+  const openTemplateEmail = (lead: Lead, template: 'quote' | 'prep' | 'review' | 'portfolio') => {
     const firstName = (lead.name || '').split(' ')[0] || 'there'
     const service = lead.service_interest || 'photography session'
+    const fit = getPackageFit(lead)
 
     setComposeRecipient(lead.email || '')
     setEditorMode('simple')
@@ -487,13 +523,31 @@ Best,
 Studio37`)
     }
 
+    if (template === 'portfolio') {
+      setComposeSubject(`Studio37 examples for your ${service}`)
+      setComposeHtml(`Hi ${firstName},
+
+Thanks for asking about ${service}. Based on your inquiry, I would send examples closest to ${fit.label}.
+
+I can send a complete finished gallery or a tighter tailored portfolio for your project type. The best next step is:
+
+1. Confirm the session type and location.
+2. Send the most relevant finished examples.
+3. Talk through timing, delivery expectations, and the right package.
+
+Reply with any must-have style notes and I will tailor what I send.
+
+Best,
+Studio37`)
+    }
+
     setComposeBlocks([])
     setShowComposeModal(true)
   }
 
   const handleLeadQuickAction = async (
     lead: Lead,
-    action: 'quote' | 'schedule' | 'gallery' | 'prep' | 'review'
+    action: 'quote' | 'schedule' | 'gallery' | 'prep' | 'review' | 'portfolio' | 'project'
   ) => {
     if (action === 'quote') {
       openTemplateEmail(lead, 'quote')
@@ -510,6 +564,18 @@ Studio37`)
     if (action === 'gallery') {
       await logCommunication(lead, 'note', 'Opened gallery admin to create or manage a client gallery')
       window.open('/admin/galleries', '_blank', 'noopener,noreferrer')
+      return
+    }
+
+    if (action === 'portfolio') {
+      openTemplateEmail(lead, 'portfolio')
+      await logCommunication(lead, 'email', 'Started tailored portfolio email from quick action')
+      return
+    }
+
+    if (action === 'project') {
+      await logCommunication(lead, 'note', 'Opened project creation from lead workspace')
+      window.open('/admin/projects/new', '_blank', 'noopener,noreferrer')
       return
     }
 
@@ -662,6 +728,16 @@ Studio37`)
             timestamp: lead.updated_at || lead.created_at,
             icon: FileText,
             tone: 'bg-gray-50 text-gray-700',
+          }]
+        : []),
+      ...(/portfolio|gallery|finished gallery|sample/i.test(`${lead.source || ''} ${lead.message || ''}`)
+        ? [{
+            id: `portfolio-${lead.id}`,
+            title: 'Portfolio request handoff',
+            description: 'Send a complete finished gallery or a tailored portfolio based on the project type, then log the send history here.',
+            timestamp: lead.updated_at || lead.created_at,
+            icon: Image,
+            tone: 'bg-blue-50 text-blue-700',
           }]
         : []),
       ...communicationLogs.map((log) => ({
@@ -911,10 +987,18 @@ Studio37`)
                           {lead.name}
                         </div>
                         <div className="text-sm text-gray-500">{lead.email}</div>
+                        <div className="mt-2 flex flex-wrap gap-1">
+                          {getLeadPriorityCues(lead).slice(0, 2).map((cue) => (
+                            <span key={cue.label} className={`rounded-full border px-2 py-0.5 text-[11px] font-medium ${cue.tone}`}>
+                              {cue.label}
+                            </span>
+                          ))}
+                        </div>
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      {lead.service_interest}
+                      <div>{lead.service_interest}</div>
+                      <div className="mt-1 text-xs text-gray-500">{getPackageFit(lead).label}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                       {lead.budget_range || '-'}
@@ -1042,6 +1126,20 @@ Studio37`)
                     Create Gallery
                   </button>
                   <button
+                    onClick={() => handleLeadQuickAction(selectedLead, 'portfolio')}
+                    className="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                  >
+                    <Image className="h-4 w-4" />
+                    Send Portfolio
+                  </button>
+                  <button
+                    onClick={() => handleLeadQuickAction(selectedLead, 'project')}
+                    className="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                  >
+                    <Calendar className="h-4 w-4" />
+                    Create Project
+                  </button>
+                  <button
                     onClick={() => handleLeadQuickAction(selectedLead, 'prep')}
                     className="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
                   >
@@ -1055,6 +1153,28 @@ Studio37`)
                     <Star className="h-4 w-4" />
                     Request Review
                   </button>
+                </div>
+              </div>
+            </div>
+
+            <div className="mb-6 grid gap-4 lg:grid-cols-3">
+              <div className="rounded-lg border border-gray-200 bg-white p-4">
+                <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">Suggested next action</p>
+                <p className="mt-2 text-sm font-medium text-gray-900">{getSuggestedNextAction(selectedLead)}</p>
+              </div>
+              <div className="rounded-lg border border-gray-200 bg-white p-4">
+                <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">Package fit</p>
+                <p className="mt-2 text-sm font-semibold text-gray-900">{getPackageFit(selectedLead).label}</p>
+                <p className="mt-1 text-sm text-gray-600">{getPackageFit(selectedLead).detail}</p>
+              </div>
+              <div className="rounded-lg border border-gray-200 bg-white p-4">
+                <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">Priority cues</p>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {getLeadPriorityCues(selectedLead).map((cue) => (
+                    <span key={cue.label} className={`rounded-full border px-2 py-1 text-xs font-medium ${cue.tone}`}>
+                      {cue.label}
+                    </span>
+                  ))}
                 </div>
               </div>
             </div>
@@ -1099,6 +1219,10 @@ Studio37`)
                     <label className="text-sm font-medium text-gray-500">Service Interest</label>
                     <p className="capitalize">{selectedLead.service_interest}</p>
                   </div>
+                  <div>
+                    <label className="text-sm font-medium text-gray-500">Source Attribution</label>
+                    <p>{selectedLead.source || 'Unknown'}</p>
+                  </div>
                   {selectedLead.budget_range && (
                     <div className="flex items-center space-x-2">
                       <DollarSign className="h-4 w-4 text-gray-400" />
@@ -1115,6 +1239,12 @@ Studio37`)
                         <label className="text-sm font-medium text-gray-500">Event Date</label>
                         <p>{new Date(selectedLead.event_date).toLocaleDateString()}</p>
                       </div>
+                    </div>
+                  )}
+                  {selectedLead.next_follow_up && (
+                    <div>
+                      <label className="text-sm font-medium text-gray-500">Next Follow-up</label>
+                      <p>{new Date(selectedLead.next_follow_up).toLocaleDateString()}</p>
                     </div>
                   )}
                   {selectedLead.lead_cost !== undefined && (

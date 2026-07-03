@@ -15,6 +15,17 @@
 - [x] Client Gallery Tool: make `/admin/galleries` the polished delivery hub for creating private galleries, copying gallery.studio37.cc links, emailing clients, tracking status, and confirming delivery readiness.
 - [x] Client Gallery Tool: add gallery delivery checklist states for access code, client email, expiration/download settings, image count, preview link, email ready, and follow-up readiness.
 
+### Lead Workspace Upgrade 2.0
+
+- [x] Lead detail workspace: create a richer lead view with contact info, service interest, source attribution, status, budget/timing notes, and last activity.
+- [x] Lead timeline: show chatbot messages, form submissions, package recommender events, portfolio requests, quote captures, emails, and manual follow-up notes in one chronological feed.
+- [x] Suggested next action: add a clear recommendation for each lead such as call, text, email, send portfolio, send quote, schedule consult, or create project.
+- [x] Package fit: surface likely package/service fit based on lead source, selected service, budget clues, session type, and chatbot context.
+- [x] One-click actions: add shortcuts to email, call, text, send booking link, send tailored portfolio, create project, and mark follow-up complete.
+- [x] Portfolio request handoff: connect `/request-portfolio` submissions to the lead workspace with requested project type, delivery status, and send-history.
+- [x] Lead priority cues: flag hot, stale, incomplete-contact, high-intent, and needs-response leads so the admin knows what to handle first.
+- [x] Mobile lead workflow: make the lead workspace usable from a phone for quick call/text/email/follow-up actions.
+
 ### Expansive Admin Audit - July 2, 2026
 
 - [x] Admin route consolidation: inventory all 60 admin-facing route/client files and decide which are primary, legacy, experimental, backup, internal, strategic, utility, or active.
