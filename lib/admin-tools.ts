@@ -228,8 +228,8 @@ export const ADMIN_TOOLS: AdminTool[] = [
   },
   {
     id: 'client-galleries',
-    label: 'Client Galleries',
-    description: 'Create private client galleries and delivery links for gallery.studio37.cc.',
+    label: 'Gallery Delivery',
+    description: 'Track ShootProof delivery links, client notifications, and gallery follow-up status.',
     href: '/admin/galleries',
     icon: Image,
     group: 'content',

@@ -5,6 +5,8 @@ import Link from 'next/link'
 import { useParams, useRouter } from 'next/navigation'
 import { ArrowLeft, AlertTriangle, Calendar, CheckCircle2, Clock, FileText, FolderKanban, Image, Loader2, PackageOpen } from 'lucide-react'
 
+const SHOOTPROOF_STUDIO_URL = 'https://studio.shootproof.com/v3/717956/dashboard'
+
 type Project = {
   id: string
   project_code: string
@@ -129,8 +131,16 @@ export default function ProjectDetailPage() {
                 className="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-700"
               >
                 <Image size={16} />
-                Create Gallery
+                Track Delivery
               </Link>
+              <a
+                href={SHOOTPROOF_STUDIO_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50"
+              >
+                ShootProof Studio
+              </a>
               <span className="inline-flex items-center px-3 py-2 rounded-lg text-sm font-medium bg-slate-900 text-white">
                 {project.status.replace('-', ' ')}
               </span>
@@ -200,14 +210,19 @@ export default function ProjectDetailPage() {
           <div className="space-y-4">
             <div className="rounded-lg border bg-white p-4">
               <div className="flex items-center gap-2 font-semibold text-slate-900">
-                <Image size={18} /> Gallery delivery handoff
+                <Image size={18} /> ShootProof delivery handoff
               </div>
               <p className="mt-2 text-sm text-slate-600">
-                Create the client gallery from this project, upload images, copy or email the gallery.studio37.cc link, then schedule delivery follow-up.
+                Manage the real gallery, invoices, and contracts in ShootProof. Use Studio37 admin to track the delivery link, client notification, and follow-up.
               </p>
-              <Link href={galleryHref} className="mt-3 inline-flex rounded-lg bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-700">
-                Start Gallery Delivery
-              </Link>
+              <div className="mt-3 flex flex-wrap gap-2">
+                <a href={SHOOTPROOF_STUDIO_URL} target="_blank" rel="noopener noreferrer" className="inline-flex rounded-lg bg-slate-900 px-3 py-2 text-sm font-semibold text-white hover:bg-slate-800">
+                  Open ShootProof Studio
+                </a>
+                <Link href={galleryHref} className="inline-flex rounded-lg bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-700">
+                  Track Delivery
+                </Link>
+              </div>
             </div>
             <div className="flex items-center gap-2 text-slate-800 font-semibold">
               <FileText size={18} /> Recent Activity

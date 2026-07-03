@@ -274,7 +274,7 @@ export default function AdminPage() {
           <div className="flex flex-wrap gap-2">
             <Link href="/admin/galleries" className="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-700">
               <Image className="h-4 w-4" />
-              Client galleries
+              Gallery delivery
             </Link>
             <Link href="/admin/ai-site-builder" className="inline-flex items-center gap-2 rounded-lg border border-gray-200 px-3 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50">
               <FileText className="h-4 w-4" />

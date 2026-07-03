@@ -8,6 +8,8 @@ import AdminState from '@/components/admin/AdminState'
 import AdminToast from '@/components/admin/AdminToast'
 import AdminConfirmDialog from '@/components/admin/AdminConfirmDialog'
 
+const SHOOTPROOF_STUDIO_URL = 'https://studio.shootproof.com/v3/717956/dashboard'
+
 interface Gallery {
   id: string
   client_name: string
@@ -167,25 +169,36 @@ export default function GalleriesPage() {
             <div>
               <h1 className="text-4xl font-bold text-gray-900 flex items-center gap-3">
                 <Camera className="w-10 h-10 text-indigo-600" />
-                Client Galleries
+                Gallery Delivery Tracker
               </h1>
-              <p className="text-gray-600 mt-2">Create and manage private photo galleries for your clients</p>
+              <p className="text-gray-600 mt-2">Track ShootProof delivery links, client status, and follow-up steps from Studio37 admin.</p>
             </div>
-            <button
-              onClick={() => setShowCreate(true)}
-              className="flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-all shadow-lg hover:shadow-xl"
-            >
-              <Plus className="w-5 h-5" />
-              New Gallery
-            </button>
+            <div className="flex flex-wrap gap-2">
+              <a
+                href={SHOOTPROOF_STUDIO_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-5 py-3 bg-slate-900 text-white rounded-lg hover:bg-slate-800 transition-all shadow-lg hover:shadow-xl"
+              >
+                <ExternalLink className="w-5 h-5" />
+                Open ShootProof Studio
+              </a>
+              <button
+                onClick={() => setShowCreate(true)}
+                className="flex items-center gap-2 px-5 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-all shadow-lg hover:shadow-xl"
+              >
+                <Plus className="w-5 h-5" />
+                Track Delivery
+              </button>
+            </div>
           </div>
 
           <div className="mb-6 rounded-xl border border-indigo-100 bg-indigo-50 p-4">
-            <p className="text-sm font-semibold text-indigo-900">Project → gallery delivery workflow</p>
+            <p className="text-sm font-semibold text-indigo-900">Project → ShootProof delivery workflow</p>
             <div className="mt-3 grid gap-2 text-sm text-indigo-800 sm:grid-cols-4">
-              <span className="rounded-lg bg-white/70 px-3 py-2">1. Create gallery</span>
-              <span className="rounded-lg bg-white/70 px-3 py-2">2. Upload images</span>
-              <span className="rounded-lg bg-white/70 px-3 py-2">3. Send gallery link</span>
+              <span className="rounded-lg bg-white/70 px-3 py-2">1. Open ShootProof</span>
+              <span className="rounded-lg bg-white/70 px-3 py-2">2. Manage gallery</span>
+              <span className="rounded-lg bg-white/70 px-3 py-2">3. Track delivery link</span>
               <span className="rounded-lg bg-white/70 px-3 py-2">4. Schedule follow-up</span>
             </div>
           </div>
@@ -195,8 +208,8 @@ export default function GalleriesPage() {
             <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
               <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
                 <div className="p-8">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-2">Create New Gallery</h2>
-                  <p className="mb-6 text-sm text-gray-600">If this came from a project, client and session context is prefilled. Confirm delivery settings before creating.</p>
+                  <h2 className="text-2xl font-bold text-gray-900 mb-2">Track ShootProof Delivery</h2>
+                  <p className="mb-6 text-sm text-gray-600">Create and manage the real gallery in ShootProof, then use this record to track the client link, delivery status, and follow-up.</p>
                   <form onSubmit={handleCreate} className="space-y-6">
                     <div className="grid grid-cols-2 gap-4">
                       <div>
@@ -328,7 +341,7 @@ export default function GalleriesPage() {
                         type="submit"
                         className="flex-1 px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors font-medium"
                       >
-                        Create Gallery
+                        Save Delivery Tracker
                       </button>
                       <button
                         type="button"
