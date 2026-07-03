@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, useEffect, useCallback } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { Mail, Phone, MessageCircle, Edit, Settings, Calendar, DollarSign, MessageSquare, X, Plus, PhoneCall, Trash2, ChevronLeft, ChevronRight, Upload, Scan, Download, CreditCard, FileText, Image, Paperclip, Star } from 'lucide-react'
 import { CheckCircle } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
@@ -14,6 +15,7 @@ import AdminConfirmDialog from '@/components/admin/AdminConfirmDialog'
 import AdminState from '@/components/admin/AdminState'
 
 export default function LeadsPage() {
+  const searchParams = useSearchParams()
   const [leads, setLeads] = useState<Lead[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -41,6 +43,15 @@ export default function LeadsPage() {
   const [confirmDeleteLeadId, setConfirmDeleteLeadId] = useState<string | null>(null)
   const [createError, setCreateError] = useState<string | null>(null)
   const [showReminderModal, setShowReminderModal] = useState(false)
+  const [showPortfolioModal, setShowPortfolioModal] = useState(false)
+  const [showFollowUpModal, setShowFollowUpModal] = useState(false)
+  const [portfolioData, setPortfolioData] = useState({
+    projectType: '',
+    sampleGallery: 'Best matching finished gallery',
+    message: '',
+    sentStatus: 'draft'
+  })
+  const [followUpDate, setFollowUpDate] = useState('')
   const [reminderType, setReminderType] = useState<'reminder' | 'confirmation'>('reminder')
   const [reminderData, setReminderData] = useState({
     sessionDate: '',
@@ -141,6 +152,13 @@ export default function LeadsPage() {
   useEffect(() => {
     fetchLeads()
   }, [fetchLeads])
+
+  useEffect(() => {
+    const leadId = searchParams.get('lead')
+    if (!leadId || !leads.length || showLeadModal) return
+    const lead = leads.find((item) => item.id === leadId)
+    if (lead) viewLeadDetails(lead)
+  }, [leads, searchParams, showLeadModal])
 
   // Reset to first page when filter changes
   useEffect(() => {
@@ -375,7 +393,7 @@ export default function LeadsPage() {
     }
   }
 
-  const logCommunication = async (lead: Lead, type: CommunicationLog['type'], content: string) => {
+  const logCommunication = async (lead: Lead, type: CommunicationLog['type'], content: string, metadata?: Record<string, any>) => {
     try {
       await supabase
         .from('communication_logs')
@@ -384,7 +402,8 @@ export default function LeadsPage() {
           type,
           content,
           direction: 'outbound',
-          created_by: 'admin'
+          created_by: 'admin',
+          metadata
         }])
 
       if (lead.status === 'new') {
@@ -551,44 +570,80 @@ Studio37`)
   ) => {
     if (action === 'quote') {
       openTemplateEmail(lead, 'quote')
-      await logCommunication(lead, 'email', 'Started quote email from quick action')
+      await logCommunication(lead, 'email', 'Started quote email from quick action', { action: 'quote_started' })
       return
     }
 
     if (action === 'schedule') {
-      await logCommunication(lead, 'meeting', 'Opened scheduling flow from quick action')
+      await logCommunication(lead, 'meeting', 'Opened scheduling flow from quick action', { action: 'booking_link_opened' })
       window.open('/book-a-session', '_blank', 'noopener,noreferrer')
       return
     }
 
     if (action === 'gallery') {
-      await logCommunication(lead, 'note', 'Opened gallery admin to create or manage a client gallery')
+      await logCommunication(lead, 'note', 'Opened gallery admin to create or manage a client gallery', { action: 'gallery_workflow_opened' })
       window.open('/admin/galleries', '_blank', 'noopener,noreferrer')
       return
     }
 
     if (action === 'portfolio') {
-      openTemplateEmail(lead, 'portfolio')
-      await logCommunication(lead, 'email', 'Started tailored portfolio email from quick action')
+      setSelectedLead(lead)
+      setPortfolioData({
+        projectType: getPackageFit(lead).label,
+        sampleGallery: 'Best matching finished gallery',
+        message: `Send ${lead.name || 'this lead'} a complete finished gallery or tailored portfolio for ${getPackageFit(lead).label}.`,
+        sentStatus: 'draft'
+      })
+      setShowPortfolioModal(true)
       return
     }
 
     if (action === 'project') {
-      await logCommunication(lead, 'note', 'Opened project creation from lead workspace')
-      window.open('/admin/projects/new', '_blank', 'noopener,noreferrer')
+      await logCommunication(lead, 'note', 'Opened project creation from lead workspace', { action: 'project_started' })
+      window.open(`/admin/projects/new?lead=${lead.id}`, '_blank', 'noopener,noreferrer')
       return
     }
 
     if (action === 'prep') {
       openTemplateEmail(lead, 'prep')
-      await logCommunication(lead, 'email', 'Started prep guide email from quick action')
+      await logCommunication(lead, 'email', 'Started prep guide email from quick action', { action: 'prep_started' })
       return
     }
 
     if (action === 'review') {
       openTemplateEmail(lead, 'review')
-      await logCommunication(lead, 'email', 'Started review request email from quick action')
+      await logCommunication(lead, 'email', 'Started review request email from quick action', { action: 'review_started' })
     }
+  }
+
+  const saveFollowUpDate = async (overrideDate?: string | null) => {
+    if (!selectedLead) return
+    const value = overrideDate === undefined ? followUpDate || null : overrideDate || null
+    const { error } = await supabase.from('leads').update({ next_follow_up: value }).eq('id', selectedLead.id)
+    if (error) {
+      setToast('Failed to update follow-up')
+      return
+    }
+    const updated = { ...selectedLead, next_follow_up: value || undefined }
+    setSelectedLead(updated)
+    setLeads(prev => prev.map(lead => lead.id === selectedLead.id ? updated : lead))
+    await logCommunication(selectedLead, 'note', value ? `Next follow-up scheduled for ${value}` : 'Follow-up marked complete', { action: value ? 'follow_up_scheduled' : 'follow_up_completed', next_follow_up: value })
+    setShowFollowUpModal(false)
+    setToast(value ? 'Follow-up scheduled' : 'Follow-up completed')
+  }
+
+  const sendPortfolioWorkflow = async () => {
+    if (!selectedLead) return
+    openTemplateEmail(selectedLead, 'portfolio')
+    await logCommunication(selectedLead, 'email', `Portfolio workflow prepared: ${portfolioData.projectType} / ${portfolioData.sampleGallery}`, {
+      action: 'portfolio_send_prepared',
+      project_type: portfolioData.projectType,
+      sample_gallery: portfolioData.sampleGallery,
+      send_status: portfolioData.sentStatus,
+      message: portfolioData.message,
+    })
+    setShowPortfolioModal(false)
+    setToast('Portfolio email drafted and logged')
   }
 
   const sendComposeEmail = async (lead?: Lead) => {
@@ -805,6 +860,10 @@ Studio37`)
   }
 
   const hasActiveLeadFilters = filter !== 'all' || q.trim().length > 0
+  const overdueFollowUps = leads.filter((lead) => {
+    if (!lead.next_follow_up || ['converted', 'lost'].includes(lead.status)) return false
+    return new Date(lead.next_follow_up).getTime() <= Date.now()
+  }).length
 
   return (
     <div className="p-6">
@@ -889,7 +948,7 @@ Studio37`)
       )}
 
       {/* Stats Overview */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
         <div className="bg-white rounded-lg shadow p-4">
           <h3 className="text-xs font-medium text-gray-500">Total Leads</h3>
           <p className="text-xl font-bold mt-1">{totalCount}</p>
@@ -911,6 +970,10 @@ Studio37`)
           <p className="text-xl font-bold mt-1 text-purple-600">
             {leads.filter(l => l.status === 'converted').length}
           </p>
+        </div>
+        <div className="bg-white rounded-lg shadow p-4">
+          <h3 className="text-xs font-medium text-gray-500">Follow-ups Due</h3>
+          <p className="text-xl font-bold mt-1 text-amber-600">{overdueFollowUps}</p>
         </div>
       </div>
 
@@ -987,6 +1050,9 @@ Studio37`)
                           {lead.name}
                         </div>
                         <div className="text-sm text-gray-500">{lead.email}</div>
+                        <a href={`/admin/leads/${lead.id}`} className="mt-1 inline-block text-xs font-medium text-primary-600 hover:text-primary-800">
+                          Open lead link
+                        </a>
                         <div className="mt-2 flex flex-wrap gap-1">
                           {getLeadPriorityCues(lead).slice(0, 2).map((cue) => (
                             <span key={cue.label} className={`rounded-full border px-2 py-0.5 text-[11px] font-medium ${cue.tone}`}>
@@ -1138,6 +1204,16 @@ Studio37`)
                   >
                     <Calendar className="h-4 w-4" />
                     Create Project
+                  </button>
+                  <button
+                    onClick={() => {
+                      setFollowUpDate(selectedLead.next_follow_up?.split('T')[0] || '')
+                      setShowFollowUpModal(true)
+                    }}
+                    className="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                  >
+                    <Calendar className="h-4 w-4" />
+                    Follow-up
                   </button>
                   <button
                     onClick={() => handleLeadQuickAction(selectedLead, 'prep')}
@@ -1419,7 +1495,71 @@ Studio37`)
                   <Calendar className="h-4 w-4" />
                   Send Reminder
                 </button>
+                <button
+                  onClick={() => {
+                    saveFollowUpDate(null)
+                  }}
+                  className="px-4 py-2 border border-green-300 text-green-700 rounded-lg hover:bg-green-50"
+                >
+                  Complete Follow-up
+                </button>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showPortfolioModal && selectedLead && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 max-w-xl w-full mx-4">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl font-semibold">Send Tailored Portfolio</h3>
+              <button onClick={() => setShowPortfolioModal(false)} className="text-gray-400 hover:text-gray-500" aria-label="Close portfolio modal">
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            <div className="space-y-4">
+              <div className="rounded-lg border border-blue-100 bg-blue-50 p-3 text-sm text-blue-800">
+                {selectedLead.name} asked about {selectedLead.service_interest || 'photography'}. Choose what to send, then the workspace will draft the email and log the handoff.
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Project Type</label>
+                <input value={portfolioData.projectType} onChange={(e) => setPortfolioData({ ...portfolioData, projectType: e.target.value })} className="w-full px-3 py-2 border rounded-lg" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Sample Gallery</label>
+                <select value={portfolioData.sampleGallery} onChange={(e) => setPortfolioData({ ...portfolioData, sampleGallery: e.target.value })} className="w-full px-3 py-2 border rounded-lg">
+                  <option>Best matching finished gallery</option>
+                  <option>Wedding finished gallery</option>
+                  <option>Engagement/proposal portfolio</option>
+                  <option>Portrait session examples</option>
+                  <option>Event coverage examples</option>
+                  <option>Commercial/branding samples</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Internal Send Note</label>
+                <textarea value={portfolioData.message} onChange={(e) => setPortfolioData({ ...portfolioData, message: e.target.value })} className="w-full h-24 px-3 py-2 border rounded-lg" />
+              </div>
+              <div className="flex justify-end gap-3">
+                <button onClick={() => setShowPortfolioModal(false)} className="px-4 py-2 border rounded-lg">Cancel</button>
+                <button onClick={sendPortfolioWorkflow} className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700">Draft Email + Log</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showFollowUpModal && selectedLead && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+            <h3 className="text-xl font-semibold mb-4">Schedule Follow-up</h3>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Next follow-up date</label>
+            <input type="date" value={followUpDate} onChange={(e) => setFollowUpDate(e.target.value)} className="w-full px-3 py-2 border rounded-lg" />
+            <div className="mt-6 flex justify-end gap-3">
+              <button onClick={() => setShowFollowUpModal(false)} className="px-4 py-2 border rounded-lg">Cancel</button>
+              <button onClick={() => saveFollowUpDate(null)} className="px-4 py-2 border border-green-300 text-green-700 rounded-lg hover:bg-green-50">Mark Complete</button>
+              <button onClick={() => saveFollowUpDate()} className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700">Save</button>
             </div>
           </div>
         </div>

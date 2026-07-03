@@ -28,14 +28,14 @@
 
 ### Next Lead/Admin Steps
 
-- [ ] Lead workspace live QA: test `/admin/leads` with real lead records, empty contact fields, portfolio requests, phone-only leads, and converted leads.
-- [ ] Lead action persistence: add structured tracking for portfolio sent, quote sent, booking link sent, project created, and follow-up completed instead of relying only on communication notes.
-- [ ] Lead detail route: consider adding `/admin/leads/[id]` so lead records can be linked directly from alerts, emails, dashboards, and mobile bookmarks.
-- [ ] Project pipeline connection: turn the create-project shortcut into a prefilled inquiry → project flow using the lead’s contact, service, date, budget, source, and notes.
-- [ ] Portfolio send workflow: create a dedicated send-portfolio modal with project type, sample gallery choice, message template, send status, and timeline logging.
-- [ ] Follow-up scheduling: add next-follow-up editing from the lead workspace with dashboard alerts for overdue follow-ups.
-- [ ] Lead intelligence refinement: replace heuristic package fit with a stored score/source metadata model once enough real lead data accumulates.
-- [ ] Mobile admin walkthrough: QA lead scanning, call/text/email, send portfolio, and follow-up completion on phone widths.
+- [x] Lead workspace live QA: test `/admin/leads` with real lead records, empty contact fields, portfolio requests, phone-only leads, and converted leads.
+- [x] Lead action persistence: add structured tracking for portfolio sent, quote sent, booking link sent, project created, and follow-up completed instead of relying only on communication notes.
+- [x] Lead detail route: consider adding `/admin/leads/[id]` so lead records can be linked directly from alerts, emails, dashboards, and mobile bookmarks.
+- [x] Project pipeline connection: turn the create-project shortcut into a prefilled inquiry → project flow using the lead’s contact, service, date, budget, source, and notes.
+- [x] Portfolio send workflow: create a dedicated send-portfolio modal with project type, sample gallery choice, message template, send status, and timeline logging.
+- [x] Follow-up scheduling: add next-follow-up editing from the lead workspace with dashboard alerts for overdue follow-ups.
+- [x] Lead intelligence refinement: replace heuristic package fit with a stored score/source metadata model once enough real lead data accumulates.
+- [x] Mobile admin walkthrough: QA lead scanning, call/text/email, send portfolio, and follow-up completion on phone widths.
 
 ### Expansive Admin Audit - July 2, 2026
 

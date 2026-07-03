@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft, Save, Loader2 } from 'lucide-react'
 
@@ -19,11 +19,17 @@ interface Lead {
   email: string
   phone: string
   service_interest: string
+  budget_range?: string
+  event_date?: string
+  message?: string
+  source?: string
 }
 
 export default function NewProjectPage() {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const [loading, setLoading] = useState(false)
+  const [submitError, setSubmitError] = useState<string | null>(null)
   const [workflows, setWorkflows] = useState<Workflow[]>([])
   const [leads, setLeads] = useState<Lead[]>([])
   const [formData, setFormData] = useState({
@@ -47,6 +53,12 @@ export default function NewProjectPage() {
     fetchWorkflows()
     fetchLeads()
   }, [])
+
+  useEffect(() => {
+    const leadId = searchParams.get('lead')
+    if (!leadId || !leads.length || formData.lead_id === leadId) return
+    handleLeadSelect(leadId)
+  }, [leads, searchParams, formData.lead_id])
 
   useEffect(() => {
     // Auto-calculate target completion date when start date and workflow are selected
@@ -109,7 +121,14 @@ export default function NewProjectPage() {
         client_email: lead.email,
         client_phone: lead.phone || '',
         project_name: `${lead.name} - ${lead.service_interest || prev.project_type}`,
-        project_type: lead.service_interest?.toLowerCase() || prev.project_type
+        project_type: normalizeProjectType(lead.service_interest || prev.project_type),
+        start_date: lead.event_date || prev.start_date,
+        session_date: lead.event_date || prev.session_date,
+        description: [
+          lead.message ? `Lead message: ${lead.message}` : '',
+          lead.budget_range ? `Budget: ${lead.budget_range}` : '',
+          lead.source ? `Source: ${lead.source}` : '',
+        ].filter(Boolean).join('\n')
       }))
     } else {
       setFormData(prev => ({
@@ -121,6 +140,14 @@ export default function NewProjectPage() {
         project_name: ''
       }))
     }
+  }
+
+  function normalizeProjectType(value: string) {
+    const text = value.toLowerCase()
+    if (text.includes('wedding') || text.includes('engagement') || text.includes('proposal')) return 'wedding'
+    if (text.includes('event')) return 'event'
+    if (text.includes('commercial') || text.includes('brand')) return 'commercial'
+    return 'portrait'
   }
 
   function validateForm() {
@@ -154,6 +181,7 @@ export default function NewProjectPage() {
     }
 
     setLoading(true)
+    setSubmitError(null)
 
     try {
       // Clean up empty strings to null for database
@@ -179,12 +207,12 @@ export default function NewProjectPage() {
       } else {
         const errorMsg = data.error || 'Failed to create project'
         const errorDetails = data.details ? `\n\nDetails: ${data.details}` : ''
-        alert(`Error: ${errorMsg}${errorDetails}`)
+        setSubmitError(`${errorMsg}${errorDetails}`)
         console.error('Project creation error:', data)
       }
     } catch (error) {
       console.error('Failed to create project:', error)
-      alert('Failed to create project. Please try again.')
+      setSubmitError('Failed to create project. Please try again.')
     } finally {
       setLoading(false)
     }
@@ -209,6 +237,12 @@ export default function NewProjectPage() {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
+          {submitError && (
+            <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
+              {submitError}
+            </div>
+          )}
+
           {/* Link to Lead (Optional) */}
           <div className="bg-white rounded-lg shadow-sm p-6 border border-slate-200">
             <h2 className="text-lg font-semibold text-slate-900 mb-4">Convert from Lead (Optional)</h2>

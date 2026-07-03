@@ -24,6 +24,7 @@ export const adminRouteOwnership: AdminRouteOwnership[] = [
   { route: '/admin/page.new', file: 'app/admin/page.new.tsx', status: 'backup', owner: 'overview', note: 'Archived alternate dashboard implementation.' },
   { route: '/admin/operations', file: 'app/admin/operations/page.tsx', status: 'active', owner: 'system', note: 'Route ownership, launch QA, and ops review surface.' },
   { route: '/admin/leads', file: 'app/admin/leads/page.tsx', status: 'primary', owner: 'crm', note: 'Lead CRM and follow-up hub.' },
+  { route: '/admin/leads/[id]', file: 'app/admin/leads/[id]/page.tsx', status: 'primary', owner: 'crm', note: 'Direct lead link redirect into the lead workspace.' },
   { route: '/admin/bookings', file: 'app/admin/bookings/page.tsx', status: 'primary', owner: 'crm', note: 'Booking records and schedule management.' },
   { route: '/admin/calendar', file: 'app/admin/calendar/page.tsx', status: 'active', owner: 'crm', note: 'Visual scheduling companion to bookings.' },
   { route: '/admin/appointment-reminders', file: 'app/admin/appointment-reminders/page.tsx', status: 'active', owner: 'crm', note: 'Automated reminder workflow control.' },
