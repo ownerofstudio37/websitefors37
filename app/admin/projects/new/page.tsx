@@ -203,7 +203,12 @@ export default function NewProjectPage() {
       const data = await res.json()
 
       if (res.ok) {
-        router.push(`/admin/projects/${data.project.id}`)
+        const projectId = data?.project?.id
+        if (!projectId) {
+          setSubmitError('Project was created, but the response did not include a project id. Open Projects and refresh the list.')
+          return
+        }
+        router.push(`/admin/projects/${projectId}`)
       } else {
         const errorMsg = data.error || 'Failed to create project'
         const errorDetails = data.details ? `\n\nDetails: ${data.details}` : ''

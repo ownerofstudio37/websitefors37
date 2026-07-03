@@ -12,7 +12,17 @@ export async function GET(
   try {
     const { id } = params
 
-    const { data: project, error } = await supabaseAdmin
+    const { data: baseProject, error: baseError } = await supabaseAdmin
+      .from('project_management')
+      .select('*')
+      .eq('id', id)
+      .single()
+
+    if (baseError || !baseProject) {
+      return NextResponse.json({ error: 'Project not found' }, { status: 404 })
+    }
+
+    const { data: richProject, error: richError } = await supabaseAdmin
       .from('project_management')
       .select(`
         *,
@@ -31,9 +41,11 @@ export async function GET(
       .eq('id', id)
       .single()
 
-    if (error || !project) {
-      return NextResponse.json({ error: 'Project not found' }, { status: 404 })
+    if (richError) {
+      log.warn('Project relation fetch failed; falling back to base project', { id, error: richError.message })
     }
+
+    const project = richProject || baseProject
 
     // Fetch phases with tasks
     const { data: phases } = await supabaseAdmin
