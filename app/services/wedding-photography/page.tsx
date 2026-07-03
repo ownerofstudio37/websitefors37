@@ -509,11 +509,11 @@ export default function WeddingPhotographyPage() {
             >
               Book Your Session
             </Link>
-            <Link 
-              href="https://gallery.studio37.cc" 
+            <Link
+              href="/request-portfolio"
               className="btn-ghost border-white/40 text-white hover:text-white"
             >
-              View Our Portfolio
+              Request Wedding Galleries
             </Link>
           </div>
         </div>

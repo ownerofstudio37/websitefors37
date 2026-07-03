@@ -96,7 +96,7 @@ export default function NavigationEditor() {
       // Fallback to default nav
       const defaultNav: NavigationItem[] = [
         { id: 'home', label: 'Home', href: '/', order: 1, visible: true },
-        { id: 'gallery', label: 'Gallery', href: 'https://gallery.studio37.cc', order: 2, visible: true },
+        { id: 'gallery', label: 'Featured Work', href: 'https://gallery.studio37.cc', order: 2, visible: true },
         { id: 'services', label: 'Services', href: '/services', order: 3, visible: true },
         { id: 'blog', label: 'Blog', href: '/blog', order: 4, visible: true },
         { id: 'about', label: 'About', href: '/about', order: 5, visible: true },

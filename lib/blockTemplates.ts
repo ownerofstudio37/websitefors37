@@ -127,8 +127,8 @@ export const PAGE_TEMPLATES: Record<string, PageTemplate> = {
           subheading: 'Let\'s create something beautiful together',
           primaryButtonText: 'Book a Consultation',
           primaryButtonLink: '/contact',
-          secondaryButtonText: 'View Portfolio',
-          secondaryButtonLink: 'https://gallery.studio37.cc',
+          secondaryButtonText: 'Request Complete Galleries',
+          secondaryButtonLink: '/request-portfolio',
           backgroundImage: '/images/cta-background.jpg',
           overlay: '70'
         }
@@ -249,7 +249,7 @@ export const PAGE_TEMPLATES: Record<string, PageTemplate> = {
           videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
           videoType: 'youtube',
           overlay: '50',
-          buttonText: 'View Gallery',
+          buttonText: 'View Featured Work',
           buttonLink: 'https://gallery.studio37.cc',
           autoplay: 'true',
           muted: 'true',

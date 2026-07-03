@@ -598,11 +598,11 @@ export default function CommercialPhotographyPage() {
             <Link href="/book-consultation" className="btn-primary">
               Book a Consultation
             </Link>
-            <Link 
-              href="https://gallery.studio37.cc" 
+            <Link
+              href="/request-portfolio"
               className="btn-ghost border-white/40 text-white hover:text-white"
             >
-              View Commercial Portfolio
+              Request Commercial Samples
             </Link>
             {/* Digital Marketing CTA */}
             <Link

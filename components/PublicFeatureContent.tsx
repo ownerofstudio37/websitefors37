@@ -117,7 +117,7 @@ export function ServiceTestimonialsSection({ service }: { service: ServiceKey })
           ))}
         </div>
         <Link href="/request-portfolio" className="btn-secondary mt-8 inline-flex items-center">
-          Request finished galleries <Sparkles className="ml-2 h-4 w-4" aria-hidden="true" />
+          Request complete galleries <Sparkles className="ml-2 h-4 w-4" aria-hidden="true" />
         </Link>
       </div>
     </section>

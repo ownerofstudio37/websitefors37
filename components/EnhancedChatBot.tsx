@@ -48,7 +48,7 @@ const FAQ_QUICK_REPLIES = [
   "Wedding packages",
   "Portrait sessions",
   "Event coverage",
-  "View portfolio",
+  "Featured work",
   "Check availability",
   "Get pricing",
 ];
@@ -308,7 +308,7 @@ export default function EnhancedChatBot() {
         } else if (!leadData.service && !data.detectedInfo?.service) {
           quickReplies = ["Wedding", "Portrait", "Event", "Commercial"];
         } else if (leadData.service && !leadData.email && !leadData.phone) {
-          quickReplies = ["Get a quote", "See portfolio", "Book consultation"];
+          quickReplies = ["Get a quote", "Request galleries", "Book consultation"];
         } else if ((leadData.email || leadData.phone) && !leadData.eventDate) {
           quickReplies = ["Schedule in next 3 months", "Later this year", "Just browsing"];
         }
@@ -395,8 +395,12 @@ export default function EnhancedChatBot() {
       window.location.href = "tel:+18327139944";
       return;
     }
-    if (reply === "View portfolio" || reply === "See portfolio") {
+    if (reply === "Featured work") {
       window.open("https://gallery.studio37.cc", "_blank", "noopener,noreferrer");
+      return;
+    }
+    if (reply === "View portfolio" || reply === "See portfolio" || reply === "Request galleries") {
+      window.open("/request-portfolio", "_blank");
       return;
     }
     if (reply === "View details" && servicePageUrl) {

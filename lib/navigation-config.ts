@@ -92,7 +92,7 @@ export function normalizeNavigationItems(items: NavigationItem[]): NavigationIte
 
 export const FALLBACK_NAV_ITEMS: NavigationItem[] = [
   { id: 'home', label: 'Home', href: '/', order: 1, visible: true },
-  { id: 'gallery', label: 'Gallery', href: 'https://gallery.studio37.cc', order: 2, visible: true },
+  { id: 'gallery', label: 'Featured Work', href: 'https://gallery.studio37.cc', order: 2, visible: true },
   {
     id: 'service-areas',
     label: 'Service Areas',

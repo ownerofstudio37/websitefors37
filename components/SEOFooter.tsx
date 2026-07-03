@@ -16,7 +16,7 @@ export default function SEOFooter() {
             </div>
             <div className="flex flex-col sm:flex-row gap-3 lg:justify-end">
               <Link href="/book-consultation" className="btn-primary">Book Consultation</Link>
-              <Link href="https://gallery.studio37.cc" className="btn-secondary">View Gallery</Link>
+              <Link href="/request-portfolio" className="btn-secondary">Request Galleries</Link>
             </div>
           </div>
         </div>
@@ -75,7 +75,8 @@ export default function SEOFooter() {
               <li><Link href="/book-consultation" className="hover:text-white transition-colors">Book Consultation</Link></li>
               <li><Link href="/contact" className="hover:text-white transition-colors">Contact Us</Link></li>
               <li><Link href="/gallery-experience" className="hover:text-white transition-colors">Gallery Experience</Link></li>
-              <li><a href="https://gallery.studio37.cc" className="hover:text-white transition-colors">View Portfolio</a></li>
+              <li><a href="https://gallery.studio37.cc" className="hover:text-white transition-colors">Featured Work</a></li>
+              <li><Link href="/request-portfolio" className="hover:text-white transition-colors">Request Complete Galleries</Link></li>
             </ul>
             <p className="mt-4 text-xs text-stone-400 leading-6">
               Serving {serviceAreas.slice(0, 8).join(', ')} &amp; more.
@@ -85,7 +86,7 @@ export default function SEOFooter() {
         <div className="mt-10 pt-6 border-t border-white/10 text-sm text-stone-400 flex flex-col md:flex-row gap-3 md:items-center md:justify-between">
           <p>© {new Date().getFullYear()} {name}. All rights reserved.</p>
           <div className="flex items-center gap-4">
-            <Link href="https://gallery.studio37.cc" className="hover:text-white transition-colors">Gallery</Link>
+            <Link href="https://gallery.studio37.cc" className="hover:text-white transition-colors">Featured Work</Link>
             <Link href="/gallery-experience" className="hover:text-white transition-colors">Gallery Help</Link>
             <Link href="/contact" className="hover:text-white transition-colors">Contact</Link>
             <Link href="/admin" className="text-xs text-stone-500 hover:text-stone-300 transition-colors">Admin</Link>

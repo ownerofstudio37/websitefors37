@@ -184,8 +184,8 @@ export default function ServiceCityLandingPage({
               <Link href="/tools/pricing" className="w-full text-center block border border-gray-300 rounded-md py-2 hover:bg-gray-50">
                 Compare Pricing
               </Link>
-              <Link href="https://gallery.studio37.cc" className="w-full text-center block border border-gray-300 rounded-md py-2 hover:bg-gray-50">
-                View Portfolio
+              <Link href="/request-portfolio" className="w-full text-center block border border-gray-300 rounded-md py-2 hover:bg-gray-50">
+                Request Complete Galleries
               </Link>
             </div>
             <div className="mt-5 pt-5 border-t border-gray-200">

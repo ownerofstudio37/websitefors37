@@ -241,11 +241,11 @@ export default function AboutPage() {
             >
               Get In Touch
             </Link>
-            <Link 
-              href="https://gallery.studio37.cc" 
+            <Link
+              href="/request-portfolio"
               className="btn-secondary"
             >
-              View Our Work
+              Request Complete Galleries
             </Link>
           </div>
         </div>

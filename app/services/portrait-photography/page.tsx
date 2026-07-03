@@ -483,11 +483,11 @@ export default function PortraitPhotographyPage() {
             >
               Book Your Session
             </Link>
-            <Link 
-              href="https://gallery.studio37.cc" 
+            <Link
+              href="/request-portfolio"
               className="btn-ghost border-white/40 text-white hover:text-white"
             >
-              View Portrait Gallery
+              Request Portrait Galleries
             </Link>
           </div>
         </div>

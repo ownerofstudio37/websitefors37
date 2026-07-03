@@ -88,7 +88,7 @@ const markerChecks = [
   { file: 'app/admin/lead-scoring/page.tsx', markers: ['Lead Scoring', 'recalculate'] },
   { file: 'app/admin/operations/page.tsx', markers: ['routeCounts', 'adminRouteOwnership'] },
   { file: 'components/ChatBotMount.tsx', markers: ['EnhancedChatBot'] },
-  { file: 'app/api/chat/respond/route.ts', markers: ['view our ShootProof gallery', 'imageAnalysisContext', 'fallback', '$350'] },
+  { file: 'app/api/chat/respond/route.ts', markers: ['view featured work', 'request complete galleries', 'imageAnalysisContext', 'fallback', '$350'] },
   { file: 'components/EnhancedChatBot.tsx', markers: ['uploadError', 'quoteFormError', 'Call Studio37', 'https://gallery.studio37.cc'] },
   { file: 'lib/ai-page-builder-quality.ts', markers: ['AI_PAGE_TEMPLATES', 'STUDIO37_IMAGE_POOL', 'applyAIPageQuality', 'Request a Portfolio'] },
   { file: 'app/api/site/generate/route.ts', markers: ['getTemplateGuidance', 'applyAIPageQuality', 'HOMEPAGE-QUALITY DESIGN RULES'] },

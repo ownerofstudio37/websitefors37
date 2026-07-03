@@ -112,9 +112,9 @@ export default function Hero() {
             <Link
               href="https://gallery.studio37.cc"
               className="btn-ghost text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 focus:outline-none focus:ring-4 focus:ring-amber-500 focus:ring-offset-2"
-              aria-label="View our photography portfolio"
+              aria-label="View featured Studio37 photography work"
             >
-              View Portfolio
+              Featured Work
             </Link>
             </div>
           </div>

@@ -15,7 +15,7 @@ const conversations = new Map<string, ConversationState>();
 
 const FLOWS = {
   initial:
-    "Hi there! I'm Studio 37's virtual assistant. How can I help you today? Are you interested in wedding photography, portraits, events, or commercial photography? Feel free to [view our portfolio](https://gallery.studio37.cc) for inspiration!",
+    "Hi there! I'm Studio 37's virtual assistant. How can I help you today? Are you interested in wedding photography, portraits, events, or commercial photography? Feel free to [view our featured work](https://gallery.studio37.cc) or [request complete galleries](https://www.studio37.cc/request-portfolio) for your project type.",
   service:
     "Great choice! Would you like to know about pricing options or [book a consultation](https://www.studio37.cc/book-a-session)?",
   interest:
@@ -27,7 +27,7 @@ const FLOWS = {
   final:
     "Thanks for reaching out to Studio 37 Photography! We'll be in touch soon. While you wait, explore [our blog](https://www.studio37.cc/blog) or [read about us](https://www.studio37.cc/about).",
   fallback:
-    "Would you like to discuss your photography needs with our team? We can provide details on services and pricing. Check out [our gallery](https://gallery.studio37.cc) or [contact us](https://www.studio37.cc/contact).",
+    "Would you like to discuss your photography needs with our team? We can provide details on services and pricing. Check out [our featured work](https://gallery.studio37.cc), [request complete galleries](https://www.studio37.cc/request-portfolio), or [contact us](https://www.studio37.cc/contact).",
 } as const;
 
 const BodySchema = z.object({

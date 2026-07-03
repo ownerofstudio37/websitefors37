@@ -498,7 +498,7 @@ export default function LocalPhotographerCityPage({
                 </p>
               </div>
               <Link href="/request-portfolio" className="text-sm font-semibold text-amber-800 hover:text-amber-950">
-                Request finished galleries
+                Request complete galleries
               </Link>
             </div>
             <div className="grid gap-5 md:grid-cols-3">

@@ -3,8 +3,6 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { recentWorkItems } from '@/lib/public-content'
 
-const galleryUrl = 'https://gallery.studio37.cc'
-
 export default function CuratedRecentWork({ className = '' }: { className?: string }) {
   const recentWork = recentWorkItems
     .filter((item) => item.featured)
@@ -18,16 +16,15 @@ export default function CuratedRecentWork({ className = '' }: { className?: stri
             <p className="eyebrow mb-3">Recent Work</p>
             <h2 className="text-3xl font-bold text-stone-950 md:text-4xl">Curated highlights from Studio37 sessions</h2>
             <p className="mt-3 max-w-2xl text-stone-600">
-              A few recent examples to preview the style, pacing, and polish of a finished Studio37 gallery.
+              A few recent examples to preview the style, pacing, and polish of Studio37 work. Complete galleries are shared privately by request.
             </p>
           </div>
-          <Link href={galleryUrl} aria-label="Open the full Studio37 gallery in a new tab" className="btn-secondary inline-flex w-fit items-center">
-            Open Full Gallery <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+          <Link href="/request-portfolio" aria-label="Request complete Studio37 galleries" className="btn-secondary inline-flex w-fit items-center">
+            Request Complete Galleries <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
           </Link>
         </div>
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-6">
           {recentWork.map((item, index) => {
-            const itemGalleryUrl = 'galleryUrl' in item && item.galleryUrl ? item.galleryUrl : galleryUrl
             const balancedSpan = recentWork.length === 5 && index < 2 ? 'lg:col-span-3' : 'lg:col-span-2'
 
             return (
@@ -43,8 +40,8 @@ export default function CuratedRecentWork({ className = '' }: { className?: stri
                   </div>
                   <h3 className="text-xl font-semibold text-stone-950">{item.title}</h3>
                   <p className="mt-2 flex-1 text-sm leading-6 text-stone-600">{item.note}</p>
-                  <Link href={itemGalleryUrl} aria-label={`View the full Studio37 gallery for ${item.title}`} className="mt-4 inline-flex text-sm font-semibold text-primary-700 hover:underline focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2">
-                    View full gallery
+                  <Link href="/request-portfolio" aria-label={`Request complete Studio37 gallery examples for ${item.title}`} className="mt-4 inline-flex text-sm font-semibold text-primary-700 hover:underline focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2">
+                    Request similar galleries
                   </Link>
                 </div>
               </article>
