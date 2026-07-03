@@ -85,7 +85,7 @@ export function applyAIPageQuality(rawComponents: any[], template: AIPageTemplat
       next.data.alignment = next.data.alignment || 'left'
       next.data.buttonText = next.data.buttonText || 'Book a Session'
       next.data.buttonLink = next.data.buttonLink || '/book-a-session'
-      next.data.secondaryButtonText = next.data.secondaryButtonText || 'Request a Portfolio'
+      next.data.secondaryButtonText = next.data.secondaryButtonText || 'Request Complete Galleries'
       next.data.secondaryButtonLink = next.data.secondaryButtonLink || '/request-portfolio'
       next.data.fullBleed = next.data.fullBleed ?? true
     }
@@ -105,7 +105,7 @@ export function applyAIPageQuality(rawComponents: any[], template: AIPageTemplat
     if (next.type === 'ctaBanner') {
       next.data.primaryButtonText = next.data.primaryButtonText || 'Start Planning'
       next.data.primaryButtonLink = next.data.primaryButtonLink || '/book-a-session'
-      next.data.secondaryButtonText = next.data.secondaryButtonText || 'Request a Portfolio'
+      next.data.secondaryButtonText = next.data.secondaryButtonText || 'Request Complete Galleries'
       next.data.secondaryButtonLink = next.data.secondaryButtonLink || '/request-portfolio'
     }
 
@@ -135,7 +135,7 @@ export function applyAIPageQuality(rawComponents: any[], template: AIPageTemplat
         backgroundImage: STUDIO37_IMAGE_POOL.hero[0],
         buttonText: 'Book a Session',
         buttonLink: '/book-a-session',
-        secondaryButtonText: 'Request a Portfolio',
+        secondaryButtonText: 'Request Complete Galleries',
         secondaryButtonLink: '/request-portfolio',
         alignment: 'left',
         overlay: 56,
@@ -183,7 +183,7 @@ export function applyAIPageQuality(rawComponents: any[], template: AIPageTemplat
         subheading: 'Tell us what you are building and we will point you toward the right package, gallery sample, or consultation.',
         primaryButtonText: 'Book a Consultation',
         primaryButtonLink: '/book-a-session',
-        secondaryButtonText: 'Request a Portfolio',
+        secondaryButtonText: 'Request Complete Galleries',
         secondaryButtonLink: '/request-portfolio',
       },
       visibility: { desktop: true, tablet: true, mobile: true },

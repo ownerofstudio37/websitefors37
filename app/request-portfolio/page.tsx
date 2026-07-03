@@ -2,8 +2,8 @@ import PortfolioRequestForm from '@/components/PortfolioRequestForm'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 
 export const metadata = generateSEOMetadata({
-  title: 'Request a Studio37 Portfolio Gallery',
-  description: 'Request a complete Studio37 gallery or tailored portfolio for your wedding, portrait, engagement, event, commercial, or brand photography project.',
+  title: 'Request Private Complete Galleries | Studio37',
+  description: 'Request private complete galleries or tailored proof sets for your wedding, portrait, engagement, event, commercial, or brand photography project.',
   canonicalUrl: 'https://www.studio37.cc/request-portfolio',
   pageType: 'service',
 })

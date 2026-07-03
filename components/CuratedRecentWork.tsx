@@ -1,7 +1,7 @@
 import Image from 'next/image'
-import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { recentWorkItems } from '@/lib/public-content'
+import TrackedPortfolioRequestLink from './TrackedPortfolioRequestLink'
 
 export default function CuratedRecentWork({ className = '' }: { className?: string }) {
   const recentWork = recentWorkItems
@@ -19,9 +19,9 @@ export default function CuratedRecentWork({ className = '' }: { className?: stri
               A few recent examples to preview the style, pacing, and polish of Studio37 work. Complete galleries are shared privately by request.
             </p>
           </div>
-          <Link href="/request-portfolio" aria-label="Request complete Studio37 galleries" className="btn-secondary inline-flex w-fit items-center">
+          <TrackedPortfolioRequestLink href="/request-portfolio" source="curated-recent-work-header" aria-label="Request complete Studio37 galleries" className="btn-secondary inline-flex w-fit items-center">
             Request Complete Galleries <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
-          </Link>
+          </TrackedPortfolioRequestLink>
         </div>
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-6">
           {recentWork.map((item, index) => {
@@ -40,9 +40,9 @@ export default function CuratedRecentWork({ className = '' }: { className?: stri
                   </div>
                   <h3 className="text-xl font-semibold text-stone-950">{item.title}</h3>
                   <p className="mt-2 flex-1 text-sm leading-6 text-stone-600">{item.note}</p>
-                  <Link href="/request-portfolio" aria-label={`Request complete Studio37 gallery examples for ${item.title}`} className="mt-4 inline-flex text-sm font-semibold text-primary-700 hover:underline focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2">
+                  <TrackedPortfolioRequestLink href="/request-portfolio" source="curated-recent-work-card" aria-label={`Request complete Studio37 gallery examples for ${item.title}`} className="mt-4 inline-flex text-sm font-semibold text-primary-700 hover:underline focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2">
                     Request similar galleries
-                  </Link>
+                  </TrackedPortfolioRequestLink>
                 </div>
               </article>
             )

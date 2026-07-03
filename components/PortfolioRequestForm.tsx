@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
 import { trackEvent, trackFormSubmit, trackLeadCapture } from '@/lib/analytics'
 import { withLeadContext } from '@/lib/client-lead-context'
 
@@ -80,6 +81,11 @@ export default function PortfolioRequestForm() {
       <div className="rounded-lg border border-green-200 bg-green-50 p-6 text-green-950">
         <h2 className="text-2xl font-bold">Request received.</h2>
         <p className="mt-2 leading-7">We will send private complete galleries or a tailored portfolio that matches your project type, location, and what you want to compare.</p>
+        <p className="mt-2 text-sm text-green-800">Expect a personal follow-up within one business day.</p>
+        <div className="mt-5 flex flex-wrap gap-3">
+          <Link href="/book-consultation" className="btn-primary">Book a consultation</Link>
+          <a href="https://gallery.studio37.cc" className="btn-secondary">View featured work</a>
+        </div>
       </div>
     )
   }
@@ -87,19 +93,20 @@ export default function PortfolioRequestForm() {
   return (
     <form onSubmit={submit} className="rounded-lg border border-stone-200 bg-white p-5 shadow-sm">
       <div className="grid gap-3 md:grid-cols-2">
-        <input required value={form.name} onChange={(event) => setForm((prev) => ({ ...prev, name: event.target.value }))} className="rounded-md border border-stone-300 px-3 py-3" placeholder="Name" />
-        <input required type="email" value={form.email} onChange={(event) => setForm((prev) => ({ ...prev, email: event.target.value }))} className="rounded-md border border-stone-300 px-3 py-3" placeholder="Email" />
-        <input value={form.phone} onChange={(event) => setForm((prev) => ({ ...prev, phone: event.target.value }))} className="rounded-md border border-stone-300 px-3 py-3" placeholder="Phone optional" />
-        <select value={form.projectType} onChange={(event) => setForm((prev) => ({ ...prev, projectType: event.target.value }))} className="rounded-md border border-stone-300 px-3 py-3">
+        <label className="text-sm font-semibold text-stone-700">Name<input required value={form.name} onChange={(event) => setForm((prev) => ({ ...prev, name: event.target.value }))} className="mt-1 w-full rounded-md border border-stone-300 px-3 py-3 font-normal" placeholder="Your name" /></label>
+        <label className="text-sm font-semibold text-stone-700">Email<input required type="email" value={form.email} onChange={(event) => setForm((prev) => ({ ...prev, email: event.target.value }))} className="mt-1 w-full rounded-md border border-stone-300 px-3 py-3 font-normal" placeholder="you@example.com" /></label>
+        <label className="text-sm font-semibold text-stone-700">Phone<input value={form.phone} onChange={(event) => setForm((prev) => ({ ...prev, phone: event.target.value }))} className="mt-1 w-full rounded-md border border-stone-300 px-3 py-3 font-normal" placeholder="Optional" /></label>
+        <label className="text-sm font-semibold text-stone-700">Project type<select value={form.projectType} onChange={(event) => setForm((prev) => ({ ...prev, projectType: event.target.value }))} className="mt-1 w-full rounded-md border border-stone-300 px-3 py-3 font-normal">
           {projectTypes.map((type) => <option key={type} value={type}>{type}</option>)}
-        </select>
-        <input value={form.location} onChange={(event) => setForm((prev) => ({ ...prev, location: event.target.value }))} className="rounded-md border border-stone-300 px-3 py-3" placeholder="Location or city" />
-        <input value={form.timeline} onChange={(event) => setForm((prev) => ({ ...prev, timeline: event.target.value }))} className="rounded-md border border-stone-300 px-3 py-3" placeholder="Date or timeline" />
-        <select value={form.compareGoal} onChange={(event) => setForm((prev) => ({ ...prev, compareGoal: event.target.value }))} className="rounded-md border border-stone-300 px-3 py-3 md:col-span-2">
+        </select></label>
+        <label className="text-sm font-semibold text-stone-700">Location or city<input value={form.location} onChange={(event) => setForm((prev) => ({ ...prev, location: event.target.value }))} className="mt-1 w-full rounded-md border border-stone-300 px-3 py-3 font-normal" placeholder="Venue, city, or area" /></label>
+        <label className="text-sm font-semibold text-stone-700">Date or timeline<input value={form.timeline} onChange={(event) => setForm((prev) => ({ ...prev, timeline: event.target.value }))} className="mt-1 w-full rounded-md border border-stone-300 px-3 py-3 font-normal" placeholder="Date, month, or season" /></label>
+        <label className="text-sm font-semibold text-stone-700 md:col-span-2">What do you want to compare?<select value={form.compareGoal} onChange={(event) => setForm((prev) => ({ ...prev, compareGoal: event.target.value }))} className="mt-1 w-full rounded-md border border-stone-300 px-3 py-3 font-normal">
           {comparisonOptions.map((option) => <option key={option} value={option}>{option}</option>)}
-        </select>
+        </select></label>
       </div>
-      <textarea value={form.notes} onChange={(event) => setForm((prev) => ({ ...prev, notes: event.target.value }))} className="mt-3 min-h-28 w-full rounded-md border border-stone-300 px-3 py-3" placeholder="Tell us what kind of gallery would help: venue type, session style, project goals, or examples you want to see." />
+      <label className="mt-3 block text-sm font-semibold text-stone-700">Helpful notes<textarea value={form.notes} onChange={(event) => setForm((prev) => ({ ...prev, notes: event.target.value }))} className="mt-1 min-h-28 w-full rounded-md border border-stone-300 px-3 py-3 font-normal" placeholder="Venue type, session style, project goals, or examples you want to see." /></label>
+      <p className="mt-3 text-xs leading-5 text-stone-500">We send complete galleries privately and only use your contact info to follow up about this request.</p>
       {error && <p className="mt-3 rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">{error}</p>}
       <button type="submit" disabled={submitting} className="btn-primary mt-4 w-full justify-center md:w-auto">
         {submitting ? 'Sending...' : 'Request Tailored Portfolio'}

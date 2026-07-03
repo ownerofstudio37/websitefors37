@@ -75,6 +75,37 @@
 - [x] Chatbot alignment: when someone asks to see a full gallery, explain that the public link is a curated preview and offer the complete gallery request form.
 - [x] Analytics/conversion tracking: track clicks to `/request-portfolio`, submissions, and requested service type.
 
+### Focused Portfolio Request Conversion Audit
+
+- [x] Audit homepage → service page → featured work/request galleries → `/request-portfolio` → admin lead handoff for conversion clarity.
+- [x] Audit mobile and desktop wording for `Featured Work`, `Complete Galleries`, `Request Portfolio`, and related CTAs so the distinction is obvious.
+- [x] Audit `/request-portfolio` form friction, field order, success state, error state, and trust copy.
+- [x] Audit chatbot responses for full-gallery, sample-gallery, pricing, service, and booking prompts.
+- [x] Audit `/admin/leads` portfolio request handling for visibility, priority cues, response templates, send logging, and follow-up.
+- [x] Audit SEO/content language so public pages do not imply the public gallery contains full galleries.
+
+### Focused Portfolio Request Conversion Audit Findings
+
+- [x] Portfolio proof component cleanup: update `components/PortraitHighlightGallery.tsx` so its CTA copy says `Featured Work` or `Request Complete Galleries`, not `View Full Portfolio`, and route complete-gallery intent to `/request-portfolio`.
+- [x] Legacy/editor template cleanup: update remaining VisualEditor and builder defaults that still use `View Portfolio`, `View Gallery`, or direct `gallery.studio37.cc` as the proof CTA so newly generated sections inherit the private-request strategy.
+- [x] Prep guide CTA alignment: update prep guide download/lead magnet copy so `gallery.studio37.cc` is described as featured work and complete gallery requests point to `/request-portfolio`.
+- [x] Request form accessibility polish: replace placeholder-only fields in `PortfolioRequestForm` with visible labels/help text, especially for project type, location, timeline, comparison goal, and notes.
+- [x] Request form trust polish: add a privacy/reassurance line explaining that complete galleries are sent privately and contact info is used only for follow-up.
+- [x] Request success state polish: add next actions after submit, such as `Book a consultation`, `View featured work`, and expected response timing.
+- [x] Admin lead list polish: rename generic `Portfolio` quick-action buttons to `Send Galleries` or `Complete Gallery Request` where the workflow is specifically about private gallery examples.
+- [x] Admin response template polish: replace the quote email line `View recent work: https://gallery.studio37.cc` with `View featured work` plus `request/receive private complete galleries` language.
+- [x] SEO polish: update `/request-portfolio` metadata title from `Request a Studio37 Portfolio Gallery` to emphasize `Private Complete Galleries` and tailored proof sets.
+- [x] Analytics polish: add a distinct click event for portfolio request CTA clicks before form view/submit, so CTA effectiveness can be separated from page landings.
+
+### Wide UI/UX, Admin, SEO, Design, And Conversion Audit
+
+- [ ] UI/UX audit: review homepage, services, local pages, blog, booking, request-portfolio, and core admin flows across desktop and mobile.
+- [ ] Admin audit: review `/admin`, leads, bookings, projects, gallery tracker, blog tools, AI Page Builder, navigation, SEO, and legacy-tool visibility.
+- [ ] SEO audit: review titles, descriptions, internal links, sitemap/robots behavior, local/service page differentiation, and conversion-intent keywords.
+- [ ] Design audit: identify sections that feel less polished than the homepage, too dense, misaligned, or visually inconsistent.
+- [ ] Conversion audit: verify each major public route has a clear next click to consult, package/pricing, request portfolio, or contact.
+- [ ] Performance/accessibility audit: check image weight, lazy loading, layout shift, mobile tap targets, headings, alt text, and form accessibility.
+
 ### Expansive Admin Audit - July 2, 2026
 
 - [x] Admin route consolidation: inventory all 60 admin-facing route/client files and decide which are primary, legacy, experimental, backup, internal, strategic, utility, or active.

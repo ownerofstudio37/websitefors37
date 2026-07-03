@@ -24,7 +24,8 @@ export default function PrepGuideDownloadForm({ guide }: { guide: PrepGuideKey }
       ...guideData.bullets.map((line, index) => `${index + 1}. ${line}`),
       '',
       'Next step: https://www.studio37.cc/book-a-session',
-      'Gallery: https://gallery.studio37.cc',
+      'Featured work: https://gallery.studio37.cc',
+      'Request complete galleries: https://www.studio37.cc/request-portfolio',
     ].join('\n')
   }, [guideData])
 

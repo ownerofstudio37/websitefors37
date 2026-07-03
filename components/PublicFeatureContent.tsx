@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { Camera, Clock, MapPin, MessageSquare, Sparkles } from 'lucide-react'
+import TrackedPortfolioRequestLink from './TrackedPortfolioRequestLink'
 import {
   ServiceKey,
   photoLocationIdeas,
@@ -116,9 +117,9 @@ export function ServiceTestimonialsSection({ service }: { service: ServiceKey })
             </figure>
           ))}
         </div>
-        <Link href="/request-portfolio" className="btn-secondary mt-8 inline-flex items-center">
+        <TrackedPortfolioRequestLink href="/request-portfolio" source="public-feature-content" className="btn-secondary mt-8 inline-flex items-center">
           Request complete galleries <Sparkles className="ml-2 h-4 w-4" aria-hidden="true" />
-        </Link>
+        </TrackedPortfolioRequestLink>
       </div>
     </section>
   )

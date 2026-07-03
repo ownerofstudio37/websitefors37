@@ -504,7 +504,8 @@ Here is the fastest path:
 
 1. Review the services page: https://www.studio37.cc/services
 2. Book a consultation: https://www.studio37.cc/book-consultation
-3. View recent work: https://gallery.studio37.cc
+3. View featured work: https://gallery.studio37.cc
+4. Send private complete galleries when proof is needed: https://www.studio37.cc/request-portfolio
 
 Reply with any must-have details and I can tailor the quote from there.
 
@@ -1203,7 +1204,7 @@ Studio37`)
                     className="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
                   >
                     <Image className="h-4 w-4" />
-                    Send Portfolio
+                    Send Galleries
                   </button>
                   <button
                     onClick={() => handleLeadQuickAction(selectedLead, 'project')}

@@ -37,7 +37,7 @@ export default function PrepGuideLeadMagnet() {
       '',
       ...lines.map((line, index) => `${index + 1}. ${line}`),
       '',
-      'Next step: book at https://www.studio37.cc/book-a-session or view work at https://gallery.studio37.cc',
+      'Next step: book at https://www.studio37.cc/book-a-session, view featured work at https://gallery.studio37.cc, or request complete galleries at https://www.studio37.cc/request-portfolio',
     ].join('\n')
   }, [guide, selectedGuide.label])
 

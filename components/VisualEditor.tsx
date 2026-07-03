@@ -2239,8 +2239,8 @@ export default function VisualEditor({
           backgroundImage: "",
           buttonText: "Book Your Session",
           buttonLink: "/book-a-session",
-          secondaryButtonText: "View Portfolio",
-          secondaryButtonLink: "https://gallery.studio37.cc",
+          secondaryButtonText: "Request Complete Galleries",
+          secondaryButtonLink: "/request-portfolio",
           alignment: "center",
           overlay: 50,
           titleColor: "text-white",
@@ -2485,8 +2485,8 @@ export default function VisualEditor({
             "Book your session today and let's create something amazing together",
           primaryButtonText: "Book Now",
           primaryButtonLink: "/book-a-session",
-          secondaryButtonText: "View Gallery",
-          secondaryButtonLink: "https://gallery.studio37.cc",
+          secondaryButtonText: "Request Complete Galleries",
+          secondaryButtonLink: "/request-portfolio",
           backgroundImage: "",
           backgroundColor: "#0f172a",
           overlay: 60,
@@ -2711,8 +2711,8 @@ export default function VisualEditor({
             "Let's discuss your photography needs and create beautiful memories together.",
           primaryButtonText: "Get In Touch",
           primaryButtonLink: "/contact",
-          secondaryButtonText: "View Our Work",
-          secondaryButtonLink: "https://gallery.studio37.cc",
+          secondaryButtonText: "Request Complete Galleries",
+          secondaryButtonLink: "/request-portfolio",
           alignment: "center",
           backgroundColor: "",
           textColor: "text-gray-900",
@@ -5978,7 +5978,7 @@ function DualCTAProperties({
             value={data.secondaryButtonText || ""}
             onChange={(e) => onUpdate({ secondaryButtonText: e.target.value })}
             className="w-full border rounded px-3 py-2"
-            placeholder="View Our Work"
+            placeholder="Request Complete Galleries"
           />
         </div>
         <div>
@@ -7166,8 +7166,8 @@ function buildHomepageTemplate(): PageComponent[] {
         "https://res.cloudinary.com/dmjxho2rl/image/upload/v1759639187/A4B03835-ED8B-4FBB-A27E-1F2EE6CA1A18_1_105_c_gstgil_e_gen_restore_e_improve_e_sharpen_l_image_upload_My_Brand_IMG_2115_mtuowt_c_scale_fl_relative_w_0.40_o_80_fl_layer_apply_g_south_x_0.03_y_0.04_yqgycj.jpg",
       buttonText: "Book Your Session",
       buttonLink: "/book-a-session",
-      secondaryButtonText: "View Portfolio",
-      secondaryButtonLink: "https://gallery.studio37.cc",
+      secondaryButtonText: "Request Complete Galleries",
+      secondaryButtonLink: "/request-portfolio",
       alignment: "center",
       overlay: 50,
       titleColor: "text-white",
@@ -7500,8 +7500,8 @@ function buildAboutTemplate(): PageComponent[] {
         "Meet the passionate photographers behind your most precious moments",
       backgroundImage:
         "https://images.unsplash.com/photo-1554048612-b6a482bc67e5?q=80&w=2000&auto=format&fit=crop",
-      buttonText: "View Our Work",
-      buttonLink: "https://gallery.studio37.cc",
+      buttonText: "Request Complete Galleries",
+      buttonLink: "/request-portfolio",
       alignment: "center",
       overlay: 60,
       titleColor: "text-white",
@@ -8243,8 +8243,8 @@ function buildLeadGenTemplate(): PageComponent[] {
         "https://images.unsplash.com/photo-1452587925148-ce544e77e70d?q=80&w=2000&auto=format&fit=crop",
       buttonText: "Get Your Quote",
       buttonLink: "#contact",
-      secondaryButtonText: "View Gallery",
-      secondaryButtonLink: "https://gallery.studio37.cc",
+      secondaryButtonText: "Request Complete Galleries",
+      secondaryButtonLink: "/request-portfolio",
       alignment: "center",
       overlay: 55,
       titleColor: "text-white",
@@ -8445,8 +8445,8 @@ function buildPortfolioTemplate(): PageComponent[] {
       posterImage: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=2000&auto=format&fit=crop",
       title: "Portfolio Showcase",
       subtitle: "See our work come to life",
-      buttonText: "View Full Portfolio",
-      buttonLink: "https://gallery.studio37.cc",
+      buttonText: "Request Complete Galleries",
+      buttonLink: "/request-portfolio",
       overlay: 40,
       autoplay: true,
       loop: true,
@@ -8814,7 +8814,7 @@ function buildRealEstateTemplate(): PageComponent[] {
       title: "Professional Real Estate Photography",
       subtitle: "Stunning photos that sell properties faster",
       backgroundImage: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=2000&auto=format&fit=crop",
-      buttonText: "View Portfolio",
+      buttonText: "Request Complete Galleries",
       buttonLink: "#gallery",
       alignment: "center",
       overlay: 50,
@@ -9379,7 +9379,7 @@ function buildSaaSTemplate(): PageComponent[] {
       title: "Product & Brand Photography for SaaS Companies",
       subtitle: "Professional visuals that elevate your brand and convert visitors into customers",
       backgroundImage: "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2000&auto=format&fit=crop",
-      buttonText: "See Our Portfolio",
+      buttonText: "Request Complete Galleries",
       buttonLink: "#gallery",
       secondaryButtonText: "Free Consultation",
       secondaryButtonLink: "/contact",
@@ -13306,7 +13306,7 @@ function HeroProperties({
           onChange={(e) => handleUpdate({ secondaryButtonText: e.target.value })}
           className="w-full border rounded px-3 py-2"
           title="Secondary button text"
-          placeholder="e.g., View Portfolio"
+          placeholder="e.g., Request Complete Galleries"
         />
       </div>
       <div>

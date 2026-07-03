@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import Link from 'next/link'
 import type { GalleryImage } from '@/lib/supabase'
 import OptimizedImage from './OptimizedImage'
 
@@ -59,7 +60,7 @@ export default function PortraitHighlightGallery() {
               <a
                 key={label}
                 href="https://gallery.studio37.cc"
-                aria-label={`Open Studio37 ${label.toLowerCase()} gallery`}
+                aria-label={`Open Studio37 featured ${label.toLowerCase()} work`}
                 className="px-4 py-2 rounded-full bg-stone-100 hover:bg-amber-100 hover:text-amber-800 transition-colors text-stone-700 font-medium focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2"
               >
                 {label}
@@ -71,7 +72,7 @@ export default function PortraitHighlightGallery() {
           {staticImages.map((image, index) => (
             <a
               href="https://gallery.studio37.cc"
-              aria-label={`Open Studio37 gallery for ${image.title}`}
+              aria-label={`Open Studio37 featured work for ${image.title}`}
               key={image.id} 
               className="group relative block overflow-hidden rounded-xl shadow-md hover:shadow-xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2"
             >
@@ -107,15 +108,15 @@ export default function PortraitHighlightGallery() {
           ))}
         </div>
         <div className="text-center mt-10">
-          <a
-            href="https://gallery.studio37.cc"
-            aria-label="Open the full Studio37 portfolio gallery"
+          <Link
+            href="/request-portfolio"
+            aria-label="Request complete Studio37 galleries"
             className="btn-primary inline-flex items-center gap-2 text-base px-8 py-4"
           >
-            View Full Portfolio
+            Request Complete Galleries
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
-          </a>
-          <p className="mt-3 text-sm text-stone-500">500+ sessions · gallery.studio37.cc</p>
+          </Link>
+          <p className="mt-3 text-sm text-stone-500">Featured public work · complete galleries sent privately by request</p>
         </div>
       </div>
     </section>
