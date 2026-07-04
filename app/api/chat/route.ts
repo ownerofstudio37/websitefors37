@@ -17,7 +17,7 @@ const FLOWS = {
   initial:
     "Hi there! I'm Studio 37's virtual assistant. How can I help you today? Are you interested in wedding photography, portraits, events, or commercial photography? Feel free to [view our featured work](https://gallery.studio37.cc) or [request complete galleries](https://www.studio37.cc/request-portfolio) for your project type.",
   service:
-    "Great choice! Would you like to know about pricing options or [book a consultation](https://www.studio37.cc/book-a-session)?",
+    "Great choice! Would you like to know about pricing options or [book a consultation](https://www.studio37.cc/book-consultation)?",
   interest:
     "Could you share a bit more about what you are looking for? That helps us prepare a personalized quote. You can also check out [our services page](https://www.studio37.cc/services) for more details.",
   contact:
@@ -28,6 +28,13 @@ const FLOWS = {
     "Thanks for reaching out to Studio 37 Photography! We'll be in touch soon. While you wait, explore [our blog](https://www.studio37.cc/blog) or [read about us](https://www.studio37.cc/about).",
   fallback:
     "Would you like to discuss your photography needs with our team? We can provide details on services and pricing. Check out [our featured work](https://gallery.studio37.cc), [request complete galleries](https://www.studio37.cc/request-portfolio), or [contact us](https://www.studio37.cc/contact).",
+} as const;
+
+const PACKAGE_ANSWERS = {
+  weddingMicro:
+    "The $1,200 wedding package is our Micro / Elopement package. It includes 3 hours of intimate coverage, guest count under 30, the Duo Experience with both photographers on site, 150+ edited photos, a 48-hour sneak peek, and a private digital gallery with print release. You can [book a consultation](https://www.studio37.cc/book-consultation) or [request complete galleries](https://www.studio37.cc/request-portfolio) if you want to see examples first.",
+  weddingPricing:
+    "Wedding photography starts at $1,200 for Micro / Elopement coverage. Larger wedding collections are $2,200 for Essential Coverage, $3,200 for the Complete Collection, and $4,500 for the Premium Collection. Every wedding collection includes the Duo Experience with both photographers on site.",
 } as const;
 
 const BodySchema = z.object({
@@ -64,6 +71,14 @@ export async function POST(req: NextRequest) {
     const msg = message.toLowerCase();
     let response: string = FLOWS.initial;
     let nextState: ConversationState = { ...current };
+
+    if (/\b(wedding|elopement|micro)\b/.test(msg) && /\b(1200|1,200|package|include|included|comes with|pricing|price|cost)\b/.test(msg)) {
+      response = /\b(1200|1,200|micro|elopement|comes with|included|include)\b/.test(msg)
+        ? PACKAGE_ANSWERS.weddingMicro
+        : PACKAGE_ANSWERS.weddingPricing;
+      conversations.set(sessionId, nextState);
+      return NextResponse.json({ message: response });
+    }
 
     switch (current.step) {
       case "initial": {

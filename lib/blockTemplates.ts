@@ -371,7 +371,7 @@ export const PAGE_TEMPLATES: Record<string, PageTemplate> = {
             },
             {
               question: 'What is your pricing?',
-              answer: 'Our pricing varies by service type and package. Wedding packages start at $2,500, portraits at $350, and events at $500. Contact us for a detailed quote.'
+              answer: 'Our pricing varies by service type and package. Wedding packages start at $1,200, portraits at $350, events at $600, and commercial photography at $500. Contact us for a detailed quote.'
             },
             {
               question: 'Do you travel for shoots?',

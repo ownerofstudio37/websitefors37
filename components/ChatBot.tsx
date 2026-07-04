@@ -127,7 +127,7 @@ const CHAT_FLOW: Record<string, ChatFlowStep> = {
     next: 'complete'
   },
   complete: {
-    text: "Thank you! We'll be in touch within 24 hours with a personalized quote. In the meantime, check out [our services](https://www.studio37.cc/services) or [book a consultation](https://www.studio37.cc/book-a-session).",
+    text: "Thank you! We'll be in touch within 24 hours with a personalized quote. In the meantime, check out [our services](https://www.studio37.cc/services) or [book a consultation](https://www.studio37.cc/book-consultation).",
     field: null,
     next: null
   }

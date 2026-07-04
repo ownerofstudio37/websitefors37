@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { createLogger } from "@/lib/logger";
 import { requireAuth } from "@/lib/auth";
+import { studio37ServiceFacts } from "@/lib/studio37-package-facts";
 
 const log = createLogger("api/admin/chatbot/import-content");
 
@@ -148,10 +149,10 @@ export async function POST(req: NextRequest) {
       entries.push({
         category: "booking",
         question: "How do I book a session?",
-        answer: `Booking is easy! You can [schedule a consultation](${SITE_URL}/book-a-session) through our online calendar. We'll discuss your needs and find the perfect time for your session.`,
+        answer: `Booking is easy! You can [schedule a consultation](${SITE_URL}/book-consultation) through our online calendar. We'll discuss your needs and find the perfect time for your session.`,
         keywords: ["book", "schedule", "appointment", "session", "consultation"],
         is_active: true,
-        source_url: `${SITE_URL}/book-a-session`,
+        source_url: `${SITE_URL}/book-consultation`,
       });
     }
 
@@ -287,159 +288,7 @@ function splitIntoSections(content: string, pageTitle: string, siteUrl: string):
 }
 
 function getServicePageContent(siteUrl: string): any[] {
-  const services = [
-    {
-      name: "Portrait Photography",
-      slug: "portrait-photography",
-      types: ["Family Portraits", "Senior Portraits", "Headshots", "Maternity Sessions"],
-      description:
-        "Professional portrait photography in Pinehurst, Texas. From family sessions to senior portraits, we create timeless images you'll treasure forever.",
-      packages: {
-        mini: {
-          price: "$200",
-          duration: "30 minutes",
-          photos: "15+ edited photos",
-          features: ["Digital gallery"],
-        },
-        standard: {
-          price: "$350",
-          duration: "60 minutes",
-          photos: "30+ edited photos",
-          features: ["Multiple outfits/looks", "Digital gallery"],
-        },
-        extended: {
-          price: "$500",
-          duration: "90 minutes",
-          photos: "50+ edited photos",
-          features: ["Multiple locations", "Multiple outfits", "Digital gallery", "Print credit"],
-        },
-      },
-      serviceAreas: [
-        "Pinehurst TX",
-        "The Woodlands TX",
-        "Montgomery TX",
-        "Spring TX",
-        "Tomball TX",
-        "Magnolia TX",
-        "Conroe TX",
-        "Houston TX",
-      ],
-    },
-    {
-      name: "Wedding Photography",
-      slug: "wedding-photography",
-      types: ["Full Day Coverage", "Engagement Sessions", "Bridal Portraits", "Ceremony Only"],
-      description:
-        "Award-winning wedding photography capturing your special day with artistry and emotion. Serving Pinehurst, The Woodlands, and greater Houston area.",
-      packages: {
-        essential: {
-          price: "$1,800",
-          duration: "6 hours",
-          photos: "300+ edited photos",
-          features: ["Two photographers", "Online gallery", "Print release"],
-        },
-        premium: {
-          price: "$2,800",
-          duration: "8 hours",
-          photos: "500+ edited photos",
-          features: [
-            "Two photographers",
-            "Engagement session",
-            "Online gallery",
-            "Print release",
-            "Premium album",
-          ],
-        },
-        luxury: {
-          price: "$4,200",
-          duration: "10 hours",
-          photos: "700+ edited photos",
-          features: [
-            "Two photographers",
-            "Engagement session",
-            "Bridal session",
-            "Premium album",
-            "Parent albums",
-            "Print release",
-          ],
-        },
-      },
-      serviceAreas: [
-        "Pinehurst TX",
-        "The Woodlands TX",
-        "Montgomery County TX",
-        "Houston TX",
-        "Destination weddings available",
-      ],
-    },
-    {
-      name: "Event Photography",
-      slug: "event-photography",
-      types: ["Corporate Events", "Birthday Parties", "Graduations", "Special Occasions"],
-      description:
-        "Professional event photography capturing every special moment. Corporate events, birthday parties, graduations, and more throughout Montgomery County.",
-      packages: {
-        basic: {
-          price: "$400",
-          duration: "2 hours",
-          photos: "100+ edited photos",
-          features: ["Digital gallery", "Online sharing"],
-        },
-        standard: {
-          price: "$700",
-          duration: "4 hours",
-          photos: "200+ edited photos",
-          features: ["Digital gallery", "Online sharing", "Same-week delivery"],
-        },
-        full: {
-          price: "$1,000",
-          duration: "6 hours",
-          photos: "300+ edited photos",
-          features: ["Digital gallery", "Online sharing", "Same-week delivery", "Print credit"],
-        },
-      },
-      serviceAreas: ["Pinehurst TX", "The Woodlands TX", "Montgomery County", "Houston area"],
-    },
-    {
-      name: "Commercial Photography",
-      slug: "commercial-photography",
-      types: ["Real Estate", "Product Photography", "Business Headshots", "Brand Photography"],
-      description:
-        "Professional commercial photography for businesses in Pinehurst and The Woodlands. Real estate, products, headshots, and brand imagery.",
-      packages: {
-        headshots: {
-          price: "$150/person",
-          duration: "30 minutes",
-          photos: "5+ edited photos",
-          features: ["Professional retouching", "Multiple backgrounds", "Digital delivery"],
-        },
-        product: {
-          price: "$300",
-          duration: "Per session",
-          photos: "10-20 images",
-          features: ["White background", "Lifestyle shots", "E-commerce ready"],
-        },
-        realEstate: {
-          price: "$200",
-          duration: "Per property",
-          photos: "25+ photos",
-          features: ["Interior & exterior", "HDR processing", "24-hour delivery"],
-        },
-        brand: {
-          price: "$800",
-          duration: "4 hours",
-          photos: "50+ images",
-          features: [
-            "Multiple looks",
-            "Location scouting",
-            "Brand consultation",
-            "Social media ready",
-          ],
-        },
-      },
-      serviceAreas: ["Pinehurst TX", "The Woodlands TX", "Montgomery County", "Greater Houston"],
-    },
-  ];
+  const services = studio37ServiceFacts;
 
   const entries: any[] = [];
 
@@ -456,7 +305,7 @@ function getServicePageContent(siteUrl: string): any[] {
     const packageList = Object.entries(service.packages)
       .map(
         ([name, pkg]: [string, any]) =>
-          `**${name.charAt(0).toUpperCase() + name.slice(1)} Package** (${pkg.price}): ${pkg.duration} • ${pkg.photos} • ${pkg.features.join(", ")}`
+          `**${pkg.name || name}** (${pkg.price}): ${pkg.duration} • ${pkg.photos} • ${pkg.features.join(", ")}${pkg.note ? ` • ${pkg.note}` : ""}`
       )
       .join("\n\n");
 
@@ -480,7 +329,7 @@ function getServicePageContent(siteUrl: string): any[] {
     entries.push({
       category: "pricing",
       question: `What's included in your ${service.name.toLowerCase()} packages?`,
-      answer: `Great question! Our ${service.name.toLowerCase()} packages include:\n\n${packageList}\n\nAll photos are professionally edited and delivered through a private online gallery. You'll receive high-resolution digital files with print rights. [Book a consultation](${siteUrl}/book-a-session) to discuss which package is right for you!`,
+      answer: `Great question! Our ${service.name.toLowerCase()} packages include:\n\n${packageList}\n\nAll photos are professionally edited and delivered through a private online gallery. You'll receive high-resolution digital files with print rights unless a custom commercial usage agreement applies. [Book a consultation](${siteUrl}/book-consultation) to discuss which package is right for you!`,
       keywords: [...extractKeywords(service.name), "included", "what you get", "package details", "deliverables"],
       is_active: true,
       source_url: `${siteUrl}/services/${service.slug}`,
@@ -492,7 +341,7 @@ function getServicePageContent(siteUrl: string): any[] {
         question: `Do you offer ${type.toLowerCase()}?`,
         answer: `Yes! ${type} is one of our specialties in ${service.name.toLowerCase()}. ${
           service.description.split(".")[0]
-        }. [Request complete ${service.name.toLowerCase()} galleries](${siteUrl}/request-portfolio) or [schedule a consultation](${siteUrl}/book-a-session) to discuss your ${type.toLowerCase()} needs!`,
+        }. [Request complete ${service.name.toLowerCase()} galleries](${siteUrl}/request-portfolio) or [schedule a consultation](${siteUrl}/book-consultation) to discuss your ${type.toLowerCase()} needs!`,
         keywords: extractKeywords(type + " " + service.name),
         is_active: true,
         source_url: `${siteUrl}/services/${service.slug}`,
@@ -543,10 +392,10 @@ function getCuratedEntries(siteUrl: string): any[] {
     {
       category: "booking",
       question: "How far in advance should I book?",
-      answer: `For best availability, we recommend booking 4-6 weeks in advance, especially for weekend sessions. However, we can often accommodate last-minute bookings within a week if our schedule allows. [Check our calendar](${siteUrl}/book-a-session) to see available dates.`,
+      answer: `For best availability, we recommend booking 4-6 weeks in advance, especially for weekend sessions. However, we can often accommodate last-minute bookings within a week if our schedule allows. [Book a consultation](${siteUrl}/book-consultation) to check availability.`,
       keywords: ["advance", "how soon", "when to book", "availability"],
       is_active: true,
-      source_url: `${siteUrl}/book-a-session`,
+      source_url: `${siteUrl}/book-consultation`,
     },
     {
       category: "services",

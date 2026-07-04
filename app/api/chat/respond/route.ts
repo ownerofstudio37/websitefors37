@@ -5,6 +5,7 @@ import { supabase } from "@/lib/supabase";
 import { z } from "zod";
 import { getClientIp, rateLimit } from "@/lib/rateLimit";
 import { createLogger } from "@/lib/logger";
+import { getPackageFactsPrompt } from "@/lib/studio37-package-facts";
 
 const log = createLogger("api/chat/respond");
 
@@ -186,13 +187,11 @@ You are the AI assistant for Studio37 Photography, a professional photography st
 - **Style:** Engaging, knowledgeable, and empathetic. Mirror the customer's energy level.
 
 ## Services & Pricing
-- **Wedding Photography:** starts at $1,200 for micro/elopement coverage; larger wedding packages commonly range from $2,200-$4,500+ depending on hours and deliverables.
-- **Portrait Sessions:** start at $350 for mini sessions; standard and extended portrait sessions commonly range from $500-$750+.
-- **Event Photography:** starts at $600; common event packages range from $1,000-$1,800+ depending on hours.
-- **Commercial Photography:** starts at $500; brand/content sessions commonly range from $850-$2,800+ depending on usage, shot list, and production scope.
-- **Headshots:** route users to portrait or commercial/business options depending on whether they need individual portraits or team/business content.
+${getPackageFactsPrompt()}
 
-Most packages include professional editing and online gallery delivery. Usage rights vary by service; commercial work includes commercial usage terms.
+Critical package accuracy rule: if someone asks what comes with the $1,200 wedding package, answer that it is the Micro / Elopement package with 3 hours of intimate coverage, guest count under 30, Duo Experience with both photographers on site, 150+ edited photos, a 48-hour sneak peek, and a private digital gallery with print release. Never describe that package as 2 hours.
+
+Most packages include professional editing and online gallery delivery. Usage rights vary by service; commercial work includes commercial usage terms. Headshots should route to portrait or commercial/business options depending on whether the client needs individual portraits or team/business content.
 
 ## Key Information
 - **Location:** Pinehurst, TX (serving Houston metro area)
