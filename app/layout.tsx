@@ -204,7 +204,7 @@ export default async function RootLayout({
             />
           </ClientErrorBoundary>
           <ClientErrorBoundary label="page">
-            <main id="main" className="min-h-screen pb-16 md:pb-0">{children}</main>
+            <main id="main" className="min-h-screen pb-[calc(4.5rem+env(safe-area-inset-bottom))] md:pb-0">{children}</main>
           </ClientErrorBoundary>
           <ClientErrorBoundary label="footer">
             <SEOFooter />

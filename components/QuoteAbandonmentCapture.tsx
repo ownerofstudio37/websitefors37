@@ -140,7 +140,7 @@ export default function QuoteAbandonmentCapture() {
   }
 
   return (
-    <div className="fixed bottom-28 left-3 right-24 z-40 max-w-sm rounded-lg border border-stone-200 bg-white p-4 shadow-2xl sm:left-4 sm:right-auto md:bottom-6">
+    <div className="fixed bottom-[calc(5.5rem+env(safe-area-inset-bottom))] left-3 right-20 z-40 max-w-sm rounded-lg border border-stone-200 bg-white p-4 shadow-2xl sm:left-4 sm:right-auto md:bottom-6">
       <button
         type="button"
         onClick={dismissCapture}

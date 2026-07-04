@@ -578,7 +578,8 @@ ${conversationSummary}`;
             animate={{ scale: 1 }}
             exit={{ scale: 0 }}
             onClick={startChat}
-            className="fixed bottom-24 right-5 bg-gradient-to-r from-purple-600 to-pink-600 text-white p-4 rounded-full shadow-2xl hover:shadow-3xl hover:scale-110 transition-all z-50 group md:bottom-6 md:right-6"
+            className="fixed bottom-[calc(5.75rem+env(safe-area-inset-bottom))] right-4 z-50 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 p-4 text-white shadow-2xl transition-all hover:scale-110 hover:shadow-3xl md:bottom-6 md:right-6"
+            aria-label="Open Studio37 chat assistant"
           >
             <MessageCircle className="h-6 w-6" />
             <span className="absolute -top-1 -right-1 h-3 w-3 bg-green-400 rounded-full animate-pulse"></span>
@@ -593,7 +594,7 @@ ${conversationSummary}`;
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
-            className="fixed bottom-20 right-0 w-full max-w-sm h-[70vh] max-h-[calc(100vh-5rem)] bg-white rounded-2xl shadow-2xl z-50 flex flex-col overflow-hidden sm:bottom-6 sm:right-6 sm:max-h-[600px]"
+            className="fixed inset-x-3 bottom-[calc(5rem+env(safe-area-inset-bottom))] z-50 flex h-[min(70dvh,34rem)] flex-col overflow-hidden rounded-2xl bg-white shadow-2xl sm:left-auto sm:right-6 sm:w-full sm:max-w-sm md:bottom-6 md:max-h-[600px]"
           >
             {/* Header */}
             <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white p-4 flex justify-between items-center">
@@ -612,6 +613,7 @@ ${conversationSummary}`;
               <button
                 onClick={() => setIsOpen(false)}
                 className="hover:bg-white/20 p-1.5 rounded-lg transition-colors"
+                aria-label="Close Studio37 chat assistant"
               >
                 <X className="h-5 w-5" />
               </button>

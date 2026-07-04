@@ -12,7 +12,7 @@
 - [x] Chatbot context logging: attach chatbot summary, detected intent, and selected next step to lead/admin records.
 - [x] Local SEO differentiation: add city-specific location confidence, nearby shoot spots, real local session examples, parking/logistics notes, and service-specific copy.
 - [x] Conversion analytics dashboard: track and display hero CTA, pricing, package recommender, request portfolio, booking, chatbot, and service-card clicks/submissions.
-- [ ] Mobile polish pass: test nav, sticky CTA, service cards, booking forms, blog cards, request portfolio, chatbot overlap, and long-scroll fatigue on phone widths.
+- [x] Mobile polish pass: test nav, sticky CTA, service cards, booking forms, blog cards, request portfolio, chatbot overlap, and long-scroll fatigue on phone widths.
 
 ### Real Booking-Flow QA Pass
 
