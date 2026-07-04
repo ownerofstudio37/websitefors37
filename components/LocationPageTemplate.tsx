@@ -14,6 +14,14 @@ interface LocationPageTemplateProps {
 export default function LocationPageTemplate({ location, related }: LocationPageTemplateProps) {
   const heroImage = 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1759639187/A4B03835-ED8B-4FBB-A27E-1F2EE6CA1A18_1_105_c_gstgil_e_gen_restore_e_improve_e_sharpen_l_image_upload_My_Brand_IMG_2115_mtuowt_c_scale_fl_relative_w_0.40_o_80_fl_layer_apply_g_south_x_0.03_y_0.04_yqgycj.jpg'
   const venueExamples = location.nearbySpots.slice(0, 3)
+  const primarySpot = location.nearbySpots[0] || `${location.city} area`
+  const backupSpot = location.nearbySpots[1] || `${location.region} backup location`
+  const localConfidence = [
+    ['Best local fit', `${primarySpot} usually works well as a planning anchor for portraits, engagements, or venue-adjacent coverage in ${location.city}.`],
+    ['Parking + walking', `We confirm parking, walking distance, shade, restroom access, and meeting-point clarity before recommending a final ${location.city} location.`],
+    ['Backup plan', `${backupSpot} gives us a nearby fallback if weather, crowds, access, or light direction changes on session day.`],
+    ['Best light window', `For outdoor sessions in ${location.region}, we usually plan softer morning or late-day light before locking the final timeline.`],
+  ]
   const serviceLinks = [
     { label: `Wedding photography in ${location.city}`, href: '/services/wedding-photography' },
     { label: `Portrait sessions in ${location.city}`, href: '/services/portrait-photography' },
@@ -111,6 +119,23 @@ export default function LocationPageTemplate({ location, related }: LocationPage
         </div>
       </section>
 
+      <section className="border-b border-stone-200 bg-white py-8">
+        <div className="container mx-auto px-4">
+          <div className="mb-5 max-w-3xl">
+            <p className="eyebrow mb-2">Local Confidence</p>
+            <h2 className="text-2xl font-bold text-stone-950">How we plan around {location.city}, TX</h2>
+          </div>
+          <div className="grid gap-4 md:grid-cols-4">
+            {localConfidence.map(([title, copy]) => (
+              <div key={title} className="rounded-lg border border-stone-200 bg-stone-50 p-4">
+                <h3 className="font-semibold text-stone-950">{title}</h3>
+                <p className="mt-2 text-sm leading-6 text-stone-700">{copy}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="py-12">
         <div className="container mx-auto px-4 grid lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-5">
@@ -127,6 +152,11 @@ export default function LocationPageTemplate({ location, related }: LocationPage
               Popular nearby spots for sessions include {location.nearbySpots.join(', ')}. If you
               already have a venue in mind, we can scout it and build a custom shot list before your
               session date.
+            </p>
+            <p className="text-gray-700">
+              For {location.city} sessions, the planning priority is matching the service to the location:
+              weddings need timeline buffers, portraits need clean light and easy walking, events need access
+              notes, and commercial shoots need usage-ready shot lists.
             </p>
 
             <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">

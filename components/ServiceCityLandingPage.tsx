@@ -59,6 +59,8 @@ export default function ServiceCityLandingPage({
     }
   })
   const serviceLower = serviceName.toLowerCase()
+  const primaryNearby = nearbyCities[0] || county
+  const secondaryNearby = nearbyCities[1] || city
   const planningFocus = serviceLower.includes('wedding')
     ? [
         ['Timeline fit', `Ceremony, family-formal, reception, and exit timing planned around ${cityLabel} venue flow.`],
@@ -122,6 +124,24 @@ export default function ServiceCityLandingPage({
         </div>
       </section>
 
+      <section className="border-b border-stone-200 bg-stone-50 py-8">
+        <div className="container mx-auto px-4">
+          <div className="grid gap-4 md:grid-cols-4">
+            {[
+              ['Local proof', `${serviceName} examples can be matched to ${cityLabel}, ${primaryNearby}, or nearby ${county} settings when you request private galleries.`],
+              ['Location confidence', `We plan parking, walking distance, shade, indoor backup options, and meeting points before the ${city} session.`],
+              ['Nearby flexibility', `${primaryNearby} and ${secondaryNearby} give us practical backup routes if crowds, weather, or access change.`],
+              ['Service-specific copy', `Your shot list is built around ${serviceName.toLowerCase()} goals, not a generic local-page checklist.`],
+            ].map(([title, copy]) => (
+              <div key={title} className="rounded-lg border border-stone-200 bg-white p-4">
+                <p className="text-xs font-bold uppercase tracking-[0.16em] text-amber-800">{title}</p>
+                <p className="mt-2 text-sm leading-6 text-stone-700">{copy}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="py-12">
         <div className="container mx-auto px-4 grid lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
@@ -148,6 +168,15 @@ export default function ServiceCityLandingPage({
                   </div>
                 ))}
               </div>
+            </div>
+
+            <div className="mt-6 rounded-lg border border-stone-200 bg-white p-5">
+              <h3 className="text-lg font-semibold text-stone-950">Location logistics we confirm</h3>
+              <p className="mt-2 text-sm leading-6 text-stone-700">
+                Before recommending a final plan for {serviceName.toLowerCase()} in {cityLabel}, we check arrival instructions,
+                parking, walking burden, light direction, backup shade or indoor options, and whether the final gallery needs
+                family, editorial, commercial, or event-delivery variety.
+              </p>
             </div>
 
             <div className="mt-10">

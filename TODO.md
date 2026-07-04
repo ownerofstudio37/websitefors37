@@ -10,7 +10,7 @@
 - [x] Admin proof library: create a tagged proof asset/library workflow for service, location, venue style, lighting, and use case so private portfolio requests can be answered quickly.
 - [x] Chatbot handoff upgrade: route detected intent to one of four clean next steps: book consult, compare pricing, request complete galleries, or ask a human.
 - [x] Chatbot context logging: attach chatbot summary, detected intent, and selected next step to lead/admin records.
-- [ ] Local SEO differentiation: add city-specific location confidence, nearby shoot spots, real local session examples, parking/logistics notes, and service-specific copy.
+- [x] Local SEO differentiation: add city-specific location confidence, nearby shoot spots, real local session examples, parking/logistics notes, and service-specific copy.
 - [x] Conversion analytics dashboard: track and display hero CTA, pricing, package recommender, request portfolio, booking, chatbot, and service-card clicks/submissions.
 - [ ] Mobile polish pass: test nav, sticky CTA, service cards, booking forms, blog cards, request portfolio, chatbot overlap, and long-scroll fatigue on phone widths.
 
