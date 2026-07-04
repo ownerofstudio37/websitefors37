@@ -10,6 +10,7 @@ import { Users, Camera, Clock, Star, CheckCircle, ArrowRight } from 'lucide-reac
 import PricingCalculator from '@/components/PricingCalculator'
 import { ServiceTestimonialsSection, TurnaroundExpectationsSection } from '@/components/PublicFeatureContent'
 import { PortfolioProofSection } from '@/components/PublicConversionSections'
+import ServiceIntentPanel from '@/components/ServiceIntentPanel'
 
 export const metadata = generateSEOMetadata({
   title: 'Portrait Photography Pinehurst TX - Professional Portrait Sessions Studio37',
@@ -106,6 +107,8 @@ export default function PortraitPhotographyPage() {
           </div>
         </div>
       </section>
+
+      <ServiceIntentPanel service="portrait" />
 
       {/* Portrait Types */}
       <section className="section-shell bg-white">

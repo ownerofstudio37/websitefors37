@@ -21,6 +21,7 @@ import {
   ArrowRight,
 } from 'lucide-react'
 import { PortfolioProofSection } from '@/components/PublicConversionSections'
+import ServiceIntentPanel from '@/components/ServiceIntentPanel'
 
 export const metadata = generateSEOMetadata({
   title: 'Branding & Marketing Services Pinehurst TX - White-Glove Growth Partner | Studio37',
@@ -181,6 +182,8 @@ export default function BrandingMarketingPage() {
           </div>
         </div>
       </section>
+
+      <ServiceIntentPanel service="branding" />
 
       <section className="section-shell bg-white">
         <div className="container mx-auto px-4">

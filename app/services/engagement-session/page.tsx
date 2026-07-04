@@ -7,6 +7,7 @@ import { generateServiceSchema } from '@/lib/seo-config'
 import FAQSection from '@/components/FAQSection'
 import { generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
 import { ServiceTestimonialsSection } from '@/components/PublicFeatureContent'
+import ServiceIntentPanel from '@/components/ServiceIntentPanel'
 
 export const metadata = generateSEOMetadata({
   title: 'Full Service Engagement Photography - Pinehurst, TX',
@@ -210,6 +211,8 @@ export default function EngagementSessionPage() {
           </div>
         </div>
       </section>
+
+      <ServiceIntentPanel service="engagement" />
 
       <section className="section-shell bg-white">
         <div className="container mx-auto px-4">

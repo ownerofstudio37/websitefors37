@@ -9,6 +9,7 @@ import { Heart, Camera, Clock, Star, CheckCircle, ArrowRight } from 'lucide-reac
 import FAQSection from '@/components/FAQSection'
 import { ServiceTestimonialsSection, TurnaroundExpectationsSection, VenueStyleExamplesSection } from '@/components/PublicFeatureContent'
 import { PortfolioProofSection } from '@/components/PublicConversionSections'
+import ServiceIntentPanel from '@/components/ServiceIntentPanel'
 
 export const metadata = generateSEOMetadata({
   title: 'Wedding Photography Pinehurst TX - Studio37 Professional Wedding Photographer',
@@ -170,6 +171,8 @@ export default function WeddingPhotographyPage() {
           </div>
         </div>
       </section>
+
+      <ServiceIntentPanel service="wedding" />
 
       {/* Two Photographers Announcement */}
       <div className="bg-primary-50 border-y border-primary-200">

@@ -7,6 +7,7 @@ import { generateServiceSchema } from '@/lib/seo-config'
 import { generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
 import ConciergeInquiryForm from '@/components/ConciergeInquiryForm'
 import { ServiceTestimonialsSection } from '@/components/PublicFeatureContent'
+import ServiceIntentPanel from '@/components/ServiceIntentPanel'
 
 export const metadata = generateSEOMetadata({
   title: 'Concierge Proposal and Engagement Services - Pinehurst, TX',
@@ -101,6 +102,8 @@ export default function ConciergeServicesPage() {
           </div>
         </div>
       </section>
+
+      <ServiceIntentPanel service="concierge" />
 
       <section className="section-shell bg-stone-50">
         <div className="container mx-auto px-4">

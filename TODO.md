@@ -6,7 +6,7 @@
 
 - [x] Real booking-flow QA pass: start as a visitor from homepage, service page, blog, local page, chatbot, request portfolio, and pricing/package tools; verify every path lands cleanly at booking/contact without confusing `/book-a-session` vs `/book-consultation` language.
 - [x] Booking page polish: improve trust copy, reduce form friction, add what happens after submit, show response time, clarify consultation vs session booking, and preserve package/context handoff.
-- [ ] Service-page intent pass: make wedding, portrait, engagement, concierge, event, commercial, and branding pages feel distinct in proof, process, pricing expectation, objections, and CTA rhythm.
+- [x] Service-page intent pass: make wedding, portrait, engagement, concierge, event, commercial, and branding pages feel distinct in proof, process, pricing expectation, objections, and CTA rhythm.
 - [x] Admin proof library: create a tagged proof asset/library workflow for service, location, venue style, lighting, and use case so private portfolio requests can be answered quickly.
 - [x] Chatbot handoff upgrade: route detected intent to one of four clean next steps: book consult, compare pricing, request complete galleries, or ask a human.
 - [x] Chatbot context logging: attach chatbot summary, detected intent, and selected next step to lead/admin records.

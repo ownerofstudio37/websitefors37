@@ -8,6 +8,7 @@ import { generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
 import { Camera, Calendar, Users, Clock, Star, CheckCircle, ArrowRight } from 'lucide-react'
 import { ServiceTestimonialsSection, TurnaroundExpectationsSection, VenueStyleExamplesSection } from '@/components/PublicFeatureContent'
 import { PortfolioProofSection } from '@/components/PublicConversionSections'
+import ServiceIntentPanel from '@/components/ServiceIntentPanel'
 
 export const metadata = generateSEOMetadata({
   title: 'Event Photography Pinehurst TX - Professional Event Photographer Studio37',
@@ -104,6 +105,8 @@ export default function EventPhotographyPage() {
           </div>
         </div>
       </section>
+
+      <ServiceIntentPanel service="event" />
 
       {/* Event Types */}
       <section className="section-shell bg-white">
