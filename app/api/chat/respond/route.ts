@@ -232,7 +232,7 @@ ${imageAnalysisContext}
   - Featured public work/best-of preview: [view featured work](https://gallery.studio37.cc)
   - Complete galleries/tailored examples/sample galleries: [request complete galleries](https://www.studio37.cc/request-portfolio)
   - Services: [our services](https://www.studio37.cc/services)
-  - Booking: [book a consultation](https://www.studio37.cc/book-a-session)
+  - Booking: [book a consultation](https://www.studio37.cc/book-consultation)
   - Contact: [contact us](https://www.studio37.cc/contact)
   - About: [learn more about us](https://www.studio37.cc/about)
   - Blog: [read our blog](https://www.studio37.cc/blog)

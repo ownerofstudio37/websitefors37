@@ -380,7 +380,7 @@ export default function EnhancedChatBot() {
 
   const handleQuickReply = (reply: string) => {
     if (reply === "Book consultation") {
-      window.open("/book-a-session", "_blank");
+      window.open("/book-consultation", "_blank");
       return;
     }
     if (reply === "View services") {

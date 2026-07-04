@@ -53,7 +53,7 @@ export default function PackageRecommenderPage() {
           {[
             ['Good starting point', 'The recommendation narrows the decision without locking you into a final quote.'],
             ['Built for real shoots', 'Coverage, people, timing, and deliverables matter more than a generic package name.'],
-            ['Easy handoff', 'Continue to booking with the package context carried into your inquiry.'],
+            ['Easy handoff', 'Continue to session booking with the package context carried into your inquiry.'],
           ].map(([title, copy]) => (
             <div key={title} className="rounded-lg bg-white/70 p-4">
               <h2 className="font-semibold text-stone-950">{title}</h2>

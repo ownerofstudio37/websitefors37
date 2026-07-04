@@ -355,7 +355,7 @@ export default function PackageRecommender({ className = "" }: { className?: str
             ))}
           </ul>
           <Link href={recommendation.href} onClick={() => trackSelection()} className="btn-primary mt-6 inline-flex w-full items-center justify-center">
-            Continue to Booking <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+            Continue to Session Booking <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
           </Link>
         </div>
       </div>

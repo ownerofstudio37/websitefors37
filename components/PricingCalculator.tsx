@@ -230,7 +230,7 @@ export default function PricingCalculator({
                 href={{ pathname: "/book-a-session", query: { duration: minutes, people, type: category, price_cents: proratedPrice } }}
                 className="mt-4 inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-primary-600 text-white font-semibold hover:bg-primary-700 transition"
               >
-                Continue to Book
+                Continue to Session Booking
                 <ChevronRight className="h-5 w-5" />
               </Link>
             )}

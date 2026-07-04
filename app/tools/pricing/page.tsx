@@ -57,7 +57,7 @@ export default function PricingToolPage() {
           {[
             ['Estimate first', 'Use the calculator to compare timing and coverage before you inquire.'],
             ['Confirm scope', 'Final quotes account for location, usage, rush needs, and custom production details.'],
-            ['Continue booking', 'Send the selected package into booking so the next step is already prepared.'],
+            ['Continue session booking', 'Send the selected package into session booking so the next step is already prepared.'],
           ].map(([title, copy]) => (
             <div key={title} className="rounded-lg bg-white/70 p-4">
               <h2 className="font-semibold text-stone-950">{title}</h2>

@@ -84,9 +84,9 @@ export default async function BlogPage() {
         <div className="container mx-auto grid gap-3 px-4 py-5 text-sm font-semibold text-stone-700 md:grid-cols-5">
           <Link href="/services/portrait-photography" className="rounded-lg bg-stone-50 px-4 py-3 transition hover:bg-amber-50 hover:text-amber-900">Portrait planning</Link>
           <Link href="/services/wedding-photography" className="rounded-lg bg-stone-50 px-4 py-3 transition hover:bg-amber-50 hover:text-amber-900">Wedding planning</Link>
-          <Link href="/services/engagement-photography" className="rounded-lg bg-stone-50 px-4 py-3 transition hover:bg-amber-50 hover:text-amber-900">Engagement prep</Link>
+          <Link href="/services/engagement-session" className="rounded-lg bg-stone-50 px-4 py-3 transition hover:bg-amber-50 hover:text-amber-900">Engagement prep</Link>
           <Link href="/tools/package-recommender" className="rounded-lg bg-stone-50 px-4 py-3 transition hover:bg-amber-50 hover:text-amber-900">Choose a package</Link>
-          <Link href="/book-a-session" className="rounded-lg bg-stone-950 px-4 py-3 text-white transition hover:bg-amber-700">Book or consult</Link>
+          <Link href="/book-consultation" className="rounded-lg bg-stone-950 px-4 py-3 text-white transition hover:bg-amber-700">Book a consult</Link>
         </div>
       </div>
 
@@ -99,7 +99,7 @@ export default async function BlogPage() {
               Start here if you want to know what to book, how we plan locations and light, what clients usually ask, and what happens after your inquiry.
             </p>
             <div className="mt-5 flex flex-wrap gap-2 text-sm font-semibold">
-              <Link href="/book-a-session" className="rounded-full bg-primary-700 px-4 py-2 text-white hover:bg-primary-800">Ready to talk</Link>
+              <Link href="/book-consultation" className="rounded-full bg-primary-700 px-4 py-2 text-white hover:bg-primary-800">Ready to talk</Link>
               <Link href="/services" className="rounded-full border border-stone-300 px-4 py-2 text-stone-800 hover:bg-stone-100">Compare services</Link>
               <Link href="/locations" className="rounded-full border border-stone-300 px-4 py-2 text-stone-800 hover:bg-stone-100">Browse local areas</Link>
             </div>
