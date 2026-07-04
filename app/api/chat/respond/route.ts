@@ -342,10 +342,16 @@ Respond now:`;
     // Intent detection
     if (/\b(book|schedule|reserve|consultation|available|availability)\b/i.test(lowerMessage)) {
       detectedInfo.intent = "booking";
+      detectedInfo.nextStep = "book_consultation";
     } else if (/\b(price|pricing|cost|package|rate|quote)\b/i.test(lowerMessage)) {
       detectedInfo.intent = "pricing";
+      detectedInfo.nextStep = "compare_pricing";
     } else if (/\b(portfolio|work|examples|photos|style)\b/i.test(lowerMessage)) {
       detectedInfo.intent = "portfolio";
+      detectedInfo.nextStep = "request_complete_galleries";
+    } else if (/\b(human|person|someone|call me|talk to|representative)\b/i.test(lowerMessage)) {
+      detectedInfo.intent = "human";
+      detectedInfo.nextStep = "ask_human";
     }
 
     // If we have a clearly relevant service/pricing entry, expose its page URL

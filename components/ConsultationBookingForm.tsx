@@ -300,7 +300,7 @@ const ConsultationBookingForm = () => {
               </div>
             )}
             <p className="text-gray-600 mb-6">
-              Select a convenient date for your 30-minute consultation call
+              Select a convenient date for your free 15-minute consultation call.
             </p>
 
             {/* Month Navigation */}
@@ -421,7 +421,7 @@ const ConsultationBookingForm = () => {
               Your Contact Information
             </h2>
             <p className="text-gray-600 mb-6">
-              We'll use this to send you a confirmation and calendar invite
+              We will use this to send your confirmation, calendar details, and a useful follow-up based on your project.
             </p>
 
             <div className="space-y-4 mb-6">
@@ -493,6 +493,7 @@ const ConsultationBookingForm = () => {
                 <div>🕐 {selectedTime} CST</div>
                 <div>⏱️ Duration: 15 minutes</div>
                 <div>💰 Cost: FREE</div>
+                {packageInterest && <div>🏷️ Context: {packageInterest}</div>}
               </div>
             </div>
 
@@ -546,7 +547,7 @@ const ConsultationBookingForm = () => {
                 <li>✅ Check your email for the calendar invite</li>
                 <li>✅ Add it to your calendar so you don't forget</li>
                 <li>✅ We'll call you at {selectedTime} CST on {new Date(selectedDate).toLocaleDateString()}</li>
-                <li>✅ Have any questions ready - we're here to help!</li>
+                <li>✅ We will recommend the best next step: session booking, custom quote, or private gallery examples</li>
               </ul>
             </div>
 

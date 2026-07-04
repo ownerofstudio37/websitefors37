@@ -126,6 +126,18 @@ export const ADMIN_TOOLS: AdminTool[] = [
     showOnDashboard: true,
   },
   {
+    id: 'proof-library',
+    label: 'Proof Library',
+    description: 'Match private complete galleries and proof sets to lead confidence gaps.',
+    href: '/admin/proof-library',
+    icon: Image,
+    group: 'crm',
+    keywords: ['portfolio', 'proof', 'private galleries', 'sample galleries', 'lead proof'],
+    badge: 'New',
+    showInSidebar: true,
+    showOnDashboard: true,
+  },
+  {
     id: 'bookings',
     label: 'Bookings',
     description: 'Manage session bookings and appointment records.',

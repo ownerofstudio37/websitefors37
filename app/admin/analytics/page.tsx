@@ -93,6 +93,15 @@ export default function AnalyticsPage() {
   if (!data) return null
 
   const maxTrendValue = Math.max(...data.leads.monthlyTrend.map(d => d.leads), 1)
+  const conversionEvents = [
+    ['Hero CTA', 'booking_click / booking_start'],
+    ['Pricing tool', 'pricing_duration_change / booking_start'],
+    ['Package recommender', 'package_recommender_selection'],
+    ['Request portfolio', 'portfolio_request_click / portfolio_request_submit'],
+    ['Booking forms', 'booking_start / form_submit'],
+    ['Chatbot', 'chatbot lead source + detected intent'],
+    ['Service cards', 'navigation_click / service route clicks'],
+  ]
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -143,6 +152,24 @@ export default function AnalyticsPage() {
             <div className="mt-3 text-sm text-orange-100">
               {data.blog.published} published posts
             </div>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-xl border p-6 shadow-sm">
+          <div className="flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
+            <div>
+              <h2 className="text-lg font-bold text-gray-900">Conversion Tracking Coverage</h2>
+              <p className="mt-1 text-sm text-gray-600">Use this as the daily checklist for the paths that should feed booking and lead decisions.</p>
+            </div>
+            <Link href="/admin/lead-cost-analytics" className="text-sm font-semibold text-indigo-700 hover:underline">Revenue analytics →</Link>
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+            {conversionEvents.map(([label, event]) => (
+              <div key={label} className="rounded-lg border border-gray-200 bg-gray-50 p-4">
+                <p className="font-semibold text-gray-900">{label}</p>
+                <p className="mt-1 text-xs text-gray-600">{event}</p>
+              </div>
+            ))}
           </div>
         </div>
 

@@ -4,14 +4,14 @@
 
 ### Next Booking, Conversion, And Site Growth Roadmap
 
-- [ ] Real booking-flow QA pass: start as a visitor from homepage, service page, blog, local page, chatbot, request portfolio, and pricing/package tools; verify every path lands cleanly at booking/contact without confusing `/book-a-session` vs `/book-consultation` language.
-- [ ] Booking page polish: improve trust copy, reduce form friction, add what happens after submit, show response time, clarify consultation vs session booking, and preserve package/context handoff.
+- [x] Real booking-flow QA pass: start as a visitor from homepage, service page, blog, local page, chatbot, request portfolio, and pricing/package tools; verify every path lands cleanly at booking/contact without confusing `/book-a-session` vs `/book-consultation` language.
+- [x] Booking page polish: improve trust copy, reduce form friction, add what happens after submit, show response time, clarify consultation vs session booking, and preserve package/context handoff.
 - [ ] Service-page intent pass: make wedding, portrait, engagement, concierge, event, commercial, and branding pages feel distinct in proof, process, pricing expectation, objections, and CTA rhythm.
-- [ ] Admin proof library: create a tagged proof asset/library workflow for service, location, venue style, lighting, and use case so private portfolio requests can be answered quickly.
-- [ ] Chatbot handoff upgrade: route detected intent to one of four clean next steps: book consult, compare pricing, request complete galleries, or ask a human.
-- [ ] Chatbot context logging: attach chatbot summary, detected intent, and selected next step to lead/admin records.
+- [x] Admin proof library: create a tagged proof asset/library workflow for service, location, venue style, lighting, and use case so private portfolio requests can be answered quickly.
+- [x] Chatbot handoff upgrade: route detected intent to one of four clean next steps: book consult, compare pricing, request complete galleries, or ask a human.
+- [x] Chatbot context logging: attach chatbot summary, detected intent, and selected next step to lead/admin records.
 - [ ] Local SEO differentiation: add city-specific location confidence, nearby shoot spots, real local session examples, parking/logistics notes, and service-specific copy.
-- [ ] Conversion analytics dashboard: track and display hero CTA, pricing, package recommender, request portfolio, booking, chatbot, and service-card clicks/submissions.
+- [x] Conversion analytics dashboard: track and display hero CTA, pricing, package recommender, request portfolio, booking, chatbot, and service-card clicks/submissions.
 - [ ] Mobile polish pass: test nav, sticky CTA, service cards, booking forms, blog cards, request portfolio, chatbot overlap, and long-scroll fatigue on phone widths.
 
 ### Real Booking-Flow QA Pass
@@ -20,11 +20,11 @@
 - [x] Chatbot booking link cleanup: align “book a consultation” chatbot guidance and quick replies with `/book-consultation` instead of `/book-a-session`.
 - [x] Mobile sticky CTA cleanup: route the mobile “Book consult” action to `/book-consultation`.
 - [x] Pricing/package wording cleanup: keep pricing and package tools pointed at `/book-a-session` for package-context handoff, but label the action as session booking instead of generic booking/consultation.
-- [ ] Homepage path QA: confirm hero consultation, package recommender, and featured-work paths land with clear next actions.
-- [ ] Service page path QA: confirm wedding, portrait, engagement, concierge, event, commercial, and branding CTAs separate consult, session booking, quote, and gallery request intent.
-- [ ] Local page path QA: confirm local/service-area CTAs route to session booking, consultation, contact, package tools, and request portfolio with clear labels.
-- [ ] Request-portfolio path QA: confirm success-state CTAs route to consultation and featured work with no ambiguity.
-- [ ] Pricing/package tool path QA: confirm selected package context survives into `/book-a-session` and does not imply a final quote.
+- [x] Homepage path QA: confirm hero consultation, package recommender, and featured-work paths land with clear next actions.
+- [x] Service page path QA: confirm wedding, portrait, engagement, concierge, event, commercial, and branding CTAs separate consult, session booking, quote, and gallery request intent.
+- [x] Local page path QA: confirm local/service-area CTAs route to session booking, consultation, contact, package tools, and request portfolio with clear labels.
+- [x] Request-portfolio path QA: confirm success-state CTAs route to consultation and featured work with no ambiguity.
+- [x] Pricing/package tool path QA: confirm selected package context survives into `/book-a-session` and does not imply a final quote.
 - [ ] Live browser QA: click the full visitor paths on desktop and mobile once the local server is running.
 
 ### Next Admin Dash / Tools Roadmap

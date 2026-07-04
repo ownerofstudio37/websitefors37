@@ -32,6 +32,7 @@ interface LeadData {
   budgetInquiry?: boolean;
   eventDate?: string;
   intent?: string;
+  nextStep?: string;
   message?: string;
 }
 
@@ -452,8 +453,8 @@ export default function EnhancedChatBot() {
         budget_range: data.budget,
         event_date: data.eventDate,
         message: data.message
-          ? `${data.message}\n\nEvent date: ${data.eventDate || "TBD"}\nIntent: ${data.intent || "general inquiry"}\n\n--- Conversation ---\n${conversationSummary}`
-          : `Event date: ${data.eventDate || "TBD"}\nIntent: ${data.intent || "general inquiry"}\n\n--- Conversation ---\n${conversationSummary}`,
+          ? `${data.message}\n\nEvent date: ${data.eventDate || "TBD"}\nIntent: ${data.intent || "general inquiry"}\nNext step: ${data.nextStep || "needs review"}\n\n--- Conversation ---\n${conversationSummary}`
+          : `Event date: ${data.eventDate || "TBD"}\nIntent: ${data.intent || "general inquiry"}\nNext step: ${data.nextStep || "needs review"}\n\n--- Conversation ---\n${conversationSummary}`,
         source: "chatbot",
       };
 

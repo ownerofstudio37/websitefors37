@@ -76,6 +76,7 @@ export const adminRouteOwnership: AdminRouteOwnership[] = [
   { route: '/admin/database-migrations', file: 'app/admin/database-migrations/page.tsx', status: 'internal', owner: 'system', note: 'Dangerous schema utility; keep out of primary nav.' },
   { route: '/admin/lead-cost-analytics', file: 'app/admin/lead-cost-analytics/page.tsx', status: 'active', owner: 'crm', note: 'Cost and revenue reporting.' },
   { route: '/admin/lead-scoring', file: 'app/admin/lead-scoring/page.tsx', status: 'active', owner: 'crm', note: 'Lead score recalculation and review.' },
+  { route: '/admin/proof-library', file: 'app/admin/proof-library/page.tsx', status: 'active', owner: 'crm', note: 'Private proof-set matching workspace for portfolio requests.' },
   { route: '/admin/page-backup', file: 'app/admin/page-backup.tsx', status: 'backup', owner: 'system', note: 'Archived admin implementation; not primary.' },
   { route: '/admin/edit-homepage', file: 'app/admin/edit-homepage/page.tsx', status: 'legacy', owner: 'content', note: 'Redirects to older live editor.' },
 ]

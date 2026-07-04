@@ -6,7 +6,7 @@ import { generateSEOMetadata } from '@/lib/seo-helpers'
 export const metadata = generateSEOMetadata({
   title: 'Book a Free Photography Consultation',
   description:
-    'Schedule a free 30-minute consultation with Studio37. Get expert recommendations for wedding, portrait, event, or commercial photography and a clear next-step plan.',
+    'Schedule a free 15-minute consultation with Studio37. Get expert recommendations for wedding, portrait, event, or commercial photography and a clear next-step plan.',
   keywords: [
     'free photography consultation',
     'book photographer consultation',
@@ -30,7 +30,7 @@ export default function BookConsultationPage() {
               Book Your Free Consultation
             </h1>
             <p className="text-xl text-stone-300 max-w-2xl mx-auto leading-relaxed">
-              Let's discuss your photography needs in a quick 30-minute call. No pressure, just honest advice from our experienced team.
+              Start with a quick 15-minute planning call. We will confirm the right service, package direction, availability, and whether you should book a session, request a quote, or review private gallery examples first.
             </p>
           </div>
         </div>
@@ -45,7 +45,7 @@ export default function BookConsultationPage() {
             </div>
             <h3 className="text-xl font-bold text-gray-900 mb-2">Quick & Easy</h3>
             <p className="text-gray-600">
-              Just 15 minutes to discuss your vision and get expert recommendations
+              Just 15 minutes to discuss your vision and get expert recommendations.
             </p>
           </div>
 
@@ -65,9 +65,17 @@ export default function BookConsultationPage() {
             </div>
             <h3 className="text-xl font-bold text-gray-900 mb-2">We Call You</h3>
             <p className="text-gray-600">
-              At your selected time, we'll give you a call to discuss everything
+              At your selected time, we will call you and turn the conversation into a clear next step.
             </p>
           </div>
+        </div>
+
+        <div className="mb-12 rounded-xl border border-amber-200 bg-amber-50 p-6">
+          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-amber-800">Consultation vs. Session Booking</p>
+          <h2 className="mt-2 text-2xl font-bold text-stone-950">Use this page when you want guidance before committing.</h2>
+          <p className="mt-3 max-w-3xl leading-7 text-stone-700">
+            A consultation is the planning call. Session booking is the paid shoot handoff after the package, timing, location, and deliverables are clear. If you came from pricing or the package recommender, your context helps us recommend the next step faster.
+          </p>
         </div>
 
         {/* What We'll Discuss */}
