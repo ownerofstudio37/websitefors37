@@ -29,11 +29,13 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   }
   
   const supabase = getSupabaseAdmin()
+  const now = new Date().toISOString()
   const { data: post } = await supabase
     .from('blog_posts')
     .select('title, meta_description, excerpt, meta_keywords')
     .eq('slug', params.slug)
     .eq('published', true)
+    .or(`published_at.is.null,published_at.lte.${now}`)
     .maybeSingle()
   
   const staticPost = getStaticBlogPost(params.slug)
@@ -77,11 +79,13 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
   }
   
   const supabase = getSupabaseAdmin()
+  const now = new Date().toISOString()
   const { data: post, error } = await supabase
     .from('blog_posts')
     .select('*')
     .eq('slug', params.slug)
     .eq('published', true)
+    .or(`published_at.is.null,published_at.lte.${now}`)
     .maybeSingle()
   
   const staticPost = getStaticBlogPost(params.slug)
@@ -97,6 +101,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
     .from('blog_posts')
     .select('id, title, slug, published_at')
     .eq('published', true)
+    .or(`published_at.is.null,published_at.lte.${now}`)
     .neq('id', articlePost.id || '')
     .order('published_at', { ascending: false })
     .limit(3)

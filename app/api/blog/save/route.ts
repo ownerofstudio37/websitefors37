@@ -33,6 +33,9 @@ export async function POST(request: NextRequest) {
     if (postData.published && !postData.published_at) {
       postData.published_at = new Date().toISOString()
     }
+    if (!postData.published) {
+      postData.published_at = null
+    }
 
     if (id) {
       // Update existing post
@@ -51,11 +54,27 @@ export async function POST(request: NextRequest) {
         throw error
       }
 
+      let savedPost = data
+      if (postData.published && postData.published_at && data.published_at !== postData.published_at) {
+        const { data: scheduledData, error: scheduledError } = await supabase
+          .from('blog_posts')
+          .update({ published_at: postData.published_at })
+          .eq('id', id)
+          .select()
+          .single()
+
+        if (scheduledError) {
+          log.error('Error preserving scheduled publish time', { error: scheduledError, id })
+          throw scheduledError
+        }
+        savedPost = scheduledData
+      }
+
       log.info('Blog post updated', { id, title: postData.title })
 
       return NextResponse.json({
         success: true,
-        post: data,
+        post: savedPost,
       })
     } else {
       // Create new post

@@ -37,6 +37,28 @@ type BlogSuggestions = {
   services: string;
 };
 
+const toDateTimeLocal = (value?: string | null) => {
+  if (!value) return "";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "";
+  const offsetMs = date.getTimezoneOffset() * 60000;
+  return new Date(date.getTime() - offsetMs).toISOString().slice(0, 16);
+};
+
+const fromDateTimeLocal = (value: string) => {
+  if (!value) return null;
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? null : date.toISOString();
+};
+
+const isScheduledPost = (post: Pick<BlogPost, "published" | "published_at">) =>
+  Boolean(post.published && post.published_at && new Date(post.published_at).getTime() > Date.now());
+
+const getPostStatus = (post: Pick<BlogPost, "published" | "published_at">) => {
+  if (isScheduledPost(post)) return "Scheduled";
+  return post.published ? "Published" : "Draft";
+};
+
 export default function BlogManagementPage() {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
@@ -62,6 +84,7 @@ export default function BlogManagementPage() {
     category: "",
     tags: [] as string[],
     published: false,
+    scheduled_at: "",
   });
   const [isNewPost, setIsNewPost] = useState(false);
   const [savingPost, setSavingPost] = useState(false);
@@ -177,7 +200,9 @@ export default function BlogManagementPage() {
         category: postForm.category,
         tags: postForm.tags,
         published: postForm.published,
-        published_at: postForm.published ? new Date().toISOString() : null,
+        published_at: postForm.published
+          ? fromDateTimeLocal(postForm.scheduled_at) || new Date().toISOString()
+          : null,
       };
 
       // Use the new save API endpoint (uses service role for RLS bypass)
@@ -263,6 +288,7 @@ export default function BlogManagementPage() {
       category: "",
       tags: [],
       published: false,
+      scheduled_at: "",
     });
     setTagInput("");
   };
@@ -344,6 +370,7 @@ export default function BlogManagementPage() {
         category: data.category || "",
         tags: data.suggestedTags || [],
         published: false,
+        scheduled_at: "",
       });
 
       setIsNewPost(true);
@@ -375,6 +402,7 @@ export default function BlogManagementPage() {
       category: post.category || "",
       tags: post.tags || [],
       published: post.published,
+      scheduled_at: isScheduledPost(post) ? toDateTimeLocal(post.published_at) : "",
     });
     setIsNewPost(false);
     setShowPostModal(true);
@@ -427,7 +455,8 @@ export default function BlogManagementPage() {
       post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       post.content.toLowerCase().includes(searchTerm.toLowerCase());
 
-    if (filter === "published") return matchesSearch && post.published;
+    if (filter === "published") return matchesSearch && post.published && !isScheduledPost(post);
+    if (filter === "scheduled") return matchesSearch && isScheduledPost(post);
     if (filter === "draft") return matchesSearch && !post.published;
     return matchesSearch;
   });
@@ -495,6 +524,7 @@ export default function BlogManagementPage() {
               >
                 <option value="all">All Posts</option>
                 <option value="published">Published</option>
+                <option value="scheduled">Scheduled</option>
                 <option value="draft">Drafts</option>
               </select>
             </div>
@@ -552,12 +582,14 @@ export default function BlogManagementPage() {
                       </h3>
                       <span
                         className={`px-2 py-1 rounded-full text-xs font-medium ${
-                          post.published
+                          getPostStatus(post) === "Published"
                             ? "bg-green-100 text-green-800"
+                            : getPostStatus(post) === "Scheduled"
+                            ? "bg-blue-100 text-blue-800"
                             : "bg-yellow-100 text-yellow-800"
                         }`}
                       >
-                        {post.published ? "Published" : "Draft"}
+                        {getPostStatus(post)}
                       </span>
                     </div>
                     {post.excerpt && (
@@ -574,7 +606,7 @@ export default function BlogManagementPage() {
                         <Calendar className="h-4 w-4" />
                         <span>
                           {post.published_at
-                            ? new Date(post.published_at).toLocaleDateString()
+                            ? `${isScheduledPost(post) ? "Scheduled " : ""}${new Date(post.published_at).toLocaleString()}`
                             : new Date(
                                 post.created_at || Date.now()
                               ).toLocaleDateString()}
@@ -606,7 +638,7 @@ export default function BlogManagementPage() {
                     >
                       <Edit className="h-4 w-4" />
                     </button>
-                    {post.published && (
+                    {post.published && !isScheduledPost(post) && (
                       <a
                         href={`/blog/${post.slug}`}
                         target="_blank"
@@ -761,10 +793,31 @@ export default function BlogManagementPage() {
                               className="rounded border-gray-300 text-primary-600 focus:ring-primary-500"
                             />
                             <span className="ml-2 text-sm font-medium text-gray-700">
-                              Publish immediately
+                              Publish this post
                             </span>
                           </label>
                         </div>
+                        {postForm.published && (
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Schedule publish time
+                            </label>
+                            <input
+                              type="datetime-local"
+                              value={postForm.scheduled_at}
+                              onChange={(e) =>
+                                setPostForm({
+                                  ...postForm,
+                                  scheduled_at: e.target.value,
+                                })
+                              }
+                              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                            />
+                            <p className="text-xs text-gray-500 mt-1">
+                              Leave blank to publish immediately. Future times stay hidden until scheduled.
+                            </p>
+                          </div>
+                        )}
                       </div>
                     </div>
 

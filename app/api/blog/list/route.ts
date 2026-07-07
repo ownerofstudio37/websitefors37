@@ -16,10 +16,12 @@ export async function GET(request: NextRequest) {
 
   try {
     const supabase = getSupabaseAdmin()
+    const now = new Date().toISOString()
     const { data, error } = await supabase
       .from('blog_posts')
       .select('id,title,slug,excerpt,featured_image,published,published_at,created_at,author')
       .eq('published', true)
+      .or(`published_at.is.null,published_at.lte.${now}`)
       .order('published_at', { ascending: false, nullsFirst: false })
       .order('created_at', { ascending: false })
 

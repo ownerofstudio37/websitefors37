@@ -676,6 +676,7 @@ export async function getSitemapRoutes(): Promise<MetadataRoute.Sitemap> {
         .from('blog_posts')
         .select('slug, updated_at, published_at')
         .eq('published', true)
+        .or(`published_at.is.null,published_at.lte.${currentDate.toISOString()}`)
         .order('published_at', { ascending: false })
 
       if (posts && posts.length > 0) {

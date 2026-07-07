@@ -78,7 +78,8 @@ export async function POST(req: NextRequest) {
     const { data: blogPosts } = await supabase
       .from("blog_posts")
       .select("slug, title, content, excerpt, category")
-      .eq("status", "published")
+      .eq("published", true)
+      .or(`published_at.is.null,published_at.lte.${new Date().toISOString()}`)
       .limit(20);
 
     if (blogPosts) {
