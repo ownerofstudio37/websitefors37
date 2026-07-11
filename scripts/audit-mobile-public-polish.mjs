@@ -17,6 +17,10 @@ const checks = [
     patterns: ['Request Complete Galleries', 'Request similar galleries', 'TrackedPortfolioRequestLink'],
   },
   {
+    file: 'components/ConsultationBookingForm.tsx',
+    patterns: ['function parseDateOnly', 'function formatSelectedDate', 'formatSelectedDate(selectedDate)', 'Central Time'],
+  },
+  {
     file: 'components/Services.tsx',
     patterns: ['aria-label={`View ${service.title}`}', 'href={`/services/${service.slug}`}'],
   },

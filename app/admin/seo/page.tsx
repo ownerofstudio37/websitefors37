@@ -41,6 +41,9 @@ interface SEOMetrics {
   sitemapIndexCacheStatus: string | null;
   sitemapNetlifyCache: string | null;
   sitemapIndexNetlifyCache: string | null;
+  sitemapRobotsTag: string | null;
+  sitemapIndexRobotsTag: string | null;
+  sitemapNoindexDetected: boolean;
   canonicalChecked: number;
   canonicalHealthy: number;
   canonicalConflictChecked: number;
@@ -191,6 +194,9 @@ export default function SEOPage() {
     sitemapIndexCacheStatus: null,
     sitemapNetlifyCache: null,
     sitemapIndexNetlifyCache: null,
+    sitemapRobotsTag: null,
+    sitemapIndexRobotsTag: null,
+    sitemapNoindexDetected: false,
     canonicalChecked: 0,
     canonicalHealthy: 0,
     canonicalConflictChecked: 0,
@@ -337,6 +343,9 @@ export default function SEOPage() {
         redirectedSitemapUrls.includes(url)
       ).length;
       const robotsReferencesSitemap = /Sitemap:\s*https:\/\/www\.studio37\.cc\/sitemap\.xml/i.test(robotsText);
+      const sitemapRobotsTag = headerValue(sitemapResponse, "x-robots-tag");
+      const sitemapIndexRobotsTag = headerValue(sitemapIndexResponse, "x-robots-tag");
+      const sitemapNoindexDetected = /noindex/i.test(`${sitemapRobotsTag || ""} ${sitemapIndexRobotsTag || ""}`);
 
       const firstBlogPostUrl = (postsData || []).find((post) => post.slug)?.slug
         ? `https://www.studio37.cc/blog/${(postsData || []).find((post) => post.slug)!.slug}`
@@ -429,6 +438,9 @@ export default function SEOPage() {
         sitemapIndexCacheStatus: headerValue(sitemapIndexResponse, "cache-status"),
         sitemapNetlifyCache: headerValue(sitemapResponse, "x-nf-cache"),
         sitemapIndexNetlifyCache: headerValue(sitemapIndexResponse, "x-nf-cache"),
+        sitemapRobotsTag,
+        sitemapIndexRobotsTag,
+        sitemapNoindexDetected,
         canonicalChecked: canonicalTargets.length,
         canonicalHealthy,
         canonicalConflictChecked: CANONICAL_CONFLICT_GROUPS.length,
@@ -556,6 +568,7 @@ export default function SEOPage() {
     metrics.sitemapIndexStatus === "active" &&
     metrics.robotsStatus === "active" &&
     metrics.robotsReferencesSitemap &&
+    !metrics.sitemapNoindexDetected &&
     metrics.sitemapRequiredUrlsPresent === REQUIRED_SITEMAP_URLS.length &&
     metrics.sitemapExcludedUrlCount === 0 &&
     metrics.sitemapRedirectedUrlCount === 0;
@@ -584,6 +597,18 @@ export default function SEOPage() {
       severity: "high",
       actionLabel: "Open robots",
       href: "/robots.txt",
+    },
+    {
+      id: "sitemap-noindex-header",
+      title: "Sitemap noindex header",
+      description: metrics.sitemapNoindexDetected
+        ? `Sitemap XML is returning x-robots-tag: ${[metrics.sitemapRobotsTag, metrics.sitemapIndexRobotsTag].filter(Boolean).join(" / ")}. Remove noindex before Search Console submission.`
+        : "Sitemap XML responses do not include an x-robots-tag noindex header.",
+      status: metrics.sitemapNoindexDetected ? "open" : "resolved",
+      owner: "SEO / Engineering",
+      severity: "high",
+      actionLabel: "Open sitemap",
+      href: "/sitemap.xml",
     },
     {
       id: "required-sitemap-urls",
@@ -878,6 +903,17 @@ export default function SEOPage() {
               </p>
               <p className="text-xs text-gray-500 mt-1">
                 age · {metrics.sitemapIndexCacheStatus || metrics.sitemapIndexNetlifyCache || "no cache header"}
+              </p>
+            </div>
+
+            <div className={metrics.sitemapNoindexDetected ? "rounded-lg bg-red-50 p-4 xl:col-span-6" : "rounded-lg bg-green-50 p-4 xl:col-span-6"}>
+              <p className={metrics.sitemapNoindexDetected ? "text-sm font-medium text-red-800" : "text-sm font-medium text-green-800"}>
+                Sitemap Indexability Header
+              </p>
+              <p className={metrics.sitemapNoindexDetected ? "mt-1 text-sm text-red-700" : "mt-1 text-sm text-green-700"}>
+                {metrics.sitemapNoindexDetected
+                  ? `Review x-robots-tag headers: sitemap=${metrics.sitemapRobotsTag || "none"}, index=${metrics.sitemapIndexRobotsTag || "none"}`
+                  : "No sitemap XML noindex header detected."}
               </p>
             </div>
           </div>

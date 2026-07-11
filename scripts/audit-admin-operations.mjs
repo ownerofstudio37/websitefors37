@@ -110,6 +110,7 @@ const markerChecks = [
   { file: 'app/api/admin/galleries/[id]/images/remote/route.ts', markers: ['client_galleries'] },
   { file: 'app/admin/galleries/page.tsx', markers: ['Project → ShootProof delivery workflow', 'Open ShootProof Studio', 'Track ShootProof Delivery', 'searchParams.get'] },
   { file: 'hooks/useDashboardData.ts', markers: ['portfolioDrafts', 'quotesStarted', 'leadProjects', 'galleryDeliveryTasks'] },
+  { file: 'app/admin/seo/page.tsx', markers: ['sitemapNoindexDetected', 'Sitemap noindex header', 'Sitemap Indexability Header'] },
 ]
 
 for (const check of markerChecks) {
