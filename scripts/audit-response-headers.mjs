@@ -24,8 +24,8 @@ for (const route of ['app/sitemap.xml/route.ts', 'app/sitemap_index.xml/route.ts
   if (!source.includes('no-store') || !source.includes('s-maxage=0')) {
     issues.push(`${route} should send no-store cache headers`)
   }
-  if (!source.includes("'X-Robots-Tag': 'noindex'")) {
-    issues.push(`${route} should send X-Robots-Tag: noindex`)
+  if (source.includes("'X-Robots-Tag': 'noindex'")) {
+    issues.push(`${route} should not send X-Robots-Tag: noindex; sitemap XML should remain crawler-discoverable`)
   }
 }
 
@@ -41,8 +41,8 @@ async function fetchHeaderChecks() {
   const checks = [
     ['/', 'text/html', 'content-security-policy'],
     ['/robots.txt', 'text/plain', 'cache-control'],
-    ['/sitemap.xml', 'xml', 'x-robots-tag'],
-    ['/sitemap_index.xml', 'xml', 'x-robots-tag'],
+    ['/sitemap.xml', 'xml', 'cache-control'],
+    ['/sitemap_index.xml', 'xml', 'cache-control'],
   ]
 
   for (const [pathname, contentTypeNeedle, requiredHeader] of checks) {
@@ -57,6 +57,9 @@ async function fetchHeaderChecks() {
     }
     if (!response.headers.has(requiredHeader)) {
       issues.push(`${pathname} is missing ${requiredHeader}`)
+    }
+    if (pathname.endsWith('.xml') && /noindex/i.test(response.headers.get('x-robots-tag') || '')) {
+      issues.push(`${pathname} sends X-Robots-Tag noindex`)
     }
   }
 }

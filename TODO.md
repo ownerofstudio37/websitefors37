@@ -1,5 +1,23 @@
 # Studio37 UX/UI, SEO, and Feature TODO
 
+## Full Site, Admin, And Sitemap Audit - July 11, 2026
+
+- [x] Sitemap crawler header fix: remove `X-Robots-Tag: noindex` from `/sitemap.xml` and `/sitemap_index.xml` route responses so Search Console is not given a noindex signal on sitemap XML.
+- [x] Sitemap local validation: verify `/sitemap.xml`, `/sitemap_index.xml`, and `/robots.txt` return valid crawler-readable responses locally with 200 sitemap URLs.
+- [ ] Sitemap deploy verification: after deploy, recheck live `https://www.studio37.cc/sitemap.xml` and `https://www.studio37.cc/sitemap_index.xml` headers confirm `x-robots-tag: noindex` is gone.
+- [ ] Search Console resubmission: resubmit both `https://www.studio37.cc/sitemap.xml` and `https://www.studio37.cc/sitemap_index.xml` after the clean-header deploy is live.
+- [ ] Admin SEO monitor upgrade: make `/admin/seo` explicitly flag sitemap XML responses that include `x-robots-tag: noindex`, not just status/content-type/URL count.
+- [ ] Production smoke pass: run the production smoke/SEO checks after deployment so local sitemap health, live sitemap health, robots discovery, and public routes are compared.
+- [ ] Live browser QA: complete the remaining desktop/mobile visitor path clicks from homepage, services, local pages, blog, pricing tools, chatbot, portfolio request, consultation booking, and session booking.
+- [ ] Admin daily workflow QA: test `/admin` cockpit, leads, projects, ShootProof tracker, blog scheduling, SEO health, and mobile quick actions with real records after deploy.
+- [ ] Blog scheduling QA: publish-now, schedule-future, unpublish, edit-scheduled-time, sitemap exclusion, and public blog visibility should be tested against live Supabase data.
+- [ ] Booking regression guardrail: add a small test or audit check for date-only display formatting so consultation dates cannot shift by one day in Central time again.
+- [ ] Audit script upkeep: keep automated guardrails aligned with current strategy, especially private complete-gallery requests, safe-area fixed UI, centralized package facts, and sitemap crawler headers.
+- [ ] Admin route simplification review: despite passing ownership checks, periodically prune or hide older builder/editor/content tools so the command center stays usable.
+- [ ] Public conversion review: continue tightening every major page around the same four next actions: book consultation, compare pricing/package, request complete galleries, or contact Studio37.
+- [ ] Local/service-page freshness pass: rotate proof images and local detail blocks over time so high-volume SEO pages do not become visually or verbally repetitive.
+- [ ] Analytics quality pass: confirm CTA events for booking, pricing, package recommender, request portfolio, chatbot, and service-card clicks are visible in the admin dashboard.
+
 ## Next Public Site Audit Priorities - July 2, 2026
 
 ### Next Booking, Conversion, And Site Growth Roadmap

@@ -9,11 +9,11 @@ const checks = [
   },
   {
     file: 'components/QuoteAbandonmentCapture.tsx',
-    required: ['fixed bottom-28', 'right-24', 'md:bottom-6'],
+    required: ['fixed bottom-[calc(5.5rem+env(safe-area-inset-bottom))]', 'right-20', 'md:bottom-6'],
   },
   {
     file: 'components/EnhancedChatBot.tsx',
-    required: ['fixed bottom-24 right-5', 'md:bottom-6 md:right-6', 'z-50'],
+    required: ['fixed bottom-[calc(5.75rem+env(safe-area-inset-bottom))] right-4', 'inset-x-3 bottom-[calc(5rem+env(safe-area-inset-bottom))]', 'md:bottom-6 md:right-6', 'z-50'],
   },
   {
     file: 'components/Navigation.tsx',
