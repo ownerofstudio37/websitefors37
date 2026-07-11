@@ -67,7 +67,7 @@ const markerChecks = [
   { file: 'app/admin/editor/EditorFormClient.tsx', markers: ['StructuredListEditor', 'FAQ Items', 'Pricing Plans'] },
   { file: 'app/admin/site-editor/page.tsx', markers: ['Intro title preview', 'Intro text preview'] },
   { file: 'app/admin/blog/page.tsx', markers: ['AdminConfirmDialog', 'rawPreview', 'AdminToast', 'scheduled_at', 'datetime-local'] },
-  { file: 'app/admin/operations/page.tsx', markers: ['Recent Work Manager', 'Lead Magnet Report', 'Admin Route Inventory', 'Admin Route Simplification Review', 'routes to keep quiet', 'Sitemap Alerting', 'Public Launch Checklist', 'Saved Quote Template', 'Lead Timeline Events'] },
+  { file: 'app/admin/operations/page.tsx', markers: ['Recent Work Manager', 'Lead Magnet Report', 'Admin Route Inventory', 'Admin Route Simplification Review', 'routes to keep quiet', 'Sitemap Alerting', 'Public Launch Checklist', 'Saved Quote Template', 'Lead Timeline Events', 'Real-Record Admin Workflow QA', 'Blog Scheduling QA'] },
   { file: 'lib/admin-route-ownership.ts', markers: ['premium AI Page Builder', 'Visual builder component engine', 'Single trusted admin control center'] },
   { file: 'lib/admin-tools.ts', markers: ['AI Page Builder', 'Strategic visual component engine', 'Gallery Delivery', 'Legacy Image Manager'] },
   { file: 'app/admin/dashboard/page.tsx', markers: ["redirect('/admin')"] },

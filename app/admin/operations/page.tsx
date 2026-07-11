@@ -21,6 +21,22 @@ const timelineEvents = [
   { event: 'quote_capture_submitted', source: 'Saved quote', status: 'Submitted to leads with source metadata' },
 ]
 
+const adminWorkflowQA = [
+  { label: 'Lead to project', href: '/admin/leads', detail: 'Open a real lead, confirm context, create project, and return to the lead record.' },
+  { label: 'Project to ShootProof', href: '/admin/projects', detail: 'Open the created project and confirm the ShootProof delivery handoff is visible.' },
+  { label: 'Gallery tracker', href: '/admin/galleries', detail: 'Track the ShootProof link/status without creating a fake public gallery.' },
+  { label: 'SEO health', href: '/admin/seo', detail: 'Recheck sitemap status, URL count, cache age, and noindex header status.' },
+  { label: 'Mobile quick actions', href: '/admin', detail: 'At phone width, confirm lead, project, gallery, blog, and SEO actions remain reachable.' },
+]
+
+const blogSchedulingQA = [
+  'Create and save a draft without public visibility.',
+  'Schedule a future post and confirm it stays out of public blog lists and sitemap URLs.',
+  'Edit the scheduled time and confirm the admin preview reflects the new timestamp.',
+  'Publish immediately and confirm the post appears publicly after refresh.',
+  'Unpublish or revert the test post so production content stays clean.',
+]
+
 export default function AdminOperationsPage() {
   const leadMagnets = Object.entries(prepGuideDownloads)
   const routeCounts = adminRouteOwnership.reduce<Record<string, number>>((acc, item) => {
@@ -199,6 +215,34 @@ export default function AdminOperationsPage() {
                 <p className="mt-1 text-xs font-semibold text-green-700">{item.status}</p>
               </div>
             ))}
+          </div>
+        </section>
+
+        <section className="grid gap-6 lg:grid-cols-2">
+          <div className="rounded-xl border bg-white p-5 shadow-sm">
+            <h2 className="text-xl font-semibold text-gray-950">Real-Record Admin Workflow QA</h2>
+            <p className="mt-1 text-sm text-gray-600">Use this pass after deploy with real or disposable records so the admin workflow is tested end to end.</p>
+            <div className="mt-4 space-y-3">
+              {adminWorkflowQA.map((item) => (
+                <Link key={item.label} href={item.href} className="block rounded-lg border border-gray-200 p-4 hover:border-blue-300 hover:bg-blue-50">
+                  <div className="text-sm font-semibold text-gray-950">{item.label}</div>
+                  <p className="mt-1 text-sm text-gray-600">{item.detail}</p>
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          <div className="rounded-xl border bg-white p-5 shadow-sm">
+            <h2 className="text-xl font-semibold text-gray-950">Blog Scheduling QA</h2>
+            <p className="mt-1 text-sm text-gray-600">Run this against live Supabase before trusting scheduled content automation.</p>
+            <ol className="mt-4 list-decimal space-y-2 pl-5 text-sm text-gray-700">
+              {blogSchedulingQA.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ol>
+            <Link href="/admin/blog" className="mt-4 inline-flex text-sm font-semibold text-blue-700 hover:underline">
+              Open blog scheduler
+            </Link>
           </div>
         </section>
       </div>
