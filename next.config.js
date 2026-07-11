@@ -205,10 +205,6 @@ const nextConfig = {
         source: "/sitemap.xml",
         headers: [
           {
-            key: "Content-Security-Policy",
-            value: "default-src 'none'",
-          },
-          {
             key: "X-Content-Type-Options",
             value: "nosniff",
           },
@@ -217,10 +213,6 @@ const nextConfig = {
       {
         source: "/sitemap_index.xml",
         headers: [
-          {
-            key: "Content-Security-Policy",
-            value: "default-src 'none'",
-          },
           {
             key: "X-Content-Type-Options",
             value: "nosniff",
