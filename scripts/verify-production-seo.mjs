@@ -96,9 +96,14 @@ for (const [label, headers] of [
   ['sitemap_index.xml', sitemapIndex.headers],
 ]) {
   const cacheControl = headers.get('cache-control') || ''
+  const robotsTag = headers.get('x-robots-tag') || ''
   const age = headerNumber(headers, 'age')
   const allowedAge = maxAge(cacheControl)
   const cacheStatus = headers.get('cache-status') || ''
+
+  if (/noindex/i.test(robotsTag)) {
+    fail(`${label} returns x-robots-tag noindex`)
+  }
 
   if (age !== null && allowedAge !== null && age > allowedAge * 2) {
     fail(`${label} appears stale: age=${age}, cache-control=${cacheControl}, cache-status=${cacheStatus}`)

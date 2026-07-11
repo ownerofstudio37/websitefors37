@@ -66,7 +66,7 @@ for (const file of noDebugLogs) {
 const markerChecks = [
   { file: 'app/admin/editor/EditorFormClient.tsx', markers: ['StructuredListEditor', 'FAQ Items', 'Pricing Plans'] },
   { file: 'app/admin/site-editor/page.tsx', markers: ['Intro title preview', 'Intro text preview'] },
-  { file: 'app/admin/blog/page.tsx', markers: ['AdminConfirmDialog', 'rawPreview', 'AdminToast'] },
+  { file: 'app/admin/blog/page.tsx', markers: ['AdminConfirmDialog', 'rawPreview', 'AdminToast', 'scheduled_at', 'datetime-local'] },
   { file: 'app/admin/operations/page.tsx', markers: ['Recent Work Manager', 'Lead Magnet Report', 'Admin Route Inventory', 'Sitemap Alerting', 'Public Launch Checklist', 'Saved Quote Template', 'Lead Timeline Events'] },
   { file: 'lib/admin-route-ownership.ts', markers: ['premium AI Page Builder', 'Visual builder component engine', 'Single trusted admin control center'] },
   { file: 'lib/admin-tools.ts', markers: ['AI Page Builder', 'Strategic visual component engine', 'Gallery Delivery', 'Legacy Image Manager'] },
@@ -111,6 +111,7 @@ const markerChecks = [
   { file: 'app/admin/galleries/page.tsx', markers: ['Project → ShootProof delivery workflow', 'Open ShootProof Studio', 'Track ShootProof Delivery', 'searchParams.get'] },
   { file: 'hooks/useDashboardData.ts', markers: ['portfolioDrafts', 'quotesStarted', 'leadProjects', 'galleryDeliveryTasks'] },
   { file: 'app/admin/seo/page.tsx', markers: ['sitemapNoindexDetected', 'Sitemap noindex header', 'Sitemap Indexability Header'] },
+  { file: 'app/admin/analytics/page.tsx', markers: ['Hero CTA', 'Pricing tool', 'Package recommender', 'Request portfolio', 'Booking forms', 'Chatbot', 'Service cards'] },
 ]
 
 for (const check of markerChecks) {

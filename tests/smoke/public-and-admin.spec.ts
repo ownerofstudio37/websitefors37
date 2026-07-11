@@ -16,9 +16,17 @@ const routes = [
   { name: 'session-prep', path: '/session-prep' },
   { name: 'prep-guide-download', path: '/session-prep/portrait/download' },
   { name: 'booking', path: '/book-a-session' },
+  { name: 'book-consultation', path: '/book-consultation' },
+  { name: 'request-portfolio', path: '/request-portfolio' },
+  { name: 'gallery-experience', path: '/gallery-experience' },
   { name: 'admin-login', path: '/login' },
+  { name: 'admin-home', path: '/admin' },
   { name: 'admin-leads', path: '/admin/leads' },
   { name: 'admin-seo', path: '/admin/seo' },
+  { name: 'admin-projects', path: '/admin/projects' },
+  { name: 'admin-galleries', path: '/admin/galleries' },
+  { name: 'admin-blog', path: '/admin/blog' },
+  { name: 'admin-analytics', path: '/admin/analytics' },
 ]
 
 test.beforeAll(async () => {
