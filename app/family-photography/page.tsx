@@ -2,6 +2,7 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
+import PortraitSubServiceSupport from '@/components/PortraitSubServiceSupport'
 
 export const metadata = generateSEOMetadata({
   title: 'Family Photography in Pinehurst, TX | Studio37',
@@ -41,7 +42,7 @@ const familyPackages = [
 export default function FamilyPhotographyPage() {
   return (
     <div className="pt-16">
-      <section className="section-shell bg-stone-50">
+      <section className="section-shell bg-stone-50 pb-24 md:pb-16">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center mb-12">
             <p className="eyebrow mb-2">Studio37 Family Sessions</p>
@@ -60,7 +61,7 @@ export default function FamilyPhotographyPage() {
                 <h2 className="text-2xl font-semibold mb-1">{pkg.name}</h2>
                 <p className="text-primary-700 font-semibold mb-3">Starting at {pkg.price}</p>
                 <p className="text-stone-600 mb-6 flex-1">{pkg.description}</p>
-                <Link href="/book-consultation" className="btn-primary text-center">
+                <Link href={`/book-consultation?package=${encodeURIComponent(pkg.name)}`} className="btn-primary text-center">
                   Book Consultation
                 </Link>
               </article>
@@ -104,6 +105,21 @@ export default function FamilyPhotographyPage() {
           </div>
         </div>
       </section>
+
+      <PortraitSubServiceSupport
+        service="family photography"
+        proof={[
+          'Full family galleries with kids, parents, grandparents, and sibling combinations.',
+          'Outdoor Pinehurst or Montgomery County examples with similar light and walking needs.',
+          'Before-booking examples that show candid moments, directed portraits, and final delivery consistency.',
+        ]}
+        planning={[
+          'Location and light plan',
+          'Kid-friendly pacing',
+          'Wardrobe and grouping guidance',
+        ]}
+        objection="If you are worried about kids melting down, awkward posing, or choosing the wrong location, the consultation is where we build a calmer plan around timing, shade, parking, and your must-have groupings."
+      />
     </div>
   )
 }

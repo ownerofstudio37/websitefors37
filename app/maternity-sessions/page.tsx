@@ -2,6 +2,7 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
+import PortraitSubServiceSupport from '@/components/PortraitSubServiceSupport'
 
 export const metadata = generateSEOMetadata({
   title: 'Maternity Sessions in Pinehurst, TX | Studio37',
@@ -57,7 +58,7 @@ export default function MaternitySessionsPage() {
         </div>
       </section>
 
-      <section className="section-shell bg-white">
+      <section className="section-shell bg-white pb-24 md:pb-16">
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-3 gap-8">
             {maternityPackages.map((pkg) => (
@@ -111,6 +112,20 @@ export default function MaternitySessionsPage() {
           </div>
         </div>
       </section>
+      <PortraitSubServiceSupport
+        service="maternity sessions"
+        proof={[
+          'Maternity galleries with solo portraits, partner images, and family-inclusive moments.',
+          'Outdoor and lifestyle examples that show flattering light, wardrobe movement, and calm pacing.',
+          'Final galleries that balance emotional close images, full-length portraits, and keepsake variety.',
+        ]}
+        planning={[
+          '28-34 week timing',
+          'Wardrobe and comfort plan',
+          'Partner or sibling flow',
+        ]}
+        objection="If you are unsure about timing, posing, or feeling comfortable on camera, we plan the session around flattering light, easy movement, and enough pacing for breaks."
+      />
     </div>
   )
 }

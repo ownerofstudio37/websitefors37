@@ -2,6 +2,7 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
+import PortraitSubServiceSupport from '@/components/PortraitSubServiceSupport'
 
 export const metadata = generateSEOMetadata({
   title: 'Professional Headshots in Pinehurst, TX | Studio37',
@@ -54,7 +55,7 @@ export default function ProfessionalHeadshotsPage() {
         </div>
       </section>
 
-      <section className="section-shell bg-white">
+      <section className="section-shell bg-white pb-24 md:pb-16">
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-3 gap-8">
             {headshotPackages.map((pkg) => (
@@ -107,6 +108,20 @@ export default function ProfessionalHeadshotsPage() {
           </div>
         </div>
       </section>
+      <PortraitSubServiceSupport
+        service="professional headshots"
+        proof={[
+          'Individual headshots with clean expression coaching and natural retouching.',
+          'Team examples with consistent framing, light, background, and brand presentation.',
+          'Business-ready images for LinkedIn, websites, speaker pages, directories, and marketing materials.',
+        ]}
+        planning={[
+          'Brand usage check',
+          'Expression coaching',
+          'Team consistency plan',
+        ]}
+        objection="If you need to look confident without looking over-retouched, the planning call clarifies usage, wardrobe, background, and how consistent the final image set needs to be."
+      />
     </div>
   )
 }

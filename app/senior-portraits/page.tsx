@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 import { generateServiceSchema } from '@/lib/seo-config'
 import PrepGuideLeadMagnet from '@/components/PrepGuideLeadMagnet'
+import PortraitSubServiceSupport from '@/components/PortraitSubServiceSupport'
 
 export const metadata = generateSEOMetadata({
   title: 'Senior Portraits in Pinehurst, TX | Studio37',
@@ -65,7 +66,7 @@ export default function SeniorPortraitsPage() {
         </div>
       </section>
 
-      <section className="section-shell bg-white">
+      <section className="section-shell bg-white pb-24 md:pb-16">
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-3 gap-8">
             {seniorPackages.map((pkg) => (
@@ -75,7 +76,7 @@ export default function SeniorPortraitsPage() {
                 </div>
                 <h2 className="text-2xl font-semibold mb-1">{pkg.name}</h2>
                 <p className="text-primary-700 font-semibold mb-6">Starting at {pkg.price}</p>
-                <Link href={`/book-a-session?package=${encodeURIComponent(pkg.name)}`} className="btn-primary text-center mt-auto">
+                <Link href={`/book-consultation?package=${encodeURIComponent(pkg.name)}`} className="btn-primary text-center mt-auto">
                   Book Consultation
                 </Link>
               </article>
@@ -120,6 +121,20 @@ export default function SeniorPortraitsPage() {
           </div>
         </div>
       </section>
+      <PortraitSubServiceSupport
+        service="senior portraits"
+        proof={[
+          'Senior sessions with outfit changes, cap-and-gown images, and personality-driven portraits.',
+          'Examples that match your preferred look: natural, editorial, downtown, campus, or hobby-focused.',
+          'Final galleries that show variety across close portraits, full-body images, and parent favorites.',
+        ]}
+        planning={[
+          'Outfit and location map',
+          'Parent-priority shot list',
+          'Graduation usage plan',
+        ]}
+        objection="If your senior wants images that feel polished without feeling stiff, we plan around personality first: outfits, locations, movement, and the images parents need for announcements and keepsakes."
+      />
       <PrepGuideLeadMagnet />
     </div>
   )

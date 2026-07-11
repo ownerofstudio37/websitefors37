@@ -22,14 +22,14 @@
 
 ### Service And Sub-Service Page Update - July 11, 2026
 
-- [ ] Blog featured-image crop review: desktop blog hero images look clean at the wide aspect ratio but can crop faces/details too aggressively; compare current `object-cover` treatment against safer desktop focal positions, slightly taller desktop ratio, or per-post focal metadata while preserving the strong mobile crop.
-- [ ] Portrait sub-service conversion pass: update `/family-photography`, `/senior-portraits`, `/professional-headshots`, and `/maternity-sessions` so each has book consultation, compare pricing/package, request tailored portfolio, and contact fallback CTAs.
-- [ ] Family photography polish: make `/family-photography` feel homepage-level with stronger hero proof, real family session examples, location confidence, prep guidance, package comparison, objections, and private gallery request flow.
-- [ ] Sub-service visual hierarchy: add stronger real-image rhythm, section spacing, and clickable proof cards so the pages do not feel like thin SEO landing pages.
-- [ ] Mobile CTA spacing: tune portrait sub-service package cards so their primary buttons do not sit under or too close to the sticky mobile action bar.
-- [ ] Sub-service copy differentiation: give each page distinct intent, buyer concerns, delivery expectations, and local Studio37 process instead of shared portrait template language.
-- [ ] Internal linking upgrade: from `/services/portrait-photography`, make every session-type card route into a page with consistent next-step modules and breadcrumbs back to portrait services.
-- [ ] Conversion QA coverage: keep `/family-photography`, `/senior-portraits`, `/professional-headshots`, and `/maternity-sessions` in live smoke tests so broken sub-service routes are caught early.
+- [x] Blog featured-image crop review: desktop blog hero images look clean at the wide aspect ratio but can crop faces/details too aggressively; compare current `object-cover` treatment against safer desktop focal positions, slightly taller desktop ratio, or per-post focal metadata while preserving the strong mobile crop.
+- [x] Portrait sub-service conversion pass: update `/family-photography`, `/senior-portraits`, `/professional-headshots`, and `/maternity-sessions` so each has book consultation, compare pricing/package, request tailored portfolio, and contact fallback CTAs.
+- [x] Family photography polish: make `/family-photography` feel homepage-level with stronger hero proof, real family session examples, location confidence, prep guidance, package comparison, objections, and private gallery request flow.
+- [x] Sub-service visual hierarchy: add stronger real-image rhythm, section spacing, and clickable proof cards so the pages do not feel like thin SEO landing pages.
+- [x] Mobile CTA spacing: tune portrait sub-service package cards so their primary buttons do not sit under or too close to the sticky mobile action bar.
+- [x] Sub-service copy differentiation: give each page distinct intent, buyer concerns, delivery expectations, and local Studio37 process instead of shared portrait template language.
+- [x] Internal linking upgrade: from `/services/portrait-photography`, make every session-type card route into a page with consistent next-step modules and breadcrumbs back to portrait services.
+- [x] Conversion QA coverage: keep `/family-photography`, `/senior-portraits`, `/professional-headshots`, and `/maternity-sessions` in live smoke tests so broken sub-service routes are caught early.
 
 ### Next Booking, Conversion, And Site Growth Roadmap
 

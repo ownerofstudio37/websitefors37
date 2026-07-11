@@ -179,12 +179,12 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
 
       {articlePost.featured_image && (
         <div className="container mx-auto px-4 py-6">
-          <div className="relative h-96 w-full">
+          <div className="relative h-80 w-full sm:h-96 lg:h-[30rem] xl:h-[34rem]">
             <Image
               src={articlePost.featured_image}
               alt={articlePost.title}
               fill
-              className="object-cover rounded-lg"
+              className="rounded-lg object-cover object-[50%_38%]"
             />
           </div>
         </div>
