@@ -22,6 +22,7 @@
 
 ### Service And Sub-Service Page Update - July 11, 2026
 
+- [ ] Blog featured-image crop review: desktop blog hero images look clean at the wide aspect ratio but can crop faces/details too aggressively; compare current `object-cover` treatment against safer desktop focal positions, slightly taller desktop ratio, or per-post focal metadata while preserving the strong mobile crop.
 - [ ] Portrait sub-service conversion pass: update `/family-photography`, `/senior-portraits`, `/professional-headshots`, and `/maternity-sessions` so each has book consultation, compare pricing/package, request tailored portfolio, and contact fallback CTAs.
 - [ ] Family photography polish: make `/family-photography` feel homepage-level with stronger hero proof, real family session examples, location confidence, prep guidance, package comparison, objections, and private gallery request flow.
 - [ ] Sub-service visual hierarchy: add stronger real-image rhythm, section spacing, and clickable proof cards so the pages do not feel like thin SEO landing pages.
