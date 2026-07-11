@@ -20,6 +20,16 @@
 
 ## Next Public Site Audit Priorities - July 2, 2026
 
+### Service And Sub-Service Page Update - July 11, 2026
+
+- [ ] Portrait sub-service conversion pass: update `/family-photography`, `/senior-portraits`, `/professional-headshots`, and `/maternity-sessions` so each has book consultation, compare pricing/package, request tailored portfolio, and contact fallback CTAs.
+- [ ] Family photography polish: make `/family-photography` feel homepage-level with stronger hero proof, real family session examples, location confidence, prep guidance, package comparison, objections, and private gallery request flow.
+- [ ] Sub-service visual hierarchy: add stronger real-image rhythm, section spacing, and clickable proof cards so the pages do not feel like thin SEO landing pages.
+- [ ] Mobile CTA spacing: tune portrait sub-service package cards so their primary buttons do not sit under or too close to the sticky mobile action bar.
+- [ ] Sub-service copy differentiation: give each page distinct intent, buyer concerns, delivery expectations, and local Studio37 process instead of shared portrait template language.
+- [ ] Internal linking upgrade: from `/services/portrait-photography`, make every session-type card route into a page with consistent next-step modules and breadcrumbs back to portrait services.
+- [ ] Conversion QA coverage: keep `/family-photography`, `/senior-portraits`, `/professional-headshots`, and `/maternity-sessions` in live smoke tests so broken sub-service routes are caught early.
+
 ### Next Booking, Conversion, And Site Growth Roadmap
 
 - [x] Real booking-flow QA pass: start as a visitor from homepage, service page, blog, local page, chatbot, request portfolio, and pricing/package tools; verify every path lands cleanly at booking/contact without confusing `/book-a-session` vs `/book-consultation` language.

@@ -8,6 +8,10 @@ const routes = [
   { name: 'homepage', path: '/' },
   { name: 'services', path: '/services' },
   { name: 'portrait-service', path: '/services/portrait-photography' },
+  { name: 'family-photography', path: '/family-photography' },
+  { name: 'senior-portraits', path: '/senior-portraits' },
+  { name: 'professional-headshots', path: '/professional-headshots' },
+  { name: 'maternity-sessions', path: '/maternity-sessions' },
   { name: 'locations', path: '/locations' },
   { name: 'service-area-pinehurst', path: '/local-photographer-pinehurst-tx' },
   { name: 'blog', path: '/blog' },
@@ -93,6 +97,36 @@ test('mobile fixed conversion UI does not overlap incoherently', async ({ page }
       ).toBeLessThan(0.35)
     }
   }
+})
+
+test('booking and contact conversion paths stay clear', async ({ page }) => {
+  await page.goto('/', { waitUntil: 'domcontentloaded' })
+  await page.getByRole('link', { name: /book a free studio37 consultation|book free consultation/i }).first().click()
+  await expect(page).toHaveURL(/\/book-consultation/)
+  await expect(page.getByRole('heading', { name: /book your free consultation/i })).toBeVisible()
+  await expect(page.getByText(/consultation vs\. session booking/i)).toBeVisible()
+
+  await page.goto('/', { waitUntil: 'domcontentloaded' })
+  await page.getByRole('link', { name: /find my package|find the best studio37 package/i }).first().click()
+  await expect(page).toHaveURL(/\/tools\/package-recommender/)
+
+  await page.goto('/services/portrait-photography', { waitUntil: 'domcontentloaded' })
+  await page.getByRole('link', { name: /view family photography/i }).click()
+  await expect(page).toHaveURL(/\/family-photography/)
+  await expect(page.getByRole('heading', { name: /^family photography$/i })).toBeVisible()
+  const familyBookLink = page.getByRole('link', { name: /book consultation/i }).first()
+  await familyBookLink.scrollIntoViewIfNeeded()
+  await page.mouse.wheel(0, 220)
+  await familyBookLink.click()
+  await expect(page).toHaveURL(/\/book-consultation/)
+
+  await page.goto('/request-portfolio', { waitUntil: 'domcontentloaded' })
+  await expect(page.getByRole('button', { name: /request tailored portfolio/i })).toBeVisible()
+  await expect(page.getByLabel(/project type/i)).toBeVisible()
+
+  await page.goto('/contact', { waitUntil: 'domcontentloaded' })
+  await expect(page.getByRole('heading', { name: /contact information/i })).toBeVisible()
+  await expect(page.locator('main').getByRole('link', { name: /sales@studio37\.cc/i })).toBeVisible()
 })
 
 test('mobile prelaunch UX surfaces render without overlap', async ({ page }, testInfo) => {
