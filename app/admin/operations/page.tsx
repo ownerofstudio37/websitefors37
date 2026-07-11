@@ -27,6 +27,9 @@ export default function AdminOperationsPage() {
     acc[item.status] = (acc[item.status] || 0) + 1
     return acc
   }, {})
+  const simplificationReview = adminRouteOwnership.filter((item) =>
+    ['legacy', 'experimental', 'backup', 'internal'].includes(item.status)
+  )
 
   return (
     <main className="min-h-screen bg-gray-50 p-6">
@@ -161,6 +164,27 @@ export default function AdminOperationsPage() {
                 </div>
               ))}
             </div>
+          </div>
+        </section>
+
+        <section className="rounded-xl border border-amber-200 bg-amber-50 p-5 shadow-sm">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <h2 className="text-xl font-semibold text-gray-950">Admin Route Simplification Review</h2>
+              <p className="mt-1 text-sm text-amber-900">Keep these routes out of the daily cockpit unless they graduate back to primary ownership.</p>
+            </div>
+            <span className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-amber-800">{simplificationReview.length} routes to keep quiet</span>
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-2">
+            {simplificationReview.map((item) => (
+              <div key={`simplify-${item.file}`} className="rounded-lg border border-amber-200 bg-white p-4">
+                <div className="flex items-center justify-between gap-3">
+                  <code className="text-sm font-semibold text-gray-950">{item.route}</code>
+                  <span className="rounded-full bg-amber-100 px-2 py-1 text-xs font-semibold capitalize text-amber-800">{item.status}</span>
+                </div>
+                <p className="mt-2 text-sm text-gray-600">{item.note}</p>
+              </div>
+            ))}
           </div>
         </section>
 

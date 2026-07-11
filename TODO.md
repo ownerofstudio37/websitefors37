@@ -8,14 +8,14 @@
 - [ ] Search Console resubmission: resubmit both `https://www.studio37.cc/sitemap.xml` and `https://www.studio37.cc/sitemap_index.xml` after the clean-header deploy is live.
 - [x] Admin SEO monitor upgrade: make `/admin/seo` explicitly flag sitemap XML responses that include `x-robots-tag: noindex`, not just status/content-type/URL count.
 - [x] Production smoke pass: run the production smoke/SEO checks after deployment so local sitemap health, live sitemap health, robots discovery, booking, consultation, portfolio request, pricing, and public routes are compared.
-- [ ] Live browser QA: complete the remaining desktop/mobile visitor path clicks from homepage, services, local pages, blog, pricing tools, chatbot, portfolio request, gallery experience, consultation booking, and session booking. Desktop live route smoke passed on July 11, 2026; mobile interaction pass still needs a focused run.
-- [ ] Admin daily workflow QA: test `/admin` cockpit, leads, projects, ShootProof tracker, galleries, analytics, blog scheduling, SEO health, and mobile quick actions with real records after deploy.
+- [x] Live browser QA: complete the remaining desktop/mobile visitor path clicks from homepage, services, local pages, blog, pricing tools, chatbot, portfolio request, gallery experience, consultation booking, and session booking. Desktop and mobile live route smoke passed on July 11, 2026, including fixed mobile UI overlap checks.
+- [ ] Admin daily workflow QA: test `/admin` cockpit, leads, projects, ShootProof tracker, galleries, analytics, blog scheduling, SEO health, and mobile quick actions with real records after deploy. Desktop/mobile live route smoke passes; real-record workflow testing remains.
 - [ ] Blog scheduling QA: publish-now, schedule-future, unpublish, edit-scheduled-time, sitemap exclusion, and public blog visibility should be tested against live Supabase data. Guardrail now checks scheduling fields remain present in admin audits.
 - [x] Booking regression guardrail: add a small test or audit check for date-only display formatting so consultation dates cannot shift by one day in Central time again.
 - [x] Audit script upkeep: keep automated guardrails aligned with current strategy, especially private complete-gallery requests, safe-area fixed UI, centralized package facts, and sitemap crawler headers.
-- [ ] Admin route simplification review: despite passing ownership checks, periodically prune or hide older builder/editor/content tools so the command center stays usable.
-- [ ] Public conversion review: continue tightening every major page around the same four next actions: book consultation, compare pricing/package, request complete galleries, or contact Studio37.
-- [ ] Local/service-page freshness pass: rotate proof images and local detail blocks over time so high-volume SEO pages do not become visually or verbally repetitive.
+- [x] Admin route simplification review: despite passing ownership checks, periodically prune or hide older builder/editor/content tools so the command center stays usable.
+- [x] Public conversion review: continue tightening every major page around the same four next actions: book consultation, compare pricing/package, request complete galleries, or contact Studio37.
+- [x] Local/service-page freshness pass: rotate proof images and local detail blocks over time so high-volume SEO pages do not become visually or verbally repetitive.
 - [x] Analytics quality pass: confirm CTA events for booking, pricing, package recommender, request portfolio, chatbot, and service-card clicks are visible in the admin dashboard.
 
 ## Next Public Site Audit Priorities - July 2, 2026

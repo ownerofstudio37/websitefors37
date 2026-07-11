@@ -17,6 +17,18 @@ const checks = [
     patterns: ['Request Complete Galleries', 'Request similar galleries', 'TrackedPortfolioRequestLink'],
   },
   {
+    file: 'components/Hero.tsx',
+    patterns: ['/book-consultation', '/tools/package-recommender'],
+  },
+  {
+    file: 'components/PublicStickyCTA.tsx',
+    patterns: ['/book-consultation', '/request-portfolio', '/tools/package-recommender'],
+  },
+  {
+    file: 'components/SEOFooter.tsx',
+    patterns: ['/book-consultation', '/request-portfolio', '/contact'],
+  },
+  {
     file: 'components/ConsultationBookingForm.tsx',
     patterns: ['function parseDateOnly', 'function formatSelectedDate', 'formatSelectedDate(selectedDate)', 'Central Time'],
   },
@@ -34,11 +46,19 @@ const checks = [
   },
   {
     file: 'components/LocalPhotographerCityPage.tsx',
-    patterns: ['Local Confidence', 'bg-stone-950', 'surface-panel p-5 text-center'],
+    patterns: ['Local Confidence', 'bg-stone-950', 'surface-panel p-5 text-center', '/request-portfolio', '/contact'],
+  },
+  {
+    file: 'components/LocationPageTemplate.tsx',
+    patterns: ['Parking + walking', 'Backup plan', 'nearbySpots.join', '/book-consultation', '/tools/package-recommender'],
   },
   {
     file: 'app/blog/page.tsx',
-    patterns: ['Studio37 Journal', 'section-shell bg-stone-50', 'rounded-lg border border-stone-200 bg-white'],
+    patterns: ['Studio37 Journal', 'section-shell bg-stone-50', 'rounded-lg border border-stone-200 bg-white', '/tools/package-recommender', '/book-consultation'],
+  },
+  {
+    file: 'app/blog/[slug]/page.tsx',
+    patterns: ['/tools/package-recommender', '/request-portfolio', '/book-consultation'],
   },
   {
     file: 'tests/smoke/public-and-admin.spec.ts',
