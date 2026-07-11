@@ -19,6 +19,18 @@ interface AvailableDate {
   booked: number
 }
 
+function parseDateOnly(dateStr: string) {
+  const [year, month, day] = dateStr.split('-').map(Number)
+  return new Date(year, month - 1, day)
+}
+
+function formatSelectedDate(
+  dateStr: string,
+  options: Intl.DateTimeFormatOptions = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }
+) {
+  return parseDateOnly(dateStr).toLocaleDateString('en-US', options)
+}
+
 const ConsultationBookingForm = () => {
   const [step, setStep] = useState(1)
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -361,7 +373,7 @@ const ConsultationBookingForm = () => {
               Pick Your Time
             </h2>
             <p className="text-gray-600 mb-6">
-              Available times on {new Date(selectedDate + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
+              Available times on {formatSelectedDate(selectedDate, { weekday: 'long', month: 'long', day: 'numeric' })}
             </p>
 
             {isLoadingSlots ? (
@@ -489,8 +501,8 @@ const ConsultationBookingForm = () => {
             <div className="bg-gray-50 rounded-lg p-4 mb-6">
               <h3 className="font-semibold text-gray-900 mb-2">Consultation Summary</h3>
               <div className="space-y-1 text-sm text-gray-600">
-                <div>📅 {new Date(selectedDate).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}</div>
-                <div>🕐 {selectedTime} CST</div>
+                <div>📅 {formatSelectedDate(selectedDate)}</div>
+                <div>🕐 {selectedTime} Central Time</div>
                 <div>⏱️ Duration: 15 minutes</div>
                 <div>💰 Cost: FREE</div>
                 {packageInterest && <div>🏷️ Context: {packageInterest}</div>}
@@ -546,7 +558,7 @@ const ConsultationBookingForm = () => {
               <ul className="space-y-2 text-sm text-gray-700">
                 <li>✅ Check your email for the calendar invite</li>
                 <li>✅ Add it to your calendar so you don't forget</li>
-                <li>✅ We'll call you at {selectedTime} CST on {new Date(selectedDate).toLocaleDateString()}</li>
+                <li>✅ We'll call you at {selectedTime} Central Time on {formatSelectedDate(selectedDate)}</li>
                 <li>✅ We will recommend the best next step: session booking, custom quote, or private gallery examples</li>
               </ul>
             </div>
