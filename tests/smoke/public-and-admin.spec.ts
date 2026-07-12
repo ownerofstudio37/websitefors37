@@ -141,6 +141,25 @@ test('booking and contact conversion paths stay clear', async ({ page }) => {
   await expect(page.locator('main').getByRole('link', { name: /sales@studio37\.cc/i })).toBeVisible()
 })
 
+test('service child pages keep conversion exits available', async ({ page }) => {
+  const servicePages = [
+    '/corporate-events',
+    '/graduation',
+    '/fundraiser',
+    '/brand-refresh-sessions',
+    '/product-photography',
+    '/architectural-photography',
+  ]
+
+  for (const path of servicePages) {
+    await page.goto(path, { waitUntil: 'domcontentloaded' })
+    const pageBody = page.locator('body')
+    await expect(pageBody).toBeVisible()
+    await expect(pageBody.locator('a[href^="/book-consultation"]:visible, a[href^="/book-a-session"]:visible').first(), `${path} needs a booking/consultation path`).toBeVisible()
+    await expect(pageBody.locator('a[href^="/request-portfolio"]:visible, a[href^="/contact"]:visible, a[href^="/tools/pricing"]:visible').first(), `${path} needs a proof/contact/pricing fallback`).toBeVisible()
+  }
+})
+
 test('mobile prelaunch UX surfaces render without overlap', async ({ page }, testInfo) => {
   test.skip(!testInfo.project.name.includes('mobile'), 'mobile UX QA only runs in the mobile project')
 

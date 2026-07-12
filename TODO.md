@@ -56,8 +56,8 @@
 - [x] Graduation page polish: clarify ceremony, portrait, and party coverage options, plus cap/gown, family, campus, and location guidance.
 - [x] Anniversary party page polish: split couple portrait coverage from event story coverage and add vow renewal/milestone anniversary examples.
 - [x] Holiday party page polish: split business holiday parties from private/family events, add seasonal urgency, turnaround expectations, and early-booking copy.
-- [ ] Mobile service QA: test hero, service cards, sticky CTA, proof cards, pricing sections, request portfolio flow, chatbot overlap, and long-scroll fatigue on all service and child service pages.
-- [ ] Live service conversion QA: click through every major and child service page on desktop/mobile and confirm booking/contact/portfolio/pricing routes preserve context and do not dead-end.
+- [x] Mobile service QA: test hero, service cards, sticky CTA, proof cards, pricing sections, request portfolio flow, chatbot overlap, and long-scroll fatigue on all service and child service pages.
+- [x] Live service conversion QA: click through every major and child service page on desktop/mobile and confirm booking/contact/portfolio/pricing routes preserve context and do not dead-end.
 
 ### Service And Sub-Service Page Update - July 11, 2026
 
