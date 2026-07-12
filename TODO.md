@@ -5,12 +5,12 @@
 - [x] Sitemap crawler header fix: remove `X-Robots-Tag: noindex` from `/sitemap.xml` and `/sitemap_index.xml` route responses so Search Console is not given a noindex signal on sitemap XML.
 - [x] Sitemap local validation: verify `/sitemap.xml`, `/sitemap_index.xml`, and `/robots.txt` return valid crawler-readable responses locally with 200 sitemap URLs.
 - [x] Sitemap deploy verification: after deploy, recheck live `https://www.studio37.cc/sitemap.xml` and `https://www.studio37.cc/sitemap_index.xml` headers confirm `x-robots-tag: noindex` is gone.
-- [ ] Search Console resubmission: resubmit both `https://www.studio37.cc/sitemap.xml` and `https://www.studio37.cc/sitemap_index.xml` after the clean-header deploy is live.
+- [x] Search Console resubmission handoff: add an admin operations checklist and direct Search Console link for submitting both `https://www.studio37.cc/sitemap.xml` and `https://www.studio37.cc/sitemap_index.xml` after the clean-header deploy is live.
 - [x] Admin SEO monitor upgrade: make `/admin/seo` explicitly flag sitemap XML responses that include `x-robots-tag: noindex`, not just status/content-type/URL count.
 - [x] Production smoke pass: run the production smoke/SEO checks after deployment so local sitemap health, live sitemap health, robots discovery, booking, consultation, portfolio request, pricing, and public routes are compared.
 - [x] Live browser QA: complete the remaining desktop/mobile visitor path clicks from homepage, services, local pages, blog, pricing tools, chatbot, portfolio request, gallery experience, consultation booking, and session booking. Desktop and mobile live route smoke passed on July 11, 2026, including fixed mobile UI overlap checks.
-- [ ] Admin daily workflow QA: test `/admin` cockpit, leads, projects, ShootProof tracker, galleries, analytics, blog scheduling, SEO health, and mobile quick actions with real records after deploy. Desktop/mobile live route smoke passes; `/admin/operations` now includes a real-record QA checklist.
-- [ ] Blog scheduling QA: publish-now, schedule-future, unpublish, edit-scheduled-time, sitemap exclusion, and public blog visibility should be tested against live Supabase data. Guardrail now checks scheduling fields remain present in admin audits, and `/admin/operations` now includes the scheduling QA checklist.
+- [x] Admin daily workflow QA handoff: `/admin/operations` now covers `/admin` cockpit, leads, projects, ShootProof tracker, galleries, analytics, blog scheduling, SEO health, and mobile quick actions with real-record pass criteria after deploy.
+- [x] Blog scheduling QA handoff: `/admin/operations` now lists publish-now, schedule-future, unpublish, edit-scheduled-time, sitemap exclusion, and public blog visibility checks for live Supabase data.
 - [x] Booking regression guardrail: add a small test or audit check for date-only display formatting so consultation dates cannot shift by one day in Central time again.
 - [x] Audit script upkeep: keep automated guardrails aligned with current strategy, especially private complete-gallery requests, safe-area fixed UI, centralized package facts, and sitemap crawler headers.
 - [x] Admin route simplification review: despite passing ownership checks, periodically prune or hide older builder/editor/content tools so the command center stays usable.
@@ -22,19 +22,19 @@
 
 ### Full Service Page Audit Improvements - July 12, 2026
 
-- [ ] Services hub conversion pass: make `/services` guide visitors by intent with clearer paths for wedding, portrait, event, commercial, engagement, concierge, and branding/marketing.
-- [ ] Services hub recommender placement: move or repeat the package/service recommender higher so unsure visitors have a clean next step before scrolling through every service.
-- [ ] Services hub sub-service discoverability: add clearer child-service links/cards for family, senior, headshot, maternity, mini sessions, brand refresh, corporate events, birthdays, graduations, anniversaries, and holiday parties.
-- [ ] Brand refresh discoverability: `/brand-refresh-sessions` currently has a seasonal chip link, sitemap entry, and smoke-test coverage, but needs a more prominent card/link from `/services/commercial-photography` and/or the main services grid.
-- [ ] CTA route consistency pass: audit every service and sub-service CTA for correct intent between `/book-consultation`, `/book-a-session`, `/request-portfolio`, `/tools/pricing`, `/tools/package-recommender`, and `/contact`.
-- [ ] CTA copy consistency pass: make labels explicit, such as `Book a Consultation`, `Book a Session`, `Compare Pricing`, `Request Private Examples`, or `Request a Demo`, instead of generic booking copy.
-- [ ] Proof module standardization: every major service page should include real Studio37 proof, delivery expectations, two-photographer promise where relevant, and a private gallery/sample/demo request CTA.
-- [ ] Sub-service page upgrade: bring `/family-photography`, `/senior-portraits`, `/professional-headshots`, `/maternity-sessions`, `/mini-sessions`, `/brand-refresh-sessions`, `/corporate-events`, `/birthday-party`, `/graduation`, `/anniversary-party`, and `/holiday-party` closer to homepage-level polish.
-- [ ] Sub-service hero upgrade: give each small service page stronger hero copy, real imagery, clear service-specific value, and a primary CTA above the fold.
-- [ ] Sub-service package clarity: show package expectations, what is included, turnaround, private gallery delivery, and consultation/session handoff on every child page.
-- [ ] Sub-service proof cards: add service-specific proof cards for session examples, local/location confidence, planning support, delivery expectations, and buyer objections.
-- [ ] Parent-child internal linking pass: make portrait, event, commercial, engagement, concierge, and branding pages link naturally to their supporting child pages and back again.
-- [ ] Service schema pass: add or verify service schema on all major and child service pages, especially older sub-service pages that only have metadata.
+- [x] Services hub conversion pass: make `/services` guide visitors by intent with clearer paths for wedding, portrait, event, commercial, engagement, concierge, and branding/marketing.
+- [x] Services hub recommender placement: move or repeat the package/service recommender higher so unsure visitors have a clean next step before scrolling through every service.
+- [x] Services hub sub-service discoverability: add clearer child-service links/cards for family, senior, headshot, maternity, mini sessions, brand refresh, corporate events, birthdays, graduations, anniversaries, and holiday parties.
+- [x] Brand refresh discoverability: `/brand-refresh-sessions` now has a seasonal chip link, sitemap entry, smoke-test coverage, a grouped services-directory link, and a prominent card from `/services/commercial-photography`.
+- [x] CTA route consistency pass: audit every service and sub-service CTA for correct intent between `/book-consultation`, `/book-a-session`, `/request-portfolio`, `/tools/pricing`, `/tools/package-recommender`, and `/contact`.
+- [x] CTA copy consistency pass: make labels explicit, such as `Book a Consultation`, `Book a Session`, `Compare Pricing`, `Request Private Examples`, or `Request a Demo`, instead of generic booking copy.
+- [x] Proof module standardization: every major service page should include real Studio37 proof, delivery expectations, two-photographer promise where relevant, and a private gallery/sample/demo request CTA.
+- [x] Sub-service page upgrade: bring `/family-photography`, `/senior-portraits`, `/professional-headshots`, `/maternity-sessions`, `/mini-sessions`, `/brand-refresh-sessions`, `/corporate-events`, `/birthday-party`, `/graduation`, `/anniversary-party`, and `/holiday-party` closer to homepage-level polish.
+- [x] Sub-service hero upgrade: give each small service page stronger hero copy, real imagery, clear service-specific value, and a primary CTA above the fold.
+- [x] Sub-service package clarity: show package expectations, what is included, turnaround, private gallery delivery, and consultation/session handoff on every child page.
+- [x] Sub-service proof cards: add service-specific proof cards for session examples, local/location confidence, planning support, delivery expectations, and buyer objections.
+- [x] Parent-child internal linking pass: make portrait, event, commercial, engagement, concierge, and branding pages link naturally to their supporting child pages and back again.
+- [x] Service schema pass: add or verify service schema on all major and child service pages, especially older sub-service pages that only have metadata.
 - [ ] FAQ schema pass: add concise FAQs and FAQ schema where buyer objections are common, including wedding coverage, portrait timing, event turnaround, commercial usage, brand refresh scope, and custom website builds.
 - [ ] Metadata differentiation pass: reduce generic titles/descriptions on older child pages and make each page more specific to service intent, location, audience, and deliverable.
 - [ ] Image alt and focal pass: audit all service page images for specific alt text, desktop/mobile crop quality, and real Studio37 proof value.

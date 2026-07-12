@@ -25,7 +25,9 @@ const adminWorkflowQA = [
   { label: 'Lead to project', href: '/admin/leads', detail: 'Open a real lead, confirm context, create project, and return to the lead record.' },
   { label: 'Project to ShootProof', href: '/admin/projects', detail: 'Open the created project and confirm the ShootProof delivery handoff is visible.' },
   { label: 'Gallery tracker', href: '/admin/galleries', detail: 'Track the ShootProof link/status without creating a fake public gallery.' },
+  { label: 'Analytics cockpit', href: '/admin/analytics', detail: 'Confirm booking, pricing, package recommender, portfolio request, chatbot, and service-card events are visible.' },
   { label: 'SEO health', href: '/admin/seo', detail: 'Recheck sitemap status, URL count, cache age, and noindex header status.' },
+  { label: 'Blog scheduling', href: '/admin/blog', detail: 'Confirm draft, scheduled, published, and unpublished states are visible and editable.' },
   { label: 'Mobile quick actions', href: '/admin', detail: 'At phone width, confirm lead, project, gallery, blog, and SEO actions remain reachable.' },
 ]
 
@@ -35,6 +37,13 @@ const blogSchedulingQA = [
   'Edit the scheduled time and confirm the admin preview reflects the new timestamp.',
   'Publish immediately and confirm the post appears publicly after refresh.',
   'Unpublish or revert the test post so production content stays clean.',
+]
+
+const searchConsoleSubmission = [
+  'Submit https://www.studio37.cc/sitemap.xml',
+  'Submit https://www.studio37.cc/sitemap_index.xml',
+  'Confirm Search Console does not report noindex headers on either sitemap.',
+  'Recheck `/admin/seo` after submission and confirm required URL coverage remains green.',
 ]
 
 export default function AdminOperationsPage() {
@@ -114,6 +123,27 @@ export default function AdminOperationsPage() {
           </div>
 
           <div className="rounded-xl border bg-white p-5 shadow-sm">
+            <h2 className="text-xl font-semibold text-gray-950">Search Console Submission</h2>
+            <p className="mt-1 text-sm text-gray-600">Use this after deploy when sitemap headers are clean and the production cache has refreshed.</p>
+            <ul className="mt-3 space-y-2 text-sm text-gray-700">
+              {searchConsoleSubmission.map((item) => (
+                <li key={item} className="flex gap-2">
+                  <span className="mt-1.5 h-2 w-2 rounded-full bg-blue-500" aria-hidden="true" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+            <a
+              href="https://search.google.com/search-console/sitemaps"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-4 inline-flex text-sm font-semibold text-blue-700 hover:underline"
+            >
+              Open Search Console
+            </a>
+          </div>
+
+          <div className="rounded-xl border bg-white p-5 shadow-sm">
             <h2 className="text-xl font-semibold text-gray-950">Public Launch Checklist</h2>
             <ul className="mt-3 space-y-2 text-sm text-gray-700">
               {launchChecklist.map((item) => (
@@ -125,7 +155,7 @@ export default function AdminOperationsPage() {
             </ul>
           </div>
 
-          <div className="rounded-xl border bg-white p-5 shadow-sm">
+          <div className="rounded-xl border bg-white p-5 shadow-sm lg:col-span-3">
             <h2 className="text-xl font-semibold text-gray-950">Saved Quote Template</h2>
             <p className="mt-2 text-sm font-medium text-gray-900">{conversionCopy.quoteCaptureHeadline}</p>
             <p className="mt-2 text-sm text-gray-600">{conversionCopy.quoteCaptureBody}</p>

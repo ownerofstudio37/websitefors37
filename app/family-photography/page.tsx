@@ -2,6 +2,7 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
+import { generateServiceSchema } from '@/lib/seo-config'
 import PortraitSubServiceSupport from '@/components/PortraitSubServiceSupport'
 
 export const metadata = generateSEOMetadata({
@@ -40,8 +41,14 @@ const familyPackages = [
 ]
 
 export default function FamilyPhotographyPage() {
+  const serviceSchema = generateServiceSchema(
+    'Family Photography',
+    'Family photography sessions in Pinehurst, Texas with location planning, gentle posing, private gallery delivery, and package options for families across Montgomery County.'
+  )
+
   return (
     <div className="pt-16">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
       <section className="section-shell bg-stone-50 pb-24 md:pb-16">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center mb-12">

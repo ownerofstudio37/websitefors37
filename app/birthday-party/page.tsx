@@ -2,6 +2,7 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
+import { generateServiceSchema } from '@/lib/seo-config'
 import PortraitSubServiceSupport from '@/components/PortraitSubServiceSupport'
 
 export const metadata = generateSEOMetadata({
@@ -37,8 +38,14 @@ const packages = [
 ]
 
 export default function BirthdayPartyPage() {
+  const serviceSchema = generateServiceSchema(
+    'Birthday Party Photography',
+    'Birthday party photography in the Houston and Montgomery County area for milestone celebrations, candid moments, family portraits, details, and private gallery delivery.'
+  )
+
   return (
     <main className="w-full">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
       {/* Hero Section */}
       <section className="relative w-full h-[500px] md:h-[600px] overflow-hidden bg-black">
         <Image

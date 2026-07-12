@@ -59,6 +59,65 @@ export default function ServicesPage() {
     'Professional photography services in Pinehurst, Texas including wedding photography, portrait sessions, event coverage, and commercial photography.'
   )
 
+  const intentCards = [
+    {
+      label: 'I need coverage for a milestone',
+      copy: 'Weddings, engagements, proposals, anniversaries, graduations, birthdays, and holiday parties.',
+      href: '/tools/package-recommender',
+      cta: 'Find the right package',
+    },
+    {
+      label: 'I need portraits',
+      copy: 'Family, senior, maternity, headshot, and mini-session options with location and wardrobe guidance.',
+      href: '/services/portrait-photography',
+      cta: 'Explore portrait paths',
+    },
+    {
+      label: 'I need business visuals',
+      copy: 'Commercial photography, team headshots, brand refresh sessions, website content, and marketing support.',
+      href: '/services/commercial-photography',
+      cta: 'Plan business content',
+    },
+    {
+      label: 'I want custom help',
+      copy: 'Concierge proposal planning, custom website builds, marketing systems, and private portfolio examples.',
+      href: '/book-consultation',
+      cta: 'Book a consultation',
+    },
+  ]
+
+  const subServiceGroups = [
+    {
+      title: 'Portrait Sessions',
+      links: [
+        { label: 'Family Photography', href: '/family-photography' },
+        { label: 'Senior Portraits', href: '/senior-portraits' },
+        { label: 'Professional Headshots', href: '/professional-headshots' },
+        { label: 'Maternity Sessions', href: '/maternity-sessions' },
+        { label: 'Mini Sessions', href: '/mini-sessions' },
+      ],
+    },
+    {
+      title: 'Events + Milestones',
+      links: [
+        { label: 'Corporate Events', href: '/corporate-events' },
+        { label: 'Birthday Parties', href: '/birthday-party' },
+        { label: 'Graduation', href: '/graduation' },
+        { label: 'Anniversary Parties', href: '/anniversary-party' },
+        { label: 'Holiday Parties', href: '/holiday-party' },
+      ],
+    },
+    {
+      title: 'Business + Growth',
+      links: [
+        { label: 'Commercial Photography', href: '/services/commercial-photography' },
+        { label: 'Brand Refresh Sessions', href: '/brand-refresh-sessions' },
+        { label: 'Branding + Marketing', href: '/services/branding-marketing' },
+        { label: 'Request Business Examples', href: '/request-portfolio?service=commercial' },
+      ],
+    },
+  ]
+
   return (
     <div>
       {/* Structured Data */}
@@ -98,8 +157,31 @@ export default function ServicesPage() {
 
       <PackageRecommenderCTA />
 
+      <section className="section-shell bg-white">
+        <div className="container mx-auto px-4">
+          <div className="mx-auto mb-10 max-w-3xl text-center">
+            <p className="eyebrow mb-3">Choose By Intent</p>
+            <h2 className="text-3xl font-bold text-stone-950 md:text-4xl">Start with what you need to accomplish</h2>
+            <p className="mt-3 text-lg leading-8 text-stone-600">
+              Pick the closest path and we will guide you toward the right service, package, gallery examples, or consultation.
+            </p>
+          </div>
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            {intentCards.map((card) => (
+              <Link key={card.label} href={card.href} className="group surface-panel p-5 transition-transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-primary-300">
+                <h3 className="text-lg font-semibold text-stone-950 group-hover:text-primary-700">{card.label}</h3>
+                <p className="mt-3 text-sm leading-6 text-stone-600">{card.copy}</p>
+                <span className="mt-4 inline-flex items-center text-sm font-semibold text-primary-700">
+                  {card.cta}
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Main Services Component */}
-            {/* Main Services Component */}
       <div id="services" className="section-shell bg-stone-50">
         <Services />
       </div>
@@ -147,6 +229,32 @@ export default function ServicesPage() {
               <Link href="/graduation" className="px-4 py-2.5 rounded-full bg-stone-50 border border-stone-300 hover:border-amber-300">Graduations</Link>
               <Link href="/brand-refresh-sessions" className="px-4 py-2.5 rounded-full bg-stone-50 border border-stone-300 hover:border-amber-300">Brand Refreshes</Link>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="section-shell bg-white">
+        <div className="container mx-auto px-4">
+          <div className="mx-auto mb-10 max-w-3xl text-center">
+            <p className="eyebrow mb-3">Service Directory</p>
+            <h2 className="text-3xl font-bold text-stone-950 md:text-4xl">Smaller services, clearer next steps</h2>
+            <p className="mt-3 text-lg leading-8 text-stone-600">
+              Browse specific session types when you already know the kind of shoot or business support you need.
+            </p>
+          </div>
+          <div className="grid gap-5 lg:grid-cols-3">
+            {subServiceGroups.map((group) => (
+              <div key={group.title} className="surface-panel p-5">
+                <h3 className="text-xl font-semibold text-stone-950">{group.title}</h3>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {group.links.map((item) => (
+                    <Link key={item.href} href={item.href} className="rounded-full border border-stone-300 px-3 py-2 text-sm font-medium text-stone-700 hover:border-primary-300 hover:text-primary-700">
+                      {item.label}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>

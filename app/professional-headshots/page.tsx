@@ -2,6 +2,7 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
+import { generateServiceSchema } from '@/lib/seo-config'
 import PortraitSubServiceSupport from '@/components/PortraitSubServiceSupport'
 
 export const metadata = generateSEOMetadata({
@@ -34,8 +35,14 @@ const headshotPackages = [
 ]
 
 export default function ProfessionalHeadshotsPage() {
+  const serviceSchema = generateServiceSchema(
+    'Professional Headshots',
+    'Professional headshot photography in Pinehurst, Texas for individuals, executives, teams, websites, LinkedIn profiles, proposals, and business directories.'
+  )
+
   return (
     <div className="pt-16">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
       <section className="relative h-[440px] bg-stone-900">
         <Image
           src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033155/Untitled-46_2_tg6z4m.jpg"

@@ -160,7 +160,7 @@ export default function CommercialPhotographyPage() {
             </p>
           </div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6">
             <Link href="/services/commercial-photography#product-photography" className="group surface-panel text-center p-6 transition-transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-primary-300">
               <div className="bg-primary-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-105 transition-transform">
                 <Camera className="h-8 w-8 text-primary-600" />
@@ -203,6 +203,17 @@ export default function CommercialPhotographyPage() {
                 Custom brand imagery for marketing campaigns and brand identity.
               </p>
               <span className="inline-flex items-center gap-1 mt-3 text-sm font-medium text-primary-600 group-hover:underline">View Brand Photography <ArrowRight className="h-4 w-4" /></span>
+            </Link>
+
+            <Link href="/brand-refresh-sessions" className="group surface-panel text-center p-6 transition-transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-primary-300">
+              <div className="bg-primary-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-105 transition-transform">
+                <Star className="h-8 w-8 text-primary-600" />
+              </div>
+              <h3 className="text-xl font-semibold mb-2 group-hover:text-primary-700">Brand Refresh Sessions</h3>
+              <p className="text-stone-600">
+                Focused content updates for websites, profiles, campaigns, and social channels.
+              </p>
+              <span className="inline-flex items-center gap-1 mt-3 text-sm font-medium text-primary-600 group-hover:underline">Plan a Brand Refresh <ArrowRight className="h-4 w-4" /></span>
             </Link>
           </div>
         </div>
