@@ -135,6 +135,33 @@ export default function BrandingMarketingPage() {
     },
   ]
 
+  const websiteBuildFeatures = [
+    {
+      title: 'Custom site architecture',
+      benefit: 'Build service pages, local SEO pages, blogs, lead flows, dashboards, or gated resources around the way your business actually sells.',
+    },
+    {
+      title: 'Conversion paths',
+      benefit: 'Guide visitors from interest to action with consultation booking, quote requests, portfolio/demo requests, forms, and follow-up context.',
+    },
+    {
+      title: 'Content and SEO foundation',
+      benefit: 'Pair real brand visuals with searchable service copy, metadata, schema, internal links, and content hubs designed for long-term discovery.',
+    },
+    {
+      title: 'Admin and workflow tools',
+      benefit: 'When needed, add private admin tools for leads, content, galleries, campaign tracking, intake forms, or operational workflows.',
+    },
+    {
+      title: 'Performance and mobile polish',
+      benefit: 'Design for fast loading, clean responsive layouts, clear tap targets, and fewer generic templates that make your business blend in.',
+    },
+    {
+      title: 'Room to grow',
+      benefit: 'Start with the highest-value pages, then expand into blogs, landing pages, automations, analytics, and custom features over time.',
+    },
+  ]
+
   return (
     <div className="pt-16">
       <script
@@ -254,6 +281,37 @@ export default function BrandingMarketingPage() {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="section-shell bg-white">
+        <div className="container mx-auto px-4">
+          <div className="mx-auto max-w-3xl text-center">
+            <p className="eyebrow mb-3">Custom Website Builds</p>
+            <h2 className="text-3xl font-bold text-stone-950 md:text-4xl">More than a landing page</h2>
+            <p className="mt-4 text-lg leading-8 text-stone-600">
+              A custom build can include the public website, the content system, and the behind-the-scenes tools your business needs. Scope and pricing stay custom because the right build depends on features, content depth, integrations, and long-term goals.
+            </p>
+          </div>
+          <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {websiteBuildFeatures.map((item) => (
+              <div key={item.title} className="surface-panel p-5">
+                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-primary-100">
+                  <Globe className="h-5 w-5 text-primary-700" aria-hidden="true" />
+                </div>
+                <h3 className="text-lg font-semibold text-stone-950">{item.title}</h3>
+                <p className="mt-2 text-sm leading-6 text-stone-600">{item.benefit}</p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <Link href="/book-consultation?service=custom-website" className="btn-primary">
+              Discuss a Custom Build
+            </Link>
+            <Link href="/request-portfolio?service=website-demo" className="btn-secondary">
+              Request a Demo
+            </Link>
           </div>
         </div>
       </section>

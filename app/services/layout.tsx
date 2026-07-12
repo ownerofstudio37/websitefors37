@@ -1,12 +1,10 @@
-import { PublicConversionStack } from '@/components/PublicConversionSections'
-import ServiceExpectationCards from '@/components/ServiceExpectationCards'
+import ServicesConversionTail from '@/components/ServicesConversionTail'
 
 export default function ServicesLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       {children}
-      <ServiceExpectationCards serviceName="photography" />
-      <PublicConversionStack serviceName="photography" />
+      <ServicesConversionTail />
     </>
   )
 }

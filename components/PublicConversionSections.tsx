@@ -145,7 +145,17 @@ export function PackageRecommenderCTA() {
   )
 }
 
-export function PortfolioProofSection({ serviceName = 'portfolio' }: { serviceName?: string }) {
+export function PortfolioProofSection({
+  serviceName = 'portfolio',
+  ctaLabel = 'Request Tailored Portfolio',
+  title = 'See the finished-gallery standard before you book',
+  body,
+}: {
+  serviceName?: string
+  ctaLabel?: string
+  title?: string
+  body?: string
+}) {
   const images = [
     {
       src: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033155/KELLY_-_1_11_wgadni.jpg',
@@ -166,9 +176,9 @@ export function PortfolioProofSection({ serviceName = 'portfolio' }: { serviceNa
       <div className="container mx-auto grid gap-10 px-4 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
         <div>
           <p className="eyebrow-hero mb-3">Portfolio Proof</p>
-          <h2 className="text-3xl font-bold md:text-4xl">See the finished-gallery standard before you book</h2>
+          <h2 className="text-3xl font-bold md:text-4xl">{title}</h2>
           <p className="mt-4 text-lg leading-8 text-stone-300">
-            Browse recent {serviceName.toLowerCase()} work, full-session variety, and the polished delivery style clients receive after every session.
+            {body || `Browse recent ${serviceName.toLowerCase()} work, full-session variety, and the polished delivery style clients receive after every session.`}
           </p>
           <div className="mt-6 flex flex-wrap gap-3 text-sm text-stone-200">
             <span className="rounded-full border border-white/10 bg-white/10 px-4 py-2">Weddings</span>
@@ -177,7 +187,7 @@ export function PortfolioProofSection({ serviceName = 'portfolio' }: { serviceNa
             <span className="rounded-full border border-white/10 bg-white/10 px-4 py-2">Commercial</span>
           </div>
           <Link href={galleryUrl} className="btn-primary mt-8 inline-flex items-center">
-            Request Tailored Portfolio <ImageIcon className="ml-2 h-4 w-4" aria-hidden="true" />
+            {ctaLabel} <ImageIcon className="ml-2 h-4 w-4" aria-hidden="true" />
           </Link>
         </div>
         <div className="grid grid-cols-3 gap-3">
@@ -192,12 +202,27 @@ export function PortfolioProofSection({ serviceName = 'portfolio' }: { serviceNa
   )
 }
 
-export function PublicConversionStack({ serviceName }: { serviceName?: string }) {
+export function PublicConversionStack({
+  serviceName,
+  proofCtaLabel,
+  proofTitle,
+  proofBody,
+}: {
+  serviceName?: string
+  proofCtaLabel?: string
+  proofTitle?: string
+  proofBody?: string
+}) {
   return (
     <>
       <PackageComparisonSection />
       <CuratedRecentWork className="py-14 md:py-16" />
-      <PortfolioProofSection serviceName={serviceName || 'Studio37'} />
+      <PortfolioProofSection
+        serviceName={serviceName || 'Studio37'}
+        ctaLabel={proofCtaLabel}
+        title={proofTitle}
+        body={proofBody}
+      />
       <ServiceAreaMarketModules compact />
       <WhatHappensNextSection serviceName={serviceName || 'session'} />
     </>
