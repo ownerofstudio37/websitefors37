@@ -19,7 +19,7 @@ export const revalidate = 86400
 const headshotPackages = [
   {
     name: 'Individual Headshot Package',
-    price: '$300',
+    price: '$350',
     image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033091/IMG_3787_kaecyl.jpg',
   },
   {
@@ -29,7 +29,7 @@ const headshotPackages = [
   },
   {
     name: 'Team Headshot Package',
-    price: '$800',
+    price: '$850',
     image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1765642849/JoshuaMapson-029_rgc1xu.jpg',
   },
 ]

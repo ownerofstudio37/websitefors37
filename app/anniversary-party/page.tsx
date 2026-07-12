@@ -19,21 +19,21 @@ const packages = [
   {
     name: 'Celebration Coverage',
     price: '$600',
-    duration: '3 hours',
-    features: ['3 hours coverage', '1 photographer', 'Candid & posed shots', 'Digital gallery', 'Professional edits'],
+    duration: '2 hours',
+    features: ['2 hours coverage', '50+ edited images', 'Couple portraits', '72-hour highlights preview', 'Private digital gallery'],
   },
   {
     name: 'Anniversary Showcase',
-    price: '$1,100',
-    duration: '5 hours',
-    features: ['5 hours coverage', '2 photographers', 'Couple session included', 'Custom album', 'Video highlights'],
+    price: '$1,000',
+    duration: '4 hours',
+    features: ['4 hours coverage', '125+ edited images', 'Toasts and guest moments', '24-hour sneak peek', 'Private digital gallery'],
     popular: true,
   },
   {
     name: 'Premium Celebration',
-    price: '$1,800+',
-    duration: 'Full coverage',
-    features: ['Full day coverage', 'Multiple photographers', 'Renewal ceremony', 'Professional video', 'Drone footage'],
+    price: '$1,800',
+    duration: 'Up to 8 hours',
+    features: ['Up to 8 hours coverage', '250+ edited images', 'Renewal ceremony support', 'Full celebration story', 'Private digital gallery'],
   },
 ]
 

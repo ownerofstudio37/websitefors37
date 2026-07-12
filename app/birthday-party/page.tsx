@@ -17,23 +17,23 @@ export const revalidate = 86400
 
 const packages = [
   {
-    name: 'Party Coverage',
-    price: '$500',
+    name: 'Party Essentials',
+    price: '$600',
     duration: '2 hours',
-    features: ['2 hours coverage', '1 photographer', 'Candid & posed shots', 'Digital gallery', 'Perfect for smaller gatherings'],
+    features: ['2 hours coverage', '50+ edited images', 'Candid and posed moments', '72-hour highlights preview', 'Private digital gallery'],
   },
   {
     name: 'Extended Celebration',
-    price: '$900',
+    price: '$1,000',
     duration: '4 hours',
-    features: ['4 hours coverage', '1 photographer', 'All party moments', 'Professional edits', 'Custom album'],
+    features: ['4 hours coverage', '125+ edited images', 'Cake and guest moments', '24-hour sneak peek', 'Private digital gallery'],
     popular: true,
   },
   {
     name: 'Premium Party Package',
-    price: '$1,500+',
-    duration: 'Full coverage',
-    features: ['Up to 8 hours', '2 photographers', 'Video highlights', 'Drone shots', 'Custom deliverables'],
+    price: '$1,800',
+    duration: 'Up to 8 hours',
+    features: ['Up to 8 hours coverage', '250+ edited images', 'Full celebration story', 'Custom mobile gallery', 'Private digital gallery'],
   },
 ]
 

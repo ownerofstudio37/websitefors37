@@ -553,6 +553,18 @@ export async function getSitemapRoutes(): Promise<MetadataRoute.Sitemap> {
       priority: PRIORITIES.servicePages,
     },
     {
+      url: `${sitemapBaseUrl}/product-photography`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly',
+      priority: PRIORITIES.servicePages,
+    },
+    {
+      url: `${sitemapBaseUrl}/architectural-photography`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly',
+      priority: PRIORITIES.servicePages,
+    },
+    {
       url: `${sitemapBaseUrl}/maternity-sessions`,
       lastModified: currentDate,
       changeFrequency: 'monthly',

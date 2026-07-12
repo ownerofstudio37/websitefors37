@@ -24,17 +24,17 @@ const packages = [
     features: ['Professional cap & gown shots', '1 location', 'Digital files', 'Professional edits', 'Proofs gallery'],
   },
   {
-    name: 'Extended Celebration',
-    price: '$750',
-    duration: '3-4 hours',
-    features: ['Ceremony & party coverage', 'Multiple locations', 'Custom edits', 'Album included', 'Video highlights'],
+    name: 'Ceremony + Celebration',
+    price: '$1,000',
+    duration: '4 hours',
+    features: ['Ceremony or party coverage', 'Family photo list', 'Multiple locations nearby', '24-hour sneak peek', 'Private digital gallery'],
     popular: true,
   },
   {
-    name: 'Premium Graduation',
-    price: '$1,200+',
-    duration: 'Full day',
-    features: ['Pre-ceremony session', 'Ceremony coverage', 'Party documentation', 'Portrait session', 'Professional video'],
+    name: 'Full Graduation Story',
+    price: '$1,800',
+    duration: 'Up to 8 hours',
+    features: ['Pre-ceremony portraits', 'Ceremony coverage where permitted', 'Party documentation', '250+ edited images', 'Private digital gallery'],
   },
 ]
 

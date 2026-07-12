@@ -111,6 +111,8 @@ export default function ServicesPage() {
       title: 'Business + Growth',
       links: [
         { label: 'Commercial Photography', href: '/services/commercial-photography' },
+        { label: 'Product Photography', href: '/product-photography' },
+        { label: 'Architectural / Real Estate', href: '/architectural-photography' },
         { label: 'Brand Refresh Sessions', href: '/brand-refresh-sessions' },
         { label: 'Branding + Marketing', href: '/services/branding-marketing' },
         { label: 'Request Business Examples', href: '/request-portfolio?service=commercial' },

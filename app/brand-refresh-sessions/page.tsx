@@ -19,6 +19,12 @@ export const revalidate = 86400
 
 const deliverables = ['Website hero images', 'Team and founder portraits', 'Social content library', 'Product or workspace details', 'Campaign-ready brand visuals']
 
+const commercialPackages = [
+  ['Business Express', '$500', '1-hour session', ['15+ edited images', 'Full commercial usage', '48-hour turnaround', 'Private gallery']],
+  ['Brand Starter', '$850', '2-hour session', ['30+ edited images', 'Shot list planning', 'Commercial usage', 'Web and social files']],
+  ['Content Library', '$1,500', '4-hour session', ['75+ edited images', 'Brand consultation', 'Ad-ready files', '5-7 business day delivery']],
+]
+
 const brandRefreshFaqs = [
   {
     question: 'Who is a brand refresh session best for?',
@@ -89,6 +95,37 @@ export default function BrandRefreshSessionsPage() {
       </section>
 
       <TurnaroundExpectationsSection service="commercial" />
+      <section className="section-shell bg-stone-50">
+        <div className="container mx-auto px-4">
+          <div className="mx-auto mb-10 max-w-3xl text-center">
+            <p className="eyebrow mb-3">Commercial Pricing</p>
+            <h2 className="text-3xl font-bold text-stone-950 md:text-4xl">Brand refresh sessions use commercial photography pricing</h2>
+            <p className="mt-3 text-lg leading-8 text-stone-600">
+              Pick the production depth that matches how many website, profile, campaign, and social assets you need.
+            </p>
+          </div>
+          <div className="grid gap-6 md:grid-cols-3">
+            {commercialPackages.map(([name, price, duration, features]) => (
+              <div key={name as string} className="surface-panel p-6">
+                <p className="text-sm font-semibold uppercase tracking-wide text-primary-700">{name as string}</p>
+                <p className="mt-2 text-4xl font-bold text-stone-950">{price as string}</p>
+                <p className="mt-1 text-sm text-stone-500">{duration as string}</p>
+                <ul className="mt-5 space-y-2">
+                  {(features as string[]).map((feature) => (
+                    <li key={feature} className="flex gap-2 text-sm text-stone-700">
+                      <CheckCircle2 className="mt-0.5 h-4 w-4 flex-shrink-0 text-green-700" />
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+                <Link href={`/book-consultation?package=${encodeURIComponent(name as string)}`} className="btn-secondary mt-6 block text-center">
+                  Book Consultation
+                </Link>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
       <PortraitSubServiceSupport
         service="brand refresh sessions"
         parentHref="/services/commercial-photography"

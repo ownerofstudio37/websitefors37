@@ -17,23 +17,23 @@ export const revalidate = 86400
 
 const packages = [
   {
-    name: 'Standard Coverage',
-    price: '$1,500',
-    duration: '4 hours',
-    features: ['4 hours coverage', '1 photographer', 'Professional edits', 'Digital gallery', 'Print-ready files'],
+    name: 'Business Event Essentials',
+    price: '$660',
+    duration: '2 hours',
+    features: ['2 hours coverage', 'Commercial usage license', '50+ edited images', '72-hour highlights preview', 'Private digital gallery'],
   },
   {
-    name: 'Professional Coverage',
-    price: '$2,500',
-    duration: '8 hours',
-    features: ['8 hours coverage', '2 photographers', 'Premium edits', 'Custom album', 'Video highlights'],
+    name: 'Business Event Standard',
+    price: '$1,100',
+    duration: '4 hours',
+    features: ['4 hours coverage', 'Commercial usage license', '125+ edited images', '24-hour sneak peek', 'Sponsor and speaker coverage'],
     popular: true,
   },
   {
-    name: 'Premium Coverage',
-    price: '$4,000+',
-    duration: 'Full day',
-    features: ['Full day coverage', '3+ photographers', 'Professional video', 'Drone photography', 'Custom deliverables'],
+    name: 'Business Event Premium',
+    price: '$1,980',
+    duration: 'Up to 8 hours',
+    features: ['Up to 8 hours coverage', 'Commercial usage license', '250+ edited images', 'PR and recap delivery', 'Custom deliverables'],
   },
 ]
 

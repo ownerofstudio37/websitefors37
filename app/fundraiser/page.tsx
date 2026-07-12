@@ -2,6 +2,7 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
+import { generateServiceSchema } from '@/lib/seo-config'
 import PortraitSubServiceSupport from '@/components/PortraitSubServiceSupport'
 
 export const metadata = generateSEOMetadata({
@@ -16,29 +17,35 @@ export const revalidate = 86400
 
 const packages = [
   {
-    name: 'Basic Coverage',
-    price: '$1,000',
-    duration: '4 hours',
-    features: ['4 hours coverage', '1 photographer', 'Event documentation', 'Digital gallery', 'Professional edits'],
+    name: 'Fundraiser Essentials',
+    price: '$600',
+    duration: '2 hours',
+    features: ['2 hours coverage', '50+ edited images', 'Donor and guest candids', '72-hour highlights preview', 'Private digital gallery'],
   },
   {
     name: 'Standard Fundraiser',
-    price: '$2,000',
-    duration: '6 hours',
-    features: ['6 hours coverage', '2 photographers', 'Detailed documentation', 'Donor recognition photos', 'Custom album'],
+    price: '$1,000',
+    duration: '4 hours',
+    features: ['4 hours coverage', '125+ edited images', 'Program and sponsor coverage', '24-hour sneak peek', 'Private digital gallery'],
     popular: true,
   },
   {
-    name: 'Premium Event Coverage',
-    price: '$3,500+',
-    duration: 'Full coverage',
-    features: ['Full event coverage', 'Multiple photographers', 'Professional video', 'Drone photography', 'Same-day proofs'],
+    name: 'Fundraiser Premium',
+    price: '$1,800',
+    duration: 'Up to 8 hours',
+    features: ['Up to 8 hours coverage', '250+ edited images', 'Auction and donor moments', 'Mission recap coverage', 'Private digital gallery'],
   },
 ]
 
 export default function FundraiserPage() {
+  const serviceSchema = generateServiceSchema(
+    'Fundraiser Event Photography',
+    'Fundraiser event photography for charity galas, donor events, auctions, sponsor moments, mission recaps, and private gallery delivery in the Houston area.'
+  )
+
   return (
     <main className="w-full">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
       {/* Hero Section */}
       <section className="relative w-full h-[500px] md:h-[600px] overflow-hidden bg-black">
         <Image

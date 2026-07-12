@@ -161,7 +161,7 @@ export default function CommercialPhotographyPage() {
           </div>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6">
-            <Link href="/services/commercial-photography#product-photography" className="group surface-panel text-center p-6 transition-transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-primary-300">
+            <Link href="/product-photography" className="group surface-panel text-center p-6 transition-transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-primary-300">
               <div className="bg-primary-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-105 transition-transform">
                 <Camera className="h-8 w-8 text-primary-600" />
               </div>
@@ -183,7 +183,7 @@ export default function CommercialPhotographyPage() {
               <span className="inline-flex items-center gap-1 mt-3 text-sm font-medium text-primary-600 group-hover:underline">View Corporate Headshots <ArrowRight className="h-4 w-4" /></span>
             </Link>
             
-            <Link href="/services/commercial-photography#architectural-photography" className="group surface-panel text-center p-6 transition-transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-primary-300">
+            <Link href="/architectural-photography" className="group surface-panel text-center p-6 transition-transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-primary-300">
               <div className="bg-primary-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-105 transition-transform">
                 <Building2 className="h-8 w-8 text-primary-600" />
               </div>
@@ -198,11 +198,11 @@ export default function CommercialPhotographyPage() {
               <div className="bg-primary-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-105 transition-transform">
                 <Briefcase className="h-8 w-8 text-primary-600" />
               </div>
-              <h3 className="text-xl font-semibold mb-2 group-hover:text-primary-700">Brand Photography</h3>
+              <h3 className="text-xl font-semibold mb-2 group-hover:text-primary-700">Branding + Marketing</h3>
               <p className="text-stone-600">
-                Custom brand imagery for marketing campaigns and brand identity.
+                Website, SEO, PPC, social, and content systems for business growth.
               </p>
-              <span className="inline-flex items-center gap-1 mt-3 text-sm font-medium text-primary-600 group-hover:underline">View Brand Photography <ArrowRight className="h-4 w-4" /></span>
+              <span className="inline-flex items-center gap-1 mt-3 text-sm font-medium text-primary-600 group-hover:underline">View Branding Services <ArrowRight className="h-4 w-4" /></span>
             </Link>
 
             <Link href="/brand-refresh-sessions" className="group surface-panel text-center p-6 transition-transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-primary-300">
