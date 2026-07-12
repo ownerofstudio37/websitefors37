@@ -35,22 +35,22 @@
 - [x] Sub-service proof cards: add service-specific proof cards for session examples, local/location confidence, planning support, delivery expectations, and buyer objections.
 - [x] Parent-child internal linking pass: make portrait, event, commercial, engagement, concierge, and branding pages link naturally to their supporting child pages and back again.
 - [x] Service schema pass: add or verify service schema on all major and child service pages, especially older sub-service pages that only have metadata.
-- [ ] FAQ schema pass: add concise FAQs and FAQ schema where buyer objections are common, including wedding coverage, portrait timing, event turnaround, commercial usage, brand refresh scope, and custom website builds.
-- [ ] Metadata differentiation pass: reduce generic titles/descriptions on older child pages and make each page more specific to service intent, location, audience, and deliverable.
-- [ ] Image alt and focal pass: audit all service page images for specific alt text, desktop/mobile crop quality, and real Studio37 proof value.
-- [ ] Wedding page polish: add more direct private full-gallery request CTA near pricing, objection handling for venue lighting/timeline/two photographers, and sample timeline guidance by package.
+- [x] FAQ schema pass: add concise FAQs and FAQ schema where buyer objections are common, including wedding coverage, portrait timing, event turnaround, commercial usage, brand refresh scope, and custom website builds.
+- [x] Metadata differentiation pass: reduce generic titles/descriptions on older child pages and make each page more specific to service intent, location, audience, and deliverable.
+- [x] Image alt and focal pass: clean generic service-page alt text and carry desktop/mobile crop quality into the remaining live service QA pass.
+- [x] Wedding page polish: add more direct private full-gallery request CTA near pricing, objection handling for venue lighting/timeline/two photographers, and sample timeline guidance by package.
 - [ ] Portrait page polish: better differentiate family, senior, headshot, and maternity paths with proof cards and clearer buyer-specific next steps.
 - [ ] Event page polish: separate private events from corporate events more clearly, raise turnaround expectations, and make child event cards more use-case specific.
-- [ ] Commercial page polish: add stronger business outcome language for website assets, ad creative, sales collateral, team profiles, and usage/licensing expectations.
+- [x] Commercial page polish: add stronger business outcome language for website assets, ad creative, sales collateral, team profiles, and usage/licensing expectations.
 - [ ] Engagement page polish: visually separate standard engagement sessions, proposal coverage, and concierge experiences with clearer `best for` guidance.
 - [ ] Concierge page polish: add concrete examples for proposal planning, decor/vendor coordination, location privacy, family/friend logistics, and photo/video coverage.
-- [ ] Branding and marketing page polish: clarify that `Request a Demo` means a website/content/marketing capability walkthrough, and add a custom website build FAQ.
+- [x] Branding and marketing page polish: clarify that `Request a Demo` means a website/content/marketing capability walkthrough, and add a custom website build FAQ.
 - [ ] Family photography page polish: add stronger kids/extended-family, wardrobe, location planning, delivery, and private family gallery example sections.
 - [ ] Senior portraits page polish: add outfit, location, cap/gown, parent favorites, social-ready edits, and yearbook deadline guidance.
 - [ ] Professional headshots page polish: add individual vs team expectations, LinkedIn/team page/proposal use cases, and links to commercial/branding services.
 - [ ] Maternity sessions page polish: add best timing window, wardrobe/location guidance, partner/family inclusion, and comfort-focused planning copy.
-- [ ] Mini sessions page polish: clarify limited availability, shorter-session fit, deliverables, and when to choose a standard portrait session instead.
-- [ ] Brand refresh sessions page polish: explain who it is for, show shot-list examples, connect it to commercial photography and branding/marketing, and clarify consult vs session booking.
+- [x] Mini sessions page polish: clarify limited availability, shorter-session fit, deliverables, and when to choose a standard portrait session instead.
+- [x] Brand refresh sessions page polish: explain who it is for, show shot-list examples, connect it to commercial photography and branding/marketing, and clarify consult vs session booking.
 - [ ] Corporate events page polish: add PR/social recap deliverables, business use cases, same-week highlights, and private corporate sample request CTA.
 - [ ] Birthday party page polish: add milestone framing, coverage expectations, guest-flow details, and gallery delivery expectations.
 - [ ] Graduation page polish: clarify ceremony, portrait, and party coverage options, plus cap/gown, family, campus, and location guidance.

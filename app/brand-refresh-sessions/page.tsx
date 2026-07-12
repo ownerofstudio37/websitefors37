@@ -1,8 +1,9 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight, CheckCircle2 } from 'lucide-react'
-import { generateSEOMetadata } from '@/lib/seo-helpers'
+import { generateFAQSchema, generateSEOMetadata } from '@/lib/seo-helpers'
 import { generateServiceSchema } from '@/lib/seo-config'
+import FAQSection from '@/components/FAQSection'
 import { ServiceTestimonialsSection, TurnaroundExpectationsSection } from '@/components/PublicFeatureContent'
 import PrepGuideLeadMagnet from '@/components/PrepGuideLeadMagnet'
 import PortraitSubServiceSupport from '@/components/PortraitSubServiceSupport'
@@ -18,15 +19,32 @@ export const revalidate = 86400
 
 const deliverables = ['Website hero images', 'Team and founder portraits', 'Social content library', 'Product or workspace details', 'Campaign-ready brand visuals']
 
+const brandRefreshFaqs = [
+  {
+    question: 'Who is a brand refresh session best for?',
+    answer: 'Brand refresh sessions are best for businesses that already have an offer or website but need updated photos for pages, profiles, ads, social content, and sales materials.',
+  },
+  {
+    question: 'Is this different from a full commercial shoot?',
+    answer: 'Yes. A brand refresh is a focused content update. A larger commercial shoot is better when you need a deeper shot list, multiple locations, product volume, campaign planning, or broader licensing needs.',
+  },
+  {
+    question: 'Can Studio37 help plan the shot list?',
+    answer: 'Yes. We map the session around your website, social channels, campaign needs, profile photos, workspace details, and any product or service visuals you need first.',
+  },
+]
+
 export default function BrandRefreshSessionsPage() {
   const serviceSchema = generateServiceSchema(
     'Brand Refresh Photography Sessions',
     'Brand refresh photography sessions for businesses that need fresh website, social, profile, product, and campaign imagery.'
   )
+  const faqSchema = generateFAQSchema(brandRefreshFaqs)
 
   return (
     <main className="pt-16">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <section className="relative min-h-[520px] overflow-hidden bg-stone-950 text-white">
         <Image
           src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255703/PS373409_pwmxmp.jpg"
@@ -83,6 +101,7 @@ export default function BrandRefreshSessionsPage() {
         planning={['Channel usage map', 'Shot priority list', 'Usage rights review']}
         objection="A brand refresh should create images you can actually use. The consultation clarifies where the photos need to work, what crops are needed, and what proof examples are worth reviewing before you book."
       />
+      <FAQSection title="Brand Refresh Session FAQ" faqs={brandRefreshFaqs} />
       <PrepGuideLeadMagnet />
       <ServiceTestimonialsSection service="commercial" />
     </main>

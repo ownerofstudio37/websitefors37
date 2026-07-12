@@ -7,9 +7,9 @@ import PrepGuideLeadMagnet from '@/components/PrepGuideLeadMagnet'
 import PortraitSubServiceSupport from '@/components/PortraitSubServiceSupport'
 
 export const metadata = generateSEOMetadata({
-  title: 'Professional Graduation Photography - Studio37',
+  title: 'Graduation Photography Houston & Montgomery County | Studio37',
   description:
-    'Capture graduation day memories with professional photography. Senior portraits, celebration photos, and graduation moments in the Houston area.',
+    'Graduation photography for cap and gown portraits, campus sessions, ceremony coverage, family photos, and graduation celebrations in Houston and Montgomery County.',
   canonicalUrl: 'https://www.studio37.cc/graduation',
   pageType: 'service',
 })
@@ -51,7 +51,7 @@ export default function GraduationPage() {
       <section className="relative w-full h-[500px] md:h-[600px] overflow-hidden bg-black">
         <Image
           src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1778043142/Untitled-122_convert.io_1_hxkt5z.jpg"
-          alt="Professional graduation photography"
+          alt="Studio37 graduation photography with cap and gown portraits"
           fill
           className="object-cover"
           priority

@@ -63,6 +63,14 @@ export default function BrandingMarketingPage() {
       question: 'How do we get started with a branding and marketing retainer?',
       answer: 'Start with a consultation so we can map your goals, channels, and 90-day priorities. Then we build a custom scope and rollout plan.',
     },
+    {
+      question: 'Can Studio37 build a full custom website, not just a landing page?',
+      answer: 'Yes. We can build custom websites, service pages, content systems, lead flows, and private admin tools. Scope and pricing depend on content depth, features, integrations, and long-term goals.',
+    },
+    {
+      question: 'What does Request a Demo mean on this page?',
+      answer: 'Request a Demo means asking for a walkthrough of website, content, SEO, and marketing capabilities so you can see what a custom Studio37 business build could include.',
+    },
   ]
 
   const faqSchema = generateFAQSchema(brandingFaqs)

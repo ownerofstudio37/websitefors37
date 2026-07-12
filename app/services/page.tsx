@@ -131,7 +131,7 @@ export default function ServicesPage() {
         <div className="absolute inset-0 opacity-30">
           <Image 
             src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1758315587/_MG_9234_aerdni_e_gen_restore_e_improve_l_image_upload_My_Brand_IMG_2115_mtuowt_c_scale_fl_relative_w_0.36_o_80_fl_layer_apply_g_west_x_0.03_y_0.04_vunmkp.jpg" 
-            alt="Photography equipment"
+            alt="Studio37 photography services for portraits, weddings, events, and commercial sessions"
             fill
             className="object-cover"
             priority

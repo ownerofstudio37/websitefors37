@@ -49,7 +49,7 @@ export default function MaternitySessionsPage() {
       <section className="relative h-[440px] bg-stone-900">
         <Image
           src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033084/Untitled_1_zwsrnm.jpg"
-          alt="Maternity sessions hero image"
+          alt="Studio37 maternity session with soft outdoor portrait lighting"
           fill
           priority
           className="object-cover opacity-75"

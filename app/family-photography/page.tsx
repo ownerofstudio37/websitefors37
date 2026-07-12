@@ -6,9 +6,9 @@ import { generateServiceSchema } from '@/lib/seo-config'
 import PortraitSubServiceSupport from '@/components/PortraitSubServiceSupport'
 
 export const metadata = generateSEOMetadata({
-  title: 'Family Photography in Pinehurst, TX | Studio37',
+  title: 'Family Photography Pinehurst TX with Location Planning | Studio37',
   description:
-    'Family photography sessions in Pinehurst, TX with Studio37. Explore package options and book your family session today.',
+    'Family photography in Pinehurst, TX with location planning, gentle posing, kid-friendly timing, private gallery delivery, and package options for Montgomery County families.',
   canonicalUrl: 'https://www.studio37.cc/family-photography',
   pageType: 'service',
 })

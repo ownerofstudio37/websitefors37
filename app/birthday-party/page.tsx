@@ -6,9 +6,9 @@ import { generateServiceSchema } from '@/lib/seo-config'
 import PortraitSubServiceSupport from '@/components/PortraitSubServiceSupport'
 
 export const metadata = generateSEOMetadata({
-  title: 'Birthday Party Photography - Studio37',
+  title: 'Birthday Party Photography Houston & Montgomery County | Studio37',
   description:
-    'Capture unforgettable birthday party moments with professional photography. Birthday portraits, celebration photos, and milestone celebrations in the Houston area.',
+    'Birthday party photography for milestone celebrations, family portraits, party details, candids, and private gallery delivery in Houston and Montgomery County.',
   canonicalUrl: 'https://www.studio37.cc/birthday-party',
   pageType: 'service',
 })
@@ -50,7 +50,7 @@ export default function BirthdayPartyPage() {
       <section className="relative w-full h-[500px] md:h-[600px] overflow-hidden bg-black">
         <Image
           src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1778043141/100thBirthday_-_220_convert.io_1_svsdy1.jpg"
-          alt="Professional birthday party photography"
+          alt="Studio37 birthday party photography for a milestone celebration"
           fill
           className="object-cover"
           priority

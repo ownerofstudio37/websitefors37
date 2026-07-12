@@ -6,9 +6,9 @@ import { generateServiceSchema } from '@/lib/seo-config'
 import PortraitSubServiceSupport from '@/components/PortraitSubServiceSupport'
 
 export const metadata = generateSEOMetadata({
-  title: 'Professional Headshots in Pinehurst, TX | Studio37',
+  title: 'Professional Headshots Pinehurst TX for Teams & Executives | Studio37',
   description:
-    'Professional headshots in Pinehurst, TX for individuals, executives, and teams. Book Studio37 today.',
+    'Professional headshots in Pinehurst, TX for individuals, executives, teams, LinkedIn profiles, websites, proposals, and business directories.',
   canonicalUrl: 'https://www.studio37.cc/professional-headshots',
   pageType: 'service',
 })
@@ -46,7 +46,7 @@ export default function ProfessionalHeadshotsPage() {
       <section className="relative h-[440px] bg-stone-900">
         <Image
           src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033155/Untitled-46_2_tg6z4m.jpg"
-          alt="Professional headshots hero image"
+          alt="Studio37 professional headshot session for business portraits"
           fill
           priority
           className="object-cover opacity-75"

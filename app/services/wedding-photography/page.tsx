@@ -405,6 +405,50 @@ export default function WeddingPhotographyPage() {
               </Link>
             </div>
           </div>
+
+          <div className="mt-10 grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
+            <div className="surface-panel p-6">
+              <p className="eyebrow mb-3">Before You Choose</p>
+              <h3 className="text-2xl font-bold text-stone-950">Want to see a full wedding gallery first?</h3>
+              <p className="mt-3 text-sm leading-6 text-stone-600">
+                We keep full galleries private, but you can request examples matched to your venue style, timeline, lighting, or guest count before deciding.
+              </p>
+              <Link href="/request-portfolio?service=wedding" className="btn-secondary mt-5 inline-flex items-center">
+                Request Wedding Galleries
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </div>
+            <div className="grid gap-4 md:grid-cols-3">
+              {[
+                {
+                  title: 'Dark venue?',
+                  copy: 'We plan flash, ambient light, and reception coverage before the day so low light does not flatten the story.',
+                },
+                {
+                  title: 'Timeline unsure?',
+                  copy: 'Six hours fits tighter days, eight hours fits most full weddings, and ten-plus hours protects complex timelines.',
+                },
+                {
+                  title: 'Need two angles?',
+                  copy: 'The Duo Experience is built for ceremony reactions, details, candids, and portraits happening at the same time.',
+                },
+              ].map((item) => (
+                <div key={item.title} className="surface-panel p-5">
+                  <h4 className="font-semibold text-stone-950">{item.title}</h4>
+                  <p className="mt-2 text-sm leading-6 text-stone-600">{item.copy}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-6 rounded-2xl border border-stone-200 bg-white p-6">
+            <p className="text-sm font-semibold uppercase tracking-[0.16em] text-primary-700">Sample Timeline Fit</p>
+            <div className="mt-4 grid gap-4 md:grid-cols-3">
+              <p className="text-sm leading-6 text-stone-700"><strong>6 hours:</strong> ceremony, family photos, couple portraits, and key reception moments.</p>
+              <p className="text-sm leading-6 text-stone-700"><strong>8 hours:</strong> getting ready, ceremony, portraits, reception coverage, and highlight delivery.</p>
+              <p className="text-sm leading-6 text-stone-700"><strong>10+ hours:</strong> full-day story, multiple locations, detailed prep, reception exit, and priority delivery.</p>
+            </div>
+          </div>
         </div>
       </section>
 

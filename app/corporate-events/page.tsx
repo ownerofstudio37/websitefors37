@@ -6,9 +6,9 @@ import { generateServiceSchema } from '@/lib/seo-config'
 import PortraitSubServiceSupport from '@/components/PortraitSubServiceSupport'
 
 export const metadata = generateSEOMetadata({
-  title: 'Professional Corporate Event Photography - Studio37',
+  title: 'Corporate Event Photography Houston & Montgomery County | Studio37',
   description:
-    'Capture your corporate events with professional photography. Conferences, galas, award ceremonies & business gatherings in the Houston area.',
+    'Corporate event photography for conferences, galas, award ceremonies, business gatherings, PR recaps, and internal communications in Houston and Montgomery County.',
   canonicalUrl: 'https://www.studio37.cc/corporate-events',
   pageType: 'service',
 })
@@ -50,7 +50,7 @@ export default function CorporateEventsPage() {
       <section className="relative w-full h-[500px] md:h-[600px] overflow-hidden bg-black">
         <Image
           src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255703/PS373409_pwmxmp.jpg"
-          alt="Professional corporate event photography"
+          alt="Studio37 corporate event photography coverage for a business gathering"
           fill
           className="object-cover"
           priority

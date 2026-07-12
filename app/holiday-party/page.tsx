@@ -7,9 +7,9 @@ import PrepGuideLeadMagnet from '@/components/PrepGuideLeadMagnet'
 import PortraitSubServiceSupport from '@/components/PortraitSubServiceSupport'
 
 export const metadata = generateSEOMetadata({
-  title: 'Holiday Party Photography - Studio37',
+  title: 'Holiday Party Photography Houston & Montgomery County | Studio37',
   description:
-    'Professional holiday party photography capturing festive moments and celebration memories. Perfect for corporate holiday parties and family celebrations in Houston.',
+    'Holiday party photography for corporate holiday parties, private celebrations, decor, group photos, candids, and fast recap delivery in Houston and Montgomery County.',
   canonicalUrl: 'https://www.studio37.cc/holiday-party',
   pageType: 'service',
 })
@@ -51,7 +51,7 @@ export default function HolidayPartyPage() {
       <section className="relative w-full h-[500px] md:h-[600px] overflow-hidden bg-black">
         <Image
           src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255305/PS375684_f4qlih.jpg"
-          alt="Professional holiday party photography"
+          alt="Studio37 holiday party photography with festive event coverage"
           fill
           className="object-cover"
           priority

@@ -256,7 +256,7 @@ export default function CommercialPhotographyPage() {
             <div className="relative">
               <Image
                 src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255706/PS373287_d7fl9k.jpg"
-                alt="Professional business photography in Montgomery County TX"
+                alt="Studio37 commercial photography for Montgomery County business content"
                 width={600}
                 height={400}
                 className="rounded-[var(--radius-card)] shadow-[var(--shadow-strong)]"
@@ -300,6 +300,32 @@ export default function CommercialPhotographyPage() {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="section-shell bg-stone-50">
+        <div className="container mx-auto px-4">
+          <div className="mx-auto mb-10 max-w-3xl text-center">
+            <p className="eyebrow mb-3">Business Outcomes</p>
+            <h2 className="text-3xl font-bold text-stone-950 md:text-4xl">Images planned for the places buyers decide</h2>
+            <p className="mt-3 text-lg leading-8 text-stone-600">
+              Commercial sessions are scoped around where the images need to work, not just how many files are delivered.
+            </p>
+          </div>
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
+            {[
+              ['Website assets', 'Hero images, service visuals, team photos, and detail coverage for stronger pages.'],
+              ['Ad creative', 'Campaign-ready crops and variations for paid social, Google, and retargeting.'],
+              ['Sales collateral', 'Images for decks, proposals, brochures, listings, and launch materials.'],
+              ['Team profiles', 'Consistent headshots and workplace portraits for trust-building touchpoints.'],
+              ['Usage clarity', 'Commercial usage expectations reviewed before the session so files are usable.'],
+            ].map(([title, copy]) => (
+              <div key={title} className="surface-panel p-5">
+                <h3 className="font-semibold text-stone-950">{title}</h3>
+                <p className="mt-2 text-sm leading-6 text-stone-600">{copy}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>

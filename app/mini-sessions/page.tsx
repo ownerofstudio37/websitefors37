@@ -1,8 +1,9 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight, CheckCircle2 } from 'lucide-react'
-import { generateSEOMetadata } from '@/lib/seo-helpers'
+import { generateFAQSchema, generateSEOMetadata } from '@/lib/seo-helpers'
 import { generateServiceSchema } from '@/lib/seo-config'
+import FAQSection from '@/components/FAQSection'
 import { TurnaroundExpectationsSection, ServiceTestimonialsSection } from '@/components/PublicFeatureContent'
 import PrepGuideLeadMagnet from '@/components/PrepGuideLeadMagnet'
 
@@ -17,15 +18,32 @@ export const revalidate = 86400
 
 const miniFits = ['Family updates', 'Holiday cards', 'Couples portraits', 'Senior add-ons', 'Professional profile refreshes']
 
+const miniFaqs = [
+  {
+    question: 'When should I choose a mini session instead of a full portrait session?',
+    answer: 'Choose a mini session when you need a focused set of updated portraits, one simple location, and a shorter timeline. Choose a full portrait session when you want more outfit changes, more variety, or a slower pace for kids.',
+  },
+  {
+    question: 'What is included with a Studio37 mini session?',
+    answer: 'Mini sessions include a short guided portrait session, professional editing, and private gallery delivery. They are designed for quick updates without losing the polished Studio37 look.',
+  },
+  {
+    question: 'Can I use a mini session for family photos?',
+    answer: 'Yes. Mini sessions work well for smaller family updates, holiday cards, couples portraits, and quick milestone portraits when the group size and shot list are focused.',
+  },
+]
+
 export default function MiniSessionsPage() {
   const serviceSchema = generateServiceSchema(
     'Mini Sessions',
     'Seasonal mini sessions in Pinehurst, Texas for families, couples, seniors, and quick portrait updates.'
   )
+  const faqSchema = generateFAQSchema(miniFaqs)
 
   return (
     <main className="pt-16">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <section className="relative min-h-[520px] overflow-hidden bg-stone-950 text-white">
         <Image
           src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255559/PS379799_ayoxbp.jpg"
@@ -70,6 +88,7 @@ export default function MiniSessionsPage() {
       </section>
 
       <TurnaroundExpectationsSection service="portrait" />
+      <FAQSection title="Mini Session FAQ" faqs={miniFaqs} />
       <PrepGuideLeadMagnet />
       <ServiceTestimonialsSection service="portrait" />
     </main>
