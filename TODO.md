@@ -20,6 +20,45 @@
 
 ## Next Public Site Audit Priorities - July 2, 2026
 
+### Full Service Page Audit Improvements - July 12, 2026
+
+- [ ] Services hub conversion pass: make `/services` guide visitors by intent with clearer paths for wedding, portrait, event, commercial, engagement, concierge, and branding/marketing.
+- [ ] Services hub recommender placement: move or repeat the package/service recommender higher so unsure visitors have a clean next step before scrolling through every service.
+- [ ] Services hub sub-service discoverability: add clearer child-service links/cards for family, senior, headshot, maternity, mini sessions, brand refresh, corporate events, birthdays, graduations, anniversaries, and holiday parties.
+- [ ] Brand refresh discoverability: `/brand-refresh-sessions` currently has a seasonal chip link, sitemap entry, and smoke-test coverage, but needs a more prominent card/link from `/services/commercial-photography` and/or the main services grid.
+- [ ] CTA route consistency pass: audit every service and sub-service CTA for correct intent between `/book-consultation`, `/book-a-session`, `/request-portfolio`, `/tools/pricing`, `/tools/package-recommender`, and `/contact`.
+- [ ] CTA copy consistency pass: make labels explicit, such as `Book a Consultation`, `Book a Session`, `Compare Pricing`, `Request Private Examples`, or `Request a Demo`, instead of generic booking copy.
+- [ ] Proof module standardization: every major service page should include real Studio37 proof, delivery expectations, two-photographer promise where relevant, and a private gallery/sample/demo request CTA.
+- [ ] Sub-service page upgrade: bring `/family-photography`, `/senior-portraits`, `/professional-headshots`, `/maternity-sessions`, `/mini-sessions`, `/brand-refresh-sessions`, `/corporate-events`, `/birthday-party`, `/graduation`, `/anniversary-party`, and `/holiday-party` closer to homepage-level polish.
+- [ ] Sub-service hero upgrade: give each small service page stronger hero copy, real imagery, clear service-specific value, and a primary CTA above the fold.
+- [ ] Sub-service package clarity: show package expectations, what is included, turnaround, private gallery delivery, and consultation/session handoff on every child page.
+- [ ] Sub-service proof cards: add service-specific proof cards for session examples, local/location confidence, planning support, delivery expectations, and buyer objections.
+- [ ] Parent-child internal linking pass: make portrait, event, commercial, engagement, concierge, and branding pages link naturally to their supporting child pages and back again.
+- [ ] Service schema pass: add or verify service schema on all major and child service pages, especially older sub-service pages that only have metadata.
+- [ ] FAQ schema pass: add concise FAQs and FAQ schema where buyer objections are common, including wedding coverage, portrait timing, event turnaround, commercial usage, brand refresh scope, and custom website builds.
+- [ ] Metadata differentiation pass: reduce generic titles/descriptions on older child pages and make each page more specific to service intent, location, audience, and deliverable.
+- [ ] Image alt and focal pass: audit all service page images for specific alt text, desktop/mobile crop quality, and real Studio37 proof value.
+- [ ] Wedding page polish: add more direct private full-gallery request CTA near pricing, objection handling for venue lighting/timeline/two photographers, and sample timeline guidance by package.
+- [ ] Portrait page polish: better differentiate family, senior, headshot, and maternity paths with proof cards and clearer buyer-specific next steps.
+- [ ] Event page polish: separate private events from corporate events more clearly, raise turnaround expectations, and make child event cards more use-case specific.
+- [ ] Commercial page polish: add stronger business outcome language for website assets, ad creative, sales collateral, team profiles, and usage/licensing expectations.
+- [ ] Engagement page polish: visually separate standard engagement sessions, proposal coverage, and concierge experiences with clearer `best for` guidance.
+- [ ] Concierge page polish: add concrete examples for proposal planning, decor/vendor coordination, location privacy, family/friend logistics, and photo/video coverage.
+- [ ] Branding and marketing page polish: clarify that `Request a Demo` means a website/content/marketing capability walkthrough, and add a custom website build FAQ.
+- [ ] Family photography page polish: add stronger kids/extended-family, wardrobe, location planning, delivery, and private family gallery example sections.
+- [ ] Senior portraits page polish: add outfit, location, cap/gown, parent favorites, social-ready edits, and yearbook deadline guidance.
+- [ ] Professional headshots page polish: add individual vs team expectations, LinkedIn/team page/proposal use cases, and links to commercial/branding services.
+- [ ] Maternity sessions page polish: add best timing window, wardrobe/location guidance, partner/family inclusion, and comfort-focused planning copy.
+- [ ] Mini sessions page polish: clarify limited availability, shorter-session fit, deliverables, and when to choose a standard portrait session instead.
+- [ ] Brand refresh sessions page polish: explain who it is for, show shot-list examples, connect it to commercial photography and branding/marketing, and clarify consult vs session booking.
+- [ ] Corporate events page polish: add PR/social recap deliverables, business use cases, same-week highlights, and private corporate sample request CTA.
+- [ ] Birthday party page polish: add milestone framing, coverage expectations, guest-flow details, and gallery delivery expectations.
+- [ ] Graduation page polish: clarify ceremony, portrait, and party coverage options, plus cap/gown, family, campus, and location guidance.
+- [ ] Anniversary party page polish: split couple portrait coverage from event story coverage and add vow renewal/milestone anniversary examples.
+- [ ] Holiday party page polish: split business holiday parties from private/family events, add seasonal urgency, turnaround expectations, and early-booking copy.
+- [ ] Mobile service QA: test hero, service cards, sticky CTA, proof cards, pricing sections, request portfolio flow, chatbot overlap, and long-scroll fatigue on all service and child service pages.
+- [ ] Live service conversion QA: click through every major and child service page on desktop/mobile and confirm booking/contact/portfolio/pricing routes preserve context and do not dead-end.
+
 ### Service And Sub-Service Page Update - July 11, 2026
 
 - [x] Blog featured-image crop review: desktop blog hero images look clean at the wide aspect ratio but can crop faces/details too aggressively; compare current `object-cover` treatment against safer desktop focal positions, slightly taller desktop ratio, or per-post focal metadata while preserving the strong mobile crop.
