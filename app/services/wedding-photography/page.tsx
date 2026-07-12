@@ -8,7 +8,6 @@ import { generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
 import { Heart, Camera, Clock, Star, CheckCircle, ArrowRight } from 'lucide-react'
 import FAQSection from '@/components/FAQSection'
 import { ServiceTestimonialsSection, TurnaroundExpectationsSection, VenueStyleExamplesSection } from '@/components/PublicFeatureContent'
-import { PortfolioProofSection } from '@/components/PublicConversionSections'
 import ServiceIntentPanel from '@/components/ServiceIntentPanel'
 
 export const metadata = generateSEOMetadata({
@@ -463,7 +462,6 @@ export default function WeddingPhotographyPage() {
 
       <VenueStyleExamplesSection type="wedding" />
       <TurnaroundExpectationsSection service="wedding" />
-      <PortfolioProofSection serviceName="wedding photography" />
       <ServiceTestimonialsSection service="wedding" />
 
       {/* FAQ Section */}

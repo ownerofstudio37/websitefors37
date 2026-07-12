@@ -20,7 +20,6 @@ import {
   CheckCircle,
   ArrowRight,
 } from 'lucide-react'
-import { PortfolioProofSection } from '@/components/PublicConversionSections'
 import ServiceIntentPanel from '@/components/ServiceIntentPanel'
 
 export const metadata = generateSEOMetadata({
@@ -302,8 +301,6 @@ export default function BrandingMarketingPage() {
           </div>
         </div>
       </section>
-
-      <PortfolioProofSection serviceName="branding and marketing content" />
 
       <FAQSection
         title="Branding & Marketing FAQs"

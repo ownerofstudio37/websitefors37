@@ -8,7 +8,6 @@ import FAQSection from '@/components/FAQSection'
 import { generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
 import { Building2, Camera, Users, Briefcase, CheckCircle, ArrowRight, Star } from 'lucide-react'
 import { ServiceTestimonialsSection, TurnaroundExpectationsSection } from '@/components/PublicFeatureContent'
-import { PortfolioProofSection } from '@/components/PublicConversionSections'
 import ServiceIntentPanel from '@/components/ServiceIntentPanel'
 
 export const metadata = generateSEOMetadata({
@@ -562,7 +561,6 @@ export default function CommercialPhotographyPage() {
       </section>
 
       <TurnaroundExpectationsSection service="commercial" />
-      <PortfolioProofSection serviceName="commercial photography" />
       <ServiceTestimonialsSection service="commercial" />
 
       <FAQSection

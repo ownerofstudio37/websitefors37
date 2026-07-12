@@ -91,6 +91,22 @@ for (const check of checks) {
   }
 }
 
+const serviceLayout = fs.readFileSync(path.join(root, 'app/services/layout.tsx'), 'utf8')
+if (serviceLayout.includes('PublicConversionStack')) {
+  const servicePages = fs
+    .readdirSync(path.join(root, 'app/services'), { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => path.join(root, 'app/services', entry.name, 'page.tsx'))
+    .filter((file) => fs.existsSync(file))
+
+  for (const file of servicePages) {
+    const source = fs.readFileSync(file, 'utf8')
+    if (source.includes('PortfolioProofSection')) {
+      failures.push(`${path.relative(root, file)} should not mount PortfolioProofSection directly; services/layout.tsx already includes it`)
+    }
+  }
+}
+
 if (failures.length) {
   console.error('Mobile/public polish audit failed:')
   for (const failure of failures) console.error(`- ${failure}`)
