@@ -70,6 +70,11 @@ export default function LeadsPage() {
   const [editorMode, setEditorMode] = useState<'simple' | 'visual'>('simple')
   const [composeSending, setComposeSending] = useState(false)
   const [composeResult, setComposeResult] = useState<string | null>(null)
+  const [selectedLeadIds, setSelectedLeadIds] = useState<Set<string>>(new Set())
+  const [bulkStatus, setBulkStatus] = useState<Lead['status'] | ''>('')
+  const [bulkTag, setBulkTag] = useState('')
+  const [bulkActionLoading, setBulkActionLoading] = useState(false)
+  const [confirmBulkDelete, setConfirmBulkDelete] = useState(false)
 
   type NewLeadForm = {
     name: string
@@ -141,6 +146,7 @@ export default function LeadsPage() {
       setLeads(data || [])
       setTotalCount(count || 0)
       setPageCount(Math.ceil((count || 0) / itemsPerPage))
+      setSelectedLeadIds((prev) => new Set(Array.from(prev).filter((id) => (data || []).some((lead) => lead.id === id))))
     } catch (error: any) {
       console.error('Error fetching leads:', error)
       setError(error.message || 'Failed to load leads')
@@ -291,6 +297,154 @@ export default function LeadsPage() {
     } catch (error) {
       console.error('Error updating lead:', error)
       setToast('Failed to update lead status')
+    }
+  }
+
+  const applyLeadFilters = (query: any) => {
+    let nextQuery = query
+    if (filter !== 'all') {
+      nextQuery = nextQuery.eq('status', filter)
+    }
+    const trimmed = q.trim()
+    if (trimmed) {
+      const pattern = `%${trimmed}%`
+      nextQuery = nextQuery.or(
+        `name.ilike.${pattern},email.ilike.${pattern},phone.ilike.${pattern},message.ilike.${pattern},notes.ilike.${pattern}`
+      )
+    }
+    return nextQuery
+  }
+
+  const fetchMatchingLeadIds = async () => {
+    let query = supabase.from('leads').select('id')
+    query = applyLeadFilters(query)
+    const { data, error } = await query
+    if (error) throw error
+    return (data || []).map((lead: Pick<Lead, 'id'>) => lead.id)
+  }
+
+  const toggleLeadSelection = (id: string) => {
+    setSelectedLeadIds((prev) => {
+      const next = new Set(prev)
+      if (next.has(id)) next.delete(id)
+      else next.add(id)
+      return next
+    })
+  }
+
+  const selectCurrentPage = () => setSelectedLeadIds(new Set(leads.map((lead) => lead.id)))
+
+  const selectAllMatching = async () => {
+    setBulkActionLoading(true)
+    try {
+      const ids = await fetchMatchingLeadIds()
+      setSelectedLeadIds(new Set(ids))
+      setToast(`Selected ${ids.length} matching lead${ids.length === 1 ? '' : 's'}`)
+    } catch (error) {
+      console.error('Error selecting matching leads:', error)
+      setToast('Failed to select matching leads')
+    } finally {
+      setBulkActionLoading(false)
+    }
+  }
+
+  const clearSelectedLeads = () => {
+    setSelectedLeadIds(new Set())
+    setBulkStatus('')
+    setBulkTag('')
+  }
+
+  const selectedLeads = leads.filter((lead) => selectedLeadIds.has(lead.id))
+  const selectedCount = selectedLeadIds.size
+
+  const updateBulkStatus = async () => {
+    if (!bulkStatus || selectedCount === 0) return
+    setBulkActionLoading(true)
+    try {
+      const ids = Array.from(selectedLeadIds)
+      const { error } = await supabase.from('leads').update({ status: bulkStatus }).in('id', ids)
+      if (error) throw error
+      setLeads(prev => prev.map(lead => selectedLeadIds.has(lead.id) ? { ...lead, status: bulkStatus } : lead))
+      setToast(`Updated ${ids.length} lead status${ids.length === 1 ? '' : 'es'}`)
+    } catch (error) {
+      console.error('Bulk status update failed:', error)
+      setToast('Failed to update selected leads')
+    } finally {
+      setBulkActionLoading(false)
+    }
+  }
+
+  const addBulkTag = async () => {
+    const tag = bulkTag.trim()
+    if (!tag || selectedCount === 0) return
+    setBulkActionLoading(true)
+    try {
+      const ids = Array.from(selectedLeadIds)
+      const { data, error: fetchError } = await supabase.from('leads').select('id,tags').in('id', ids)
+      if (fetchError) throw fetchError
+
+      for (const lead of data || []) {
+        const tags = Array.isArray(lead.tags) ? lead.tags : []
+        const nextTags = Array.from(new Set([...tags, tag]))
+        const { error } = await supabase.from('leads').update({ tags: nextTags }).eq('id', lead.id)
+        if (error) throw error
+      }
+
+      setLeads(prev => prev.map(lead => selectedLeadIds.has(lead.id) ? { ...lead, tags: Array.from(new Set([...(lead.tags || []), tag])) } : lead))
+      setBulkTag('')
+      setToast(`Tagged ${ids.length} lead${ids.length === 1 ? '' : 's'} with "${tag}"`)
+    } catch (error) {
+      console.error('Bulk tag failed:', error)
+      setToast('Failed to tag selected leads')
+    } finally {
+      setBulkActionLoading(false)
+    }
+  }
+
+  const openBulkEmail = async () => {
+    if (selectedCount === 0) return
+    setBulkActionLoading(true)
+    try {
+      let recipients = selectedLeads.map((lead) => lead.email).filter(Boolean)
+      if (selectedCount > selectedLeads.length) {
+        const ids = Array.from(selectedLeadIds)
+        const { data, error } = await supabase.from('leads').select('email').in('id', ids)
+        if (error) throw error
+        recipients = (data || []).map((lead: Pick<Lead, 'email'>) => lead.email).filter(Boolean)
+      }
+      setComposeRecipient(Array.from(new Set(recipients)).join(', '))
+      setComposeSubject('Quick note from Studio37')
+      setComposeHtml(`Hi there,\n\nThanks for reaching out to Studio37. I wanted to follow up and help with the next step.\n\nBest,\nStudio37`)
+      setComposeBlocks([])
+      setEditorMode('simple')
+      setComposeResult(null)
+      setShowComposeModal(true)
+    } catch (error) {
+      console.error('Bulk email failed:', error)
+      setToast('Failed to prepare bulk email')
+    } finally {
+      setBulkActionLoading(false)
+    }
+  }
+
+  const deleteSelectedLeads = async () => {
+    if (selectedCount === 0) return
+    setBulkActionLoading(true)
+    try {
+      const ids = Array.from(selectedLeadIds)
+      await supabase.from('communication_logs').delete().in('lead_id', ids)
+      const { error } = await supabase.from('leads').delete().in('id', ids)
+      if (error) throw error
+      setLeads(prev => prev.filter(lead => !selectedLeadIds.has(lead.id)))
+      clearSelectedLeads()
+      setConfirmBulkDelete(false)
+      setToast(`Deleted ${ids.length} lead${ids.length === 1 ? '' : 's'}`)
+      await fetchLeads()
+    } catch (error) {
+      console.error('Bulk delete failed:', error)
+      setToast('Failed to delete selected leads')
+    } finally {
+      setBulkActionLoading(false)
     }
   }
 
@@ -986,6 +1140,80 @@ Studio37`)
 
       {/* Leads Table */}
       <div className="bg-white rounded-lg shadow overflow-hidden">
+        {selectedCount > 0 && (
+          <div className="border-b border-indigo-100 bg-indigo-50 px-4 py-3">
+            <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+              <div>
+                <p className="text-sm font-semibold text-indigo-950">
+                  {selectedCount} lead{selectedCount === 1 ? '' : 's'} selected
+                </p>
+                <p className="text-xs text-indigo-700">
+                  Use search/status filters first, then select matching leads to tag, email, update status, or delete test records.
+                </p>
+              </div>
+              <div className="flex flex-wrap items-center gap-2">
+                <select
+                  value={bulkStatus}
+                  onChange={(e) => setBulkStatus(e.target.value as Lead['status'] | '')}
+                  className="rounded-lg border border-indigo-200 bg-white px-3 py-2 text-sm"
+                  aria-label="Bulk status"
+                  title="Set status for selected leads"
+                >
+                  <option value="">Status...</option>
+                  <option value="new">New</option>
+                  <option value="contacted">Contacted</option>
+                  <option value="qualified">Qualified</option>
+                  <option value="converted">Converted</option>
+                  <option value="lost">Lost</option>
+                </select>
+                <button
+                  onClick={updateBulkStatus}
+                  disabled={!bulkStatus || bulkActionLoading}
+                  className="rounded-lg bg-indigo-600 px-3 py-2 text-sm font-medium text-white hover:bg-indigo-700 disabled:opacity-50"
+                >
+                  Apply Status
+                </button>
+                <input
+                  value={bulkTag}
+                  onChange={(e) => setBulkTag(e.target.value)}
+                  placeholder="Tag selected..."
+                  className="w-40 rounded-lg border border-indigo-200 bg-white px-3 py-2 text-sm"
+                  aria-label="Bulk tag"
+                />
+                <button
+                  onClick={addBulkTag}
+                  disabled={!bulkTag.trim() || bulkActionLoading}
+                  className="rounded-lg border border-indigo-200 bg-white px-3 py-2 text-sm font-medium text-indigo-700 hover:bg-indigo-100 disabled:opacity-50"
+                >
+                  Add Tag
+                </button>
+                <button
+                  onClick={openBulkEmail}
+                  disabled={bulkActionLoading}
+                  className="inline-flex items-center gap-1 rounded-lg border border-indigo-200 bg-white px-3 py-2 text-sm font-medium text-indigo-700 hover:bg-indigo-100 disabled:opacity-50"
+                >
+                  <Mail className="h-4 w-4" />
+                  Email
+                </button>
+                <button
+                  onClick={() => setConfirmBulkDelete(true)}
+                  disabled={bulkActionLoading}
+                  className="inline-flex items-center gap-1 rounded-lg bg-red-600 px-3 py-2 text-sm font-medium text-white hover:bg-red-700 disabled:opacity-50"
+                >
+                  <Trash2 className="h-4 w-4" />
+                  Delete
+                </button>
+                <button
+                  onClick={clearSelectedLeads}
+                  disabled={bulkActionLoading}
+                  className="rounded-lg border border-indigo-200 bg-white px-3 py-2 text-sm font-medium text-indigo-700 hover:bg-indigo-100 disabled:opacity-50"
+                >
+                  Clear
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
         {error ? (
           <AdminState
             tone="error"
@@ -1025,9 +1253,52 @@ Studio37`)
           />
         ) : (
           <div className="overflow-x-auto">
+            <div className="flex flex-col gap-2 border-b border-gray-100 bg-gray-50 px-4 py-3 text-sm text-gray-700 md:flex-row md:items-center md:justify-between">
+              <span>
+                Showing {leads.length} of {totalCount} lead{totalCount === 1 ? '' : 's'}
+                {hasActiveLeadFilters ? ' in this search/filter view' : ''}
+              </span>
+              <div className="flex flex-wrap gap-2">
+                <button
+                  onClick={selectCurrentPage}
+                  disabled={leads.length === 0 || bulkActionLoading}
+                  className="rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-xs font-medium text-gray-700 hover:bg-gray-100 disabled:opacity-50"
+                >
+                  Select this page
+                </button>
+                <button
+                  onClick={selectAllMatching}
+                  disabled={totalCount === 0 || bulkActionLoading}
+                  className="rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-xs font-medium text-gray-700 hover:bg-gray-100 disabled:opacity-50"
+                >
+                  Select all {totalCount} matching
+                </button>
+                {selectedCount > 0 && (
+                  <button
+                    onClick={clearSelectedLeads}
+                    disabled={bulkActionLoading}
+                    className="rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-xs font-medium text-gray-700 hover:bg-gray-100 disabled:opacity-50"
+                  >
+                    Clear selection
+                  </button>
+                )}
+              </div>
+            </div>
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
+                  <th className="px-4 py-3 text-left">
+                    <input
+                      type="checkbox"
+                      checked={leads.length > 0 && leads.every((lead) => selectedLeadIds.has(lead.id))}
+                      onChange={(e) => {
+                        if (e.target.checked) selectCurrentPage()
+                        else clearSelectedLeads()
+                      }}
+                      aria-label="Select all leads on this page"
+                      className="h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
+                    />
+                  </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Contact
                   </th>
@@ -1051,6 +1322,15 @@ Studio37`)
               <tbody className="bg-white divide-y divide-gray-200">
                 {leads.map((lead) => (
                   <tr key={lead.id} className="hover:bg-gray-50">
+                    <td className="px-4 py-4 align-top">
+                      <input
+                        type="checkbox"
+                        checked={selectedLeadIds.has(lead.id)}
+                        onChange={() => toggleLeadSelection(lead.id)}
+                        aria-label={`Select ${lead.name}`}
+                        className="h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
+                      />
+                    </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div>
                         <div className="text-sm font-medium text-gray-900">
@@ -2157,6 +2437,16 @@ Studio37`)
           deleteLead(confirmDeleteLeadId)
           setConfirmDeleteLeadId(null)
         }}
+      />
+
+      <AdminConfirmDialog
+        open={confirmBulkDelete}
+        title={`Delete ${selectedCount} selected lead${selectedCount === 1 ? '' : 's'}?`}
+        message="This permanently removes the selected lead records. Use search and filters first when cleaning up test leads so only the intended group is selected."
+        confirmLabel={bulkActionLoading ? 'Deleting...' : 'Delete Selected'}
+        danger
+        onCancel={() => setConfirmBulkDelete(false)}
+        onConfirm={deleteSelectedLeads}
       />
     </div>
   )

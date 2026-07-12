@@ -1,5 +1,20 @@
 # Studio37 UX/UI, SEO, and Feature TODO
 
+## CRM Improvement Audit - July 12, 2026
+
+- [x] Bulk lead selection: add row checkboxes, select current page, and select all matching search/filter results so test leads can be grouped and cleaned up quickly.
+- [x] Bulk lead actions: support selected-lead status changes, tagging, email drafting, and confirmed deletion from `/admin/leads`.
+- [ ] CRM saved views: add reusable views such as Test Leads, New Wedding Leads, Portfolio Requests, Needs Follow-up, Hot Leads, and Missing Phone.
+- [ ] Duplicate lead cleanup: detect likely duplicates by email, phone, and name so imports/chatbot/contact forms do not clutter the CRM.
+- [ ] Safer delete/archive workflow: add an Archive status or soft-delete option for real leads, while keeping hard delete available for obvious test records.
+- [ ] Bulk timeline logging: when bulk status/tag/email actions run, write a short timeline entry so future-you knows why a group changed.
+- [ ] Lead source quality dashboard: show source, UTM, landing page, and conversion quality directly in the lead table and analytics dashboard.
+- [ ] Follow-up queue: add a compact queue for overdue leads, today’s follow-ups, and leads with no response logged after 24 hours.
+- [ ] Lead scoring refinement: surface score, urgency, package fit, and recommended next action directly in the table without opening the detail modal.
+- [ ] Bulk assignment/ownership: add assigned owner and photographer/team owner fields for future team workflows.
+- [ ] CRM export improvements: export selected leads or current filtered view, not only the visible page.
+- [ ] Mobile CRM pass: optimize bulk selection, quick call/text/email actions, and lead detail modals for phone use.
+
 ## Full Site, Admin, And Sitemap Audit - July 11, 2026
 
 - [x] Sitemap crawler header fix: remove `X-Robots-Tag: noindex` from `/sitemap.xml` and `/sitemap_index.xml` route responses so Search Console is not given a noindex signal on sitemap XML.
