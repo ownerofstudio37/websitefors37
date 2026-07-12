@@ -105,6 +105,23 @@ export default function AnniversaryPartyPage() {
         </div>
       </section>
 
+      <section className="section-shell bg-stone-50">
+        <div className="container mx-auto px-4">
+          <div className="grid gap-4 md:grid-cols-3">
+            {[
+              ['Couple portraits', 'A short portrait window for the couple before guests pull them into the celebration.'],
+              ['Event story', 'Toasts, dancing, family moments, decor, guest candids, and the rhythm of the full gathering.'],
+              ['Milestone examples', 'Vow renewals, 25th and 50th anniversaries, family dinners, and multi-generational celebrations.'],
+            ].map(([title, copy]) => (
+              <div key={title} className="surface-panel p-5">
+                <h2 className="font-semibold text-stone-950">{title}</h2>
+                <p className="mt-2 text-sm leading-6 text-stone-600">{copy}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <PortraitSubServiceSupport
         service="anniversary party photography"
         parentHref="/services/event-photography"

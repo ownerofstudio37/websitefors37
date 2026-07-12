@@ -106,6 +106,23 @@ export default function GraduationPage() {
         </div>
       </section>
 
+      <section className="section-shell bg-stone-50">
+        <div className="container mx-auto px-4">
+          <div className="grid gap-4 md:grid-cols-3">
+            {[
+              ['Portrait session', 'Cap-and-gown, family combinations, campus or local backdrops, and announcement-ready images.'],
+              ['Ceremony coverage', 'Where permitted, we plan around arrival, family timing, diploma moments, and post-ceremony portraits.'],
+              ['Celebration story', 'Party candids, decor, friend groups, family reactions, and the details that complete the milestone.'],
+            ].map(([title, copy]) => (
+              <div key={title} className="surface-panel p-5">
+                <h2 className="font-semibold text-stone-950">{title}</h2>
+                <p className="mt-2 text-sm leading-6 text-stone-600">{copy}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <PortraitSubServiceSupport
         service="graduation photography"
         parentHref="/services/event-photography"

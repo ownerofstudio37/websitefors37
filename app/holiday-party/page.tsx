@@ -106,6 +106,23 @@ export default function HolidayPartyPage() {
         </div>
       </section>
 
+      <section className="section-shell bg-stone-50">
+        <div className="container mx-auto px-4">
+          <div className="grid gap-4 md:grid-cols-3">
+            {[
+              ['Business parties', 'Team photos, branded decor, leadership moments, sponsor details, and recap-ready images.'],
+              ['Private celebrations', 'Family groups, festive details, candid joy, gift exchanges, traditions, and guest coverage.'],
+              ['Book early', 'Holiday dates compress quickly, so we plan lighting, group-photo timing, and delivery expectations upfront.'],
+            ].map(([title, copy]) => (
+              <div key={title} className="surface-panel p-5">
+                <h2 className="font-semibold text-stone-950">{title}</h2>
+                <p className="mt-2 text-sm leading-6 text-stone-600">{copy}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <PortraitSubServiceSupport
         service="holiday party photography"
         parentHref="/services/event-photography"

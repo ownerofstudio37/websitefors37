@@ -45,17 +45,17 @@
 - [x] Engagement page polish: visually separate standard engagement sessions, proposal coverage, and concierge experiences with clearer `best for` guidance.
 - [x] Concierge page polish: add concrete examples for proposal planning, decor/vendor coordination, location privacy, family/friend logistics, and photo/video coverage.
 - [x] Branding and marketing page polish: clarify that `Request a Demo` means a website/content/marketing capability walkthrough, and add a custom website build FAQ.
-- [ ] Family photography page polish: add stronger kids/extended-family, wardrobe, location planning, delivery, and private family gallery example sections.
-- [ ] Senior portraits page polish: add outfit, location, cap/gown, parent favorites, social-ready edits, and yearbook deadline guidance.
-- [ ] Professional headshots page polish: add individual vs team expectations, LinkedIn/team page/proposal use cases, and links to commercial/branding services.
-- [ ] Maternity sessions page polish: add best timing window, wardrobe/location guidance, partner/family inclusion, and comfort-focused planning copy.
+- [x] Family photography page polish: add stronger kids/extended-family, wardrobe, location planning, delivery, and private family gallery example sections.
+- [x] Senior portraits page polish: add outfit, location, cap/gown, parent favorites, social-ready edits, and yearbook deadline guidance.
+- [x] Professional headshots page polish: add individual vs team expectations, LinkedIn/team page/proposal use cases, and links to commercial/branding services.
+- [x] Maternity sessions page polish: add best timing window, wardrobe/location guidance, partner/family inclusion, and comfort-focused planning copy.
 - [x] Mini sessions page polish: clarify limited availability, shorter-session fit, deliverables, and when to choose a standard portrait session instead.
 - [x] Brand refresh sessions page polish: explain who it is for, show shot-list examples, connect it to commercial photography and branding/marketing, and clarify consult vs session booking.
-- [ ] Corporate events page polish: add PR/social recap deliverables, business use cases, same-week highlights, and private corporate sample request CTA.
-- [ ] Birthday party page polish: add milestone framing, coverage expectations, guest-flow details, and gallery delivery expectations.
-- [ ] Graduation page polish: clarify ceremony, portrait, and party coverage options, plus cap/gown, family, campus, and location guidance.
-- [ ] Anniversary party page polish: split couple portrait coverage from event story coverage and add vow renewal/milestone anniversary examples.
-- [ ] Holiday party page polish: split business holiday parties from private/family events, add seasonal urgency, turnaround expectations, and early-booking copy.
+- [x] Corporate events page polish: add PR/social recap deliverables, business use cases, same-week highlights, and private corporate sample request CTA.
+- [x] Birthday party page polish: add milestone framing, coverage expectations, guest-flow details, and gallery delivery expectations.
+- [x] Graduation page polish: clarify ceremony, portrait, and party coverage options, plus cap/gown, family, campus, and location guidance.
+- [x] Anniversary party page polish: split couple portrait coverage from event story coverage and add vow renewal/milestone anniversary examples.
+- [x] Holiday party page polish: split business holiday parties from private/family events, add seasonal urgency, turnaround expectations, and early-booking copy.
 - [ ] Mobile service QA: test hero, service cards, sticky CTA, proof cards, pricing sections, request portfolio flow, chatbot overlap, and long-scroll fatigue on all service and child service pages.
 - [ ] Live service conversion QA: click through every major and child service page on desktop/mobile and confirm booking/contact/portfolio/pricing routes preserve context and do not dead-end.
 

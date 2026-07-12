@@ -105,6 +105,23 @@ export default function BirthdayPartyPage() {
         </div>
       </section>
 
+      <section className="section-shell bg-stone-50">
+        <div className="container mx-auto px-4">
+          <div className="grid gap-4 md:grid-cols-3">
+            {[
+              ['Milestone framing', 'First birthdays, sweet 16s, 21st birthdays, 50th celebrations, and 100th birthday gatherings.'],
+              ['Coverage rhythm', 'Candids, guest reactions, cake moments, details, group photos, and portraits with the guest of honor.'],
+              ['Gallery delivery', 'A private edited gallery built for easy sharing with family and friends after the celebration.'],
+            ].map(([title, copy]) => (
+              <div key={title} className="surface-panel p-5">
+                <h2 className="font-semibold text-stone-950">{title}</h2>
+                <p className="mt-2 text-sm leading-6 text-stone-600">{copy}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <PortraitSubServiceSupport
         service="birthday party photography"
         parentHref="/services/event-photography"

@@ -105,6 +105,23 @@ export default function CorporateEventsPage() {
         </div>
       </section>
 
+      <section className="section-shell bg-stone-50">
+        <div className="container mx-auto px-4">
+          <div className="grid gap-4 md:grid-cols-3">
+            {[
+              ['PR and recap', 'Fast highlight sets for press, social, sponsor recaps, and internal communications.'],
+              ['Business use cases', 'Speaker coverage, networking, awards, branded details, team moments, and sponsor value.'],
+              ['Private samples', 'Request corporate examples matched to your venue, lighting, guest count, and delivery needs.'],
+            ].map(([title, copy]) => (
+              <div key={title} className="surface-panel p-5">
+                <h2 className="font-semibold text-stone-950">{title}</h2>
+                <p className="mt-2 text-sm leading-6 text-stone-600">{copy}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <PortraitSubServiceSupport
         service="corporate event photography"
         parentHref="/services/event-photography"
