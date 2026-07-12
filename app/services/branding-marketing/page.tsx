@@ -162,6 +162,37 @@ export default function BrandingMarketingPage() {
     },
   ]
 
+  const proofCards = [
+    {
+      label: 'Website proof',
+      title: 'A site built around the way you sell',
+      detail:
+        'Service pages, booking paths, quote forms, portfolio requests, and clear CTAs can all be shaped around your actual offer instead of a generic template.',
+      result: 'Prospects get fewer dead ends and more obvious next steps.',
+    },
+    {
+      label: 'Content proof',
+      title: 'Brand visuals that support the whole funnel',
+      detail:
+        'Photography, short video, copy, and proof sections can be planned together so the website, ads, socials, and sales follow-up all feel connected.',
+      result: 'Your marketing looks consistent because the assets were built as a system.',
+    },
+    {
+      label: 'SEO proof',
+      title: 'Search structure baked in early',
+      detail:
+        'Metadata, schema, service pages, local pages, internal links, and blog topics are mapped before launch so the site has a stronger discovery foundation.',
+      result: 'The build starts with clearer SEO intent instead of adding it later.',
+    },
+    {
+      label: 'Operations proof',
+      title: 'Admin tools when the business needs them',
+      detail:
+        'For more advanced builds, private dashboards can organize leads, content, requests, publishing, project status, and follow-up workflows.',
+      result: 'The website can support operations, not just sit online.',
+    },
+  ]
+
   return (
     <div className="pt-16">
       <script
@@ -312,6 +343,37 @@ export default function BrandingMarketingPage() {
             <Link href="/request-portfolio?service=website-demo" className="btn-secondary">
               Request a Demo
             </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="section-shell bg-stone-50">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+            <div className="max-w-3xl">
+              <p className="eyebrow mb-3">Business Build Proof</p>
+              <h2 className="text-3xl font-bold text-stone-950 md:text-4xl">What the work can prove</h2>
+              <p className="mt-4 text-lg leading-8 text-stone-600">
+                These are the practical pieces we can plan into a custom website, content, or marketing build so the finished system feels specific to your business.
+              </p>
+            </div>
+            <Link href="/request-portfolio?service=website-demo" className="btn-secondary inline-flex items-center justify-center">
+              Request a Demo
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
+          </div>
+
+          <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            {proofCards.map((card) => (
+              <article key={card.title} className="surface-panel p-5">
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary-700">{card.label}</p>
+                <h3 className="mt-3 text-xl font-semibold text-stone-950">{card.title}</h3>
+                <p className="mt-3 text-sm leading-6 text-stone-600">{card.detail}</p>
+                <p className="mt-5 border-t border-stone-200 pt-4 text-sm font-semibold leading-6 text-stone-800">
+                  {card.result}
+                </p>
+              </article>
+            ))}
           </div>
         </div>
       </section>
