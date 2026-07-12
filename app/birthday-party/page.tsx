@@ -2,6 +2,7 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
+import PortraitSubServiceSupport from '@/components/PortraitSubServiceSupport'
 
 export const metadata = generateSEOMetadata({
   title: 'Birthday Party Photography - Studio37',
@@ -88,14 +89,27 @@ export default function BirthdayPartyPage() {
                     </li>
                   ))}
                 </ul>
-                <button className="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition">
-                  Book Now
-                </button>
+                <Link href={`/book-consultation?package=${encodeURIComponent(pkg.name)}`} className="block w-full rounded-lg bg-purple-600 py-2 text-center text-white transition hover:bg-purple-700">
+                  Book Consultation
+                </Link>
               </div>
             ))}
           </div>
         </div>
       </section>
+
+      <PortraitSubServiceSupport
+        service="birthday party photography"
+        parentHref="/services/event-photography"
+        parentLabel="event photography"
+        proof={[
+          'Milestone birthday galleries with candid guest moments, details, portraits, and cake coverage.',
+          'Examples from indoor venues, homes, restaurants, and mixed-light celebrations.',
+          'Final gallery variety for sharing with family and preserving the full celebration.',
+        ]}
+        planning={['Timeline and cake moments', 'Family group list', 'Venue light plan']}
+        objection="If you are worried about missing key people or moments, we map the party flow before coverage starts so candids, group photos, details, and milestone moments all get attention."
+      />
 
       {/* SEO Content Block */}
       <section className="py-12 px-4 md:px-8 lg:px-16 bg-gray-50">

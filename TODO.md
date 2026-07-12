@@ -33,14 +33,14 @@
 
 ### Event And Commercial Sub-Service Update - July 11, 2026
 
-- [ ] Event sub-service polish: bring `/corporate-events`, `/birthday-party`, `/graduation`, `/fundraiser`, `/anniversary-party`, and `/holiday-party` up to the same visual/conversion standard as the portrait sub-service pages.
-- [ ] Event sub-service conversion pass: replace any dead-end or generic package actions with book consultation, compare pricing/package, request tailored portfolio, and contact fallback CTAs.
-- [ ] Event parent page QA: verify every card on `/services/event-photography` routes to a live page and that each child page links back to event photography.
-- [ ] Event page copy differentiation: make corporate events, birthdays, graduations, fundraisers, anniversaries, and holiday parties feel distinct in deliverables, timing, guest flow, venue logistics, and proof examples.
-- [ ] Commercial sub-service strategy: decide whether product photography, architectural/interior photography, brand refresh, headshots, and marketing content should become dedicated child pages or remain anchored sections.
-- [ ] Commercial sub-service conversion pass: ensure `/services/commercial-photography`, `/brand-refresh-sessions`, `/professional-headshots`, and any future commercial child pages include request portfolio, consult, pricing, and contact paths.
-- [ ] Commercial proof request flow: add commercial-specific proof prompts for product details, workspace/interiors, team headshots, website hero images, campaign/social content, and usage rights.
-- [ ] Cross-service smoke coverage: add event and commercial sub-service routes to Playwright smoke after the page-quality pass.
+- [x] Event sub-service polish: bring `/corporate-events`, `/birthday-party`, `/graduation`, `/fundraiser`, `/anniversary-party`, and `/holiday-party` up to the same visual/conversion standard as the portrait sub-service pages.
+- [x] Event sub-service conversion pass: replace any dead-end or generic package actions with book consultation, compare pricing/package, request tailored portfolio, and contact fallback CTAs.
+- [x] Event parent page QA: verify every card on `/services/event-photography` routes to a live page and that each child page links back to event photography.
+- [x] Event page copy differentiation: make corporate events, birthdays, graduations, fundraisers, anniversaries, and holiday parties feel distinct in deliverables, timing, guest flow, venue logistics, and proof examples.
+- [x] Commercial sub-service strategy: decide whether product photography, architectural/interior photography, brand refresh, headshots, and marketing content should become dedicated child pages or remain anchored sections.
+- [x] Commercial sub-service conversion pass: ensure `/services/commercial-photography`, `/brand-refresh-sessions`, `/professional-headshots`, and any future commercial child pages include request portfolio, consult, pricing, and contact paths.
+- [x] Commercial proof request flow: add commercial-specific proof prompts for product details, workspace/interiors, team headshots, website hero images, campaign/social content, and usage rights.
+- [x] Cross-service smoke coverage: add event and commercial sub-service routes to Playwright smoke after the page-quality pass.
 
 ### Next Booking, Conversion, And Site Growth Roadmap
 

@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 import { generateServiceSchema } from '@/lib/seo-config'
 import PrepGuideLeadMagnet from '@/components/PrepGuideLeadMagnet'
+import PortraitSubServiceSupport from '@/components/PortraitSubServiceSupport'
 
 export const metadata = generateSEOMetadata({
   title: 'Holiday Party Photography - Studio37',
@@ -96,14 +97,27 @@ export default function HolidayPartyPage() {
                     </li>
                   ))}
                 </ul>
-                <Link href={`/book-a-session?package=${encodeURIComponent(pkg.name)}`} className="block w-full text-center bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition font-semibold">
-                  Book Now
+                <Link href={`/book-consultation?package=${encodeURIComponent(pkg.name)}`} className="block w-full text-center bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition font-semibold">
+                  Book Consultation
                 </Link>
               </div>
             ))}
           </div>
         </div>
       </section>
+
+      <PortraitSubServiceSupport
+        service="holiday party photography"
+        parentHref="/services/event-photography"
+        parentLabel="event photography"
+        proof={[
+          'Corporate and private holiday party examples with decor, team photos, candids, and group coverage.',
+          'Low-light reception and festive venue examples with clean color and flash work.',
+          'Fast sharing sets for newsletters, social posts, internal recaps, and family keepsakes.',
+        ]}
+        planning={['Lighting and decor review', 'Group photo timing', 'Recap delivery plan']}
+        objection="Holiday parties often have tough lighting and tight schedules. We plan group photos, decor coverage, and candid windows so the gallery feels festive without interrupting the event."
+      />
 
       {/* SEO Content Block */}
       <section className="py-12 px-4 md:px-8 lg:px-16 bg-gray-50">

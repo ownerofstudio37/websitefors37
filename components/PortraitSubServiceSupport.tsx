@@ -6,6 +6,8 @@ type PortraitSubServiceSupportProps = {
   planning: string[]
   objection: string
   packageHref?: string
+  parentHref?: string
+  parentLabel?: string
 }
 
 export default function PortraitSubServiceSupport({
@@ -14,6 +16,8 @@ export default function PortraitSubServiceSupport({
   planning,
   objection,
   packageHref = '/tools/package-recommender',
+  parentHref = '/services/portrait-photography',
+  parentLabel = 'portrait services',
 }: PortraitSubServiceSupportProps) {
   return (
     <section className="section-shell bg-white">
@@ -57,8 +61,8 @@ export default function PortraitSubServiceSupport({
                 </li>
               ))}
             </ul>
-            <Link href="/services/portrait-photography" className="mt-6 inline-flex text-sm font-semibold text-primary-700 hover:underline">
-              Back to portrait services
+            <Link href={parentHref} className="mt-6 inline-flex text-sm font-semibold text-primary-700 hover:underline">
+              Back to {parentLabel}
             </Link>
           </aside>
         </div>

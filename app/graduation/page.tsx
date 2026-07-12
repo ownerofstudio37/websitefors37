@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 import { generateServiceSchema } from '@/lib/seo-config'
 import PrepGuideLeadMagnet from '@/components/PrepGuideLeadMagnet'
+import PortraitSubServiceSupport from '@/components/PortraitSubServiceSupport'
 
 export const metadata = generateSEOMetadata({
   title: 'Professional Graduation Photography - Studio37',
@@ -96,14 +97,27 @@ export default function GraduationPage() {
                     </li>
                   ))}
                 </ul>
-                <Link href={`/book-a-session?package=${encodeURIComponent(pkg.name)}`} className="block w-full text-center bg-amber-600 text-white py-2 rounded-lg hover:bg-amber-700 transition font-semibold">
-                  Book Now
+                <Link href={`/book-consultation?package=${encodeURIComponent(pkg.name)}`} className="block w-full text-center bg-amber-600 text-white py-2 rounded-lg hover:bg-amber-700 transition font-semibold">
+                  Book Consultation
                 </Link>
               </div>
             ))}
           </div>
         </div>
       </section>
+
+      <PortraitSubServiceSupport
+        service="graduation photography"
+        parentHref="/services/event-photography"
+        parentLabel="event photography"
+        proof={[
+          'Cap-and-gown, family, campus, ceremony, and celebration examples.',
+          'Senior and graduation galleries with both parent favorites and student personality.',
+          'Location examples for high school, college, and milestone graduation sessions.',
+        ]}
+        planning={['Campus or venue plan', 'Family photo list', 'Announcement usage']}
+        objection="Graduation days move quickly. We plan the location, family combinations, ceremony limits, and celebration timing so the final gallery covers more than one rushed portrait."
+      />
 
       {/* SEO Content Block */}
       <section className="py-12 px-4 md:px-8 lg:px-16 bg-gray-50">

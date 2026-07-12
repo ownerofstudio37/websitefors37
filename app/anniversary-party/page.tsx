@@ -2,6 +2,7 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
+import PortraitSubServiceSupport from '@/components/PortraitSubServiceSupport'
 
 export const metadata = generateSEOMetadata({
   title: 'Anniversary Party Photography - Studio37',
@@ -88,14 +89,27 @@ export default function AnniversaryPartyPage() {
                     </li>
                   ))}
                 </ul>
-                <button className="w-full bg-rose-600 text-white py-2 rounded-lg hover:bg-rose-700 transition">
-                  Book Now
-                </button>
+                <Link href={`/book-consultation?package=${encodeURIComponent(pkg.name)}`} className="block w-full rounded-lg bg-rose-600 py-2 text-center text-white transition hover:bg-rose-700">
+                  Book Consultation
+                </Link>
               </div>
             ))}
           </div>
         </div>
       </section>
+
+      <PortraitSubServiceSupport
+        service="anniversary party photography"
+        parentHref="/services/event-photography"
+        parentLabel="event photography"
+        proof={[
+          'Couple portraits, family combinations, decor, toasts, dancing, and guest candids.',
+          'Milestone anniversary examples with multi-generational coverage and relaxed direction.',
+          'Private galleries that show the full celebration, not only a few highlight images.',
+        ]}
+        planning={['Couple portrait time', 'Family group list', 'Toast and dance moments']}
+        objection="Anniversary parties are emotional and family-heavy. We plan the people, timing, and must-have moments so the gallery honors the couple and the guests who came to celebrate them."
+      />
 
       {/* SEO Content Block */}
       <section className="py-12 px-4 md:px-8 lg:px-16 bg-gray-50">

@@ -5,6 +5,7 @@ import { generateSEOMetadata } from '@/lib/seo-helpers'
 import { generateServiceSchema } from '@/lib/seo-config'
 import { ServiceTestimonialsSection, TurnaroundExpectationsSection } from '@/components/PublicFeatureContent'
 import PrepGuideLeadMagnet from '@/components/PrepGuideLeadMagnet'
+import PortraitSubServiceSupport from '@/components/PortraitSubServiceSupport'
 
 export const metadata = generateSEOMetadata({
   title: 'Brand Refresh Photography Sessions | Studio37',
@@ -70,6 +71,18 @@ export default function BrandRefreshSessionsPage() {
       </section>
 
       <TurnaroundExpectationsSection service="commercial" />
+      <PortraitSubServiceSupport
+        service="brand refresh sessions"
+        parentHref="/services/commercial-photography"
+        parentLabel="commercial photography"
+        proof={[
+          'Website hero, team, workspace, product detail, and social-content examples.',
+          'Campaign-ready galleries with usage context and practical crop variety.',
+          'Commercial examples matched to your industry, location, and customer-facing channels.',
+        ]}
+        planning={['Channel usage map', 'Shot priority list', 'Usage rights review']}
+        objection="A brand refresh should create images you can actually use. The consultation clarifies where the photos need to work, what crops are needed, and what proof examples are worth reviewing before you book."
+      />
       <PrepGuideLeadMagnet />
       <ServiceTestimonialsSection service="commercial" />
     </main>

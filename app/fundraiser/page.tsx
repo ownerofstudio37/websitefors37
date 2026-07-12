@@ -2,6 +2,7 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
+import PortraitSubServiceSupport from '@/components/PortraitSubServiceSupport'
 
 export const metadata = generateSEOMetadata({
   title: 'Charity Fundraiser Event Photography - Studio37',
@@ -88,14 +89,27 @@ export default function FundraiserPage() {
                     </li>
                   ))}
                 </ul>
-                <button className="w-full bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 transition">
-                  Book Now
-                </button>
+                <Link href={`/book-consultation?package=${encodeURIComponent(pkg.name)}`} className="block w-full rounded-lg bg-red-600 py-2 text-center text-white transition hover:bg-red-700">
+                  Book Consultation
+                </Link>
               </div>
             ))}
           </div>
         </div>
       </section>
+
+      <PortraitSubServiceSupport
+        service="fundraiser photography"
+        parentHref="/services/event-photography"
+        parentLabel="event photography"
+        proof={[
+          'Donor, sponsor, auction, speaker, volunteer, and mission-moment coverage examples.',
+          'Images designed for recap emails, social proof, annual reports, and future sponsorship decks.',
+          'Gala and nonprofit event galleries with fast highlight delivery options.',
+        ]}
+        planning={['Sponsor priority list', 'Program timeline', 'Impact story goals']}
+        objection="Fundraisers need more than pretty photos. The consultation helps us identify sponsor recognition, donor moments, mission storytelling, and post-event usage before the room fills up."
+      />
 
       {/* SEO Content Block */}
       <section className="py-12 px-4 md:px-8 lg:px-16 bg-gray-50">

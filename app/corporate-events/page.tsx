@@ -2,6 +2,7 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
+import PortraitSubServiceSupport from '@/components/PortraitSubServiceSupport'
 
 export const metadata = generateSEOMetadata({
   title: 'Professional Corporate Event Photography - Studio37',
@@ -88,14 +89,27 @@ export default function CorporateEventsPage() {
                     </li>
                   ))}
                 </ul>
-                <button className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
-                  Book Now
-                </button>
+                <Link href={`/book-consultation?package=${encodeURIComponent(pkg.name)}`} className="block w-full rounded-lg bg-blue-600 py-2 text-center text-white transition hover:bg-blue-700">
+                  Book Consultation
+                </Link>
               </div>
             ))}
           </div>
         </div>
       </section>
+
+      <PortraitSubServiceSupport
+        service="corporate event photography"
+        parentHref="/services/event-photography"
+        parentLabel="event photography"
+        proof={[
+          'Conference, gala, sponsor, speaker, award, and networking examples.',
+          'Fast-turnaround highlight sets for PR, social, recaps, and internal communications.',
+          'Low-light ballroom and mixed-light venue examples with clean delivery consistency.',
+        ]}
+        planning={['Run-of-show review', 'VIP and sponsor list', 'Delivery usage plan']}
+        objection="If your event needs images for marketing, donor relations, or internal communications, the planning call clarifies must-have moments, access, usage, and delivery timing before event day."
+      />
 
       {/* SEO Content Block */}
       <section className="py-12 px-4 md:px-8 lg:px-16 bg-gray-50">
