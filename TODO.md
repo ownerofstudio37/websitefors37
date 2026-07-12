@@ -39,11 +39,11 @@
 - [x] Metadata differentiation pass: reduce generic titles/descriptions on older child pages and make each page more specific to service intent, location, audience, and deliverable.
 - [x] Image alt and focal pass: clean generic service-page alt text and carry desktop/mobile crop quality into the remaining live service QA pass.
 - [x] Wedding page polish: add more direct private full-gallery request CTA near pricing, objection handling for venue lighting/timeline/two photographers, and sample timeline guidance by package.
-- [ ] Portrait page polish: better differentiate family, senior, headshot, and maternity paths with proof cards and clearer buyer-specific next steps.
-- [ ] Event page polish: separate private events from corporate events more clearly, raise turnaround expectations, and make child event cards more use-case specific.
+- [x] Portrait page polish: better differentiate family, senior, headshot, and maternity paths with proof cards and clearer buyer-specific next steps.
+- [x] Event page polish: separate private events from corporate events more clearly, raise turnaround expectations, and make child event cards more use-case specific.
 - [x] Commercial page polish: add stronger business outcome language for website assets, ad creative, sales collateral, team profiles, and usage/licensing expectations.
-- [ ] Engagement page polish: visually separate standard engagement sessions, proposal coverage, and concierge experiences with clearer `best for` guidance.
-- [ ] Concierge page polish: add concrete examples for proposal planning, decor/vendor coordination, location privacy, family/friend logistics, and photo/video coverage.
+- [x] Engagement page polish: visually separate standard engagement sessions, proposal coverage, and concierge experiences with clearer `best for` guidance.
+- [x] Concierge page polish: add concrete examples for proposal planning, decor/vendor coordination, location privacy, family/friend logistics, and photo/video coverage.
 - [x] Branding and marketing page polish: clarify that `Request a Demo` means a website/content/marketing capability walkthrough, and add a custom website build FAQ.
 - [ ] Family photography page polish: add stronger kids/extended-family, wardrobe, location planning, delivery, and private family gallery example sections.
 - [ ] Senior portraits page polish: add outfit, location, cap/gown, parent favorites, social-ready edits, and yearbook deadline guidance.

@@ -130,6 +130,30 @@ export default function ConciergeServicesPage() {
 
       <section className="section-shell bg-white">
         <div className="container mx-auto px-4">
+          <div className="mx-auto max-w-5xl">
+            <div className="mb-8 max-w-3xl">
+              <p className="eyebrow mb-3">Real Concierge Scenarios</p>
+              <h2 className="text-3xl font-bold text-stone-950">Support for the details that make or break the moment</h2>
+            </div>
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+              {[
+                ['Proposal planning', 'Timing, reveal flow, backup plans, and where we hide before the moment.'],
+                ['Decor coordination', 'Simple setup guidance, visual priorities, and what needs to be ready before arrival.'],
+                ['Privacy + logistics', 'Parking, foot traffic, family/friend staging, restroom access, and weather options.'],
+                ['Photo/video coverage', 'Clear plan for the proposal, portraits afterward, family reactions, and optional highlight video.'],
+              ].map(([title, copy]) => (
+                <div key={title} className="surface-panel p-5">
+                  <h3 className="font-semibold text-stone-950">{title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-stone-600">{copy}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="section-shell bg-white">
+        <div className="container mx-auto px-4">
           <div className="mx-auto max-w-4xl surface-panel p-7 md:p-9">
             <h2 className="mb-5 text-3xl font-bold text-stone-950">Concierge Services Include</h2>
             <ul className="grid gap-3 md:grid-cols-2">

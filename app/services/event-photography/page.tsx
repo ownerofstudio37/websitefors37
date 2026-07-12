@@ -185,6 +185,19 @@ export default function EventPhotographyPage() {
               <span className="inline-flex items-center gap-1 mt-3 text-sm font-medium text-primary-600 group-hover:underline">View Holiday Party Photography <ArrowRight className="h-4 w-4" /></span>
             </Link>
           </div>
+
+          <div className="mt-10 grid gap-4 md:grid-cols-3">
+            {[
+              ['Business events', 'Built for PR recaps, internal comms, sponsor value, fast highlights, and polished team coverage.'],
+              ['Private celebrations', 'Built for birthdays, anniversaries, graduations, family moments, decor, and guest candids.'],
+              ['Seasonal parties', 'Built for holiday events, group photos, low-light venues, festive details, and quick sharing sets.'],
+            ].map(([title, copy]) => (
+              <div key={title} className="rounded-2xl border border-stone-200 bg-stone-50 p-5">
+                <p className="text-sm font-semibold uppercase tracking-[0.14em] text-primary-700">{title}</p>
+                <p className="mt-2 text-sm leading-6 text-stone-600">{copy}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 

@@ -262,6 +262,19 @@ export default function EngagementSessionPage() {
               </div>
             ))}
           </div>
+
+          <div className="mt-8 grid gap-4 md:grid-cols-3">
+            {[
+              ['Signature', 'Best for classic save-the-date portraits, one main location, and a polished gallery without proposal logistics.'],
+              ['Premium', 'Best for more variety, outfit changes, stronger location storytelling, and priority delivery options.'],
+              ['Editorial', 'Best for styled concepts, dramatic light, multiple scenes, and a more magazine-inspired couple session.'],
+            ].map(([title, copy]) => (
+              <div key={title} className="rounded-2xl border border-stone-200 bg-white p-5">
+                <p className="text-sm font-semibold uppercase tracking-[0.14em] text-primary-700">{title}</p>
+                <p className="mt-2 text-sm leading-6 text-stone-600">{copy}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -304,6 +317,17 @@ export default function EngagementSessionPage() {
               <Link href="/book-consultation?package=Engagement+Concierge" className="btn-primary inline-flex items-center">Book Consultation <ArrowRight className="ml-2 h-4 w-4" /></Link>
               <Link href="/services/concierge-services" className="btn-secondary inline-flex items-center">View Concierge Services</Link>
               <Link href="/contact" className="btn-secondary inline-flex items-center">Talk to Our Concierge Team</Link>
+            </div>
+          </div>
+
+          <div className="mt-6 grid gap-4 md:grid-cols-2">
+            <div className="rounded-2xl border border-stone-200 bg-stone-50 p-5">
+              <h3 className="font-semibold text-stone-950">We handle</h3>
+              <p className="mt-2 text-sm leading-6 text-stone-600">Timing, privacy notes, photo/video coverage plan, location scouting, backup options, and optional decor coordination.</p>
+            </div>
+            <div className="rounded-2xl border border-stone-200 bg-stone-50 p-5">
+              <h3 className="font-semibold text-stone-950">You handle</h3>
+              <p className="mt-2 text-sm leading-6 text-stone-600">The ring, final guest list, personal details, and the story only you can bring to the moment.</p>
             </div>
           </div>
         </div>

@@ -165,6 +165,20 @@ export default function PortraitPhotographyPage() {
               <span className="inline-flex items-center gap-1 mt-3 text-sm font-medium text-primary-600 group-hover:underline">View Maternity Sessions <ArrowRight className="h-4 w-4" /></span>
             </Link>
           </div>
+
+          <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            {[
+              ['Family', 'Best when timing, kids, grandparents, parking, and group combinations need a calm plan.'],
+              ['Senior', 'Best for outfit changes, personality-driven locations, cap-and-gown portraits, and announcement images.'],
+              ['Headshots', 'Best for LinkedIn, websites, team pages, proposals, speaking bios, and consistent staff profiles.'],
+              ['Maternity', 'Best for flattering light, wardrobe movement, partner/family inclusion, and comfortable pacing.'],
+            ].map(([title, copy]) => (
+              <div key={title} className="rounded-2xl border border-stone-200 bg-stone-50 p-5">
+                <p className="text-sm font-semibold uppercase tracking-[0.14em] text-primary-700">{title}</p>
+                <p className="mt-2 text-sm leading-6 text-stone-600">{copy}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
