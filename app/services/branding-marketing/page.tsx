@@ -26,7 +26,7 @@ import ServiceIntentPanel from '@/components/ServiceIntentPanel'
 export const metadata = generateSEOMetadata({
   title: 'Branding & Marketing Services Pinehurst TX - White-Glove Growth Partner | Studio37',
   description:
-    'White-glove branding and marketing services in Pinehurst, TX. Brand content, corporate events, website/landing pages, SEO, PPC, and social media management for growth-focused businesses.',
+    'White-glove branding and marketing services in Pinehurst, TX. Brand content, corporate events, custom website development, SEO, PPC, and social media management for growth-focused businesses.',
   keywords: [
     'branding services Pinehurst TX',
     'marketing agency Pinehurst',
@@ -34,7 +34,7 @@ export const metadata = generateSEOMetadata({
     'product photography video Texas',
     'corporate event content team',
     'website development Pinehurst',
-    'landing page design Texas',
+    'custom website development Texas',
     'SEO services Montgomery County',
     'PPC management Pinehurst',
     'social media management Texas',
@@ -48,7 +48,7 @@ export const revalidate = 86400
 export default function BrandingMarketingPage() {
   const serviceSchema = generateServiceSchema(
     'Branding & Marketing Services',
-    'White-glove branding and marketing services in Pinehurst, Texas including brand content production, corporate event coverage, website and landing page development, SEO, PPC, and social media management.'
+    'White-glove branding and marketing services in Pinehurst, Texas including brand content production, corporate event coverage, custom website development, SEO, PPC, and social media management.'
   )
 
   const brandingFaqs = [
@@ -58,7 +58,7 @@ export default function BrandingMarketingPage() {
     },
     {
       question: 'Is this service only for large companies?',
-      answer: 'No. We work with growth-focused local businesses and established brands that want high-touch execution and measurable outcomes.',
+      answer: 'No. We work with growth-focused local businesses and established brands that need custom creative, website, and marketing execution instead of a generic package.',
     },
     {
       question: 'How do we get started with a branding and marketing retainer?',
@@ -112,9 +112,9 @@ export default function BrandingMarketingPage() {
     },
     {
       icon: Globe,
-      title: 'Website + Landing Pages',
+      title: 'Website Development + Conversion Pages',
       description:
-        'Conversion-focused page builds that connect your offer, messaging, and visuals into a clear buying path.',
+        'Custom websites, service pages, landing pages, and conversion paths built around your offer, content, SEO, and client journey.',
     },
     {
       icon: Search,
@@ -169,13 +169,13 @@ export default function BrandingMarketingPage() {
             </p>
             <h1 className="text-4xl md:text-5xl font-bold mb-4">Branding & Marketing Services in Pinehurst, TX</h1>
             <p className="text-xl mb-7 text-white/90">
-              We provide full-service brand growth support for a limited number of businesses, with dedicated strategy, production, and execution.
+              We build the content, website, and marketing system around your business, from brand visuals to advanced custom sites and ongoing support.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link href="/book-consultation" className="btn-primary text-lg px-8 py-4 inline-flex items-center justify-center">
                 Book a Consultation <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
-              <Link href="/services" className="btn-ghost border-white/40 text-white hover:text-white inline-flex items-center justify-center">
+              <Link href="/contact?service=branding-marketing" className="btn-ghost border-white/40 text-white hover:text-white inline-flex items-center justify-center">
                 Talk With Our Team
               </Link>
             </div>
@@ -191,7 +191,7 @@ export default function BrandingMarketingPage() {
             <p className="eyebrow mb-2">Growth Services</p>
             <h2 className="text-3xl font-bold mb-4">Business Services We Handle End-to-End</h2>
             <p className="text-lg text-stone-600 max-w-3xl mx-auto">
-              From content creation to lead generation and conversion infrastructure, we align every channel to build stronger brand equity and measurable growth.
+              From brand content to custom websites, SEO, paid campaigns, and social execution, we connect the assets clients see with the systems that help them take action.
             </p>
           </div>
 
@@ -232,7 +232,7 @@ export default function BrandingMarketingPage() {
                     </li>
                     <li className="flex items-start gap-2 text-stone-700">
                       <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
-                      <span>Unified execution across content, website, SEO, PPC, and social</span>
+                      <span>Unified execution across content, custom websites, SEO, PPC, and social</span>
                     </li>
                     <li className="flex items-start gap-2 text-stone-700">
                       <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
@@ -247,7 +247,7 @@ export default function BrandingMarketingPage() {
                 <div className="bg-primary-50 rounded-lg p-6 border border-primary-100">
                   <p className="text-sm uppercase tracking-wide text-primary-700 font-semibold mb-2">Best fit clients</p>
                   <p className="text-stone-700 mb-6">
-                    Businesses ready to invest in consistent growth, premium positioning, and a partner that owns both strategy and execution.
+                    Businesses ready to invest in better content, a stronger website, clearer offers, and a partner that owns both strategy and execution.
                   </p>
                   <Link href="/book-consultation" className="btn-primary w-full text-center block">
                     Book a Consultation
@@ -291,7 +291,7 @@ export default function BrandingMarketingPage() {
             </div>
             <h2 className="text-2xl font-bold text-stone-900 mb-4">Branding, Marketing &amp; Content Creation in Pinehurst, TX</h2>
             <p className="text-stone-700 leading-relaxed mb-4">
-              Studio37 is the only full-service branding and marketing studio in Pinehurst, TX combining professional photography, video production, SEO, PPC advertising, and social media management under one roof. We serve small businesses, entrepreneurs, growing brands, and enterprise clients across Montgomery County and key growth markets including The Woodlands, Conroe, Magnolia, Tomball, Spring, Montgomery, Willis, New Caney, Hockley, Bryan, College Station, and Houston. Our white-glove retainer model means a dedicated creative team handles your brand content strategy, monthly photo and video shoots, social media calendar, Google Ads campaigns, and organic search optimization — all aligned to your revenue goals. Unlike traditional marketing agencies that outsource creative work, Studio37 produces everything in-house: branded lifestyle photography, short-form video reels, product demos, corporate event recap videos, and conversion-optimized landing pages. Our clients consistently see measurable lifts in website traffic, lead quality, social engagement, and local search rankings within 90 days of onboarding. Whether you're a startup building brand awareness or an established business ready to scale with data-driven digital marketing, Studio37 has the talent, tools, and track record to deliver. Schedule your strategy consultation today.
+              Studio37 is a full-service branding and marketing studio in Pinehurst, TX combining professional photography, video production, custom website development, SEO, PPC advertising, and social media management under one roof. We serve small businesses, entrepreneurs, growing brands, and enterprise clients across Montgomery County and key growth markets including The Woodlands, Conroe, Magnolia, Tomball, Spring, Montgomery, Willis, New Caney, Hockley, Bryan, College Station, and Houston. Our white-glove model means a dedicated creative team can handle your brand content strategy, photo and video shoots, website or web app build, service pages, social media calendar, Google Ads campaigns, and organic search optimization in one coordinated plan. Unlike agencies that separate creative production from web execution, Studio37 can produce the visuals and build the digital experience those visuals live inside, from focused campaign pages to advanced custom websites like studio37.cc. Scope and pricing are custom because every business needs a different mix of content, website depth, SEO, ads, and management. Schedule your strategy consultation today.
             </p>
             <p className="text-sm text-stone-500">
               Serving: Pinehurst TX · The Woodlands · Conroe · Magnolia · Tomball · Spring · Montgomery · Willis · New Caney · Hockley · Bryan · College Station · Houston

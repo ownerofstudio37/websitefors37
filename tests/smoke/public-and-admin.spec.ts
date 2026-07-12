@@ -20,6 +20,7 @@ const routes = [
   { name: 'anniversary-party', path: '/anniversary-party' },
   { name: 'holiday-party', path: '/holiday-party' },
   { name: 'commercial-service', path: '/services/commercial-photography' },
+  { name: 'branding-marketing', path: '/services/branding-marketing' },
   { name: 'brand-refresh-sessions', path: '/brand-refresh-sessions' },
   { name: 'locations', path: '/locations' },
   { name: 'service-area-pinehurst', path: '/local-photographer-pinehurst-tx' },
