@@ -292,6 +292,23 @@ export default function WeddingPhotographyPage() {
             </p>
           </div>
 
+          <div className="mb-8 overflow-x-auto pb-2 md:overflow-visible">
+            <div className="flex min-w-max gap-3 md:grid md:min-w-0 md:grid-cols-4">
+              {[
+                ['Micro', '3 hours', 'Courthouse, backyard, chapel, or guest count under 30.'],
+                ['Essential', '6 hours', 'Ceremony, portraits, and key reception moments.'],
+                ['Complete', '8 hours', 'Most full wedding days from prep through reception.'],
+                ['Premium', '10+ hours', 'Multiple locations, detailed prep, exit, or complex timeline.'],
+              ].map(([label, hours, copy]) => (
+                <div key={label} className="w-64 rounded-lg border border-stone-200 bg-white p-4 md:w-auto">
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary-700">{label}</p>
+                  <p className="mt-1 text-xl font-bold text-stone-950">{hours}</p>
+                  <p className="mt-2 text-sm leading-6 text-stone-600">{copy}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
           <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-8 items-start">
             <div className="surface-panel p-8 flex flex-col h-full">
               <div className="mb-4">
@@ -406,6 +423,21 @@ export default function WeddingPhotographyPage() {
             </div>
           </div>
 
+          <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            {[
+              ['Micro / Elopement proof', 'Request intimate galleries with small guest counts, short timelines, and chapel/backyard/courthouse coverage.'],
+              ['Essential proof', 'See six-hour examples that prioritize ceremony, family formals, couple portraits, and reception highlights.'],
+              ['Complete proof', 'Review eight-hour galleries with prep, ceremony, portraits, reception, and highlight delivery rhythm.'],
+              ['Premium proof', 'Ask for full-day examples with multiple locations, detailed prep, reception exits, and priority delivery.'],
+            ].map(([title, copy]) => (
+              <div key={title} className="rounded-lg border border-stone-200 bg-white p-5">
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary-700">Gallery Proof</p>
+                <h3 className="mt-2 font-semibold text-stone-950">{title}</h3>
+                <p className="mt-2 text-sm leading-6 text-stone-600">{copy}</p>
+              </div>
+            ))}
+          </div>
+
           <div className="mt-10 grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
             <div className="surface-panel p-6">
               <p className="eyebrow mb-3">Before You Choose</p>
@@ -436,6 +468,22 @@ export default function WeddingPhotographyPage() {
                 <div key={item.title} className="surface-panel p-5">
                   <h4 className="font-semibold text-stone-950">{item.title}</h4>
                   <p className="mt-2 text-sm leading-6 text-stone-600">{item.copy}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-6 rounded-2xl border border-stone-200 bg-white p-6">
+            <p className="text-sm font-semibold uppercase tracking-[0.16em] text-primary-700">Venue Lighting + Family Formal Confidence</p>
+            <div className="mt-4 grid gap-4 md:grid-cols-3">
+              {[
+                ['Low-light receptions', 'We plan flash, ambient balance, dance-floor coverage, and room details before the reception starts.'],
+                ['Mixed-light ceremonies', 'Churches, barns, tents, hotels, and outdoor shade all get a lighting plan before the timeline is final.'],
+                ['Family formals', 'We build the photo list, grouping order, and helper plan so portraits move quickly without losing people.'],
+              ].map(([title, copy]) => (
+                <div key={title} className="rounded-lg bg-stone-50 p-4">
+                  <h3 className="font-semibold text-stone-950">{title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-stone-600">{copy}</p>
                 </div>
               ))}
             </div>

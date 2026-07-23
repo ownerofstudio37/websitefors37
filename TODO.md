@@ -15,9 +15,9 @@
 ### Wedding Photography
 
 - [x] `/services/wedding-photography`: audit the full wedding service page for copy, pricing clarity, CTA hierarchy, proof, mobile layout, and conversion gaps.
-- [ ] `/services/wedding-photography`: next polish pass should add package-specific gallery proof blocks near each tier, especially Micro/Elopement and Premium.
-- [ ] `/services/wedding-photography`: add a compact mobile timeline chooser so six, eight, and 10+ hour differences are easier to compare without scrolling through all cards.
-- [ ] `/services/wedding-photography`: add a venue-lighting trust module with low-light reception examples and family-formal planning notes.
+- [x] `/services/wedding-photography`: next polish pass should add package-specific gallery proof blocks near each tier, especially Micro/Elopement and Premium.
+- [x] `/services/wedding-photography`: add a compact mobile timeline chooser so six, eight, and 10+ hour differences are easier to compare without scrolling through all cards.
+- [x] `/services/wedding-photography`: add a venue-lighting trust module with low-light reception examples and family-formal planning notes.
 
 ### Engagement Session
 
