@@ -50,7 +50,7 @@ export default function HolidayPartyPage() {
       {/* Hero Section */}
       <section className="relative w-full h-[500px] md:h-[600px] overflow-hidden bg-black">
         <Image
-          src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255305/PS375684_f4qlih.jpg"
+          src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1779268256/Untitled-20_dphwwv.jpg"
           alt="Studio37 holiday party photography with festive event coverage"
           fill
           className="object-cover"

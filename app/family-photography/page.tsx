@@ -22,21 +22,21 @@ const familyPackages = [
     price: '$750',
     description: 'Extended family coverage with multiple combinations and premium retouching.',
     image:
-      'https://res.cloudinary.com/dmjxho2rl/image/upload/v1779269044/Untitled_tpoc5r.jpg',
+      'https://res.cloudinary.com/dmjxho2rl/image/upload/v1784790717/Hotard_Family_Day_1_-_252-2_fjeggf.jpg',
   },
   {
     name: 'Milestone Package',
     price: '$500',
     description: 'Perfect for yearly updates, birthdays, and key family milestones.',
     image:
-      'https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033089/Untitled-7_2_ta0t2d.jpg',
+      'https://res.cloudinary.com/dmjxho2rl/image/upload/v1784790718/Hotard_Family_Day_2_-_49_1_eernop.jpg',
   },
   {
     name: 'Petite Package',
     price: '$350',
     description: 'Quick and beautiful family session with edited highlights delivered fast.',
     image:
-      'https://res.cloudinary.com/dmjxho2rl/image/upload/v1779269044/Untitled-4-2_m7z6p6.jpg',
+      'https://res.cloudinary.com/dmjxho2rl/image/upload/v1784790718/Hotard_Family_Day_2_-_152_1_mcyhw2.jpg',
   },
 ]
 

@@ -77,7 +77,7 @@ export default function EventPhotographyPage() {
       <section className="relative h-[480px] bg-gradient-to-r from-green-900 to-blue-900">
         <div className="absolute inset-0 opacity-40">
           <Image
-            src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033087/IMG_4591_1_r62hly.jpg"
+            src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1784791657/VB_School_Chris_Faves_-_28_vdjsiw.jpg"
             alt="Event photography by Studio37 in Pinehurst TX"
             fill
             className="object-cover"
@@ -246,7 +246,7 @@ export default function EventPhotographyPage() {
             
             <div className="relative">
               <Image
-                src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1779268257/Untitled_iz4geh.jpg"
+                src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1784791655/Alice_Birthday_Party_-_74_zxkulm.jpg"
                 alt="Corporate event photography in Montgomery County TX"
                 width={600}
                 height={400}

@@ -45,9 +45,9 @@ type ServiceIntent = {
 
 const LOCAL_HERO_IMAGES = [
   'https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_1800,c_limit/v1778033088/PS379444_2_1_pge2hl.jpg',
-  'https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_1800,c_limit/v1778033087/IMG_4591_1_r62hly.jpg',
-  'https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_1800,c_limit/v1769255703/PS373409_pwmxmp.jpg',
-  'https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_1800,c_limit/v1769255706/PS373287_d7fl9k.jpg',
+  'https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_1800,c_limit/v1784791657/VB_School_Chris_Faves_-_28_vdjsiw.jpg',
+  'https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_1800,c_limit/v1784790718/Hotard_Family_Day_2_-_49_1_eernop.jpg',
+  'https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_1800,c_limit/v1784791658/VB_School_Chris_Faves_-_158_wlcspc.jpg',
 ]
 
 const LOCAL_PROOF_IMAGES: LocalProofImage[] = [
@@ -57,17 +57,17 @@ const LOCAL_PROOF_IMAGES: LocalProofImage[] = [
     caption: 'Clean outdoor posing with natural light and polished gallery delivery.',
   },
   {
-    src: 'https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_900,c_limit/v1778033087/IMG_4591_1_r62hly.jpg',
+    src: 'https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_900,c_limit/v1784791657/VB_School_Chris_Faves_-_28_vdjsiw.jpg',
     label: 'Event coverage',
     caption: 'Run-of-show coverage for key people, details, and candid moments.',
   },
   {
-    src: 'https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_900,c_limit/v1769255703/PS373409_pwmxmp.jpg',
+    src: 'https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_900,c_limit/v1784790718/Hotard_Family_Day_2_-_49_1_eernop.jpg',
     label: 'Business content',
     caption: 'Brand-ready images for websites, profiles, campaigns, and social posts.',
   },
   {
-    src: 'https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_900,c_limit/v1769255706/PS373287_d7fl9k.jpg',
+    src: 'https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_900,c_limit/v1784791658/VB_School_Chris_Faves_-_158_wlcspc.jpg',
     label: 'Commercial details',
     caption: 'Intentional detail coverage when the finished gallery needs to sell trust.',
   },

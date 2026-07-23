@@ -49,7 +49,7 @@ export default function CorporateEventsPage() {
       {/* Hero Section */}
       <section className="relative w-full h-[500px] md:h-[600px] overflow-hidden bg-black">
         <Image
-          src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255703/PS373409_pwmxmp.jpg"
+          src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1784791657/VB_School_Chris_Faves_-_28_vdjsiw.jpg"
           alt="Studio37 corporate event photography coverage for a business gathering"
           fill
           className="object-cover"

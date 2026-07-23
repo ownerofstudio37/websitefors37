@@ -30,8 +30,8 @@ export const STUDIO37_IMAGE_POOL = {
   services: [
     'https://res.cloudinary.com/dmjxho2rl/image/upload/v1779268256/Untitled-30_fliqiq.jpg',
     'https://res.cloudinary.com/dmjxho2rl/image/upload/v1779268257/PS375315_zyvbbi.jpg',
-    'https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033087/IMG_4591_1_r62hly.jpg',
-    'https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255706/PS373287_d7fl9k.jpg',
+    'https://res.cloudinary.com/dmjxho2rl/image/upload/v1784791657/VB_School_Chris_Faves_-_28_vdjsiw.jpg',
+    'https://res.cloudinary.com/dmjxho2rl/image/upload/v1784791658/VB_School_Chris_Faves_-_158_wlcspc.jpg',
   ],
 }
 

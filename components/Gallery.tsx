@@ -8,38 +8,38 @@ const galleryImages = [
   {
     id: 1,
     category: 'portrait',
-    title: 'Professional Portrait',
-    src: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1761358417/PANA3494_afj4t9_e_gen_restore_e_improve_e_sharpen_l_image_upload_My_Brand_IMG_2115_mtuowt_c_scale_fl_relative_w_0.20_o_80_fl_layer_apply_g_north_x_0.03_y_0.04_iatwyt.jpg',
+    title: 'Family Portrait',
+    src: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1784790718/Hotard_Family_Day_2_-_49_1_eernop.jpg',
   },
   {
     id: 2,
     category: 'portrait',
-    title: 'Family Portrait',
-    src: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1761358417/PANA3494_afj4t9_e_gen_restore_e_improve_e_sharpen_l_image_upload_My_Brand_IMG_2115_mtuowt_c_scale_fl_relative_w_0.20_o_80_fl_layer_apply_g_north_x_0.03_y_0.04_iatwyt.jpg',
+    title: 'Graduation Portrait',
+    src: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1784791656/Hotard_Family_Day_2_-_764_1_b9enxd.jpg',
   },
   {
     id: 3,
     category: 'commercial',
     title: 'Product Photography',
-    src: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1756082735/54740994305_b99379cf95_h_ky7is7.jpg',
+    src: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1784791658/VB_School_Chris_Faves_-_158_wlcspc.jpg',
   },
   {
     id: 4,
     category: 'event',
     title: 'Corporate Event',
-    src: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1756082735/54740994305_b99379cf95_h_ky7is7.jpg',
+    src: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1784791657/VB_School_Chris_Faves_-_28_vdjsiw.jpg',
   },
   {
     id: 5,
     category: 'wedding',
-    title: 'Wedding Ceremony',
-    src: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1756077326/54694193043_f9ae5338ca_k_p7pjaz.jpg',
+    title: 'Couple Portraits',
+    src: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1784790228/Emma_Nick_-_1_11_su3tvv.jpg',
   },
   {
     id: 6,
     category: 'portrait',
-    title: 'Studio Portrait',
-    src: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1756081262/Untitled_convert.io_jnf0gn_aclplu.jpg',
+    title: 'Maternity Session',
+    src: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033084/Untitled_1_zwsrnm.jpg',
   }
 ]
 

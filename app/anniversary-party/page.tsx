@@ -49,7 +49,7 @@ export default function AnniversaryPartyPage() {
       {/* Hero Section */}
       <section className="relative w-full h-[500px] md:h-[600px] overflow-hidden bg-black">
         <Image
-          src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255431/PS371181_gwnsc4.jpg"
+          src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1784790227/Untitled-252_tdqcak.jpg"
           alt="Studio37 anniversary party photography for a milestone celebration"
           fill
           className="object-cover"

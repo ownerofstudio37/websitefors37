@@ -49,7 +49,7 @@ export default function FundraiserPage() {
       {/* Hero Section */}
       <section className="relative w-full h-[500px] md:h-[600px] overflow-hidden bg-black">
         <Image
-          src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255492/IMG_7159_occmi3.jpg"
+          src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033151/IMG_4590_1_kweavw.jpg"
           alt="Professional fundraiser event photography"
           fill
           className="object-cover"

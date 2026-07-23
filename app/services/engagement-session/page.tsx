@@ -185,7 +185,7 @@ export default function EngagementSessionPage() {
 
       <section className="relative min-h-[460px] bg-stone-950 text-white overflow-hidden">
         <Image
-          src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1770033072/PS370397-1_ooxygn.jpg"
+          src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1784790229/Untitled-100_gxzfgy.jpg"
           alt="Full service engagement session by Studio37"
           fill
           className="object-cover object-[52%_34%] opacity-40"

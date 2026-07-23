@@ -10,42 +10,42 @@ const commercialHighlights = [
     id: 1,
     title: 'Campaign Detail Images',
     description: 'Close-up visuals for web pages, ads, and social launch assets',
-    src: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255703/PS373409_pwmxmp.jpg',
+    src: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1784791658/VB_School_Chris_Faves_-_158_wlcspc.jpg',
     category: 'campaign'
   },
   {
     id: 2,
     title: 'Founder + Team Portraits',
     description: 'Clean direction for profiles, about pages, and press kits',
-    src: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1779268257/PS375315_zyvbbi.jpg',
+    src: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1784791656/VB_School_Caitie_Faves_-_6_gsn8fe.jpg',
     category: 'team'
   },
   {
     id: 3,
     title: 'Brand Story Coverage',
     description: 'People, place, product, and process images in one planned session',
-    src: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255706/PS373287_d7fl9k.jpg',
+    src: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1784791656/VB_School_Chris_Faves_-_4-2_u9lpel.jpg',
     category: 'branding'
   },
   {
     id: 4,
     title: 'Venue + Atmosphere',
     description: 'Environmental visuals for hospitality, events, and local campaigns',
-    src: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033087/IMG_4591_1_r62hly.jpg',
+    src: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033155/Untitled-46_2_tg6z4m.jpg',
     category: 'venue'
   },
   {
     id: 5,
     title: 'Content Library Builds',
     description: 'A full bank of usable images for websites, email, ads, and social',
-    src: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1781169103/carlos-muza-hpjSkU2UYSU-unsplash_ploflu.jpg',
+    src: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1784791657/Alice_Birthday_Party_-_578_dio4ct.jpg',
     category: 'library'
   },
   {
     id: 6,
     title: 'Two-Pro Event Coverage',
     description: 'Wide room context and close candid moments without slowing the event',
-    src: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033152/IMG_4555_1_ppdkum.jpg',
+    src: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1784791657/VB_School_Chris_Faves_-_28_vdjsiw.jpg',
     category: 'event'
   }
 ]

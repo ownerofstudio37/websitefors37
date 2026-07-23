@@ -75,7 +75,7 @@ export default function ConciergeServicesPage() {
 
       <section className="relative overflow-hidden bg-stone-950 text-white">
         <Image
-          src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033152/IMG_4555_1_ppdkum.jpg"
+          src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1775537570/Jay_Proposal_-_1_12_e7wqsb.jpg"
           alt="Concierge proposal planning and engagement photography"
           fill
           className="object-cover object-[48%_38%] opacity-40"

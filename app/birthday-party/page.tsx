@@ -49,7 +49,7 @@ export default function BirthdayPartyPage() {
       {/* Hero Section */}
       <section className="relative w-full h-[500px] md:h-[600px] overflow-hidden bg-black">
         <Image
-          src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1778043141/100thBirthday_-_220_convert.io_1_svsdy1.jpg"
+          src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1784791655/Alice_Birthday_Party_-_74_zxkulm.jpg"
           alt="Studio37 birthday party photography for a milestone celebration"
           fill
           className="object-cover"

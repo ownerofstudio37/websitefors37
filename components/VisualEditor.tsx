@@ -7225,7 +7225,7 @@ function buildHomepageTemplate(): PageComponent[] {
         },
         {
           image:
-            "https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033087/IMG_4591_1_r62hly.jpg",
+            "https://res.cloudinary.com/dmjxho2rl/image/upload/v1784791657/VB_School_Chris_Faves_-_28_vdjsiw.jpg",
           title: "Event Photography",
           description:
             "Document your corporate events, parties, and celebrations with candid and posed shots.",
@@ -7239,7 +7239,7 @@ function buildHomepageTemplate(): PageComponent[] {
         },
         {
           image:
-            "https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255706/PS373287_d7fl9k.jpg",
+            "https://res.cloudinary.com/dmjxho2rl/image/upload/v1784791658/VB_School_Chris_Faves_-_158_wlcspc.jpg",
           title: "Commercial Photography",
           description:
             "Product photography, business headshots, and marketing materials for your brand.",

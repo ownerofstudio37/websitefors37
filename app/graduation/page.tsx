@@ -50,7 +50,7 @@ export default function GraduationPage() {
       {/* Hero Section */}
       <section className="relative w-full h-[500px] md:h-[600px] overflow-hidden bg-black">
         <Image
-          src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1778043142/Untitled-122_convert.io_1_hxkt5z.jpg"
+          src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1784791656/Hotard_Family_Day_2_-_764_1_b9enxd.jpg"
           alt="Studio37 graduation photography with cap and gown portraits"
           fill
           className="object-cover"

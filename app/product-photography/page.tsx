@@ -48,7 +48,7 @@ export default function ProductPhotographyPage() {
 
       <section className="relative min-h-[520px] overflow-hidden bg-stone-950 text-white">
         <Image
-          src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255703/PS373409_pwmxmp.jpg"
+          src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1784791658/VB_School_Chris_Faves_-_158_wlcspc.jpg"
           alt="Studio37 product photography for business marketing assets"
           fill
           priority

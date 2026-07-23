@@ -70,7 +70,7 @@ const prepGuides = [
     icon: Briefcase,
     accentColor: 'from-slate-50 to-slate-100',
     iconColor: 'text-slate-600',
-    image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255703/PS373409_pwmxmp.jpg',
+    image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1784791658/VB_School_Chris_Faves_-_158_wlcspc.jpg',
   },
 ]
 

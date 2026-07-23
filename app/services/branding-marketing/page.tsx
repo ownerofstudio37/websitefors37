@@ -219,7 +219,7 @@ export default function BrandingMarketingPage() {
       <section className="relative h-[30rem] bg-gradient-to-r from-gray-900 to-primary-900">
         <div className="absolute inset-0 opacity-35">
           <Image
-            src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1781169103/carlos-muza-hpjSkU2UYSU-unsplash_ploflu.jpg"
+            src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1784791656/VB_School_Chris_Faves_-_4-2_u9lpel.jpg"
             alt="Studio37 branding and marketing planning workspace for campaign content"
             fill
             className="object-cover"

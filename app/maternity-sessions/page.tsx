@@ -48,7 +48,7 @@ export default function MaternitySessionsPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
       <section className="relative h-[440px] bg-stone-900">
         <Image
-          src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033084/Untitled_1_zwsrnm.jpg"
+          src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033091/IMG_1503_Original_mtopcp.jpg"
           alt="Studio37 maternity session with soft outdoor portrait lighting"
           fill
           priority
