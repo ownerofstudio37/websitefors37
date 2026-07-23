@@ -38,10 +38,9 @@ export const MODEL_FALLBACKS = [
 
 const BLOG_MODEL_FALLBACKS = [
   "gemini-3.5-flash",
-  "gemini-flash-latest",
-  "gemini-3.1-flash-lite",
-  "gemini-2.5-flash",
   "gemini-2.5-flash-lite",
+  "gemini-2.5-flash",
+  "gemini-flash-latest",
 ];
 
 // Model configurations for different use cases
@@ -485,8 +484,8 @@ export async function generateBlogPost(
   tone: string = "professional",
   options: AIClientOptions = {}
 ): Promise<BlogPost> {
-  const targetWordCount = Math.min(Math.max(Math.round(Number(wordCount) || 800), 400), 900);
-  const maxOutputTokens = targetWordCount <= 550 ? 4096 : 6144;
+  const targetWordCount = Math.min(Math.max(Math.round(Number(wordCount) || 700), 400), 750);
+  const maxOutputTokens = targetWordCount <= 550 ? 4096 : 5120;
   const prompt = `Write a comprehensive, SEO-optimized blog post about: ${topic}
 
 Requirements:
@@ -527,9 +526,9 @@ JSON structure:
         },
         retries: 1,
         retryDelayMs: 500,
-        timeoutMs: 4500,
+        timeoutMs: 3500,
         fallbackModels: BLOG_MODEL_FALLBACKS,
-        maxFallbackModels: BLOG_MODEL_FALLBACKS.length,
+        maxFallbackModels: 4,
         ...options,
       });
 

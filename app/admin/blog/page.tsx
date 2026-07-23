@@ -25,7 +25,6 @@ const MarkdownEditor = dynamic(() => import("@/components/MarkdownEditor"), {
 });
 import { supabase } from "@/lib/supabase";
 import type { BlogPost } from "@/lib/supabase";
-import { revalidateBlog } from "@/lib/revalidate";
 import AdminToast from "@/components/admin/AdminToast";
 import AdminConfirmDialog from "@/components/admin/AdminConfirmDialog";
 
@@ -238,12 +237,6 @@ export default function BlogManagementPage() {
       setSelectedPost(null);
       resetForm();
 
-      // Trigger on-demand revalidation for blog pages
-      try {
-        await revalidateBlog();
-      } catch (revalError) {
-        console.warn("Revalidation failed (non-critical):", revalError);
-      }
     } catch (error: any) {
       console.error("Error saving post:", error);
       setError(error.message || "Failed to save post");
@@ -300,7 +293,7 @@ export default function BlogManagementPage() {
     setRawPreview("");
 
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 28000); // stay under Netlify inactivity timeout
+    const timeout = setTimeout(() => controller.abort(), 36000);
 
     try {
       const res = await fetch("/api/blog/generate", {

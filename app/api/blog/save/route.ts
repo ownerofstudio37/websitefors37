@@ -1,10 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin'
 import { createLogger } from '@/lib/logger'
 
 const log = createLogger('api/blog/save')
 
 export const dynamic = 'force-dynamic'
+
+function revalidateBlogRoutes(slug?: string | null) {
+  revalidatePath('/blog')
+  if (slug) {
+    revalidatePath(`/blog/${slug}`)
+  }
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -71,6 +79,7 @@ export async function POST(request: NextRequest) {
       }
 
       log.info('Blog post updated', { id, title: postData.title })
+      revalidateBlogRoutes(savedPost.slug)
 
       return NextResponse.json({
         success: true,
@@ -90,6 +99,7 @@ export async function POST(request: NextRequest) {
       }
 
       log.info('Blog post created', { id: data.id, title: postData.title })
+      revalidateBlogRoutes(data.slug)
 
       return NextResponse.json({
         success: true,
@@ -119,6 +129,12 @@ export async function DELETE(request: NextRequest) {
 
     const supabase = getSupabaseAdmin()
 
+    const { data: existingPost } = await supabase
+      .from('blog_posts')
+      .select('slug')
+      .eq('id', id)
+      .maybeSingle()
+
     const { error } = await supabase
       .from('blog_posts')
       .delete()
@@ -130,6 +146,7 @@ export async function DELETE(request: NextRequest) {
     }
 
     log.info('Blog post deleted', { id })
+    revalidateBlogRoutes(existingPost?.slug)
 
     return NextResponse.json({
       success: true,

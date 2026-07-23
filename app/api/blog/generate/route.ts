@@ -6,7 +6,7 @@ import { createLogger } from "@/lib/logger";
 const log = createLogger("api/blog/generate");
 
 export const dynamic = "force-dynamic";
-export const maxDuration = 30;
+export const maxDuration = 40;
 
 export async function POST(req: Request) {
   try {
@@ -52,7 +52,7 @@ export async function POST(req: Request) {
       : ["photography", "Studio37", "Pinehurst TX"];
 
     const requestedWordCount = Number(wordCount) || 800;
-    const boundedWordCount = Math.min(Math.max(Math.round(requestedWordCount), 400), 900);
+    const boundedWordCount = Math.min(Math.max(Math.round(requestedWordCount), 400), 750);
 
     log.info("Calling generateBlogPost with bounded AI budget", {
       topic, 
