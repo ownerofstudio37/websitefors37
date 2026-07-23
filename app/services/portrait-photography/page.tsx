@@ -48,7 +48,7 @@ export default function PortraitPhotographyPage() {
     },
     {
       question: 'How long does it take to receive our portraits?',
-      answer: 'Most portrait galleries are delivered within about two weeks, with optional 24-hour sneak peeks available on select packages.',
+      answer: 'Most portrait galleries are delivered within about three weeks, with optional 24-hour sneak peeks available as an add-on.',
     },
   ]
 
@@ -222,7 +222,7 @@ export default function PortraitPhotographyPage() {
                   <CheckCircle className="h-6 w-6 text-green-600 flex-shrink-0 mt-1" />
                   <div>
                     <h3 className="font-semibold mb-1">Quick Turnaround</h3>
-                    <p className="text-stone-600">Receive your gallery within 2 weeks of your session</p>
+                    <p className="text-stone-600">Receive your gallery within weeks of your session</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
@@ -338,7 +338,7 @@ export default function PortraitPhotographyPage() {
                     'Multiple outfits/looks',
                     'Digital gallery',
                     'Style & Prep Guide (PDF)',
-                    'Sneak peek within 24 hours',
+                    '24-hour sneak peek available as add-on',
                     'Two-photographer coverage',
                   ].map((item) => (
                     <li key={item} className="flex items-start gap-2 text-sm text-stone-700">
@@ -388,7 +388,7 @@ export default function PortraitPhotographyPage() {
           <div className="text-center mb-8">
             <h2 className="text-3xl font-bold mb-3">Not sure which option is best?</h2>
             <p className="text-stone-600 max-w-2xl mx-auto">
-              Use our instant calculator to compare custom hourly pricing against our portrait packages. For example, the Standard Session starts at $500 and includes a 24-hour sneak peek plus a style &amp; prep guide.
+              Use our instant calculator to compare custom hourly pricing against our portrait packages. For example, the Standard Session starts at $500, includes a style &amp; prep guide, and can add a 24-hour sneak peek when rush preview timing matters.
             </p>
           </div>
           <PricingCalculator className="max-w-5xl mx-auto" />

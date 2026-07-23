@@ -336,16 +336,16 @@ export default function CommercialPhotographyPage() {
             <div className="grid gap-6 md:grid-cols-[1.35fr_0.65fr] md:items-center">
               <div>
                 <p className="eyebrow mb-3">Commercial Portfolio Preview</p>
-                <h2 className="text-2xl font-bold text-stone-950 md:text-3xl">A tighter commercial showcase is being curated.</h2>
+                <h2 className="text-2xl font-bold text-stone-950 md:text-3xl">Business examples matched to your real use case.</h2>
                 <p className="mt-3 text-stone-700 leading-7">
-                  We&apos;re rebuilding this portfolio around stronger Studio37 business work. For now, request a tailored sample set and we&apos;ll send examples that match your industry, shot list, usage needs, and delivery expectations.
+                  Commercial work needs context: usage rights, industry, shot list, launch timing, and where the images will live. Request a tailored sample set and we&apos;ll send examples that match your business goals instead of a generic public portfolio.
                 </p>
               </div>
               <div className="rounded-xl border border-amber-200 bg-white p-5">
                 <ul className="space-y-3 text-sm text-stone-700">
                   {[
                     'Usage planning for web, ads, listings, and social',
-                    'Deliverable examples for teams, spaces, products, and launch campaigns',
+                    'Deliverable examples for teams, spaces, products, websites, and launch campaigns',
                     'Brand-ready export sets and licensing support',
                     'Two-pro coverage for people, environment, product, and detail coverage',
                   ].map((item) => (
@@ -356,7 +356,7 @@ export default function CommercialPhotographyPage() {
                   ))}
                 </ul>
                 <Link href="/book-consultation" className="btn-primary mt-5 block text-center">
-                  Request Sample Galleries
+                  Request Business Examples
                 </Link>
               </div>
             </div>
@@ -432,7 +432,7 @@ export default function CommercialPhotographyPage() {
                   '15+ professionally edited images',
                   'High-resolution delivery files',
                   'Full Commercial Usage License',
-                  '48-hour turnaround delivery',
+                  '48-hour turnaround delivery add-on available',
                   'Online private gallery + download portal',
                 ].map((item) => (
                   <li key={item} className="flex items-start gap-2 text-sm text-stone-700">
@@ -460,7 +460,7 @@ export default function CommercialPhotographyPage() {
                   '30+ professionally edited images',
                   'Brand style brief & shot list planning',
                   'Full Commercial Usage License',
-                  '48-hr Fast-Track delivery',
+                  '48-hr Fast-Track delivery add-on available',
                   'Web, print & social media files',
                   'Online private gallery + download portal',
                 ].map((item) => (
@@ -494,8 +494,8 @@ export default function CommercialPhotographyPage() {
                   '75+ professionally edited images',
                   'Pre-shoot brand consultation & strategy',
                   'Full Commercial Usage License',
-                  '24-hour sneak-peek preview gallery',
-                  'Final delivery in 5–7 business days',
+                  '72-hour sneak-peek preview gallery',
+                  'Final delivery in 5–7 business days add-on available',
                   'Web, print, social & ad-ready files',
                   'Online private gallery + download portal',
                 ].map((item) => (
@@ -525,7 +525,7 @@ export default function CommercialPhotographyPage() {
                   'Pre-shoot branding audit & shot strategy',
                   'Full Commercial Usage License',
                   'Behind-the-scenes video reel included',
-                  '5-business-day delivery guarantee',
+                  '5-business-day delivery guarantee add-on available',
                   'Web, print, social, OOH & ad-ready files',
                   'Online private gallery + download portal',
                   'Priority scheduling & dedicated account contact',

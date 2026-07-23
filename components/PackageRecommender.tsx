@@ -122,7 +122,7 @@ function getRecommendation(goal: ServiceGoal, coverage: CoverageNeed, people: nu
         price: "$600",
         duration: "2 hours",
         summary: "Focused coverage for smaller gatherings, programs, and milestone moments.",
-        details: ["50+ edited photos", "72-hour highlights", "Private gallery"],
+        details: ["50+ edited photos", "Private gallery"],
         href: bookingHref({ package: "event_basic" }),
       },
       standard: {
@@ -131,7 +131,7 @@ function getRecommendation(goal: ServiceGoal, coverage: CoverageNeed, people: nu
         price: "$1,000",
         duration: "4 hours",
         summary: "A strong fit for parties, corporate events, graduations, and fundraisers.",
-        details: ["125+ edited photos", "24-hour sneak peek", "Logistics consultation"],
+        details: ["125+ edited photos", "72-hour sneak peek", "Logistics consultation"],
         href: bookingHref({ package: "event_standard" }),
       },
       expanded: {
@@ -163,7 +163,7 @@ function getRecommendation(goal: ServiceGoal, coverage: CoverageNeed, people: nu
       price: "$500",
       duration: "1 hour",
       summary: "Focused brand, product, team, or workplace content with fast delivery.",
-      details: ["15+ edited images", "Full commercial usage", "48-hour turnaround"],
+      details: ["15+ edited images", "Full commercial usage", "48-hour turnaround add-on available"],
       href: bookingHref({ package: "commercial_express" }),
     },
     standard: {
@@ -181,7 +181,7 @@ function getRecommendation(goal: ServiceGoal, coverage: CoverageNeed, people: nu
       price: "$1,500",
       duration: "4 hours",
       summary: "A bigger production block for product, team, space, and lifestyle content.",
-      details: ["75+ edited images", "Brand strategy session", "24-hour sneak peek"],
+      details: ["75+ edited images", "Brand strategy session", "72-hour sneak peek"],
       href: bookingHref({ package: "commercial_content_library" }),
     },
     full: {

@@ -76,7 +76,7 @@ const SERVICES: ServiceDef[] = [
     features: [
       '2–8 hour flexible coverage options',
       'Candid + posed coverage throughout',
-      'Print-ready delivery within 2 weeks',
+      'Fast gallery delivery',
     ],
     href: '/services/event-photography',
     bookHref: '/book-consultation?service=event',
@@ -386,7 +386,7 @@ export default function ServiceComparePage() {
               },
               {
                 q: 'How fast will I receive my photos?',
-                a: 'All packages include a 48-hour sneak peek. Full galleries are typically delivered within 2 weeks for portraits and events, and 3 weeks for weddings. Rush delivery options are available.',
+                a: 'Preview timing depends on the package and add-ons. Full galleries are typically delivered in about 3 weeks for portraits and events, with wedding timelines based on coverage scope. Rush delivery options are available.',
               },
             ].map((item) => (
               <details key={item.q} className="group rounded-xl border border-stone-200 overflow-hidden">

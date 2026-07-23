@@ -46,7 +46,7 @@ export default function EventPhotographyPage() {
     },
     {
       question: 'How quickly are event photos delivered?',
-      answer: 'Most full event galleries are delivered within about one week, and highlight images can be delivered sooner for marketing and social sharing.',
+      answer: 'Most full event galleries are delivered within about three weeks, and highlight images can be added sooner for marketing and social sharing.',
     },
   ]
 
@@ -231,7 +231,7 @@ export default function EventPhotographyPage() {
                   <CheckCircle className="h-6 w-6 text-green-600 flex-shrink-0 mt-1" />
                   <div>
                     <h3 className="font-semibold mb-1">Fast Delivery</h3>
-                    <p className="text-stone-600">Receive your event photos within one week</p>
+                    <p className="text-stone-600">Receive your full event gallery within about three weeks</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
@@ -321,7 +321,6 @@ export default function EventPhotographyPage() {
                 {[
                   'Signature Duo Coverage: Two lead photographers for every shot.',
                   '50+ High-Resolution Edited Photos: Curated for quality over quantity.',
-                  '72-Hour Highlights Preview: See your best shots while the event is still trending.',
                   'Private Digital Gallery: Easy downloading and social sharing.',
                 ].map((item) => (
                   <li key={item} className="flex items-start gap-2 text-sm text-stone-700">
@@ -351,7 +350,7 @@ export default function EventPhotographyPage() {
                 {[
                   'Signature Duo Coverage: One of us focuses on the action, the other on the reactions.',
                   '125+ High-Resolution Edited Photos: Complete storytelling from start to finish.',
-                  '24-Hour Sneak Peek: A selection of best-of shots delivered the very next day.',
+                  '72-Hour Sneak Peek: A selection of best-of shots delivered within three days.',
                   'Timeline & Logistics Consultation: We help you plan the flow to maximize your photo ops.',
                   'Private Digital Gallery',
                 ].map((item) => (
@@ -470,7 +469,7 @@ export default function EventPhotographyPage() {
           <div className="max-w-4xl mx-auto">
             <h2 className="text-2xl font-bold text-stone-900 mb-4">Event Photography in Pinehurst, TX &amp; Greater Houston</h2>
             <p className="text-stone-700 leading-relaxed mb-4">
-              Studio37 delivers professional event photography for corporate conferences, galas, award ceremonies, birthday milestones, graduation celebrations, quinceañeras, holiday parties, and community events throughout Pinehurst, The Woodlands, Conroe, Magnolia, Tomball, Spring, Montgomery, Willis, New Caney, Hockley, Huntsville, and the Houston metro area. Our Signature Duo Coverage model deploys two photographers simultaneously — one capturing wide establishing shots of the venue and crowd, the other focused on candid expressions, key speakers, and detail moments — so your event story is complete from start to finish. We bring professional lighting rigs for indoor ballrooms, outdoor tents, and low-light venues, ensuring crisp, vibrant images regardless of conditions. Fast turnaround delivery means your brand can share highlight images on social media within 48 hours, while full galleries arrive within a week. Whether you're a corporate marketing team needing deliverables for your PR campaign or a family celebrating a milestone birthday, Studio37 elevates your event with the quality and reliability of a true professional photography partner. Request your custom event quote today.
+              Studio37 delivers professional event photography for corporate conferences, galas, award ceremonies, birthday milestones, graduation celebrations, quinceañeras, holiday parties, and community events throughout Pinehurst, The Woodlands, Conroe, Magnolia, Tomball, Spring, Montgomery, Willis, New Caney, Hockley, Huntsville, and the Houston metro area. Our Signature Duo Coverage model deploys two photographers simultaneously — one capturing wide establishing shots of the venue and crowd, the other focused on candid expressions, key speakers, and detail moments — so your event story is complete from start to finish. We bring professional lighting rigs for indoor ballrooms, outdoor tents, and low-light venues, ensuring crisp, vibrant images regardless of conditions. Highlight delivery can be added when your team needs social or PR images quickly, while full event galleries are planned around a polished three-week delivery expectation. Whether you're a corporate marketing team needing deliverables for your PR campaign or a family celebrating a milestone birthday, Studio37 elevates your event with the quality and reliability of a true professional photography partner. Request your custom event quote today.
             </p>
             <p className="text-sm text-stone-500">
               Serving: Pinehurst TX · The Woodlands · Conroe · Magnolia · Tomball · Spring · Montgomery · Willis · New Caney · Hockley · Huntsville · Houston · Harris County

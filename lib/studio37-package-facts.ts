@@ -81,8 +81,8 @@ export const studio37ServiceFacts: ServiceFact[] = [
     description:
       "Event photography starts at $600 and is planned around the timeline, important people, and must-have coverage moments.",
     packages: {
-      basic: { name: "Event Basic Coverage", price: "$600", duration: "2 hours", photos: "50+ edited photos", features: ["72-hour highlights", "Private gallery"] },
-      standard: { name: "Event Standard Coverage", price: "$1,000", duration: "4 hours", photos: "125+ edited photos", features: ["24-hour sneak peek", "Logistics consultation"] },
+      basic: { name: "Event Basic Coverage", price: "$600", duration: "2 hours", photos: "50+ edited photos", features: ["Private gallery"] },
+      standard: { name: "Event Standard Coverage", price: "$1,000", duration: "4 hours", photos: "125+ edited photos", features: ["72-hour sneak peek", "Logistics consultation"] },
       premium: { name: "Event Premium Coverage", price: "$1,800", duration: "6 hours", photos: "250+ edited photos", features: ["Timeline support", "Private digital gallery"] },
     },
     serviceAreas: ["Pinehurst TX", "The Woodlands TX", "Montgomery County TX", "Greater Houston"],
@@ -94,10 +94,10 @@ export const studio37ServiceFacts: ServiceFact[] = [
     description:
       "Commercial photography starts at $500 and includes commercial usage terms for business-ready images.",
     packages: {
-      express: { name: "Business Express", price: "$500", duration: "1 hour", photos: "15+ edited images", features: ["Full commercial usage", "48-hour turnaround"] },
+      express: { name: "Business Express", price: "$500", duration: "1 hour", photos: "15+ edited images", features: ["Full commercial usage", "48-hour turnaround add-on available"] },
       starter: { name: "Brand Starter", price: "$850", duration: "2 hours", photos: "30+ edited images", features: ["Brand style brief", "Full commercial usage"] },
-      library: { name: "Content Library", price: "$1,500", duration: "4 hours", photos: "75+ edited images", features: ["Brand strategy session", "24-hour sneak peek"] },
-      full: { name: "Full Brand Story", price: "$2,800", duration: "8 hours", photos: "150+ edited images", features: ["Branding audit", "Behind-the-scenes reel"] },
+      library: { name: "Content Library", price: "$1,500", duration: "4 hours", photos: "75+ edited images", features: ["Brand strategy session", "72-hour sneak peek"] },
+      full: { name: "Full Brand Story", price: "$2,800", duration: "8 hours", photos: "150+ edited images", features: ["Branding audit", "Behind-the-scenes reel", "5-business-day delivery add-on available"] },
     },
     serviceAreas: ["Pinehurst TX", "The Woodlands TX", "Montgomery County TX", "Greater Houston"],
   },

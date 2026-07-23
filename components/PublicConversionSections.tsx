@@ -74,7 +74,7 @@ export function WhatHappensNextSection({ serviceName = 'session' }: { serviceNam
 
 export function PackageComparisonSection() {
   const packages = [
-    { name: 'Portraits', price: 'from $350', fit: 'Families, seniors, headshots, maternity', delivery: '2 week gallery' },
+    { name: 'Portraits', price: 'from $350', fit: 'Families, seniors, headshots, maternity', delivery: 'Fast gallery delivery' },
     { name: 'Events', price: 'from $600', fit: 'Parties, corporate events, graduations', delivery: '48 hour highlights' },
     { name: 'Weddings', price: 'from $1,200', fit: 'Elopements through full-day coverage', delivery: 'Sneak peeks + full gallery' },
     { name: 'Commercial', price: 'from $500', fit: 'Brand, product, workplace, campaign content', delivery: 'Fast-track options' },

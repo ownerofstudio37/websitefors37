@@ -41,11 +41,11 @@ const weddingFAQs = [
   },
   {
     question: "What's included in your wedding photography packages?",
-    answer: "All packages include professional editing, high-resolution digital gallery, and personal usage rights. Our Complete and Premium packages also include engagement sessions, and the Premium package includes two photographers. We can customize packages to fit your specific needs."
+    answer: "All wedding collections include the Duo Experience with two photographers, professional editing, a high-resolution digital gallery, and personal usage rights. Select collections add engagement sessions, extended coverage, timeline support, and priority deliverables. We can customize coverage to fit your wedding day."
   },
   {
     question: "How many photos will we receive from our wedding?",
-    answer: "Photo counts vary by package and wedding length, but typically range from 50+ photos for our Essential package to 300+ for Premium coverage. We deliver all the best moments from your day, professionally edited and gallery-ready."
+    answer: "Photo counts vary by package and wedding length, but typically range from 150+ photos for intimate elopements to 700+ for full-day coverage. We deliver the best moments from your day, professionally edited and gallery-ready."
   },
   {
     question: "Do you offer engagement sessions in Montgomery County?",
@@ -61,7 +61,7 @@ const weddingFAQs = [
   },
   {
     question: "Do you photograph both the ceremony and reception?",
-    answer: "Our Standard and Premium packages include full day coverage from getting ready through reception. We capture all the important moments including ceremony, family photos, couple portraits, and reception festivities including your first dance and cake cutting."
+    answer: "Coverage depends on the collection you choose. Six hours fits tighter timelines, eight hours fits most full wedding days, and 10+ hours protects complex multi-location days. We capture ceremony, family photos, couple portraits, reception coverage, and planned milestone moments."
   }
 ]
 

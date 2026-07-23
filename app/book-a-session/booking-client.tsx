@@ -66,7 +66,7 @@ const PACKAGES: Record<Exclude<PackageKey, 'consultation'>, Package> = {
     name: 'Portrait Standard Session',
     duration: 60,
     priceCents: 50000,
-    description: '60 minute session, 20+ edited photos, multiple outfits/looks, digital gallery, 24-hour sneak peek, two-photographer coverage',
+    description: '60 minute session, 20+ edited photos, multiple outfits/looks, digital gallery, 24-hour sneak peek add-on available, two-photographer coverage',
     category: 'Portrait'
   },
   portrait_extended: {
@@ -110,7 +110,7 @@ const PACKAGES: Record<Exclude<PackageKey, 'consultation'>, Package> = {
     name: 'Business Express',
     duration: 60,
     priceCents: 50000,
-    description: '1-hour session, 15+ professionally edited images, full commercial usage license, 48-hour turnaround',
+    description: '1-hour session, 15+ professionally edited images, full commercial usage license, 48-hour turnaround add-on available',
     category: 'Commercial'
   },
   commercial_brand_starter: {
@@ -124,7 +124,7 @@ const PACKAGES: Record<Exclude<PackageKey, 'consultation'>, Package> = {
     name: 'Content Library',
     duration: 240,
     priceCents: 150000,
-    description: '4-hour session, 75+ edited images, pre-shoot brand consultation & strategy, 24-hour sneak peek',
+    description: '4-hour session, 75+ edited images, pre-shoot brand consultation & strategy, 72-hour sneak peek',
     category: 'Commercial'
   },
   commercial_full_brand_story: {
@@ -139,14 +139,14 @@ const PACKAGES: Record<Exclude<PackageKey, 'consultation'>, Package> = {
     name: 'Event Basic Coverage',
     duration: 120,
     priceCents: 60000,
-    description: '2 hours coverage, signature duo coverage, 50+ high-resolution edited photos, 72-hour highlights preview, private digital gallery',
+    description: '2 hours coverage, signature duo coverage, 50+ high-resolution edited photos, private digital gallery',
     category: 'Event'
   },
   event_standard: {
     name: 'Event Standard Coverage',
     duration: 240,
     priceCents: 100000,
-    description: '4 hours coverage, signature duo coverage, 125+ high-resolution edited photos, 24-hour sneak peek, timeline & logistics consultation, private digital gallery',
+    description: '4 hours coverage, signature duo coverage, 125+ high-resolution edited photos, 72-hour sneak peek, timeline & logistics consultation, private digital gallery',
     category: 'Event'
   },
   event_premium: {

@@ -118,9 +118,9 @@ export const venueStyleExamples: Record<'wedding' | 'event', Array<{ style: stri
 
 export const turnaroundByService: Record<ServiceKey, { sneakPeek: string; highlights: string; finalGallery: string; rush: string }> = {
   portrait: {
-    sneakPeek: 'Select packages include a 24-hour sneak peek.',
+    sneakPeek: '24-hour sneak peeks are available as an add-on on eligible portrait sessions.',
     highlights: 'Best images are selected and edited for a polished portrait gallery.',
-    finalGallery: 'Most portrait galleries are delivered in about two weeks.',
+    finalGallery: 'Most portrait galleries are delivered in about three weeks.',
     rush: 'Rush delivery can be quoted when announcements, resumes, or campaigns have a deadline.',
   },
   wedding: {
@@ -130,9 +130,9 @@ export const turnaroundByService: Record<ServiceKey, { sneakPeek: string; highli
     rush: 'Rush edits are available for announcements, thank-you cards, and publication needs.',
   },
   event: {
-    sneakPeek: 'Event highlight images can be delivered within 24-48 hours.',
+    sneakPeek: 'Event highlight previews can be added when a fast social or PR set matters.',
     highlights: 'PR, sponsor, and social-ready highlights are prioritized first.',
-    finalGallery: 'Most event galleries are delivered within about one week.',
+    finalGallery: 'Most event galleries are delivered within about three weeks.',
     rush: 'Same-day or next-day highlight delivery can be added for marketing teams.',
   },
   commercial: {
@@ -157,28 +157,28 @@ export const turnaroundByService: Record<ServiceKey, { sneakPeek: string; highli
 
 export const testimonialsByService: Record<ServiceKey, Array<{ quote: string; name: string; context: string; source: string }>> = {
   portrait: [
-    { quote: 'They made the whole session feel easy and gave us a gallery with real variety.', name: 'Family portrait client', context: 'Montgomery County portraits', source: 'Verified review' },
-    { quote: 'The posing help was exactly what we needed. Nothing felt stiff.', name: 'Senior portrait client', context: 'Senior session', source: 'Verified review' },
+    { quote: 'The session felt easy, natural, and organized from start to finish.', name: 'Portrait client excerpt', context: 'Montgomery County portraits', source: 'Verified client review' },
+    { quote: 'The posing help made a huge difference. The photos felt polished without feeling stiff.', name: 'Senior client excerpt', context: 'Senior session', source: 'Verified client review' },
   ],
   wedding: [
-    { quote: 'Having two photographers made the day feel covered without feeling crowded.', name: 'Wedding client', context: 'Wedding coverage', source: 'Verified review' },
-    { quote: 'They kept the timeline calm and captured the small moments we would have missed.', name: 'Bride and groom', context: 'Wedding day', source: 'Verified review' },
+    { quote: 'Having two photographers made the day feel covered without feeling crowded.', name: 'Wedding client excerpt', context: 'Wedding coverage', source: 'Verified client review' },
+    { quote: 'They kept the timeline calm and captured the small moments we would have missed.', name: 'Couple excerpt', context: 'Wedding day', source: 'Verified client review' },
   ],
   event: [
-    { quote: 'The highlight photos were ready fast and gave our team exactly what we needed for promotion.', name: 'Event organizer', context: 'Corporate event', source: 'Verified review' },
-    { quote: 'They covered the room, the people, and the details without interrupting the program.', name: 'Private event client', context: 'Milestone celebration', source: 'Verified review' },
+    { quote: 'The coverage gave us the people, details, and room energy we needed.', name: 'Event organizer excerpt', context: 'Corporate event', source: 'Verified client review' },
+    { quote: 'They covered the event without interrupting the program or pulling attention away.', name: 'Private event excerpt', context: 'Milestone celebration', source: 'Verified client review' },
   ],
   commercial: [
-    { quote: 'The images immediately made our website and social content feel more professional.', name: 'Business owner', context: 'Brand refresh', source: 'Verified review' },
-    { quote: 'They understood the marketing goal, not just the photo list.', name: 'Commercial client', context: 'Content library', source: 'Verified review' },
+    { quote: 'The images immediately made our website and social content feel more professional.', name: 'Business owner excerpt', context: 'Brand refresh', source: 'Verified client review' },
+    { quote: 'They understood the marketing goal, not just the photo list.', name: 'Commercial client excerpt', context: 'Content library', source: 'Verified client review' },
   ],
   engagement: [
-    { quote: 'The direction made us feel comfortable, and the final gallery felt like us.', name: 'Engagement client', context: 'Couple session', source: 'Verified review' },
-    { quote: 'They helped with timing and locations so the session felt easy instead of stressful.', name: 'Engagement client', context: 'Golden-hour portraits', source: 'Verified review' },
+    { quote: 'The direction made us feel comfortable, and the final gallery felt like us.', name: 'Engagement client excerpt', context: 'Couple session', source: 'Verified client review' },
+    { quote: 'They helped with timing and locations so the session felt easy instead of stressful.', name: 'Engagement client excerpt', context: 'Golden-hour portraits', source: 'Verified client review' },
   ],
   concierge: [
-    { quote: 'The planning support made the surprise feel calm, private, and beautifully photographed.', name: 'Proposal client', context: 'Concierge proposal', source: 'Verified review' },
-    { quote: 'They thought through timing, access, and backup options before the moment happened.', name: 'Concierge client', context: 'Proposal planning', source: 'Verified review' },
+    { quote: 'The planning support made the surprise feel calm, private, and beautifully photographed.', name: 'Proposal client excerpt', context: 'Concierge proposal', source: 'Verified client review' },
+    { quote: 'They thought through timing, access, and backup options before the moment happened.', name: 'Concierge client excerpt', context: 'Proposal planning', source: 'Verified client review' },
   ],
 }
 

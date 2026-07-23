@@ -76,7 +76,7 @@ const PACKAGE_CATALOG: PackageOption[] = [
       '20+ edited images',
       'Multiple looks/outfit changes',
       'Private online gallery',
-      '24-hour sneak peek included',
+      '24-hour sneak peek add-on available',
     ],
     bestFor: 'Best value for families, seniors, and couples wanting variety.',
   },
@@ -127,7 +127,7 @@ const PACKAGE_CATALOG: PackageOption[] = [
       '25+ edited images',
       'Two-location flow planning',
       'Outfit consultation + pose coaching',
-      '24-hour sneak peek delivery',
+      '72-hour sneak peek delivery',
     ],
     bestFor: 'Great for couples who want a fuller story and multiple looks.',
   },
@@ -233,7 +233,7 @@ const PACKAGE_CATALOG: PackageOption[] = [
       '4-hour event coverage',
       '125+ edited photos',
       'Timeline and logistics consultation',
-      '24-hour sneak peek',
+      '72-hour sneak peek',
       'Private digital gallery',
     ],
     bestFor: 'Best fit for multi-segment events needing full key-moment coverage.',
@@ -399,7 +399,7 @@ export async function POST(request: NextRequest) {
         '20+ edited images',
         'Multiple outfit looks',
         'Private digital gallery',
-        '24-hour sneak peek included'
+        '24-hour sneak peek add-on available'
       ],
       bestFor: 'Most popular package for balanced coverage and value.',
       confidence: 75
