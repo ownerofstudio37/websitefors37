@@ -20,7 +20,7 @@ const services = [
 			],
 			category: 'wedding',
 			slug: 'wedding-photography',
-			image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033155/KELLY_-_1_11_wgadni.jpg',
+			image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1779268256/Untitled-30_fliqiq.jpg',
 		},
 		{
 			icon: Users,
@@ -36,7 +36,7 @@ const services = [
 			],
 			category: 'professional portraits',
 			slug: 'portrait-photography',
-			image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1784790718/Hotard_Family_Day_2_-_152_1_mcyhw2.jpg',
+			image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1779268257/PS375315_zyvbbi.jpg',
 		},
 		{
 			icon: HeartHandshake,
@@ -52,7 +52,7 @@ const services = [
 			],
 			category: 'engagement concierge',
 			slug: 'concierge-services',
-			image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1775537570/Jay_Proposal_-_1_12_e7wqsb.jpg',
+			image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033152/IMG_4555_1_ppdkum.jpg',
 		},
 		{
 			icon: Camera,
@@ -68,7 +68,7 @@ const services = [
 			],
 			category: 'event',
 			slug: 'event-photography',
-			image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1784791655/Alice_Birthday_Party_-_74_zxkulm.jpg',
+			image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033087/IMG_4591_1_r62hly.jpg',
 		},
 		{
 			icon: Building,
@@ -84,7 +84,7 @@ const services = [
 			],
 			category: 'product photography',
 			slug: 'commercial-photography',
-			image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1784791656/VB_School_Caitie_Faves_-_6_gsn8fe.jpg',
+			image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255706/PS373287_d7fl9k.jpg',
 		},
 		{
 			icon: Megaphone,
@@ -100,7 +100,7 @@ const services = [
 			],
 			category: 'branding marketing',
 			slug: 'branding-marketing',
-			image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1784791656/VB_School_Chris_Faves_-_4-2_u9lpel.jpg',
+			image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1781169103/carlos-muza-hpjSkU2UYSU-unsplash_ploflu.jpg',
 		},
 ]
 
