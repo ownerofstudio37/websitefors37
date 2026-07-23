@@ -62,7 +62,7 @@ const LOCAL_PROOF_IMAGES: LocalProofImage[] = [
     caption: 'Run-of-show coverage for key people, details, and candid moments.',
   },
   {
-    src: 'https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_900,c_limit/v1784790718/Hotard_Family_Day_2_-_49_1_eernop.jpg',
+    src: 'https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_900,c_limit/v1784791656/VB_School_Caitie_Faves_-_6_gsn8fe.jpg',
     label: 'Business content',
     caption: 'Brand-ready images for websites, profiles, campaigns, and social posts.',
   },

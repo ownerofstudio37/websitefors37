@@ -32,8 +32,8 @@ const galleryImages = [
   {
     id: 5,
     category: 'wedding',
-    title: 'Couple Portraits',
-    src: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1784790228/Emma_Nick_-_1_11_su3tvv.jpg',
+    title: 'Wedding Ceremony',
+    src: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1756077326/54694193043_f9ae5338ca_k_p7pjaz.jpg',
   },
   {
     id: 6,
