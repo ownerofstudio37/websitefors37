@@ -12,6 +12,7 @@ const services = [
 			startingPrice: 'Starting at $1,200',
 			description:
 				'Timeline-aware wedding coverage with two photographers, family-formal planning, and sneak peeks built into the delivery rhythm.',
+			nextStep: 'Start with coverage length and timeline fit.',
 			features: [
 				'Full day coverage',
 				'Engagement session',
@@ -28,6 +29,7 @@ const services = [
 			startingPrice: 'Starting at $350',
 			description:
 				'Directed family, senior, maternity, and headshot sessions with wardrobe guidance, location planning, and polished private galleries.',
+			nextStep: 'Choose the portrait type, then compare timing.',
 			features: [
 				'Studio or outdoor',
 				'Multiple outfits',
@@ -44,6 +46,7 @@ const services = [
 			startingPrice: 'Custom pricing · Consultation required',
 			description:
 				'Luxury engagement and proposal planning with location scouting, decor coordination, surprise logistics, and photo/video coverage.',
+			nextStep: 'Book a consult before sharing the surprise plan.',
 			features: [
 				'Proposal planning concierge',
 				'Location + decor coordination',
@@ -60,6 +63,7 @@ const services = [
 			startingPrice: 'Starting at $600',
 			description:
 				'Run-of-show coverage for parties, corporate programs, and milestones with quick highlight delivery for sharing and promotion.',
+			nextStep: 'Confirm timeline, guest flow, and usage needs.',
 			features: [
 				'Event coverage',
 				'Candid moments',
@@ -76,6 +80,7 @@ const services = [
 			startingPrice: 'Starting at $500',
 			description:
 				'Brand, product, workplace, and campaign images planned around actual usage: web, ads, profiles, listings, and social content.',
+			nextStep: 'Define usage, shot list, and delivery priority.',
 			features: [
 				'Product shots',
 				'Brand imagery',
@@ -92,6 +97,7 @@ const services = [
 			startingPrice: 'White-glove retainers',
 			description:
 				'Full-service growth support including brand content, web development, SEO, PPC, and social media management.',
+			nextStep: 'Request a demo for website, content, or growth scope.',
 			features: [
 				'Brand content + video',
 				'Website & landing pages',
@@ -164,8 +170,8 @@ export default function Services() {
 									<p className="text-left text-sm font-semibold text-primary-700 mb-3">
 										{service.startingPrice}
 									</p>
-									<p className="mb-4 rounded-lg bg-amber-50 px-3 py-2 text-left text-xs leading-5 text-amber-900">
-										Best next step: view the service details, then use the package tool if you are comparing options.
+									<p className="mb-4 rounded-lg bg-amber-50 px-3 py-2 text-left text-xs font-medium leading-5 text-amber-900">
+										Best next step: {service.nextStep}
 									</p>
 									<p className="text-stone-600 mb-5 text-left flex-grow leading-relaxed">
 										{service.description}

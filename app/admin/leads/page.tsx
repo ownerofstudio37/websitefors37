@@ -14,6 +14,18 @@ import AdminToast from '@/components/admin/AdminToast'
 import AdminConfirmDialog from '@/components/admin/AdminConfirmDialog'
 import AdminState from '@/components/admin/AdminState'
 
+type SavedLeadViewId = 'all' | 'test' | 'portfolio' | 'hot' | 'follow-up' | 'missing-phone' | 'new-wedding'
+
+const savedLeadViews: Array<{ id: SavedLeadViewId; label: string; status: string; query: string }> = [
+  { id: 'all', label: 'All Leads', status: 'all', query: '' },
+  { id: 'test', label: 'Test Leads', status: 'all', query: 'test' },
+  { id: 'portfolio', label: 'Portfolio Requests', status: 'all', query: 'portfolio' },
+  { id: 'hot', label: 'Hot Leads', status: 'qualified', query: '' },
+  { id: 'follow-up', label: 'Needs Follow-up', status: 'all', query: '' },
+  { id: 'missing-phone', label: 'Missing Phone', status: 'all', query: '' },
+  { id: 'new-wedding', label: 'New Wedding Leads', status: 'new', query: 'wedding' },
+]
+
 export default function LeadsPage() {
   const searchParams = useSearchParams()
   const [leads, setLeads] = useState<Lead[]>([])
@@ -21,6 +33,7 @@ export default function LeadsPage() {
   const [error, setError] = useState<string | null>(null)
   const [filter, setFilter] = useState('all')
   const [q, setQ] = useState('')
+  const [savedView, setSavedView] = useState<SavedLeadViewId>('all')
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null)
   const [showLeadModal, setShowLeadModal] = useState(false)
   const [showNotesModal, setShowNotesModal] = useState(false)
@@ -120,6 +133,12 @@ export default function LeadsPage() {
       if (filter !== 'all') {
         query = query.eq('status', filter)
       }
+      if (savedView === 'follow-up') {
+        query = query.not('next_follow_up', 'is', null).lte('next_follow_up', new Date().toISOString())
+      }
+      if (savedView === 'missing-phone') {
+        query = query.or('phone.is.null,phone.eq.')
+      }
       // Apply search filter
       const trimmed = q.trim()
       if (trimmed) {
@@ -153,7 +172,7 @@ export default function LeadsPage() {
     } finally {
       setLoading(false)
     }
-  }, [currentPage, filter, q])
+  }, [currentPage, filter, q, savedView])
 
   useEffect(() => {
     fetchLeads()
@@ -169,7 +188,15 @@ export default function LeadsPage() {
   // Reset to first page when filter changes
   useEffect(() => {
     setCurrentPage(1)
-  }, [filter, q])
+  }, [filter, q, savedView])
+
+  const applySavedView = (viewId: SavedLeadViewId) => {
+    const view = savedLeadViews.find((item) => item.id === viewId) || savedLeadViews[0]
+    setSavedView(view.id)
+    setFilter(view.status)
+    setQ(view.query)
+    setSelectedLeadIds(new Set())
+  }
 
   const handleCreateLead = async () => {
     setCreateError(null)
@@ -1034,7 +1061,10 @@ Studio37`)
           <div className="relative w-full md:w-64">
             <input
               value={q}
-              onChange={(e) => setQ(e.target.value)}
+              onChange={(e) => {
+                setSavedView('all')
+                setQ(e.target.value)
+              }}
               placeholder="Search name, email, phone..."
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
               aria-label="Search leads"
@@ -1042,7 +1072,10 @@ Studio37`)
           </div>
           <select 
             value={filter} 
-            onChange={(e) => setFilter(e.target.value)}
+            onChange={(e) => {
+              setSavedView('all')
+              setFilter(e.target.value)
+            }}
             className="px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
             title="Filter leads by status"
           >
@@ -1101,6 +1134,35 @@ Studio37`)
             <Plus className="h-4 w-4" />
             Add Lead
           </button>
+        </div>
+      </div>
+
+      <div className="mb-6 rounded-lg border border-gray-200 bg-white p-3 shadow-sm">
+        <div className="mb-2 flex items-center justify-between gap-3">
+          <p className="text-sm font-semibold text-gray-900">Saved views</p>
+          {savedView !== 'all' && (
+            <button
+              onClick={() => applySavedView('all')}
+              className="text-xs font-medium text-gray-500 hover:text-gray-900"
+            >
+              Clear view
+            </button>
+          )}
+        </div>
+        <div className="flex flex-wrap gap-2">
+          {savedLeadViews.map((view) => (
+            <button
+              key={view.id}
+              onClick={() => applySavedView(view.id)}
+              className={`rounded-full border px-3 py-1.5 text-xs font-semibold transition ${
+                savedView === view.id
+                  ? 'border-indigo-500 bg-indigo-50 text-indigo-700'
+                  : 'border-gray-200 bg-white text-gray-700 hover:border-indigo-200 hover:bg-indigo-50'
+              }`}
+            >
+              {view.label}
+            </button>
+          ))}
         </div>
       </div>
 

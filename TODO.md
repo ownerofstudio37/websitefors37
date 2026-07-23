@@ -47,13 +47,13 @@
 
 - [x] Recent work accessibility fix: update the curated recent work portfolio-request link so screen readers get a clear full-gallery request label.
 - [x] Seasonal conversion guardrail fix: restore direct `/book-a-session` exits on `/senior-portraits`, `/holiday-party`, and `/graduation` while preserving consultation-first CTAs.
-- [ ] Homepage decision-path tightening: review the first two viewport sections and make sure visitors can choose between photography, engagement/concierge, branding/marketing, pricing, and private examples without visual overload.
+- [x] Homepage decision-path tightening: review the first two viewport sections and make sure visitors can choose between photography, engagement/concierge, branding/marketing, pricing, and private examples without visual overload.
 - [ ] Mobile long-scroll compression: reduce repeated proof/CTA modules on long service pages with collapsible or tighter mobile sections where content starts feeling repetitive.
-- [ ] Service card hierarchy polish: standardize title/image click behavior, primary CTA labels, secondary pricing/request-example links, and card heights across all service and sub-service pages.
+- [x] Service card hierarchy polish: standardize title/image click behavior, primary CTA labels, secondary pricing/request-example links, and card heights across all service and sub-service pages.
 - [ ] Blog article desktop image crop pass: preserve the clean wide hero ratio, but add per-post focal-position support for faces/details that crop too aggressively on desktop.
 - [ ] Request portfolio conversion polish: add saved admin views for portfolio requests and improve the post-submit next step so private-gallery leads are easy to find and respond to.
 - [ ] Booking flow microcopy pass: clarify when a visitor is booking a consultation versus a paid/session booking anywhere both paths appear on the same page.
-- [ ] Admin CRM saved views: add Test Leads, Portfolio Requests, Hot Leads, Needs Follow-up, Missing Phone, and New Wedding Leads as one-click CRM filters.
+- [x] Admin CRM saved views: add Test Leads, Portfolio Requests, Hot Leads, Needs Follow-up, Missing Phone, and New Wedding Leads as one-click CRM filters.
 - [ ] Admin bulk action safety: add soft archive for real leads and reserve hard delete for obvious test records; log bulk actions to each selected lead timeline.
 - [ ] Admin dashboard density pass: make `/admin` more of a daily command center by prioritizing overdue follow-ups, new leads, scheduled posts, SEO warnings, and ShootProof tasks above general tools.
 - [ ] Admin mobile workflow pass: optimize leads, bookings, galleries, and blog review for phone-width quick actions without forcing desktop-table scrolling.
@@ -65,7 +65,7 @@
 
 - [x] Bulk lead selection: add row checkboxes, select current page, and select all matching search/filter results so test leads can be grouped and cleaned up quickly.
 - [x] Bulk lead actions: support selected-lead status changes, tagging, email drafting, and confirmed deletion from `/admin/leads`.
-- [ ] CRM saved views: add reusable views such as Test Leads, New Wedding Leads, Portfolio Requests, Needs Follow-up, Hot Leads, and Missing Phone.
+- [x] CRM saved views: add reusable views such as Test Leads, New Wedding Leads, Portfolio Requests, Needs Follow-up, Hot Leads, and Missing Phone.
 - [ ] Duplicate lead cleanup: detect likely duplicates by email, phone, and name so imports/chatbot/contact forms do not clutter the CRM.
 - [ ] Safer delete/archive workflow: add an Archive status or soft-delete option for real leads, while keeping hard delete available for obvious test records.
 - [ ] Bulk timeline logging: when bulk status/tag/email actions run, write a short timeline entry so future-you knows why a group changed.
