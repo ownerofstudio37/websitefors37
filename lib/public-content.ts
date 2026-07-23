@@ -16,7 +16,7 @@ export const recentWorkItems = [
     title: 'Private Proposal Coverage',
     service: 'Proposal',
     location: 'Montgomery County',
-    image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033152/IMG_4555_1_ppdkum.jpg',
+    image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1784795585/Untitled-160_convert.io_c7oit0.jpg',
     alt: 'Studio37 surprise proposal photography with concierge planning in Montgomery County Texas',
     note: 'A discreet reveal plan with privacy notes, portrait timing, and post-proposal gallery coverage.',
     galleryUrl: 'https://gallery.studio37.cc',
