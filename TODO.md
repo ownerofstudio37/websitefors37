@@ -1,5 +1,23 @@
 # Studio37 UX/UI, SEO, and Feature TODO
 
+## Full Site UX/UI, Admin, Mobile, And Performance Audit - July 20, 2026
+
+- [x] Recent work accessibility fix: update the curated recent work portfolio-request link so screen readers get a clear full-gallery request label.
+- [x] Seasonal conversion guardrail fix: restore direct `/book-a-session` exits on `/senior-portraits`, `/holiday-party`, and `/graduation` while preserving consultation-first CTAs.
+- [ ] Homepage decision-path tightening: review the first two viewport sections and make sure visitors can choose between photography, engagement/concierge, branding/marketing, pricing, and private examples without visual overload.
+- [ ] Mobile long-scroll compression: reduce repeated proof/CTA modules on long service pages with collapsible or tighter mobile sections where content starts feeling repetitive.
+- [ ] Service card hierarchy polish: standardize title/image click behavior, primary CTA labels, secondary pricing/request-example links, and card heights across all service and sub-service pages.
+- [ ] Blog article desktop image crop pass: preserve the clean wide hero ratio, but add per-post focal-position support for faces/details that crop too aggressively on desktop.
+- [ ] Request portfolio conversion polish: add saved admin views for portfolio requests and improve the post-submit next step so private-gallery leads are easy to find and respond to.
+- [ ] Booking flow microcopy pass: clarify when a visitor is booking a consultation versus a paid/session booking anywhere both paths appear on the same page.
+- [ ] Admin CRM saved views: add Test Leads, Portfolio Requests, Hot Leads, Needs Follow-up, Missing Phone, and New Wedding Leads as one-click CRM filters.
+- [ ] Admin bulk action safety: add soft archive for real leads and reserve hard delete for obvious test records; log bulk actions to each selected lead timeline.
+- [ ] Admin dashboard density pass: make `/admin` more of a daily command center by prioritizing overdue follow-ups, new leads, scheduled posts, SEO warnings, and ShootProof tasks above general tools.
+- [ ] Admin mobile workflow pass: optimize leads, bookings, galleries, and blog review for phone-width quick actions without forcing desktop-table scrolling.
+- [ ] Performance image budget pass: review above-the-fold Cloudinary images for exact sizing, priority usage, and whether any repeated proof sections should lazy-load later.
+- [ ] Web vitals local-noise cleanup: quiet or mock `/api/vitals` writes during Playwright/local smoke so real UI regressions are easier to read in test output.
+- [ ] Smoke coverage expansion: add focused interaction checks for CRM bulk selection, request portfolio submission, booking date display, and blog scheduling status changes.
+
 ## CRM Improvement Audit - July 12, 2026
 
 - [x] Bulk lead selection: add row checkboxes, select current page, and select all matching search/filter results so test leads can be grouped and cleaned up quickly.

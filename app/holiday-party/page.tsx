@@ -100,6 +100,9 @@ export default function HolidayPartyPage() {
                 <Link href={`/book-consultation?package=${encodeURIComponent(pkg.name)}`} className="block w-full text-center bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition font-semibold">
                   Book Consultation
                 </Link>
+                <Link href={`/book-a-session?package=${encodeURIComponent(pkg.name)}`} className="mt-3 block text-center text-sm font-semibold text-green-700 hover:underline">
+                  Start Event Booking
+                </Link>
               </div>
             ))}
           </div>

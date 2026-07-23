@@ -19,7 +19,7 @@ export default function CuratedRecentWork({ className = '' }: { className?: stri
               A few recent examples to preview the style, pacing, and polish of Studio37 work. Complete galleries are shared privately by request.
             </p>
           </div>
-          <TrackedPortfolioRequestLink href="/request-portfolio" source="curated-recent-work-header" aria-label="Request complete Studio37 galleries" className="btn-secondary inline-flex w-fit items-center">
+          <TrackedPortfolioRequestLink href="/request-portfolio" source="curated-recent-work-header" aria-label="Open the full Studio37 gallery request flow" className="btn-secondary inline-flex w-fit items-center">
             Request Complete Galleries <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
           </TrackedPortfolioRequestLink>
         </div>

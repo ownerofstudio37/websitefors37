@@ -100,6 +100,9 @@ export default function GraduationPage() {
                 <Link href={`/book-consultation?package=${encodeURIComponent(pkg.name)}`} className="block w-full text-center bg-amber-600 text-white py-2 rounded-lg hover:bg-amber-700 transition font-semibold">
                   Book Consultation
                 </Link>
+                <Link href={`/book-a-session?package=${encodeURIComponent(pkg.name)}`} className="mt-3 block text-center text-sm font-semibold text-amber-700 hover:underline">
+                  Start Event Booking
+                </Link>
               </div>
             ))}
           </div>

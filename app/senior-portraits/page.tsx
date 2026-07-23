@@ -79,6 +79,9 @@ export default function SeniorPortraitsPage() {
                 <Link href={`/book-consultation?package=${encodeURIComponent(pkg.name)}`} className="btn-primary text-center mt-auto">
                   Book Consultation
                 </Link>
+                <Link href={`/book-a-session?package=${encodeURIComponent(pkg.name)}`} className="mt-3 text-center text-sm font-semibold text-primary-700 hover:underline">
+                  Start Session Booking
+                </Link>
               </article>
             ))}
           </div>
