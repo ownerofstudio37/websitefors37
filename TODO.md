@@ -1,5 +1,42 @@
 # Studio37 UX/UI, SEO, and Feature TODO
 
+## Service Copy, Pricing, And Credibility Updates - July 23, 2026
+
+### Portrait Photography
+
+- [ ] `/services/portrait-photography`: remove included `24hr sneak peek` from the standard session package and replace it with `24-hour sneak peek available as add-on`.
+- [ ] `/services/portrait-photography`: in `Why Choose Studio37 for Portraits` under `Quick Turnaround`, replace `2 weeks` with `weeks`.
+- [ ] `/services/portrait-photography`: update the `Not sure which option is best` section so it reflects that 24-hour sneak peeks are not included by default.
+- [ ] `/services/portrait-photography`: in the final gallery block, change `clear turnaround from preview to final gallery` copy from `two weeks` to `three weeks`.
+- [ ] Client proof component: add real review excerpts to `What clients notice about this experience` everywhere this component appears.
+- [ ] `/services/portrait-photography`: in the FAQ section, change final gallery language from `two weeks` to `three weeks`.
+- [ ] Quick package comparison component: change `2 week gallery` to `fast gallery delivery` everywhere this component appears.
+
+### Wedding Photography
+
+- [ ] `/services/wedding-photography`: audit the full wedding service page for copy, pricing clarity, CTA hierarchy, proof, mobile layout, and conversion gaps.
+
+### Engagement Session
+
+- [ ] `/services/engagement-session`: on the Premium Engagement Package, change `24hr sneak peek` to `72hr sneak peek`.
+- [ ] `/services/engagement-session`: on the Editorial Engagement Package, add `48 hr sneak peek`.
+
+### Event Photography
+
+- [ ] `/services/event-photography`: on the Basic Coverage package, remove the `72 hr highlights preview`.
+- [ ] `/services/event-photography`: on the Standard Coverage package, change `24hr sneak peek` to `72hr sneak peek`.
+- [ ] `/services/event-photography`: in `Clear turnaround from preview to final gallery`, change final gallery card copy from `one week` to `three weeks`.
+- [ ] `/services/event-photography`: review the `Commercial Portfolio Preview` section and either rewrite it for stronger credibility/authority or remove it.
+- [ ] `/services/event-photography`: on Business Express, change `48-hour turnaround delivery` to `48-hour turnaround delivery add-on available`.
+- [ ] `/services/event-photography`: on Brand Starter, change `48-hr Fast-Track delivery` to `48-hr Fast-Track delivery add-on available`.
+- [ ] `/services/event-photography`: on Content Library, change `24-hour sneak-peek preview gallery` to `72-hour sneak-peek preview gallery`.
+- [ ] `/services/event-photography`: on Content Library, change `Final delivery in 5-7 business days` to `Final delivery in 5-7 business days add-on available`.
+- [ ] `/services/event-photography`: on Full Brand Story, change `5-business-day delivery guarantee` to `5-business-day delivery guarantee add-on available`.
+
+### Branding And Marketing
+
+- [ ] `/services/branding-marketing`: audit the full service page for offer clarity, custom website build positioning, CTA hierarchy, proof, pricing expectations, mobile layout, and conversion gaps.
+
 ## Full Site UX/UI, Admin, Mobile, And Performance Audit - July 20, 2026
 
 - [x] Recent work accessibility fix: update the curated recent work portfolio-request link so screen readers get a clear full-gallery request label.
