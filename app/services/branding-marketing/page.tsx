@@ -333,6 +333,24 @@ export default function BrandingMarketingPage() {
               A custom build can include the public website, the content system, and the behind-the-scenes tools your business needs. Scope and pricing stay custom because the right build depends on features, content depth, integrations, and long-term goals.
             </p>
           </div>
+          <div className="mt-8 rounded-2xl border border-primary-200 bg-primary-50/70 p-6">
+            <p className="text-sm font-semibold uppercase tracking-[0.16em] text-primary-700">Custom Scope Expectations</p>
+            <div className="mt-4 grid gap-4 md:grid-cols-3">
+              {[
+                ['Focused build', 'Core website or campaign system with priority pages, lead capture, analytics, and launch-ready SEO basics.'],
+                ['Growth build', 'Deeper service pages, local SEO, blog/content structure, branded photography, forms, and conversion paths.'],
+                ['Advanced build', 'Custom workflows, private admin tools, dashboards, integrations, content systems, and long-term optimization.'],
+              ].map(([title, copy]) => (
+                <div key={title} className="rounded-lg bg-white p-4">
+                  <h3 className="font-semibold text-stone-950">{title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-stone-600">{copy}</p>
+                </div>
+              ))}
+            </div>
+            <p className="mt-4 text-sm leading-6 text-stone-600">
+              Pricing is custom because a simple content site, a local SEO system, and a Studio37-level platform are very different builds.
+            </p>
+          </div>
           <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {websiteBuildFeatures.map((item) => (
               <div key={item.title} className="surface-panel p-5">
@@ -351,6 +369,45 @@ export default function BrandingMarketingPage() {
             <Link href="/request-portfolio?service=website-demo" className="btn-secondary">
               Request a Demo
             </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="section-shell bg-stone-50">
+        <div className="container mx-auto px-4">
+          <div className="grid gap-6 lg:grid-cols-2">
+            <div className="surface-panel p-6">
+              <p className="eyebrow mb-3">Best Fit</p>
+              <h2 className="text-2xl font-bold text-stone-950">This works best when growth needs a system</h2>
+              <ul className="mt-5 space-y-3 text-sm leading-6 text-stone-700">
+                {[
+                  'You need website, content, SEO, and lead flow decisions made together.',
+                  'You want a custom build that can grow beyond a template site.',
+                  'You care about local search, conversion, proof, and ongoing improvement.',
+                ].map((item) => (
+                  <li key={item} className="flex gap-2">
+                    <CheckCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-green-600" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="surface-panel p-6">
+              <p className="eyebrow mb-3">Not Best Fit</p>
+              <h2 className="text-2xl font-bold text-stone-950">Probably not right for quick one-off tasks</h2>
+              <ul className="mt-5 space-y-3 text-sm leading-6 text-stone-700">
+                {[
+                  'You only need a cheap single-page template with no strategy or custom features.',
+                  'You are looking for isolated posting, ad setup, or edits without business context.',
+                  'You are not ready to invest in content, positioning, and follow-through after launch.',
+                ].map((item) => (
+                  <li key={item} className="flex gap-2">
+                    <CheckCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-stone-400" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       </section>
@@ -381,6 +438,30 @@ export default function BrandingMarketingPage() {
                   {card.result}
                 </p>
               </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section-shell bg-white">
+        <div className="container mx-auto px-4">
+          <div className="mx-auto max-w-3xl text-center">
+            <p className="eyebrow mb-3">Build Process</p>
+            <h2 className="text-3xl font-bold text-stone-950 md:text-4xl">From discovery to optimization</h2>
+          </div>
+          <div className="mt-10 grid gap-4 md:grid-cols-5">
+            {[
+              ['1', 'Discovery', 'Clarify offers, audience, goals, assets, and constraints.'],
+              ['2', 'Strategy', 'Map site structure, content, SEO targets, and conversion paths.'],
+              ['3', 'Build + Content', 'Create pages, visuals, copy, forms, and integrations.'],
+              ['4', 'Launch', 'QA mobile, SEO, performance, analytics, and lead handoff.'],
+              ['5', 'Optimize', 'Review data, improve weak pages, and expand what is working.'],
+            ].map(([step, title, copy]) => (
+              <div key={title} className="rounded-lg border border-stone-200 bg-stone-50 p-5">
+                <div className="mb-4 flex h-9 w-9 items-center justify-center rounded-full bg-primary-100 text-sm font-bold text-primary-800">{step}</div>
+                <h3 className="font-semibold text-stone-950">{title}</h3>
+                <p className="mt-2 text-sm leading-6 text-stone-600">{copy}</p>
+              </div>
             ))}
           </div>
         </div>

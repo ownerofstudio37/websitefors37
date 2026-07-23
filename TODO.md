@@ -39,9 +39,9 @@
 ### Branding And Marketing
 
 - [x] `/services/branding-marketing`: audit the full service page for offer clarity, custom website build positioning, CTA hierarchy, proof, pricing expectations, mobile layout, and conversion gaps.
-- [ ] `/services/branding-marketing`: add a `website build packages are custom` expectation band with common scope ranges instead of fixed prices.
-- [ ] `/services/branding-marketing`: add a short `best fit / not best fit` block so low-budget one-off marketing requests self-select out.
-- [ ] `/services/branding-marketing`: add a mini process timeline for discovery, strategy, build/content production, launch, and optimization.
+- [x] `/services/branding-marketing`: add a `website build packages are custom` expectation band with common scope ranges instead of fixed prices.
+- [x] `/services/branding-marketing`: add a short `best fit / not best fit` block so low-budget one-off marketing requests self-select out.
+- [x] `/services/branding-marketing`: add a mini process timeline for discovery, strategy, build/content production, launch, and optimization.
 
 ## Full Site UX/UI, Admin, Mobile, And Performance Audit - July 20, 2026
 
