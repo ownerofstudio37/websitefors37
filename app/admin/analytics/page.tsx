@@ -9,6 +9,7 @@ interface AnalyticsData {
     last30: number
     growthRate: string
     bySource: Record<string, number>
+    sourceQuality: Array<{ source: string; total: number; high: number; converted: number; qualityRate: number }>
     byStatus: {
       new: number
       contacted: number
@@ -285,6 +286,23 @@ export default function AnalyticsPage() {
                     </div>
                   )
                 })}
+            </div>
+          </div>
+
+          <div className="bg-white rounded-xl border p-6 shadow-sm">
+            <h2 className="text-lg font-bold text-gray-900 mb-4">Source Quality</h2>
+            <div className="space-y-3">
+              {data.leads.sourceQuality.slice(0, 6).map((item) => (
+                <div key={item.source} className="rounded-lg border border-gray-200 bg-gray-50 p-3">
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="text-sm font-semibold text-gray-900">{item.source}</span>
+                    <span className="text-sm font-bold text-indigo-700">{item.qualityRate}% high quality</span>
+                  </div>
+                  <p className="mt-1 text-xs text-gray-600">
+                    {item.high} hot/warm of {item.total} total · {item.converted} converted
+                  </p>
+                </div>
+              ))}
             </div>
           </div>
 

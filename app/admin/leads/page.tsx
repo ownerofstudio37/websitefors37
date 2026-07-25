@@ -86,6 +86,7 @@ export default function LeadsPage() {
   const [selectedLeadIds, setSelectedLeadIds] = useState<Set<string>>(new Set())
   const [bulkStatus, setBulkStatus] = useState<Lead['status'] | ''>('')
   const [bulkTag, setBulkTag] = useState('')
+  const [bulkOwner, setBulkOwner] = useState('')
   const [bulkActionLoading, setBulkActionLoading] = useState(false)
   const [confirmBulkDelete, setConfirmBulkDelete] = useState(false)
 
@@ -332,6 +333,12 @@ export default function LeadsPage() {
     if (filter !== 'all') {
       nextQuery = nextQuery.eq('status', filter)
     }
+    if (savedView === 'follow-up') {
+      nextQuery = nextQuery.not('next_follow_up', 'is', null).lte('next_follow_up', new Date().toISOString())
+    }
+    if (savedView === 'missing-phone') {
+      nextQuery = nextQuery.or('phone.is.null,phone.eq.')
+    }
     const trimmed = q.trim()
     if (trimmed) {
       const pattern = `%${trimmed}%`
@@ -379,6 +386,7 @@ export default function LeadsPage() {
     setSelectedLeadIds(new Set())
     setBulkStatus('')
     setBulkTag('')
+    setBulkOwner('')
   }
 
   const selectedLeads = leads.filter((lead) => selectedLeadIds.has(lead.id))
@@ -445,6 +453,34 @@ export default function LeadsPage() {
     } catch (error) {
       console.error('Bulk tag failed:', error)
       setToast('Failed to tag selected leads')
+    } finally {
+      setBulkActionLoading(false)
+    }
+  }
+
+  const assignBulkOwner = async () => {
+    const owner = bulkOwner.trim()
+    if (!owner || selectedCount === 0) return
+    setBulkActionLoading(true)
+    try {
+      const ids = Array.from(selectedLeadIds)
+      const { data, error: fetchError } = await supabase.from('leads').select('id,tags').in('id', ids)
+      if (fetchError) throw fetchError
+
+      for (const lead of data || []) {
+        const tags = Array.isArray(lead.tags) ? lead.tags : []
+        const nextTags = Array.from(new Set([...tags.filter((tag) => !tag.startsWith('owner:')), `owner:${owner}`]))
+        const { error } = await supabase.from('leads').update({ tags: nextTags }).eq('id', lead.id)
+        if (error) throw error
+      }
+
+      await logBulkAction(ids, `Bulk owner assigned: ${owner}.`, { action: 'bulk_owner_assign', owner })
+      setLeads(prev => prev.map(lead => selectedLeadIds.has(lead.id) ? { ...lead, tags: Array.from(new Set([...(lead.tags || []).filter((tag) => !tag.startsWith('owner:')), `owner:${owner}`])) } : lead))
+      setBulkOwner('')
+      setToast(`Assigned ${ids.length} lead${ids.length === 1 ? '' : 's'} to ${owner}`)
+    } catch (error) {
+      console.error('Bulk owner assignment failed:', error)
+      setToast('Failed to assign selected leads')
     } finally {
       setBulkActionLoading(false)
     }
@@ -666,6 +702,45 @@ export default function LeadsPage() {
     if (/complete gallery request|portfolio-request|portfolio|gallery|finished gallery|sample/.test(text)) cues.push({ label: 'Complete gallery request', tone: 'bg-blue-50 text-blue-700 border-blue-200' })
 
     return cues.length ? cues : [{ label: 'Normal follow-up', tone: 'bg-gray-50 text-gray-600 border-gray-200' }]
+  }
+
+  const getLeadScore = (lead: Lead) => {
+    const created = new Date(lead.created_at).getTime()
+    const hoursOld = Number.isFinite(created) ? (Date.now() - created) / 36e5 : 0
+    const text = `${lead.service_interest || ''} ${lead.message || ''} ${lead.source || ''} ${lead.budget_range || ''}`.toLowerCase()
+    let score = 40
+    if (/wedding|proposal|commercial|brand|quote|pricing|book|consult/.test(text)) score += 20
+    if (lead.phone) score += 10
+    if (lead.budget_range || lead.event_date) score += 10
+    if (/portfolio|complete gallery|finished gallery|request/.test(text)) score += 10
+    if (lead.status === 'qualified') score += 15
+    if (lead.status === 'converted') score = 100
+    if (lead.status === 'lost') score = Math.min(score, 25)
+    if (lead.status === 'new' && hoursOld > 24) score += 5
+    return Math.max(0, Math.min(100, score))
+  }
+
+  const getUrgencyLabel = (lead: Lead) => {
+    const score = getLeadScore(lead)
+    if (lead.status === 'lost') return 'Archived'
+    if (score >= 80) return 'Hot'
+    if (score >= 60) return 'Warm'
+    return 'Needs nurture'
+  }
+
+  const getLeadOwner = (lead: Lead) => (lead.tags || []).find((tag) => tag.startsWith('owner:'))?.replace('owner:', '') || 'Unassigned'
+
+  const getLeadSourceInsight = (lead: Lead) => {
+    const text = `${lead.message || ''} ${lead.source || ''}`
+    const utm = text.match(/utm_(source|campaign|medium)["':=\s]+([^,\n"}]+)/i)?.[2]?.trim()
+    const landing = text.match(/landing[_\s-]?page["':=\s]+([^,\n"}]+)/i)?.[1]?.trim()
+    const source = lead.source || 'Unknown'
+    return {
+      source,
+      utm: utm || 'No UTM',
+      landing: landing || (source.includes('portfolio') ? '/request-portfolio' : source.includes('chatbot') ? 'Chatbot' : 'Unknown landing'),
+      quality: getLeadScore(lead) >= 70 ? 'High quality' : getLeadScore(lead) >= 50 ? 'Medium quality' : 'Needs context',
+    }
   }
 
   const getPackageFit = (lead: Lead) => {
@@ -1054,45 +1129,79 @@ Studio37`)
     return entries.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
   }
 
-  const exportToCSV = () => {
-    if (leads.length === 0) {
+  const buildCsv = (rowsToExport: Lead[]) => {
+    const headers = ['Name', 'Email', 'Phone', 'Service Interest', 'Budget Range', 'Event Date', 'Lead Cost', 'Status', 'Priority', 'Score', 'Urgency', 'Owner', 'Source', 'UTM', 'Landing', 'Quality', 'Created At', 'Notes']
+    
+    const rows = rowsToExport.map(lead => {
+      const source = getLeadSourceInsight(lead)
+      return [
+        lead.name || '',
+        lead.email || '',
+        lead.phone || '',
+        lead.service_interest || '',
+        lead.budget_range || '',
+        lead.event_date || '',
+        typeof lead.lead_cost === 'number' ? lead.lead_cost.toFixed(2) : '',
+        lead.status || '',
+        lead.priority || '',
+        String(getLeadScore(lead)),
+        getUrgencyLabel(lead),
+        getLeadOwner(lead),
+        source.source,
+        source.utm,
+        source.landing,
+        source.quality,
+        lead.created_at ? new Date(lead.created_at).toLocaleDateString() : '',
+        (lead.notes || '').replace(/"/g, '""')
+      ]
+    })
+
+    return [
+      headers.join(','),
+      ...rows.map(row => row.map(cell => `"${cell}"`).join(','))
+    ].join('\n')
+  }
+
+  const exportToCSV = async () => {
+    if (totalCount === 0 && leads.length === 0) {
       setToast('No leads to export')
       return
     }
 
-    const headers = ['Name', 'Email', 'Phone', 'Service Interest', 'Budget Range', 'Event Date', 'Lead Cost', 'Status', 'Priority', 'Source', 'Created At', 'Notes']
-    
-    const rows = leads.map(lead => [
-      lead.name || '',
-      lead.email || '',
-      lead.phone || '',
-      lead.service_interest || '',
-      lead.budget_range || '',
-      lead.event_date || '',
-      typeof lead.lead_cost === 'number' ? lead.lead_cost.toFixed(2) : '',
-      lead.status || '',
-      lead.priority || '',
-      lead.source || '',
-      lead.created_at ? new Date(lead.created_at).toLocaleDateString() : '',
-      (lead.notes || '').replace(/"/g, '""')
-    ])
+    setBulkActionLoading(true)
+    try {
+      let exportRows = leads
+      if (selectedCount > 0) {
+        const ids = Array.from(selectedLeadIds)
+        const { data, error } = await supabase.from('leads').select('*').in('id', ids)
+        if (error) throw error
+        exportRows = data || []
+      } else if (hasActiveLeadFilters || savedView !== 'all') {
+        let query = supabase.from('leads').select('*').order('created_at', { ascending: false })
+        query = applyLeadFilters(query)
+        const { data, error } = await query
+        if (error) throw error
+        exportRows = data || []
+      }
 
-    const csv = [
-      headers.join(','),
-      ...rows.map(row => row.map(cell => `"${cell}"`).join(','))
-    ].join('\n')
-
-    const blob = new Blob([csv], { type: 'text/csv' })
-    const url = window.URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = `leads-${new Date().toISOString().split('T')[0]}.csv`
-    document.body.appendChild(a)
-    a.click()
-    document.body.removeChild(a)
-    window.URL.revokeObjectURL(url)
-    setToast('Leads exported to CSV')
-    setTimeout(() => setToast(null), 3000)
+      const csv = buildCsv(exportRows)
+      const blob = new Blob([csv], { type: 'text/csv' })
+      const url = window.URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `leads-${new Date().toISOString().split('T')[0]}.csv`
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+      window.URL.revokeObjectURL(url)
+      setToast(`Exported ${exportRows.length} lead${exportRows.length === 1 ? '' : 's'} to CSV`)
+      setTimeout(() => setToast(null), 3000)
+    } catch (error) {
+      console.error('Lead export failed:', error)
+      setToast('Failed to export leads')
+    } finally {
+      setBulkActionLoading(false)
+    }
   }
 
   const hasActiveLeadFilters = filter !== 'all' || q.trim().length > 0
@@ -1100,6 +1209,14 @@ Studio37`)
     if (!lead.next_follow_up || ['converted', 'lost'].includes(lead.status)) return false
     return new Date(lead.next_follow_up).getTime() <= Date.now()
   }).length
+  const followUpQueue = leads
+    .filter((lead) => {
+      const created = new Date(lead.created_at).getTime()
+      const hoursOld = Number.isFinite(created) ? (Date.now() - created) / 36e5 : 0
+      const due = lead.next_follow_up && new Date(lead.next_follow_up).getTime() <= Date.now()
+      return !['converted', 'lost'].includes(lead.status) && (due || (lead.status === 'new' && hoursOld >= 24))
+    })
+    .slice(0, 4)
 
   return (
     <div className="p-3 sm:p-6">
@@ -1222,6 +1339,33 @@ Studio37`)
         <AdminToast message={toast} onClose={() => setToast(null)} />
       )}
 
+      {followUpQueue.length > 0 && (
+        <div className="mb-6 rounded-lg border border-amber-200 bg-amber-50 p-4 shadow-sm">
+          <div className="mb-3 flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h2 className="text-sm font-semibold text-amber-950">Follow-up queue</h2>
+              <p className="text-xs text-amber-800">Overdue follow-ups and new leads with no response after 24 hours.</p>
+            </div>
+            <button onClick={() => applySavedView('follow-up')} className="text-xs font-semibold text-amber-900 underline">
+              Open follow-up view
+            </button>
+          </div>
+          <div className="grid gap-2 md:grid-cols-2 xl:grid-cols-4">
+            {followUpQueue.map((lead) => (
+              <button
+                key={lead.id}
+                onClick={() => viewLeadDetails(lead)}
+                className="rounded-lg border border-amber-200 bg-white p-3 text-left hover:border-amber-400"
+              >
+                <p className="text-sm font-semibold text-gray-900">{lead.name}</p>
+                <p className="mt-1 text-xs text-gray-600">{getSuggestedNextAction(lead)}</p>
+                <p className="mt-2 text-xs font-medium text-amber-800">{getUrgencyLabel(lead)} · {getLeadOwner(lead)}</p>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Stats Overview */}
       <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
         <div className="bg-white rounded-lg shadow p-4">
@@ -1300,6 +1444,25 @@ Studio37`)
                   className="rounded-lg border border-indigo-200 bg-white px-3 py-2 text-sm font-medium text-indigo-700 hover:bg-indigo-100 disabled:opacity-50"
                 >
                   Add Tag
+                </button>
+                <select
+                  value={bulkOwner}
+                  onChange={(e) => setBulkOwner(e.target.value)}
+                  className="rounded-lg border border-indigo-200 bg-white px-3 py-2 text-sm"
+                  aria-label="Bulk owner"
+                  title="Assign selected leads"
+                >
+                  <option value="">Owner...</option>
+                  <option value="Christian">Christian</option>
+                  <option value="Caitie">Caitie</option>
+                  <option value="Studio37">Studio37</option>
+                </select>
+                <button
+                  onClick={assignBulkOwner}
+                  disabled={!bulkOwner || bulkActionLoading}
+                  className="rounded-lg border border-indigo-200 bg-white px-3 py-2 text-sm font-medium text-indigo-700 hover:bg-indigo-100 disabled:opacity-50"
+                >
+                  Assign
                 </button>
                 <button
                   onClick={openBulkEmail}
@@ -1406,7 +1569,47 @@ Studio37`)
                 )}
               </div>
             </div>
-            <table className="min-w-full divide-y divide-gray-200">
+            <div className="divide-y divide-gray-100 md:hidden">
+              {leads.map((lead) => {
+                const source = getLeadSourceInsight(lead)
+                return (
+                  <div key={`mobile-${lead.id}`} className="p-4">
+                    <div className="flex items-start gap-3">
+                      <input
+                        type="checkbox"
+                        checked={selectedLeadIds.has(lead.id)}
+                        onChange={() => toggleLeadSelection(lead.id)}
+                        aria-label={`Select ${lead.name}`}
+                        className="mt-1 h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
+                      />
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-start justify-between gap-3">
+                          <div>
+                            <p className="font-semibold text-gray-900">{lead.name}</p>
+                            <p className="text-sm text-gray-600 break-words">{lead.email}</p>
+                          </div>
+                          <span className={`rounded-full px-2 py-1 text-xs font-semibold ${getLeadScore(lead) >= 70 ? 'bg-green-100 text-green-700' : getLeadScore(lead) >= 50 ? 'bg-amber-100 text-amber-700' : 'bg-gray-100 text-gray-700'}`}>
+                            {getLeadScore(lead)}
+                          </span>
+                        </div>
+                        <p className="mt-2 text-sm text-gray-700">{getSuggestedNextAction(lead)}</p>
+                        <div className="mt-3 flex flex-wrap gap-1 text-[11px]">
+                          <span className="rounded-full bg-gray-100 px-2 py-1 text-gray-700">{source.source}</span>
+                          <span className="rounded-full bg-gray-100 px-2 py-1 text-gray-700">{getLeadOwner(lead)}</span>
+                          <span className="rounded-full bg-gray-100 px-2 py-1 text-gray-700">{getPackageFit(lead).label}</span>
+                        </div>
+                        <div className="mt-3 flex flex-wrap gap-2">
+                          <button onClick={() => viewLeadDetails(lead)} className="rounded-lg bg-primary-600 px-3 py-2 text-xs font-semibold text-white">Open</button>
+                          <button onClick={() => openComposeModal(lead)} className="rounded-lg border border-gray-300 px-3 py-2 text-xs font-semibold text-gray-700">Email</button>
+                          {lead.phone && <a href={`tel:${lead.phone}`} onClick={() => logCommunication(lead, 'phone', 'Outbound phone call')} className="rounded-lg border border-gray-300 px-3 py-2 text-xs font-semibold text-gray-700">Call</a>}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+            <table className="hidden min-w-full divide-y divide-gray-200 md:table">
               <thead className="bg-gray-50">
                 <tr>
                   <th className="px-4 py-3 text-left">
@@ -1431,6 +1634,12 @@ Studio37`)
                     Budget
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Source / Quality
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Score / Owner
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Status
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -1442,7 +1651,9 @@ Studio37`)
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {leads.map((lead) => (
+                {leads.map((lead) => {
+                  const source = getLeadSourceInsight(lead)
+                  return (
                   <tr key={lead.id} className="hover:bg-gray-50">
                     <td className="px-4 py-4 align-top">
                       <input
@@ -1478,6 +1689,16 @@ Studio37`)
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                       {lead.budget_range || '-'}
                     </td>
+                    <td className="px-6 py-4 text-sm text-gray-900">
+                      <div className="font-medium">{source.source}</div>
+                      <div className="mt-1 text-xs text-gray-500">{source.utm} · {source.landing}</div>
+                      <div className="mt-1 text-xs font-medium text-gray-700">{source.quality}</div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      <div className="font-semibold">{getLeadScore(lead)} · {getUrgencyLabel(lead)}</div>
+                      <div className="mt-1 text-xs text-gray-500">{getLeadOwner(lead)}</div>
+                      <div className="mt-1 text-xs text-gray-500">{getSuggestedNextAction(lead)}</div>
+                    </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <select
                         value={lead.status}
@@ -1490,6 +1711,7 @@ Studio37`)
                         <option value="contacted">Contacted</option>
                         <option value="qualified">Qualified</option>
                         <option value="converted">Converted</option>
+                        <option value="lost">Lost</option>
                       </select>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -1549,7 +1771,7 @@ Studio37`)
                       </div>
                     </td>
                   </tr>
-                ))}
+                )})}
               </tbody>
             </table>
           </div>
@@ -1642,7 +1864,7 @@ Studio37`)
               </div>
             </div>
 
-            <div className="mb-6 grid gap-4 lg:grid-cols-3">
+            <div className="mb-6 grid gap-4 lg:grid-cols-4">
               <div className="rounded-lg border border-gray-200 bg-white p-4">
                 <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">Suggested next action</p>
                 <p className="mt-2 text-sm font-medium text-gray-900">{getSuggestedNextAction(selectedLead)}</p>
@@ -1661,6 +1883,11 @@ Studio37`)
                     </span>
                   ))}
                 </div>
+              </div>
+              <div className="rounded-lg border border-gray-200 bg-white p-4">
+                <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">Score + owner</p>
+                <p className="mt-2 text-sm font-semibold text-gray-900">{getLeadScore(selectedLead)} · {getUrgencyLabel(selectedLead)}</p>
+                <p className="mt-1 text-sm text-gray-600">{getLeadOwner(selectedLead)}</p>
               </div>
             </div>
 
@@ -1707,6 +1934,9 @@ Studio37`)
                   <div>
                     <label className="text-sm font-medium text-gray-500">Source Attribution</label>
                     <p>{selectedLead.source || 'Unknown'}</p>
+                    <p className="mt-1 text-xs text-gray-500">
+                      {getLeadSourceInsight(selectedLead).utm} · {getLeadSourceInsight(selectedLead).landing} · {getLeadSourceInsight(selectedLead).quality}
+                    </p>
                   </div>
                   {selectedLead.budget_range && (
                     <div className="flex items-center space-x-2">

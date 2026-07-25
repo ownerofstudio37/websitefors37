@@ -3,6 +3,19 @@ import { getSupabaseAdmin } from '@/lib/supabaseAdmin'
 
 export const dynamic = 'force-dynamic'
 
+function scoreLead(lead: any) {
+  const text = `${lead.service_interest || ''} ${lead.message || ''} ${lead.source || ''} ${lead.budget_range || ''}`.toLowerCase()
+  let score = 40
+  if (/wedding|proposal|commercial|brand|quote|pricing|book|consult/.test(text)) score += 20
+  if (lead.phone) score += 10
+  if (lead.budget_range || lead.event_date) score += 10
+  if (/portfolio|complete gallery|finished gallery|request/.test(text)) score += 10
+  if (lead.status === 'qualified') score += 15
+  if (lead.status === 'converted') score = 100
+  if (lead.status === 'lost') score = Math.min(score, 25)
+  return Math.max(0, Math.min(100, score))
+}
+
 export async function GET() {
   try {
     const supabase = getSupabaseAdmin()
@@ -15,7 +28,7 @@ export async function GET() {
     // Leads analytics
     const { data: allLeads, error: leadsError } = await supabase
       .from('leads')
-      .select('id, status, source, created_at, budget_range, lead_score')
+      .select('id, status, source, created_at, budget_range, service_interest, message, phone, event_date')
 
     if (leadsError) console.error('Leads query error:', leadsError)
 
@@ -34,6 +47,25 @@ export async function GET() {
       return acc
     }, {})
 
+    const sourceQuality = Object.entries(
+      (allLeads || []).reduce((acc: any, lead) => {
+        const source = lead.source || 'unknown'
+        if (!acc[source]) acc[source] = { total: 0, high: 0, converted: 0 }
+        acc[source].total += 1
+        if (scoreLead(lead) >= 70) acc[source].high += 1
+        if (lead.status === 'converted') acc[source].converted += 1
+        return acc
+      }, {})
+    )
+      .map(([source, value]: [string, any]) => ({
+        source,
+        total: value.total,
+        high: value.high,
+        converted: value.converted,
+        qualityRate: value.total ? Math.round((value.high / value.total) * 100) : 0,
+      }))
+      .sort((a, b) => b.qualityRate - a.qualityRate || b.total - a.total)
+
     // Leads by status
     const leadsByStatus = {
       new: allLeads?.filter(l => l.status === 'new').length || 0,
@@ -49,9 +81,9 @@ export async function GET() {
 
     // Lead score distribution
     const scoreDistribution = {
-      hot: allLeads?.filter(l => l.lead_score >= 70).length || 0,
-      warm: allLeads?.filter(l => l.lead_score >= 40 && l.lead_score < 70).length || 0,
-      cold: allLeads?.filter(l => l.lead_score < 40).length || 0
+      hot: allLeads?.filter(l => scoreLead(l) >= 70).length || 0,
+      warm: allLeads?.filter(l => scoreLead(l) >= 40 && scoreLead(l) < 70).length || 0,
+      cold: allLeads?.filter(l => scoreLead(l) < 40).length || 0
     }
 
     // Appointments analytics
@@ -117,6 +149,7 @@ export async function GET() {
             ? (((leadsLast30.length - leadsLast60.length) / leadsLast60.length) * 100).toFixed(1)
             : leadsLast30.length > 0 ? '100' : '0',
           bySource: leadsBySource,
+          sourceQuality,
           byStatus: leadsByStatus,
           conversionRate,
           scoreDistribution,
