@@ -141,6 +141,27 @@ test('booking and contact conversion paths stay clear', async ({ page }) => {
   await expect(page.locator('main').getByRole('link', { name: /sales@studio37\.cc/i })).toBeVisible()
 })
 
+test('crm bulk workspace exposes saved views and safety controls', async ({ page }) => {
+  await page.goto('/admin/leads', { waitUntil: 'domcontentloaded' })
+  if (await page.getByRole('heading', { name: /admin login/i }).isVisible().catch(() => false)) {
+    await expect(page.getByRole('button', { name: /sign in/i })).toBeVisible()
+    return
+  }
+  await expect(page.getByText(/saved views/i)).toBeVisible()
+  await expect(page.getByRole('button', { name: /portfolio requests/i })).toBeVisible()
+  await expect(page.getByRole('button', { name: /test leads/i })).toBeVisible()
+  await expect(page.getByRole('button', { name: /select current page/i })).toBeVisible()
+  await expect(page.getByRole('button', { name: /select all .* matching/i })).toBeVisible()
+})
+
+test('portfolio request form keeps private-gallery lead path clear', async ({ page }) => {
+  await page.goto('/request-portfolio', { waitUntil: 'domcontentloaded' })
+  await expect(page.getByLabel(/project type/i)).toBeVisible()
+  await expect(page.getByLabel(/what do you want to compare/i)).toBeVisible()
+  await expect(page.getByText(/complete galleries privately/i)).toBeVisible()
+  await expect(page.getByRole('button', { name: /request tailored portfolio/i })).toBeVisible()
+})
+
 test('service child pages keep conversion exits available', async ({ page }) => {
   const servicePages = [
     '/corporate-events',

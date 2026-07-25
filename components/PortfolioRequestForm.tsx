@@ -82,6 +82,7 @@ export default function PortfolioRequestForm() {
         <h2 className="text-2xl font-bold">Request received.</h2>
         <p className="mt-2 leading-7">We will send private complete galleries or a tailored portfolio that matches your project type, location, and what you want to compare.</p>
         <p className="mt-2 text-sm text-green-800">Expect a personal follow-up within one business day.</p>
+        <p className="mt-2 text-sm text-green-800">Helpful next step: book a quick consultation if you want us to walk through the examples and recommend a package fit.</p>
         <div className="mt-5 flex flex-wrap gap-3">
           <Link href="/book-consultation" className="btn-primary">Book a consultation</Link>
           <a href="https://gallery.studio37.cc" className="btn-secondary">View featured work</a>

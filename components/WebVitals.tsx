@@ -45,6 +45,10 @@ export default function WebVitals() {
       try {
         // Only send a small subset to reduce noise
         if (['LCP', 'INP', 'CLS', 'TTFB'].includes(metric.name)) {
+          if (typeof window !== 'undefined' && /^(localhost|127\.0\.0\.1)$/.test(window.location.hostname)) {
+            return
+          }
+
           await fetch('/api/vitals', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

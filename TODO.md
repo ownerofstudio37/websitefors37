@@ -48,18 +48,18 @@
 - [x] Recent work accessibility fix: update the curated recent work portfolio-request link so screen readers get a clear full-gallery request label.
 - [x] Seasonal conversion guardrail fix: restore direct `/book-a-session` exits on `/senior-portraits`, `/holiday-party`, and `/graduation` while preserving consultation-first CTAs.
 - [x] Homepage decision-path tightening: review the first two viewport sections and make sure visitors can choose between photography, engagement/concierge, branding/marketing, pricing, and private examples without visual overload.
-- [ ] Mobile long-scroll compression: reduce repeated proof/CTA modules on long service pages with collapsible or tighter mobile sections where content starts feeling repetitive.
+- [x] Mobile long-scroll compression: reduce repeated proof/CTA modules on long service pages with collapsible or tighter mobile sections where content starts feeling repetitive.
 - [x] Service card hierarchy polish: standardize title/image click behavior, primary CTA labels, secondary pricing/request-example links, and card heights across all service and sub-service pages.
-- [ ] Blog article desktop image crop pass: preserve the clean wide hero ratio, but add per-post focal-position support for faces/details that crop too aggressively on desktop.
-- [ ] Request portfolio conversion polish: add saved admin views for portfolio requests and improve the post-submit next step so private-gallery leads are easy to find and respond to.
-- [ ] Booking flow microcopy pass: clarify when a visitor is booking a consultation versus a paid/session booking anywhere both paths appear on the same page.
+- [x] Blog article desktop image crop pass: preserve the clean wide hero ratio, but add per-post focal-position support for faces/details that crop too aggressively on desktop.
+- [x] Request portfolio conversion polish: add saved admin views for portfolio requests and improve the post-submit next step so private-gallery leads are easy to find and respond to.
+- [x] Booking flow microcopy pass: clarify when a visitor is booking a consultation versus a paid/session booking anywhere both paths appear on the same page.
 - [x] Admin CRM saved views: add Test Leads, Portfolio Requests, Hot Leads, Needs Follow-up, Missing Phone, and New Wedding Leads as one-click CRM filters.
-- [ ] Admin bulk action safety: add soft archive for real leads and reserve hard delete for obvious test records; log bulk actions to each selected lead timeline.
-- [ ] Admin dashboard density pass: make `/admin` more of a daily command center by prioritizing overdue follow-ups, new leads, scheduled posts, SEO warnings, and ShootProof tasks above general tools.
-- [ ] Admin mobile workflow pass: optimize leads, bookings, galleries, and blog review for phone-width quick actions without forcing desktop-table scrolling.
-- [ ] Performance image budget pass: review above-the-fold Cloudinary images for exact sizing, priority usage, and whether any repeated proof sections should lazy-load later.
-- [ ] Web vitals local-noise cleanup: quiet or mock `/api/vitals` writes during Playwright/local smoke so real UI regressions are easier to read in test output.
-- [ ] Smoke coverage expansion: add focused interaction checks for CRM bulk selection, request portfolio submission, booking date display, and blog scheduling status changes.
+- [x] Admin bulk action safety: add soft archive for real leads and reserve hard delete for obvious test records; log bulk actions to each selected lead timeline.
+- [x] Admin dashboard density pass: make `/admin` more of a daily command center by prioritizing overdue follow-ups, new leads, scheduled posts, SEO warnings, and ShootProof tasks above general tools.
+- [x] Admin mobile workflow pass: optimize leads, bookings, galleries, and blog review for phone-width quick actions without forcing desktop-table scrolling.
+- [x] Performance image budget pass: review above-the-fold Cloudinary images for exact sizing, priority usage, and whether any repeated proof sections should lazy-load later.
+- [x] Web vitals local-noise cleanup: quiet or mock `/api/vitals` writes during Playwright/local smoke so real UI regressions are easier to read in test output.
+- [x] Smoke coverage expansion: add focused interaction checks for CRM bulk selection, request portfolio submission, booking date display, and blog scheduling status changes.
 
 ## CRM Improvement Audit - July 12, 2026
 
@@ -67,8 +67,8 @@
 - [x] Bulk lead actions: support selected-lead status changes, tagging, email drafting, and confirmed deletion from `/admin/leads`.
 - [x] CRM saved views: add reusable views such as Test Leads, New Wedding Leads, Portfolio Requests, Needs Follow-up, Hot Leads, and Missing Phone.
 - [ ] Duplicate lead cleanup: detect likely duplicates by email, phone, and name so imports/chatbot/contact forms do not clutter the CRM.
-- [ ] Safer delete/archive workflow: add an Archive status or soft-delete option for real leads, while keeping hard delete available for obvious test records.
-- [ ] Bulk timeline logging: when bulk status/tag/email actions run, write a short timeline entry so future-you knows why a group changed.
+- [x] Safer delete/archive workflow: add an Archive status or soft-delete option for real leads, while keeping hard delete available for obvious test records.
+- [x] Bulk timeline logging: when bulk status/tag/email actions run, write a short timeline entry so future-you knows why a group changed.
 - [ ] Lead source quality dashboard: show source, UTM, landing page, and conversion quality directly in the lead table and analytics dashboard.
 - [ ] Follow-up queue: add a compact queue for overdue leads, today’s follow-ups, and leads with no response logged after 24 hours.
 - [ ] Lead scoring refinement: surface score, urgency, package fit, and recommended next action directly in the table without opening the detail modal.

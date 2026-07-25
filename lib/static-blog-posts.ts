@@ -10,6 +10,7 @@ export type StaticBlogPost = {
   meta_description: string
   meta_keywords: string[]
   featured_image: string
+  featured_image_position?: string
 }
 
 export const staticBlogPosts: StaticBlogPost[] = [
@@ -20,6 +21,7 @@ export const staticBlogPosts: StaticBlogPost[] = [
     meta_description: 'Plan a private proposal in The Woodlands, Magnolia, or Montgomery County with location, privacy, decor, timing, and engagement photo tips from Studio37.',
     meta_keywords: ['proposal planning The Woodlands', 'proposal photographer Magnolia TX', 'engagement photographer Montgomery County'],
     featured_image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1784790228/Emma_Nick_-1_1-2_emsgxw.jpg',
+    featured_image_position: '50% 42%',
     published_at: '2026-06-20T12:00:00.000Z',
     updated_at: '2026-06-20T12:00:00.000Z',
     author: 'Studio37',
@@ -53,6 +55,7 @@ Studio37 concierge proposal planning can help with location scouting, timeline f
     meta_description: 'Explore engagement photo location ideas in Montgomery County, including The Woodlands, Magnolia, Montgomery, Conroe, Tomball, and Houston.',
     meta_keywords: ['engagement photo locations Montgomery County', 'The Woodlands engagement photos', 'Magnolia TX engagement session'],
     featured_image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1775537572/JayKnee3_1_dm2pwk.jpg',
+    featured_image_position: '50% 36%',
     published_at: '2026-06-21T12:00:00.000Z',
     updated_at: '2026-06-21T12:00:00.000Z',
     author: 'Studio37',
@@ -86,6 +89,7 @@ The right location depends on wardrobe, comfort level, season, and how much walk
     meta_description: 'What to wear for engagement photos in Texas, including color, texture, outfit changes, comfort, and proposal portrait planning.',
     meta_keywords: ['what to wear engagement photos', 'Texas engagement photo outfits', 'engagement session wardrobe'],
     featured_image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1779269044/Untitled-4-3_dvlcs6.jpg',
+    featured_image_position: '50% 34%',
     published_at: '2026-06-22T12:00:00.000Z',
     updated_at: '2026-06-22T12:00:00.000Z',
     author: 'Studio37',
@@ -119,6 +123,7 @@ Studio37 engagement sessions include simple styling guidance so the final galler
     meta_description: 'Golden-hour engagement photo tips for Texas couples, including sunset timing, heat, cloud cover, location access, and backup planning.',
     meta_keywords: ['golden hour engagement photos Texas', 'sunset engagement session', 'engagement photographer Texas'],
     featured_image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1784791658/VB_School_Chris_Faves_-_158_wlcspc.jpg',
+    featured_image_position: '50% 48%',
     published_at: '2026-06-23T12:00:00.000Z',
     updated_at: '2026-06-23T12:00:00.000Z',
     author: 'Studio37',

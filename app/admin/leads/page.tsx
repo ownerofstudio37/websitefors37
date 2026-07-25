@@ -383,6 +383,26 @@ export default function LeadsPage() {
 
   const selectedLeads = leads.filter((lead) => selectedLeadIds.has(lead.id))
   const selectedCount = selectedLeadIds.size
+  const selectedRecordsAreVisible = selectedCount > 0 && selectedCount === selectedLeads.length
+  const isObviousTestLead = (lead: Lead) => {
+    const text = `${lead.name || ''} ${lead.email || ''} ${lead.message || ''} ${lead.source || ''} ${(lead.tags || []).join(' ')}`.toLowerCase()
+    return /test|demo|fake|sample|asdf|delete me|cleanup/.test(text)
+  }
+  const canHardDeleteSelected = selectedRecordsAreVisible && selectedLeads.every(isObviousTestLead)
+
+  const logBulkAction = async (leadIds: string[], content: string, metadata: Record<string, any>) => {
+    if (leadIds.length === 0) return
+    await supabase.from('communication_logs').insert(
+      leadIds.map((id) => ({
+        lead_id: id,
+        type: 'note',
+        content,
+        direction: 'outbound',
+        created_by: 'admin',
+        metadata,
+      }))
+    )
+  }
 
   const updateBulkStatus = async () => {
     if (!bulkStatus || selectedCount === 0) return
@@ -391,6 +411,7 @@ export default function LeadsPage() {
       const ids = Array.from(selectedLeadIds)
       const { error } = await supabase.from('leads').update({ status: bulkStatus }).in('id', ids)
       if (error) throw error
+      await logBulkAction(ids, `Bulk status changed to ${bulkStatus}.`, { action: 'bulk_status_update', status: bulkStatus })
       setLeads(prev => prev.map(lead => selectedLeadIds.has(lead.id) ? { ...lead, status: bulkStatus } : lead))
       setToast(`Updated ${ids.length} lead status${ids.length === 1 ? '' : 'es'}`)
     } catch (error) {
@@ -417,6 +438,7 @@ export default function LeadsPage() {
         if (error) throw error
       }
 
+      await logBulkAction(ids, `Bulk tag added: ${tag}.`, { action: 'bulk_tag_add', tag })
       setLeads(prev => prev.map(lead => selectedLeadIds.has(lead.id) ? { ...lead, tags: Array.from(new Set([...(lead.tags || []), tag])) } : lead))
       setBulkTag('')
       setToast(`Tagged ${ids.length} lead${ids.length === 1 ? '' : 's'} with "${tag}"`)
@@ -446,6 +468,7 @@ export default function LeadsPage() {
       setEditorMode('simple')
       setComposeResult(null)
       setShowComposeModal(true)
+      await logBulkAction(Array.from(selectedLeadIds), 'Bulk email draft prepared.', { action: 'bulk_email_draft', recipient_count: recipients.length })
     } catch (error) {
       console.error('Bulk email failed:', error)
       setToast('Failed to prepare bulk email')
@@ -456,6 +479,11 @@ export default function LeadsPage() {
 
   const deleteSelectedLeads = async () => {
     if (selectedCount === 0) return
+    if (!canHardDeleteSelected) {
+      setToast('Hard delete is only enabled for visible obvious test records. Archive real leads instead.')
+      setConfirmBulkDelete(false)
+      return
+    }
     setBulkActionLoading(true)
     try {
       const ids = Array.from(selectedLeadIds)
@@ -470,6 +498,26 @@ export default function LeadsPage() {
     } catch (error) {
       console.error('Bulk delete failed:', error)
       setToast('Failed to delete selected leads')
+    } finally {
+      setBulkActionLoading(false)
+    }
+  }
+
+  const archiveSelectedLeads = async () => {
+    if (selectedCount === 0) return
+    setBulkActionLoading(true)
+    try {
+      const ids = Array.from(selectedLeadIds)
+      const { error } = await supabase.from('leads').update({ status: 'lost' }).in('id', ids)
+      if (error) throw error
+      await logBulkAction(ids, 'Bulk archived: status changed to lost instead of hard delete.', { action: 'bulk_archive', status: 'lost' })
+      setLeads(prev => prev.map(lead => selectedLeadIds.has(lead.id) ? { ...lead, status: 'lost' } : lead))
+      clearSelectedLeads()
+      setToast(`Archived ${ids.length} lead${ids.length === 1 ? '' : 's'}`)
+      await fetchLeads()
+    } catch (error) {
+      console.error('Bulk archive failed:', error)
+      setToast('Failed to archive selected leads')
     } finally {
       setBulkActionLoading(false)
     }
@@ -1054,10 +1102,13 @@ Studio37`)
   }).length
 
   return (
-    <div className="p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-xl font-semibold">Lead Management</h1>
-        <div className="flex flex-col md:flex-row md:items-center gap-2 w-full md:w-auto md:gap-2">
+    <div className="p-3 sm:p-6">
+      <div className="mb-6 flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
+        <div>
+          <h1 className="text-xl font-semibold">Lead Management</h1>
+          <p className="mt-1 text-sm text-gray-600">Search first, then select visible or matching leads for safe bulk actions.</p>
+        </div>
+        <div className="flex w-full flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center xl:w-auto">
           <div className="relative w-full md:w-64">
             <input
               value={q}
@@ -1084,10 +1135,11 @@ Studio37`)
             <option value="contacted">Contacted</option>
             <option value="qualified">Qualified</option>
             <option value="converted">Converted</option>
+            <option value="lost">Lost / Archived</option>
           </select>
           <button
             onClick={fetchLeads}
-            className="px-3 py-2 border rounded-lg hover:bg-gray-50"
+            className="inline-flex items-center justify-center px-3 py-2 border rounded-lg hover:bg-gray-50"
             title="Refresh leads"
           >
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -1258,8 +1310,16 @@ Studio37`)
                   Email
                 </button>
                 <button
-                  onClick={() => setConfirmBulkDelete(true)}
+                  onClick={archiveSelectedLeads}
                   disabled={bulkActionLoading}
+                  className="inline-flex items-center gap-1 rounded-lg border border-indigo-200 bg-white px-3 py-2 text-sm font-medium text-indigo-700 hover:bg-indigo-100 disabled:opacity-50"
+                >
+                  Archive
+                </button>
+                <button
+                  onClick={() => setConfirmBulkDelete(true)}
+                  disabled={bulkActionLoading || !canHardDeleteSelected}
+                  title={canHardDeleteSelected ? 'Delete selected obvious test records' : 'Archive real leads; hard delete is only for visible obvious test records'}
                   className="inline-flex items-center gap-1 rounded-lg bg-red-600 px-3 py-2 text-sm font-medium text-white hover:bg-red-700 disabled:opacity-50"
                 >
                   <Trash2 className="h-4 w-4" />
@@ -2504,7 +2564,7 @@ Studio37`)
       <AdminConfirmDialog
         open={confirmBulkDelete}
         title={`Delete ${selectedCount} selected lead${selectedCount === 1 ? '' : 's'}?`}
-        message="This permanently removes the selected lead records. Use search and filters first when cleaning up test leads so only the intended group is selected."
+        message="This permanently removes obvious test records only. For real leads, use Archive so the timeline and history stay recoverable."
         confirmLabel={bulkActionLoading ? 'Deleting...' : 'Delete Selected'}
         danger
         onCancel={() => setConfirmBulkDelete(false)}

@@ -19,9 +19,28 @@ const VitalsSchema = z.object({
   ts: z.number().optional(),
 })
 
+function shouldSkipVitalsWrite(req: NextRequest, ip: string) {
+  const userAgent = req.headers.get('user-agent') || ''
+  const origin = req.headers.get('origin') || req.headers.get('referer') || ''
+  return (
+    process.env.NODE_ENV === 'test' ||
+    process.env.PLAYWRIGHT === '1' ||
+    process.env.NEXT_PUBLIC_DISABLE_VITALS === '1' ||
+    req.nextUrl.hostname === 'localhost' ||
+    req.nextUrl.hostname === '127.0.0.1' ||
+    /localhost|127\.0\.0\.1/.test(origin) ||
+    /127\.0\.0\.1|::1/.test(ip) ||
+    /Playwright|HeadlessChrome/i.test(userAgent)
+  )
+}
+
 export async function POST(req: NextRequest) {
   try {
     const ip = getClientIp(req.headers)
+    if (shouldSkipVitalsWrite(req, ip)) {
+      return NextResponse.json({ ok: true, skipped: true })
+    }
+
     const rl = rateLimit(`vitals:${ip}`, { limit: 30, windowMs: 60 * 1000 })
     if (!rl.allowed) {
       const retryAfter = Math.max(1, Math.ceil((rl.resetAt - Date.now()) / 1000))

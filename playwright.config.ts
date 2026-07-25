@@ -31,6 +31,7 @@ export default defineConfig({
   webServer: {
     command: 'npm start',
     url: baseURL,
+    env: { ...process.env, PLAYWRIGHT: '1', NEXT_PUBLIC_DISABLE_VITALS: '1' },
     reuseExistingServer: true,
     timeout: 120_000,
   },

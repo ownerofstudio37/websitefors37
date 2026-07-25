@@ -95,6 +95,10 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
   }
 
   const articlePost = post || staticPost!
+  const featuredImagePosition =
+    typeof (articlePost as any).featured_image_position === 'string'
+      ? (articlePost as any).featured_image_position
+      : '50% 40%'
   
   // Get related posts using same admin client
   const { data: relatedPosts } = await supabase
@@ -184,7 +188,11 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
               src={articlePost.featured_image}
               alt={articlePost.title}
               fill
-              className="rounded-lg object-cover object-[50%_38%]"
+              sizes="(max-width: 768px) 100vw, 1200px"
+              priority
+              quality={88}
+              className="rounded-lg object-cover"
+              style={{ objectPosition: featuredImagePosition }}
             />
           </div>
         </div>

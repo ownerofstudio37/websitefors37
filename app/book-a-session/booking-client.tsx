@@ -646,10 +646,10 @@ export default function BookSessionPage() {
         <div className="text-center mb-8">
           <h1 className="text-5xl font-bold mb-3 text-white drop-shadow-lg">Book Your Session</h1>
           <p className="text-xl text-gray-100 max-w-2xl mx-auto drop-shadow">
-            Choose from a free consultation, our curated packages, or build your own custom session. We'll find the perfect time that works for you.
+            Choose a free planning call, a package starting point, or a custom session request. We will confirm the right next step before anything feels locked in.
           </p>
           <p className="mx-auto mt-4 max-w-2xl rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm text-stone-100 backdrop-blur">
-            Unsure what to choose? Select Free Consultation and we will recommend the right package before you commit.
+            Consultation = guidance first. Session/package booking = you already know the coverage direction and want us to confirm timing, availability, and details.
           </p>
           <div className="mx-auto mt-5 grid max-w-3xl gap-3 text-left text-sm text-white sm:grid-cols-3">
             {[
@@ -734,7 +734,7 @@ export default function BookSessionPage() {
                       />
                       <div className="flex-1">
                         <div className="font-semibold text-lg">Free Consultation</div>
-                        <div className="text-sm text-gray-600 mt-1">Best if you want guidance before choosing a package</div>
+                        <div className="text-sm text-gray-600 mt-1">Best if you want guidance before choosing or paying for a package</div>
                         <div className="text-primary-600 font-medium mt-2">Free</div>
                       </div>
                     </div>
