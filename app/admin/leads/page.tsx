@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react'
 import { useSearchParams } from 'next/navigation'
-import { Mail, Phone, MessageCircle, Edit, Settings, Calendar, DollarSign, MessageSquare, X, Plus, PhoneCall, Trash2, ChevronLeft, ChevronRight, Upload, Scan, Download, CreditCard, FileText, Image, Paperclip, Star } from 'lucide-react'
+import { Mail, Phone, MessageCircle, Edit, Settings, Calendar, DollarSign, MessageSquare, X, Plus, PhoneCall, Trash2, ChevronLeft, ChevronRight, Upload, Scan, Download, CreditCard, FileText, Image, Paperclip, Star, CopyCheck } from 'lucide-react'
 import { CheckCircle } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
 import type { Lead, CommunicationLog } from '@/lib/supabase'
@@ -14,7 +14,7 @@ import AdminToast from '@/components/admin/AdminToast'
 import AdminConfirmDialog from '@/components/admin/AdminConfirmDialog'
 import AdminState from '@/components/admin/AdminState'
 
-type SavedLeadViewId = 'all' | 'test' | 'portfolio' | 'hot' | 'follow-up' | 'missing-phone' | 'new-wedding'
+type SavedLeadViewId = 'all' | 'test' | 'portfolio' | 'hot' | 'follow-up' | 'missing-phone' | 'new-wedding' | 'duplicates'
 
 const savedLeadViews: Array<{ id: SavedLeadViewId; label: string; status: string; query: string }> = [
   { id: 'all', label: 'All Leads', status: 'all', query: '' },
@@ -24,7 +24,74 @@ const savedLeadViews: Array<{ id: SavedLeadViewId; label: string; status: string
   { id: 'follow-up', label: 'Needs Follow-up', status: 'all', query: '' },
   { id: 'missing-phone', label: 'Missing Phone', status: 'all', query: '' },
   { id: 'new-wedding', label: 'New Wedding Leads', status: 'new', query: 'wedding' },
+  { id: 'duplicates', label: 'Likely Duplicates', status: 'all', query: '' },
 ]
+
+type DuplicateLeadGroup = {
+  key: string
+  reason: string
+  leads: Lead[]
+  primaryId: string
+}
+
+const normalizeLeadText = (value?: string | null) => (value || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim()
+const normalizeLeadEmail = (value?: string | null) => (value || '').toLowerCase().trim()
+const normalizeLeadPhone = (value?: string | null) => (value || '').replace(/\D/g, '').slice(-10)
+
+const duplicateStatusRank: Record<string, number> = {
+  converted: 5,
+  qualified: 4,
+  contacted: 3,
+  new: 2,
+  lost: 1,
+}
+
+const pickPrimaryDuplicateLead = (rows: Lead[]) => {
+  return [...rows].sort((a, b) => {
+    const statusDelta = (duplicateStatusRank[b.status] || 0) - (duplicateStatusRank[a.status] || 0)
+    if (statusDelta !== 0) return statusDelta
+    return new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+  })[0]
+}
+
+const buildDuplicateLeadGroups = (rows: Lead[]): DuplicateLeadGroup[] => {
+  const buckets = new Map<string, { reason: string; leads: Lead[] }>()
+  const add = (key: string, reason: string, lead: Lead) => {
+    if (!key) return
+    const existing = buckets.get(key) || { reason, leads: [] }
+    existing.leads.push(lead)
+    buckets.set(key, existing)
+  }
+
+  rows.forEach((lead) => {
+    const email = normalizeLeadEmail(lead.email)
+    const phone = normalizeLeadPhone(lead.phone)
+    const name = normalizeLeadText(lead.name)
+    const service = normalizeLeadText(lead.service_interest).split(' ')[0] || 'general'
+    if (email) add(`email:${email}`, 'Same email address', lead)
+    if (phone.length >= 10) add(`phone:${phone}`, 'Same phone number', lead)
+    if (name.length >= 6) add(`name-service:${name}:${service}`, 'Same name and service type', lead)
+  })
+
+  const seen = new Set<string>()
+  return Array.from(buckets.entries())
+    .filter(([, bucket]) => bucket.leads.length > 1)
+    .map(([key, bucket]) => {
+      const uniqueLeads = Array.from(new Map(bucket.leads.map((lead) => [lead.id, lead])).values())
+      const signature = uniqueLeads.map((lead) => lead.id).sort().join('|')
+      if (seen.has(signature)) return null
+      seen.add(signature)
+      const primary = pickPrimaryDuplicateLead(uniqueLeads)
+      return {
+        key,
+        reason: bucket.reason,
+        leads: uniqueLeads.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()),
+        primaryId: primary?.id || uniqueLeads[0]?.id || '',
+      }
+    })
+    .filter((group): group is DuplicateLeadGroup => Boolean(group))
+    .sort((a, b) => b.leads.length - a.leads.length)
+}
 
 export default function LeadsPage() {
   const searchParams = useSearchParams()
@@ -89,6 +156,7 @@ export default function LeadsPage() {
   const [bulkOwner, setBulkOwner] = useState('')
   const [bulkActionLoading, setBulkActionLoading] = useState(false)
   const [confirmBulkDelete, setConfirmBulkDelete] = useState(false)
+  const [duplicateGroups, setDuplicateGroups] = useState<DuplicateLeadGroup[]>([])
 
   type NewLeadForm = {
     name: string
@@ -119,10 +187,52 @@ export default function LeadsPage() {
   const [pageCount, setPageCount] = useState(0)
   const itemsPerPage = 20
 
+  const filterDuplicateRowsLocally = useCallback((rows: Lead[]) => {
+    let nextRows = rows
+    if (filter !== 'all') {
+      nextRows = nextRows.filter((lead) => lead.status === filter)
+    }
+    const trimmed = q.trim().toLowerCase()
+    if (trimmed) {
+      nextRows = nextRows.filter((lead) => {
+        const haystack = `${lead.name || ''} ${lead.email || ''} ${lead.phone || ''} ${lead.message || ''} ${lead.notes || ''}`.toLowerCase()
+        return haystack.includes(trimmed)
+      })
+    }
+    return nextRows
+  }, [filter, q])
+
+  const fetchDuplicateLeadRows = useCallback(async () => {
+    const { data, error } = await supabase
+      .from('leads')
+      .select('*')
+      .order('created_at', { ascending: false })
+      .limit(1000)
+
+    if (error) throw error
+    const groups = buildDuplicateLeadGroups(data || [])
+    const duplicateIds = new Set(groups.flatMap((group) => group.leads.map((lead) => lead.id)))
+    const rows = filterDuplicateRowsLocally((data || []).filter((lead) => duplicateIds.has(lead.id)))
+    return { rows, groups }
+  }, [filterDuplicateRowsLocally])
+
   const fetchLeads = useCallback(async () => {
     try {
       setError(null)
       setLoading(true)
+
+      if (savedView === 'duplicates') {
+        const { rows, groups } = await fetchDuplicateLeadRows()
+        const from = (currentPage - 1) * itemsPerPage
+        const to = from + itemsPerPage
+        const visibleRows = rows.slice(from, to)
+        setDuplicateGroups(groups)
+        setLeads(visibleRows)
+        setTotalCount(rows.length)
+        setPageCount(Math.ceil(rows.length / itemsPerPage))
+        setSelectedLeadIds((prev) => new Set(Array.from(prev).filter((id) => visibleRows.some((lead) => lead.id === id))))
+        return
+      }
       
       // Build query
       let query = supabase
@@ -166,6 +276,7 @@ export default function LeadsPage() {
       setLeads(data || [])
       setTotalCount(count || 0)
       setPageCount(Math.ceil((count || 0) / itemsPerPage))
+      setDuplicateGroups([])
       setSelectedLeadIds((prev) => new Set(Array.from(prev).filter((id) => (data || []).some((lead) => lead.id === id))))
     } catch (error: any) {
       console.error('Error fetching leads:', error)
@@ -173,7 +284,7 @@ export default function LeadsPage() {
     } finally {
       setLoading(false)
     }
-  }, [currentPage, filter, q, savedView])
+  }, [currentPage, fetchDuplicateLeadRows, filter, q, savedView])
 
   useEffect(() => {
     fetchLeads()
@@ -350,6 +461,10 @@ export default function LeadsPage() {
   }
 
   const fetchMatchingLeadIds = async () => {
+    if (savedView === 'duplicates') {
+      const { groups } = await fetchDuplicateLeadRows()
+      return Array.from(new Set(groups.flatMap((group) => group.leads.filter((lead) => lead.id !== group.primaryId).map((lead) => lead.id))))
+    }
     let query = supabase.from('leads').select('id')
     query = applyLeadFilters(query)
     const { data, error } = await query
@@ -557,6 +672,45 @@ export default function LeadsPage() {
     } finally {
       setBulkActionLoading(false)
     }
+  }
+
+  const markSelectedDuplicateReview = async () => {
+    if (selectedCount === 0) return
+    setBulkActionLoading(true)
+    try {
+      const ids = Array.from(selectedLeadIds)
+      const { data, error: fetchError } = await supabase.from('leads').select('id,tags').in('id', ids)
+      if (fetchError) throw fetchError
+
+      for (const lead of data || []) {
+        const tags = Array.isArray(lead.tags) ? lead.tags : []
+        const nextTags = Array.from(new Set([...tags, 'duplicate-review']))
+        const { error } = await supabase.from('leads').update({ tags: nextTags }).eq('id', lead.id)
+        if (error) throw error
+      }
+
+      await logBulkAction(ids, 'Marked for duplicate review.', { action: 'duplicate_review_tag', tag: 'duplicate-review' })
+      setLeads(prev => prev.map(lead => selectedLeadIds.has(lead.id) ? { ...lead, tags: Array.from(new Set([...(lead.tags || []), 'duplicate-review'])) } : lead))
+      setToast(`Marked ${ids.length} lead${ids.length === 1 ? '' : 's'} for duplicate review`)
+      await fetchLeads()
+    } catch (error) {
+      console.error('Duplicate review tag failed:', error)
+      setToast('Failed to mark duplicate review')
+    } finally {
+      setBulkActionLoading(false)
+    }
+  }
+
+  const selectDuplicateReviewIds = (group: DuplicateLeadGroup) => {
+    const ids = group.leads.filter((lead) => lead.id !== group.primaryId).map((lead) => lead.id)
+    setSelectedLeadIds(new Set(ids))
+    setToast(`Selected ${ids.length} likely duplicate${ids.length === 1 ? '' : 's'}; review, then archive or tag.`)
+  }
+
+  const selectAllDuplicateReviewIds = () => {
+    const ids = Array.from(new Set(duplicateGroups.flatMap((group) => group.leads.filter((lead) => lead.id !== group.primaryId).map((lead) => lead.id))))
+    setSelectedLeadIds(new Set(ids))
+    setToast(`Selected ${ids.length} older duplicate candidate${ids.length === 1 ? '' : 's'}; review before archiving.`)
   }
 
   const deleteLead = async (id: string) => {
@@ -1176,6 +1330,9 @@ Studio37`)
         const { data, error } = await supabase.from('leads').select('*').in('id', ids)
         if (error) throw error
         exportRows = data || []
+      } else if (savedView === 'duplicates') {
+        const { rows } = await fetchDuplicateLeadRows()
+        exportRows = rows
       } else if (hasActiveLeadFilters || savedView !== 'all') {
         let query = supabase.from('leads').select('*').order('created_at', { ascending: false })
         query = applyLeadFilters(query)
@@ -1230,7 +1387,7 @@ Studio37`)
             <input
               value={q}
               onChange={(e) => {
-                setSavedView('all')
+                if (savedView !== 'duplicates') setSavedView('all')
                 setQ(e.target.value)
               }}
               placeholder="Search name, email, phone..."
@@ -1334,6 +1491,65 @@ Studio37`)
           ))}
         </div>
       </div>
+
+      {savedView === 'duplicates' && (
+        <div className="mb-6 rounded-lg border border-orange-200 bg-orange-50 p-4 shadow-sm">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <h2 className="text-sm font-semibold text-orange-950">Likely duplicate cleanup</h2>
+              <p className="text-xs text-orange-800">
+                Matches are grouped by same email, same phone, or same name plus service. Keep the strongest/newest record, then select older records to archive or tag.
+              </p>
+            </div>
+            <button
+              onClick={selectAllDuplicateReviewIds}
+              disabled={duplicateGroups.length === 0 || bulkActionLoading}
+              className="rounded-lg border border-orange-300 bg-white px-3 py-2 text-xs font-semibold text-orange-900 hover:bg-orange-100 disabled:opacity-50"
+            >
+              Select older duplicate records
+            </button>
+          </div>
+          {duplicateGroups.length > 0 ? (
+            <div className="mt-3 grid gap-3 lg:grid-cols-2">
+              {duplicateGroups.slice(0, 6).map((group) => {
+                const primary = group.leads.find((lead) => lead.id === group.primaryId) || group.leads[0]
+                return (
+                  <div key={group.key} className="rounded-lg border border-orange-200 bg-white p-3">
+                    <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+                      <div>
+                        <p className="text-sm font-semibold text-gray-900">{group.reason}</p>
+                        <p className="text-xs text-gray-600">
+                          Keep: {primary?.name || 'Newest lead'} · {primary?.email || primary?.phone || 'No contact detail'}
+                        </p>
+                      </div>
+                      <button
+                        onClick={() => selectDuplicateReviewIds(group)}
+                        className="rounded-lg bg-orange-600 px-3 py-2 text-xs font-semibold text-white hover:bg-orange-700"
+                      >
+                        Select older records
+                      </button>
+                    </div>
+                    <div className="mt-3 space-y-1">
+                      {group.leads.map((lead) => (
+                        <div key={lead.id} className="flex items-center justify-between gap-2 rounded-md bg-gray-50 px-2 py-1.5 text-xs">
+                          <span className="min-w-0 truncate">
+                            {lead.id === group.primaryId ? 'Keep' : 'Review'} · {lead.name} · {new Date(lead.created_at).toLocaleDateString()}
+                          </span>
+                          <button onClick={() => viewLeadDetails(lead)} className="font-semibold text-primary-700 hover:text-primary-900">
+                            Open
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          ) : (
+            <p className="mt-3 text-sm text-orange-800">No likely duplicate groups found in the latest 1,000 leads.</p>
+          )}
+        </div>
+      )}
 
       {toast && (
         <AdminToast message={toast} onClose={() => setToast(null)} />
@@ -1473,6 +1689,14 @@ Studio37`)
                   Email
                 </button>
                 <button
+                  onClick={markSelectedDuplicateReview}
+                  disabled={bulkActionLoading}
+                  className="inline-flex items-center gap-1 rounded-lg border border-indigo-200 bg-white px-3 py-2 text-sm font-medium text-indigo-700 hover:bg-indigo-100 disabled:opacity-50"
+                >
+                  <CopyCheck className="h-4 w-4" />
+                  Duplicate Review
+                </button>
+                <button
                   onClick={archiveSelectedLeads}
                   disabled={bulkActionLoading}
                   className="inline-flex items-center gap-1 rounded-lg border border-indigo-200 bg-white px-3 py-2 text-sm font-medium text-indigo-700 hover:bg-indigo-100 disabled:opacity-50"
@@ -1572,6 +1796,7 @@ Studio37`)
             <div className="divide-y divide-gray-100 md:hidden">
               {leads.map((lead) => {
                 const source = getLeadSourceInsight(lead)
+                const duplicateGroup = duplicateGroups.find((group) => group.leads.some((item) => item.id === lead.id))
                 return (
                   <div key={`mobile-${lead.id}`} className="p-4">
                     <div className="flex items-start gap-3">
@@ -1597,6 +1822,11 @@ Studio37`)
                           <span className="rounded-full bg-gray-100 px-2 py-1 text-gray-700">{source.source}</span>
                           <span className="rounded-full bg-gray-100 px-2 py-1 text-gray-700">{getLeadOwner(lead)}</span>
                           <span className="rounded-full bg-gray-100 px-2 py-1 text-gray-700">{getPackageFit(lead).label}</span>
+                          {duplicateGroup && (
+                            <span className="rounded-full bg-orange-100 px-2 py-1 font-semibold text-orange-800">
+                              {lead.id === duplicateGroup.primaryId ? 'Likely original' : 'Possible duplicate'}
+                            </span>
+                          )}
                         </div>
                         <div className="mt-3 flex flex-wrap gap-2">
                           <button onClick={() => viewLeadDetails(lead)} className="rounded-lg bg-primary-600 px-3 py-2 text-xs font-semibold text-white">Open</button>
@@ -1653,6 +1883,7 @@ Studio37`)
               <tbody className="bg-white divide-y divide-gray-200">
                 {leads.map((lead) => {
                   const source = getLeadSourceInsight(lead)
+                  const duplicateGroup = duplicateGroups.find((group) => group.leads.some((item) => item.id === lead.id))
                   return (
                   <tr key={lead.id} className="hover:bg-gray-50">
                     <td className="px-4 py-4 align-top">
@@ -1674,6 +1905,11 @@ Studio37`)
                           Open lead link
                         </a>
                         <div className="mt-2 flex flex-wrap gap-1">
+                          {duplicateGroup && (
+                            <span className="rounded-full border border-orange-200 bg-orange-50 px-2 py-0.5 text-[11px] font-semibold text-orange-800">
+                              {lead.id === duplicateGroup.primaryId ? 'Likely original' : 'Possible duplicate'}
+                            </span>
+                          )}
                           {getLeadPriorityCues(lead).slice(0, 2).map((cue) => (
                             <span key={cue.label} className={`rounded-full border px-2 py-0.5 text-[11px] font-medium ${cue.tone}`}>
                               {cue.label}

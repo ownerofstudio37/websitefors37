@@ -66,7 +66,7 @@
 - [x] Bulk lead selection: add row checkboxes, select current page, and select all matching search/filter results so test leads can be grouped and cleaned up quickly.
 - [x] Bulk lead actions: support selected-lead status changes, tagging, email drafting, and confirmed deletion from `/admin/leads`.
 - [x] CRM saved views: add reusable views such as Test Leads, New Wedding Leads, Portfolio Requests, Needs Follow-up, Hot Leads, and Missing Phone.
-- [ ] Duplicate lead cleanup: detect likely duplicates by email, phone, and name so imports/chatbot/contact forms do not clutter the CRM.
+- [x] Duplicate lead cleanup: detect likely duplicates by email, phone, and name so imports/chatbot/contact forms do not clutter the CRM.
 - [x] Safer delete/archive workflow: add an Archive status or soft-delete option for real leads, while keeping hard delete available for obvious test records.
 - [x] Bulk timeline logging: when bulk status/tag/email actions run, write a short timeline entry so future-you knows why a group changed.
 - [x] Lead source quality dashboard: show source, UTM, landing page, and conversion quality directly in the lead table and analytics dashboard.
@@ -180,7 +180,7 @@
 - [x] Local page path QA: confirm local/service-area CTAs route to session booking, consultation, contact, package tools, and request portfolio with clear labels.
 - [x] Request-portfolio path QA: confirm success-state CTAs route to consultation and featured work with no ambiguity.
 - [x] Pricing/package tool path QA: confirm selected package context survives into `/book-a-session` and does not imply a final quote.
-- [ ] Live browser QA: click the full visitor paths on desktop and mobile once the local server is running.
+- [x] Live browser QA: click the full visitor paths on desktop and mobile once the local server is running.
 
 ### Next Admin Dash / Tools Roadmap
 
