@@ -222,11 +222,20 @@ test('mobile prelaunch UX surfaces render without overlap', async ({ page }, tes
 
 test('mobile conversion path remains visible across public pages', async ({ page }, testInfo) => {
   test.skip(!testInfo.project.name.includes('mobile'), 'mobile conversion QA only runs in the mobile project')
+  test.setTimeout(90000)
 
   const mobileRoutes = [
     { name: 'home', path: '/', expect: /real client proof|choose your path/i },
     { name: 'services', path: '/services', expect: /our photography services/i },
+    { name: 'wedding', path: '/services/wedding-photography', expect: /before you choose|wedding flow/i },
+    { name: 'portrait', path: '/services/portrait-photography', expect: /before you choose|portrait flow/i },
+    { name: 'engagement', path: '/services/engagement-session', expect: /before you choose|engagement flow/i },
+    { name: 'event', path: '/services/event-photography', expect: /before you choose|event flow/i },
+    { name: 'commercial', path: '/services/commercial-photography', expect: /before you choose|commercial flow/i },
+    { name: 'branding', path: '/services/branding-marketing', expect: /custom website builds|brand growth flow/i },
     { name: 'family', path: '/family-photography', expect: /family photography/i },
+    { name: 'blog', path: '/blog', expect: /studio37 journal|latest articles/i },
+    { name: 'pricing', path: '/tools/pricing', expect: /pricing|estimate/i },
     { name: 'booking', path: '/book-consultation', expect: /after you submit|book your free consultation/i },
     { name: 'portfolio-request', path: '/request-portfolio', expect: /proof matched|request private galleries/i },
     { name: 'local-pinehurst', path: '/local-photographer-pinehurst-tx', expect: /real studio37 planning proof|local confidence/i },
@@ -235,7 +244,21 @@ test('mobile conversion path remains visible across public pages', async ({ page
   for (const route of mobileRoutes) {
     await page.goto(route.path, { waitUntil: 'domcontentloaded' })
     await expect(page.locator('body')).toContainText(route.expect)
-    await expect(page.locator('a[href^="/book-consultation"]:visible, a[href^="/book-a-session"]:visible, a[href^="/request-portfolio"]:visible').first(), `${route.path} needs a visible conversion exit`).toBeVisible()
+    await expect(page.locator('a[href^="/book-consultation"]:visible, a[href^="/book-a-session"]:visible, a[href^="/request-portfolio"]:visible, a[href^="/tools/pricing"]:visible, a[href="https://gallery.studio37.cc"]:visible').first(), `${route.path} needs a visible conversion exit`).toBeVisible()
     await page.screenshot({ path: path.join(screenshotDir, `${testInfo.project.name}-conversion-${route.name}.png`), fullPage: true })
   }
+
+  await page.goto('/', { waitUntil: 'domcontentloaded' })
+  const quickActions = page.getByRole('navigation', { name: /quick actions/i })
+  await expect(quickActions).toBeVisible()
+  await expect(quickActions.locator('a[href="https://gallery.studio37.cc"]')).toBeVisible()
+
+  await page.waitForTimeout(3200)
+  await page.getByRole('button', { name: /open studio37 chat assistant/i }).click()
+  await page.getByPlaceholder(/type your message/i).fill('Wedding packages')
+  await page.locator('#chat-form button[type="submit"]').click()
+  await expect(page.getByText(/Wedding packages start at \$1,200/i)).toBeVisible()
+  await expect(page.getByText(/\$2,200/)).toBeVisible()
+  await expect(page.getByText(/\$3,200/)).toBeVisible()
+  await expect(page.getByText(/\$4,500/)).toBeVisible()
 })
