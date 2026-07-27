@@ -72,11 +72,11 @@ export const localTrustReviews = [
 ].filter(Boolean)
 
 export const curatedImageSlots = {
-  engagementHero: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1784790228/Emma_Nick_-1_1-2_emsgxw.jpg',
+  engagementHero: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1770033072/PS370397-1_ooxygn.jpg',
   proposalProof: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1784795585/Untitled-160_convert.io_c7oit0.jpg',
   portraitProof: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033088/PS379444_2_1_pge2hl.jpg',
   familyProof: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1784790718/Hotard_Family_Day_2_-_49_1_eernop.jpg',
-  commercialProof: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1784791658/VB_School_Chris_Faves_-_158_wlcspc.jpg',
+  commercialProof: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255706/PS373287_d7fl9k.jpg',
 }
 
 export const recentWorkItems = [
