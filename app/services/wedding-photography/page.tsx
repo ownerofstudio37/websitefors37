@@ -425,13 +425,13 @@ export default function WeddingPhotographyPage() {
 
           <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
             {[
-              ['Micro / Elopement proof', 'Request intimate galleries with small guest counts, short timelines, and chapel/backyard/courthouse coverage.'],
-              ['Essential proof', 'See six-hour examples that prioritize ceremony, family formals, couple portraits, and reception highlights.'],
-              ['Complete proof', 'Review eight-hour galleries with prep, ceremony, portraits, reception, and highlight delivery rhythm.'],
-              ['Premium proof', 'Ask for full-day examples with multiple locations, detailed prep, reception exits, and priority delivery.'],
+              ['Micro / Elopement fit', 'Best for small guest counts, short timelines, chapel/backyard/courthouse coverage, and a focused portrait window.'],
+              ['Essential fit', 'Best for six-hour days that prioritize ceremony, family formals, couple portraits, and reception highlights.'],
+              ['Complete fit', 'Best for eight-hour weddings with prep, ceremony, portraits, reception, and a comfortable delivery rhythm.'],
+              ['Premium fit', 'Best for full-day stories with multiple locations, detailed prep, reception exits, and priority delivery needs.'],
             ].map(([title, copy]) => (
               <div key={title} className="rounded-lg border border-stone-200 bg-white p-5">
-                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary-700">Gallery Proof</p>
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary-700">Package Fit</p>
                 <h3 className="mt-2 font-semibold text-stone-950">{title}</h3>
                 <p className="mt-2 text-sm leading-6 text-stone-600">{copy}</p>
               </div>
@@ -441,12 +441,12 @@ export default function WeddingPhotographyPage() {
           <div className="mt-10 grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
             <div className="surface-panel p-6">
               <p className="eyebrow mb-3">Before You Choose</p>
-              <h3 className="text-2xl font-bold text-stone-950">Want to see a full wedding gallery first?</h3>
+              <h3 className="text-2xl font-bold text-stone-950">Not sure how many hours you need?</h3>
               <p className="mt-3 text-sm leading-6 text-stone-600">
-                We keep full galleries private, but you can request examples matched to your venue style, timeline, lighting, or guest count before deciding.
+                Start with timeline fit: ceremony rules, family-list size, reception lighting, travel time, and whether you need prep or exit coverage.
               </p>
-              <Link href="/request-portfolio?service=wedding" className="btn-secondary mt-5 inline-flex items-center">
-                Request Wedding Galleries
+              <Link href="/tools/pricing?service=wedding" className="btn-secondary mt-5 inline-flex items-center">
+                Estimate Wedding Pricing
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </div>
@@ -603,10 +603,10 @@ export default function WeddingPhotographyPage() {
               Book Your Session
             </Link>
             <Link
-              href="/request-portfolio"
+              href="/tools/pricing?service=wedding"
               className="btn-ghost border-white/40 text-white hover:text-white"
             >
-              Request Wedding Galleries
+              Compare Wedding Pricing
             </Link>
           </div>
         </div>

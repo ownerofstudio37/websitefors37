@@ -25,14 +25,14 @@ const serviceIntent: Record<ServiceKey, {
   wedding: {
     label: 'Wedding Decision Board',
     intent: 'For couples who want the full day covered without missed transitions.',
-    proof: 'Ask for complete wedding galleries to review prep, ceremony, family formals, reception, and low-light consistency.',
+    proof: 'Look for coverage depth across prep, ceremony, family formals, reception, and low-light moments.',
     process: 'Timeline consultation, family-list planning, venue light review, two-photographer coverage, preview highlights, then full gallery delivery.',
     pricing: 'Best for weddings starting at $1,200, with larger collections built around hours, venues, and add-ons.',
     objection: 'Worried about chaos or missed moments? The two-photographer workflow covers parallel moments and backup angles.',
     primaryHref: '/book-consultation?service=wedding',
     primaryLabel: 'Plan Wedding Coverage',
-    secondaryHref: '/request-portfolio?service=wedding',
-    secondaryLabel: 'Request Wedding Galleries',
+    secondaryHref: '/tools/pricing?service=wedding',
+    secondaryLabel: 'Estimate Wedding Pricing',
   },
   portrait: {
     label: 'Portrait Decision Board',
@@ -49,7 +49,7 @@ const serviceIntent: Record<ServiceKey, {
   engagement: {
     label: 'Engagement Decision Board',
     intent: 'For couples who want save-the-date portraits, proposal coverage, or a more editorial engagement story.',
-    proof: 'Ask for engagement examples by location style, posing direction, privacy needs, and golden-hour planning.',
+    proof: 'Match the session style to your location, posing comfort, privacy needs, and golden-hour timing.',
     process: 'Pick session-only, proposal coverage, concierge planning, or photo/video, then map timing, location, and reveal flow.',
     pricing: 'Engagement sessions start at $450; proposal and concierge scopes are planned by call.',
     objection: 'Unsure if this is a simple session or a planned proposal? Start with the path cards and we will route you correctly.',
@@ -61,43 +61,43 @@ const serviceIntent: Record<ServiceKey, {
   concierge: {
     label: 'Concierge Decision Board',
     intent: 'For high-stakes proposals or engagement moments where timing, privacy, and setup matter.',
-    proof: 'Request examples that show reveal coverage, location planning, decor support, and post-proposal portraits.',
+    proof: 'Confirm the plan covers reveal timing, location privacy, decor support, and post-proposal portraits.',
     process: 'Planning call, location/privacy map, decor or vendor coordination, run-of-show, coverage, and gallery handoff.',
     pricing: 'Concierge services are custom quoted because location access, decor, video, and timing change the scope.',
     objection: 'Worried the surprise will feel stressful? The point is to make the logistics quiet and the moment calm.',
     primaryHref: '/book-consultation?service=concierge',
     primaryLabel: 'Book Concierge Call',
-    secondaryHref: '/request-portfolio?service=concierge',
-    secondaryLabel: 'Request Proposal Examples',
+    secondaryHref: '/services/engagement-session',
+    secondaryLabel: 'Compare Engagement Paths',
   },
   event: {
     label: 'Event Decision Board',
     intent: 'For event hosts who need guest, detail, speaker, sponsor, and candid coverage without interrupting the flow.',
-    proof: 'Ask for event examples that show crowd coverage, fast highlights, low-light work, and useful marketing images.',
+    proof: 'Confirm the coverage plan includes crowd coverage, fast highlights, low-light work, and useful recap images.',
     process: 'Review run-of-show, priority moments, VIPs, branding needs, coverage windows, highlight delivery, and full gallery delivery.',
     pricing: 'Event coverage starts at $600 and scales by hours, complexity, delivery speed, and usage needs.',
     objection: 'Concerned the event will move too fast? Two photographers create broader coverage without slowing guests down.',
     primaryHref: '/book-consultation?service=event',
     primaryLabel: 'Plan Event Coverage',
-    secondaryHref: '/request-portfolio?service=event',
-    secondaryLabel: 'Request Event Proof',
+    secondaryHref: '/tools/pricing?service=event',
+    secondaryLabel: 'Estimate Event Pricing',
   },
   commercial: {
     label: 'Commercial Decision Board',
     intent: 'For businesses that need practical image libraries for websites, ads, teams, products, and social content.',
-    proof: 'Request commercial samples by use case: team, product, workplace, campaign, web refresh, or launch.',
+    proof: 'Tie the shot list to the actual use case: team, product, workplace, campaign, web refresh, or launch.',
     process: 'Define usage, shot list, locations, licensing, delivery needs, and content priorities before shoot day.',
     pricing: 'Commercial sessions start at $500; usage, turnaround, and production complexity determine final scope.',
     objection: 'Not sure what to shoot? We plan around business outcomes, not just attractive images.',
     primaryHref: '/book-consultation?service=commercial',
     primaryLabel: 'Plan Commercial Shoot',
-    secondaryHref: '/request-portfolio?service=commercial',
-    secondaryLabel: 'Request Sample Set',
+    secondaryHref: '/tools/pricing?service=commercial',
+    secondaryLabel: 'Estimate Commercial Pricing',
   },
   branding: {
     label: 'Brand Growth Decision Board',
     intent: 'For businesses that need strategy, content, pages, SEO, ads, and social execution working together.',
-    proof: 'Review brand content examples and campaign assets by channel, offer, and buyer journey.',
+    proof: 'Clarify which assets need to support the offer, channel, buyer journey, and conversion path.',
     process: 'Map goals, audit the offer, plan content, build pages or campaigns, launch, measure, and iterate.',
     pricing: 'Branding and marketing scopes are custom because production, SEO, PPC, and management needs vary widely.',
     objection: 'If you need more than photos, this path connects visuals to measurable marketing execution.',
@@ -153,48 +153,9 @@ const serviceTone: Record<ServiceKey, { panel: string; eyebrow: string; border: 
   },
 }
 
-const serviceProofUpgrade: Record<ServiceKey, { before: string; proofPrompt: string; concern: string }> = {
-  wedding: {
-    before: 'Confirm ceremony rules, family-list size, reception lighting, timeline buffers, and whether you need engagement or rehearsal coverage.',
-    proofPrompt: 'Ask for complete galleries from weddings with similar guest count, venue light, ceremony format, and reception energy.',
-    concern: 'This helps you judge whether the package protects the parts of the day you would regret missing.',
-  },
-  portrait: {
-    before: 'Confirm who is being photographed, outfit count, location feel, kids or timing constraints, and how quickly you need the final gallery.',
-    proofPrompt: 'Ask for portrait examples with similar ages, wardrobe style, location type, skin tones, and posing comfort level.',
-    concern: 'This helps you see direction, expression variety, editing consistency, and whether the gallery feels natural.',
-  },
-  engagement: {
-    before: 'Confirm whether this is save-the-date coverage, a proposal reveal, editorial portraits, or a longer location story.',
-    proofPrompt: 'Ask for engagement examples by light, privacy needs, location variety, and how guided or editorial the session should feel.',
-    concern: 'This helps separate a simple session from a planned moment with timing, surprise, or family involvement.',
-  },
-  concierge: {
-    before: 'Confirm surprise timing, privacy risks, decor needs, vendor coordination, backup plan, and whether photo/video is included.',
-    proofPrompt: 'Ask for proposal examples that show reveal coverage, hidden angles, family handoff, and post-proposal portraits.',
-    concern: 'This reduces the stress of logistics so the actual moment can stay calm and personal.',
-  },
-  event: {
-    before: 'Confirm run-of-show, VIPs, sponsor needs, group-photo expectations, low-light conditions, and highlight delivery timing.',
-    proofPrompt: 'Ask for event galleries with similar crowd size, venue light, speaker moments, candid coverage, and marketing-image needs.',
-    concern: 'This helps prove the team can cover fast-moving rooms without slowing guests or missing parallel moments.',
-  },
-  commercial: {
-    before: 'Confirm image usage, launch deadlines, shot list, products or spaces, team availability, brand guidelines, and licensing needs.',
-    proofPrompt: 'Ask for business examples by website, product, team, workplace, campaign, social, or sales-collateral use case.',
-    concern: 'This keeps the session tied to business outcomes instead of producing random attractive images.',
-  },
-  branding: {
-    before: 'Confirm offer, audience, website needs, SEO/PPC goals, content gaps, lead flow, and how success will be measured.',
-    proofPrompt: 'Ask for website, content, and marketing examples matched to the type of business system you want to build.',
-    concern: 'This makes the work feel like a growth system, not disconnected design, copy, ads, and photo pieces.',
-  },
-}
-
 export default function ServiceIntentPanel({ service }: { service: ServiceKey }) {
   const item = serviceIntent[service]
   const tone = serviceTone[service]
-  const proofUpgrade = serviceProofUpgrade[service]
 
   return (
     <section className="border-y border-stone-200 bg-white">
@@ -225,29 +186,6 @@ export default function ServiceIntentPanel({ service }: { service: ServiceKey })
               <p className="mt-2 text-sm leading-6 text-stone-700">{copy}</p>
             </div>
           ))}
-          </div>
-          <div className="mt-5 rounded-xl border border-white/80 bg-white/75 p-4 shadow-sm md:p-5">
-            <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-              <div>
-                <p className={`text-xs font-bold uppercase tracking-[0.18em] ${tone.eyebrow}`}>Decision Proof</p>
-                <h3 className="mt-1 text-xl font-bold text-stone-950">Request examples that match the actual decision.</h3>
-              </div>
-              <Link href={`/request-portfolio?service=${service}`} className="text-sm font-semibold text-amber-800 hover:text-amber-950">
-                Request proof match <ArrowRight className="ml-1 inline h-4 w-4" aria-hidden="true" />
-              </Link>
-            </div>
-            <div className="grid gap-3 md:grid-cols-3">
-              {[
-                ['Before booking', proofUpgrade.before],
-                ['Private proof prompt', proofUpgrade.proofPrompt],
-                ['Risk reduced', proofUpgrade.concern],
-              ].map(([label, copy]) => (
-                <div key={label} className="rounded-lg border border-stone-200 bg-stone-50 p-4">
-                  <p className={`text-xs font-semibold uppercase tracking-[0.16em] ${tone.eyebrow}`}>{label}</p>
-                  <p className="mt-2 text-sm leading-6 text-stone-700">{copy}</p>
-                </div>
-              ))}
-            </div>
           </div>
           <div className="mt-5 flex flex-wrap gap-3">
             <Link href={item.primaryHref} className="btn-primary inline-flex items-center">
