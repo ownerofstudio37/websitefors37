@@ -63,6 +63,14 @@ export const studio37Reviews = [
   },
 ]
 
+export const localTrustReviews = [
+  studio37Reviews[3],
+  studio37Reviews[5],
+  studio37Reviews[7],
+  studio37Reviews[8],
+  studio37Reviews[9],
+].filter(Boolean)
+
 export const recentWorkItems = [
   {
     title: 'Golden-Hour Engagement Session',

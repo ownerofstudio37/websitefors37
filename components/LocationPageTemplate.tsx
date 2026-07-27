@@ -5,6 +5,7 @@ import { businessInfo } from '@/lib/seo-config'
 import { PortfolioProofSection, WhatHappensNextSection } from '@/components/PublicConversionSections'
 import ServiceAreaMarketModules from '@/components/ServiceAreaMarketModules'
 import { BestPhotoLocationsSection } from '@/components/PublicFeatureContent'
+import { localTrustReviews } from '@/lib/public-content'
 
 interface LocationPageTemplateProps {
   location: LocationPage
@@ -16,6 +17,9 @@ export default function LocationPageTemplate({ location, related }: LocationPage
   const venueExamples = location.nearbySpots.slice(0, 3)
   const primarySpot = location.nearbySpots[0] || `${location.city} area`
   const backupSpot = location.nearbySpots[1] || `${location.region} backup location`
+  const localReviewSeed = location.city.toLowerCase().split('').reduce((total, char) => total + char.charCodeAt(0), 0)
+  const localReviewStart = localReviewSeed % localTrustReviews.length
+  const localReviews = [0, 1].map((offset) => localTrustReviews[(localReviewStart + offset) % localTrustReviews.length])
   const localConfidence = [
     ['Best local fit', `${primarySpot} usually works well as a planning anchor for portraits, engagements, or venue-adjacent coverage in ${location.city}.`],
     ['Parking + walking', `We confirm parking, walking distance, shade, restroom access, and meeting-point clarity before recommending a final ${location.city} location.`],
@@ -246,6 +250,27 @@ export default function LocationPageTemplate({ location, related }: LocationPage
       )}
 
       <ServiceAreaMarketModules compact />
+      <section className="section-shell bg-stone-50">
+        <div className="container mx-auto px-4">
+          <div className="mb-7 max-w-3xl">
+            <p className="eyebrow mb-3">Local Client Proof</p>
+            <h2 className="text-3xl font-bold text-stone-950 md:text-4xl">Real review notes we bring into {location.city} planning</h2>
+            <p className="mt-3 text-stone-600">
+              These are real Studio37 review excerpts tied to the same priorities that matter locally: flexibility, direction, comfort, and finished-gallery confidence.
+            </p>
+          </div>
+          <div className="grid gap-4 md:grid-cols-2">
+            {localReviews.map((review) => (
+              <figure key={`${location.slug}-${review.name}`} className="rounded-lg border border-stone-200 bg-white p-5 shadow-sm">
+                <blockquote className="text-sm leading-6 text-stone-700">&quot;{review.quote}&quot;</blockquote>
+                <figcaption className="mt-4 text-sm text-stone-500">
+                  <span className="font-semibold text-stone-950">{review.name}</span> · {review.detail}
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+      </section>
       <BestPhotoLocationsSection slug={location.slug} city={location.city} />
       <PortfolioProofSection serviceName={`${location.city} photography`} />
       <WhatHappensNextSection serviceName={`${location.city} photography session`} />

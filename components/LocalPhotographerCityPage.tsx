@@ -6,6 +6,7 @@ import GoogleBusinessWidget from '@/components/GoogleBusinessWidget'
 import { generateEnhancedLocalBusinessSchema, generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
 import { generateFAQSchema } from '@/lib/seo-helpers'
 import { BestPhotoLocationsSection } from '@/components/PublicFeatureContent'
+import { localTrustReviews } from '@/lib/public-content'
 
 type LocalPhotographerCityPageProps = {
   city: string
@@ -301,6 +302,8 @@ export default function LocalPhotographerCityPage({
   const cityHash = cityKey.split('').reduce((total, char) => total + char.charCodeAt(0), 0)
   const proofStartIndex = cityHash % LOCAL_PROOF_IMAGES.length
   const localProofImages = [0, 1, 2].map((offset) => LOCAL_PROOF_IMAGES[(proofStartIndex + offset) % LOCAL_PROOF_IMAGES.length])
+  const localReviewStartIndex = cityHash % localTrustReviews.length
+  const localReviews = [0, 1].map((offset) => localTrustReviews[(localReviewStartIndex + offset) % localTrustReviews.length])
   const rotatedHeroImage = LOCAL_HERO_IMAGES[cityHash % LOCAL_HERO_IMAGES.length] || heroImage
   const topLocalBackdrops = cityProfile?.venueHighlights.slice(0, 2).join(' and ') || `${cityLabel} parks and local venues`
   const serviceIntentCards: ServiceIntent[] = [
@@ -487,6 +490,17 @@ export default function LocalPhotographerCityPage({
             <div>
               <GoogleBusinessWidget />
             </div>
+          </div>
+
+          <div className="mt-10 grid gap-4 md:grid-cols-2">
+            {localReviews.map((review) => (
+              <figure key={`${cityKey}-${review.name}`} className="rounded-xl border border-stone-200 bg-stone-50 p-5">
+                <blockquote className="text-sm leading-6 text-stone-700">&quot;{review.quote}&quot;</blockquote>
+                <figcaption className="mt-4 text-sm text-stone-500">
+                  <span className="font-semibold text-stone-950">{review.name}</span> · {review.detail}
+                </figcaption>
+              </figure>
+            ))}
           </div>
 
           <div className="mt-14">

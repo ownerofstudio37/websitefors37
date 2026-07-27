@@ -8,6 +8,7 @@ import { generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
 import ConciergeInquiryForm from '@/components/ConciergeInquiryForm'
 import { ServiceTestimonialsSection } from '@/components/PublicFeatureContent'
 import ServiceIntentPanel from '@/components/ServiceIntentPanel'
+import FAQSection from '@/components/FAQSection'
 
 export const metadata = generateSEOMetadata({
   title: 'Concierge Proposal and Engagement Services - Pinehurst, TX',
@@ -183,19 +184,7 @@ export default function ConciergeServicesPage() {
       </section>
 
       <ServiceTestimonialsSection service="concierge" />
-      <section className="section-shell bg-white">
-        <div className="container mx-auto max-w-4xl px-4">
-          <h2 className="mb-5 text-3xl font-bold text-stone-950">Concierge Proposal FAQ</h2>
-          <div className="space-y-3">
-            {conciergeFaqs.map((faq) => (
-              <details key={faq.question} className="rounded-lg border border-stone-200 bg-stone-50 p-4">
-                <summary className="cursor-pointer font-semibold text-stone-950">{faq.question}</summary>
-                <p className="mt-3 text-stone-700">{faq.answer}</p>
-              </details>
-            ))}
-          </div>
-        </div>
-      </section>
+      <FAQSection title="Concierge Proposal FAQ" faqs={conciergeFaqs} />
     </div>
   )
 }

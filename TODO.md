@@ -691,6 +691,15 @@ Audit notes: `npm run audit:seo-assets` passed across public metadata/source fil
 - [x] Strengthen portfolio-request flow copy so private complete galleries feel matched and intentional.
 - [x] Update stale lead-form social proof from 15 to 19 verified reviews.
 
+### Homepage, Services, Mobile, And Local Polish - July 27, 2026
+
+- [x] Reorder homepage flow into trust, decision framing, service fit, visual proof, real reviews, process, pricing direction, and conversion.
+- [x] Add a homepage narrative-flow strip so visitors understand whether to browse, price, request proof, or book.
+- [x] Add real review proof to local page templates so local SEO pages feel less templated.
+- [x] Ensure concierge service uses the shared FAQ component like the other main service pages.
+- [x] Add a public conversion-flow audit covering homepage order, service/sub-service consistency, local proof, and mobile QA coverage.
+- [x] Add and run a fresh mobile conversion QA path for homepage, services, family, booking, request portfolio, and Pinehurst local pages.
+
 ## Public Site Features
 
 - [x] Build an interactive package recommender that routes users to booking with a prefilled package/service.

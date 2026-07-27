@@ -61,6 +61,31 @@ export function RealReviewProofStrip() {
   )
 }
 
+export function HomepageNarrativeFlow() {
+  const steps = [
+    ['Start with the need', 'Choose the kind of shoot, or use the recommender if you are comparing options.'],
+    ['Check the proof', 'Review real work, real client notes, and the finished-gallery standard before you commit.'],
+    ['Confirm the plan', 'We map package fit, timing, location logistics, and delivery expectations before shoot day.'],
+    ['Book with context', 'Move into consultation, pricing, or private gallery examples with the right next step already clear.'],
+  ]
+
+  return (
+    <section className="border-b border-stone-200 bg-white">
+      <div className="container mx-auto px-4 py-8">
+        <div className="grid gap-3 md:grid-cols-4">
+          {steps.map(([title, copy], index) => (
+            <div key={title} className="rounded-lg border border-stone-200 bg-stone-50 p-4">
+              <p className="text-xs font-bold uppercase tracking-[0.18em] text-amber-800">Step {index + 1}</p>
+              <h2 className="mt-2 text-base font-semibold text-stone-950">{title}</h2>
+              <p className="mt-2 text-sm leading-6 text-stone-600">{copy}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
 export function WhatHappensNextSection({ serviceName = 'session' }: { serviceName?: string }) {
   const steps = [
     { title: 'Tell us the goal', description: 'Share the service, city, date, and must-have images so we can recommend the right path.' },

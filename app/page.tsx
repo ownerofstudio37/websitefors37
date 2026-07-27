@@ -5,7 +5,7 @@ import LeadCaptureForm from "@/components/LeadCaptureForm";
 import LocalBusinessSchema from "@/components/LocalBusinessSchema";
 import LazyMount from "@/components/LazyMount";
 import { PressCredentialsBlock } from "@/components/BuilderRuntime";
-import { PackageRecommenderCTA, RealReviewProofStrip, WhatHappensNextSection } from "@/components/PublicConversionSections";
+import { HomepageNarrativeFlow, PackageRecommenderCTA, PublicTrustStrip, RealReviewProofStrip, WhatHappensNextSection } from "@/components/PublicConversionSections";
 import CuratedRecentWork from "@/components/CuratedRecentWork";
 import { generateSEOMetadata } from "@/lib/seo-helpers";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
@@ -203,13 +203,16 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
         </div>
         <LocalBusinessSchema />
         <Hero />
+        <PublicTrustStrip />
+        <HomepageNarrativeFlow />
         <ChooseYourPathSection />
-        <PackageRecommenderCTA />
         <LazyMount minHeight={560}>
           <PortraitHighlightGallery />
         </LazyMount>
         <CuratedRecentWork />
         <RealReviewProofStrip />
+        <WhatHappensNextSection serviceName="photography session" />
+        <PackageRecommenderCTA />
         <LazyMount minHeight={720}>
           <Services />
         </LazyMount>
@@ -255,13 +258,16 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
     <>
       <LocalBusinessSchema />
       <Hero />
+      <PublicTrustStrip />
+      <HomepageNarrativeFlow />
       <ChooseYourPathSection />
-      <PackageRecommenderCTA />
       <LazyMount minHeight={560}>
         <PortraitHighlightGallery />
       </LazyMount>
       <CuratedRecentWork />
       <RealReviewProofStrip />
+      <WhatHappensNextSection serviceName="photography session" />
+      <PackageRecommenderCTA />
       <LazyMount minHeight={720}>
         <Services />
       </LazyMount>
@@ -289,7 +295,6 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
       <LazyMount minHeight={400}>
         <Testimonials />
       </LazyMount>
-      <WhatHappensNextSection serviceName="photography session" />
 
       {/* Press & Credentials Section */}
       <PressCredentialsBlock 

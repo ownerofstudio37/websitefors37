@@ -219,3 +219,23 @@ test('mobile prelaunch UX surfaces render without overlap', async ({ page }, tes
   await expect(page.getByText(/choose booking type/i)).toBeVisible()
   await page.screenshot({ path: path.join(screenshotDir, `${testInfo.project.name}-booking-cta.png`), fullPage: true })
 })
+
+test('mobile conversion path remains visible across public pages', async ({ page }, testInfo) => {
+  test.skip(!testInfo.project.name.includes('mobile'), 'mobile conversion QA only runs in the mobile project')
+
+  const mobileRoutes = [
+    { name: 'home', path: '/', expect: /real client proof|choose your path/i },
+    { name: 'services', path: '/services', expect: /our photography services/i },
+    { name: 'family', path: '/family-photography', expect: /family photography/i },
+    { name: 'booking', path: '/book-consultation', expect: /after you submit|book your free consultation/i },
+    { name: 'portfolio-request', path: '/request-portfolio', expect: /proof matched|request private galleries/i },
+    { name: 'local-pinehurst', path: '/local-photographer-pinehurst-tx', expect: /real studio37 planning proof|local confidence/i },
+  ]
+
+  for (const route of mobileRoutes) {
+    await page.goto(route.path, { waitUntil: 'domcontentloaded' })
+    await expect(page.locator('body')).toContainText(route.expect)
+    await expect(page.locator('a[href^="/book-consultation"]:visible, a[href^="/book-a-session"]:visible, a[href^="/request-portfolio"]:visible').first(), `${route.path} needs a visible conversion exit`).toBeVisible()
+    await page.screenshot({ path: path.join(screenshotDir, `${testInfo.project.name}-conversion-${route.name}.png`), fullPage: true })
+  }
+})
