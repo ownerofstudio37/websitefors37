@@ -69,8 +69,8 @@ export default function ServiceExpectationCards({ serviceName = 'photography' }:
   }
 
   return (
-    <section className="border-y border-stone-200 bg-white pb-24 md:pb-12">
-      <div className="container mx-auto px-4 py-10 md:py-12">
+    <section className="border-y border-stone-200 bg-white pb-20 md:pb-10">
+      <div className="container mx-auto px-4 py-9 md:py-10">
         <div className="grid gap-8 lg:grid-cols-[0.9fr_1.4fr] lg:items-start">
           <div className="max-w-xl">
             <p className="eyebrow mb-4">{copy.label}</p>
@@ -80,10 +80,10 @@ export default function ServiceExpectationCards({ serviceName = 'photography' }:
               Find your package <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
             </Link>
           </div>
-          <ol className="relative grid gap-4 md:grid-cols-4 md:gap-3">
+          <ol className="relative grid gap-3 md:grid-cols-4">
             <span className="absolute left-6 top-6 hidden h-px w-[calc(100%-3rem)] bg-stone-200 md:block" aria-hidden="true" />
             {expectations.map(({ title, icon: Icon, copy: stepCopy }, index) => (
-              <li key={title} className="relative rounded-lg border border-stone-200 bg-stone-50 p-4 shadow-sm">
+              <li key={title} className="relative rounded-lg border border-stone-200 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:border-amber-200">
                 <div className="mb-4 flex items-center justify-between">
                   <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-sm font-bold text-amber-800 ring-1 ring-stone-200">
                     {index + 1}

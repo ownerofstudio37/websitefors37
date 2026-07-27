@@ -142,15 +142,18 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
-      <div className="bg-gray-50 py-12">
+      <div className="border-b border-stone-200 bg-stone-50 py-10 md:py-12">
         <div className="container mx-auto px-4">
-          <Link href="/blog" className="inline-flex items-center text-primary-600 hover:text-primary-800 mb-6">
+          <Link href="/blog" className="mb-6 inline-flex items-center text-sm font-semibold text-primary-700 hover:text-primary-900">
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Back to Blog
+            Back to guides
           </Link>
-          <h1 className="text-4xl font-bold mb-4">{articlePost.title}</h1>
+          <div className="max-w-5xl">
+            <p className="eyebrow mb-4">Studio37 Journal</p>
+            <h1 className="text-4xl font-bold leading-tight text-stone-950 md:text-6xl">{articlePost.title}</h1>
+          </div>
           
-          <div className="flex flex-wrap items-center text-sm text-gray-600 mb-6">
+          <div className="mt-6 flex flex-wrap items-center text-sm text-stone-600">
             <div className="flex items-center mr-6 mb-2">
               <Calendar className="h-4 w-4 mr-1" />
               <span>
@@ -170,7 +173,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
                 {articlePost.tags.map((tag: string, index: number) => (
                   <span 
                     key={index} 
-                    className="text-xs bg-gray-200 px-2 py-1 rounded mr-2 mb-2"
+                    className="mb-2 mr-2 rounded-full bg-white px-3 py-1 text-xs font-medium text-stone-700 ring-1 ring-stone-200"
                   >
                     {tag}
                   </span>
@@ -182,8 +185,8 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
       </div>
 
       {articlePost.featured_image && (
-        <div className="container mx-auto px-4 py-6">
-          <div className="relative h-80 w-full sm:h-96 lg:h-[30rem] xl:h-[34rem]">
+        <div className="container mx-auto px-4 py-8">
+          <div className="relative h-80 w-full overflow-hidden rounded-lg border border-stone-200 bg-stone-100 shadow-sm sm:h-96 lg:h-[30rem] xl:h-[34rem]">
             <Image
               src={articlePost.featured_image}
               alt={articlePost.title}
@@ -191,7 +194,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
               sizes="(max-width: 768px) 100vw, 1200px"
               priority
               quality={88}
-              className="rounded-lg object-cover"
+              className="object-cover"
               style={{ objectPosition: featuredImagePosition }}
             />
           </div>
@@ -202,12 +205,12 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
         <div className="max-w-4xl mx-auto">
           <div className="w-full">
           {articlePost.excerpt && (
-            <div className="text-xl text-gray-600 mb-8 italic border-l-4 border-primary-500 pl-4 py-2">
+            <div className="mb-8 border-l-4 border-primary-500 bg-stone-50 py-4 pl-5 pr-4 text-xl italic leading-8 text-stone-600">
               {articlePost.excerpt}
             </div>
           )}
           
-          <article className="prose lg:prose-lg max-w-none">
+          <article className="prose max-w-none prose-stone lg:prose-lg prose-headings:text-stone-950 prose-a:text-primary-700">
             <MDXRemote 
               source={articlePost.content}
               options={{
@@ -223,19 +226,19 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
             <ComparePackagesCTA context="this session" />
           
             {((relatedPosts && relatedPosts.length > 0) || fallbackRelatedPosts.length > 0) && (
-              <div className="mt-16 pt-12 border-t">
-                <h3 className="text-2xl font-bold mb-6">Related Articles</h3>
-                <div className="grid md:grid-cols-3 gap-6">
+              <div className="mt-16 border-t border-stone-200 pt-12">
+                <h3 className="mb-6 text-2xl font-bold text-stone-950">Related Guides</h3>
+                <div className="grid gap-4 md:grid-cols-3">
                   {(relatedPosts && relatedPosts.length > 0 ? relatedPosts : fallbackRelatedPosts).map((relatedPost) => (
                     <Link 
                       key={relatedPost.slug}
                       href={`/blog/${relatedPost.slug}`}
-                      className="p-4 border rounded-lg hover:shadow-md transition-shadow"
+                      className="rounded-lg border border-stone-200 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
                     >
-                      <p className="text-sm text-gray-500 mb-2">
+                      <p className="mb-2 text-sm text-stone-500">
                         {new Date(relatedPost.published_at).toLocaleDateString()}
                       </p>
-                      <h4 className="font-bold hover:text-primary-600 transition-colors">
+                      <h4 className="font-bold text-stone-950 transition-colors hover:text-primary-700">
                         {relatedPost.title}
                       </h4>
                     </Link>
@@ -244,18 +247,18 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
               </div>
             )}
 
-            <section className="mt-16 pt-12 border-t border-gray-200">
-              <h3 className="text-2xl font-bold mb-4">Plan Your Session with Studio37</h3>
-              <p className="text-gray-600 mb-6">
+            <section className="mt-16 rounded-lg border border-stone-200 bg-stone-50 p-6 md:p-8">
+              <h3 className="mb-4 text-2xl font-bold text-stone-950">Plan Your Session with Studio37</h3>
+              <p className="mb-6 text-stone-600">
                 Compare services, check package fit, or request complete galleries when you&apos;re ready to see proof that matches your project.
               </p>
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                <Link href="/services/wedding-photography" className="px-4 py-3 rounded-lg border border-stone-300 hover:border-primary-400 hover:bg-primary-50 transition-colors">Wedding Photography</Link>
-                <Link href="/services/portrait-photography" className="px-4 py-3 rounded-lg border border-stone-300 hover:border-primary-400 hover:bg-primary-50 transition-colors">Portrait Sessions</Link>
-                <Link href="/services/event-photography" className="px-4 py-3 rounded-lg border border-stone-300 hover:border-primary-400 hover:bg-primary-50 transition-colors">Event Photography</Link>
-                <Link href="/tools/package-recommender" className="px-4 py-3 rounded-lg border border-stone-300 hover:border-primary-400 hover:bg-primary-50 transition-colors">Compare Packages</Link>
-                <Link href="/request-portfolio" className="px-4 py-3 rounded-lg border border-stone-300 hover:border-primary-400 hover:bg-primary-50 transition-colors">Request Complete Galleries</Link>
-                <Link href="/book-consultation" className="px-4 py-3 rounded-lg border border-primary-600 bg-primary-600 text-white hover:bg-primary-700 transition-colors">Book Consultation</Link>
+              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                <Link href="/services/wedding-photography" className="rounded-lg border border-stone-300 bg-white px-4 py-3 transition-colors hover:border-primary-400 hover:bg-primary-50">Wedding Photography</Link>
+                <Link href="/services/portrait-photography" className="rounded-lg border border-stone-300 bg-white px-4 py-3 transition-colors hover:border-primary-400 hover:bg-primary-50">Portrait Sessions</Link>
+                <Link href="/services/event-photography" className="rounded-lg border border-stone-300 bg-white px-4 py-3 transition-colors hover:border-primary-400 hover:bg-primary-50">Event Photography</Link>
+                <Link href="/tools/package-recommender" className="rounded-lg border border-stone-300 bg-white px-4 py-3 transition-colors hover:border-primary-400 hover:bg-primary-50">Compare Packages</Link>
+                <Link href="/request-portfolio" className="rounded-lg border border-stone-300 bg-white px-4 py-3 transition-colors hover:border-primary-400 hover:bg-primary-50">Request Complete Galleries</Link>
+                <Link href="/book-consultation" className="rounded-lg border border-primary-700 bg-primary-700 px-4 py-3 text-white transition-colors hover:bg-primary-800">Book Consultation</Link>
               </div>
             </section>
           </div>

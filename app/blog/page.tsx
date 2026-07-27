@@ -72,33 +72,35 @@ export default async function BlogPage() {
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-4xl text-center">
             <p className="eyebrow-hero mb-4">Studio37 Guides</p>
-            <h1 className="text-4xl font-bold leading-tight md:text-6xl">Plan better photos before you book.</h1>
+            <h1 className="text-4xl font-bold leading-tight md:text-6xl">Photography planning without the guesswork.</h1>
             <p className="mx-auto mt-5 max-w-3xl text-lg leading-8 text-stone-200">
-              Straightforward advice for choosing a service, preparing for your session, picking locations, and knowing what to expect from Studio37.
+              Clear Studio37 notes for comparing services, preparing well, choosing locations, and knowing what happens after you inquire.
             </p>
           </div>
         </div>
       </div>
 
       <div className="border-b border-stone-200 bg-white">
-        <div className="container mx-auto grid gap-3 px-4 py-5 text-sm font-semibold text-stone-700 md:grid-cols-5">
-          <Link href="/services/portrait-photography" className="rounded-lg bg-stone-50 px-4 py-3 transition hover:bg-amber-50 hover:text-amber-900">Portrait planning</Link>
-          <Link href="/services/wedding-photography" className="rounded-lg bg-stone-50 px-4 py-3 transition hover:bg-amber-50 hover:text-amber-900">Wedding planning</Link>
-          <Link href="/services/engagement-session" className="rounded-lg bg-stone-50 px-4 py-3 transition hover:bg-amber-50 hover:text-amber-900">Engagement prep</Link>
-          <Link href="/tools/package-recommender" className="rounded-lg bg-stone-50 px-4 py-3 transition hover:bg-amber-50 hover:text-amber-900">Choose a package</Link>
-          <Link href="/book-consultation" className="rounded-lg bg-stone-950 px-4 py-3 text-white transition hover:bg-amber-700">Book a consult</Link>
+        <div className="container mx-auto flex gap-2 overflow-x-auto px-4 py-4 text-sm font-semibold text-stone-700">
+          <Link href="/services/portrait-photography" className="whitespace-nowrap rounded-full bg-stone-50 px-4 py-2 transition hover:bg-amber-50 hover:text-amber-900">Portrait planning</Link>
+          <Link href="/services/wedding-photography" className="whitespace-nowrap rounded-full bg-stone-50 px-4 py-2 transition hover:bg-amber-50 hover:text-amber-900">Wedding planning</Link>
+          <Link href="/services/engagement-session" className="whitespace-nowrap rounded-full bg-stone-50 px-4 py-2 transition hover:bg-amber-50 hover:text-amber-900">Engagement prep</Link>
+          <Link href="/tools/package-recommender" className="whitespace-nowrap rounded-full bg-stone-50 px-4 py-2 transition hover:bg-amber-50 hover:text-amber-900">Choose a package</Link>
+          <Link href="/book-consultation" className="whitespace-nowrap rounded-full bg-stone-950 px-4 py-2 text-white transition hover:bg-amber-700">Book a consult</Link>
         </div>
       </div>
 
       <div className="section-shell bg-stone-50">
         <div className="container mx-auto px-4">
-          <div className="mb-10 max-w-3xl">
-            <p className="eyebrow mb-3">Latest Articles</p>
-            <h2 className="text-3xl font-bold text-stone-950 md:text-4xl">Guides for real shoots, not generic photo tips</h2>
-            <p className="mt-3 text-stone-600">
-              Start here if you want to know what to book, how we plan locations and light, what clients usually ask, and what happens after your inquiry.
-            </p>
-            <div className="mt-5 flex flex-wrap gap-2 text-sm font-semibold">
+          <div className="mb-8 grid gap-5 lg:grid-cols-[1fr_auto] lg:items-end">
+            <div className="max-w-3xl">
+              <p className="eyebrow mb-3">Latest Articles</p>
+              <h2 className="text-3xl font-bold text-stone-950 md:text-4xl">Guides for real shoots, not generic photo tips</h2>
+              <p className="mt-3 text-stone-600">
+                Start here if you want to know what to book, how we plan locations and light, what clients usually ask, and what happens after your inquiry.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2 text-sm font-semibold lg:justify-end">
               <Link href="/book-consultation" className="rounded-full bg-primary-700 px-4 py-2 text-white hover:bg-primary-800">Ready to talk</Link>
               <Link href="/services" className="rounded-full border border-stone-300 px-4 py-2 text-stone-800 hover:bg-stone-100">Compare services</Link>
               <Link href="/locations" className="rounded-full border border-stone-300 px-4 py-2 text-stone-800 hover:bg-stone-100">Browse local areas</Link>
@@ -116,8 +118,8 @@ export default async function BlogPage() {
           ) : (
             <>
             {featuredPost && (
-              <Link href={`/blog/${featuredPost.slug}`} className="group mb-10 grid overflow-hidden rounded-lg border border-stone-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl lg:grid-cols-[1.15fr_0.85fr]">
-                <div className="relative min-h-[260px] bg-gradient-to-br from-stone-100 via-amber-50 to-stone-200">
+              <Link href={`/blog/${featuredPost.slug}`} className="group mb-8 grid overflow-hidden rounded-lg border border-stone-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl lg:grid-cols-[1.05fr_0.95fr]">
+                <div className="relative min-h-[260px] bg-gradient-to-br from-stone-100 via-amber-50 to-stone-200 lg:min-h-[360px]">
                   {featuredPost.featured_image && isAllowedImageDomain(featuredPost.featured_image) ? (
                     <Image
                       src={featuredPost.featured_image}
@@ -135,20 +137,20 @@ export default async function BlogPage() {
                 </div>
                 <div className="flex flex-col justify-center p-6 md:p-8">
                   <p className="eyebrow mb-3">Featured Guide</p>
-                  <h2 className="text-3xl font-bold leading-tight text-stone-950 group-hover:text-primary-700">{featuredPost.title}</h2>
+                  <h2 className="text-3xl font-bold leading-tight text-stone-950 transition-colors group-hover:text-primary-700">{featuredPost.title}</h2>
                   {featuredPost.excerpt && <p className="mt-4 text-stone-600 leading-7">{featuredPost.excerpt}</p>}
-                  <span className="mt-6 text-sm font-semibold text-primary-700">Read the guide →</span>
+                  <span className="mt-6 text-sm font-semibold text-primary-700">Read the guide</span>
                 </div>
               </Link>
             )}
-            <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-8">
+            <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
                 {articlePosts.map((post: any) => {
                   const hasImage = post.featured_image && isAllowedImageDomain(post.featured_image)
                   return (
                     <Link
                       key={post.id}
                       href={`/blog/${post.slug}`}
-                      className="group flex h-full flex-col overflow-hidden rounded-lg border border-stone-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
+                      className="group flex h-full flex-col overflow-hidden rounded-lg border border-stone-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
                     >
                       <div className="relative aspect-[16/10] w-full overflow-hidden bg-gradient-to-br from-stone-100 via-amber-50 to-stone-200">
                         {hasImage ? (
@@ -167,7 +169,7 @@ export default async function BlogPage() {
                           </div>
                         )}
                       </div>
-                      <div className="flex flex-1 flex-col p-6">
+                      <div className="flex flex-1 flex-col p-5">
                         <h2 className="text-xl font-semibold text-stone-950 mb-2 group-hover:text-primary-700 transition-colors">
                           {post.title}
                         </h2>

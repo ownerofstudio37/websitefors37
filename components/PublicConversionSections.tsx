@@ -38,7 +38,7 @@ export function WhatHappensNextSection({ serviceName = 'session' }: { serviceNam
   ]
 
   return (
-    <section className="bg-stone-50 py-14 md:py-16">
+    <section className="bg-stone-50 py-12 md:py-14">
       <div className="container mx-auto px-4">
         <div className="mx-auto max-w-3xl text-center">
           <p className="eyebrow mb-3">What Happens Next</p>
@@ -47,10 +47,13 @@ export function WhatHappensNextSection({ serviceName = 'session' }: { serviceNam
             After you reach out, we turn your {serviceName.toLowerCase()} idea into a clear plan, then guide every step.
           </p>
         </div>
-        <div className="mt-10 grid gap-4 md:grid-cols-4">
+        <div className="mt-10 grid gap-3 md:grid-cols-4">
           {steps.map((step, index) => (
-            <div key={step.title} className="rounded-lg border border-stone-200 bg-white p-5">
-              <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-amber-100 text-sm font-bold text-amber-800">
+            <div key={step.title} className="relative rounded-lg border border-stone-200 bg-white p-5 shadow-sm">
+              {index < steps.length - 1 && (
+                <span className="absolute left-10 top-10 hidden h-px w-[calc(100%-1rem)] bg-stone-200 md:block" aria-hidden="true" />
+              )}
+              <div className="relative mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-amber-100 text-sm font-bold text-amber-800 ring-4 ring-white">
                 {index + 1}
               </div>
               <h3 className="font-semibold text-stone-950">{step.title}</h3>
@@ -59,8 +62,8 @@ export function WhatHappensNextSection({ serviceName = 'session' }: { serviceNam
           ))}
         </div>
         <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <Link href="/book-a-session" className="btn-primary inline-flex items-center">
-            Start Booking <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+          <Link href="/book-consultation" className="btn-primary inline-flex items-center">
+            Book a Consultation <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
           </Link>
           <Link href="/tools/pricing" className="btn-secondary inline-flex items-center">
             Compare Pricing
@@ -81,7 +84,7 @@ export function PackageComparisonSection() {
   ]
 
   return (
-    <section className="bg-white py-14 md:py-16">
+    <section className="bg-white py-12 md:py-14">
       <div className="container mx-auto px-4">
         <div className="mb-10 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
@@ -100,9 +103,9 @@ export function PackageComparisonSection() {
             </Link>
           </div>
         </div>
-        <div className="grid gap-4 lg:grid-cols-4">
+        <div className="grid gap-3 lg:grid-cols-4">
           {packages.map((pkg) => (
-            <div key={pkg.name} className="rounded-lg border border-stone-200 bg-stone-50 p-5">
+            <div key={pkg.name} className="rounded-lg border border-stone-200 bg-white p-5 shadow-sm">
               <h3 className="text-lg font-semibold text-stone-950">{pkg.name}</h3>
               <p className="mt-2 text-2xl font-bold text-amber-800">{pkg.price}</p>
               <p className="mt-3 text-sm leading-6 text-stone-600">{pkg.fit}</p>
@@ -124,6 +127,42 @@ export function PackageComparisonSection() {
           </Link>{' '}
           when you want the best-fit path.
         </p>
+      </div>
+    </section>
+  )
+}
+
+export function NextStepDecisionBand({
+  serviceName = 'session',
+  ctaLabel = 'Request Complete Galleries',
+  title,
+  body,
+}: {
+  serviceName?: string
+  ctaLabel?: string
+  title?: string
+  body?: string
+}) {
+  return (
+    <section className="border-y border-stone-200 bg-stone-950 py-10 text-white">
+      <div className="container mx-auto grid gap-6 px-4 md:grid-cols-[1fr_auto] md:items-center">
+        <div>
+          <p className="eyebrow-hero mb-3">Need Proof First?</p>
+          <h2 className="text-2xl font-bold md:text-3xl">
+            {title || `Request private ${serviceName.toLowerCase()} examples before you book`}
+          </h2>
+          <p className="mt-3 max-w-3xl leading-7 text-stone-300">
+            {body || 'We share complete galleries and tailored examples privately so you can review real pacing, editing, delivery quality, and fit for your project type.'}
+          </p>
+        </div>
+        <div className="flex flex-col gap-3 sm:flex-row md:flex-col">
+          <Link href="/request-portfolio" className="btn-primary inline-flex items-center">
+            {ctaLabel} <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+          </Link>
+          <Link href="/book-consultation" className="btn-ghost inline-flex items-center">
+            Book a Consult
+          </Link>
+        </div>
       </div>
     </section>
   )
@@ -217,7 +256,7 @@ export function PublicConversionStack({
     <>
       <PackageComparisonSection />
       <CuratedRecentWork className="py-14 md:py-16" />
-      <PortfolioProofSection
+      <NextStepDecisionBand
         serviceName={serviceName || 'Studio37'}
         ctaLabel={proofCtaLabel}
         title={proofTitle}

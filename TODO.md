@@ -1,5 +1,54 @@
 # Studio37 UX/UI, SEO, and Feature TODO
 
+## Full Site UX/UI, SEO, Admin, Security, And AI Audit - July 27, 2026
+
+### P0 Security / Admin API Hardening
+
+- [ ] Protect service-role admin APIs with `requireAdminRole`: `/api/admin/leads-scored`, `/api/admin/theme` POST, `/api/admin/client-portals`, `/api/admin/appointments-calendar`, `/api/admin/galleries`, `/api/admin/gallery-images/bulk`, and `/api/admin/run-migration`.
+- [ ] Remove or lock down public utility endpoints before launch: `/api/debug/page-configs`, `/api/test-email`, `/api/setup-admin`, and `/api/revalidate` when `REVALIDATE_SECRET` is missing.
+- [ ] Add a build-time audit that fails when an `/api/admin/**` route uses `SUPABASE_SERVICE_ROLE_KEY` or `getSupabaseAdmin()` without an auth helper.
+- [ ] Add stricter allowlists for destructive/admin mutations, especially migration execution, gallery deletion, portal creation, appointment edits, theme changes, and bulk image updates.
+
+### P1 AI / Chatbot Quality
+
+- [ ] Add chatbot fact tests for package accuracy: `$1,200 wedding package = 3 hours`, gallery routing, portrait pricing, event pricing, commercial usage, and turnaround expectations.
+- [ ] Add a chatbot answer feedback/logging table so wrong answers can be reviewed from admin and converted into training examples.
+- [ ] Add a deterministic intent router before Gemini for common intents: book consult, compare pricing, request complete galleries, view featured work, ask human, package facts.
+- [ ] Improve chatbot lead capture by saving conversation summary, detected intent, service, budget/timing clues, and selected CTA into CRM source metadata.
+- [ ] Add chatbot fallback response variants that still route users to booking/pricing/gallery request when Gemini times out.
+- [ ] Add an admin chatbot QA page with recent conversations, unanswered questions, bad-answer reports, and training coverage gaps.
+
+### P1 UX/UI And Design Facelift
+
+- [x] Run a design consistency pass across homepage, service hub, service pages, sub-service pages, blog, booking, request portfolio, and local pages for spacing, card density, heading scale, and CTA rhythm.
+- [x] Standardize proof modules so each page has one clear role: credibility proof, portfolio request, process explanation, or booking confidence, not repeated mixed-purpose blocks.
+- [x] Refresh the blog index and blog article templates with stronger visual hierarchy, clearer category navigation, and better desktop featured-image focal controls.
+- [x] Tighten long mobile pages with section compression, fewer repeated CTA bands, and more compact proof/process modules.
+- [ ] Add a reusable service-page QA checklist component or script for hero clarity, image fit, proof, pricing expectation, internal links, and CTA labels.
+
+### P1 SEO / Content
+
+- [ ] Add live sitemap validation to admin SEO that checks deployed `sitemap.xml`, `sitemap_index.xml`, headers, content-type, URL count, and Search Console handoff.
+- [ ] Add local/service-page sameness detection for repeated titles, meta descriptions, first paragraphs, FAQs, and proof blocks.
+- [ ] Add schema coverage checks for service pages, sub-service pages, local pages, blog posts, FAQs, and breadcrumbs.
+- [ ] Add image SEO audit for missing alt text, generic alt text, broken Cloudinary URLs, and oversized hero images.
+- [ ] Add internal-link gap audit from high-value service pages to relevant sub-services, local pages, pricing tools, booking, and portfolio request.
+
+### P1 Admin / CRM / Operations
+
+- [ ] Add an admin schema drift checker that compares expected columns used by the app against live Supabase tables before broken CRM features reach production.
+- [ ] Add archived lead count and a one-click `Lost / Archived` view to the CRM header so archived records feel intentionally hidden, not gone.
+- [ ] Add admin audit logs for destructive actions: bulk delete, archive, gallery delete, client portal changes, theme changes, and migrations.
+- [ ] Add CRM cleanup tools for test leads: saved search presets, preview-before-delete, export selected before delete, and undo/restore for archived leads.
+- [ ] Add admin health cards for AI availability, email send status, Supabase schema status, sitemap status, and pending scheduled blog posts.
+
+### P2 Performance / Reliability
+
+- [ ] Run live Lighthouse/PageSpeed snapshots for homepage, services, service detail, blog, booking, and local pages after current mobile/nav changes deploy.
+- [ ] Audit lazy mounted sections for layout shift and reserve heights only where they prevent visible jumps.
+- [ ] Add production smoke tests for booking, portfolio request, chatbot CTA routing, CRM active/archive filters, blog scheduling, and sitemap fetch.
+- [ ] Add AI timeout analytics by endpoint/model so blog writer and chatbot reliability can be improved from real failure patterns.
+
 ## Mobile Optimization / Nav Visibility Audit - July 25, 2026
 
 - [x] Mobile nav contrast: invert the real Studio37 logo over dark hero images so the brand mark is visible before scroll.
