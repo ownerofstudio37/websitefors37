@@ -6,6 +6,7 @@ import { z } from "zod";
 import { getClientIp, rateLimit } from "@/lib/rateLimit";
 import { createLogger } from "@/lib/logger";
 import { getPackageFactsPrompt } from "@/lib/studio37-package-facts";
+import { chatbotFallbacks, routeChatbotIntent } from "@/lib/chatbot-quality";
 
 const log = createLogger("api/chat/respond");
 
@@ -46,6 +47,25 @@ export async function POST(req: Request) {
       );
     }
     const { message, context, leadData, imageData } = parsed.data;
+    const deterministicRoute = routeChatbotIntent(message);
+
+    if (deterministicRoute.response) {
+      log.info("Deterministic chatbot route used", {
+        intent: deterministicRoute.intent,
+        nextStep: deterministicRoute.nextStep,
+      });
+      return NextResponse.json({
+        response: deterministicRoute.response,
+        detectedInfo: {
+          intent: deterministicRoute.intent,
+          nextStep: deterministicRoute.nextStep,
+          service: deterministicRoute.service,
+          pageUrl: deterministicRoute.pageUrl,
+          serviceDetail: deterministicRoute.serviceDetail,
+          routedDeterministically: true,
+        },
+      });
+    }
 
     // message presence already enforced by zod
 
@@ -260,9 +280,12 @@ Respond now:`;
         return NextResponse.json({ error: "API key was reported as leaked or misconfigured. Rotate key and redeploy.", code: "API_KEY_LEAKED" }, { status: 403 });
       }
       log.error("AI generation failed", { error: msg });
+      const fallbackKey = deterministicRoute.intent && deterministicRoute.intent !== 'services'
+        ? deterministicRoute.intent
+        : 'general';
       return NextResponse.json({
         error: "Chat response generation failed",
-        fallback: "I am having trouble answering live right now. You can book a consultation, browse services, check pricing, or call Studio37 at (832) 713-9944.",
+        fallback: chatbotFallbacks[fallbackKey] || chatbotFallbacks.general,
       }, { status: 500 });
     }
 
@@ -351,6 +374,10 @@ Respond now:`;
     } else if (/\b(human|person|someone|call me|talk to|representative)\b/i.test(lowerMessage)) {
       detectedInfo.intent = "human";
       detectedInfo.nextStep = "ask_human";
+    }
+    if (deterministicRoute.intent !== 'general') {
+      detectedInfo.intent = deterministicRoute.intent;
+      detectedInfo.nextStep = deterministicRoute.nextStep;
     }
 
     // If we have a clearly relevant service/pricing entry, expose its page URL

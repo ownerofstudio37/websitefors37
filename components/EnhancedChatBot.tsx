@@ -148,6 +148,7 @@ export default function EnhancedChatBot() {
   const [attachedImage, setAttachedImage] = useState<string | null>(null);
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [quoteFormError, setQuoteFormError] = useState<string | null>(null);
+  const [feedbackSent, setFeedbackSent] = useState<Record<string, boolean>>({});
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const leadCapturedRef = useRef(false);
 
@@ -380,7 +381,7 @@ export default function EnhancedChatBot() {
   };
 
   const handleQuickReply = (reply: string) => {
-    if (reply === "Book consultation") {
+    if (reply === "Book consultation" || reply === "Check calendar") {
       window.open("/book-consultation", "_blank");
       return;
     }
@@ -392,7 +393,7 @@ export default function EnhancedChatBot() {
       window.open("/tools/pricing", "_blank");
       return;
     }
-    if (reply === "Call Studio37") {
+    if (reply === "Call Studio37" || reply === "Call me instead") {
       window.location.href = "tel:+18327139944";
       return;
     }
@@ -427,6 +428,29 @@ export default function EnhancedChatBot() {
     }, 100);
   };
 
+  const sendFeedback = async (message: Message, rating: "good" | "bad") => {
+    setFeedbackSent((prev) => ({ ...prev, [message.id]: true }));
+    const previousUserMessage = [...messages]
+      .reverse()
+      .find((item) => item.sender === "user" && Number(item.id) < Number(message.id))?.text;
+
+    try {
+      await fetch("/api/chat/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          rating,
+          userMessage: previousUserMessage,
+          botResponse: message.text,
+          intent: leadData.intent,
+          pageUrl: typeof window !== "undefined" ? window.location.href : undefined,
+        }),
+      });
+    } catch (error) {
+      console.error("Chat feedback failed:", error);
+    }
+  };
+
   const saveLead = async (data: LeadData) => {
     if (leadCapturedRef.current) return;
 
@@ -456,6 +480,16 @@ export default function EnhancedChatBot() {
           ? `${data.message}\n\nEvent date: ${data.eventDate || "TBD"}\nIntent: ${data.intent || "general inquiry"}\nNext step: ${data.nextStep || "needs review"}\n\n--- Conversation ---\n${conversationSummary}`
           : `Event date: ${data.eventDate || "TBD"}\nIntent: ${data.intent || "general inquiry"}\nNext step: ${data.nextStep || "needs review"}\n\n--- Conversation ---\n${conversationSummary}`,
         source: "chatbot",
+        source_metadata: {
+          channel: "chatbot",
+          detected_intent: data.intent || "general inquiry",
+          next_step: data.nextStep || "needs review",
+          detected_service: data.service,
+          budget: data.budget,
+          event_date: data.eventDate,
+          conversation_summary: conversationSummary,
+          captured_at: new Date().toISOString(),
+        },
       };
 
       const res = await fetch("/api/leads", {
@@ -532,6 +566,14 @@ ${conversationSummary}`;
         event_date: quoteFormData.eventDate || leadData.eventDate,
         message: `${detailedMessage}\n\nQuote metadata: ${JSON.stringify(metadata)}`,
         source: "chatbot-quote-form",
+        source_metadata: {
+          channel: "chatbot_quote_form",
+          detected_intent: leadData.intent || "pricing",
+          next_step: leadData.nextStep || "compare_pricing",
+          quote_metadata: metadata,
+          conversation_summary: conversationSummary,
+          captured_at: new Date().toISOString(),
+        },
       };
 
       const res = await fetch("/api/leads", {
@@ -842,6 +884,19 @@ ${conversationSummary}`;
                           {reply}
                         </button>
                       ))}
+                    </div>
+                  )}
+                  {message.sender === "bot" && (
+                    <div className="ml-1 mt-1 flex items-center gap-2 text-[11px] text-gray-400">
+                      {feedbackSent[message.id] ? (
+                        <span>Feedback saved</span>
+                      ) : (
+                        <>
+                          <span>Was this helpful?</span>
+                          <button type="button" onClick={() => sendFeedback(message, "good")} className="hover:text-green-700">Yes</button>
+                          <button type="button" onClick={() => sendFeedback(message, "bad")} className="hover:text-red-700">Wrong</button>
+                        </>
+                      )}
                     </div>
                   )}
                 </div>

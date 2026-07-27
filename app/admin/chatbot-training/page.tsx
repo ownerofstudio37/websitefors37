@@ -10,6 +10,7 @@ import {
   RefreshCw,
   MessageSquare,
   Brain,
+  AlertTriangle,
 } from "lucide-react";
 import AdminConfirmDialog from "@/components/admin/AdminConfirmDialog";
 
@@ -27,6 +28,16 @@ interface ChatbotSettings {
   greeting_message: string;
   fallback_message: string;
   system_instructions: string;
+}
+
+interface ChatbotFeedback {
+  id: string;
+  rating: "good" | "bad";
+  user_message?: string | null;
+  bot_response: string;
+  intent?: string | null;
+  page_url?: string | null;
+  created_at: string;
 }
 
 export default function ChatbotTrainingPage() {
@@ -53,6 +64,7 @@ export default function ChatbotTrainingPage() {
   const [importing, setImporting] = useState(false);
   const [message, setMessage] = useState("");
   const [confirmImportOpen, setConfirmImportOpen] = useState(false);
+  const [feedback, setFeedback] = useState<ChatbotFeedback[]>([]);
 
   const categories = [
     "general",
@@ -81,7 +93,20 @@ export default function ChatbotTrainingPage() {
 
   useEffect(() => {
     loadTrainingData();
+    loadFeedback();
   }, []);
+
+  const loadFeedback = async () => {
+    try {
+      const response = await fetch("/api/admin/chatbot/feedback", { cache: "no-store" });
+      const data = await response.json();
+      if (response.ok && Array.isArray(data.feedback)) {
+        setFeedback(data.feedback);
+      }
+    } catch (error) {
+      console.error("Error loading chatbot feedback:", error);
+    }
+  };
 
   const loadTrainingData = async () => {
     setLoading(true);
@@ -263,6 +288,43 @@ export default function ChatbotTrainingPage() {
             {message}
           </div>
         )}
+
+        <div className="mb-8 rounded-xl border border-amber-200 bg-white p-6 shadow-sm">
+          <div className="mb-4 flex items-center justify-between gap-4">
+            <div className="flex items-center gap-2">
+              <AlertTriangle className="h-5 w-5 text-amber-700" />
+              <div>
+                <h2 className="text-xl font-bold text-gray-900">Recent Answer Feedback</h2>
+                <p className="text-sm text-gray-600">Review bad answers and turn them into new training examples.</p>
+              </div>
+            </div>
+            <button
+              onClick={loadFeedback}
+              className="rounded-lg border border-gray-200 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+            >
+              Refresh
+            </button>
+          </div>
+          {feedback.length === 0 ? (
+            <p className="rounded-lg bg-gray-50 p-4 text-sm text-gray-500">No chatbot feedback yet. Use the public chat thumbs controls to capture answers for review.</p>
+          ) : (
+            <div className="grid gap-3 md:grid-cols-2">
+              {feedback.slice(0, 6).map((item) => (
+                <div key={item.id} className="rounded-lg border border-gray-200 bg-gray-50 p-4">
+                  <div className="mb-2 flex items-center justify-between gap-2">
+                    <span className={`rounded-full px-2 py-1 text-xs font-semibold ${item.rating === "bad" ? "bg-red-100 text-red-700" : "bg-green-100 text-green-700"}`}>
+                      {item.rating === "bad" ? "Wrong answer" : "Helpful"}
+                    </span>
+                    <span className="text-xs text-gray-400">{new Date(item.created_at).toLocaleDateString()}</span>
+                  </div>
+                  {item.user_message && <p className="mb-2 text-xs text-gray-500">User: {item.user_message}</p>}
+                  <p className="line-clamp-4 text-sm text-gray-800">{item.bot_response}</p>
+                  {item.intent && <p className="mt-2 text-xs font-medium text-purple-700">Intent: {item.intent}</p>}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
 
         {/* Settings Section */}
         <div className="bg-white rounded-xl shadow-sm p-6 mb-8">

@@ -11,12 +11,12 @@
 
 ### P1 AI / Chatbot Quality
 
-- [ ] Add chatbot fact tests for package accuracy: `$1,200 wedding package = 3 hours`, gallery routing, portrait pricing, event pricing, commercial usage, and turnaround expectations.
-- [ ] Add a chatbot answer feedback/logging table so wrong answers can be reviewed from admin and converted into training examples.
-- [ ] Add a deterministic intent router before Gemini for common intents: book consult, compare pricing, request complete galleries, view featured work, ask human, package facts.
-- [ ] Improve chatbot lead capture by saving conversation summary, detected intent, service, budget/timing clues, and selected CTA into CRM source metadata.
-- [ ] Add chatbot fallback response variants that still route users to booking/pricing/gallery request when Gemini times out.
-- [ ] Add an admin chatbot QA page with recent conversations, unanswered questions, bad-answer reports, and training coverage gaps.
+- [x] Add chatbot fact tests for package accuracy: `$1,200 wedding package = 3 hours`, gallery routing, portrait pricing, event pricing, commercial usage, and turnaround expectations.
+- [x] Add a chatbot answer feedback/logging table so wrong answers can be reviewed from admin and converted into training examples.
+- [x] Add a deterministic intent router before Gemini for common intents: book consult, compare pricing, request complete galleries, view featured work, ask human, package facts.
+- [x] Improve chatbot lead capture by saving conversation summary, detected intent, service, budget/timing clues, and selected CTA into CRM source metadata.
+- [x] Add chatbot fallback response variants that still route users to booking/pricing/gallery request when Gemini times out.
+- [x] Add an admin chatbot QA page with recent conversations, unanswered questions, bad-answer reports, and training coverage gaps.
 
 ### P1 UX/UI And Design Facelift
 
