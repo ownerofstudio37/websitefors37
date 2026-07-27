@@ -9,9 +9,10 @@
   --color-primary-light: 217, 182, 115; /* amber-300 */
   --color-primary-dark: 120, 83, 25; /* amber-900 */
   --color-secondary: 161, 98, 7; /* amber-800 */
-  --radius-card: 1.25rem;
-  --shadow-soft: 0 10px 30px rgba(15, 23, 42, 0.08);
-  --shadow-strong: 0 18px 50px rgba(15, 23, 42, 0.14);
+  --radius-card: 0.75rem;
+  --shadow-soft: 0 8px 24px rgba(15, 23, 42, 0.07);
+  --shadow-strong: 0 18px 44px rgba(15, 23, 42, 0.16);
+  --shadow-lift: 0 16px 36px rgba(15, 23, 42, 0.12);
 }
 
 @layer base {
@@ -77,21 +78,31 @@
 
 @layer components {
   .btn-primary {
-    @apply inline-flex items-center justify-center bg-amber-700 hover:bg-amber-800 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 border border-amber-700;
+    @apply inline-flex items-center justify-center bg-amber-700 hover:bg-amber-800 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 border border-amber-700;
     min-height: 44px;
     min-width: 44px;
     box-shadow: 0 10px 25px rgba(180, 126, 40, 0.22);
   }
 
+  .btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 14px 30px rgba(180, 126, 40, 0.28);
+  }
+
   .btn-secondary {
-    @apply inline-flex items-center justify-center bg-white hover:bg-amber-50 text-stone-900 font-semibold py-3 px-6 rounded-xl transition-all duration-200 border border-stone-300;
+    @apply inline-flex items-center justify-center bg-white hover:bg-amber-50 text-stone-900 font-semibold py-3 px-6 rounded-lg transition-all duration-200 border border-stone-300;
     min-height: 44px;
     min-width: 44px;
     box-shadow: var(--shadow-soft);
   }
 
+  .btn-secondary:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-lift);
+  }
+
   .btn-ghost {
-    @apply inline-flex items-center justify-center bg-white/10 hover:bg-white/20 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 border border-white/25 backdrop-blur-sm;
+    @apply inline-flex items-center justify-center bg-white/10 hover:bg-white/20 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 border border-white/25 backdrop-blur-sm;
     min-height: 44px;
     min-width: 44px;
   }
@@ -101,11 +112,11 @@
   }
 
   .section-soft {
-    @apply bg-white border border-stone-200/80 rounded-[28px] shadow-[0_10px_40px_rgba(15,23,42,0.06)];
+    @apply bg-white border border-stone-200/80 rounded-xl shadow-[0_10px_40px_rgba(15,23,42,0.06)];
   }
 
   .surface-panel {
-    @apply bg-white border border-stone-200 rounded-2xl;
+    @apply bg-white border border-stone-200 rounded-xl;
     box-shadow: var(--shadow-soft);
   }
 
@@ -118,7 +129,7 @@
   }
 
   .vintage-card {
-    @apply bg-white border border-stone-200 p-6 rounded-2xl;
+    @apply bg-white border border-stone-200 p-6 rounded-xl;
     position: relative;
     box-shadow: var(--shadow-soft);
   }

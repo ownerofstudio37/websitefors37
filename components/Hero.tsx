@@ -19,8 +19,8 @@ export default function Hero() {
   const heroImageSmall = optimizeCloudinaryUrl(rawHeroImage, 800, 'auto:good');
   // Use the medium as default src (balanced quality vs size).
   const heroImage = heroImageMedium;
-  const heroMinHeight = "min(88svh, 760px)";
-  const overlayPct = 68;
+  const heroMinHeight = "min(90svh, 780px)";
+  const overlayPct = 74;
 
   return (
     <section
@@ -64,11 +64,12 @@ export default function Hero() {
       {/* Film grain removed for performance - dark overlay provides depth */}
 
       <div className="relative z-20 container mx-auto px-4">
-        <div className="max-w-6xl mx-auto pt-20 md:pt-32 pb-14 md:pb-24">
+        <div className="max-w-6xl mx-auto pt-20 md:pt-32 pb-16 md:pb-24">
+          <div className="grid gap-8 lg:grid-cols-[1fr_360px] lg:items-end">
           <div className="max-w-3xl text-left">
-            <div className="eyebrow-hero mb-4">Pinehurst, TX · Weddings · Portraits · Events · Brand · Concierge</div>
+            <div className="eyebrow-hero mb-5">Pinehurst, TX · Greater Houston</div>
             <h1
-              className="font-serif text-4xl sm:text-5xl md:text-7xl lg:text-[5.5rem] font-bold mb-5 leading-[0.98] text-white drop-shadow-lg"
+              className="font-serif text-4xl sm:text-5xl md:text-7xl lg:text-[5.35rem] font-bold mb-5 leading-[0.98] text-white drop-shadow-lg"
               suppressHydrationWarning
             >
               {heroTitle}
@@ -81,17 +82,17 @@ export default function Hero() {
               {heroSubtitle}
             </p>
 
-            <div className="flex flex-wrap gap-2 text-xs sm:text-sm text-stone-100/90 mb-6">
-              <span className="rounded-full bg-white/10 px-4 py-2 border border-white/10">500+ client sessions</span>
-              <span className="rounded-full bg-white/10 px-4 py-2 border border-white/10">Two-photographer coverage</span>
-              <span className="hidden rounded-full bg-white/10 px-4 py-2 border border-white/10 sm:inline-flex">Packages from $350</span>
+            <div className="mb-6 grid max-w-2xl gap-2 text-xs text-stone-100/95 sm:grid-cols-3 sm:text-sm">
+              <span className="rounded-lg border border-white/15 bg-white/10 px-4 py-3 backdrop-blur">500+ client sessions</span>
+              <span className="rounded-lg border border-white/15 bg-white/10 px-4 py-3 backdrop-blur">Two photographers</span>
+              <span className="rounded-lg border border-white/15 bg-white/10 px-4 py-3 backdrop-blur">Packages from $350</span>
             </div>
 
-            <div className="mb-3 rounded-2xl border border-white/15 bg-white/10 px-4 py-3 text-sm leading-6 text-stone-100 backdrop-blur">
-              Ready to plan? Start with a free consultation. Comparing options? Use the quote or package tools first.
+            <div className="mb-5 max-w-2xl rounded-xl border border-white/15 bg-black/20 px-4 py-3 text-sm leading-6 text-stone-100 backdrop-blur">
+              <strong className="text-white">Know what you need?</strong> Book a free consultation. Still comparing? Start with the package recommender or request private gallery examples.
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
             <Link
               href="/book-consultation"
               className="btn-primary text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 focus:outline-none focus:ring-4 focus:ring-amber-500 focus:ring-offset-2"
@@ -119,9 +120,9 @@ export default function Hero() {
             </div>
           </div>
 
-          <div className="mt-10 max-w-xl rounded-[28px] border border-white/15 bg-white/10 backdrop-blur-md p-5 md:p-6 text-white shadow-2xl">
+          <div className="max-w-xl rounded-xl border border-white/15 bg-white/10 backdrop-blur-md p-5 md:p-6 text-white shadow-2xl lg:justify-self-end">
             <div className="flex items-start gap-4">
-              <div className="rounded-2xl bg-amber-300/20 p-3 border border-amber-200/20">
+              <div className="rounded-lg bg-amber-300/20 p-3 border border-amber-200/20">
                 <Camera className="h-6 w-6 text-amber-200" />
               </div>
               <div>
@@ -132,10 +133,11 @@ export default function Hero() {
               </div>
             </div>
           </div>
+          </div>
         </div>
       </div>
 
-      <div className="absolute inset-6 md:inset-10 rounded-[32px] border border-white/10 pointer-events-none z-10"></div>
+      <div className="absolute inset-5 md:inset-8 rounded-2xl border border-white/10 pointer-events-none z-10"></div>
 
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 animate-bounce-slow motion-safe:animate-bounce-slow" aria-hidden="true">
         <div className="w-6 h-10 border-2 border-amber-200/50 rounded-full flex justify-center">
