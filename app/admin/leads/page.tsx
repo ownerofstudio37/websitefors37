@@ -520,16 +520,17 @@ export default function LeadsPage() {
 
   const logBulkAction = async (leadIds: string[], content: string, metadata: Record<string, any>) => {
     if (leadIds.length === 0) return
-    await supabase.from('communication_logs').insert(
+    const details = Object.keys(metadata).length ? `\n\nDetails: ${JSON.stringify(metadata)}` : ''
+    const { error } = await supabase.from('communication_logs').insert(
       leadIds.map((id) => ({
         lead_id: id,
         type: 'note',
-        content,
+        content: `${content}${details}`,
         direction: 'outbound',
         created_by: 'admin',
-        metadata,
       }))
     )
+    if (error) console.warn('Bulk action log skipped:', error)
   }
 
   const updateBulkStatus = async () => {
@@ -823,16 +824,17 @@ export default function LeadsPage() {
 
   const logCommunication = async (lead: Lead, type: CommunicationLog['type'], content: string, metadata?: Record<string, any>) => {
     try {
-      await supabase
+      const details = metadata && Object.keys(metadata).length ? `\n\nDetails: ${JSON.stringify(metadata)}` : ''
+      const { error } = await supabase
         .from('communication_logs')
         .insert([{
           lead_id: lead.id,
           type,
-          content,
+          content: `${content}${details}`,
           direction: 'outbound',
           created_by: 'admin',
-          metadata
         }])
+      if (error) throw error
 
       if (lead.status === 'new') {
         await updateLeadStatus(lead.id, 'contacted')
