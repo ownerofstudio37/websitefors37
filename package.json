@@ -29,6 +29,7 @@
     "audit:seasonal-conversion": "node scripts/audit-seasonal-conversion.mjs",
     "audit:conversion-leads": "node scripts/audit-conversion-lead-capture.mjs",
     "audit:admin-operations": "node scripts/audit-admin-operations.mjs",
+    "audit:admin-content-polish": "node scripts/audit-admin-content-polish.mjs",
     "audit:chatbot-facts": "node --experimental-strip-types scripts/audit-chatbot-facts.mjs",
     "audit:public-conversion-flow": "node scripts/audit-public-conversion-flow.mjs",
     "audit:mobile-public-polish": "node scripts/audit-mobile-public-polish.mjs",
