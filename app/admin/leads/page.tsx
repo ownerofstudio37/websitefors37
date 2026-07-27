@@ -17,7 +17,7 @@ import AdminState from '@/components/admin/AdminState'
 type SavedLeadViewId = 'all' | 'test' | 'portfolio' | 'hot' | 'follow-up' | 'missing-phone' | 'new-wedding' | 'duplicates'
 
 const savedLeadViews: Array<{ id: SavedLeadViewId; label: string; status: string; query: string }> = [
-  { id: 'all', label: 'All Leads', status: 'all', query: '' },
+  { id: 'all', label: 'Active Leads', status: 'all', query: '' },
   { id: 'test', label: 'Test Leads', status: 'all', query: 'test' },
   { id: 'portfolio', label: 'Portfolio Requests', status: 'all', query: 'portfolio' },
   { id: 'hot', label: 'Hot Leads', status: 'qualified', query: '' },
@@ -52,6 +52,16 @@ const ARCHIVED_LEAD_STATUS = 'closed-lost' as Lead['status']
 const closedLeadStatuses = new Set(['converted', 'closed-won', 'closed-lost', 'lost'])
 const isClosedLeadStatus = (status: string) => closedLeadStatuses.has(status)
 const isArchivedLeadStatus = (status: string) => status === 'closed-lost' || status === 'lost'
+
+const applyStatusFilter = (query: any, status: string) => {
+  if (status === 'all') {
+    return query.neq('status', ARCHIVED_LEAD_STATUS).neq('status', 'lost')
+  }
+  if (status === ARCHIVED_LEAD_STATUS) {
+    return query.in('status', [ARCHIVED_LEAD_STATUS, 'lost'])
+  }
+  return query.eq('status', status)
+}
 
 const pickPrimaryDuplicateLead = (rows: Lead[]) => {
   return [...rows].sort((a, b) => {
@@ -196,7 +206,11 @@ export default function LeadsPage() {
 
   const filterDuplicateRowsLocally = useCallback((rows: Lead[]) => {
     let nextRows = rows
-    if (filter !== 'all') {
+    if (filter === 'all') {
+      nextRows = nextRows.filter((lead) => !isArchivedLeadStatus(lead.status))
+    } else if (filter === ARCHIVED_LEAD_STATUS) {
+      nextRows = nextRows.filter((lead) => isArchivedLeadStatus(lead.status))
+    } else {
       nextRows = nextRows.filter((lead) => lead.status === filter)
     }
     const trimmed = q.trim().toLowerCase()
@@ -248,9 +262,7 @@ export default function LeadsPage() {
         .order('created_at', { ascending: false })
       
       // Apply status filter
-      if (filter !== 'all') {
-        query = query.eq('status', filter)
-      }
+      query = applyStatusFilter(query, filter)
       // Production may not have the next_follow_up migration yet, so the
       // follow-up view is handled from fetched lead age/status instead.
       if (savedView === 'missing-phone') {
@@ -447,9 +459,7 @@ export default function LeadsPage() {
 
   const applyLeadFilters = (query: any) => {
     let nextQuery = query
-    if (filter !== 'all') {
-      nextQuery = nextQuery.eq('status', filter)
-    }
+    nextQuery = applyStatusFilter(nextQuery, filter)
     // Avoid querying next_follow_up directly; older databases do not have it.
     if (savedView === 'missing-phone') {
       nextQuery = nextQuery.or('phone.is.null,phone.eq.')
@@ -1427,7 +1437,7 @@ Studio37`)
             className="px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
             title="Filter leads by status"
           >
-            <option value="all">All Leads</option>
+            <option value="all">Active Leads</option>
             <option value="new">New</option>
             <option value="contacted">Contacted</option>
             <option value="qualified">Qualified</option>
