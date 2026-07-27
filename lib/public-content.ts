@@ -1,5 +1,68 @@
 export type ServiceKey = 'portrait' | 'wedding' | 'event' | 'commercial' | 'engagement' | 'concierge'
 
+export const studio37Reviews = [
+  {
+    name: 'Alice J.',
+    service: 'Event',
+    quote: 'Caitie and her husband make a great team. I am sooo happy that I hired them for my son\'s first birthday party. They were sweet and troopers for working an outside event with crazy rain.',
+    detail: 'Birthday party coverage',
+  },
+  {
+    name: 'Felipa Q.',
+    service: 'Event',
+    quote: 'The pictures and videos for my niece\'s quinceanera were so beautiful and you can tell that a lot of heart and effort was put into them. Both photographers are super nice and made my niece feel so comfortable.',
+    detail: 'Quinceanera photo and video',
+  },
+  {
+    name: 'Cassey E.',
+    service: 'Event',
+    quote: 'Christian and Katy are the best. They were full of energy at my son\'s party. They engaged fully with guests. Very professional and communicate well.',
+    detail: 'Private party coverage',
+  },
+  {
+    name: 'Ainslee C.',
+    service: 'Portrait',
+    quote: 'We had a smooth and seamless experience with Studio 37. We had a bit of cold weather to work around and they were very accommodating. So responsive, kind and professional.',
+    detail: 'Outdoor portrait session',
+  },
+  {
+    name: 'Ivana M.',
+    service: 'Commercial',
+    quote: 'I hired them for shots for my private business website. Everything went smooth. They created a relaxed atmosphere, made me feel at ease, and I had a lot of fun getting my pictures taken.',
+    detail: 'Business website imagery',
+  },
+  {
+    name: 'Kelsi R.',
+    service: 'Family',
+    quote: 'They captured beautiful generational photos of our family with so much care. They were flexible when we had cancellations with other vendors and took the time to bring our vision to life.',
+    detail: 'Generational family photos',
+  },
+  {
+    name: 'Joshua G.',
+    service: 'Portrait',
+    quote: 'They go above and beyond to get you the pictures you need, and even some you did not realize you wanted. Definitely recommend them if you want perfectly crafted and memorable photos.',
+    detail: 'Directed portrait session',
+  },
+  {
+    name: 'Lisa D.',
+    service: 'Proposal',
+    quote: 'They worked closely with the team at Moody Gardens to pull off an incredible surprise and then carefully found the perfect backgrounds for the family moments. They are truly professionals.',
+    detail: 'Surprise proposal planning',
+  },
+  {
+    name: 'Mansher G.',
+    service: 'Family',
+    quote: 'This was our first time doing a family shoot, and Studio 37 nailed it. They worked with us on short notice, brought lighting and other equipment, and made the experience seamless.',
+    detail: 'Short-notice family session',
+  },
+  {
+    name: 'Kimberly I.',
+    service: 'Family',
+    quote: 'Fantastic with kids and incredibly efficient.',
+    detail: 'Kid-friendly session',
+  },
+]
+
 export const recentWorkItems = [
   {
     title: 'Golden-Hour Engagement Session',
@@ -157,28 +220,28 @@ export const turnaroundByService: Record<ServiceKey, { sneakPeek: string; highli
 
 export const testimonialsByService: Record<ServiceKey, Array<{ quote: string; name: string; context: string; source: string }>> = {
   portrait: [
-    { quote: 'The session felt easy, natural, and organized from start to finish.', name: 'Portrait client excerpt', context: 'Montgomery County portraits', source: 'Verified client review' },
-    { quote: 'The posing help made a huge difference. The photos felt polished without feeling stiff.', name: 'Senior client excerpt', context: 'Senior session', source: 'Verified client review' },
+    { quote: 'We had a smooth and seamless experience with Studio 37. So responsive, kind and professional.', name: 'Ainslee C.', context: 'Outdoor portrait session', source: 'Verified client review' },
+    { quote: 'They go above and beyond to get you the pictures you need, and even some you did not realize you wanted.', name: 'Joshua G.', context: 'Directed portrait session', source: 'Verified client review' },
   ],
   wedding: [
-    { quote: 'Having two photographers made the day feel covered without feeling crowded.', name: 'Wedding client excerpt', context: 'Wedding coverage', source: 'Verified client review' },
-    { quote: 'They kept the timeline calm and captured the small moments we would have missed.', name: 'Couple excerpt', context: 'Wedding day', source: 'Verified client review' },
+    { quote: 'They guided us through the session and it felt flawless. I will use this company again.', name: 'Deborah B.', context: 'Guided coverage experience', source: 'Verified client review' },
+    { quote: 'Very responsive to our wants and needs. They really took the time to get to know us and what we were looking for.', name: 'Lane G.', context: 'Planning and direction', source: 'Verified client review' },
   ],
   event: [
-    { quote: 'The coverage gave us the people, details, and room energy we needed.', name: 'Event organizer excerpt', context: 'Corporate event', source: 'Verified client review' },
-    { quote: 'They covered the event without interrupting the program or pulling attention away.', name: 'Private event excerpt', context: 'Milestone celebration', source: 'Verified client review' },
+    { quote: 'They were full of energy at my son\'s party. They engaged fully with guests. Very professional and communicate well.', name: 'Cassey E.', context: 'Private party coverage', source: 'Verified client review' },
+    { quote: 'The pictures and videos for my niece\'s quinceanera were so beautiful. Both photographers are super nice and made my niece feel so comfortable.', name: 'Felipa Q.', context: 'Quinceanera photo and video', source: 'Verified client review' },
   ],
   commercial: [
-    { quote: 'The images immediately made our website and social content feel more professional.', name: 'Business owner excerpt', context: 'Brand refresh', source: 'Verified client review' },
-    { quote: 'They understood the marketing goal, not just the photo list.', name: 'Commercial client excerpt', context: 'Content library', source: 'Verified client review' },
+    { quote: 'I hired them for shots for my private business website. Everything went smooth and they created a relaxed atmosphere.', name: 'Ivana M.', context: 'Business website imagery', source: 'Verified client review' },
+    { quote: 'They were very easy to work with and speak to when it came to grabbing the image I wanted.', name: 'Joshua G.', context: 'Image direction', source: 'Verified client review' },
   ],
   engagement: [
-    { quote: 'The direction made us feel comfortable, and the final gallery felt like us.', name: 'Engagement client excerpt', context: 'Couple session', source: 'Verified client review' },
-    { quote: 'They helped with timing and locations so the session felt easy instead of stressful.', name: 'Engagement client excerpt', context: 'Golden-hour portraits', source: 'Verified client review' },
+    { quote: 'Despite our shoot being very last minute, they were incredibly flexible and accommodating. They truly listened to what we wanted.', name: 'Astini S.', context: 'Couple session', source: 'Verified client review' },
+    { quote: 'Wonderful experience. Catie and Christian were so nice and easy to work with.', name: 'Ally F.', context: 'Couple portraits', source: 'Verified client review' },
   ],
   concierge: [
-    { quote: 'The planning support made the surprise feel calm, private, and beautifully photographed.', name: 'Proposal client excerpt', context: 'Concierge proposal', source: 'Verified client review' },
-    { quote: 'They thought through timing, access, and backup options before the moment happened.', name: 'Concierge client excerpt', context: 'Proposal planning', source: 'Verified client review' },
+    { quote: 'They worked closely with the team at Moody Gardens to pull off an incredible surprise and then carefully found the perfect backgrounds for the family moments.', name: 'Lisa D.', context: 'Surprise proposal planning', source: 'Verified client review' },
+    { quote: 'They truly listened to what we wanted and made the whole experience relaxed and fun.', name: 'Astini S.', context: 'Last-minute couple session', source: 'Verified client review' },
   ],
 }
 

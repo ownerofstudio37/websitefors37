@@ -682,6 +682,15 @@ Audit notes: `npm run audit:seo-assets` passed across public metadata/source fil
 - [x] Make location pages feel less templated with city-specific images, nearby venue examples, and service-specific internal links.
 - [x] Improve portfolio/gallery calls-to-action so all public-facing gallery and portfolio links point to `https://gallery.studio37.cc`.
 
+### Public Site Polish With Real Reviews - July 27, 2026
+
+- [x] Centralize real Studio37 review excerpts and reviewer names for service proof modules.
+- [x] Replace generic service testimonial placeholders with real review excerpts across portrait, wedding, event, commercial, engagement, and concierge flows.
+- [x] Add a homepage real-review proof strip after recent work so visitors see credibility before service browsing.
+- [x] Strengthen booking-page confidence copy with what happens after submit, response expectations, and real review proof.
+- [x] Strengthen portfolio-request flow copy so private complete galleries feel matched and intentional.
+- [x] Update stale lead-form social proof from 15 to 19 verified reviews.
+
 ## Public Site Features
 
 - [x] Build an interactive package recommender that routes users to booking with a prefilled package/service.

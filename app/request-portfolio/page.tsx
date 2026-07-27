@@ -1,5 +1,6 @@
 import PortfolioRequestForm from '@/components/PortfolioRequestForm'
 import { generateFAQSchema, generateSEOMetadata } from '@/lib/seo-helpers'
+import { studio37Reviews } from '@/lib/public-content'
 
 export const metadata = generateSEOMetadata({
   title: 'Request Private Complete Galleries | Studio37',
@@ -26,6 +27,8 @@ const faqSchema = generateFAQSchema([
 ])
 
 export default function RequestPortfolioPage() {
+  const requestProof = [studio37Reviews[5], studio37Reviews[6], studio37Reviews[8]].filter(Boolean)
+
   return (
     <main className="min-h-screen bg-stone-50 pt-20">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
@@ -48,8 +51,32 @@ export default function RequestPortfolioPage() {
               <li>Tailored examples by service, venue style, lighting, location, or project goal.</li>
               <li>Context on delivery expectations, editing style, and which package usually fits.</li>
             </ul>
+            <div className="mt-6 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm leading-6 text-stone-700">
+              <strong className="text-stone-950">Best use:</strong> request examples when you want to see how a real session holds together across people, details, lighting shifts, and final delivery.
+            </div>
           </div>
           <PortfolioRequestForm />
+        </div>
+      </section>
+      <section className="section-shell bg-white">
+        <div className="container mx-auto max-w-6xl px-4">
+          <div className="mb-7 max-w-3xl">
+            <p className="eyebrow mb-3">Why This Helps</p>
+            <h2 className="text-3xl font-bold text-stone-950">Proof matched to what you are actually deciding.</h2>
+            <p className="mt-3 text-stone-600">
+              The right example for a family session is different from the right example for a proposal, event, or business website. We match the proof set to your decision.
+            </p>
+          </div>
+          <div className="grid gap-4 md:grid-cols-3">
+            {requestProof.map((review) => (
+              <figure key={review.name} className="rounded-lg border border-stone-200 bg-stone-50 p-5">
+                <blockquote className="text-sm leading-6 text-stone-700">&quot;{review.quote}&quot;</blockquote>
+                <figcaption className="mt-4 text-sm text-stone-500">
+                  <span className="font-semibold text-stone-950">{review.name}</span> · {review.detail}
+                </figcaption>
+              </figure>
+            ))}
+          </div>
         </div>
       </section>
       <section className="section-shell bg-white">

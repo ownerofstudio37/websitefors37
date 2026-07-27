@@ -331,7 +331,7 @@ export default function LeadCaptureForm() {
         {/* Social proof */}
         <p className="rounded-xl bg-stone-50 border border-stone-200 px-4 py-3 text-center text-sm text-stone-600">
           <span aria-hidden="true">⭐⭐⭐⭐⭐</span>{' '}
-          <strong className="text-stone-800">5.0 stars</strong> · 15 verified reviews · Response within 24 hours
+          <strong className="text-stone-800">5.0 stars</strong> · 19 verified reviews · Response within 24 hours
         </p>
         <button
           type="submit"

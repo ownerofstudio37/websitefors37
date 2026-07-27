@@ -4,6 +4,7 @@ import { ArrowRight, CheckCircle, Clock, Image as ImageIcon, MapPin, ShieldCheck
 import AvailabilityConfidence from '@/components/AvailabilityConfidence'
 import CuratedRecentWork from '@/components/CuratedRecentWork'
 import ServiceAreaMarketModules from '@/components/ServiceAreaMarketModules'
+import { studio37Reviews } from '@/lib/public-content'
 
 const galleryUrl = '/request-portfolio'
 
@@ -24,6 +25,37 @@ export function PublicTrustStrip() {
             <span className="text-sm font-medium text-stone-800">{label}</span>
           </div>
         ))}
+      </div>
+    </section>
+  )
+}
+
+export function RealReviewProofStrip() {
+  const reviews = [studio37Reviews[0], studio37Reviews[4], studio37Reviews[7]].filter(Boolean)
+
+  return (
+    <section className="border-y border-stone-200 bg-stone-50">
+      <div className="container mx-auto px-4 py-10">
+        <div className="mb-6 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p className="eyebrow mb-3">Real Client Proof</p>
+            <h2 className="text-3xl font-bold text-stone-950 md:text-4xl">Reviews that point to the actual experience</h2>
+          </div>
+          <p className="max-w-md text-sm leading-6 text-stone-600">
+            Clients consistently mention calm direction, flexibility, two-person coverage, and finished galleries they feel confident sharing.
+          </p>
+        </div>
+        <div className="grid gap-4 md:grid-cols-3">
+          {reviews.map((review) => (
+            <figure key={review.name} className="rounded-lg border border-stone-200 bg-white p-5 shadow-sm">
+              <blockquote className="text-sm leading-6 text-stone-700">&quot;{review.quote}&quot;</blockquote>
+              <figcaption className="mt-4 text-sm">
+                <span className="font-semibold text-stone-950">{review.name}</span>
+                <span className="text-stone-500"> · {review.detail}</span>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
       </div>
     </section>
   )

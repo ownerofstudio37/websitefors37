@@ -2,6 +2,7 @@ import { Suspense } from 'react'
 import ConsultationBookingForm from '@/components/ConsultationBookingForm'
 import { Phone, Mail, Clock, CheckCircle2 } from 'lucide-react'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
+import { studio37Reviews } from '@/lib/public-content'
 
 export const metadata = generateSEOMetadata({
   title: 'Book a Free Photography Consultation',
@@ -19,6 +20,8 @@ export const metadata = generateSEOMetadata({
 })
 
 export default function BookConsultationPage() {
+  const proofReviews = [studio37Reviews[4], studio37Reviews[7], studio37Reviews[9]].filter(Boolean)
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-stone-50 to-white pt-20">
       {/* Hero Section */}
@@ -76,6 +79,29 @@ export default function BookConsultationPage() {
           <p className="mt-3 max-w-3xl leading-7 text-stone-700">
             A consultation is the planning call. Session booking is the paid shoot handoff after the package, timing, location, and deliverables are clear. If you came from pricing or the package recommender, your context helps us recommend the next step faster.
           </p>
+        </div>
+
+        <div className="mb-12 grid gap-4 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+          <div className="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
+            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-amber-800">After You Submit</p>
+            <h2 className="mt-2 text-2xl font-bold text-stone-950">A real person reviews the details before you commit.</h2>
+            <div className="mt-5 space-y-3 text-sm leading-6 text-stone-700">
+              <p><strong>1.</strong> We confirm availability, service fit, and any package context you already shared.</p>
+              <p><strong>2.</strong> We call at your selected time and recommend the cleanest next step.</p>
+              <p><strong>3.</strong> If you need proof first, we can send private galleries matched to your project.</p>
+            </div>
+            <p className="mt-5 rounded-lg bg-stone-50 p-3 text-sm font-medium text-stone-700">Typical response window: within one business day for follow-up details.</p>
+          </div>
+          <div className="grid gap-3">
+            {proofReviews.map((review) => (
+              <figure key={review.name} className="rounded-xl border border-stone-200 bg-white p-5 shadow-sm">
+                <blockquote className="text-sm leading-6 text-stone-700">&quot;{review.quote}&quot;</blockquote>
+                <figcaption className="mt-3 text-sm text-stone-500">
+                  <span className="font-semibold text-stone-950">{review.name}</span> · {review.detail}
+                </figcaption>
+              </figure>
+            ))}
+          </div>
         </div>
 
         {/* What We'll Discuss */}

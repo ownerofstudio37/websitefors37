@@ -5,7 +5,7 @@ import LeadCaptureForm from "@/components/LeadCaptureForm";
 import LocalBusinessSchema from "@/components/LocalBusinessSchema";
 import LazyMount from "@/components/LazyMount";
 import { PressCredentialsBlock } from "@/components/BuilderRuntime";
-import { PackageRecommenderCTA, WhatHappensNextSection } from "@/components/PublicConversionSections";
+import { PackageRecommenderCTA, RealReviewProofStrip, WhatHappensNextSection } from "@/components/PublicConversionSections";
 import CuratedRecentWork from "@/components/CuratedRecentWork";
 import { generateSEOMetadata } from "@/lib/seo-helpers";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
@@ -209,6 +209,7 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
           <PortraitHighlightGallery />
         </LazyMount>
         <CuratedRecentWork />
+        <RealReviewProofStrip />
         <LazyMount minHeight={720}>
           <Services />
         </LazyMount>
@@ -260,6 +261,7 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
         <PortraitHighlightGallery />
       </LazyMount>
       <CuratedRecentWork />
+      <RealReviewProofStrip />
       <LazyMount minHeight={720}>
         <Services />
       </LazyMount>
