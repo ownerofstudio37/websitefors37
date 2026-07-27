@@ -19,6 +19,70 @@ interface AvailableDate {
   booked: number
 }
 
+const bookingContextByKey: Record<string, { label: string; focus: string; nextStep: string }> = {
+  wedding: {
+    label: 'Wedding photography',
+    focus: 'coverage hours, timeline pressure, two-photographer fit, and delivery expectations',
+    nextStep: 'compare wedding coverage and confirm the cleanest booking path',
+  },
+  portrait: {
+    label: 'Portrait session',
+    focus: 'session type, location, wardrobe, turnaround, and final gallery needs',
+    nextStep: 'match the session style to the right portrait package',
+  },
+  family: {
+    label: 'Family photography',
+    focus: 'kid pacing, location comfort, outfit planning, and fast gallery needs',
+    nextStep: 'choose the simplest family-session plan',
+  },
+  engagement: {
+    label: 'Engagement or proposal session',
+    focus: 'privacy, location timing, light, reveal logistics, and save-the-date needs',
+    nextStep: 'decide between directed engagement coverage and concierge planning',
+  },
+  concierge: {
+    label: 'Concierge service',
+    focus: 'proposal logistics, vendor coordination, privacy, photo/video coverage, and timing',
+    nextStep: 'scope a custom concierge plan',
+  },
+  event: {
+    label: 'Event photography',
+    focus: 'event length, must-capture moments, licensing needs, and delivery timeline',
+    nextStep: 'confirm the coverage block and gallery delivery plan',
+  },
+  commercial: {
+    label: 'Commercial photography',
+    focus: 'usage, shot list, brand goals, team/product coverage, and licensing',
+    nextStep: 'scope a commercial quote with the right usage rights',
+  },
+  branding: {
+    label: 'Branding and marketing',
+    focus: 'website goals, content gaps, SEO/PPC needs, and visual proof',
+    nextStep: 'outline a custom website, content, or marketing plan',
+  },
+}
+
+function normalizeContextKey(value: string) {
+  const normalized = value.toLowerCase()
+  if (normalized.includes('wedding')) return 'wedding'
+  if (normalized.includes('family')) return 'family'
+  if (normalized.includes('portrait') || normalized.includes('headshot') || normalized.includes('senior') || normalized.includes('maternity')) return 'portrait'
+  if (normalized.includes('proposal') || normalized.includes('engagement')) return 'engagement'
+  if (normalized.includes('concierge')) return 'concierge'
+  if (normalized.includes('event') || normalized.includes('party') || normalized.includes('corporate')) return 'event'
+  if (normalized.includes('commercial') || normalized.includes('product') || normalized.includes('architect')) return 'commercial'
+  if (normalized.includes('brand') || normalized.includes('marketing') || normalized.includes('website') || normalized.includes('seo')) return 'branding'
+  return ''
+}
+
+function humanizeParam(value: string) {
+  return value
+    .replace(/[-_]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .replace(/\b\w/g, (char) => char.toUpperCase())
+}
+
 function parseDateOnly(dateStr: string) {
   const [year, month, day] = dateStr.split('-').map(Number)
   return new Date(year, month - 1, day)
@@ -36,6 +100,12 @@ const ConsultationBookingForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const searchParams = useSearchParams()
   const packageInterest = searchParams?.get('package') || ''
+  const serviceParam = searchParams?.get('service') || ''
+  const sourceParam = searchParams?.get('source') || ''
+  const rawContext = packageInterest || serviceParam
+  const normalizedContextKey = normalizeContextKey(rawContext)
+  const bookingContext = normalizedContextKey ? bookingContextByKey[normalizedContextKey] : undefined
+  const contextLabel = bookingContext?.label || humanizeParam(rawContext)
   
   // Form data
   const [selectedDate, setSelectedDate] = useState<string>('')
@@ -225,6 +295,12 @@ const ConsultationBookingForm = () => {
     }
     
     setIsSubmitting(true)
+    const contextualNotes = [
+      serviceParam ? `Service context: ${humanizeParam(serviceParam)}` : '',
+      packageInterest ? `Package context: ${humanizeParam(packageInterest)}` : '',
+      sourceParam ? `Source: ${humanizeParam(sourceParam)}` : '',
+      formData.notes ? `Client notes: ${formData.notes}` : '',
+    ].filter(Boolean).join('\n')
     
     try {
       const response = await fetch('/api/consultation/book', {
@@ -236,8 +312,8 @@ const ConsultationBookingForm = () => {
           name: formData.name,
           email: formData.email,
           phone: formData.phone,
-          notes: formData.notes,
-          serviceInterest: packageInterest || undefined
+          notes: contextualNotes || formData.notes,
+          serviceInterest: contextLabel || undefined
         })
       })
       
@@ -305,10 +381,17 @@ const ConsultationBookingForm = () => {
               <CalendarIcon className="h-6 w-6 text-primary-600" />
               Choose Your Date
             </h2>
-            {packageInterest && (
-              <div className="mb-4 flex items-center gap-2 rounded-lg bg-primary-50 border border-primary-200 px-4 py-3 text-sm text-primary-800">
-                <Tag className="h-4 w-4 flex-shrink-0" />
-                <span>You&apos;re inquiring about: <strong>{packageInterest}</strong></span>
+            {rawContext && (
+              <div className="mb-4 rounded-xl border border-primary-200 bg-primary-50 px-4 py-3 text-sm text-primary-900">
+                <div className="mb-1 flex items-center gap-2 font-semibold">
+                  <Tag className="h-4 w-4 flex-shrink-0" />
+                  <span>Context we will carry into the call: {contextLabel}</span>
+                </div>
+                <p className="text-primary-800">
+                  {bookingContext
+                    ? `We will focus on ${bookingContext.focus}, then ${bookingContext.nextStep}.`
+                    : 'We will use this to recommend the best package, proof examples, and next step.'}
+                </p>
               </div>
             )}
             <p className="text-gray-600 mb-6">
@@ -505,7 +588,7 @@ const ConsultationBookingForm = () => {
                 <div>🕐 {selectedTime} Central Time</div>
                 <div>⏱️ Duration: 15 minutes</div>
                 <div>💰 Cost: FREE</div>
-                {packageInterest && <div>🏷️ Context: {packageInterest}</div>}
+                {rawContext && <div>🏷️ Context: {contextLabel}</div>}
               </div>
             </div>
 
@@ -559,6 +642,7 @@ const ConsultationBookingForm = () => {
                 <li>✅ Check your email for the calendar invite</li>
                 <li>✅ Add it to your calendar so you don't forget</li>
                 <li>✅ We'll call you at {selectedTime} Central Time on {formatSelectedDate(selectedDate)}</li>
+                {rawContext && <li>✅ We will review your {contextLabel.toLowerCase()} context before the call</li>}
                 <li>✅ We will recommend the best next step: session booking, custom quote, or private gallery examples</li>
               </ul>
             </div>

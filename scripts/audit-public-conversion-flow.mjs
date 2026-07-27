@@ -55,6 +55,10 @@ const checks = [
     patterns: ['serviceTone', 'Decision Board', 'Planning focus', 'wedding', 'portrait', 'event', 'commercial', 'branding'],
   },
   {
+    file: 'components/ConsultationBookingForm.tsx',
+    patterns: ['bookingContextByKey', 'Context we will carry into the call', 'serviceParam', 'sourceParam', 'Service context'],
+  },
+  {
     file: 'tests/smoke/public-and-admin.spec.ts',
     patterns: [
       'mobile conversion path remains visible across public pages',
