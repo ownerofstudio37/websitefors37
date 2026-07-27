@@ -12,7 +12,7 @@ function scoreLead(lead: any) {
   if (/portfolio|complete gallery|finished gallery|request/.test(text)) score += 10
   if (lead.status === 'qualified') score += 15
   if (lead.status === 'converted') score = 100
-  if (lead.status === 'lost') score = Math.min(score, 25)
+  if (lead.status === 'lost' || lead.status === 'closed-lost') score = Math.min(score, 25)
   return Math.max(0, Math.min(100, score))
 }
 

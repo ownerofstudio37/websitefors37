@@ -38,7 +38,7 @@ export interface Lead {
   phone?: string
   message: string
   source: string
-  status: 'new' | 'contacted' | 'qualified' | 'converted' | 'lost'
+  status: 'new' | 'contacted' | 'qualified' | 'converted' | 'closed-won' | 'closed-lost' | 'lost'
   priority: 'low' | 'medium' | 'high'
   estimated_value?: number
   created_at: string

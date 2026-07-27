@@ -39,12 +39,19 @@ const normalizeLeadEmail = (value?: string | null) => (value || '').toLowerCase(
 const normalizeLeadPhone = (value?: string | null) => (value || '').replace(/\D/g, '').slice(-10)
 
 const duplicateStatusRank: Record<string, number> = {
+  'closed-won': 6,
   converted: 5,
   qualified: 4,
   contacted: 3,
   new: 2,
+  'closed-lost': 1,
   lost: 1,
 }
+
+const ARCHIVED_LEAD_STATUS = 'closed-lost' as Lead['status']
+const closedLeadStatuses = new Set(['converted', 'closed-won', 'closed-lost', 'lost'])
+const isClosedLeadStatus = (status: string) => closedLeadStatuses.has(status)
+const isArchivedLeadStatus = (status: string) => status === 'closed-lost' || status === 'lost'
 
 const pickPrimaryDuplicateLead = (rows: Lead[]) => {
   return [...rows].sort((a, b) => {
@@ -244,9 +251,8 @@ export default function LeadsPage() {
       if (filter !== 'all') {
         query = query.eq('status', filter)
       }
-      if (savedView === 'follow-up') {
-        query = query.not('next_follow_up', 'is', null).lte('next_follow_up', new Date().toISOString())
-      }
+      // Production may not have the next_follow_up migration yet, so the
+      // follow-up view is handled from fetched lead age/status instead.
       if (savedView === 'missing-phone') {
         query = query.or('phone.is.null,phone.eq.')
       }
@@ -444,9 +450,7 @@ export default function LeadsPage() {
     if (filter !== 'all') {
       nextQuery = nextQuery.eq('status', filter)
     }
-    if (savedView === 'follow-up') {
-      nextQuery = nextQuery.not('next_follow_up', 'is', null).lte('next_follow_up', new Date().toISOString())
-    }
+    // Avoid querying next_follow_up directly; older databases do not have it.
     if (savedView === 'missing-phone') {
       nextQuery = nextQuery.or('phone.is.null,phone.eq.')
     }
@@ -506,12 +510,13 @@ export default function LeadsPage() {
 
   const selectedLeads = leads.filter((lead) => selectedLeadIds.has(lead.id))
   const selectedCount = selectedLeadIds.size
-  const selectedRecordsAreVisible = selectedCount > 0 && selectedCount === selectedLeads.length
   const isObviousTestLead = (lead: Lead) => {
-    const text = `${lead.name || ''} ${lead.email || ''} ${lead.message || ''} ${lead.source || ''} ${(lead.tags || []).join(' ')}`.toLowerCase()
-    return /test|demo|fake|sample|asdf|delete me|cleanup/.test(text)
+    const text = `${lead.name || ''} ${lead.email || ''} ${lead.phone || ''} ${lead.message || ''} ${lead.notes || ''} ${lead.source || ''} ${(lead.tags || []).join(' ')}`.toLowerCase()
+    return /\b(test(ing)?|demo|fake|sample|dummy|placeholder|asdf|qa|cleanup)\b/.test(text) ||
+      /delete\s+me/.test(text) ||
+      /@(example|test)\./.test(text)
   }
-  const canHardDeleteSelected = selectedRecordsAreVisible && selectedLeads.every(isObviousTestLead)
+  const canHardDeleteSelected = selectedCount > 0
 
   const logBulkAction = async (leadIds: string[], content: string, metadata: Record<string, any>) => {
     if (leadIds.length === 0) return
@@ -630,14 +635,18 @@ export default function LeadsPage() {
 
   const deleteSelectedLeads = async () => {
     if (selectedCount === 0) return
-    if (!canHardDeleteSelected) {
-      setToast('Hard delete is only enabled for visible obvious test records. Archive real leads instead.')
-      setConfirmBulkDelete(false)
-      return
-    }
     setBulkActionLoading(true)
     try {
       const ids = Array.from(selectedLeadIds)
+      const { data: rows, error: fetchError } = await supabase.from('leads').select('*').in('id', ids)
+      if (fetchError) throw fetchError
+      const fetchedLeads = (rows || []) as Lead[]
+      const unsafeLeads = fetchedLeads.filter((lead) => !isObviousTestLead(lead))
+      if (fetchedLeads.length !== ids.length || unsafeLeads.length > 0) {
+        setConfirmBulkDelete(false)
+        setToast('Delete stopped: every selected lead must clearly be a test/demo/cleanup record. Use Archive for real leads.')
+        return
+      }
       await supabase.from('communication_logs').delete().in('lead_id', ids)
       const { error } = await supabase.from('leads').delete().in('id', ids)
       if (error) throw error
@@ -659,10 +668,10 @@ export default function LeadsPage() {
     setBulkActionLoading(true)
     try {
       const ids = Array.from(selectedLeadIds)
-      const { error } = await supabase.from('leads').update({ status: 'lost' }).in('id', ids)
+      const { error } = await supabase.from('leads').update({ status: ARCHIVED_LEAD_STATUS }).in('id', ids)
       if (error) throw error
-      await logBulkAction(ids, 'Bulk archived: status changed to lost instead of hard delete.', { action: 'bulk_archive', status: 'lost' })
-      setLeads(prev => prev.map(lead => selectedLeadIds.has(lead.id) ? { ...lead, status: 'lost' } : lead))
+      await logBulkAction(ids, 'Bulk archived: status changed to closed-lost instead of hard delete.', { action: 'bulk_archive', status: ARCHIVED_LEAD_STATUS })
+      setLeads(prev => prev.map(lead => selectedLeadIds.has(lead.id) ? { ...lead, status: ARCHIVED_LEAD_STATUS } : lead))
       clearSelectedLeads()
       setToast(`Archived ${ids.length} lead${ids.length === 1 ? '' : 's'}`)
       await fetchLeads()
@@ -839,6 +848,9 @@ export default function LeadsPage() {
       case 'contacted': return 'bg-yellow-100 text-yellow-800'
       case 'qualified': return 'bg-green-100 text-green-800'
       case 'converted': return 'bg-purple-100 text-purple-800'
+      case 'closed-won': return 'bg-purple-100 text-purple-800'
+      case 'closed-lost':
+      case 'lost': return 'bg-gray-100 text-gray-700'
       default: return 'bg-gray-100 text-gray-800'
     }
   }
@@ -850,7 +862,7 @@ export default function LeadsPage() {
     const cues: Array<{ label: string; tone: string }> = []
 
     if (lead.status === 'new' && hoursOld > 24) cues.push({ label: 'Needs response', tone: 'bg-red-50 text-red-700 border-red-200' })
-    if (hoursOld > 72 && !['converted', 'lost'].includes(lead.status)) cues.push({ label: 'Stale', tone: 'bg-amber-50 text-amber-800 border-amber-200' })
+    if (hoursOld > 72 && !isClosedLeadStatus(lead.status)) cues.push({ label: 'Stale', tone: 'bg-amber-50 text-amber-800 border-amber-200' })
     if (!lead.email || !lead.phone) cues.push({ label: 'Incomplete contact', tone: 'bg-gray-50 text-gray-700 border-gray-200' })
     if (lead.priority === 'high' || /book|quote|pricing|package|consult|proposal|wedding|urgent/.test(text)) cues.push({ label: 'High intent', tone: 'bg-green-50 text-green-700 border-green-200' })
     if (/complete gallery request|portfolio-request|portfolio|gallery|finished gallery|sample/.test(text)) cues.push({ label: 'Complete gallery request', tone: 'bg-blue-50 text-blue-700 border-blue-200' })
@@ -869,14 +881,14 @@ export default function LeadsPage() {
     if (/portfolio|complete gallery|finished gallery|request/.test(text)) score += 10
     if (lead.status === 'qualified') score += 15
     if (lead.status === 'converted') score = 100
-    if (lead.status === 'lost') score = Math.min(score, 25)
+    if (isArchivedLeadStatus(lead.status)) score = Math.min(score, 25)
     if (lead.status === 'new' && hoursOld > 24) score += 5
     return Math.max(0, Math.min(100, score))
   }
 
   const getUrgencyLabel = (lead: Lead) => {
     const score = getLeadScore(lead)
-    if (lead.status === 'lost') return 'Archived'
+    if (isArchivedLeadStatus(lead.status)) return 'Archived'
     if (score >= 80) return 'Hot'
     if (score >= 60) return 'Warm'
     return 'Needs nurture'
@@ -1086,6 +1098,15 @@ Studio37`)
     const value = overrideDate === undefined ? followUpDate || null : overrideDate || null
     const { error } = await supabase.from('leads').update({ next_follow_up: value }).eq('id', selectedLead.id)
     if (error) {
+      if ((error as { code?: string }).code === '42703') {
+        await logCommunication(selectedLead, 'note', value ? `Next follow-up scheduled for ${value}` : 'Follow-up marked complete', {
+          action: value ? 'follow_up_scheduled_column_missing' : 'follow_up_completed_column_missing',
+          next_follow_up: value,
+        })
+        setShowFollowUpModal(false)
+        setToast(value ? 'Follow-up note saved. Add the next_follow_up migration to enable reminders.' : 'Follow-up completion noted')
+        return
+      }
       setToast('Failed to update follow-up')
       return
     }
@@ -1363,7 +1384,7 @@ Studio37`)
 
   const hasActiveLeadFilters = filter !== 'all' || q.trim().length > 0
   const overdueFollowUps = leads.filter((lead) => {
-    if (!lead.next_follow_up || ['converted', 'lost'].includes(lead.status)) return false
+    if (!lead.next_follow_up || isClosedLeadStatus(lead.status)) return false
     return new Date(lead.next_follow_up).getTime() <= Date.now()
   }).length
   const followUpQueue = leads
@@ -1371,7 +1392,7 @@ Studio37`)
       const created = new Date(lead.created_at).getTime()
       const hoursOld = Number.isFinite(created) ? (Date.now() - created) / 36e5 : 0
       const due = lead.next_follow_up && new Date(lead.next_follow_up).getTime() <= Date.now()
-      return !['converted', 'lost'].includes(lead.status) && (due || (lead.status === 'new' && hoursOld >= 24))
+      return !isClosedLeadStatus(lead.status) && (due || (lead.status === 'new' && hoursOld >= 24))
     })
     .slice(0, 4)
 
@@ -1409,7 +1430,8 @@ Studio37`)
             <option value="contacted">Contacted</option>
             <option value="qualified">Qualified</option>
             <option value="converted">Converted</option>
-            <option value="lost">Lost / Archived</option>
+            <option value="closed-won">Closed Won</option>
+            <option value="closed-lost">Lost / Archived</option>
           </select>
           <button
             onClick={fetchLeads}
@@ -1638,7 +1660,8 @@ Studio37`)
                   <option value="contacted">Contacted</option>
                   <option value="qualified">Qualified</option>
                   <option value="converted">Converted</option>
-                  <option value="lost">Lost</option>
+                  <option value="closed-won">Closed Won</option>
+                  <option value="closed-lost">Lost / Archived</option>
                 </select>
                 <button
                   onClick={updateBulkStatus}
@@ -1706,7 +1729,7 @@ Studio37`)
                 <button
                   onClick={() => setConfirmBulkDelete(true)}
                   disabled={bulkActionLoading || !canHardDeleteSelected}
-                  title={canHardDeleteSelected ? 'Delete selected obvious test records' : 'Archive real leads; hard delete is only for visible obvious test records'}
+                  title="Delete selected records only if every selected lead clearly looks like test/demo/cleanup data"
                   className="inline-flex items-center gap-1 rounded-lg bg-red-600 px-3 py-2 text-sm font-medium text-white hover:bg-red-700 disabled:opacity-50"
                 >
                   <Trash2 className="h-4 w-4" />
@@ -1947,7 +1970,8 @@ Studio37`)
                         <option value="contacted">Contacted</option>
                         <option value="qualified">Qualified</option>
                         <option value="converted">Converted</option>
-                        <option value="lost">Lost</option>
+                        <option value="closed-won">Closed Won</option>
+                        <option value="closed-lost">Lost / Archived</option>
                       </select>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
