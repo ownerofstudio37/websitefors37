@@ -17,6 +17,11 @@ const checks = [
   {
     file: 'lib/public-content.ts',
     patterns: [
+      'curatedImageSlots',
+      'engagementHero',
+      'proposalProof',
+      'familyProof',
+      'commercialProof',
       'studio37Reviews',
       'localTrustReviews',
       'testimonialsByService',

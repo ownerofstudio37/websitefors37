@@ -71,12 +71,20 @@ export const localTrustReviews = [
   studio37Reviews[9],
 ].filter(Boolean)
 
+export const curatedImageSlots = {
+  engagementHero: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1784790228/Emma_Nick_-1_1-2_emsgxw.jpg',
+  proposalProof: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1784795585/Untitled-160_convert.io_c7oit0.jpg',
+  portraitProof: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033088/PS379444_2_1_pge2hl.jpg',
+  familyProof: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1784790718/Hotard_Family_Day_2_-_49_1_eernop.jpg',
+  commercialProof: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1784791658/VB_School_Chris_Faves_-_158_wlcspc.jpg',
+}
+
 export const recentWorkItems = [
   {
     title: 'Golden-Hour Engagement Session',
     service: 'Engagement',
     location: 'The Woodlands, TX',
-    image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1770033072/PS370397-1_ooxygn.jpg',
+    image: curatedImageSlots.engagementHero,
     alt: 'Studio37 golden-hour engagement photography session in The Woodlands Texas',
     note: 'Soft sunset portraits with location planning, relaxed direction, and save-the-date variety.',
     galleryUrl: 'https://gallery.studio37.cc',
@@ -87,7 +95,7 @@ export const recentWorkItems = [
     title: 'Private Proposal Coverage',
     service: 'Proposal',
     location: 'Montgomery County',
-    image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1784795585/Untitled-160_convert.io_c7oit0.jpg',
+    image: curatedImageSlots.proposalProof,
     alt: 'Studio37 surprise proposal photography with concierge planning in Montgomery County Texas',
     note: 'A discreet reveal plan with privacy notes, portrait timing, and post-proposal gallery coverage.',
     galleryUrl: 'https://gallery.studio37.cc',
@@ -98,7 +106,7 @@ export const recentWorkItems = [
     title: 'Editorial Portrait Session',
     service: 'Portraits',
     location: 'Pinehurst, TX',
-    image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033088/PS379444_2_1_pge2hl.jpg',
+    image: curatedImageSlots.portraitProof,
     alt: 'Studio37 editorial portrait session in Pinehurst Texas',
     note: 'Clean direction, polished editing, and gallery-ready portrait variety.',
     featured: true,
@@ -108,7 +116,7 @@ export const recentWorkItems = [
     title: 'Warm Family Session',
     service: 'Family',
     location: 'Montgomery County',
-    image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1779269044/Untitled-4-3_dvlcs6.jpg',
+    image: curatedImageSlots.familyProof,
     alt: 'Warm Studio37 family photography session in Montgomery County Texas',
     note: 'Relaxed posing, detail coverage, and natural connection moments.',
     featured: true,
@@ -118,7 +126,7 @@ export const recentWorkItems = [
     title: 'Commercial Brand Refresh',
     service: 'Commercial',
     location: 'Greater Houston',
-    image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255703/PS373409_pwmxmp.jpg',
+    image: curatedImageSlots.commercialProof,
     alt: 'Studio37 commercial brand photography refresh in Greater Houston',
     note: 'Business-ready images for web, social, profiles, and campaigns.',
     featured: true,
