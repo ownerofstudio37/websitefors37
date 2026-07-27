@@ -26,15 +26,15 @@ export default function PublicStickyCTA() {
   return (
     <div data-mobile-nav-hide className="fixed inset-x-0 bottom-0 z-30 border-t border-stone-200 bg-white/95 pb-[env(safe-area-inset-bottom)] shadow-[0_-10px_30px_rgba(15,23,42,0.08)] backdrop-blur-xl transition-transform duration-200 md:hidden">
       <nav className="grid grid-cols-3" aria-label="Quick actions">
-        <Link href="/book-consultation" className={actionClass}>
+        <Link href="/book-consultation" aria-label="Book a Studio37 consultation" className={actionClass}>
           <Calendar className="h-5 w-5 text-amber-700" aria-hidden="true" />
           Book consult
         </Link>
-        <Link href="/tools/pricing" className={`${actionClass} border-x border-stone-200`}>
+        <Link href="/tools/pricing" aria-label="Open the Studio37 pricing tool" className={`${actionClass} border-x border-stone-200`}>
           <Calculator className="h-5 w-5 text-amber-700" aria-hidden="true" />
           Price
         </Link>
-        <Link href="https://gallery.studio37.cc" className={actionClass}>
+        <Link href="https://gallery.studio37.cc" aria-label="Open the featured Studio37 gallery" className={actionClass}>
           <ImageIcon className="h-5 w-5 text-amber-700" aria-hidden="true" />
           Galleries
         </Link>

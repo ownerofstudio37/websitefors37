@@ -710,7 +710,7 @@ Audit notes: `npm run audit:seo-assets` passed across public metadata/source fil
 - [x] Image curation pass: choose the strongest emotional/commercial image for each service, sub-service, local page, proof card, and blog hero.
 - [x] Blog editorial design pass: strengthen category browsing, featured article layout, article hero treatment, and service-specific post CTAs.
 - [x] Microinteraction pass: refine hover states, scroll reveal timing, form feedback, mobile nav transitions, and sticky CTA behavior.
-- [ ] Mobile-first refinement pass: review thumb reach, sticky CTA timing, image cropping, section fatigue, and whether every page has a clear next action within 1-2 scrolls.
+- [x] Mobile-first refinement pass: review thumb reach, sticky CTA timing, image cropping, section fatigue, and whether every page has a clear next action within 1-2 scrolls.
 - [ ] Admin-driven content polish: make proof cards, reviews, CTA variants, and image selections editable from admin.
 
 ## Public Site Features

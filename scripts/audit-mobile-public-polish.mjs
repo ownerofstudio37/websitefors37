@@ -22,7 +22,21 @@ const checks = [
   },
   {
     file: 'components/PublicStickyCTA.tsx',
-    patterns: ['/book-consultation', '/request-portfolio', '/tools/package-recommender'],
+    patterns: [
+      '/book-consultation',
+      '/tools/pricing',
+      'https://gallery.studio37.cc',
+      'aria-label="Book a Studio37 consultation"',
+      'aria-label="Open the featured Studio37 gallery"',
+    ],
+  },
+  {
+    file: 'app/globals.css',
+    patterns: ['py-14 md:py-28', 'mobileMenuEnter', 'scale(0.985)'],
+  },
+  {
+    file: 'components/EnhancedChatBot.tsx',
+    patterns: ['bottom-[calc(5.75rem+env(safe-area-inset-bottom))]', 'data-mobile-nav-hide', 'h-[min(70dvh,34rem)]'],
   },
   {
     file: 'components/SEOFooter.tsx',

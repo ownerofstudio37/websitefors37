@@ -121,7 +121,7 @@
   }
 
   .section-shell {
-    @apply py-20 md:py-28;
+    @apply py-14 md:py-28;
   }
 
   .section-soft {
