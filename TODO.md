@@ -1,5 +1,14 @@
 # Studio37 UX/UI, SEO, and Feature TODO
 
+## Mobile Optimization / Nav Visibility Audit - July 25, 2026
+
+- [x] Mobile nav contrast: invert the real Studio37 logo over dark hero images so the brand mark is visible before scroll.
+- [x] Mobile menu readability: replace the overly transparent menu panel treatment with a solid white panel so links do not blend into hero imagery.
+- [x] Mobile menu trigger visibility: strengthen the hamburger/close button contrast on dark hero pages.
+- [x] Tablet nav breakpoint: keep the mobile menu through tablet widths so desktop links do not crowd or clip at 768px.
+- [ ] Post-deploy mobile visual QA: recheck homepage, services, service detail, blog, booking, and local pages on a real phone after deploy.
+- [ ] Mobile nav simplification pass: consider grouping secondary links inside the mobile menu so Services, Service Areas, Blog, About, Contact, Book, and phone do not require a long scroll when submenus are open.
+
 ## Service Copy, Pricing, And Credibility Updates - July 23, 2026
 
 ### Portrait Photography

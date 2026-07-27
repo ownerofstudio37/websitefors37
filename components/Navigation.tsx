@@ -180,7 +180,7 @@ export default function Navigation({
       suppressHydrationWarning
     >
       <div className="container mx-auto px-4">
-        <div className="flex h-[4.5rem] items-center justify-between md:h-20">
+        <div className="flex h-[4.5rem] items-center justify-between lg:h-20">
           <Link 
             href="/" 
             className="flex min-h-11 items-center space-x-2"
@@ -199,7 +199,7 @@ export default function Navigation({
                     alt="Studio 37 Photography - Professional photography in Pinehurst, TX" 
                     width="184"
                     height="56"
-                    className={`w-auto object-contain transition-all duration-300 ${scrolled ? 'h-11' : 'h-14'}`}
+                    className={`w-auto object-contain transition-all duration-300 ${scrolled ? 'h-11' : 'h-14'} ${solidNav ? '' : 'brightness-0 invert drop-shadow-[0_2px_8px_rgba(0,0,0,0.45)]'}`}
                     loading="eager"
                     referrerPolicy="strict-origin-when-cross-origin"
                   />
@@ -220,7 +220,7 @@ export default function Navigation({
             )}
           </Link>
 
-          <div className="hidden md:flex items-center gap-3 xl:gap-4" suppressHydrationWarning>
+          <div className="hidden lg:flex items-center gap-3 xl:gap-4" suppressHydrationWarning>
             {navItems.map((item) => {
               // Normalize hrefs to prevent duplicated segments like /services/services
               const normalizeHref = (href: string, parentHref?: string) => {
@@ -403,7 +403,7 @@ export default function Navigation({
 
           <button
             type="button"
-            className={`min-h-11 min-w-11 rounded-full p-2.5 transition md:hidden focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2 ${solidNav ? 'text-stone-900 bg-stone-100 hover:bg-stone-200' : 'text-white bg-white/10 backdrop-blur-sm hover:bg-white/20'}`}
+            className={`min-h-11 min-w-11 rounded-full p-2.5 transition lg:hidden focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2 ${solidNav ? 'text-stone-900 bg-stone-100 hover:bg-stone-200' : 'text-white bg-black/45 backdrop-blur-sm hover:bg-black/55'}`}
             onClick={() => setIsOpen(!isOpen)}
             aria-expanded={isOpen ? 'true' : 'false'}
             aria-controls="mobile-menu"
@@ -416,7 +416,7 @@ export default function Navigation({
 
         {isOpen && (
           <div 
-            className="fixed inset-x-0 top-[4.5rem] z-50 max-h-[calc(100dvh-4.5rem)] overflow-y-auto border-t border-stone-200 bg-white/98 py-3 pb-[calc(6rem+env(safe-area-inset-bottom))] shadow-[0_20px_40px_rgba(15,23,42,0.16)] backdrop-blur-xl md:hidden"
+            className="fixed inset-x-0 top-[4.5rem] z-50 max-h-[calc(100dvh-4.5rem)] overflow-y-auto border-t border-stone-200 bg-white py-3 pb-[calc(6rem+env(safe-area-inset-bottom))] shadow-[0_20px_40px_rgba(15,23,42,0.16)] lg:hidden"
             id="mobile-menu"
           >
             <div className="mx-auto flex max-w-screen-sm flex-col gap-2 px-4">
