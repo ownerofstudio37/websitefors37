@@ -33,6 +33,10 @@
     text-rendering: optimizeLegibility;
   }
 
+  body[data-mobile-nav-open="true"] [data-mobile-nav-hide] {
+    display: none !important;
+  }
+
   /* Apply film grain texture to the whole site - optimized with Cloudinary auto format/quality */
   body::after {
     content: "";

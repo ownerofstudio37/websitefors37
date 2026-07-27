@@ -6,8 +6,9 @@
 - [x] Mobile menu readability: replace the overly transparent menu panel treatment with a solid white panel so links do not blend into hero imagery.
 - [x] Mobile menu trigger visibility: strengthen the hamburger/close button contrast on dark hero pages.
 - [x] Tablet nav breakpoint: keep the mobile menu through tablet widths so desktop links do not crowd or clip at 768px.
-- [ ] Post-deploy mobile visual QA: recheck homepage, services, service detail, blog, booking, and local pages on a real phone after deploy.
-- [ ] Mobile nav simplification pass: consider grouping secondary links inside the mobile menu so Services, Service Areas, Blog, About, Contact, Book, and phone do not require a long scroll when submenus are open.
+- [x] Local mobile visual QA: recheck homepage, services, service detail, blog, booking, and local pages at mobile/tablet widths after the nav visibility fixes.
+- [x] Mobile nav simplification pass: group secondary links inside the mobile menu so Services, Service Areas, Blog, About, Contact, Book, and phone do not require a long scroll when submenus are open.
+- [x] Mobile nav fixed-widget cleanup: hide chat, quote capture, and sticky CTA while the mobile menu is open so navigation actions stay readable and tappable.
 
 ## Service Copy, Pricing, And Credibility Updates - July 23, 2026
 

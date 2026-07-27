@@ -574,6 +574,7 @@ ${conversationSummary}`;
       <AnimatePresence>
         {!isOpen && (
           <motion.button
+            data-mobile-nav-hide
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             exit={{ scale: 0 }}
@@ -591,6 +592,7 @@ ${conversationSummary}`;
       <AnimatePresence>
         {isOpen && (
           <motion.div
+            data-mobile-nav-hide
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}

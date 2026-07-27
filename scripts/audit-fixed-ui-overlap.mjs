@@ -17,7 +17,7 @@ const checks = [
   },
   {
     file: 'components/Navigation.tsx',
-    required: ['fixed w-full z-50'],
+    required: ['fixed w-full z-[120]'],
   },
 ]
 

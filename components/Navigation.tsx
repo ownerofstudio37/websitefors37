@@ -54,6 +54,13 @@ export default function Navigation({
   }, [isOpen])
 
   useEffect(() => {
+    document.body.dataset.mobileNavOpen = isOpen ? 'true' : 'false'
+    return () => {
+      delete document.body.dataset.mobileNavOpen
+    }
+  }, [isOpen])
+
+  useEffect(() => {
     let ticking = false
     const onScroll = () => {
       if (!ticking) {
@@ -153,6 +160,21 @@ export default function Navigation({
     return pathname === normalized || (normalized !== '/' && pathname.startsWith(`${normalized}/`))
   }
 
+  const normalizeNavHref = (href: string) => {
+    if (href === '/gallery' || href === 'gallery' || href === '/portfolio' || href === 'portfolio') {
+      return 'https://gallery.studio37.cc'
+    }
+    if (/^https?:\/\//i.test(href)) return href
+    const cleaned = (href || '').trim().replace(/\/+/g, '/').replace(/\/+$/g, '')
+    return cleaned.startsWith('/') ? cleaned || '/' : `/${cleaned}`
+  }
+
+  const mobileSecondaryLabels = new Set(['session prep', 'blog', 'about', 'contact'])
+  const isMobileSecondaryItem = (item: NavigationItem) =>
+    !item.highlighted && !item.children?.length && mobileSecondaryLabels.has(item.label.toLowerCase())
+  const mobilePrimaryItems = navItems.filter((item) => !isMobileSecondaryItem(item))
+  const mobileSecondaryItems = navItems.filter(isMobileSecondaryItem)
+
   const lightPagePrefixes = [
     '/tools/pricing',
     '/tools/package-recommender',
@@ -172,7 +194,7 @@ export default function Navigation({
     <nav 
       ref={navRef}
       id="site-navigation"
-      className={`fixed w-full z-50 transition-all duration-300 ${
+      className={`fixed w-full z-[120] transition-all duration-300 ${
         solidNav ? 'bg-white/92 backdrop-blur-xl shadow-[0_10px_30px_rgba(15,23,42,0.08)] border-b border-stone-200/80' : 'bg-transparent'
       }`}
       role="navigation"
@@ -315,7 +337,7 @@ export default function Navigation({
                     
                     {isDropdownOpen && (
                       <div
-                        className={`absolute top-full left-0 mt-3 bg-white rounded-2xl shadow-[0_20px_60px_rgba(15,23,42,0.16)] border border-stone-200 z-50 overflow-hidden ${
+                        className={`absolute top-full left-0 mt-3 bg-white rounded-2xl shadow-[0_20px_60px_rgba(15,23,42,0.16)] border border-stone-200 z-[130] overflow-hidden ${
                           isLargeDropdown ? 'w-[42rem] max-w-[90vw]' : 'w-56'
                         }`}
                         onMouseEnter={handleEnter}
@@ -416,11 +438,11 @@ export default function Navigation({
 
         {isOpen && (
           <div 
-            className="fixed inset-x-0 top-[4.5rem] z-50 max-h-[calc(100dvh-4.5rem)] overflow-y-auto border-t border-stone-200 bg-white py-3 pb-[calc(6rem+env(safe-area-inset-bottom))] shadow-[0_20px_40px_rgba(15,23,42,0.16)] lg:hidden"
+            className="fixed inset-x-0 top-[4.5rem] z-[130] max-h-[calc(100dvh-4.5rem)] overflow-y-auto border-t border-stone-200 bg-white py-3 pb-[calc(6rem+env(safe-area-inset-bottom))] shadow-[0_20px_40px_rgba(15,23,42,0.16)] lg:hidden"
             id="mobile-menu"
           >
             <div className="mx-auto flex max-w-screen-sm flex-col gap-2 px-4">
-              {navItems.map((item) => {
+              {mobilePrimaryItems.map((item) => {
                 const normalizeHref = (href: string, parentHref?: string) => {
                   try {
                     // Override gallery link to point to external subdomain (matches desktop behavior)
@@ -525,6 +547,31 @@ export default function Navigation({
                   </Link>
                 )
               })}
+              {mobileSecondaryItems.length > 0 && (
+                <div className="rounded-xl border border-stone-200 bg-stone-50 p-3">
+                  <p className="px-1 text-xs font-semibold uppercase tracking-[0.14em] text-stone-500">More</p>
+                  <div className="mt-2 grid grid-cols-2 gap-2">
+                    {mobileSecondaryItems.map((item) => {
+                      const href = normalizeNavHref(item.href)
+                      return (
+                        <Link
+                          key={item.id}
+                          href={href}
+                          className={`min-h-11 rounded-lg px-3 py-2.5 text-sm font-semibold transition-colors ${
+                            isActiveHref(href)
+                              ? 'bg-amber-100 text-amber-900'
+                              : 'bg-white text-stone-800 hover:bg-amber-50 hover:text-amber-700 focus:bg-amber-50 focus:text-amber-700'
+                          }`}
+                          aria-current={isActiveHref(href) ? 'page' : undefined}
+                          onClick={() => { trackNav(item.label, href, 'mobile'); setIsOpen(false); }}
+                        >
+                          {item.label}
+                        </Link>
+                      )
+                    })}
+                  </div>
+                </div>
+              )}
               {/* Phone click-to-call */}
               <a
                 href="tel:+18327139944"
