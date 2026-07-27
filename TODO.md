@@ -4,30 +4,30 @@
 
 ### P1 Child Service Visual Upgrade
 
-- [ ] Convert older child service pages using plain blue/gray layouts to the current premium Studio37 system: `/corporate-events`, `/graduation`, `/birthday-party`, `/holiday-party`, `/anniversary-party`, and `/fundraiser`.
-- [ ] Give each sub-service a more editorial first viewport: service-specific real hero image, readable hero eyebrow on mobile, stronger benefit copy, pricing anchor, and one primary CTA.
-- [ ] Replace generic SEO text blocks on child pages with tighter proof/process sections: use case, logistics, delivery expectations, private examples, and service-specific objections.
-- [ ] Standardize sub-service package cards with the same visual language as main service pages: amber/studio palette, equal heights, consistent popular badge, compact features, and secondary pricing/request-example links.
-- [ ] Add a reusable `SubServiceHero` / `SubServicePackageGrid` pattern so future child pages do not drift into older template styles.
+- [x] Convert older child service pages using plain blue/gray layouts to the current premium Studio37 system: `/corporate-events`, `/graduation`, `/birthday-party`, `/holiday-party`, `/anniversary-party`, and `/fundraiser`.
+- [x] Give each sub-service a more editorial first viewport: service-specific real hero image, readable hero eyebrow on mobile, stronger benefit copy, pricing anchor, and one primary CTA.
+- [x] Replace generic SEO text blocks on child pages with tighter proof/process sections: use case, logistics, delivery expectations, private examples, and service-specific objections.
+- [x] Standardize sub-service package cards with the same visual language as main service pages: amber/studio palette, equal heights, consistent popular badge, compact features, and secondary pricing/request-example links.
+- [x] Add a reusable `SubServiceHero` / `SubServicePackageGrid` pattern so future child pages do not drift into older template styles.
 
 ### P1 Page-Specific Fixes
 
-- [ ] `/corporate-events`: remove remaining blue UI accents, keep rounded commercial/event prices, add business-proof cards for PR recap, sponsor value, speaker coverage, and internal communications.
-- [ ] `/graduation`: keep the cap-and-gown offer intact, but make ceremony/celebration packages feel aligned with event coverage and replace older generic graduation SEO copy.
-- [ ] `/birthday-party`: audit pricing, hero image, package hierarchy, and proof examples so it feels like private event coverage, not a thin seasonal page.
-- [ ] `/holiday-party`: separate corporate holiday parties from private/family celebrations with distinct proof, timelines, and seasonal booking urgency.
-- [ ] `/anniversary-party`: clarify couple portraits vs event-story coverage and add vow-renewal / milestone proof language.
-- [ ] `/fundraiser`: add donor/sponsor/PR deliverable language and make it feel closer to corporate event coverage.
+- [x] `/corporate-events`: remove remaining blue UI accents, keep rounded commercial/event prices, add business-proof cards for PR recap, sponsor value, speaker coverage, and internal communications.
+- [x] `/graduation`: keep the cap-and-gown offer intact, but make ceremony/celebration packages feel aligned with event coverage and replace older generic graduation SEO copy.
+- [x] `/birthday-party`: audit pricing, hero image, package hierarchy, and proof examples so it feels like private event coverage, not a thin seasonal page.
+- [x] `/holiday-party`: separate corporate holiday parties from private/family celebrations with distinct proof, timelines, and seasonal booking urgency.
+- [x] `/anniversary-party`: clarify couple portraits vs event-story coverage and add vow-renewal / milestone proof language.
+- [x] `/fundraiser`: add donor/sponsor/PR deliverable language and make it feel closer to corporate event coverage.
 - [ ] `/product-photography`: replace any vague product imagery with true commercial/product-use visuals and clarify ecommerce, web, ad, and catalog deliverables.
 - [ ] `/brand-refresh-sessions`: verify imagery stays commercial/brand-specific and keep it linked as commercial photography, while branding/marketing routes to website/SEO/PPC services.
 
 ### P1 Micro-Animations And Alive Feel
 
-- [ ] Create a small public-site interaction standard: cards lift 2-4px, images scale subtly, CTA arrows glide, badges fade in, and form states respond quickly without feeling flashy.
-- [ ] Apply consistent `group-hover` treatment to service cards, proof cards, recent work cards, package cards, and private portfolio request cards.
+- [x] Create a small public-site interaction standard: cards lift 2-4px, images scale subtly, CTA arrows glide, badges fade in, and form states respond quickly without feeling flashy.
+- [x] Apply consistent `group-hover` treatment to service cards, proof cards, recent work cards, package cards, and private portfolio request cards.
 - [ ] Add subtle section entrance animation only for high-value public sections, guarded by `prefers-reduced-motion`.
-- [ ] Add active/pressed states to primary and secondary CTAs across public pages so taps feel responsive on mobile.
-- [ ] Add focus-visible polish for image/title-clickable service cards, not just buttons, to preserve accessibility.
+- [x] Add active/pressed states to primary and secondary CTAs across public pages so taps feel responsive on mobile.
+- [x] Add focus-visible polish for image/title-clickable service cards, not just buttons, to preserve accessibility.
 - [ ] Audit chat bubble, sticky CTA, mobile nav, pricing tool, package recommender, and request portfolio interactions for overlap, tap-target size, and motion consistency.
 
 ### P2 QA

@@ -1,9 +1,8 @@
 import React from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 import { generateServiceSchema } from '@/lib/seo-config'
 import PortraitSubServiceSupport from '@/components/PortraitSubServiceSupport'
+import { SubServiceHero, SubServicePackageGrid, SubServiceStoryBlock } from '@/components/SubServicePageSections'
 
 export const metadata = generateSEOMetadata({
   title: 'Charity Fundraiser Event Photography - Studio37',
@@ -44,66 +43,22 @@ export default function FundraiserPage() {
   )
 
   return (
-    <main className="w-full">
+    <main className="w-full pt-16">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
-      {/* Hero Section */}
-      <section className="relative w-full h-[500px] md:h-[600px] overflow-hidden bg-black">
-        <Image
-          src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033151/IMG_4590_1_kweavw.jpg"
-          alt="Professional fundraiser event photography"
-          fill
-          className="object-cover"
-          priority
-        />
-        <div className="absolute inset-0 bg-black/40" />
-        <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Fundraiser Photography</h1>
-          <p className="text-xl text-gray-200 max-w-2xl">
-            Professional event photography that captures the mission, energy, and impact of your fundraising efforts
-          </p>
-        </div>
-      </section>
-
-      {/* Package Options */}
-      <section className="py-16 px-4 md:px-8 lg:px-16 bg-white">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-4">Fundraiser Photography Packages</h2>
-          <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
-            Professional coverage that documents your event and supports your organization's mission
-          </p>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {packages.map((pkg) => (
-              <div
-                key={pkg.name}
-                className={`border rounded-lg p-8 hover:shadow-lg transition ${
-                  pkg.popular ? 'border-2 border-red-600 bg-red-50' : 'border-gray-200'
-                }`}
-              >
-                {pkg.popular && (
-                  <div className="inline-block bg-red-600 text-white px-4 py-1 rounded-full text-sm mb-2 font-semibold">
-                    Most Popular
-                  </div>
-                )}
-                <h3 className="text-2xl font-bold mb-2">{pkg.name}</h3>
-                <p className="text-4xl font-bold text-red-600 mb-2">{pkg.price}</p>
-                <p className="text-gray-600 mb-4">{pkg.duration}</p>
-                <ul className="space-y-2 mb-8">
-                  {pkg.features.map((feature) => (
-                    <li key={feature} className="text-gray-700 flex items-center">
-                      <span className="text-green-600 mr-2">✓</span>
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-                <Link href={`/book-consultation?package=${encodeURIComponent(pkg.name)}`} className="block w-full rounded-lg bg-red-600 py-2 text-center text-white transition hover:bg-red-700">
-                  Book Consultation
-                </Link>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <SubServiceHero
+        eyebrow="Mission-Driven Event Coverage"
+        title="Fundraiser Photography"
+        copy="Photography for charity galas, donor events, auctions, volunteer moments, sponsor recognition, and recap content that supports the next campaign."
+        priceNote="Coverage starts at $600"
+        image="https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033151/IMG_4590_1_kweavw.jpg"
+        imageAlt="Professional fundraiser event photography"
+        primaryHref="/book-consultation?service=fundraiser"
+      />
+      <SubServicePackageGrid
+        title="Fundraiser event packages"
+        copy="Plan coverage around donor recognition, program moments, sponsor deliverables, and the story your organization needs after the event."
+        packages={packages}
+      />
 
       <PortraitSubServiceSupport
         service="fundraiser photography"
@@ -118,66 +73,19 @@ export default function FundraiserPage() {
         objection="Fundraisers need more than pretty photos. The consultation helps us identify sponsor recognition, donor moments, mission storytelling, and post-event usage before the room fills up."
       />
 
-      {/* SEO Content Block */}
-      <section className="py-12 px-4 md:px-8 lg:px-16 bg-gray-50">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-2xl font-bold mb-6">Capture Your Fundraising Impact with Professional Photography</h2>
-
-          <div className="space-y-4 text-gray-700 leading-relaxed">
-            <p>
-              Studio37 Photography specializes in fundraiser event photography across the Houston area, including
-              Pinehurst, The Woodlands, Conroe, Magnolia, Tomball, Spring, and surrounding communities. We understand
-              that fundraising events need more than just documentation—they need compelling visual content that tells
-              your organization's story and demonstrates the power of donor support.
-            </p>
-
-            <p>
-              Whether you're hosting a charity gala, silent auction, benefit dinner, or grassroots fundraising event,
-              our experienced photographers capture the energy, generosity, and community spirit that define successful
-              fundraising. We document not just the event logistics, but the genuine connections between donors,
-              volunteers, and your mission.
-            </p>
-
-            <h3 className="text-xl font-semibold mt-6 mb-3">Fundraiser Photography Coverage:</h3>
-            <ul className="space-y-2 ml-4">
-              <li>• <strong>Donor Recognition:</strong> Photos of major donors, sponsors, and campaign supporters</li>
-              <li>• <strong>Auction & Bidding:</strong> Silent auction displays, active bidding moments, and auction winners</li>
-              <li>• <strong>Presentation Moments:</strong> Speakers, testimonials, and mission-focused presentations</li>
-              <li>• <strong>Volunteer Recognition:</strong> Team photos and candids celebrating volunteers and staff</li>
-              <li>• <strong>Event Details:</strong> Venue setup, silent auction items, signage, and themed elements</li>
-              <li>• <strong>Candid Moments:</strong> Genuine interactions, networking, and celebration photographs</li>
-            </ul>
-
-            <p className="mt-6">
-              Professional fundraiser photography serves multiple purposes: immediate event documentation for social
-              media and newsletters, proof of impact for sponsors and donors, and archive materials for future
-              marketing. We provide fast turnaround on edited photos so you can share your event success immediately
-              with your community.
-            </p>
-
-            <p>
-              Our photographers are experienced with non-profit events and understand how to capture content that
-              reinforces your mission and encourages future donor engagement. We work with your development team to
-              ensure we document the key moments and achievements your organization wants to highlight.
-            </p>
-
-            <p>
-              Serving all major areas in greater Houston including Montgomery County, Harris County, and surrounding
-              regions. Perfect for fundraising galas, benefit events, charity auctions, and non-profit fundraising
-              efforts throughout the Houston area.
-            </p>
-          </div>
-
-          <div className="mt-8 p-4 bg-red-50 rounded-lg">
-            <p className="text-gray-800">
-              Ready to capture your fundraising event?{' '}
-              <Link href="/services/event-photography" className="text-red-600 hover:underline font-semibold">
-                Explore our full event photography services →
-              </Link>
-            </p>
-          </div>
-        </div>
-      </section>
+      <SubServiceStoryBlock
+        title="Fundraiser coverage should help after the event is over"
+        paragraphs={[
+          'Studio37 approaches fundraiser photography as both event documentation and future marketing support. The gallery should help with thank-you emails, donor proof, sponsor recaps, annual reports, and the next ask.',
+          'We identify the people, program moments, signage, auction items, volunteer interactions, and mission story details that matter before guests arrive.',
+        ]}
+        bullets={[
+          'Donor, sponsor, and VIP recognition',
+          'Auction, program, and mission moments',
+          'Volunteer and community candids',
+          'Recap-ready gallery delivery',
+        ]}
+      />
     </main>
   )
 }
