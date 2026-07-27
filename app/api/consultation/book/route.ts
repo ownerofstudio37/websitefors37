@@ -23,6 +23,15 @@ interface BookingRequest {
   phone: string
   notes?: string
   serviceInterest?: string
+  page_url?: string
+  landing_page?: string
+  referrer?: string
+  utm_source?: string
+  utm_medium?: string
+  utm_campaign?: string
+  utm_term?: string
+  utm_content?: string
+  source_metadata?: Record<string, unknown>
 }
 
 interface BookingRecord {
@@ -85,6 +94,55 @@ function formatChicagoDisplayTime(iso: string) {
   })
 }
 
+function escapeHtml(value: unknown) {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+}
+
+function compactObject<T extends Record<string, unknown>>(value: T) {
+  return Object.fromEntries(
+    Object.entries(value).filter(([, entry]) => entry !== undefined && entry !== null && entry !== '')
+  )
+}
+
+function buildBookingSourceMetadata(body: BookingRequest, request: NextRequest) {
+  const metadata = compactObject({
+    ...(body.source_metadata || {}),
+    page_url: body.page_url,
+    landing_page: body.landing_page,
+    referrer: body.referrer,
+    utm_source: body.utm_source,
+    utm_medium: body.utm_medium,
+    utm_campaign: body.utm_campaign,
+    utm_term: body.utm_term,
+    utm_content: body.utm_content,
+    booking_type: 'consultation',
+    user_agent: request.headers.get('user-agent') || undefined,
+  })
+
+  return Object.keys(metadata).length ? metadata : null
+}
+
+function renderBookingContextHtml(sourceMetadata: Record<string, unknown> | null) {
+  if (!sourceMetadata) return ''
+
+  const bookingContext = sourceMetadata.booking_context
+  const queryParams = sourceMetadata.query_params
+
+  return `
+    <hr>
+    <h3>Booking Handoff Context</h3>
+    <p><strong>Booking context:</strong> ${escapeHtml(bookingContext ? JSON.stringify(bookingContext) : '—')}</p>
+    <p><strong>Page URL:</strong> ${escapeHtml(sourceMetadata.page_url || '—')}</p>
+    <p><strong>Landing page:</strong> ${escapeHtml(sourceMetadata.landing_page || '—')}</p>
+    <p><strong>Referrer:</strong> ${escapeHtml(sourceMetadata.referrer || '—')}</p>
+    <p><strong>Query params:</strong> ${escapeHtml(queryParams ? JSON.stringify(queryParams) : '—')}</p>
+  `
+}
+
 export async function POST(request: NextRequest) {
   const ip = getClientIp(request.headers)
   
@@ -106,6 +164,9 @@ export async function POST(request: NextRequest) {
     const body: BookingRequest = await request.json()
     const { date, time, name, email, phone, notes, serviceInterest } = body
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || request.nextUrl.origin || 'https://www.studio37.cc'
+    const sourceMetadata = buildBookingSourceMetadata(body, request)
+    const bookingContext = sourceMetadata?.booking_context as { label?: string } | undefined
+    const contextLabel = bookingContext?.label || serviceInterest || ''
 
     // Validation
     if (!date || !time || !name || !email || !phone) {
@@ -328,13 +389,13 @@ export async function POST(request: NextRequest) {
         const adminEmail = process.env.ADMIN_EMAIL || 'ceo@studio37.cc'
         const emailHtml = await renderEmailTemplate('booking-confirmation', {
           firstName: name,
-          sessionType: 'Photography Consultation',
+          sessionType: contextLabel ? `${contextLabel} Consultation` : 'Photography Consultation',
           sessionDate: date,
           sessionTime: time,
           location: 'Studio37, Pinehurst, TX',
           duration: '30 minutes',
           photographer: 'Studio37 Team',
-          // Optionally add: packageName, totalAmount, depositAmount if available
+          packageName: contextLabel || undefined,
         })
 
         // Send to customer
@@ -357,8 +418,10 @@ export async function POST(request: NextRequest) {
             <p><strong>Phone:</strong> ${phone}</p>
             <p><strong>Date:</strong> ${date}</p>
             <p><strong>Time:</strong> ${time}</p>
+            <p><strong>Service / Package Context:</strong> ${escapeHtml(contextLabel || 'General consultation')}</p>
             <p><strong>Notes:</strong> ${notes || 'None'}</p>
             <p><strong>Booking ID:</strong> ${booking.id}</p>
+            ${renderBookingContextHtml(sourceMetadata)}
             <hr>
             <p><a href="https://www.studio37.cc/admin/bookings">View in Admin Dashboard</a></p>
           `
@@ -386,19 +449,39 @@ export async function POST(request: NextRequest) {
 
       if (!existingLead) {
         // Create new lead
-        const { data: newLead, error: leadError } = await supabase
+        let { data: newLead, error: leadError } = await supabase
           .from('leads')
           .insert({
             name: name,
             email: email,
             phone: phone,
-            service_interest: serviceInterest || 'consultation',
+            service_interest: contextLabel || 'consultation',
             source: 'consultation-booking',
             status: 'new',
-            message: notes || `Booked consultation for ${date} at ${time}${serviceInterest ? ` — interested in: ${serviceInterest}` : ''}`
+            message: notes || `Booked consultation for ${date} at ${time}${contextLabel ? ` — interested in: ${contextLabel}` : ''}`,
+            source_metadata: sourceMetadata,
           })
           .select()
           .single()
+
+        if (leadError && /source_metadata/i.test(leadError.message || '')) {
+          log.warn('Consultation lead insert failed with source_metadata, retrying without it', { error: leadError.message })
+          const retry = await supabase
+            .from('leads')
+            .insert({
+              name: name,
+              email: email,
+              phone: phone,
+              service_interest: contextLabel || 'consultation',
+              source: 'consultation-booking',
+              status: 'new',
+              message: notes || `Booked consultation for ${date} at ${time}${contextLabel ? ` — interested in: ${contextLabel}` : ''}`,
+            })
+            .select()
+            .single()
+          newLead = retry.data
+          leadError = retry.error
+        }
 
         if (!leadError && newLead) {
           // Link lead to appointment
@@ -420,8 +503,9 @@ export async function POST(request: NextRequest) {
               <p><strong>Name:</strong> ${newLead.name || '—'}</p>
               <p><strong>Email:</strong> ${newLead.email || '—'}</p>
               <p><strong>Phone:</strong> ${newLead.phone || '—'}</p>
-              <p><strong>Session Interest:</strong> ${serviceInterest || 'General Consultation'}</p>
+              <p><strong>Session Interest:</strong> ${escapeHtml(contextLabel || 'General Consultation')}</p>
               <p><strong>Notes:</strong> ${newLead.message ? newLead.message.replace(/</g, '&lt;') : '—'}</p>
+              ${renderBookingContextHtml(sourceMetadata)}
               <p><a href="${siteUrl}/admin/leads">View lead in admin</a></p>
             `
 
@@ -445,6 +529,16 @@ export async function POST(request: NextRequest) {
         }
       } else {
         // Link existing lead to appointment
+        if (sourceMetadata) {
+          await supabase
+            .from('leads')
+            .update({
+              service_interest: contextLabel || serviceInterest || 'consultation',
+              source_metadata: sourceMetadata,
+            })
+            .eq('id', existingLead.id)
+        }
+
         if (booking.id) {
           await supabase
             .from('appointments')

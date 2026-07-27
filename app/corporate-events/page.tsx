@@ -18,7 +18,7 @@ export const revalidate = 86400
 const packages = [
   {
     name: 'Business Event Essentials',
-    price: '$660',
+    price: '$700',
     duration: '2 hours',
     features: ['2 hours coverage', 'Commercial usage license', '50+ edited images', '72-hour highlights preview', 'Private digital gallery'],
   },
@@ -31,7 +31,7 @@ const packages = [
   },
   {
     name: 'Business Event Premium',
-    price: '$1,980',
+    price: '$2,000',
     duration: 'Up to 8 hours',
     features: ['Up to 8 hours coverage', 'Commercial usage license', '250+ edited images', 'PR and recap delivery', 'Custom deliverables'],
   },
@@ -49,7 +49,7 @@ export default function CorporateEventsPage() {
       {/* Hero Section */}
       <section className="relative w-full h-[500px] md:h-[600px] overflow-hidden bg-black">
         <Image
-          src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1784791657/VB_School_Chris_Faves_-_28_vdjsiw.jpg"
+          src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1784791655/VB_School_Chris_Faves_-_196_sphhad.jpg"
           alt="Studio37 corporate event photography coverage for a business gathering"
           fill
           className="object-cover"

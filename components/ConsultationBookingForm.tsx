@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Calendar as CalendarIcon, Clock, ArrowRight, ArrowLeft, CheckCircle2, Phone, Mail, User, MessageSquare, Tag } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { trackBookingClick, trackFormSubmit } from '@/lib/analytics'
+import { withLeadContext } from '@/lib/client-lead-context'
 
 interface TimeSlot {
   time: string
@@ -301,12 +302,24 @@ const ConsultationBookingForm = () => {
       sourceParam ? `Source: ${humanizeParam(sourceParam)}` : '',
       formData.notes ? `Client notes: ${formData.notes}` : '',
     ].filter(Boolean).join('\n')
+    const bookingContextMetadata = rawContext
+      ? Object.fromEntries(
+          Object.entries({
+            label: contextLabel,
+            service: serviceParam || '',
+            package: packageInterest || '',
+            source: sourceParam || '',
+            focus: bookingContext?.focus || '',
+            next_step: bookingContext?.nextStep || '',
+          }).filter(([, value]) => value)
+        )
+      : undefined
     
     try {
       const response = await fetch('/api/consultation/book', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+        body: JSON.stringify(withLeadContext({
           date: selectedDate,
           time: selectedTime,
           name: formData.name,
@@ -314,7 +327,12 @@ const ConsultationBookingForm = () => {
           phone: formData.phone,
           notes: contextualNotes || formData.notes,
           serviceInterest: contextLabel || undefined
-        })
+        }, {
+          booking_context: bookingContextMetadata,
+          selected_date: selectedDate,
+          selected_time: selectedTime,
+          booking_type: 'consultation',
+        }))
       })
       
       if (response.ok) {

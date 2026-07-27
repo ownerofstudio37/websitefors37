@@ -719,7 +719,7 @@ Audit notes: `npm run audit:seo-assets` passed across public metadata/source fil
 - [x] Chatbot intent precision pass: make service-specific pricing and package answers deterministic first, then use AI only for nuance, follow-up, and lead capture.
 - [x] Premium service-page proof pass: add more service-specific before/after decision context, private-gallery proof prompts, and objection handling for wedding, portrait, engagement, event, commercial, concierge, and branding pages.
 - [x] Mobile conversion heat-check: run phone-width QA on homepage, service pages, local pages, blog, pricing, booking, chatbot, and gallery links; record any drop-off or overlap issues.
-- [ ] Booking handoff 2.0: carry service/package/source context into booking confirmation, admin lead records, and follow-up email templates more consistently.
+- [x] Booking handoff 2.0: carry service/package/source context into booking confirmation, admin lead records, and follow-up email templates more consistently.
 - [ ] Local proof expansion: add more real examples, parking/light/location notes, and service-fit language to the highest-value local SEO pages.
 - [ ] AI blog writer reliability 2.0: add clearer model fallback states, background generation option, scheduled retry, and admin-visible failure logs.
 - [ ] Admin analytics cockpit: show conversion clicks and submissions for hero CTAs, service-card clicks, pricing, package recommender, booking, portfolio requests, chatbot, and gallery exits.
