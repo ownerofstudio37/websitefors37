@@ -10,8 +10,8 @@ import { ServiceTestimonialsSection } from '@/components/PublicFeatureContent'
 import ServiceIntentPanel from '@/components/ServiceIntentPanel'
 
 export const metadata = generateSEOMetadata({
-  title: 'Full Service Engagement Photography - Pinehurst, TX',
-  description: 'Studio37 Full Service Engagement Sessions in Pinehurst, TX. Signature engagement photography packages plus concierge proposal planning with decor, location scouting, and photo/video coverage.',
+  title: 'Engagement Photography and Proposal Planning - Pinehurst, TX',
+  description: 'Studio37 engagement photography in Pinehurst, TX with location planning, posing direction, surprise proposal coverage, concierge planning, and photo/video options.',
   keywords: [
     'engagement photographer Pinehurst TX',
     'proposal photographer Texas',
@@ -142,8 +142,8 @@ const ENGAGEMENT_PATHS = [
 
 export default function EngagementSessionPage() {
   const serviceSchema = generateServiceSchema(
-    'Full Service Engagement Photography',
-    'Engagement session and concierge proposal photography services in Pinehurst, Texas including planning, decor support, and photo/video coverage.'
+    'Engagement Photography and Proposal Planning',
+    'Engagement session and concierge proposal photography services in Pinehurst, Texas including location planning, posing direction, decor support, and photo/video coverage.'
   )
 
   const engagementFaqs = [
@@ -195,14 +195,15 @@ export default function EngagementSessionPage() {
         <div className="absolute inset-0 bg-gradient-to-r from-black/65 to-black/35" />
         <div className="relative z-10 container mx-auto px-4 py-24">
           <div className="max-w-3xl">
-            <p className="eyebrow-hero mb-3">Engagement Concierge · Pinehurst, TX</p>
-            <h1 className="text-4xl md:text-6xl font-bold mb-4">Full Service Engagement Photography</h1>
+            <p className="eyebrow-hero mb-3">Engagement Photography · Pinehurst, TX</p>
+            <h1 className="text-4xl md:text-6xl font-bold mb-4">Engagement Sessions With a Plan</h1>
             <p className="text-lg md:text-xl text-stone-100 mb-4 leading-relaxed">
-              Elevated engagement photography with planning support from concept to final gallery.
-              Signature sessions are priced 10%–30% above standard portraits for premium direction and experience.
+              Polished couple portraits with location guidance, natural posing, golden-hour timing,
+              and a gallery built for save-the-dates, announcements, and the people you love most.
             </p>
             <p className="text-stone-200 mb-8">
-              Need a surprise proposal? Our engagement concierge team can plan location, decor, reveal timing, and photo/video coverage. Concierge scopes are custom-quoted after a planning call.
+              Planning a surprise proposal? We can help with privacy, timing, location scouting,
+              decor coordination, and photo or video coverage so the reveal feels intentional.
             </p>
             <div className="flex flex-wrap gap-3">
               <Link href="/get-quote" className="btn-primary inline-flex items-center">Get Instant Quote <ArrowRight className="ml-2 h-4 w-4" /></Link>
