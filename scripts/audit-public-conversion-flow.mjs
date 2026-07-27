@@ -15,6 +15,14 @@ const checks = [
     ],
   },
   {
+    file: 'app/blog/page.tsx',
+    patterns: ['editorialPaths', 'Need a Shortcut?', 'Request examples', 'Featured Guide'],
+  },
+  {
+    file: 'app/blog/[slug]/page.tsx',
+    patterns: ['getArticleIntent', 'Want this translated into your actual plan?', 'Request matched examples', 'aspect-[16/9]'],
+  },
+  {
     file: 'lib/public-content.ts',
     patterns: [
       'curatedImageSlots',

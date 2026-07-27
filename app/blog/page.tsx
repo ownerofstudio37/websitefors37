@@ -37,6 +37,29 @@ function isAllowedImageDomain(url: string): boolean {
   }
 }
 
+const editorialPaths = [
+  {
+    label: 'Portrait Prep',
+    href: '/services/portrait-photography',
+    copy: 'Family, senior, maternity, and headshot guidance before you book.',
+  },
+  {
+    label: 'Wedding Planning',
+    href: '/services/wedding-photography',
+    copy: 'Timeline, coverage, delivery, and private-gallery decision support.',
+  },
+  {
+    label: 'Engagements',
+    href: '/services/engagement-session',
+    copy: 'Location, light, wardrobe, proposal privacy, and save-the-date planning.',
+  },
+  {
+    label: 'Business Content',
+    href: '/services/commercial-photography',
+    copy: 'Shot lists, usage, websites, campaigns, headshots, and brand refreshes.',
+  },
+]
+
 export default async function BlogPage() {
   let posts: any[] = []
   let error: any = null
@@ -90,6 +113,19 @@ export default async function BlogPage() {
         </div>
       </div>
 
+      <section className="border-b border-stone-200 bg-white py-8">
+        <div className="container mx-auto px-4">
+          <div className="grid gap-3 md:grid-cols-4">
+            {editorialPaths.map((path) => (
+              <Link key={path.label} href={path.href} className="rounded-lg border border-stone-200 bg-stone-50 p-4 transition hover:-translate-y-0.5 hover:border-amber-300 hover:bg-amber-50">
+                <h2 className="text-sm font-bold uppercase tracking-[0.16em] text-stone-950">{path.label}</h2>
+                <p className="mt-2 text-sm leading-6 text-stone-600">{path.copy}</p>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <div className="section-shell bg-stone-50">
         <div className="container mx-auto px-4">
           <div className="mb-8 grid gap-5 lg:grid-cols-[1fr_auto] lg:items-end">
@@ -139,6 +175,11 @@ export default async function BlogPage() {
                   <p className="eyebrow mb-3">Featured Guide</p>
                   <h2 className="text-3xl font-bold leading-tight text-stone-950 transition-colors group-hover:text-primary-700">{featuredPost.title}</h2>
                   {featuredPost.excerpt && <p className="mt-4 text-stone-600 leading-7">{featuredPost.excerpt}</p>}
+                  <div className="mt-5 flex flex-wrap gap-2">
+                    {(featuredPost.tags || []).slice(0, 3).map((tag: string) => (
+                      <span key={tag} className="rounded-full bg-stone-100 px-3 py-1 text-xs font-semibold text-stone-600">{tag}</span>
+                    ))}
+                  </div>
                   <span className="mt-6 text-sm font-semibold text-primary-700">Read the guide</span>
                 </div>
               </Link>
@@ -173,6 +214,9 @@ export default async function BlogPage() {
                         <h2 className="text-xl font-semibold text-stone-950 mb-2 group-hover:text-primary-700 transition-colors">
                           {post.title}
                         </h2>
+                        {post.tags && post.tags.length > 0 && (
+                          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-primary-700">{post.tags[0]}</p>
+                        )}
                         {post.excerpt && (
                           <p className="mb-5 line-clamp-3 flex-1 text-stone-600">{post.excerpt}</p>
                         )}
@@ -195,6 +239,17 @@ export default async function BlogPage() {
                 Showing the newest guides first. More archive filtering is coming as the guide library grows.
               </p>
             )}
+            <div className="mt-10 rounded-lg border border-amber-200 bg-amber-50 p-6 md:flex md:items-center md:justify-between md:gap-6">
+              <div>
+                <p className="eyebrow mb-2">Need a Shortcut?</p>
+                <h2 className="text-2xl font-bold text-stone-950">Turn the guide into a real session plan.</h2>
+                <p className="mt-2 text-stone-700">Bring your questions to a quick consult, or request private examples if you want proof before choosing a package.</p>
+              </div>
+              <div className="mt-5 flex flex-wrap gap-3 md:mt-0">
+                <Link href="/book-consultation?source=blog" className="btn-primary">Book a consult</Link>
+                <Link href="/request-portfolio?source=blog" className="btn-secondary">Request examples</Link>
+              </div>
+            </div>
             </>
           )}
         </div>

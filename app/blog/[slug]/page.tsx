@@ -16,6 +16,44 @@ import { getStaticBlogPost, staticBlogPosts } from '@/lib/static-blog-posts'
 
 const isValidSlug = (s: string) => /^[a-z0-9-]{1,200}$/.test(s) // Increased from 64 to 200 chars for longer blog titles
 
+function getArticleIntent(post: any) {
+  const haystack = `${post.title || ''} ${(post.tags || []).join(' ')} ${post.excerpt || ''}`.toLowerCase()
+  if (/wedding|bride|groom|venue|timeline/.test(haystack)) {
+    return {
+      label: 'Wedding planning',
+      serviceHref: '/services/wedding-photography',
+      serviceLabel: 'Wedding Photography',
+      context: 'wedding planning',
+      ctaCopy: 'If you are comparing coverage, private full galleries help you see the whole day: prep, ceremony, family formals, reception, and delivery quality.',
+    }
+  }
+  if (/proposal|engagement|couple|save-the-date/.test(haystack)) {
+    return {
+      label: 'Engagement and proposal planning',
+      serviceHref: '/services/engagement-session',
+      serviceLabel: 'Engagement Sessions',
+      context: 'engagement or proposal planning',
+      ctaCopy: 'If privacy, location, and timing matter, request examples matched to proposals or engagement sessions before you choose the plan.',
+    }
+  }
+  if (/brand|business|commercial|headshot|website|campaign/.test(haystack)) {
+    return {
+      label: 'Business content planning',
+      serviceHref: '/services/commercial-photography',
+      serviceLabel: 'Commercial Photography',
+      context: 'commercial content',
+      ctaCopy: 'If you need website, campaign, headshot, or brand-refresh images, we can match examples to your usage and delivery needs.',
+    }
+  }
+  return {
+    label: 'Portrait planning',
+    serviceHref: '/services/portrait-photography',
+    serviceLabel: 'Portrait Sessions',
+    context: 'portrait planning',
+    ctaCopy: 'If you are deciding on location, wardrobe, pacing, or package fit, request examples matched to your session type.',
+  }
+}
+
 // Force fresh server render to avoid stale edge variants for crawlers/structured data
 export const dynamic = 'force-dynamic'
 
@@ -99,6 +137,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
     typeof (articlePost as any).featured_image_position === 'string'
       ? (articlePost as any).featured_image_position
       : '50% 40%'
+  const articleIntent = getArticleIntent(articlePost)
   
   // Get related posts using same admin client
   const { data: relatedPosts } = await supabase
@@ -186,7 +225,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
 
       {articlePost.featured_image && (
         <div className="container mx-auto px-4 py-8">
-          <div className="relative h-80 w-full overflow-hidden rounded-lg border border-stone-200 bg-stone-100 shadow-sm sm:h-96 lg:h-[30rem] xl:h-[34rem]">
+          <div className="relative mx-auto aspect-[4/3] w-full max-w-6xl overflow-hidden rounded-lg border border-stone-200 bg-stone-100 shadow-sm sm:aspect-[16/10] lg:aspect-[16/9]">
             <Image
               src={articlePost.featured_image}
               alt={articlePost.title}
@@ -224,6 +263,16 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
           </article>
 
             <ComparePackagesCTA context="this session" />
+            <section className="mt-12 rounded-lg border border-amber-200 bg-amber-50 p-6 md:p-8">
+              <p className="eyebrow mb-3">{articleIntent.label}</p>
+              <h3 className="text-2xl font-bold text-stone-950">Want this translated into your actual plan?</h3>
+              <p className="mt-3 leading-7 text-stone-700">{articleIntent.ctaCopy}</p>
+              <div className="mt-5 flex flex-wrap gap-3">
+                <Link href={`${articleIntent.serviceHref}?source=blog`} className="btn-secondary">{articleIntent.serviceLabel}</Link>
+                <Link href={`/request-portfolio?service=${encodeURIComponent(articleIntent.context)}&source=blog`} className="btn-secondary">Request matched examples</Link>
+                <Link href={`/book-consultation?service=${encodeURIComponent(articleIntent.context)}&source=blog`} className="btn-primary">Book a consult</Link>
+              </div>
+            </section>
           
             {((relatedPosts && relatedPosts.length > 0) || fallbackRelatedPosts.length > 0) && (
               <div className="mt-16 border-t border-stone-200 pt-12">
