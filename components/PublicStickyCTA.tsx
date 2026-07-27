@@ -33,7 +33,7 @@ export default function PublicStickyCTA() {
           <Calculator className="h-5 w-5 text-amber-700" aria-hidden="true" />
           Price
         </Link>
-        <Link href="/request-portfolio" className="flex min-h-[64px] flex-col items-center justify-center gap-1 px-2 text-center text-xs font-semibold text-stone-900">
+        <Link href="https://gallery.studio37.cc" className="flex min-h-[64px] flex-col items-center justify-center gap-1 px-2 text-center text-xs font-semibold text-stone-900">
           <ImageIcon className="h-5 w-5 text-amber-700" aria-hidden="true" />
           Galleries
         </Link>
