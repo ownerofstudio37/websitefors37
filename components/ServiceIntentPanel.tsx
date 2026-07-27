@@ -153,9 +153,48 @@ const serviceTone: Record<ServiceKey, { panel: string; eyebrow: string; border: 
   },
 }
 
+const serviceProofUpgrade: Record<ServiceKey, { before: string; proofPrompt: string; concern: string }> = {
+  wedding: {
+    before: 'Confirm ceremony rules, family-list size, reception lighting, timeline buffers, and whether you need engagement or rehearsal coverage.',
+    proofPrompt: 'Ask for complete galleries from weddings with similar guest count, venue light, ceremony format, and reception energy.',
+    concern: 'This helps you judge whether the package protects the parts of the day you would regret missing.',
+  },
+  portrait: {
+    before: 'Confirm who is being photographed, outfit count, location feel, kids or timing constraints, and how quickly you need the final gallery.',
+    proofPrompt: 'Ask for portrait examples with similar ages, wardrobe style, location type, skin tones, and posing comfort level.',
+    concern: 'This helps you see direction, expression variety, editing consistency, and whether the gallery feels natural.',
+  },
+  engagement: {
+    before: 'Confirm whether this is save-the-date coverage, a proposal reveal, editorial portraits, or a longer location story.',
+    proofPrompt: 'Ask for engagement examples by light, privacy needs, location variety, and how guided or editorial the session should feel.',
+    concern: 'This helps separate a simple session from a planned moment with timing, surprise, or family involvement.',
+  },
+  concierge: {
+    before: 'Confirm surprise timing, privacy risks, decor needs, vendor coordination, backup plan, and whether photo/video is included.',
+    proofPrompt: 'Ask for proposal examples that show reveal coverage, hidden angles, family handoff, and post-proposal portraits.',
+    concern: 'This reduces the stress of logistics so the actual moment can stay calm and personal.',
+  },
+  event: {
+    before: 'Confirm run-of-show, VIPs, sponsor needs, group-photo expectations, low-light conditions, and highlight delivery timing.',
+    proofPrompt: 'Ask for event galleries with similar crowd size, venue light, speaker moments, candid coverage, and marketing-image needs.',
+    concern: 'This helps prove the team can cover fast-moving rooms without slowing guests or missing parallel moments.',
+  },
+  commercial: {
+    before: 'Confirm image usage, launch deadlines, shot list, products or spaces, team availability, brand guidelines, and licensing needs.',
+    proofPrompt: 'Ask for business examples by website, product, team, workplace, campaign, social, or sales-collateral use case.',
+    concern: 'This keeps the session tied to business outcomes instead of producing random attractive images.',
+  },
+  branding: {
+    before: 'Confirm offer, audience, website needs, SEO/PPC goals, content gaps, lead flow, and how success will be measured.',
+    proofPrompt: 'Ask for website, content, and marketing examples matched to the type of business system you want to build.',
+    concern: 'This makes the work feel like a growth system, not disconnected design, copy, ads, and photo pieces.',
+  },
+}
+
 export default function ServiceIntentPanel({ service }: { service: ServiceKey }) {
   const item = serviceIntent[service]
   const tone = serviceTone[service]
+  const proofUpgrade = serviceProofUpgrade[service]
 
   return (
     <section className="border-y border-stone-200 bg-white">
@@ -186,6 +225,29 @@ export default function ServiceIntentPanel({ service }: { service: ServiceKey })
               <p className="mt-2 text-sm leading-6 text-stone-700">{copy}</p>
             </div>
           ))}
+          </div>
+          <div className="mt-5 rounded-xl border border-white/80 bg-white/75 p-4 shadow-sm md:p-5">
+            <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+              <div>
+                <p className={`text-xs font-bold uppercase tracking-[0.18em] ${tone.eyebrow}`}>Decision Proof</p>
+                <h3 className="mt-1 text-xl font-bold text-stone-950">Request examples that match the actual decision.</h3>
+              </div>
+              <Link href={`/request-portfolio?service=${service}`} className="text-sm font-semibold text-amber-800 hover:text-amber-950">
+                Request proof match <ArrowRight className="ml-1 inline h-4 w-4" aria-hidden="true" />
+              </Link>
+            </div>
+            <div className="grid gap-3 md:grid-cols-3">
+              {[
+                ['Before booking', proofUpgrade.before],
+                ['Private proof prompt', proofUpgrade.proofPrompt],
+                ['Risk reduced', proofUpgrade.concern],
+              ].map(([label, copy]) => (
+                <div key={label} className="rounded-lg border border-stone-200 bg-stone-50 p-4">
+                  <p className={`text-xs font-semibold uppercase tracking-[0.16em] ${tone.eyebrow}`}>{label}</p>
+                  <p className="mt-2 text-sm leading-6 text-stone-700">{copy}</p>
+                </div>
+              ))}
+            </div>
           </div>
           <div className="mt-5 flex flex-wrap gap-3">
             <Link href={item.primaryHref} className="btn-primary inline-flex items-center">

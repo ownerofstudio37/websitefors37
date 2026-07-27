@@ -65,7 +65,7 @@ const checks = [
   },
   {
     file: 'components/ServiceIntentPanel.tsx',
-    patterns: ['serviceTone', 'Decision Board', 'Planning focus', 'wedding', 'portrait', 'event', 'commercial', 'branding'],
+    patterns: ['serviceTone', 'serviceProofUpgrade', 'Decision Board', 'Planning focus', 'Decision Proof', 'Private proof prompt', 'Risk reduced', 'wedding', 'portrait', 'event', 'commercial', 'branding'],
   },
   {
     file: 'components/ConsultationBookingForm.tsx',

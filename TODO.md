@@ -717,7 +717,7 @@ Audit notes: `npm run audit:seo-assets` passed across public metadata/source fil
 
 - [ ] Admin content persistence: move proof cards, review rotation, CTA variants, and image selections from static `lib/public-content.ts` into a database-backed admin editor when the manual board starts feeling limiting.
 - [x] Chatbot intent precision pass: make service-specific pricing and package answers deterministic first, then use AI only for nuance, follow-up, and lead capture.
-- [ ] Premium service-page proof pass: add more service-specific before/after decision context, private-gallery proof prompts, and objection handling for wedding, portrait, engagement, event, commercial, concierge, and branding pages.
+- [x] Premium service-page proof pass: add more service-specific before/after decision context, private-gallery proof prompts, and objection handling for wedding, portrait, engagement, event, commercial, concierge, and branding pages.
 - [ ] Mobile conversion heat-check: run phone-width QA on homepage, service pages, local pages, blog, pricing, booking, chatbot, and gallery links; record any drop-off or overlap issues.
 - [ ] Booking handoff 2.0: carry service/package/source context into booking confirmation, admin lead records, and follow-up email templates more consistently.
 - [ ] Local proof expansion: add more real examples, parking/light/location notes, and service-fit language to the highest-value local SEO pages.
