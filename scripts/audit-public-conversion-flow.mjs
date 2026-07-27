@@ -51,6 +51,10 @@ const checks = [
     patterns: ['ServiceExpectationCards', 'PublicConversionStack', 'branding-marketing', 'mobileExpanded'],
   },
   {
+    file: 'components/ServiceIntentPanel.tsx',
+    patterns: ['serviceTone', 'Decision Board', 'Planning focus', 'wedding', 'portrait', 'event', 'commercial', 'branding'],
+  },
+  {
     file: 'tests/smoke/public-and-admin.spec.ts',
     patterns: [
       'mobile conversion path remains visible across public pages',

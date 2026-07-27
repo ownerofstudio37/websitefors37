@@ -704,7 +704,7 @@ Audit notes: `npm run audit:seo-assets` passed across public metadata/source fil
 
 - [x] Visual system pass: tighten shared button radius, card radius, hover elevation, and shadow tokens for a more premium feel.
 - [x] Homepage hero upgrade without changing the hero image: improve overlay depth, CTA hierarchy, proof chips, and decision copy.
-- [ ] Service page redesign pass: make wedding, portrait, event, commercial, engagement, concierge, and branding pages feel distinct while still sharing one premium system.
+- [x] Service page redesign pass: make wedding, portrait, event, commercial, engagement, concierge, and branding pages feel distinct while still sharing one premium system.
 - [ ] Booking flow UX polish: make consultation/session booking feel like a guided premium onboarding path with clearer handoff from service, pricing, and portfolio pages.
 - [ ] Portfolio request experience upgrade: add richer project-type matching, better success state, and private-proof concierge language.
 - [ ] Image curation pass: choose the strongest emotional/commercial image for each service, sub-service, local page, proof card, and blog hero.
