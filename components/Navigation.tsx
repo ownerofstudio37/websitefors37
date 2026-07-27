@@ -438,7 +438,7 @@ export default function Navigation({
 
         {isOpen && (
           <div 
-            className="fixed inset-x-0 top-[4.5rem] z-[130] max-h-[calc(100dvh-4.5rem)] overflow-y-auto border-t border-stone-200 bg-white py-3 pb-[calc(6rem+env(safe-area-inset-bottom))] shadow-[0_20px_40px_rgba(15,23,42,0.16)] lg:hidden"
+            className="mobile-menu-enter fixed inset-x-0 top-[4.5rem] z-[130] max-h-[calc(100dvh-4.5rem)] overflow-y-auto border-t border-stone-200 bg-white py-3 pb-[calc(6rem+env(safe-area-inset-bottom))] shadow-[0_20px_40px_rgba(15,23,42,0.16)] lg:hidden"
             id="mobile-menu"
           >
             <div className="mx-auto flex max-w-screen-sm flex-col gap-2 px-4">

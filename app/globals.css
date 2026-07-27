@@ -89,6 +89,19 @@
     box-shadow: 0 14px 30px rgba(180, 126, 40, 0.28);
   }
 
+  .btn-primary:active,
+  .btn-secondary:active,
+  .btn-ghost:active {
+    transform: translateY(0) scale(0.985);
+  }
+
+  .btn-primary:focus-visible,
+  .btn-secondary:focus-visible,
+  .btn-ghost:focus-visible {
+    outline: 2px solid rgb(217 119 6);
+    outline-offset: 3px;
+  }
+
   .btn-secondary {
     @apply inline-flex items-center justify-center bg-white hover:bg-amber-50 text-stone-900 font-semibold py-3 px-6 rounded-lg transition-all duration-200 border border-stone-300;
     min-height: 44px;
@@ -118,6 +131,18 @@
   .surface-panel {
     @apply bg-white border border-stone-200 rounded-xl;
     box-shadow: var(--shadow-soft);
+    transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+  }
+
+  @media (hover: hover) {
+    .surface-panel:hover {
+      border-color: rgba(217, 119, 6, 0.28);
+      box-shadow: var(--shadow-lift);
+    }
+  }
+
+  .mobile-menu-enter {
+    animation: mobileMenuEnter 180ms ease-out;
   }
 
   .eyebrow {
@@ -208,6 +233,17 @@
 }
 
 @layer utilities {
+  @keyframes mobileMenuEnter {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
   /* Image animations for Page Builder */
   @keyframes fadeIn {
     from {

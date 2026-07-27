@@ -56,6 +56,17 @@ export function routeChatbotIntent(message: string): ChatbotRoute {
     }
   }
 
+  if (/\b(wedding|weddings|bride|groom|elopement)\b/.test(text) && /\b(price|pricing|cost|rate|quote|package|packages|how much|coverage)\b/.test(text)) {
+    return {
+      intent: 'pricing',
+      nextStep: 'compare_pricing',
+      service: 'wedding',
+      pageUrl: 'https://www.studio37.cc/services/wedding-photography',
+      serviceDetail: 'services/wedding-photography',
+      response: `Wedding packages start at $1,200 for Micro / Elopement coverage: 3 hours, guest count under 30, both Studio37 photographers on site, 150+ edited photos, a 48-hour sneak peek, and a private digital gallery with print release. Other wedding collections include Essential Coverage at $2,200 for 6 hours, Complete Collection at $3,200 for 8 hours, and Premium Collection at $4,500 for 10+ hours. Compare them here: [wedding photography packages](https://www.studio37.cc/services/wedding-photography).`,
+    }
+  }
+
   if (/\b(commercial|business|brand|branding|usage|license|licensing|rights)\b/.test(text) && /\b(usage|license|licensing|rights|commercial|price|pricing|cost|rate|quote|package|packages|how much)\b/.test(text)) {
     return {
       intent: 'pricing',
@@ -121,6 +132,11 @@ export const chatbotFactCases = [
     message: 'What comes with the $1200 wedding package?',
     mustInclude: ['3 hours', '150+', '48-hour', 'both Studio37 photographers'],
     mustNotInclude: ['2 hours'],
+  },
+  {
+    message: 'Wedding packages',
+    mustInclude: ['$1,200', '$2,200', '$3,200', '$4,500'],
+    mustNotInclude: ['portraits from $350'],
   },
   {
     message: 'Can I see a full gallery?',

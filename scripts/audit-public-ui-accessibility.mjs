@@ -9,7 +9,15 @@ const checks = [
   },
   {
     file: 'app/globals.css',
-    required: ['prefers-reduced-motion'],
+    required: ['prefers-reduced-motion', 'mobileMenuEnter', ':focus-visible', 'scale(0.985)'],
+  },
+  {
+    file: 'components/Navigation.tsx',
+    required: ['mobile-menu-enter'],
+  },
+  {
+    file: 'components/PublicStickyCTA.tsx',
+    required: ['active:bg-amber-50', 'focus:ring-inset', 'transition-transform'],
   },
   {
     file: 'components/PortraitHighlightGallery.tsx',
