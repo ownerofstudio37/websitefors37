@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { getClientIp, rateLimit } from "@/lib/rateLimit";
 import { createLogger } from "@/lib/logger";
+import { routeChatbotIntent } from "@/lib/chatbot-quality";
 
 // Keep it simple and robust to avoid build issues and external API keys
 export const runtime = "edge";
@@ -63,6 +64,11 @@ export async function POST(req: NextRequest) {
     }
     const message: string = parsed.data.message.trim();
     const sessionId: string = String(parsed.data.sessionId || "anonymous");
+    const deterministicRoute = routeChatbotIntent(message);
+
+    if (deterministicRoute.response) {
+      return NextResponse.json({ message: deterministicRoute.response });
+    }
 
     const current = conversations.get(sessionId) || {
       step: "initial",

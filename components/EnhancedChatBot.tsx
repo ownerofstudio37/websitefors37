@@ -14,6 +14,7 @@ import {
   Paperclip,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { routeChatbotIntent, type ChatbotRoute } from "@/lib/chatbot-quality";
 
 interface Message {
   id: string;
@@ -66,6 +67,15 @@ const PHONE_REGEX = /(\+?1?\s*\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4})/;
 
 function normalizePhone(value?: string) {
   return value?.replace(/\s+/g, " ").trim();
+}
+
+function getQuickRepliesForRoute(route: ChatbotRoute) {
+  if (route.intent === "pricing") return ["View details", "Get a quote", "Book consultation"];
+  if (route.nextStep === "request_complete_galleries") return ["Request galleries", "Featured work", "Book consultation"];
+  if (route.nextStep === "view_featured_work") return ["Featured work", "Request galleries", "Book consultation"];
+  if (route.intent === "booking") return ["Check calendar", "Get pricing", "Request galleries"];
+  if (route.intent === "human") return ["Call Studio37", "Book consultation", "Get pricing"];
+  return undefined;
 }
 
 // Helper to render text with clickable links
@@ -246,6 +256,20 @@ export default function EnhancedChatBot() {
   };
 
   const handleAIResponse = async (userMessage: string) => {
+    const deterministicRoute = routeChatbotIntent(userMessage);
+    if (deterministicRoute.response) {
+      if (deterministicRoute.pageUrl) setServicePageUrl(deterministicRoute.pageUrl);
+      if (deterministicRoute.serviceDetail) setServiceDetail(deterministicRoute.serviceDetail);
+      setLeadData((prev) => ({
+        ...prev,
+        intent: deterministicRoute.intent,
+        service: deterministicRoute.service || prev.service,
+        nextStep: deterministicRoute.nextStep || prev.nextStep,
+      }));
+      addBotMessage(deterministicRoute.response, getQuickRepliesForRoute(deterministicRoute));
+      return;
+    }
+
     setIsTyping(true);
 
     try {
@@ -389,7 +413,7 @@ export default function EnhancedChatBot() {
       window.open("/services", "_blank");
       return;
     }
-    if (reply === "Pricing info") {
+    if (reply === "Pricing info" || reply === "Get pricing") {
       window.open("/tools/pricing", "_blank");
       return;
     }

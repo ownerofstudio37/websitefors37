@@ -713,6 +713,19 @@ Audit notes: `npm run audit:seo-assets` passed across public metadata/source fil
 - [x] Mobile-first refinement pass: review thumb reach, sticky CTA timing, image cropping, section fatigue, and whether every page has a clear next action within 1-2 scrolls.
 - [x] Admin-driven content polish: make proof cards, reviews, CTA variants, and image selections editable from admin.
 
+### Next-Level 2.0 Roadmap
+
+- [ ] Admin content persistence: move proof cards, review rotation, CTA variants, and image selections from static `lib/public-content.ts` into a database-backed admin editor when the manual board starts feeling limiting.
+- [x] Chatbot intent precision pass: make service-specific pricing and package answers deterministic first, then use AI only for nuance, follow-up, and lead capture.
+- [ ] Premium service-page proof pass: add more service-specific before/after decision context, private-gallery proof prompts, and objection handling for wedding, portrait, engagement, event, commercial, concierge, and branding pages.
+- [ ] Mobile conversion heat-check: run phone-width QA on homepage, service pages, local pages, blog, pricing, booking, chatbot, and gallery links; record any drop-off or overlap issues.
+- [ ] Booking handoff 2.0: carry service/package/source context into booking confirmation, admin lead records, and follow-up email templates more consistently.
+- [ ] Local proof expansion: add more real examples, parking/light/location notes, and service-fit language to the highest-value local SEO pages.
+- [ ] AI blog writer reliability 2.0: add clearer model fallback states, background generation option, scheduled retry, and admin-visible failure logs.
+- [ ] Admin analytics cockpit: show conversion clicks and submissions for hero CTAs, service-card clicks, pricing, package recommender, booking, portfolio requests, chatbot, and gallery exits.
+- [ ] Design consistency screenshot audit: compare homepage, all main services, sub-services, local pages, blog, booking, request portfolio, and admin command surfaces against the premium visual system.
+- [ ] Public performance budget pass: set rough budgets for hero image weight, route JS size, lazy section height, and mobile first-load experience.
+
 ## Public Site Features
 
 - [x] Build an interactive package recommender that routes users to booking with a prefilled package/service.
