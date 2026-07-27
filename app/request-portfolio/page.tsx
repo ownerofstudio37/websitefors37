@@ -54,6 +54,9 @@ export default function RequestPortfolioPage() {
             <div className="mt-6 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm leading-6 text-stone-700">
               <strong className="text-stone-950">Best use:</strong> request examples when you want to see how a real session holds together across people, details, lighting shifts, and final delivery.
             </div>
+            <div className="mt-4 rounded-lg border border-stone-200 bg-white p-4 text-sm leading-6 text-stone-700">
+              <strong className="text-stone-950">Concierge matching:</strong> we use your project type, location, timing, and decision criteria to avoid sending generic examples that do not answer your real question.
+            </div>
           </div>
           <PortfolioRequestForm />
         </div>

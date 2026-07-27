@@ -59,6 +59,14 @@ const checks = [
     patterns: ['bookingContextByKey', 'Context we will carry into the call', 'serviceParam', 'sourceParam', 'Service context'],
   },
   {
+    file: 'components/PortfolioRequestForm.tsx',
+    patterns: ['projectProofProfiles', 'Proof match:', 'Private proof concierge', 'proof_focus'],
+  },
+  {
+    file: 'app/request-portfolio/page.tsx',
+    patterns: ['Concierge matching', 'A useful proof set, not a random gallery dump', 'PortfolioRequestForm'],
+  },
+  {
     file: 'tests/smoke/public-and-admin.spec.ts',
     patterns: [
       'mobile conversion path remains visible across public pages',

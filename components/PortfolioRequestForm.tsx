@@ -12,7 +12,41 @@ const comparisonOptions = [
   'Venue or location match',
   'Posing and direction',
   'Commercial usage/deliverables',
+  'Package fit before booking',
 ]
+
+const projectProofProfiles: Record<string, { proof: string; concierge: string; followUp: string }> = {
+  Wedding: {
+    proof: 'full wedding pacing, reception lighting, family-formal rhythm, and two-photographer coverage',
+    concierge: 'venue style, guest count, timeline pressure, and whether you need a full-gallery review before booking',
+    followUp: 'wedding timeline, package fit, and private full-gallery examples',
+  },
+  Portrait: {
+    proof: 'posing direction, location variety, wardrobe feel, editing consistency, and final gallery depth',
+    concierge: 'who is being photographed, outfit needs, location comfort, and preferred turnaround',
+    followUp: 'portrait session fit, location ideas, and private portrait examples',
+  },
+  'Engagement / Proposal': {
+    proof: 'proposal privacy, reveal timing, couple direction, location scouting, and save-the-date variety',
+    concierge: 'surprise logistics, location confidence, timing, decor support, and photo/video needs',
+    followUp: 'engagement or proposal plan, location notes, and matched private examples',
+  },
+  Event: {
+    proof: 'candids, groups, speakers, details, low-light coverage, and recap delivery expectations',
+    concierge: 'event length, must-capture moments, guest flow, sponsor needs, and delivery timeline',
+    followUp: 'event coverage block, delivery plan, and private event examples',
+  },
+  'Commercial / Brand': {
+    proof: 'brand image variety, web-ready details, usage needs, shot-list coverage, and campaign consistency',
+    concierge: 'website/content goals, usage rights, team or product needs, and whether strategy support is needed',
+    followUp: 'commercial scope, licensing needs, and business-focused proof examples',
+  },
+  'Not sure yet': {
+    proof: 'service fit, editing style, delivery expectations, and examples closest to your decision',
+    concierge: 'what you are planning, what you need to compare, and which next step feels lowest-friction',
+    followUp: 'service fit, proof examples, and the clearest next step',
+  },
+}
 
 export default function PortfolioRequestForm() {
   const [form, setForm] = useState({
@@ -28,6 +62,7 @@ export default function PortfolioRequestForm() {
   const [submitting, setSubmitting] = useState(false)
   const [sent, setSent] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const selectedProofProfile = projectProofProfiles[form.projectType] || projectProofProfiles['Not sure yet']
 
   useEffect(() => {
     trackEvent('portfolio_request_view', { source: 'request-portfolio' })
@@ -52,6 +87,7 @@ export default function PortfolioRequestForm() {
             `Location/city: ${form.location || 'Not provided'}.`,
             `Date/timeline: ${form.timeline || 'Not provided'}.`,
             `Wants to compare: ${form.compareGoal}.`,
+            `Recommended proof focus: ${selectedProofProfile.proof}.`,
             `Notes: ${form.notes || 'None provided.'}`,
             'Send status: not sent.',
           ].join('\n'),
@@ -62,6 +98,7 @@ export default function PortfolioRequestForm() {
           location: form.location,
           timeline: form.timeline,
           compare_goal: form.compareGoal,
+          proof_focus: selectedProofProfile.proof,
           send_status: 'not_sent',
         })),
       })
@@ -79,12 +116,18 @@ export default function PortfolioRequestForm() {
   if (sent) {
     return (
       <div className="rounded-lg border border-green-200 bg-green-50 p-6 text-green-950">
-        <h2 className="text-2xl font-bold">Request received.</h2>
-        <p className="mt-2 leading-7">We will send private complete galleries or a tailored portfolio that matches your project type, location, and what you want to compare.</p>
-        <p className="mt-2 text-sm text-green-800">Expect a personal follow-up within one business day.</p>
+        <p className="text-xs font-bold uppercase tracking-[0.28em] text-green-700">Private proof concierge</p>
+        <h2 className="mt-2 text-2xl font-bold">Request received.</h2>
+        <p className="mt-2 leading-7">
+          We will match your {form.projectType.toLowerCase()} request to proof that helps with {selectedProofProfile.followUp}.
+        </p>
+        <div className="mt-4 rounded-lg border border-green-200 bg-white/70 p-4 text-sm leading-6 text-green-900">
+          <strong>What we are looking for:</strong> {selectedProofProfile.proof}.
+        </div>
+        <p className="mt-3 text-sm text-green-800">Expect a personal follow-up within one business day. If we need one more detail, we will ask before sending examples that do not fit.</p>
         <p className="mt-2 text-sm text-green-800">Helpful next step: book a quick consultation if you want us to walk through the examples and recommend a package fit.</p>
         <div className="mt-5 flex flex-wrap gap-3">
-          <Link href="/book-consultation" className="btn-primary">Book a consultation</Link>
+          <Link href={`/book-consultation?service=${encodeURIComponent(form.projectType)}&source=portfolio-request`} className="btn-primary">Book a consultation</Link>
           <a href="https://gallery.studio37.cc" className="btn-secondary">View featured work</a>
         </div>
       </div>
@@ -100,6 +143,11 @@ export default function PortfolioRequestForm() {
         <label className="text-sm font-semibold text-stone-700">Project type<select value={form.projectType} onChange={(event) => setForm((prev) => ({ ...prev, projectType: event.target.value }))} className="mt-1 w-full rounded-md border border-stone-300 px-3 py-3 font-normal">
           {projectTypes.map((type) => <option key={type} value={type}>{type}</option>)}
         </select></label>
+        <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm leading-6 text-stone-700 md:col-span-2">
+          <strong className="text-stone-950">Proof match:</strong> We will look for {selectedProofProfile.proof}.
+          <br />
+          <strong className="text-stone-950">Helpful context:</strong> Share {selectedProofProfile.concierge}.
+        </div>
         <label className="text-sm font-semibold text-stone-700">Location or city<input value={form.location} onChange={(event) => setForm((prev) => ({ ...prev, location: event.target.value }))} className="mt-1 w-full rounded-md border border-stone-300 px-3 py-3 font-normal" placeholder="Venue, city, or area" /></label>
         <label className="text-sm font-semibold text-stone-700">Date or timeline<input value={form.timeline} onChange={(event) => setForm((prev) => ({ ...prev, timeline: event.target.value }))} className="mt-1 w-full rounded-md border border-stone-300 px-3 py-3 font-normal" placeholder="Date, month, or season" /></label>
         <label className="text-sm font-semibold text-stone-700 md:col-span-2">What do you want to compare?<select value={form.compareGoal} onChange={(event) => setForm((prev) => ({ ...prev, compareGoal: event.target.value }))} className="mt-1 w-full rounded-md border border-stone-300 px-3 py-3 font-normal">
