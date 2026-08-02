@@ -2,9 +2,9 @@ import LocalPhotographerCityPage from '@/components/LocalPhotographerCityPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 
 export const metadata = generateSEOMetadata({
-  title: 'Katy TX Photographer - Wedding, Portrait & Event Photography | Studio37',
+  title: 'Katy TX Photographer for Portraits, Weddings & Events | Studio37',
   description:
-    'Looking for a photographer in Katy, TX? Studio37 provides wedding, portrait, engagement, event, and commercial photography with transparent pricing and two-photographer coverage.',
+    'Katy TX photographer for family portraits, weddings, events, engagement sessions, and business photos with clear pricing, planning support, and polished galleries.',
   keywords: [
     'photographer Katy TX',
     'wedding photographer Katy Texas',

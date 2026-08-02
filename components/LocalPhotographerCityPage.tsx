@@ -398,18 +398,18 @@ export default function LocalPhotographerCityPage({
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link
-                href="/book-a-session"
+                href={`/book-consultation?city=${encodeURIComponent(cityLabel)}`}
                 className="btn-primary text-center"
               >
-                Book Your Session
+                Plan a {city} Session
               </Link>
 
 
               <Link
-                href="/request-portfolio"
+                href="/tools/pricing"
                 className="btn-secondary border-white/60 bg-white/10 text-center text-white hover:bg-white hover:text-stone-950"
               >
-                Request Portfolio
+                Compare Pricing
               </Link>
             </div>
           </div>
@@ -420,7 +420,7 @@ export default function LocalPhotographerCityPage({
         <div className="container mx-auto flex gap-3 overflow-x-auto px-4 py-4 text-sm font-semibold text-stone-700 md:justify-center">
           {[
             ['Why Studio37', '#local-confidence'],
-            ['Services', '#local-services'],
+            ['Pricing', '#local-services'],
             ['How it works', '#local-process'],
             ['Locations', '#local-locations'],
             ['FAQ', '#local-faq'],
@@ -511,15 +511,15 @@ export default function LocalPhotographerCityPage({
                   A local page should feel local. These examples show the type of direction, timing, and detail coverage we adapt for {cityLabel} sessions.
                 </p>
               </div>
-              <Link href="/request-portfolio" className="text-sm font-semibold text-amber-800 hover:text-amber-950">
-                Request complete galleries
+              <Link href="/tools/package-recommender" className="text-sm font-semibold text-amber-800 hover:text-amber-950">
+                Find the right package
               </Link>
             </div>
             <div className="grid gap-5 md:grid-cols-3">
               {localProofImages.map((image) => (
                 <Link
                   key={`${cityKey}-${image.label}`}
-                  href="/request-portfolio"
+                  href="/tools/package-recommender"
                   className="group overflow-hidden rounded-xl border border-stone-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
                 >
                   <div className="relative aspect-[4/3] overflow-hidden bg-stone-100">
@@ -580,7 +580,7 @@ export default function LocalPhotographerCityPage({
                   <li>• Professionally edited gallery</li>
                   <li>• Print and sharing rights</li>
                 </ul>
-                <span className="font-medium text-blue-700">Learn More</span>
+                <span className="font-medium text-blue-700">View portrait options</span>
               </div>
             </Link>
 
@@ -597,7 +597,7 @@ export default function LocalPhotographerCityPage({
                   <li>• Golden-hour timeline support</li>
                   <li>• Multi-location options available</li>
                 </ul>
-                <span className="font-medium text-pink-700">Learn More</span>
+                <span className="font-medium text-pink-700">View engagement options</span>
               </div>
             </Link>
 
@@ -614,7 +614,7 @@ export default function LocalPhotographerCityPage({
                   <li>• Team portraits on request</li>
                   <li>• Fast post-event gallery delivery</li>
                 </ul>
-                <span className="font-medium text-green-700">Learn More</span>
+                <span className="font-medium text-green-700">View event options</span>
               </div>
             </Link>
 
@@ -631,7 +631,7 @@ export default function LocalPhotographerCityPage({
                   <li>• Two-photographer team model</li>
                   <li>• Sneak peeks + full gallery delivery</li>
                 </ul>
-                <span className="font-medium text-rose-700">Learn More</span>
+                <span className="font-medium text-rose-700">View wedding options</span>
               </div>
             </Link>
 
@@ -648,7 +648,7 @@ export default function LocalPhotographerCityPage({
                   <li>• Website + social-ready exports</li>
                   <li>• Licensing support available</li>
                 </ul>
-                <span className="font-medium text-gray-700">Learn More</span>
+                <span className="font-medium text-gray-700">View commercial options</span>
               </div>
             </Link>
           </div>

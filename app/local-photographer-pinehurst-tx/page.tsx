@@ -2,8 +2,8 @@ import LocalPhotographerCityPage from '@/components/LocalPhotographerCityPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 
 export const metadata = generateSEOMetadata({
-  title: 'Professional Photographer Pinehurst TX - Studio37 Photography Montgomery County',
-  description: 'Professional photographer in Pinehurst, Texas serving Montgomery County. Wedding, portrait, engagement, event, and commercial photography with transparent pricing and local expertise.',
+  title: 'Pinehurst TX Photographer for Portraits, Weddings & Events | Studio37',
+  description: 'Pinehurst TX photographer serving Montgomery County with portrait, wedding, engagement, event, and commercial photography, clear pricing, and local planning support.',
   keywords: [
     'photographer Pinehurst TX',
     'photography Pinehurst Texas',

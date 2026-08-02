@@ -12,8 +12,8 @@ import { ServiceTestimonialsSection, TurnaroundExpectationsSection } from '@/com
 import ServiceIntentPanel from '@/components/ServiceIntentPanel'
 
 export const metadata = generateSEOMetadata({
-  title: 'Portrait Photography Pinehurst TX - Professional Portrait Sessions Studio37',
-  description: 'Capture life\'s precious moments with award-winning portrait photography in Pinehurst, TX. Family sessions, senior photos, headshots & maternity. Serving Montgomery County & Houston. Book now!',
+  title: 'Portrait Photography in Pinehurst TX | Family, Senior & Headshots',
+  description: 'Portrait photography in Pinehurst, TX for families, seniors, maternity, headshots, and personal branding with location planning, posing guidance, and polished galleries.',
   keywords: [
     'portrait photography Pinehurst TX',
     'family photographer Texas',

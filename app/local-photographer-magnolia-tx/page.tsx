@@ -2,9 +2,9 @@ import LocalPhotographerCityPage from '@/components/LocalPhotographerCityPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 
 export const metadata = generateSEOMetadata({
-  title: 'Professional Photographer Magnolia TX - Studio37 Photography',
+  title: 'Portrait & Event Photographer Magnolia TX | Studio37',
   description:
-    'Professional photographer in Magnolia, Texas for weddings, portraits, engagement, event, and commercial photography. Transparent pricing and local expertise.',
+    'Magnolia TX photographer for outdoor portraits, family sessions, weddings, events, engagement, and commercial photos with local light and location planning.',
   keywords: [
     'photographer Magnolia TX',
     'wedding photographer Magnolia Texas',
