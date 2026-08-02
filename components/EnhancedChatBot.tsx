@@ -435,12 +435,7 @@ export default function EnhancedChatBot() {
     }
     if (reply === "Get a quote") {
       const inferred = serviceDetail || leadData.service || "photography";
-      // Instead of auto-prompting, show quote builder form
-      setQuoteFormData((prev) => ({
-        ...prev,
-        service: inferred,
-      }));
-      setShowQuoteForm(true);
+      window.open(`/get-quote?service=${encodeURIComponent(inferred)}`, "_blank");
       return;
     } else {
       setInputValue(reply);
