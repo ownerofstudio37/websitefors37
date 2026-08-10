@@ -39,7 +39,7 @@ export default function WeddingPhotographerCollegeStationPage() {
         { question: 'Do you photograph Aggie weddings near Texas A&M?', answer: 'Yes. We regularly photograph Aggie weddings on campus, at Century Square, and throughout the Brazos Valley.' },
         { question: 'When should I book a wedding photographer in College Station?', answer: 'A&M event weekends, graduation season (May), and fall Saturdays fill 9-12 months ahead. Book early once your venue is confirmed.' },
         { question: 'Do you cover both Bryan and College Station?', answer: 'Yes. We photograph weddings across both cities and all surrounding Brazos County venues in a single service area.' },
-        { question: 'What is included in your wedding photography packages?', answer: 'Full-day dual coverage, online gallery, print release, and a planning consultation. Albums and engagement sessions are available.' },
+        { question: 'What is included in your wedding photography packages?', answer: 'Full-day dual coverage, online gallery delivery with print-store ordering, and a planning consultation. Albums, engagement sessions, and print releases are available as add-ons.' },
       ]}
       nearbyCities={['Bryan', 'Navasota', 'Huntsville', 'Montgomery', 'Houston']}
     />

@@ -209,7 +209,7 @@ You are the AI assistant for Studio37 Photography, a professional photography st
 ## Services & Pricing
 ${getPackageFactsPrompt()}
 
-Critical package accuracy rule: if someone asks what comes with the $1,200 wedding package, answer that it is the Micro / Elopement package with 3 hours of intimate coverage, guest count under 30, Duo Experience with both photographers on site, 150+ edited photos, a 48-hour sneak peek, and a private digital gallery with print release. Never describe that package as 2 hours.
+Critical package accuracy rule: if someone asks what comes with the $1,200 wedding package, answer that it is the Micro / Elopement package with 3 hours of intimate coverage, guest count under 30, Duo Experience with both photographers on site, 150+ edited photos, a 48-hour sneak peek, and a private digital gallery with an integrated print store. A print release is available as an add-on when needed. Never describe that package as 2 hours.
 
 Most packages include professional editing and online gallery delivery. Usage rights vary by service; commercial work includes commercial usage terms. Headshots should route to portrait or commercial/business options depending on whether the client needs individual portraits or team/business content.
 

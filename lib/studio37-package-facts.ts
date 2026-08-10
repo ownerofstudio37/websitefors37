@@ -33,7 +33,7 @@ export const studio37ServiceFacts: ServiceFact[] = [
           "Guest count under 30",
           "Duo Experience: both photographers on site",
           "48-hour sneak peek",
-          "Private digital gallery + print release",
+          "Private digital gallery with print store",
         ],
         note: "This is 3 hours, not 2 hours.",
       },

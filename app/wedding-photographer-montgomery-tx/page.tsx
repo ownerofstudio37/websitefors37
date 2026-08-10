@@ -38,7 +38,7 @@ export default function WeddingPhotographerMontgomeryPage() {
       faqs={[
         { question: 'How far in advance should I book a wedding photographer in Montgomery, TX?', answer: 'Lake Conroe and Montgomery area venues fill quickly — most couples book 9-12 months in advance, especially for fall and spring weekends.' },
         { question: 'Do you cover weddings at Lake Conroe venues?', answer: 'Yes. We regularly photograph weddings at lakeside venues around Lake Conroe and the wider Montgomery County corridor.' },
-        { question: 'What is included in your wedding photography packages?', answer: 'All packages include full-day coverage, two photographers, online gallery delivery, and a print release. Add-ons like albums and engagement sessions are available.' },
+        { question: 'What is included in your wedding photography packages?', answer: 'Packages include planned coverage, two photographers, and online gallery delivery with print-store ordering. Add-ons like albums, engagement sessions, and print releases are available.' },
         { question: 'Do you also serve nearby areas?', answer: 'Yes. We cover Conroe, Magnolia, Pinehurst, The Woodlands, and the broader Montgomery County region.' },
       ]}
       nearbyCities={['Conroe', 'Magnolia', 'Pinehurst', 'The Woodlands', 'Willis']}

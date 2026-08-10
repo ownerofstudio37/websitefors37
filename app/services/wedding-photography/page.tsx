@@ -41,7 +41,7 @@ const weddingFAQs = [
   },
   {
     question: "What's included in your wedding photography packages?",
-    answer: "All wedding collections include the Duo Experience with two photographers, professional editing, a high-resolution digital gallery, and personal usage rights. Select collections add engagement sessions, extended coverage, timeline support, and priority deliverables. We can customize coverage to fit your wedding day."
+    answer: "All wedding collections include the Duo Experience with two photographers, professional editing, and a private digital gallery with download access and integrated print-store ordering. Print releases are available as add-ons when needed. Select collections add engagement sessions, extended coverage, timeline support, and priority deliverables. We can customize coverage to fit your wedding day."
   },
   {
     question: "How many photos will we receive from our wedding?",
@@ -103,7 +103,7 @@ export default function WeddingPhotographyPage() {
   const microOfferSchema = generateOfferSchema({
     name: 'Micro / Elopement',
     price: '1200',
-    description: '3 hours intimate coverage for elopements and guest counts under 30, Duo Experience, 150+ edited photos, 48-hour sneak peek, private gallery with print release',
+    description: '3 hours intimate coverage for elopements and guest counts under 30, Duo Experience, 150+ edited photos, 48-hour sneak peek, private gallery with print store',
     availability: 'https://schema.org/InStock'
   })
 

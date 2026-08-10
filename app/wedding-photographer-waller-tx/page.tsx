@@ -38,7 +38,7 @@ export default function WeddingPhotographerWallerPage() {
       faqs={[
         { question: 'Do you photograph barn and ranch weddings in Waller, TX?', answer: 'Yes. We specialize in outdoor and venue-based ranch and barn weddings with natural and artificial lighting expertise.' },
         { question: 'How far in advance should I book for a Waller County wedding?', answer: 'Fall and spring weekends fill 6-9 months ahead. We recommend booking as soon as your venue is confirmed.' },
-        { question: 'What is included in your wedding photography packages?', answer: 'All packages include full-day coverage, two photographers, online gallery, and print release. Albums and engagement add-ons are available.' },
+        { question: 'What is included in your wedding photography packages?', answer: 'Packages include planned coverage, two photographers, and online gallery delivery with print-store ordering. Albums, engagement sessions, and print releases are available as add-ons.' },
         { question: 'Do you cover nearby areas?', answer: 'Yes. We cover Hockley, Tomball, Magnolia, Cypress, Pinehurst, and broader Northwest Houston.' },
       ]}
       nearbyCities={['Hockley', 'Tomball', 'Magnolia', 'Cypress', 'Pinehurst']}

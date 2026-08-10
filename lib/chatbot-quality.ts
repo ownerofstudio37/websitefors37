@@ -60,7 +60,7 @@ export function routeChatbotIntent(message: string): ChatbotRoute {
       service: 'wedding',
       pageUrl: 'https://www.studio37.cc/services/wedding-photography',
       serviceDetail: 'services/wedding-photography',
-      response: `The $1,200 wedding package is the Micro / Elopement package: 3 hours of intimate coverage, guest count under 30, both Studio37 photographers on site, 150+ edited photos, a 48-hour sneak peek, and a private digital gallery with print release. You can compare it here: [wedding photography packages](https://www.studio37.cc/services/wedding-photography).`,
+      response: `The $1,200 wedding package is the Micro / Elopement package: 3 hours of intimate coverage, guest count under 30, both Studio37 photographers on site, 150+ edited photos, a 48-hour sneak peek, and a private digital gallery with an integrated print store. A print release is available as an add-on when needed. You can compare it here: [wedding photography packages](https://www.studio37.cc/services/wedding-photography).`,
     }
   }
 
@@ -71,7 +71,7 @@ export function routeChatbotIntent(message: string): ChatbotRoute {
       service: 'wedding',
       pageUrl: servicePages.wedding,
       serviceDetail: 'services/wedding-photography',
-      response: `Wedding packages start at $1,200 for Micro / Elopement coverage: 3 hours, guest count under 30, both Studio37 photographers on site, 150+ edited photos, a 48-hour sneak peek, and a private digital gallery with print release. Other wedding collections include Essential Coverage at $2,200 for 6 hours, Complete Collection at $3,200 for 8 hours, and Premium Collection at $4,500 for 10+ hours. Compare them here: [wedding photography packages](https://www.studio37.cc/services/wedding-photography).`,
+      response: `Wedding packages start at $1,200 for Micro / Elopement coverage: 3 hours, guest count under 30, both Studio37 photographers on site, 150+ edited photos, a 48-hour sneak peek, and a private digital gallery with an integrated print store. Print releases are available as add-ons when needed. Other wedding collections include Essential Coverage at $2,200 for 6 hours, Complete Collection at $3,200 for 8 hours, and Premium Collection at $4,500 for 10+ hours. Compare them here: [wedding photography packages](https://www.studio37.cc/services/wedding-photography).`,
     }
   }
 

@@ -39,7 +39,7 @@ export default function WeddingPhotographerBryanPage() {
         { question: 'What are the most popular wedding venues in Bryan, TX?', answer: 'Downtown Bryan event spaces, Lake Walk, and Messina Hof Wine Estate are among the most sought-after. We are experienced at all three.' },
         { question: 'How early should I book a wedding photographer in Bryan?', answer: 'Most Brazos Valley weekends fill 9-12 months out, especially May graduation season and fall. Book as soon as your venue is confirmed.' },
         { question: 'Do you cover weddings in College Station too?', answer: 'Yes. We regularly cover weddings across both Bryan and College Station, as well as surrounding Brazos County venues.' },
-        { question: 'What is included in your wedding packages?', answer: 'Full-day dual coverage, online gallery, print release, and personalized planning consultation. Albums and engagement sessions are available add-ons.' },
+        { question: 'What is included in your wedding packages?', answer: 'Full-day dual coverage, online gallery delivery with print-store ordering, and personalized planning consultation. Albums, engagement sessions, and print releases are available add-ons.' },
       ]}
       nearbyCities={['College Station', 'Navasota', 'Huntsville', 'Conroe', 'Houston']}
     />

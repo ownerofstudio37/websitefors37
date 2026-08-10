@@ -330,7 +330,7 @@ function getServicePageContent(siteUrl: string): any[] {
     entries.push({
       category: "pricing",
       question: `What's included in your ${service.name.toLowerCase()} packages?`,
-      answer: `Great question! Our ${service.name.toLowerCase()} packages include:\n\n${packageList}\n\nAll photos are professionally edited and delivered through a private online gallery. You'll receive high-resolution digital files with print rights unless a custom commercial usage agreement applies. [Book a consultation](${siteUrl}/book-consultation) to discuss which package is right for you!`,
+      answer: `Great question! Our ${service.name.toLowerCase()} packages include:\n\n${packageList}\n\nAll photos are professionally edited and delivered through a private online gallery with store ordering available. Print releases are available as add-ons when needed unless a custom commercial usage agreement applies. [Book a consultation](${siteUrl}/book-consultation) to discuss which package is right for you!`,
       keywords: [...extractKeywords(service.name), "included", "what you get", "package details", "deliverables"],
       is_active: true,
       source_url: `${siteUrl}/services/${service.slug}`,
@@ -426,7 +426,7 @@ function getCuratedEntries(siteUrl: string): any[] {
       category: "general",
       question: "Can I get prints?",
       answer:
-        "Absolutely! While we provide high-resolution digital files that you can print anywhere, we also offer professional printing services. We can arrange prints, albums, and wall art at competitive prices with guaranteed quality.",
+        "Absolutely. Client galleries include professional print ordering, so you can buy prints, albums, and wall art directly from the gallery store with quality control. If you specifically need a print release, ask about adding one to your package.",
       keywords: ["prints", "printing", "physical", "albums", "wall art"],
       is_active: true,
     },

@@ -33,7 +33,7 @@ const FLOWS = {
 
 const PACKAGE_ANSWERS = {
   weddingMicro:
-    "The $1,200 wedding package is our Micro / Elopement package. It includes 3 hours of intimate coverage, guest count under 30, the Duo Experience with both photographers on site, 150+ edited photos, a 48-hour sneak peek, and a private digital gallery with print release. You can [book a consultation](https://www.studio37.cc/book-consultation) or [request complete galleries](https://www.studio37.cc/request-portfolio) if you want to see examples first.",
+    "The $1,200 wedding package is our Micro / Elopement package. It includes 3 hours of intimate coverage, guest count under 30, the Duo Experience with both photographers on site, 150+ edited photos, a 48-hour sneak peek, and a private digital gallery with an integrated print store. A print release is available as an add-on when needed. You can [book a consultation](https://www.studio37.cc/book-consultation) or [request complete galleries](https://www.studio37.cc/request-portfolio) if you want to see examples first.",
   weddingPricing:
     "Wedding photography starts at $1,200 for Micro / Elopement coverage. Larger wedding collections are $2,200 for Essential Coverage, $3,200 for the Complete Collection, and $4,500 for the Premium Collection. Every wedding collection includes the Duo Experience with both photographers on site.",
 } as const;
