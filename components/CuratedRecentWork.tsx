@@ -1,10 +1,12 @@
 import Image from 'next/image'
 import { ArrowRight } from 'lucide-react'
 import { recentWorkItems } from '@/lib/public-content'
+import { getPublishedPublicContentOverride } from '@/lib/public-content-overrides'
 import TrackedPortfolioRequestLink from './TrackedPortfolioRequestLink'
 
-export default function CuratedRecentWork({ className = '' }: { className?: string }) {
-  const recentWork = recentWorkItems
+export default async function CuratedRecentWork({ className = '' }: { className?: string }) {
+  const persistedRecentWorkItems = await getPublishedPublicContentOverride('recentWorkItems', recentWorkItems)
+  const recentWork = persistedRecentWorkItems
     .filter((item) => item.featured)
     .sort((a, b) => a.order - b.order)
 

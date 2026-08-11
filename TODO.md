@@ -762,7 +762,7 @@ Audit notes: `npm run audit:seo-assets` passed across public metadata/source fil
 
 ### Next-Level 2.0 Roadmap
 
-- [ ] Admin content persistence: move proof cards, review rotation, CTA variants, and image selections from static `lib/public-content.ts` into a database-backed admin editor when the manual board starts feeling limiting.
+- [x] Admin content persistence: move proof cards, review rotation, CTA variants, and image selections from static `lib/public-content.ts` into a database-backed admin editor when the manual board starts feeling limiting.
 - [x] Chatbot intent precision pass: make service-specific pricing and package answers deterministic first, then use AI only for nuance, follow-up, and lead capture.
 - [x] Premium service-page proof pass: add more service-specific before/after decision context, private-gallery proof prompts, and objection handling for wedding, portrait, engagement, event, commercial, concierge, and branding pages.
 - [x] Mobile conversion heat-check: run phone-width QA on homepage, service pages, local pages, blog, pricing, booking, chatbot, and gallery links; record any drop-off or overlap issues.

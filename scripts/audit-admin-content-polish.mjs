@@ -12,6 +12,7 @@ const checks = [
       'Public Proof Cards',
       'Review Rotation',
       'CTA Variant Rules',
+      'PublicContentPersistenceEditor',
       'curatedImageSlots',
       'recentWorkItems',
       'testimonialsByService',
@@ -21,6 +22,22 @@ const checks = [
       '/tools/pricing',
       '/book-consultation',
     ],
+  },
+  {
+    file: 'app/api/admin/public-content/route.ts',
+    patterns: ['requireAdminRole', 'public_content_overrides', 'upsert'],
+  },
+  {
+    file: 'components/admin/PublicContentPersistenceEditor.tsx',
+    patterns: ['Save overrides', '/api/admin/public-content', 'Published overrides'],
+  },
+  {
+    file: 'supabase/migrations/20260811_public_content_overrides.sql',
+    patterns: ['CREATE TABLE IF NOT EXISTS public_content_overrides', 'Public can read published public content overrides'],
+  },
+  {
+    file: 'components/CuratedRecentWork.tsx',
+    patterns: ['getPublishedPublicContentOverride', 'recentWorkItems'],
   },
   {
     file: 'lib/public-content.ts',

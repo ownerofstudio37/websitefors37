@@ -8,6 +8,7 @@ import {
   turnaroundByService,
   type ServiceKey,
 } from '@/lib/public-content'
+import PublicContentPersistenceEditor from '@/components/admin/PublicContentPersistenceEditor'
 
 const proofSets = [
   {
@@ -61,6 +62,56 @@ const imageSlotUsage: Record<keyof typeof curatedImageSlots, string> = {
 export default function ProofLibraryPage() {
   const imageSlots = Object.entries(curatedImageSlots) as Array<[keyof typeof curatedImageSlots, string]>
   const reviewCoverage = Object.entries(testimonialsByService) as Array<[ServiceKey, typeof testimonialsByService[ServiceKey]]>
+  const overrideDrafts = [
+    {
+      key: 'curatedImageSlots',
+      content_type: 'image_slots' as const,
+      label: 'Curated image slots',
+      value: curatedImageSlots,
+      notes: 'Hero/proof image slot URLs used across public proof sections.',
+      status: 'published' as const,
+    },
+    {
+      key: 'recentWorkItems',
+      content_type: 'recent_work' as const,
+      label: 'Curated recent-work cards',
+      value: recentWorkItems,
+      notes: 'Public recent-work cards. Published overrides are used by the public component.',
+      status: 'published' as const,
+    },
+    {
+      key: 'studio37Reviews',
+      content_type: 'reviews' as const,
+      label: 'Master review excerpts',
+      value: studio37Reviews,
+      notes: 'Real review excerpts used for proof rotation and local trust language.',
+      status: 'published' as const,
+    },
+    {
+      key: 'testimonialsByService',
+      content_type: 'testimonials' as const,
+      label: 'Service testimonial rotation',
+      value: testimonialsByService,
+      notes: 'Service-specific review rotation data.',
+      status: 'published' as const,
+    },
+    {
+      key: 'turnaroundByService',
+      content_type: 'turnaround' as const,
+      label: 'Delivery expectation copy',
+      value: turnaroundByService,
+      notes: 'Preview, highlight, final-gallery, and rush-delivery copy.',
+      status: 'published' as const,
+    },
+    {
+      key: 'ctaRules',
+      content_type: 'cta_rules' as const,
+      label: 'CTA variant rules',
+      value: ctaRules,
+      notes: 'Shared CTA label and routing guidance.',
+      status: 'published' as const,
+    },
+  ]
 
   return (
     <main className="min-h-screen bg-gray-50 p-6">
@@ -120,6 +171,8 @@ export default function ProofLibraryPage() {
             </div>
           </div>
         </section>
+
+        <PublicContentPersistenceEditor initialDrafts={overrideDrafts} />
 
         <section className="rounded-xl border bg-white p-5 shadow-sm">
           <h2 className="text-xl font-bold text-gray-950">Image Selection Board</h2>
@@ -247,7 +300,7 @@ export default function ProofLibraryPage() {
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <div>
               <h2 className="font-bold text-gray-950">Next database step</h2>
-              <p className="mt-1 text-sm text-gray-700">When ready, move these controls from static public-content data into stored proof assets with gallery URL, service tags, location tags, send history, and lead-fit notes.</p>
+              <p className="mt-1 text-sm text-gray-700">Use saved overrides for public content that changes often. Keep gallery URL, service tags, location tags, send history, and lead-fit notes in the proof workflow.</p>
             </div>
             <Link href="/admin/leads" className="inline-flex items-center justify-center gap-2 rounded-lg bg-gray-950 px-4 py-2 text-sm font-semibold text-white hover:bg-gray-800">
               <Search className="h-4 w-4" aria-hidden="true" />
