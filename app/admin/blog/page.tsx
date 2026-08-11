@@ -371,7 +371,12 @@ export default function BlogManagementPage() {
       setShowPostModal(true);
     } catch (error: any) {
       console.error("Error generating blog post:", error);
-      setError(error.message || "Failed to generate blog post");
+      const message = error.message || "Failed to generate blog post";
+      setError(
+        /timeout|timed out|too long|inactivity|busy|overloaded|service unavailable/i.test(message)
+          ? `${message} Reliability tip: switch to Short or Medium, save the topic as a scheduled draft, and retry when Gemini demand drops.`
+          : message
+      );
     } finally {
       clearTimeout(timeout);
       setGeneratingPost(false);
@@ -1043,6 +1048,15 @@ export default function BlogManagementPage() {
                       </ul>
                     </span>
                   </p>
+                </div>
+
+                <div className="rounded-lg border border-purple-200 bg-purple-50 p-4">
+                  <h3 className="font-semibold text-purple-950 mb-2">Reliability Mode</h3>
+                  <ul className="list-disc ml-5 space-y-1 text-sm text-purple-800">
+                    <li>Short and Medium are safest on Netlify because they finish before request timeouts.</li>
+                    <li>If a long post times out, keep the topic, schedule the draft, and retry later instead of retyping.</li>
+                    <li>Generation uses model fallbacks server-side; repeated failures usually mean provider demand or a long prompt.</li>
+                  </ul>
                 </div>
 
 

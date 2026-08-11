@@ -29,6 +29,9 @@ type CityProfile = {
   venueHighlights: string[]
   bestLightWindow: string
   seasonalTip: string
+  proofNote?: string
+  parkingNote?: string
+  serviceFit?: string
 }
 
 type LocalProofImage = {
@@ -79,16 +82,25 @@ const CITY_PROFILES: Record<string, CityProfile> = {
     venueHighlights: ['LaCenterra corridors', 'Mary Jo Peckham Park', 'Cinco Ranch trails'],
     bestLightWindow: '60-90 minutes before sunset for clean sky tones and softer skin rendering.',
     seasonalTip: 'Spring and late fall are strongest for family and engagement sessions due to milder heat and cleaner outdoor color.',
+    proofNote: 'Best proof sets here are family, senior, and engagement galleries with water, neighborhood trails, and polished suburban backdrops.',
+    parkingNote: 'We avoid tight retail parking windows at LaCenterra and build alternate meet points around school and dinner traffic.',
+    serviceFit: 'Strongest fit: family portraits, seniors, engagement sessions, and smaller events.',
   },
   'tomball': {
     venueHighlights: ['Downtown Tomball storefront blocks', 'Kleb Woods trails', 'Burroughs Park edges'],
     bestLightWindow: 'Golden hour with a pre-sunset warm-up set for candid movement and wider environmental portraits.',
     seasonalTip: 'Holiday mini-session demand spikes early; late September to early November books fastest.',
+    proofNote: 'Tomball proof should show downtown texture plus greenbelt variety so clients can compare editorial and natural looks.',
+    parkingNote: 'Downtown blocks and park lots are easy when timed outside festival windows; Burroughs Park needs a simple meet-up pin.',
+    serviceFit: 'Strongest fit: weddings, family portraits, seniors, events, and engagement sessions.',
   },
   'the woodlands': {
     venueHighlights: ['Waterway boardwalk', 'Town Green Park', 'Market Street architecture'],
     bestLightWindow: 'Early morning for cleaner foot traffic in high-density zones and evening for cinematic glow.',
     seasonalTip: 'Winter and spring work well for polished editorial portraits with lower humidity and manageable crowds.',
+    proofNote: 'Use proof with waterway, market, and park variety because clients often compare polished editorial versus natural sessions.',
+    parkingNote: 'Garage access and foot traffic matter most near Market Street and the Waterway, so we plan a walking loop before arrival.',
+    serviceFit: 'Strongest fit: engagements, proposals, weddings, headshots, and upscale portraits.',
   },
   'conroe': {
     venueHighlights: ['Historic downtown facades', 'Lake Conroe access points', 'Candy Cane Park greens'],
@@ -99,16 +111,25 @@ const CITY_PROFILES: Record<string, CityProfile> = {
     venueHighlights: ['Unity Park pockets', 'Pine-lined corridors', 'Rural venue landscapes'],
     bestLightWindow: 'Sunset and immediate blue hour for warm highlights with deep pine-green contrast.',
     seasonalTip: 'Bluebonnet season drives spring portrait demand and usually requires earlier reservation windows.',
+    proofNote: 'Magnolia proof performs best when it shows pine texture, open-field light, and relaxed family direction.',
+    parkingNote: 'Most sessions are easiest with one clear meet point and a backup shade pocket because rural spots vary by access.',
+    serviceFit: 'Strongest fit: family portraits, engagements, senior sessions, and venue-based weddings.',
   },
   'houston': {
     venueHighlights: ['Buffalo Bayou viewpoints', 'Museum District architecture', 'Inner Loop urban backdrops'],
     bestLightWindow: 'Early morning downtown and sunset in park settings to avoid harsh midday contrast.',
     seasonalTip: 'Summer sessions often perform best with early call times and shaded location strategy.',
+    proofNote: 'Houston proof should separate business/commercial examples from family or couple galleries so the use case is obvious.',
+    parkingNote: 'Downtown, Museum District, and park sessions need garage/street-parking guidance and a shorter walking plan.',
+    serviceFit: 'Strongest fit: commercial content, headshots, events, branding, and urban portraits.',
   },
   'pinehurst': {
     venueHighlights: ['Goodson Loop district', 'Nearby wooded trails', 'Private local venues'],
     bestLightWindow: 'Late-day light windows for warm, film-inspired tones and smooth highlight roll-off.',
     seasonalTip: 'October through April offers the most flexible planning windows for outdoor sessions.',
+    proofNote: 'Pinehurst proof should feel close-to-home: warm portraits, family sessions, and local venue coverage with easy logistics.',
+    parkingNote: 'We keep meeting points simple around Goodson Loop, nearby trails, and private venues so clients are not guessing.',
+    serviceFit: 'Strongest fit: portraits, family sessions, engagement sessions, small events, and local weddings.',
   },
   'humble': {
     venueHighlights: ['Old Humble district', 'Deerbrook corridor aesthetics', 'Lake Houston-adjacent spots'],
@@ -794,7 +815,7 @@ export default function LocalPhotographerCityPage({
                 <div className="bg-gray-50 border border-gray-200 rounded-lg p-5">
                   <h3 className="font-semibold text-gray-900 mb-2">Access Notes</h3>
                   <p className="text-sm text-gray-700">
-                    We confirm parking, walking distance, restroom access, and backup shade before recommending a final meeting spot.
+                    {cityProfile.parkingNote || 'We confirm parking, walking distance, restroom access, and backup shade before recommending a final meeting spot.'}
                   </p>
                 </div>
 
@@ -803,6 +824,22 @@ export default function LocalPhotographerCityPage({
                   <p className="text-sm text-gray-700">{cityProfile.seasonalTip}</p>
                 </div>
               </div>
+              {(cityProfile.proofNote || cityProfile.serviceFit) && (
+                <div className="mt-5 grid gap-5 md:grid-cols-2">
+                  <div className="rounded-lg border border-amber-200 bg-amber-50 p-5">
+                    <h3 className="font-semibold text-gray-900 mb-2">Proof To Request</h3>
+                    <p className="text-sm text-gray-700">
+                      {cityProfile.proofNote || `Ask for examples that match the ${cityLabel} location style, lighting window, and service type you are considering.`}
+                    </p>
+                  </div>
+                  <div className="rounded-lg border border-blue-200 bg-blue-50 p-5">
+                    <h3 className="font-semibold text-gray-900 mb-2">Best Service Fit</h3>
+                    <p className="text-sm text-gray-700">
+                      {cityProfile.serviceFit || `Strong fit for portraits, weddings, events, and commercial sessions around ${cityLabel}.`}
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </section>

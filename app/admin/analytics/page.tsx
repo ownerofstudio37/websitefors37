@@ -95,13 +95,19 @@ export default function AnalyticsPage() {
 
   const maxTrendValue = Math.max(...data.leads.monthlyTrend.map(d => d.leads), 1)
   const conversionEvents = [
-    ['Hero CTA', 'booking_click / booking_start'],
-    ['Pricing tool', 'pricing_duration_change / booking_start'],
-    ['Package recommender', 'package_recommender_selection'],
-    ['Request portfolio', 'portfolio_request_click / portfolio_request_submit'],
-    ['Booking forms', 'booking_start / form_submit'],
-    ['Chatbot', 'chatbot lead source + detected intent'],
-    ['Service cards', 'navigation_click / service route clicks'],
+    ['Hero CTA', 'booking_click / booking_start', '/'],
+    ['Pricing tool', 'pricing_duration_change / booking_start', '/tools/pricing'],
+    ['Package recommender', 'package_recommender_selection', '/tools/package-recommender'],
+    ['Request portfolio', 'portfolio_request_click / portfolio_request_submit', '/request-portfolio'],
+    ['Booking forms', 'booking_start / form_submit', '/book-consultation'],
+    ['Chatbot', 'chatbot lead source + detected intent', '/admin/chatbot-training'],
+    ['Service cards', 'navigation_click / service route clicks', '/services'],
+  ]
+  const sourceWatchlist = [
+    ['Organic local pages', data.leads.bySource.organic || data.leads.bySource.seo || 0, 'Check city-page clicks against booking and quote submissions.'],
+    ['Portfolio requests', data.leads.bySource['portfolio-request'] || data.leads.bySource.portfolio || 0, 'Track private-gallery demand by project type before sending examples.'],
+    ['Chatbot leads', data.leads.bySource.chatbot || data.leads.bySource['chatbot-quote-form'] || 0, 'Review detected intent and wrong-answer feedback weekly.'],
+    ['Quote starts', data.leads.bySource.quote || data.leads.bySource['quote-capture'] || 0, 'Compare saved quote starts to booked consultations.'],
   ]
 
   return (
@@ -165,10 +171,25 @@ export default function AnalyticsPage() {
             <Link href="/admin/lead-cost-analytics" className="text-sm font-semibold text-indigo-700 hover:underline">Revenue analytics →</Link>
           </div>
           <div className="mt-4 grid gap-3 md:grid-cols-2 lg:grid-cols-3">
-            {conversionEvents.map(([label, event]) => (
+            {conversionEvents.map(([label, event, href]) => (
               <div key={label} className="rounded-lg border border-gray-200 bg-gray-50 p-4">
                 <p className="font-semibold text-gray-900">{label}</p>
                 <p className="mt-1 text-xs text-gray-600">{event}</p>
+                <Link href={href} className="mt-3 inline-flex text-xs font-semibold text-indigo-700 hover:underline">Open path →</Link>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="bg-white rounded-xl border p-6 shadow-sm">
+          <h2 className="text-lg font-bold text-gray-900">Source Watchlist</h2>
+          <p className="mt-1 text-sm text-gray-600">Quick read on the conversion sources that matter most after the SEO and chatbot work.</p>
+          <div className="mt-4 grid gap-3 md:grid-cols-2 lg:grid-cols-4">
+            {sourceWatchlist.map(([label, value, note]) => (
+              <div key={label} className="rounded-lg border border-gray-200 p-4">
+                <p className="text-sm font-semibold text-gray-900">{label}</p>
+                <p className="mt-2 text-2xl font-bold text-gray-950">{value}</p>
+                <p className="mt-2 text-xs leading-5 text-gray-600">{note}</p>
               </div>
             ))}
           </div>
