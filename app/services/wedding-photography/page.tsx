@@ -409,7 +409,7 @@ export default function WeddingPhotographyPage() {
                   'The Duo Experience: both photographers on-site',
                   '150+ High-Resolution Edited Photos',
                   '48-Hour Sneak Peek',
-                  'Private Digital Gallery + Print Release',
+                  'Private Digital Gallery with Print Store',
                 ].map((item) => (
                   <li key={item} className="flex items-start gap-2 text-sm text-stone-700">
                     <CheckCircle className="h-4 w-4 text-green-600 flex-shrink-0 mt-0.5" />
