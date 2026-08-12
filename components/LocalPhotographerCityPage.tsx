@@ -307,6 +307,21 @@ const CITY_SERVICE_GUIDES: Record<string, Array<{ label: string; href: string }>
   ],
 }
 
+const highIntentLinks = [
+  { label: 'Check package fit', href: '/tools/package-recommender' },
+  { label: 'Estimate pricing', href: '/tools/pricing' },
+  { label: 'Book consultation', href: '/book-consultation' },
+  { label: 'Request matched examples', href: '/request-portfolio' },
+]
+
+const commercialSeoLinks = [
+  { label: 'Houston commercial photography', href: '/local-photographer-houston-tx' },
+  { label: 'Commercial photography services', href: '/services/commercial-photography' },
+  { label: 'Product photography', href: '/product-photography' },
+  { label: 'Architecture and real estate photography', href: '/architectural-photography' },
+  { label: 'Brand refresh sessions', href: '/brand-refresh-sessions' },
+]
+
 export default function LocalPhotographerCityPage({
   city,
   stateAbbr,
@@ -679,6 +694,54 @@ export default function LocalPhotographerCityPage({
               Two photographers on site — for the price of one. More coverage, more moments, same rate.
             </p>
           </div>
+        </div>
+      </section>
+
+      <section className="section-shell bg-white">
+        <div className="container mx-auto px-4">
+          <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
+            <div className="rounded-xl border border-stone-200 bg-stone-50 p-6">
+              <p className="eyebrow mb-3">Photographer Near Me</p>
+              <h2 className="text-2xl font-bold text-stone-950">A local photographer for {cityLabel} and nearby markets</h2>
+              <p className="mt-3 leading-7 text-stone-700">
+                If you searched for a photographer near me in {city}, the decision usually comes down to fit, proof, and logistics. Studio37 plans sessions around nearby access points, light windows, parking, service type, and the final gallery you actually need.
+              </p>
+              <div className="mt-5 flex flex-wrap gap-2">
+                {[cityLabel, ...nearbyCities.slice(0, 5)].map((area) => (
+                  <span key={area} className="rounded-full border border-stone-200 bg-white px-3 py-1.5 text-sm font-semibold text-stone-700">
+                    {area}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <div className="rounded-xl border border-amber-200 bg-amber-50 p-6">
+              <p className="eyebrow mb-3">Next Step</p>
+              <h3 className="text-xl font-bold text-stone-950">Compare before you book</h3>
+              <div className="mt-4 grid gap-2">
+                {highIntentLinks.map((link) => (
+                  <Link key={link.href} href={`${link.href}?city=${encodeURIComponent(cityLabel)}&source=local-seo`} className="rounded-lg border border-amber-200 bg-white px-4 py-3 text-sm font-semibold text-amber-900 transition hover:border-amber-400">
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+          {cityKey === 'houston' && (
+            <div className="mt-6 rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
+              <p className="eyebrow mb-3">Commercial Search Paths</p>
+              <h3 className="text-2xl font-bold text-stone-950">Commercial photography near Houston with clear service paths</h3>
+              <p className="mt-3 max-w-3xl leading-7 text-stone-700">
+                Businesses searching for a commercial photographer near me often need a specific use case: website content, product photos, real estate or architecture, headshots, or a broader brand refresh.
+              </p>
+              <div className="mt-5 flex flex-wrap gap-3">
+                {commercialSeoLinks.map((link) => (
+                  <Link key={link.href} href={link.href} className="rounded-full border border-stone-200 bg-stone-50 px-4 py-2 text-sm font-semibold text-stone-800 transition hover:border-amber-300 hover:bg-amber-50">
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </section>
 

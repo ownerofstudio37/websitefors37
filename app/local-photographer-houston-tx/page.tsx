@@ -2,15 +2,18 @@ import LocalPhotographerCityPage from '@/components/LocalPhotographerCityPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 
 export const metadata = generateSEOMetadata({
-  title: 'Houston Commercial, Portrait & Event Photographer | Studio37',
+  title: 'Houston Commercial Photographer Near Me | Studio37',
   description:
-    'Houston photographer for commercial content, headshots, portraits, weddings, events, and engagement sessions with shot-list planning and clear package pricing.',
+    'Houston commercial photographer near me for business content, product photos, architecture, headshots, events, portraits, and brand refresh sessions with clear planning.',
   keywords: [
     'photographer Houston TX',
     'wedding photographer Houston Texas',
     'portrait photographer Houston TX',
     'event photography Houston TX',
     'commercial photographer Houston TX',
+    'houston commercial photography',
+    'commercial photographer near me',
+    'business photographer Houston',
   ],
   canonicalUrl: 'https://www.studio37.cc/local-photographer-houston-tx',
   pageType: 'service',

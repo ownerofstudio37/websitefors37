@@ -8,9 +8,9 @@ import PortraitSubServiceSupport from '@/components/PortraitSubServiceSupport'
 import { ServiceTestimonialsSection, TurnaroundExpectationsSection } from '@/components/PublicFeatureContent'
 
 export const metadata = generateSEOMetadata({
-  title: 'Product Photography Pinehurst TX for Web, Catalogs & Ads | Studio37',
+  title: 'Product Photography Houston & Pinehurst TX | Studio37',
   description:
-    'Product photography in Pinehurst, TX for ecommerce, websites, catalogs, ads, social content, detail shots, and launch campaigns with commercial usage included.',
+    'Product photography near Houston and Pinehurst for ecommerce, websites, catalogs, ads, social content, detail shots, and launch campaigns with clear usage planning.',
   canonicalUrl: 'https://www.studio37.cc/product-photography',
   pageType: 'service',
 })
@@ -61,7 +61,7 @@ export default function ProductPhotographyPage() {
             <p className="mt-4 text-lg leading-8 text-stone-100">
               Clean, useful product imagery for websites, catalogs, ads, social posts, and launch campaigns.
             </p>
-            <p className="mt-4 text-sm font-semibold text-amber-100">Starting at $500 · commercial usage included</p>
+            <p className="mt-4 text-sm font-semibold text-amber-100">Starting at $500 · usage scoped for ecommerce, web, ads, and social</p>
             <Link href="/book-consultation?service=product-photography" className="btn-primary mt-8 inline-flex items-center">
               Plan Product Photos <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
             </Link>

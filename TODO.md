@@ -39,15 +39,15 @@
 
 ### P1 SEO Growth From Search Console Data
 
-- [ ] CTR pass on high-impression queries: rewrite titles/meta for pages getting impressions but low clicks, especially local and photographer-intent terms.
-- [ ] Dedicated `photographer near me` local strategy: add natural nearby-market copy, internal links, and service-specific proof without making pages feel spammy.
-- [ ] More specific local proof: add real examples, location confidence, parking/light notes, and shoot-fit guidance for Pinehurst, Tomball, Magnolia, Katy, and Houston.
-- [ ] Commercial SEO push: strengthen `houston commercial photography`, `commercial photographer near me`, product, architecture/real estate, and brand-refresh paths.
-- [ ] Blog refresh for `how to choose a wedding photographer`: update the post to match current Studio37 pricing, two-photographer promise, private gallery proof, and booking CTAs.
-- [ ] Internal linking map: connect high-impression local pages to service pages, sub-service pages, pricing, package recommender, booking, and portfolio request.
-- [ ] Improve average position: prioritize pages ranking around positions 10-25 with stronger H1/H2 intent, proof blocks, FAQ/schema, and clearer internal links.
-- [ ] Track conversion, not just SEO: add admin reporting for clicks/submissions from organic visitors on quote, booking, pricing, portfolio request, chatbot, and gallery exits.
-- [ ] High-impression page optimization sprint: Tomball, Katy, Houston commercial, portrait Pinehurst, and the wedding-photographer advice blog.
+- [x] CTR pass on high-impression queries: rewrite titles/meta for pages getting impressions but low clicks, especially local and photographer-intent terms.
+- [x] Dedicated `photographer near me` local strategy: add natural nearby-market copy, internal links, and service-specific proof without making pages feel spammy.
+- [x] More specific local proof: add real examples, location confidence, parking/light notes, and shoot-fit guidance for Pinehurst, Tomball, Magnolia, Katy, and Houston.
+- [x] Commercial SEO push: strengthen `houston commercial photography`, `commercial photographer near me`, product, architecture/real estate, and brand-refresh paths.
+- [x] Blog refresh for `how to choose a wedding photographer`: update the post to match current Studio37 pricing, two-photographer promise, private gallery proof, and booking CTAs.
+- [x] Internal linking map: connect high-impression local pages to service pages, sub-service pages, pricing, package recommender, booking, and portfolio request.
+- [x] Improve average position: prioritize pages ranking around positions 10-25 with stronger H1/H2 intent, proof blocks, FAQ/schema, and clearer internal links.
+- [x] Track conversion, not just SEO: add admin reporting for clicks/submissions from organic visitors on quote, booking, pricing, portfolio request, chatbot, and gallery exits.
+- [x] High-impression page optimization sprint: Tomball, Katy, Houston commercial, portrait Pinehurst, and the wedding-photographer advice blog.
 
 ### P0 Security / Admin API Hardening
 

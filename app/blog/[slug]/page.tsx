@@ -24,7 +24,8 @@ function getArticleIntent(post: any) {
       serviceHref: '/services/wedding-photography',
       serviceLabel: 'Wedding Photography',
       context: 'wedding planning',
-      ctaCopy: 'If you are comparing coverage, private full galleries help you see the whole day: prep, ceremony, family formals, reception, and delivery quality.',
+      ctaCopy: 'Wedding coverage starts at $1,200 for 3-hour micro/elopement coverage, with both Studio37 photographers on site. If you are comparing photographers, private full galleries help you see the whole day: prep, ceremony, family formals, reception, low-light coverage, editing consistency, and delivery quality.',
+      proofPoints: ['Two photographers on site', 'Private full-gallery proof by request', 'Coverage from $1,200 with larger collections available'],
     }
   }
   if (/proposal|engagement|couple|save-the-date/.test(haystack)) {
@@ -34,6 +35,7 @@ function getArticleIntent(post: any) {
       serviceLabel: 'Engagement Sessions',
       context: 'engagement or proposal planning',
       ctaCopy: 'If privacy, location, and timing matter, request examples matched to proposals or engagement sessions before you choose the plan.',
+      proofPoints: ['Location and light planning', 'Proposal privacy support', 'Gallery examples matched to your session type'],
     }
   }
   if (/brand|business|commercial|headshot|website|campaign/.test(haystack)) {
@@ -43,6 +45,7 @@ function getArticleIntent(post: any) {
       serviceLabel: 'Commercial Photography',
       context: 'commercial content',
       ctaCopy: 'If you need website, campaign, headshot, or brand-refresh images, we can match examples to your usage and delivery needs.',
+      proofPoints: ['Website and campaign usage planning', 'Product, team, and workspace coverage', 'Commercial examples matched to your business'],
     }
   }
   return {
@@ -51,6 +54,7 @@ function getArticleIntent(post: any) {
     serviceLabel: 'Portrait Sessions',
     context: 'portrait planning',
     ctaCopy: 'If you are deciding on location, wardrobe, pacing, or package fit, request examples matched to your session type.',
+    proofPoints: ['Guided posing and wardrobe support', 'Local light and location planning', 'Portrait galleries matched to your need'],
   }
 }
 
@@ -267,6 +271,11 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
               <p className="eyebrow mb-3">{articleIntent.label}</p>
               <h3 className="text-2xl font-bold text-stone-950">Want this translated into your actual plan?</h3>
               <p className="mt-3 leading-7 text-stone-700">{articleIntent.ctaCopy}</p>
+              <div className="mt-4 grid gap-2 text-sm font-semibold text-stone-700 sm:grid-cols-3">
+                {articleIntent.proofPoints.map((point) => (
+                  <span key={point} className="rounded-lg border border-amber-200 bg-white px-3 py-2">{point}</span>
+                ))}
+              </div>
               <div className="mt-5 flex flex-wrap gap-3">
                 <Link href={`${articleIntent.serviceHref}?source=blog`} className="btn-secondary">{articleIntent.serviceLabel}</Link>
                 <Link href={`/request-portfolio?service=${encodeURIComponent(articleIntent.context)}&source=blog`} className="btn-secondary">Request matched examples</Link>

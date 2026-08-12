@@ -11,8 +11,8 @@ import { ServiceTestimonialsSection, TurnaroundExpectationsSection } from '@/com
 import ServiceIntentPanel from '@/components/ServiceIntentPanel'
 
 export const metadata = generateSEOMetadata({
-  title: 'Commercial Photography Pinehurst TX – Duo Production Team | Studio37',
-  description: 'Two-Pro Production Team commercial photography in Pinehurst, TX. Brand imagery, product photography, corporate headshots & marketing content starting at $500. Serving Montgomery County & Houston.',
+  title: 'Commercial Photographer Houston & Pinehurst TX | Studio37',
+  description: 'Commercial photographer near Houston and Pinehurst for product photography, architecture, headshots, brand refresh sessions, and website content starting at $500.',
   keywords: [
     'commercial photography Pinehurst TX',
     'business photographer Texas',
@@ -21,7 +21,10 @@ export const metadata = generateSEOMetadata({
     'marketing photography Pinehurst',
     'brand photography Houston area',
     'two photographer commercial session Texas',
-    'duo production team photography'
+    'duo production team photography',
+    'houston commercial photography',
+    'commercial photographer near me',
+    'commercial photographer Houston',
   ],
   canonicalUrl: 'https://www.studio37.cc/services/commercial-photography',
   pageType: 'service'
@@ -135,7 +138,7 @@ export default function CommercialPhotographyPage() {
               We don&apos;t just take photos; we build your brand&apos;s visual identity. With our Two-Pro Production Team, we capture more content in less time, so you can get back to business.
             </p>
             <p className="text-base mb-8 text-white/70">
-              Starting at $500 — full commercial usage license included on every session.
+              Starting at $500 — commercial usage is scoped clearly for web, social, listings, ads, and campaign needs.
             </p>
             <Link 
               href="/book-consultation" 

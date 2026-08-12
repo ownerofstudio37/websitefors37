@@ -8,9 +8,9 @@ import PortraitSubServiceSupport from '@/components/PortraitSubServiceSupport'
 import { ServiceTestimonialsSection, TurnaroundExpectationsSection } from '@/components/PublicFeatureContent'
 
 export const metadata = generateSEOMetadata({
-  title: 'Architectural & Real Estate Photography Pinehurst TX | Studio37',
+  title: 'Architecture & Real Estate Photography Houston TX | Studio37',
   description:
-    'Architectural and real estate photography in Pinehurst, TX for listings, interiors, commercial spaces, rentals, venues, and business marketing.',
+    'Architecture and real estate photography near Houston and Pinehurst for listings, interiors, commercial spaces, rentals, venues, and business marketing.',
   canonicalUrl: 'https://www.studio37.cc/architectural-photography',
   pageType: 'service',
 })
@@ -61,7 +61,7 @@ export default function ArchitecturalPhotographyPage() {
             <p className="mt-4 text-lg leading-8 text-stone-100">
               Polished real estate, interior, venue, and commercial space photography for listings, websites, and marketing.
             </p>
-            <p className="mt-4 text-sm font-semibold text-amber-100">Starting at $500 · commercial usage included</p>
+            <p className="mt-4 text-sm font-semibold text-amber-100">Starting at $500 · listing, web, venue, and marketing usage scoped clearly</p>
             <Link href="/book-consultation?service=architectural-photography" className="btn-primary mt-8 inline-flex items-center">
               Plan Space Photos <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
             </Link>

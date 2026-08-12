@@ -9,8 +9,8 @@ import PrepGuideLeadMagnet from '@/components/PrepGuideLeadMagnet'
 import PortraitSubServiceSupport from '@/components/PortraitSubServiceSupport'
 
 export const metadata = generateSEOMetadata({
-  title: 'Brand Refresh Photography Sessions | Studio37',
-  description: 'Brand refresh sessions for businesses that need fresh website, social, profile, product, and campaign photography in Pinehurst and Greater Houston.',
+  title: 'Brand Refresh Photography Houston & Pinehurst TX | Studio37',
+  description: 'Brand refresh photography near Houston and Pinehurst for businesses that need fresh website, social, profile, product, and campaign visuals.',
   canonicalUrl: 'https://www.studio37.cc/brand-refresh-sessions',
   pageType: 'service',
 })
@@ -66,7 +66,7 @@ export default function BrandRefreshSessionsPage() {
             <p className="mt-4 text-lg leading-8 text-stone-100">
               A practical content refresh for businesses that need updated imagery for websites, ads, listings, social media, and sales materials.
             </p>
-            <p className="mt-4 text-sm font-semibold text-amber-100">Starting at $500 · commercial usage included · fast-track options available</p>
+            <p className="mt-4 text-sm font-semibold text-amber-100">Starting at $500 · web, social, profile, and campaign usage scoped clearly</p>
             <Link href="/book-a-session?package=commercial_express" className="btn-primary mt-8 inline-flex items-center">
               Plan a Brand Refresh <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
             </Link>
