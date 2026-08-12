@@ -77,6 +77,7 @@ export default function BlogManagementPage() {
     excerpt: "",
     content: "",
     featured_image: "",
+    featured_image_position: "center center",
     meta_description: "",
     meta_keywords: "", // Will be split into array on submit
     author: "Admin",
@@ -193,6 +194,7 @@ export default function BlogManagementPage() {
         excerpt: postForm.excerpt,
         content: postForm.content,
         featured_image: postForm.featured_image,
+        featured_image_position: postForm.featured_image_position,
         meta_description: postForm.meta_description,
         meta_keywords: postForm.meta_keywords,  // Can be string or array
         author: postForm.author,
@@ -275,6 +277,7 @@ export default function BlogManagementPage() {
       excerpt: "",
       content: "",
       featured_image: "",
+      featured_image_position: "center center",
       meta_description: "",
       meta_keywords: "",
       author: "Admin",
@@ -357,6 +360,7 @@ export default function BlogManagementPage() {
         excerpt: data.excerpt || "",
         content: data.content,
         featured_image: "",
+        featured_image_position: "center center",
         meta_description: data.metaDescription || "",
         meta_keywords: (data.suggestedTags || []).join(", "),
         author: "Admin",
@@ -392,6 +396,7 @@ export default function BlogManagementPage() {
       excerpt: post.excerpt || "",
       content: post.content,
       featured_image: post.featured_image || "",
+      featured_image_position: post.featured_image_position || "center center",
       meta_description: post.meta_description || "",
       meta_keywords: Array.isArray(post.meta_keywords)
         ? post.meta_keywords.join(", ")
@@ -836,6 +841,32 @@ export default function BlogManagementPage() {
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                         placeholder="https://..."
                       />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Featured Image Focal Point
+                      </label>
+                      <select
+                        value={postForm.featured_image_position}
+                        onChange={(e) =>
+                          setPostForm({
+                            ...postForm,
+                            featured_image_position: e.target.value,
+                          })
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                      >
+                        <option value="center center">Center</option>
+                        <option value="center top">Top</option>
+                        <option value="center 35%">Upper center</option>
+                        <option value="center 65%">Lower center</option>
+                        <option value="left center">Left</option>
+                        <option value="right center">Right</option>
+                      </select>
+                      <p className="text-xs text-gray-500 mt-1">
+                        Helps desktop article crops keep faces, hands, or details in frame.
+                      </p>
                     </div>
 
                     {/* Author */}

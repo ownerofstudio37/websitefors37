@@ -24,6 +24,63 @@ const checks = [
     ],
   },
   {
+    file: 'app/admin/seo/page.tsx',
+    patterns: [
+      'sitemap.xml',
+      'sitemap_index.xml',
+      'content-type',
+      'Search Console',
+      'metadata',
+      'schema',
+      'noindex',
+    ],
+  },
+  {
+    file: 'app/admin/blog/page.tsx',
+    patterns: [
+      'featured_image',
+      'featured_image_position',
+      'scheduled_at',
+      'published_at',
+      'SEO description',
+      'AI Blog Writer',
+      'Short and Medium are safest',
+    ],
+  },
+  {
+    file: 'tests/smoke/public-and-admin.spec.ts',
+    patterns: [
+      'page.screenshot',
+      "{ name: 'services', path: '/services' }",
+      "{ name: 'blog', path: '/blog' }",
+      "{ name: 'booking', path: '/book-a-session' }",
+      "{ name: 'book-consultation', path: '/book-consultation' }",
+      "{ name: 'request-portfolio', path: '/request-portfolio' }",
+      "{ name: 'service-area-pinehurst', path: '/local-photographer-pinehurst-tx' }",
+      'mobile conversion path remains visible across public pages',
+    ],
+  },
+  {
+    file: 'scripts/audit-seo-content-coverage.mjs',
+    patterns: [
+      'high-value pages',
+      'pricing',
+      'package',
+      'schema',
+      'internal',
+    ],
+  },
+  {
+    file: 'scripts/audit-service-page-qa.mjs',
+    patterns: [
+      'hero',
+      'proof',
+      'pricing',
+      'CTA',
+      'service and sub-service pages',
+    ],
+  },
+  {
     file: 'app/api/admin/public-content/route.ts',
     patterns: ['requireAdminRole', 'public_content_overrides', 'upsert'],
   },

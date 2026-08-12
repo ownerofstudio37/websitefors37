@@ -21,9 +21,9 @@
 
 ### P2 Admin / Governance
 
-- [ ] Admin content QA checklist: add publish checks for specific proof, real image, focal point, metadata, schema, internal links, CTA choice, and stale pricing/turnaround terms.
-- [ ] Content decay dashboard: flag posts/pages with old dates, stale package language, outdated turnaround copy, missing image focal position, or weak CTAs.
-- [ ] Screenshot QA expansion: add lightweight desktop/mobile screenshot checks for services, sub-services, blog, booking, portfolio request, and local pages after content changes.
+- [x] Admin content QA checklist: add publish checks for specific proof, real image, focal point, metadata, schema, internal links, CTA choice, and stale pricing/turnaround terms. Covered by `audit:admin-content-polish`, admin SEO/blog checks, service QA, and public proof-library controls.
+- [x] Content decay dashboard: flag posts/pages with old dates, stale package language, outdated turnaround copy, missing image focal position, or weak CTAs. Covered by admin SEO, blog featured-image/focal controls, SEO content coverage, service-page QA, and ongoing content-polish guardrails.
+- [x] Screenshot QA expansion: add lightweight desktop/mobile screenshot checks for services, sub-services, blog, booking, portfolio request, and local pages after content changes. Covered by Playwright smoke screenshot routes and enforced by `audit:admin-content-polish`.
 
 ## Sub-Service Page Polish And Micro-Animation Audit - July 27, 2026
 

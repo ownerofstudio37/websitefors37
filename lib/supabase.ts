@@ -94,6 +94,7 @@ export interface BlogPost {
   content: string
   excerpt?: string
   featured_image?: string
+  featured_image_position?: string
   published: boolean
   published_at?: string
   meta_description?: string
