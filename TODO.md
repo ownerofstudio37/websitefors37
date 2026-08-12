@@ -75,11 +75,11 @@
 
 ### P1 SEO / Content
 
-- [ ] Add live sitemap validation to admin SEO that checks deployed `sitemap.xml`, `sitemap_index.xml`, headers, content-type, URL count, and Search Console handoff.
-- [ ] Add local/service-page sameness detection for repeated titles, meta descriptions, first paragraphs, FAQs, and proof blocks.
-- [ ] Add schema coverage checks for service pages, sub-service pages, local pages, blog posts, FAQs, and breadcrumbs.
-- [ ] Add image SEO audit for missing alt text, generic alt text, broken Cloudinary URLs, and oversized hero images.
-- [ ] Add internal-link gap audit from high-value service pages to relevant sub-services, local pages, pricing tools, booking, and portfolio request.
+- [x] Add live sitemap validation to admin SEO that checks deployed `sitemap.xml`, `sitemap_index.xml`, headers, content-type, URL count, and Search Console handoff.
+- [x] Add local/service-page sameness detection for repeated titles, meta descriptions, first paragraphs, FAQs, and proof blocks.
+- [x] Add schema coverage checks for service pages, sub-service pages, local pages, blog posts, FAQs, and breadcrumbs.
+- [x] Add image SEO audit for missing alt text, generic alt text, broken Cloudinary URLs, and oversized hero images.
+- [x] Add internal-link gap audit from high-value service pages to relevant sub-services, local pages, pricing tools, booking, and portfolio request.
 
 ### P1 Admin / CRM / Operations
 

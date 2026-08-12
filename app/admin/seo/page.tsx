@@ -41,6 +41,8 @@ interface SEOMetrics {
   sitemapIndexCacheStatus: string | null;
   sitemapNetlifyCache: string | null;
   sitemapIndexNetlifyCache: string | null;
+  sitemapContentType: string | null;
+  sitemapIndexContentType: string | null;
   sitemapRobotsTag: string | null;
   sitemapIndexRobotsTag: string | null;
   sitemapNoindexDetected: boolean;
@@ -194,6 +196,8 @@ export default function SEOPage() {
     sitemapIndexCacheStatus: null,
     sitemapNetlifyCache: null,
     sitemapIndexNetlifyCache: null,
+    sitemapContentType: null,
+    sitemapIndexContentType: null,
     sitemapRobotsTag: null,
     sitemapIndexRobotsTag: null,
     sitemapNoindexDetected: false,
@@ -345,6 +349,8 @@ export default function SEOPage() {
       const robotsReferencesSitemap = /Sitemap:\s*https:\/\/www\.studio37\.cc\/sitemap\.xml/i.test(robotsText);
       const sitemapRobotsTag = headerValue(sitemapResponse, "x-robots-tag");
       const sitemapIndexRobotsTag = headerValue(sitemapIndexResponse, "x-robots-tag");
+      const sitemapContentType = headerValue(sitemapResponse, "content-type");
+      const sitemapIndexContentType = headerValue(sitemapIndexResponse, "content-type");
       const sitemapNoindexDetected = /noindex/i.test(`${sitemapRobotsTag || ""} ${sitemapIndexRobotsTag || ""}`);
 
       const firstBlogPostUrl = (postsData || []).find((post) => post.slug)?.slug
@@ -438,6 +444,8 @@ export default function SEOPage() {
         sitemapIndexCacheStatus: headerValue(sitemapIndexResponse, "cache-status"),
         sitemapNetlifyCache: headerValue(sitemapResponse, "x-nf-cache"),
         sitemapIndexNetlifyCache: headerValue(sitemapIndexResponse, "x-nf-cache"),
+        sitemapContentType,
+        sitemapIndexContentType,
         sitemapRobotsTag,
         sitemapIndexRobotsTag,
         sitemapNoindexDetected,
@@ -811,7 +819,7 @@ export default function SEOPage() {
                 Sitemap Health
               </h2>
               <p className="text-sm text-gray-600 mt-1">
-                Crawler readiness for sitemap, sitemap index, and robots discovery.
+                Live deployed sitemap validation for sitemap XML, sitemap index XML, headers, URL count, robots discovery, and Search Console handoff.
               </p>
             </div>
             <div className="flex flex-wrap gap-2">
@@ -914,6 +922,13 @@ export default function SEOPage() {
                 {metrics.sitemapNoindexDetected
                   ? `Review x-robots-tag headers: sitemap=${metrics.sitemapRobotsTag || "none"}, index=${metrics.sitemapIndexRobotsTag || "none"}`
                   : "No sitemap XML noindex header detected."}
+              </p>
+            </div>
+
+            <div className="rounded-lg bg-gray-50 p-4 xl:col-span-6">
+              <p className="text-sm font-medium text-gray-900">Content-Type Headers</p>
+              <p className="mt-1 text-sm text-gray-700">
+                sitemap.xml: {metrics.sitemapContentType || "not reported"} · sitemap_index.xml: {metrics.sitemapIndexContentType || "not reported"}
               </p>
             </div>
           </div>
