@@ -141,7 +141,7 @@ export function PackageComparisonSection() {
   ]
 
   return (
-    <section className="bg-white py-12 md:py-14">
+    <section className="motion-section bg-white py-12 md:py-14">
       <div className="container mx-auto px-4">
         <div className="mb-10 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
@@ -162,7 +162,7 @@ export function PackageComparisonSection() {
         </div>
         <div className="grid gap-3 lg:grid-cols-4">
           {packages.map((pkg) => (
-            <div key={pkg.name} className="rounded-lg border border-stone-200 bg-white p-5 shadow-sm">
+            <div key={pkg.name} className="interactive-card rounded-lg border border-stone-200 bg-white p-5 shadow-sm">
               <h3 className="text-lg font-semibold text-stone-950">{pkg.name}</h3>
               <p className="mt-2 text-2xl font-bold text-amber-800">{pkg.price}</p>
               <p className="mt-3 text-sm leading-6 text-stone-600">{pkg.fit}</p>
@@ -201,7 +201,7 @@ export function NextStepDecisionBand({
   body?: string
 }) {
   return (
-    <section className="border-y border-stone-200 bg-stone-950 py-10 text-white">
+    <section className="motion-section border-y border-stone-200 bg-stone-950 py-10 text-white">
       <div className="container mx-auto grid gap-6 px-4 md:grid-cols-[1fr_auto] md:items-center">
         <div>
           <p className="eyebrow-hero mb-3">Need Proof First?</p>
@@ -227,7 +227,7 @@ export function NextStepDecisionBand({
 
 export function PackageRecommenderCTA() {
   return (
-    <section className="border-b border-stone-200 bg-amber-50">
+    <section className="motion-section border-b border-stone-200 bg-amber-50">
       <div className="container mx-auto flex flex-col gap-4 px-4 py-6 md:flex-row md:items-center md:justify-between">
         <div>
           <p className="text-sm font-semibold uppercase tracking-[0.18em] text-amber-800">Not sure where to start?</p>

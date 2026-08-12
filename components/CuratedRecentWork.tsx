@@ -11,7 +11,7 @@ export default async function CuratedRecentWork({ className = '' }: { className?
     .sort((a, b) => a.order - b.order)
 
   return (
-    <section className={`section-shell bg-white ${className}`}>
+    <section className={`section-shell motion-section bg-white ${className}`}>
       <div className="container mx-auto px-4">
         <div className="mb-10 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
@@ -30,9 +30,9 @@ export default async function CuratedRecentWork({ className = '' }: { className?
             const balancedSpan = recentWork.length === 5 && index < 2 ? 'lg:col-span-3' : 'lg:col-span-2'
 
             return (
-              <article key={item.title} className={`flex h-full flex-col overflow-hidden rounded-lg border border-stone-200 bg-stone-50 ${balancedSpan}`}>
+              <article key={item.title} className={`interactive-card flex h-full flex-col overflow-hidden rounded-lg border border-stone-200 bg-stone-50 ${balancedSpan}`}>
                 <div className="relative aspect-[4/3] bg-gradient-to-br from-stone-100 via-amber-50 to-stone-200">
-                  <Image src={item.image} alt={item.alt} fill className="object-cover" sizes="(min-width: 1280px) 420px, (min-width: 768px) 33vw, 100vw" quality={88} />
+                  <Image src={item.image} alt={item.alt} fill className="interactive-image object-cover" sizes="(min-width: 1280px) 420px, (min-width: 768px) 33vw, 100vw" quality={88} />
                 </div>
                 <div className="flex flex-1 flex-col p-5">
                   <div className="mb-3 flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-stone-500">

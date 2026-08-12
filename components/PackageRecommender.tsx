@@ -264,7 +264,7 @@ export default function PackageRecommender({ className = "" }: { className?: str
                         duration: nextRecommendation.duration,
                       })
                     }}
-                    className={`min-h-[76px] rounded-lg border px-3 py-3 text-sm font-semibold transition ${
+                    className={`min-h-[76px] rounded-lg border px-3 py-3 text-sm font-semibold transition-all duration-150 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2 ${
                       goal === key ? "border-primary-600 bg-primary-600 text-white" : "border-stone-200 bg-stone-50 text-stone-800 hover:border-primary-300"
                     }`}
                   >
@@ -295,7 +295,7 @@ export default function PackageRecommender({ className = "" }: { className?: str
                         duration: nextRecommendation.duration,
                       })
                     }}
-                    className={`rounded-lg border p-3 text-left transition ${
+                    className={`rounded-lg border p-3 text-left transition-all duration-150 active:scale-[0.99] focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2 ${
                       coverage === option.key ? "border-primary-600 bg-primary-50" : "border-stone-200 bg-white hover:border-primary-300"
                     }`}
                   >

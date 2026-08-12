@@ -14,7 +14,7 @@ export function BestPhotoLocationsSection({ slug, city }: { slug: string; city: 
   if (!ideas) return null
 
   return (
-    <section className="section-shell bg-white">
+    <section className="section-shell motion-section bg-white">
       <div className="container mx-auto px-4">
         <div className="mb-8 max-w-3xl">
           <p className="eyebrow mb-3">Location Planning</p>
@@ -25,7 +25,7 @@ export function BestPhotoLocationsSection({ slug, city }: { slug: string; city: 
         </div>
         <div className="grid gap-4 md:grid-cols-3">
           {ideas.map((idea) => (
-            <article key={idea.name} className="rounded-lg border border-stone-200 bg-stone-50 p-5">
+            <article key={idea.name} className="interactive-card rounded-lg border border-stone-200 bg-stone-50 p-5">
               <MapPin className="h-5 w-5 text-amber-800" aria-hidden="true" />
               <h3 className="mt-3 text-lg font-semibold text-stone-950">{idea.name}</h3>
               <p className="mt-1 text-sm font-medium text-amber-800">Best for {idea.bestFor}</p>
@@ -43,7 +43,7 @@ export function VenueStyleExamplesSection({ type }: { type: 'wedding' | 'event' 
   const title = type === 'wedding' ? 'Wedding venue styles we plan for' : 'Event space styles we plan for'
 
   return (
-    <section className="section-shell bg-white">
+    <section className="section-shell motion-section bg-white">
       <div className="container mx-auto px-4">
         <div className="mb-8 max-w-3xl">
           <p className="eyebrow mb-3">Venue Planning</p>
@@ -54,7 +54,7 @@ export function VenueStyleExamplesSection({ type }: { type: 'wedding' | 'event' 
         </div>
         <div className="grid gap-4 md:grid-cols-3">
           {examples.map((example) => (
-            <article key={example.style} className="rounded-lg border border-stone-200 bg-stone-50 p-5">
+            <article key={example.style} className="interactive-card rounded-lg border border-stone-200 bg-stone-50 p-5">
               <Camera className="h-5 w-5 text-amber-800" aria-hidden="true" />
               <h3 className="mt-3 text-lg font-semibold text-stone-950">{example.style}</h3>
               <p className="mt-3 text-sm leading-6 text-stone-600">{example.examples}</p>
@@ -71,7 +71,7 @@ export function TurnaroundExpectationsSection({ service }: { service: ServiceKey
   const data = turnaroundByService[service]
 
   return (
-    <section className="section-shell bg-stone-50">
+    <section className="section-shell motion-section bg-stone-50">
       <div className="container mx-auto px-4">
         <div className="mb-8 max-w-3xl">
           <p className="eyebrow mb-3">Delivery Expectations</p>
@@ -84,7 +84,7 @@ export function TurnaroundExpectationsSection({ service }: { service: ServiceKey
             ['Final gallery', data.finalGallery],
             ['Rush options', data.rush],
           ].map(([label, copy]) => (
-            <article key={label} className="rounded-lg border border-stone-200 bg-white p-5">
+            <article key={label} className="interactive-card rounded-lg border border-stone-200 bg-white p-5">
               <Clock className="h-5 w-5 text-amber-800" aria-hidden="true" />
               <h3 className="mt-3 font-semibold text-stone-950">{label}</h3>
               <p className="mt-2 text-sm leading-6 text-stone-600">{copy}</p>
@@ -100,7 +100,7 @@ export function ServiceTestimonialsSection({ service }: { service: ServiceKey })
   const testimonials = testimonialsByService[service]
 
   return (
-    <section className="section-shell bg-white">
+    <section className="section-shell motion-section bg-white">
       <div className="container mx-auto px-4">
         <div className="mb-8 max-w-3xl">
           <p className="eyebrow mb-3">Client Proof</p>
@@ -108,7 +108,7 @@ export function ServiceTestimonialsSection({ service }: { service: ServiceKey })
         </div>
         <div className="grid gap-4 md:grid-cols-2">
           {testimonials.map((testimonial) => (
-            <figure key={`${testimonial.name}-${testimonial.context}`} className="rounded-lg border border-stone-200 bg-stone-50 p-6">
+            <figure key={`${testimonial.name}-${testimonial.context}`} className="interactive-card rounded-lg border border-stone-200 bg-stone-50 p-6">
               <MessageSquare className="h-5 w-5 text-amber-800" aria-hidden="true" />
               <blockquote className="mt-4 text-lg leading-8 text-stone-800">&quot;{testimonial.quote}&quot;</blockquote>
               <figcaption className="mt-5 text-sm text-stone-600">

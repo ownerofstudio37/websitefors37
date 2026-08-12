@@ -25,10 +25,10 @@
 
 - [x] Create a small public-site interaction standard: cards lift 2-4px, images scale subtly, CTA arrows glide, badges fade in, and form states respond quickly without feeling flashy.
 - [x] Apply consistent `group-hover` treatment to service cards, proof cards, recent work cards, package cards, and private portfolio request cards.
-- [ ] Add subtle section entrance animation only for high-value public sections, guarded by `prefers-reduced-motion`.
+- [x] Add subtle section entrance animation only for high-value public sections, guarded by `prefers-reduced-motion`.
 - [x] Add active/pressed states to primary and secondary CTAs across public pages so taps feel responsive on mobile.
 - [x] Add focus-visible polish for image/title-clickable service cards, not just buttons, to preserve accessibility.
-- [ ] Audit chat bubble, sticky CTA, mobile nav, pricing tool, package recommender, and request portfolio interactions for overlap, tap-target size, and motion consistency.
+- [x] Audit chat bubble, sticky CTA, mobile nav, pricing tool, package recommender, and request portfolio interactions for overlap, tap-target size, and motion consistency.
 
 ### P2 QA
 
