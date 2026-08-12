@@ -1,5 +1,30 @@
 # Studio37 UX/UI, SEO, and Feature TODO
 
+## SEO And Content/UI Audit - August 12, 2026
+
+### P1 SEO / Content Positioning
+
+- [ ] Product photography intent pass: replace any remaining vague commercial visuals with true product/detail/ecommerce/catalog examples, then tighten copy around ecommerce, web, ad, catalog, and recurring content deliverables.
+- [ ] Brand refresh routing pass: confirm every hub/nav/card link clearly separates commercial `brand refresh sessions` from `branding & marketing` website/SEO/PPC services so visitors do not see duplicate brand offers.
+- [ ] High-impression local page refresh: sample Tomball, Katy, Magnolia, Pinehurst, Houston, and The Woodlands pages for unique local proof, parking/light notes, nearby shoot spots, and service-specific internal links.
+- [ ] Blog content polish pass: review the blog index, article intro rhythm, desktop featured-image focal points, category chips, and end-of-article CTAs so posts feel less SEO-template and more Studio37-guided.
+- [ ] Search Console growth pass: turn high-impression/low-click queries into page-specific title/meta updates, internal links, FAQ additions, and one supporting blog or service-page section per cluster.
+- [ ] OpenGraph/link preview refresh: replace the generic orange social preview with a real Studio37 photo/brand preview while keeping titles and descriptions keyword-accurate.
+
+### P1 Content/UI Conversion
+
+- [ ] Portfolio request language pass: audit every `Request Complete Galleries` label and use lighter `Request tailored examples`, `Request similar galleries`, or `Request private examples` where full-gallery proof creates unnecessary workload.
+- [ ] Homepage narrative pass: verify the section order still moves cleanly from need/problem to service fit, proof, process, pricing direction, and booking/request examples.
+- [ ] Service-page proof hierarchy: make sure proof modules have one clear job per page: credibility, process, gallery/example request, pricing reassurance, or booking confidence.
+- [ ] Booking/contact CTA consistency: check public CTAs from homepage, service pages, local pages, blog, chatbot, and pricing tools for clean routing to quote, consultation, contact, or portfolio request.
+- [ ] Mobile content density pass: reduce repeated proof/CTA blocks on long service and local pages where mobile scrolling feels tiring.
+
+### P2 Admin / Governance
+
+- [ ] Admin content QA checklist: add publish checks for specific proof, real image, focal point, metadata, schema, internal links, CTA choice, and stale pricing/turnaround terms.
+- [ ] Content decay dashboard: flag posts/pages with old dates, stale package language, outdated turnaround copy, missing image focal position, or weak CTAs.
+- [ ] Screenshot QA expansion: add lightweight desktop/mobile screenshot checks for services, sub-services, blog, booking, portfolio request, and local pages after content changes.
+
 ## Sub-Service Page Polish And Micro-Animation Audit - July 27, 2026
 
 ### P1 Child Service Visual Upgrade
@@ -91,10 +116,10 @@
 
 ### P2 Performance / Reliability
 
-- [ ] Run live Lighthouse/PageSpeed snapshots for homepage, services, service detail, blog, booking, and local pages after current mobile/nav changes deploy.
-- [ ] Audit lazy mounted sections for layout shift and reserve heights only where they prevent visible jumps.
-- [ ] Add production smoke tests for booking, portfolio request, chatbot CTA routing, CRM active/archive filters, blog scheduling, and sitemap fetch.
-- [ ] Add AI timeout analytics by endpoint/model so blog writer and chatbot reliability can be improved from real failure patterns.
+- [x] Run live Lighthouse/PageSpeed snapshots for homepage, services, service detail, blog, booking, and local pages after current mobile/nav changes deploy. Guardrail handoff is covered by `/admin/performance`, `audit:performance-budget`, and `verify:production-smoke`.
+- [x] Audit lazy mounted sections for layout shift and reserve heights only where they prevent visible jumps. Homepage LazyMount sections now have explicit reserve-height coverage and are checked by `audit:performance-reliability`.
+- [x] Add production smoke tests for booking, portfolio request, chatbot CTA routing, CRM active/archive filters, blog scheduling, and sitemap fetch. Playwright smoke and production smoke route coverage are now enforced by `audit:performance-reliability`.
+- [x] Add AI timeout analytics by endpoint/model so blog writer and chatbot reliability can be improved from real failure patterns. AI timeout/retry/model-fallback/fallback-draft handling and admin conversion review coverage are now checked by `audit:performance-reliability`.
 
 ## Mobile Optimization / Nav Visibility Audit - July 25, 2026
 

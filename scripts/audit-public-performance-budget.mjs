@@ -27,14 +27,18 @@ for (const route of routes) {
   const abs = path.join(process.cwd(), route)
   if (!fs.existsSync(abs)) continue
   const source = fs.readFileSync(abs, 'utf8')
-  const priorityImages = (source.match(/\bpriority\b/g) || []).length
-  const lazyMounts = (source.match(/LazyMount/g) || []).length
+  const imageTags = source.match(/<Image[\s\S]*?>/g) || []
+  const priorityImages = imageTags.filter((tag) => /\bpriority\b/.test(tag)).length
+  const lazyMountTags = source.match(/<LazyMount\b[\s\S]*?>/g) || []
+  const lazyMounts = lazyMountTags.length
+  const lazyMountsWithoutReserve = lazyMountTags.filter((tag) => !/\bminHeight=/.test(tag)).length
   const sourceKb = Buffer.byteLength(source, 'utf8') / 1024
   const wideHints = [...source.matchAll(/w_(\d{4,})/g)].map((match) => Number(match[1])).filter((w) => w > budgets.maxHeroImageWidthHint)
   const routeWarnings = []
 
   if (priorityImages > budgets.maxPriorityImagesPerRoute) routeWarnings.push(`${priorityImages} priority image hints`)
   if (lazyMounts > budgets.maxLazyMountSectionsPerRoute) routeWarnings.push(`${lazyMounts} LazyMount sections`)
+  if (lazyMountsWithoutReserve) routeWarnings.push(`${lazyMountsWithoutReserve} LazyMount sections without minHeight`)
   if (sourceKb > budgets.maxRouteSourceKb) routeWarnings.push(`${sourceKb.toFixed(0)}kb route source`)
   if (wideHints.length) routeWarnings.push(`Cloudinary width hints over ${budgets.maxHeroImageWidthHint}px: ${wideHints.join(', ')}`)
 
