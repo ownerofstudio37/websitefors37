@@ -71,7 +71,7 @@
 - [x] Standardize proof modules so each page has one clear role: credibility proof, portfolio request, process explanation, or booking confidence, not repeated mixed-purpose blocks.
 - [x] Refresh the blog index and blog article templates with stronger visual hierarchy, clearer category navigation, and better desktop featured-image focal controls.
 - [x] Tighten long mobile pages with section compression, fewer repeated CTA bands, and more compact proof/process modules.
-- [ ] Add a reusable service-page QA checklist component or script for hero clarity, image fit, proof, pricing expectation, internal links, and CTA labels.
+- [x] Add a reusable service-page QA checklist component or script for hero clarity, image fit, proof, pricing expectation, internal links, and CTA labels.
 
 ### P1 SEO / Content
 

@@ -60,9 +60,14 @@ export default function MiniSessionsPage() {
               A short, polished portrait session for families, couples, seniors, and anyone who needs fresh images without a full-session timeline.
             </p>
             <p className="mt-4 text-sm font-semibold text-amber-100">Starting at $350 · 30 minutes · private gallery delivery</p>
-            <Link href="/book-a-session?package=portrait_mini" className="btn-primary mt-8 inline-flex items-center">
-              Book a Mini Session <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
-            </Link>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <Link href="/book-a-session?package=portrait_mini" className="btn-primary inline-flex items-center">
+                Book a Mini Session <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+              </Link>
+              <Link href="/tools/package-recommender?service=portrait" className="btn-ghost inline-flex items-center">
+                Compare Session Fit
+              </Link>
+            </div>
           </div>
         </div>
       </section>
