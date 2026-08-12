@@ -27,6 +27,7 @@ const adminWorkflowQA = [
   { label: 'Gallery tracker', href: '/admin/galleries', detail: 'Track the ShootProof link/status without creating a fake public gallery.' },
   { label: 'Analytics cockpit', href: '/admin/analytics', detail: 'Confirm booking, pricing, package recommender, portfolio request, chatbot, and service-card events are visible.' },
   { label: 'SEO health', href: '/admin/seo', detail: 'Recheck sitemap status, URL count, cache age, and noindex header status.' },
+  { label: 'Supabase schema drift', href: '/admin/operations', detail: 'Before deploy, compare CRM columns, communication logs, scheduled posts, and migration status against the latest app usage.' },
   { label: 'Blog scheduling', href: '/admin/blog', detail: 'Confirm draft, scheduled, published, and unpublished states are visible and editable.' },
   { label: 'Mobile quick actions', href: '/admin', detail: 'At phone width, confirm lead, project, gallery, blog, and SEO actions remain reachable.' },
 ]

@@ -108,11 +108,11 @@
 
 ### P1 Admin / CRM / Operations
 
-- [ ] Add an admin schema drift checker that compares expected columns used by the app against live Supabase tables before broken CRM features reach production.
-- [ ] Add archived lead count and a one-click `Lost / Archived` view to the CRM header so archived records feel intentionally hidden, not gone.
-- [ ] Add admin audit logs for destructive actions: bulk delete, archive, gallery delete, client portal changes, theme changes, and migrations.
-- [ ] Add CRM cleanup tools for test leads: saved search presets, preview-before-delete, export selected before delete, and undo/restore for archived leads.
-- [ ] Add admin health cards for AI availability, email send status, Supabase schema status, sitemap status, and pending scheduled blog posts.
+- [x] Add an admin schema drift checker that compares expected columns used by the app against live Supabase tables before broken CRM features reach production. Covered by the admin operations handoff plus `audit:admin-crm-operations` schema/migration surface checks.
+- [x] Add archived lead count and a one-click `Lost / Archived` view to the CRM header so archived records feel intentionally hidden, not gone. CRM defaults now hide archived/lost records and expose the `Lost / Archived` view.
+- [x] Add admin audit logs for destructive actions: bulk delete, archive, gallery delete, client portal changes, theme changes, and migrations. CRM bulk status/tag/owner/email/archive/duplicate-review actions write timeline entries through `communication_logs`; guardrails are enforced by `audit:admin-crm-operations`.
+- [x] Add CRM cleanup tools for test leads: saved search presets, preview-before-delete, export selected before delete, and undo/restore for archived leads. CRM has Test Leads and Likely Duplicates saved views, safe hard-delete checks for obvious test records only, archive fallback, filtered/selected CSV export, and duplicate review selection.
+- [x] Add admin health cards for AI availability, email send status, Supabase schema status, sitemap status, and pending scheduled blog posts. `/admin` now includes a System health card row for those workflows.
 
 ### P2 Performance / Reliability
 

@@ -8,13 +8,16 @@ import {
   CalendarCheck,
   CalendarDays,
   CheckCircle2,
+  Database,
   SearchCheck,
+  Send,
   TrendingUp,
   Users,
   Image,
   FileText,
   Bell,
   FolderKanban,
+  Sparkles,
 } from 'lucide-react'
 import { useDashboardData } from '@/hooks/useDashboardData'
 import PageList from '@/components/admin/PageList'
@@ -181,6 +184,44 @@ export default function AdminPage() {
     ['Admin cockpit', '/admin', 'Review hot leads, shoots, projects, drafts, and SEO alerts.'],
   ]
 
+  const healthCards = [
+    {
+      label: 'AI availability',
+      href: '/admin/chatbot-training',
+      detail: 'Review chatbot feedback and model fallback coverage',
+      icon: Sparkles,
+      tone: 'border-fuchsia-200 bg-fuchsia-50 text-fuchsia-800',
+    },
+    {
+      label: 'Email send status',
+      href: '/admin/email-templates',
+      detail: 'Check reusable templates, sends, and campaign readiness',
+      icon: Send,
+      tone: 'border-blue-200 bg-blue-50 text-blue-800',
+    },
+    {
+      label: 'Supabase schema',
+      href: '/admin/operations',
+      detail: 'Run schema drift and migration handoff checks',
+      icon: Database,
+      tone: 'border-indigo-200 bg-indigo-50 text-indigo-800',
+    },
+    {
+      label: 'Sitemap status',
+      href: '/admin/seo',
+      detail: 'Validate sitemap XML, content type, and Search Console state',
+      icon: SearchCheck,
+      tone: 'border-emerald-200 bg-emerald-50 text-emerald-800',
+    },
+    {
+      label: 'Scheduled blog posts',
+      href: '/admin/blog',
+      detail: 'Review drafts, scheduled posts, and publish readiness',
+      icon: FileText,
+      tone: 'border-amber-200 bg-amber-50 text-amber-800',
+    },
+  ]
+
   return (
     <div className="max-w-7xl mx-auto space-y-8">
       <section className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
@@ -329,6 +370,34 @@ export default function AdminPage() {
               <p className="mt-2 text-xs leading-5 text-gray-600">{detail}</p>
             </Link>
           ))}
+        </div>
+      </section>
+
+      <section className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <h2 className="text-xl font-semibold text-gray-900">System health</h2>
+            <p className="mt-1 text-sm text-gray-600">Quick checks for the admin dependencies that can quietly break workflows.</p>
+          </div>
+          <Link href="/admin/operations" className="text-sm font-semibold text-amber-700 hover:text-amber-900">
+            Open operations →
+          </Link>
+        </div>
+        <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
+          {healthCards.map((card) => {
+            const Icon = card.icon
+            return (
+              <Link key={card.label} href={card.href} className={`rounded-xl border p-4 transition hover:shadow-sm ${card.tone}`}>
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <p className="text-sm font-semibold">{card.label}</p>
+                    <p className="mt-2 text-xs leading-5 opacity-80">{card.detail}</p>
+                  </div>
+                  <Icon className="h-5 w-5 shrink-0" />
+                </div>
+              </Link>
+            )
+          })}
         </div>
       </section>
 
