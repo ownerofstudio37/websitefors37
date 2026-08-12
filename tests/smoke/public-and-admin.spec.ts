@@ -262,3 +262,56 @@ test('mobile conversion path remains visible across public pages', async ({ page
   await expect(page.getByText(/\$3,200/)).toBeVisible()
   await expect(page.getByText(/\$4,500/)).toBeVisible()
 })
+
+test('P2 QA service screenshots cover upgraded main and child services', async ({ page }, testInfo) => {
+  const qaRoutes = [
+    { name: 'qa-services', path: '/services', heading: /photography services in pinehurst/i },
+    { name: 'qa-wedding-service', path: '/services/wedding-photography', heading: /wedding photography/i },
+    { name: 'qa-portrait-service', path: '/services/portrait-photography', heading: /portrait photography/i },
+    { name: 'qa-event-service', path: '/services/event-photography', heading: /event photography/i },
+    { name: 'qa-commercial-service', path: '/services/commercial-photography', heading: /commercial photography/i },
+    { name: 'qa-branding-marketing', path: '/services/branding-marketing', heading: /branding.*marketing|brand growth/i },
+    { name: 'qa-family-photography', path: '/family-photography', heading: /family photography/i },
+    { name: 'qa-graduation', path: '/graduation', heading: /graduation photography/i },
+    { name: 'qa-corporate-events', path: '/corporate-events', heading: /corporate event photography/i },
+    { name: 'qa-product-photography', path: '/product-photography', heading: /product photography/i },
+  ]
+
+  for (const route of qaRoutes) {
+    const response = await page.goto(route.path, { waitUntil: 'domcontentloaded' })
+    expect(response?.status(), `${route.path} should not 500`).toBeLessThan(500)
+    await expect(page.getByRole('heading', { name: route.heading }).first(), `${route.path} should render the expected hero/heading`).toBeVisible()
+    await expect(page.locator('main, body').first()).toContainText(/book|consult|pricing|package|quote|request/i)
+    await page.screenshot({
+      path: path.join(screenshotDir, `${testInfo.project.name}-${route.name}.png`),
+      fullPage: true,
+    })
+  }
+})
+
+test('P2 QA service and package cards support hover focus and clicks', async ({ page }) => {
+  await page.goto('/services', { waitUntil: 'domcontentloaded' })
+
+  const weddingImage = page.getByRole('link', { name: /view wedding photography/i }).first()
+  await expect(weddingImage).toBeVisible()
+  await weddingImage.hover()
+  await weddingImage.focus()
+  await expect(weddingImage).toBeFocused()
+
+  const serviceDetailButton = page.getByRole('link', { name: /view service details/i }).first()
+  await expect(serviceDetailButton).toBeVisible()
+  await serviceDetailButton.hover()
+  await serviceDetailButton.focus()
+  await expect(serviceDetailButton).toBeFocused()
+  await serviceDetailButton.click()
+  await expect(page).toHaveURL(/\/services\/wedding-photography/)
+
+  await page.goto('/services/portrait-photography', { waitUntil: 'domcontentloaded' })
+  const packageButton = page.locator('a[href^="/book"], a[href^="/book-consultation"], a[href^="/tools/pricing"]').filter({ hasText: /choose|book|estimate|pricing|package/i }).first()
+  await expect(packageButton).toBeVisible()
+  await packageButton.hover()
+  await packageButton.focus()
+  await expect(packageButton).toBeFocused()
+  await packageButton.click()
+  await expect(page).toHaveURL(/\/(book|tools\/pricing)/)
+})

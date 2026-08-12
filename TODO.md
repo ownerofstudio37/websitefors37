@@ -57,8 +57,8 @@
 
 ### P2 QA
 
-- [ ] Run desktop and mobile screenshots for all main services plus child services after the visual upgrade: `/services`, `/services/wedding-photography`, `/services/portrait-photography`, `/services/event-photography`, `/services/commercial-photography`, `/services/branding-marketing`, `/family-photography`, `/graduation`, `/corporate-events`, `/product-photography`.
-- [ ] Add a lightweight Playwright interaction smoke for hover/focus/clickable-card behavior on service cards and package cards.
+- [x] Run desktop and mobile screenshots for all main services plus child services after the visual upgrade: `/services`, `/services/wedding-photography`, `/services/portrait-photography`, `/services/event-photography`, `/services/commercial-photography`, `/services/branding-marketing`, `/family-photography`, `/graduation`, `/corporate-events`, `/product-photography`.
+- [x] Add a lightweight Playwright interaction smoke for hover/focus/clickable-card behavior on service cards and package cards.
 
 ## Full Site UX/UI, SEO, Admin, Security, And AI Audit - July 27, 2026
 
