@@ -42,6 +42,7 @@
     "audit:micro-animations": "node scripts/audit-micro-animations.mjs",
     "audit:service-page-qa": "node scripts/audit-service-page-qa.mjs",
     "audit:seo-content": "node scripts/audit-seo-content-coverage.mjs",
+    "audit:seo-content-positioning": "node scripts/audit-seo-content-positioning.mjs",
     "verify:production-smoke": "node scripts/verify-production-smoke.mjs",
     "lint:admin-appointment-reminders": "next lint --file app/admin/appointment-reminders/page.tsx",
     "audit:technical": "npm run audit:cloudinary-images && npm run audit:public-links && npm run audit:route-metadata && npm run audit:service-schema && npm run audit:structured-data && npm run audit:canonical-conflicts && npm run audit:headers && npm run audit:fixed-ui && npm run audit:ui-accessibility && npm run audit:seasonal-conversion && npm run audit:conversion-leads && npm run audit:admin-operations && npm run audit:admin-crm-operations && npm run audit:admin-content-polish && npm run audit:mobile-public-polish && npm run audit:technical-quality-performance && npm run audit:next-level-design && npm run audit:performance-budget && npm run audit:performance-reliability && npm run audit:micro-animations && npm run audit:service-page-qa && npm run audit:seo-content",

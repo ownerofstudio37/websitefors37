@@ -12,12 +12,15 @@ interface SEOProps {
   noIndex?: boolean
 }
 
+const DEFAULT_OG_IMAGE =
+  'https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_1200,h_630,c_fill,g_auto/v1784795585/Untitled-160_convert.io_c7oit0.jpg'
+
 export function generateSEOMetadata({
   title,
   description,
   keywords = [],
   canonicalUrl,
-  ogImage = '/api/og',
+  ogImage = DEFAULT_OG_IMAGE,
   structuredData,
   pageType = 'website',
   noIndex = false
@@ -42,12 +45,12 @@ export function generateSEOMetadata({
 
   const allKeywords = [...keywords, ...defaultKeywords]
 
-  // Generate dynamic OG image URL
-  const ogImageUrl = ogImage === '/api/og' 
-    ? `/api/og?title=${encodeURIComponent(title)}&subtitle=${encodeURIComponent(description)}`
+  const ogImageUrl = ogImage === '/api/og'
+    ? DEFAULT_OG_IMAGE
     : ogImage
 
   const metadata: Metadata = {
+    metadataBase: new URL(businessInfo.contact.website),
     title: resolvedTitle,
     description,
     keywords: allKeywords.join(', '),

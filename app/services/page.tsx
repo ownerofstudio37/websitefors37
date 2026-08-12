@@ -74,7 +74,7 @@ export default function ServicesPage() {
     },
     {
       label: 'I need business visuals',
-      copy: 'Commercial photography, team headshots, brand refresh sessions, website content, and marketing support.',
+      copy: 'Commercial photography, team headshots, product/detail photos, brand refresh sessions, and business image libraries.',
       href: '/services/commercial-photography',
       cta: 'Plan business content',
     },
@@ -113,8 +113,8 @@ export default function ServicesPage() {
         { label: 'Commercial Photography', href: '/services/commercial-photography' },
         { label: 'Product Photography', href: '/product-photography' },
         { label: 'Architectural / Real Estate', href: '/architectural-photography' },
-        { label: 'Brand Refresh Sessions', href: '/brand-refresh-sessions' },
-        { label: 'Branding + Marketing', href: '/services/branding-marketing' },
+        { label: 'Brand Refresh Sessions (commercial photos)', href: '/brand-refresh-sessions' },
+        { label: 'Branding + Marketing (web, SEO, PPC)', href: '/services/branding-marketing' },
         { label: 'Request Business Examples', href: '/request-portfolio?service=commercial' },
       ],
     },
@@ -342,7 +342,7 @@ export default function ServicesPage() {
                   <span className="text-3xl">🏢</span>
                 </div>
                 <h3 className="text-xl font-semibold mb-2 text-gray-800">Commercial Photography</h3>
-                <p className="text-gray-600 mb-4">Business branding, product shots, and corporate imagery</p>
+                <p className="text-gray-600 mb-4">Commercial photos, product/detail shots, headshots, and brand refresh sessions</p>
                 <div className="flex items-center justify-center text-gray-600 group-hover:text-gray-700">
                   <span className="font-medium">Learn More</span>
                   <ArrowRight className="ml-2 h-4 w-4" />
@@ -376,7 +376,7 @@ export default function ServicesPage() {
                   <span className="text-3xl">📈</span>
                 </div>
                 <h3 className="text-xl font-semibold mb-2 text-gray-800">Branding &amp; Marketing</h3>
-                <p className="text-gray-600 mb-4">White-glove growth support for content, web, SEO, PPC, and social</p>
+                <p className="text-gray-600 mb-4">Custom websites, SEO, PPC, social systems, and growth strategy</p>
                 <div className="flex items-center justify-center text-violet-700 group-hover:text-violet-800">
                   <span className="font-medium">Learn More</span>
                   <ArrowRight className="ml-2 h-4 w-4" />

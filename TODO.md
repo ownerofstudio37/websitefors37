@@ -4,14 +4,14 @@
 
 ### P1 SEO / Content Positioning
 
-- [ ] Product photography intent pass: replace any remaining vague commercial visuals with true product/detail/ecommerce/catalog examples, then tighten copy around ecommerce, web, ad, catalog, and recurring content deliverables.
-- [ ] Brand refresh routing pass: confirm every hub/nav/card link clearly separates commercial `brand refresh sessions` from `branding & marketing` website/SEO/PPC services so visitors do not see duplicate brand offers.
-- [ ] High-impression local page refresh: sample Tomball, Katy, Magnolia, Pinehurst, Houston, and The Woodlands pages for unique local proof, parking/light notes, nearby shoot spots, and service-specific internal links.
-- [ ] Blog content polish pass: review the blog index, article intro rhythm, desktop featured-image focal points, category chips, and end-of-article CTAs so posts feel less SEO-template and more Studio37-guided.
-- [ ] Search Console growth pass: turn high-impression/low-click queries into page-specific title/meta updates, internal links, FAQ additions, and one supporting blog or service-page section per cluster.
-- [ ] OpenGraph/link preview refresh: replace the generic orange social preview with a real Studio37 photo/brand preview while keeping titles and descriptions keyword-accurate.
+- [x] Product photography intent pass: replace any remaining vague commercial visuals with true product/detail/ecommerce/catalog examples, then tighten copy around ecommerce, web, ad, catalog, and recurring content deliverables.
+- [x] Brand refresh routing pass: confirm every hub/nav/card link clearly separates commercial `brand refresh sessions` from `branding & marketing` website/SEO/PPC services so visitors do not see duplicate brand offers.
+- [x] High-impression local page refresh: sample Tomball, Katy, Magnolia, Pinehurst, Houston, and The Woodlands pages for unique local proof, parking/light notes, nearby shoot spots, and service-specific internal links.
+- [x] Blog content polish pass: review the blog index, article intro rhythm, desktop featured-image focal points, category chips, and end-of-article CTAs so posts feel less SEO-template and more Studio37-guided.
+- [x] Search Console growth pass: turn high-impression/low-click queries into page-specific title/meta updates, internal links, FAQ additions, and one supporting blog or service-page section per cluster.
+- [x] OpenGraph/link preview refresh: replace the generic orange social preview with a real Studio37 photo/brand preview while keeping titles and descriptions keyword-accurate.
 
-###
+### P1 Content/UI Conversion
 
 - [x] Portfolio request language pass: audit every `Request Complete Galleries` label and use lighter `Request tailored examples`, `Request similar galleries`, or `Request private examples` where full-gallery proof creates unnecessary workload.
 - [x] Homepage narrative pass: verify the section order still moves cleanly from need/problem to service fit, proof, process, pricing direction, and booking/request examples.
@@ -43,8 +43,8 @@
 - [x] `/holiday-party`: separate corporate holiday parties from private/family celebrations with distinct proof, timelines, and seasonal booking urgency.
 - [x] `/anniversary-party`: clarify couple portraits vs event-story coverage and add vow-renewal / milestone proof language.
 - [x] `/fundraiser`: add donor/sponsor/PR deliverable language and make it feel closer to corporate event coverage.
-- [ ] `/product-photography`: replace any vague product imagery with true commercial/product-use visuals and clarify ecommerce, web, ad, and catalog deliverables.
-- [ ] `/brand-refresh-sessions`: verify imagery stays commercial/brand-specific and keep it linked as commercial photography, while branding/marketing routes to website/SEO/PPC services.
+- [x] `/product-photography`: replace any vague product imagery with true commercial/product-use visuals and clarify ecommerce, web, ad, and catalog deliverables.
+- [x] `/brand-refresh-sessions`: verify imagery stays commercial/brand-specific and keep it linked as commercial photography, while branding/marketing routes to website/SEO/PPC services.
 
 ### P1 Micro-Animations And Alive Feel
 

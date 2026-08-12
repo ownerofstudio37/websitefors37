@@ -203,7 +203,7 @@ export default function CommercialPhotographyPage() {
               </div>
               <h3 className="text-xl font-semibold mb-2 group-hover:text-primary-700">Branding + Marketing</h3>
               <p className="text-stone-600">
-                Website, SEO, PPC, social, and content systems for business growth.
+                Custom websites, SEO, PPC, social systems, and growth strategy after the photo assets are planned.
               </p>
               <span className="inline-flex items-center gap-1 mt-3 text-sm font-medium text-primary-600 group-hover:underline">View Branding Services <ArrowRight className="h-4 w-4" /></span>
             </Link>
@@ -214,7 +214,7 @@ export default function CommercialPhotographyPage() {
               </div>
               <h3 className="text-xl font-semibold mb-2 group-hover:text-primary-700">Brand Refresh Sessions</h3>
               <p className="text-stone-600">
-                Focused content updates for websites, profiles, campaigns, and social channels.
+                Focused commercial photo updates for websites, profiles, campaigns, and social channels.
               </p>
               <span className="inline-flex items-center gap-1 mt-3 text-sm font-medium text-primary-600 group-hover:underline">Plan a Brand Refresh <ArrowRight className="h-4 w-4" /></span>
             </Link>
