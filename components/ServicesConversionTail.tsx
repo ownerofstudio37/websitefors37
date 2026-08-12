@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useSelectedLayoutSegment } from 'next/navigation'
-import { PublicConversionStack } from '@/components/PublicConversionSections'
+import { ConversionStackTail, PackageComparisonSection } from '@/components/PublicConversionSections'
 import ServiceExpectationCards from '@/components/ServiceExpectationCards'
 
 const serviceCopy: Record<string, { serviceName: string; proofCtaLabel?: string; proofTitle?: string; proofBody?: string }> = {
@@ -38,8 +38,9 @@ export default function ServicesConversionTail() {
         </button>
         {mobileExpanded && (
           <div className="mt-6 space-y-8">
+            <PackageComparisonSection />
             <ServiceExpectationCards serviceName={copy.serviceName} />
-            <PublicConversionStack
+            <ConversionStackTail
               serviceName={copy.serviceName}
               proofCtaLabel={copy.proofCtaLabel}
               proofTitle={copy.proofTitle}
@@ -49,8 +50,9 @@ export default function ServicesConversionTail() {
         )}
       </div>
       <div className="hidden md:block">
+        <PackageComparisonSection />
         <ServiceExpectationCards serviceName={copy.serviceName} />
-        <PublicConversionStack
+        <ConversionStackTail
           serviceName={copy.serviceName}
           proofCtaLabel={copy.proofCtaLabel}
           proofTitle={copy.proofTitle}

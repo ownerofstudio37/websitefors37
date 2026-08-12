@@ -61,7 +61,7 @@ const checks = [
   },
   {
     file: 'components/ServicesConversionTail.tsx',
-    patterns: ['ServiceExpectationCards', 'PublicConversionStack', 'branding-marketing', 'mobileExpanded'],
+    patterns: ['ServiceExpectationCards', 'ConversionStackTail', 'PackageComparisonSection', 'branding-marketing', 'mobileExpanded'],
   },
   {
     file: 'components/PortraitHighlightGallery.tsx',

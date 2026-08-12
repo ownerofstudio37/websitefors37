@@ -11,7 +11,7 @@
 - [ ] Search Console growth pass: turn high-impression/low-click queries into page-specific title/meta updates, internal links, FAQ additions, and one supporting blog or service-page section per cluster.
 - [ ] OpenGraph/link preview refresh: replace the generic orange social preview with a real Studio37 photo/brand preview while keeping titles and descriptions keyword-accurate.
 
-### P1 Content/UI Conversion
+###
 
 - [x] Portfolio request language pass: audit every `Request Complete Galleries` label and use lighter `Request tailored examples`, `Request similar galleries`, or `Request private examples` where full-gallery proof creates unnecessary workload.
 - [x] Homepage narrative pass: verify the section order still moves cleanly from need/problem to service fit, proof, process, pricing direction, and booking/request examples.

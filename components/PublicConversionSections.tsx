@@ -313,6 +313,29 @@ export function PublicConversionStack({
     <>
       <PackageComparisonSection />
       <CuratedRecentWork className="py-14 md:py-16" />
+      <ConversionStackTail
+        serviceName={serviceName}
+        proofCtaLabel={proofCtaLabel}
+        proofTitle={proofTitle}
+        proofBody={proofBody}
+      />
+    </>
+  )
+}
+
+export function ConversionStackTail({
+  serviceName,
+  proofCtaLabel,
+  proofTitle,
+  proofBody,
+}: {
+  serviceName?: string
+  proofCtaLabel?: string
+  proofTitle?: string
+  proofBody?: string
+}) {
+  return (
+    <>
       <NextStepDecisionBand
         serviceName={serviceName || 'Studio37'}
         ctaLabel={proofCtaLabel}
