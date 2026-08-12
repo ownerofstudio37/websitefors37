@@ -245,7 +245,7 @@ export default function AboutPage() {
               href="/request-portfolio"
               className="btn-secondary"
             >
-              Request Complete Galleries
+              Request Private Examples
             </Link>
           </div>
         </div>

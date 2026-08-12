@@ -14,7 +14,7 @@ const checks = [
   },
   {
     file: 'components/CuratedRecentWork.tsx',
-    patterns: ['Request Complete Galleries', 'Request similar galleries', 'TrackedPortfolioRequestLink'],
+    patterns: ['Request Tailored Examples', 'Request similar galleries', 'TrackedPortfolioRequestLink'],
   },
   {
     file: 'components/Hero.tsx',

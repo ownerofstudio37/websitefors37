@@ -110,13 +110,13 @@ export default function PortraitHighlightGallery() {
         <div className="text-center mt-10">
           <Link
             href="/request-portfolio"
-            aria-label="Request complete Studio37 galleries"
+            aria-label="Request tailored Studio37 examples"
             className="btn-primary inline-flex items-center gap-2 text-base px-8 py-4"
           >
-            Request Complete Galleries
+            Request Tailored Examples
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
           </Link>
-          <p className="mt-3 text-sm text-stone-500">Featured public work · complete galleries sent privately by request</p>
+          <p className="mt-3 text-sm text-stone-500">Featured public work · private examples matched to your project</p>
         </div>
       </div>
     </section>

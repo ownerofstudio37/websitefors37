@@ -76,7 +76,7 @@ export default function SEOFooter() {
               <li><Link href="/contact" className="hover:text-white transition-colors">Contact Us</Link></li>
               <li><Link href="/gallery-experience" className="hover:text-white transition-colors">Gallery Experience</Link></li>
               <li><a href="https://gallery.studio37.cc" className="hover:text-white transition-colors">Featured Work</a></li>
-              <li><Link href="/request-portfolio" className="hover:text-white transition-colors">Request Complete Galleries</Link></li>
+              <li><Link href="/request-portfolio" className="hover:text-white transition-colors">Request Private Examples</Link></li>
             </ul>
             <p className="mt-4 text-xs text-stone-400 leading-6">
               Serving {serviceAreas.slice(0, 8).join(', ')} &amp; more.

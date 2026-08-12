@@ -191,7 +191,7 @@ export function PackageComparisonSection() {
 
 export function NextStepDecisionBand({
   serviceName = 'session',
-  ctaLabel = 'Request Complete Galleries',
+  ctaLabel = 'Request Private Examples',
   title,
   body,
 }: {

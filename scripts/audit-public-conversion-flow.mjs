@@ -20,7 +20,7 @@ const checks = [
   },
   {
     file: 'app/blog/[slug]/page.tsx',
-    patterns: ['getArticleIntent', 'Want this translated into your actual plan?', 'Request matched examples', 'aspect-[16/9]'],
+    patterns: ['getArticleIntent', 'Want this translated into your actual plan?', 'Request matched examples', 'Request Private Examples', 'aspect-[16/9]'],
   },
   {
     file: 'lib/public-content.ts',
@@ -64,8 +64,20 @@ const checks = [
     patterns: ['ServiceExpectationCards', 'PublicConversionStack', 'branding-marketing', 'mobileExpanded'],
   },
   {
+    file: 'components/PortraitHighlightGallery.tsx',
+    patterns: ['Request Tailored Examples', 'private examples matched to your project', '/request-portfolio'],
+  },
+  {
+    file: 'components/CuratedRecentWork.tsx',
+    patterns: ['Request Tailored Examples', 'Request similar galleries', 'Complete galleries are shared privately by request'],
+  },
+  {
+    file: 'components/PublicConversionSections.tsx',
+    patterns: ['Request Private Examples', 'book-consultation', 'tools/pricing', 'package-recommender'],
+  },
+  {
     file: 'components/ServiceIntentPanel.tsx',
-    patterns: ['serviceTone', 'serviceProofUpgrade', 'Decision Board', 'Planning focus', 'Decision Proof', 'Private proof prompt', 'Risk reduced', 'wedding', 'portrait', 'event', 'commercial', 'branding'],
+    patterns: ['serviceTone', 'Decision Board', 'Planning focus', 'Best Fit', 'Proof', 'Process', 'Pricing', 'Common Concern', 'wedding', 'portrait', 'event', 'commercial', 'branding'],
   },
   {
     file: 'components/ConsultationBookingForm.tsx',
@@ -85,8 +97,13 @@ const checks = [
       'mobile conversion path remains visible across public pages',
       'request-portfolio',
       'book-consultation',
+      'tools/pricing',
       'mobile fixed conversion UI does not overlap incoherently',
     ],
+  },
+  {
+    file: 'scripts/audit-mobile-public-polish.mjs',
+    patterns: ['Request similar galleries', '/book-consultation', '/tools/pricing', '/request-portfolio'],
   },
 ]
 

@@ -34,7 +34,7 @@ export default function GalleryExperiencePage() {
               View Featured Work <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
             </Link>
             <Link href="/request-portfolio" className="btn-secondary inline-flex items-center justify-center">
-              Request Complete Galleries
+              Request Private Examples
             </Link>
           </div>
         </div>

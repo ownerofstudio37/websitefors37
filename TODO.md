@@ -13,11 +13,11 @@
 
 ### P1 Content/UI Conversion
 
-- [ ] Portfolio request language pass: audit every `Request Complete Galleries` label and use lighter `Request tailored examples`, `Request similar galleries`, or `Request private examples` where full-gallery proof creates unnecessary workload.
-- [ ] Homepage narrative pass: verify the section order still moves cleanly from need/problem to service fit, proof, process, pricing direction, and booking/request examples.
-- [ ] Service-page proof hierarchy: make sure proof modules have one clear job per page: credibility, process, gallery/example request, pricing reassurance, or booking confidence.
-- [ ] Booking/contact CTA consistency: check public CTAs from homepage, service pages, local pages, blog, chatbot, and pricing tools for clean routing to quote, consultation, contact, or portfolio request.
-- [ ] Mobile content density pass: reduce repeated proof/CTA blocks on long service and local pages where mobile scrolling feels tiring.
+- [x] Portfolio request language pass: audit every `Request Complete Galleries` label and use lighter `Request tailored examples`, `Request similar galleries`, or `Request private examples` where full-gallery proof creates unnecessary workload.
+- [x] Homepage narrative pass: verify the section order still moves cleanly from need/problem to service fit, proof, process, pricing direction, and booking/request examples.
+- [x] Service-page proof hierarchy: make sure proof modules have one clear job per page: credibility, process, gallery/example request, pricing reassurance, or booking confidence.
+- [x] Booking/contact CTA consistency: check public CTAs from homepage, service pages, local pages, blog, chatbot, and pricing tools for clean routing to quote, consultation, contact, or portfolio request.
+- [x] Mobile content density pass: reduce repeated proof/CTA blocks on long service and local pages where mobile scrolling feels tiring.
 
 ### P2 Admin / Governance
 

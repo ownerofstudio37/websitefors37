@@ -22,7 +22,7 @@ export default async function CuratedRecentWork({ className = '' }: { className?
             </p>
           </div>
           <TrackedPortfolioRequestLink href="/request-portfolio" source="curated-recent-work-header" aria-label="Open the full Studio37 gallery request flow" className="btn-secondary inline-flex w-fit items-center">
-            Request Complete Galleries <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+            Request Tailored Examples <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
           </TrackedPortfolioRequestLink>
         </div>
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-6">

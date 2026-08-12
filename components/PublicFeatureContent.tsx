@@ -118,7 +118,7 @@ export function ServiceTestimonialsSection({ service }: { service: ServiceKey })
           ))}
         </div>
         <TrackedPortfolioRequestLink href="/request-portfolio" source="public-feature-content" className="btn-secondary mt-8 inline-flex items-center">
-          Request complete galleries <Sparkles className="ml-2 h-4 w-4" aria-hidden="true" />
+          Request private examples <Sparkles className="ml-2 h-4 w-4" aria-hidden="true" />
         </TrackedPortfolioRequestLink>
       </div>
     </section>

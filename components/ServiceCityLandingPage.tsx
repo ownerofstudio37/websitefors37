@@ -214,7 +214,7 @@ export default function ServiceCityLandingPage({
                 Compare Pricing
               </Link>
               <Link href="/request-portfolio" className="w-full text-center block border border-gray-300 rounded-md py-2 hover:bg-gray-50">
-                Request Complete Galleries
+                Request Private Examples
               </Link>
             </div>
             <div className="mt-5 pt-5 border-t border-gray-200">
