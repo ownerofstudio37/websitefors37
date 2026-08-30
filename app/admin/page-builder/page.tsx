@@ -547,6 +547,40 @@ export default function PageBuilderPage() {
 
   const importFromPublished = async () => {
     try {
+      if (targetMode === 'route') {
+        const targetPath = normalizeRoutePath(routePath)
+        const res = await fetch(`/api/editor/layout?path=${encodeURIComponent(targetPath)}`, { cache: 'no-store' })
+
+        if (res.status === 404) {
+          setMessage({
+            type: 'warning',
+            text: `No published CMS layout exists for ${targetPath} yet. Add blocks manually, or use append/prepend mode to layer new content around the coded page.`,
+          })
+          return
+        }
+
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}))
+          throw new Error(err?.error || `Failed to import published layout for ${targetPath}.`)
+        }
+
+        const json = await res.json()
+        const imported = routeBlocksToVisualComponents(Array.isArray(json?.blocks) ? json.blocks : [])
+
+        if (!imported.length) {
+          setMessage({
+            type: 'warning',
+            text: `The published CMS layout for ${targetPath} has no editable blocks yet.`,
+          })
+          return
+        }
+
+        setImportedComponents(imported)
+        setImportSourceSlug(targetPath)
+        setShowImportPreview(true)
+        return
+      }
+
       const cleanSlugRaw = slug
         .toLowerCase()
         .replace(/[^a-z0-9-\s]/g, '')
@@ -582,11 +616,33 @@ export default function PageBuilderPage() {
   const confirmImport = async () => {
     try {
       const cleanSlug = importSourceSlug
-      await supabase
-        .from('page_configs')
-        .upsert({ slug: cleanSlug, data: { components: importedComponents } }, { onConflict: 'slug' })
+      if (targetMode === 'route') {
+        const targetPath = normalizeRoutePath(cleanSlug || routePath)
+        const res = await fetch('/api/editor/draft', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            path: targetPath,
+            block: 'layout',
+            id: '__layout__',
+            props: {
+              blocks: visualComponentsToRouteBlocks(importedComponents),
+              mode: renderMode,
+            },
+          }),
+        })
+
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}))
+          throw new Error(err?.error || 'Failed to save route draft.')
+        }
+      } else {
+        await supabase
+          .from('page_configs')
+          .upsert({ slug: cleanSlug, data: { components: importedComponents } }, { onConflict: 'slug' })
+      }
       setComponents(importedComponents)
-      setMessage({ type: 'success', text: `Imported ${importedComponents.length} component${importedComponents.length === 1 ? '' : 's'} from published /${cleanSlug}.` })
+      setMessage({ type: 'success', text: `Imported ${importedComponents.length} component${importedComponents.length === 1 ? '' : 's'} from published ${targetMode === 'route' ? cleanSlug : `/${cleanSlug}`}.` })
       setShowImportPreview(false)
       setImportedComponents([])
     } catch (e: any) {
@@ -1145,7 +1201,7 @@ export default function PageBuilderPage() {
             <div className="p-6 border-b">
               <h2 className="text-2xl font-bold">Import Preview</h2>
               <p className="text-sm text-gray-600 mt-1">
-                Review components from published /{importSourceSlug} before importing
+                Review components from published {targetMode === 'route' ? importSourceSlug : `/${importSourceSlug}`} before importing
               </p>
             </div>
             
