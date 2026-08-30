@@ -9,6 +9,9 @@
 - [x] Add `audit:cms-route-bridge` to guard the global CMS route bridge, render modes, route picker, and publish wiring.
 - [x] Polish `/admin/editor/layout` into a clean CMS Page Editor with route controls, draft/live preview links, render-mode help, starter sections, inline JSON props editing, and no browser prompt popups.
 - [x] Promote the CMS Page Editor into the admin tool list and route ownership map so existing public-page editing is clearly separate from generating new page sections.
+- [x] Integrate the current Visual Page Builder with existing hardcoded public routes so the same builder canvas can save drafts and publish CMS layouts to `/`, service pages, local pages, blog hubs, and conversion pages.
+- [x] Add Visual Builder route mode with `replace`, `prepend`, and `append` support so the CMS can behave more like a page builder layer on top of the codebase.
+- [x] Disable auth session persistence on the shared public Supabase client to avoid browser Navigator LockManager crashes from the anon data client.
 
 ## SEO And Content/UI Audit - August 12, 2026
 

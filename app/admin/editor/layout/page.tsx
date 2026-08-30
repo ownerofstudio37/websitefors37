@@ -46,9 +46,9 @@ export default function LayoutEditorPage({ searchParams }: { searchParams?: Reco
               </p>
             </div>
             <div className="grid gap-2 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
-              <Link href="/admin/page-builder" className="rounded-xl border border-slate-200 bg-white p-3 text-sm font-semibold text-slate-900 shadow-sm hover:border-amber-300">
+              <Link href={`/admin/page-builder?path=${encodeURIComponent(path)}`} className="rounded-xl border border-slate-200 bg-white p-3 text-sm font-semibold text-slate-900 shadow-sm hover:border-amber-300">
                 <Workflow className="mb-2 h-4 w-4 text-amber-700" />
-                Build blocks
+                Visual builder
               </Link>
               <Link href="/admin/ai-site-builder" className="rounded-xl border border-slate-200 bg-white p-3 text-sm font-semibold text-slate-900 shadow-sm hover:border-amber-300">
                 <Sparkles className="mb-2 h-4 w-4 text-purple-700" />

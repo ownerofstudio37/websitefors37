@@ -8,6 +8,9 @@ import dynamic from 'next/dynamic'
 import { useSearchParams } from 'next/navigation'
 import { revalidateContent } from '@/lib/revalidate'
 
+type BuilderTargetMode = 'slug' | 'route'
+type RouteRenderMode = 'replace' | 'prepend' | 'append'
+
 const VisualEditor = dynamic(() => import('@/components/VisualEditor'), {
   ssr: false,
   loading: () => (
@@ -23,6 +26,9 @@ export default function PageBuilderPage() {
   const [saving, setSaving] = useState(false)
   const searchParams = useSearchParams()
   const [slug, setSlug] = useState('new-landing-page')
+  const [targetMode, setTargetMode] = useState<BuilderTargetMode>('slug')
+  const [routePath, setRoutePath] = useState('/')
+  const [renderMode, setRenderMode] = useState<RouteRenderMode>('replace')
   const [message, setMessage] = useState<{ type: 'success' | 'error' | 'warning'; text: string } | null>(null)
   const [lastPublishedSlug, setLastPublishedSlug] = useState<string | null>(null)
   const [showSEOModal, setShowSEOModal] = useState(false)
@@ -38,6 +44,12 @@ export default function PageBuilderPage() {
   useEffect(() => {
     // Initialize slug from query string if provided
     const initialSlug = searchParams?.get('slug')
+    const initialPath = searchParams?.get('path')
+    if (initialPath) {
+      setTargetMode('route')
+      setRoutePath(normalizeRoutePath(initialPath))
+      return
+    }
     if (initialSlug) {
       setSlug(initialSlug)
     }
@@ -45,11 +57,91 @@ export default function PageBuilderPage() {
   }, [])
 
   useEffect(() => {
+    setLoading(true)
     loadPageData()
-  }, [slug])
+  }, [slug, routePath, targetMode])
+
+  const normalizeRoutePath = (value: string) => {
+    const trimmed = value.trim()
+    if (!trimmed) return '/'
+    return trimmed.startsWith('/') ? trimmed : `/${trimmed}`
+  }
+
+  const runtimeToVisualType = (type: string) => {
+    const map: Record<string, string> = {
+      HeroBlock: 'hero',
+      TextBlock: 'text',
+      ImageBlock: 'image',
+      ButtonBlock: 'button',
+      ColumnsBlock: 'columns',
+      SpacerBlock: 'spacer',
+      SeoFooterBlock: 'seoFooter',
+      BadgesBlock: 'badges',
+      SlideshowHeroBlock: 'slideshowHero',
+      TestimonialsBlock: 'testimonials',
+      GalleryHighlightsBlock: 'galleryHighlights',
+      WidgetEmbedBlock: 'widgetEmbed',
+      ServicesGridBlock: 'servicesGrid',
+      StatsBlock: 'stats',
+      CTABannerBlock: 'ctaBanner',
+      IconFeaturesBlock: 'iconFeatures',
+      ContactFormBlock: 'contactForm',
+      NewsletterBlock: 'newsletterSignup',
+      FAQBlock: 'faq',
+      PricingTableBlock: 'pricingTable',
+      PricingCalculatorBlock: 'pricingCalculator',
+      VideoHeroBlock: 'videoHero',
+      BeforeAfterSliderBlock: 'beforeAfter',
+      TimelineBlock: 'timeline',
+      MasonryGalleryBlock: 'masonryGallery',
+      AnimatedCounterStatsBlock: 'animatedCounterStats',
+      InteractiveMapBlock: 'interactiveMap',
+      FilterableGalleryBlock: 'filterableGallery',
+      TabbedContentBlock: 'tabbedContent',
+      EnhancedAccordionBlock: 'accordion',
+      ProjectGridBlock: 'projectGrid',
+      ProjectHeaderBlock: 'projectHeader',
+      ProjectDetailsBlock: 'projectDetails',
+      ProjectNavigationBlock: 'projectNavigation',
+      FullFrameBadgeBlock: 'fullFrameBadge',
+      PPALogoBlock: 'ppaLogo',
+      TrustBadgesCombinedBlock: 'trustBadgesCombined',
+      ProjectShowcaseBlock: 'projectShowcase',
+    }
+    return map[type] || type
+  }
+
+  const visualComponentsToRouteBlocks = (list: any[]) =>
+    list.map((component, index) => ({
+      id: component.id || `block-${index + 1}`,
+      type: component.type,
+      props: component.data || component.props || {},
+    }))
+
+  const routeBlocksToVisualComponents = (blocks: any[]) =>
+    blocks.map((block, index) => ({
+      id: block.id || `block-${index + 1}`,
+      type: runtimeToVisualType(block.type || 'text'),
+      data: block.props || {},
+      visibility: { desktop: true, tablet: true, mobile: true },
+    }))
 
   const loadPageData = async () => {
     try {
+      if (targetMode === 'route') {
+        const res = await fetch(`/api/editor/layout?path=${encodeURIComponent(routePath)}&draft=1`, { cache: 'no-store' })
+        if (res.status === 404) {
+          setComponents([])
+          setRenderMode('replace')
+          return
+        }
+        if (!res.ok) throw new Error('Failed to load route layout')
+        const json = await res.json()
+        setComponents(routeBlocksToVisualComponents(Array.isArray(json?.blocks) ? json.blocks : []))
+        setRenderMode(['replace', 'prepend', 'append'].includes(json?.mode) ? json.mode : 'replace')
+        return
+      }
+
       const { data, error } = await supabase
         .from('page_configs')
         .select('*')
@@ -76,6 +168,25 @@ export default function PageBuilderPage() {
     setMessage(null)
     setSaving(true)
     try {
+      if (targetMode === 'route') {
+        const targetPath = normalizeRoutePath(routePath)
+        const res = await fetch('/api/editor/draft', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            path: targetPath,
+            block: 'layout',
+            id: '__layout__',
+            props: { blocks: visualComponentsToRouteBlocks(newComponents), mode: renderMode },
+          }),
+        })
+        if (!res.ok) throw new Error('Route draft save failed')
+        setRoutePath(targetPath)
+        setMessage({ type: 'success', text: `Draft saved for ${targetPath}.` })
+        setComponents(newComponents)
+        return
+      }
+
       const cleanSlug = slug
         .toLowerCase()
         .replace(/[^a-z0-9-\s]/g, '')
@@ -645,6 +756,26 @@ export default function PageBuilderPage() {
     setMessage(null)
     setSaving(true)
     try {
+      if (targetMode === 'route') {
+        const targetPath = normalizeRoutePath(routePath)
+        const res = await fetch('/api/editor/save', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            path: targetPath,
+            block: 'layout',
+            id: '__layout__',
+            props: { blocks: visualComponentsToRouteBlocks(components), mode: renderMode },
+            is_published: true,
+          }),
+        })
+        if (!res.ok) throw new Error('Route publish failed')
+        await revalidateContent(targetPath).catch(() => null)
+        setRoutePath(targetPath)
+        setMessage({ type: 'success', text: `Published Visual Builder layout to ${targetPath}.` })
+        return
+      }
+
       const cleanSlug = slug
         .toLowerCase()
         .replace(/[^a-z0-9-\s]/g, '')
@@ -792,20 +923,57 @@ export default function PageBuilderPage() {
           <ArrowLeft className="h-5 w-5" />
           Back to Admin
         </Link>
-        <div className="flex flex-col items-center gap-2">
+        <div className="flex flex-1 flex-col items-center gap-2 px-4">
           <h2 className="text-xl font-bold" aria-level={2} role="heading">Visual Page Builder</h2>
-          <div className="flex items-center gap-2">
-            <span className="text-sm text-gray-600">URL Slug:</span>
-            <div className="flex items-center gap-1">
-              <span className="text-gray-500">/</span>
-              <input
-                value={slug}
-                onChange={(e) => setSlug(e.target.value)}
-                className="border rounded px-2 py-1 text-sm w-56"
-                placeholder="new-landing-page"
-                aria-label="Page URL slug"
-              />
-            </div>
+          <div className="flex flex-wrap items-center justify-center gap-2">
+            <select
+              value={targetMode}
+              onChange={(event) => setTargetMode(event.target.value as BuilderTargetMode)}
+              className="border rounded px-2 py-1 text-sm"
+              aria-label="Builder target"
+            >
+              <option value="slug">New / slug page</option>
+              <option value="route">Existing public page</option>
+            </select>
+
+            {targetMode === 'slug' ? (
+              <div className="flex items-center gap-1">
+                <span className="text-sm text-gray-600">URL Slug:</span>
+                <span className="text-gray-500">/</span>
+                <input
+                  value={slug}
+                  onChange={(e) => setSlug(e.target.value)}
+                  className="border rounded px-2 py-1 text-sm w-56"
+                  placeholder="new-landing-page"
+                  aria-label="Page URL slug"
+                />
+              </div>
+            ) : (
+              <>
+                <div className="flex items-center gap-1">
+                  <span className="text-sm text-gray-600">Route:</span>
+                  <input
+                    value={routePath}
+                    onChange={(e) => setRoutePath(e.target.value)}
+                    onBlur={(e) => setRoutePath(normalizeRoutePath(e.target.value))}
+                    className="border rounded px-2 py-1 text-sm w-72"
+                    placeholder="/services/portrait-photography"
+                    aria-label="Public route path"
+                  />
+                </div>
+                <select
+                  value={renderMode}
+                  onChange={(event) => setRenderMode(event.target.value as RouteRenderMode)}
+                  className="border rounded px-2 py-1 text-sm"
+                  aria-label="Route render mode"
+                >
+                  <option value="replace">Replace coded page</option>
+                  <option value="prepend">Add before coded page</option>
+                  <option value="append">Add after coded page</option>
+                </select>
+              </>
+            )}
+
             <button
               onClick={handleGenerateSEO}
               disabled={generatingSEO || components.length === 0}
@@ -827,8 +995,18 @@ export default function PageBuilderPage() {
               )}
             </button>
           </div>
+          {targetMode === 'route' && (
+            <p className="text-xs text-gray-500">
+              Existing-page mode saves Visual Builder blocks to the CMS route bridge. Draft preview uses <code>?edit=1</code>.
+            </p>
+          )}
         </div>
-        <div className="w-32" /> {/* Spacer for centering */}
+        <Link
+          href={targetMode === 'route' ? `/admin/editor/layout?path=${encodeURIComponent(normalizeRoutePath(routePath))}` : '/admin/editor/layout'}
+          className="hidden rounded border px-3 py-2 text-sm hover:bg-gray-50 lg:inline-flex"
+        >
+          CMS routes
+        </Link>
       </div>
 
       {/* SEO Suggestions Modal */}
@@ -1099,6 +1277,7 @@ export default function PageBuilderPage() {
         <div className="p-4 flex justify-end gap-2">
           <Link
             href={(function(){
+              if (targetMode === 'route') return normalizeRoutePath(routePath)
               const s = slug.replace(/[^a-z0-9-\s]/gi, '').toLowerCase().replace(/\s+/g, '-').trim()
               return s === 'home' ? '/' : `/${s || ''}`
             })()}
@@ -1106,8 +1285,17 @@ export default function PageBuilderPage() {
             className="px-4 py-2 border rounded hover:bg-gray-50 disabled:opacity-50"
             aria-disabled={!slug}
           >
-            View /{(() => { const s = slug.replace(/[^a-z0-9-\s]/gi, '').toLowerCase().replace(/\s+/g, '-').trim(); return s === 'home' ? '' : s || '…' })()}
+            View {targetMode === 'route' ? normalizeRoutePath(routePath) : `/${(() => { const s = slug.replace(/[^a-z0-9-\s]/gi, '').toLowerCase().replace(/\s+/g, '-').trim(); return s === 'home' ? '' : s || '...' })()}`}
           </Link>
+          {targetMode === 'route' && (
+            <Link
+              href={`${normalizeRoutePath(routePath)}?edit=1`}
+              target="_blank"
+              className="px-4 py-2 border rounded hover:bg-gray-50"
+            >
+              Draft Preview
+            </Link>
+          )}
           <button
             onClick={() => handleSave(components)}
             disabled={saving}
@@ -1120,7 +1308,7 @@ export default function PageBuilderPage() {
             disabled={saving}
             className="px-4 py-2 bg-primary-600 text-white rounded hover:bg-primary-700"
           >
-            Publish to /{(() => { const s = slug.replace(/[^a-z0-9-\s]/gi, '').toLowerCase().replace(/\s+/g, '-').trim(); return s === 'home' ? '' : s || '…' })()}
+            Publish to {targetMode === 'route' ? normalizeRoutePath(routePath) : `/${(() => { const s = slug.replace(/[^a-z0-9-\s]/gi, '').toLowerCase().replace(/\s+/g, '-').trim(); return s === 'home' ? '' : s || '...' })()}`}
           </button>
         </div>
       </div>

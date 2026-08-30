@@ -17,8 +17,8 @@ declare global {
 const clientOptions = {
   auth: {
     storageKey: 'sb-public-anon',
-    autoRefreshToken: typeof window !== 'undefined',
-    persistSession: typeof window !== 'undefined',
+    autoRefreshToken: false,
+    persistSession: false,
     detectSessionInUrl: false,
   },
 } as const

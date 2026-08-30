@@ -10,7 +10,6 @@ type CmsRouteComposerProps = {
 function shouldSkipCmsBridge(path: string) {
   return (
     !path ||
-    path === '/' ||
     path.startsWith('/admin') ||
     path.startsWith('/api') ||
     path.startsWith('/_next') ||

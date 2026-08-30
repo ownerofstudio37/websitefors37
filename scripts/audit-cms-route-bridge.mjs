@@ -17,6 +17,10 @@ const checks = [
     patterns: ['getRenderablePageLayout', 'layout.mode ===', 'prepend', 'append', 'MDXBuilderComponents'],
   },
   {
+    file: 'app/admin/page-builder/page.tsx',
+    patterns: ['Existing public page', 'visualComponentsToRouteBlocks', '/api/editor/draft', '/api/editor/save', 'renderMode'],
+  },
+  {
     file: 'lib/pageConfigs.ts',
     patterns: ['getRenderablePageLayout', 'is_published', "mode?: 'replace' | 'prepend' | 'append'"],
   },
@@ -39,6 +43,10 @@ const checks = [
   {
     file: 'supabase/migrations/20260830_page_configs_route_bridge.sql',
     patterns: ['idx_page_configs_path_block_unique', 'draft_props', 'is_published'],
+  },
+  {
+    file: 'lib/supabase.ts',
+    patterns: ['persistSession: false', 'autoRefreshToken: false'],
   },
 ]
 
