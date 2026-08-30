@@ -18,18 +18,20 @@ export async function POST(req: NextRequest) {
     // Fetch current row to get draft_props
     const { data: rows, error: selErr } = await supabaseAdmin
       .from('page_configs')
-      .select('draft_props')
+      .select('props, draft_props')
       .eq('path', path)
       .eq('block_id', id)
       .limit(1)
 
     if (selErr) return NextResponse.json({ error: selErr.message }, { status: 500 })
-    const draft = rows?.[0]?.draft_props || {}
+    const existingProps = rows?.[0]?.props || {}
+    const draft = rows?.[0]?.draft_props
+    const publishedProps = draft && Object.keys(draft || {}).length > 0 ? draft : existingProps
 
     const { data, error } = await supabaseAdmin
       .from('page_configs')
       .upsert(
-        [{ path, block_id: id, props: draft, is_published: true }],
+        [{ path, block_id: id, props: publishedProps, is_published: true }],
         { onConflict: 'path,block_id' }
       )
       .select()

@@ -9,13 +9,14 @@ const BUILDER_BLOCK_TYPES = [
   'LogoBlock','HeroBlock','TextBlock','ImageBlock','ButtonBlock','ColumnsBlock','SpacerBlock','SeoFooterBlock','BadgesBlock','SlideshowHeroBlock','TestimonialsBlock','GalleryHighlightsBlock','WidgetEmbedBlock','ServicesGridBlock','StatsBlock','CTABannerBlock','IconFeaturesBlock','ContactFormBlock','NewsletterBlock','FAQBlock','PricingTableBlock','PricingCalculatorBlock'
 ]
 
-export default function BlockLayoutClient({ path }: { path: string }) {
+export default function BlockLayoutClient({ path, availablePaths = [] }: { path: string; availablePaths?: string[] }) {
   const router = useRouter()
   const params = useSearchParams()
   const useDraft = params.get('edit') === '1'
 
   const [loading, setLoading] = React.useState(true)
   const [blocks, setBlocks] = React.useState<LayoutBlock[]>([])
+  const [mode, setMode] = React.useState<'replace' | 'prepend' | 'append'>('replace')
   const [saving, setSaving] = React.useState(false)
   const [error, setError] = React.useState<string| null>(null)
 
@@ -27,8 +28,10 @@ export default function BlockLayoutClient({ path }: { path: string }) {
         if (res.ok) {
           const json = await res.json()
           setBlocks(Array.isArray(json?.blocks) ? json.blocks : [])
+          setMode(['replace', 'prepend', 'append'].includes(json?.mode) ? json.mode : 'replace')
         } else if (res.status === 404) {
           setBlocks([])
+          setMode('replace')
         } else {
           setError('Failed to load layout')
         }
@@ -137,23 +140,16 @@ export default function BlockLayoutClient({ path }: { path: string }) {
         const res = await fetch('/api/editor/draft', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ path, block_id: '__layout__', block_type: 'layout', draft_props: { blocks } })
+          body: JSON.stringify({ path, block: 'layout', id: '__layout__', props: { blocks, mode } })
         })
         if (!res.ok) throw new Error('Save draft failed')
       } else {
-        // Save and publish
         const res = await fetch('/api/editor/save', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ path, block_id: '__layout__', block_type: 'layout', props: { blocks } })
+          body: JSON.stringify({ path, block: 'layout', id: '__layout__', props: { blocks, mode }, is_published: true })
         })
         if (!res.ok) throw new Error('Save failed')
-        const pub = await fetch('/api/editor/publish', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ path, block_id: '__layout__' })
-        })
-        if (!pub.ok) throw new Error('Publish failed')
       }
       router.refresh()
     } catch (e: any) {
@@ -168,7 +164,7 @@ export default function BlockLayoutClient({ path }: { path: string }) {
       <div className="p-4 border-b flex items-center justify-between">
         <div>
           <div className="font-semibold">Layout for {path}</div>
-          <div className="text-xs text-gray-500">Blocks render in this order when a layout is present for the page.</div>
+          <div className="text-xs text-gray-500">Published layouts can replace a hardcoded route or add CMS blocks before/after it.</div>
         </div>
         <div className="flex gap-2">
           <button onClick={() => save(true)} disabled={saving} className="px-3 py-1.5 text-sm rounded bg-gray-100 hover:bg-gray-200">Save Draft</button>
@@ -176,6 +172,38 @@ export default function BlockLayoutClient({ path }: { path: string }) {
         </div>
       </div>
       <div className="p-4">
+        <div className="mb-4 grid gap-3 md:grid-cols-[1fr_auto]">
+          <div>
+            <label htmlFor="cms-route-picker" className="mb-1 block text-xs font-semibold uppercase tracking-wide text-gray-500">
+              Editable public route
+            </label>
+            <select
+              id="cms-route-picker"
+              value={path}
+              onChange={(event) => router.push(`/admin/editor/layout?path=${encodeURIComponent(event.target.value)}`)}
+              className="w-full rounded border border-gray-300 bg-white px-3 py-2 text-sm"
+            >
+              {[path, ...availablePaths.filter((item) => item !== path)].map((item) => (
+                <option key={item} value={item}>{item}</option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label htmlFor="cms-render-mode" className="mb-1 block text-xs font-semibold uppercase tracking-wide text-gray-500">
+              Render mode
+            </label>
+            <select
+              id="cms-render-mode"
+              value={mode}
+              onChange={(event) => setMode(event.target.value as typeof mode)}
+              className="rounded border border-gray-300 bg-white px-3 py-2 text-sm"
+            >
+              <option value="replace">Replace page with CMS layout</option>
+              <option value="prepend">Add CMS blocks before code page</option>
+              <option value="append">Add CMS blocks after code page</option>
+            </select>
+          </div>
+        </div>
         {loading ? (
           <div className="text-gray-500">Loading…</div>
         ) : (

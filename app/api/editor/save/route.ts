@@ -14,6 +14,7 @@ export async function POST(req: NextRequest) {
     const block = String(body.block || '')
     const id = String(body.id || '')
     const props = body.props ?? {}
+    const isPublished = body.is_published === true
 
     if (!path || !block || !id) {
       return NextResponse.json({ error: 'Missing required fields: path, block, id' }, { status: 400 })
@@ -28,7 +29,7 @@ export async function POST(req: NextRequest) {
     const { data, error } = await supabaseAdmin
       .from('page_configs')
       .upsert(
-        [{ path, block_id: id, block_type: block, props }],
+        [{ path, block_id: id, block_type: block, props, is_published: isPublished }],
         { onConflict: 'path,block_id' }
       )
       .select()

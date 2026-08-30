@@ -1,4 +1,5 @@
 import React, { Suspense } from "react";
+import { headers } from "next/headers";
 import "./globals.css";
 import { 
   Inter, 
@@ -21,6 +22,7 @@ import AnalyticsSetup from "@/components/AnalyticsSetup";
 import SEOFooter from "@/components/SEOFooter";
 import PublicStickyCTA from "@/components/PublicStickyCTA";
 import QuoteCaptureMount from "@/components/QuoteCaptureMount";
+import CmsRouteComposer from "@/components/CmsRouteComposer";
 import { FALLBACK_NAV_ITEMS, normalizeNavigationItems, type NavigationItem } from "@/lib/navigation-config";
 
 const inter = Inter({
@@ -143,6 +145,9 @@ export default async function RootLayout({
   });
   const localBusinessSchema = generateLocalBusinessSchema();
   const navigationSettings = await getInitialNavigationSettings()
+  const headerStore = headers()
+  const currentPath = headerStore.get('x-studio37-pathname') || ''
+  const currentSearch = headerStore.get('x-studio37-search') || ''
 
   return (
     <html lang="en">
@@ -204,7 +209,11 @@ export default async function RootLayout({
             />
           </ClientErrorBoundary>
           <ClientErrorBoundary label="page">
-            <main id="main" className="min-h-screen pb-[calc(4.5rem+env(safe-area-inset-bottom))] md:pb-0">{children}</main>
+            <main id="main" className="min-h-screen pb-[calc(4.5rem+env(safe-area-inset-bottom))] md:pb-0">
+              <CmsRouteComposer path={currentPath} search={currentSearch}>
+                {children}
+              </CmsRouteComposer>
+            </main>
           </ClientErrorBoundary>
           <ClientErrorBoundary label="footer">
             <SEOFooter />

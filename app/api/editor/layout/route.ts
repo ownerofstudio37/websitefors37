@@ -20,7 +20,7 @@ export async function GET(req: NextRequest) {
 
     const layout = await getPageLayout(path, draft)
     if (!layout) return NextResponse.json({ error: 'Not found' }, { status: 404 })
-    return NextResponse.json({ path: layout.path, blocks: layout.blocks })
+    return NextResponse.json({ path: layout.path, blocks: layout.blocks, mode: layout.mode || 'replace' })
   } catch (e) {
     return NextResponse.json({ error: 'Internal error' }, { status: 500 })
   }

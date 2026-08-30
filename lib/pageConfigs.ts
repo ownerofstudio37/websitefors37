@@ -19,6 +19,7 @@ export type LayoutBlock = {
 export type PageLayout = {
   path: string
   blocks: LayoutBlock[]
+  mode?: 'replace' | 'prepend' | 'append'
 }
 
 /**
@@ -73,5 +74,26 @@ export async function getPageLayout(path: string, useDraft = false): Promise<Pag
 
   const raw = (useDraft && (data as any).draft_props) ? (data as any).draft_props : (data as any).props
   const blocks = Array.isArray(raw?.blocks) ? raw.blocks as LayoutBlock[] : []
-  return { path, blocks }
+  const mode = ['replace', 'prepend', 'append'].includes(raw?.mode) ? raw.mode : 'replace'
+  return { path, blocks, mode }
+}
+
+/** Public rendering bridge for hardcoded routes. Drafts only render in explicit edit mode. */
+export async function getRenderablePageLayout(path: string, useDraft = false): Promise<PageLayout | null> {
+  const { data, error } = await supabaseAdmin
+    .from('page_configs')
+    .select('path, block_id, block_type, props, draft_props, is_published')
+    .eq('path', path)
+    .eq('block_id', '__layout__')
+    .maybeSingle()
+
+  if (error || !data) return null
+  if (!useDraft && (data as any).is_published === false) return null
+
+  const raw = (useDraft && (data as any).draft_props) ? (data as any).draft_props : (data as any).props
+  const blocks = Array.isArray(raw?.blocks) ? raw.blocks as LayoutBlock[] : []
+  if (!blocks.length) return null
+
+  const mode = ['replace', 'prepend', 'append'].includes(raw?.mode) ? raw.mode : 'replace'
+  return { path, blocks, mode }
 }

@@ -1,5 +1,13 @@
 # Studio37 UX/UI, SEO, and Feature TODO
 
+## CMS / Visual Builder Coverage - August 30, 2026
+
+- [x] Connect published `page_configs` layouts to hardcoded public routes so existing pages can be replaced, prepended, or appended from the built-in CMS/Visual Builder while code remains the fallback.
+- [x] Add a public route picker to the layout editor so existing service, sub-service, blog hub, local, booking, and conversion pages can be targeted without guessing paths.
+- [x] Fix layout draft/publish payloads so the editor saves to the path-based `page_configs` system instead of silently missing the API contract.
+- [x] Add a compatibility migration so older slug/data CMS records and newer path/block Visual Builder records can live in the same `page_configs` table.
+- [x] Add `audit:cms-route-bridge` to guard the global CMS route bridge, render modes, route picker, and publish wiring.
+
 ## SEO And Content/UI Audit - August 12, 2026
 
 ### P1 SEO / Content Positioning

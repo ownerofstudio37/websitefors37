@@ -20,8 +20,16 @@ export function middleware(req: NextRequest) {
     }
   }
 
+  const requestHeaders = new Headers(req.headers)
+  requestHeaders.set('x-studio37-pathname', pathname)
+  requestHeaders.set('x-studio37-search', req.nextUrl.search)
+
   // Default pass-through with essential security headers only (CORS handled per-route)
-  const res = NextResponse.next()
+  const res = NextResponse.next({
+    request: {
+      headers: requestHeaders,
+    },
+  })
   res.headers.set('X-DNS-Prefetch-Control', 'on')
   res.headers.set('X-Content-Type-Options', 'nosniff')
   res.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin')
