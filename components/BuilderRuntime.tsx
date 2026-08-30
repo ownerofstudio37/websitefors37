@@ -24,6 +24,20 @@ import {
   getResponsiveTextSize, 
   getResponsiveAlignment 
 } from '@/lib/responsiveUtils'
+import {
+  HomepageNarrativeFlow,
+  PackageRecommenderCTA,
+  PublicTrustStrip,
+  RealReviewProofStrip,
+  WhatHappensNextSection,
+} from '@/components/PublicConversionSections'
+import {
+  ChooseYourPathSection,
+  HomeSEOAccordion,
+} from '@/components/HomepageUXSections'
+import CuratedRecentWork from '@/components/CuratedRecentWork'
+import ServiceAreaMarketModules from '@/components/ServiceAreaMarketModules'
+import Services from '@/components/Services'
 // Phase 7: Interactive Elements - New client components
 import FilterableGalleryClient from './blocks/FilterableGalleryClient'
 import TabbedContentClient from './blocks/TabbedContentClient'
@@ -34,6 +48,44 @@ import ThumbtackWidget from './ThumbtackWidget'
 import LeadSignupBlockClient from './blocks/LeadSignupBlockClient'
 const LeadSignupBlock = LeadSignupBlockClient
 export { LeadSignupBlock }
+
+export function PublicSectionBlock({
+  section,
+  serviceName = 'photography session',
+  compact = false,
+  className = '',
+}: {
+  section?: string
+  label?: string
+  serviceName?: string
+  compact?: boolean | string
+  className?: string
+}) {
+  switch (section) {
+    case 'publicTrust':
+      return <PublicTrustStrip />
+    case 'homepageNarrative':
+      return <HomepageNarrativeFlow />
+    case 'chooseYourPath':
+      return <ChooseYourPathSection />
+    case 'curatedRecentWork':
+      return <CuratedRecentWork className={className} />
+    case 'services':
+      return <Services />
+    case 'realReviewProof':
+      return <RealReviewProofStrip />
+    case 'whatHappensNext':
+      return <WhatHappensNextSection serviceName={serviceName} />
+    case 'packageRecommender':
+      return <PackageRecommenderCTA />
+    case 'serviceAreaMarkets':
+      return <ServiceAreaMarketModules compact={String(compact) === 'true'} />
+    case 'homeSeoAccordion':
+      return <HomeSEOAccordion />
+    default:
+      return null
+  }
+}
 
 // Server components used by MDX to render VisualEditor output faithfully
 
@@ -1963,6 +2015,7 @@ export const MDXBuilderComponents = {
   PricingTableBlock,
   PricingCalculatorBlock,
   LeadSignupBlock,
+  PublicSectionBlock,
   // Phase 2: Enhanced Blocks
   VideoHeroBlock,
   BeforeAfterSliderBlock,

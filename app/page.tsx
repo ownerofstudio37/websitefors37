@@ -75,6 +75,55 @@ try {
   );
 }
 
+async function renderVisualLayout(path: string, layout: { blocks: Array<{ id?: string; type: string; props?: Record<string, any> }> }, useDraft: boolean) {
+  const { MDXBuilderComponents } = await import("@/components/BuilderRuntime")
+  const { getPageConfigs, selectProps } = await import("@/lib/pageConfigs")
+  const EditableChrome = (await import("@/components/editor/EditableChrome")).default
+  const configs = await getPageConfigs(path)
+  const runtimeType = (type: string) => ({
+    hero: 'HeroBlock',
+    text: 'TextBlock',
+    image: 'ImageBlock',
+    button: 'ButtonBlock',
+    columns: 'ColumnsBlock',
+    spacer: 'SpacerBlock',
+    seoFooter: 'SeoFooterBlock',
+    badges: 'BadgesBlock',
+    slideshowHero: 'SlideshowHeroBlock',
+    testimonials: 'TestimonialsBlock',
+    galleryHighlights: 'GalleryHighlightsBlock',
+    widgetEmbed: 'WidgetEmbedBlock',
+    servicesGrid: 'ServicesGridBlock',
+    stats: 'StatsBlock',
+    ctaBanner: 'CTABannerBlock',
+    iconFeatures: 'IconFeaturesBlock',
+    contactForm: 'ContactFormBlock',
+    newsletterSignup: 'NewsletterBlock',
+    faq: 'FAQBlock',
+    pricingTable: 'PricingTableBlock',
+    pricingCalculator: 'PricingCalculatorBlock',
+    publicSection: 'PublicSectionBlock',
+  } as Record<string, string>)[type] || type
+
+  return (
+    <div className="min-h-screen">
+      {layout.blocks.map((blk, i) => {
+        const type = runtimeType(blk.type)
+        const Comp: any = (MDXBuilderComponents as any)[type]
+        if (!Comp) return null
+        const override = blk.id ? configs.get(blk.id) : undefined
+        return (
+          <div key={blk.id || i} className="relative">
+            <EditableChrome label={String(type).replace(/Block$/, '').replace(/([a-z])([A-Z])/g,'$1 $2')} block={type} anchorId={blk.id} />
+            <Comp {...(blk.props || {})} _overrides={selectProps(override as any, useDraft)} />
+          </div>
+        )
+      })}
+      <HomepageConversionGuardrail />
+    </div>
+  )
+}
+
 export default async function HomePage({ searchParams }: { searchParams?: Record<string, string | string[]> }) {
   // If an editor-managed home page exists in content_pages (slug 'home'), render it.
   // Otherwise, fall back to the static homepage sections below.
@@ -88,6 +137,8 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
 
   const useDraft = (searchParams?.edit === '1')
   const currentPath = "/"
+  const { getRenderablePageLayout } = await import("@/lib/pageConfigs")
+  const routeLayout = await getRenderablePageLayout(currentPath, useDraft)
 
   if (page?.content) {
     const { MDXBuilderComponents } = await import("@/components/BuilderRuntime")
@@ -158,6 +209,10 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
         <HomepageConversionGuardrail />
       </div>
     );
+  }
+
+  if (routeLayout && routeLayout.mode === 'replace') {
+    return renderVisualLayout(currentPath, routeLayout, useDraft)
   }
 
   // Static fallback homepage - Check for layout override even without MDX content

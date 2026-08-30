@@ -28,8 +28,32 @@ export default async function CmsRouteComposer({ path, search = '', children }: 
 
   const { MDXBuilderComponents } = await import('@/components/BuilderRuntime')
   const configs = await getPageConfigs(path)
+  const runtimeType = (type: string) => ({
+    hero: 'HeroBlock',
+    text: 'TextBlock',
+    image: 'ImageBlock',
+    button: 'ButtonBlock',
+    columns: 'ColumnsBlock',
+    spacer: 'SpacerBlock',
+    seoFooter: 'SeoFooterBlock',
+    badges: 'BadgesBlock',
+    slideshowHero: 'SlideshowHeroBlock',
+    testimonials: 'TestimonialsBlock',
+    galleryHighlights: 'GalleryHighlightsBlock',
+    widgetEmbed: 'WidgetEmbedBlock',
+    servicesGrid: 'ServicesGridBlock',
+    stats: 'StatsBlock',
+    ctaBanner: 'CTABannerBlock',
+    iconFeatures: 'IconFeaturesBlock',
+    contactForm: 'ContactFormBlock',
+    newsletterSignup: 'NewsletterBlock',
+    faq: 'FAQBlock',
+    pricingTable: 'PricingTableBlock',
+    pricingCalculator: 'PricingCalculatorBlock',
+    publicSection: 'PublicSectionBlock',
+  } as Record<string, string>)[type] || type
   const renderedBlocks = layout.blocks.map((blk, i) => {
-    const Comp: any = (MDXBuilderComponents as any)[blk.type]
+    const Comp: any = (MDXBuilderComponents as any)[runtimeType(blk.type)]
     if (!Comp) return null
     const override = blk.id ? configs.get(blk.id) : undefined
     return (

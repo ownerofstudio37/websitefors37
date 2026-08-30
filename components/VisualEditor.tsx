@@ -179,7 +179,8 @@ type ComponentType =
   | "fullFrameBadge"
   | "ppaLogo"
   | "trustBadgesCombined"
-  | "projectShowcase";
+  | "projectShowcase"
+  | "publicSection";
 
 interface BaseComponent {
   id: string;
@@ -450,6 +451,17 @@ interface LogoComponent extends BaseComponent {
     alignment?: "left" | "center" | "right";
     link?: string;
     animation?: "none" | "fade-in" | "slide-up" | "zoom";
+  };
+}
+
+interface PublicSectionComponent extends BaseComponent {
+  type: "publicSection";
+  data: {
+    section: string;
+    label?: string;
+    serviceName?: string;
+    compact?: boolean;
+    className?: string;
   };
 }
 
@@ -1181,7 +1193,8 @@ type PageComponent =
   | FullFrameBadgeComponent
   | PPALogoComponent
   | TrustBadgesCombinedComponent
-  | ProjectShowcaseComponent;
+  | ProjectShowcaseComponent
+  | PublicSectionComponent;
 
 interface VisualEditorProps {
   initialComponents?: PageComponent[];
@@ -2290,6 +2303,14 @@ export default function VisualEditor({
           content:
             '<h3 class="text-lg font-bold mb-2">About Studio37</h3><p class="text-sm">Professional photography serving Pinehurst, Tomball, Magnolia, The Woodlands, Conroe, Spring, and surrounding areas within 50 miles. Specializing in portraits, weddings, events, and commercial photography.</p><h3 class="text-lg font-bold mt-4 mb-2">Contact</h3><p class="text-sm">Studio37 • 832-713-9944 • sales@studio37.cc • 1701 Goodson Loop, TRLR 80, Pinehurst, TX 77362</p>',
           includeSchema: true,
+        };
+      case "publicSection":
+        return {
+          section: "curatedRecentWork",
+          label: "Curated Recent Work",
+          serviceName: "photography session",
+          compact: false,
+          className: "",
         };
       case "customCss":
         return {
@@ -3632,6 +3653,15 @@ export default function VisualEditor({
                     <span>Icon Features</span>
                   </button>
                   )}
+                  {filterComponents('publicSection') && (
+                  <button
+                    onClick={() => addComponent("publicSection")}
+                    className="w-full flex items-center gap-2 p-2 bg-white hover:bg-gray-100 rounded transition text-sm"
+                  >
+                    <Layout className="h-4 w-4" />
+                    <span>Public Section</span>
+                  </button>
+                  )}
                   {filterComponents('logo') && (
                   <button
                     onClick={() => addComponent("logo")}
@@ -4456,6 +4486,13 @@ export default function VisualEditor({
                       >
                         <Megaphone className="h-4 w-4" />
                         <span>CTA Banner</span>
+                      </button>
+                      <button
+                        onClick={() => addComponent("publicSection")}
+                        className="w-full flex items-center gap-2 p-2 bg-white hover:bg-gray-100 rounded transition text-sm"
+                      >
+                        <Layout className="h-4 w-4" />
+                        <span>Public Section</span>
                       </button>
                     </div>
                   )}
@@ -7058,6 +7095,8 @@ function ComponentRenderer({ component }: { component: PageComponent }) {
       return <SpacerRenderer data={component.data} />;
     case "seoFooter":
       return <SEOFooterRenderer data={component.data} />;
+    case "publicSection":
+      return <PublicSectionRenderer data={(component as PublicSectionComponent).data} />;
     case "customCss":
       return (component as any).data?.enabled ? (
         <style dangerouslySetInnerHTML={{ __html: String((component as any).data?.css || '') }} />
@@ -10797,6 +10836,38 @@ function IconFeaturesRenderer({
   );
 }
 
+function PublicSectionRenderer({ data }: { data: PublicSectionComponent["data"] }) {
+  const sectionLabels: Record<string, string> = {
+    publicTrust: "Trust Strip",
+    homepageNarrative: "Homepage Narrative Flow",
+    chooseYourPath: "Choose Your Path",
+    curatedRecentWork: "Curated Recent Work",
+    services: "Photography Services",
+    realReviewProof: "Real Review Proof",
+    whatHappensNext: "What Happens Next",
+    packageRecommender: "Package Recommender CTA",
+    serviceAreaMarkets: "Service Area Market Modules",
+    homeSeoAccordion: "Home SEO Accordion",
+  };
+
+  return (
+    <div className="p-8">
+      <div className="mx-auto max-w-5xl rounded-lg border border-amber-200 bg-amber-50 p-6">
+        <p className="text-xs font-bold uppercase tracking-[0.18em] text-amber-800">
+          Live Public Section
+        </p>
+        <h2 className="mt-2 text-2xl font-bold text-stone-950">
+          {data.label || sectionLabels[data.section] || data.section || "Public Section"}
+        </h2>
+        <p className="mt-2 text-sm leading-6 text-stone-700">
+          This block renders the polished coded Studio37 section on the live page. Reorder it, remove it,
+          or change which section it points to from the properties panel.
+        </p>
+      </div>
+    </div>
+  );
+}
+
 // Logo Renderer (Editor Preview)
 function LogoRenderer({ data }: { data: LogoComponent["data"] }) {
   const sizeMap: Record<string, string> = {
@@ -12287,6 +12358,8 @@ function getQuickFieldsForType(type: PageComponent["type"]): string[] | null {
       return ["heading", "subheading", "columns", "animation"];
     case "pricingTable":
       return ["heading", "subheading", "columns", "style", "variant", "showFeatureChecks"];
+    case "publicSection":
+      return ["section", "label", "serviceName", "compact", "className"];
     case "fullFrameBadge":
       return ["variant", "size", "alignment"];
     case "ppaLogo":

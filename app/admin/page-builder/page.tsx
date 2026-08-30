@@ -28,7 +28,7 @@ export default function PageBuilderPage() {
   const [saving, setSaving] = useState(false)
   const searchParams = useSearchParams()
   const [slug, setSlug] = useState('new-landing-page')
-  const [targetMode, setTargetMode] = useState<BuilderTargetMode>('slug')
+  const [targetMode, setTargetMode] = useState<BuilderTargetMode>('route')
   const [routePath, setRoutePath] = useState('/')
   const [renderMode, setRenderMode] = useState<RouteRenderMode>('replace')
   const [message, setMessage] = useState<{ type: 'success' | 'error' | 'warning'; text: string } | null>(null)
@@ -135,14 +135,155 @@ export default function PageBuilderPage() {
       PPALogoBlock: 'ppaLogo',
       TrustBadgesCombinedBlock: 'trustBadgesCombined',
       ProjectShowcaseBlock: 'projectShowcase',
+      PublicSectionBlock: 'publicSection',
     }
     return map[type] || type
   }
 
+  const visualToRuntimeType = (type: string) => {
+    const map: Record<string, string> = {
+      hero: 'HeroBlock',
+      text: 'TextBlock',
+      image: 'ImageBlock',
+      button: 'ButtonBlock',
+      columns: 'ColumnsBlock',
+      spacer: 'SpacerBlock',
+      seoFooter: 'SeoFooterBlock',
+      badges: 'BadgesBlock',
+      slideshowHero: 'SlideshowHeroBlock',
+      testimonials: 'TestimonialsBlock',
+      galleryHighlights: 'GalleryHighlightsBlock',
+      widgetEmbed: 'WidgetEmbedBlock',
+      servicesGrid: 'ServicesGridBlock',
+      stats: 'StatsBlock',
+      ctaBanner: 'CTABannerBlock',
+      iconFeatures: 'IconFeaturesBlock',
+      contactForm: 'ContactFormBlock',
+      newsletterSignup: 'NewsletterBlock',
+      faq: 'FAQBlock',
+      pricingTable: 'PricingTableBlock',
+      pricingCalculator: 'PricingCalculatorBlock',
+      videoHero: 'VideoHeroBlock',
+      beforeAfter: 'BeforeAfterSliderBlock',
+      timeline: 'TimelineBlock',
+      masonryGallery: 'MasonryGalleryBlock',
+      animatedCounterStats: 'AnimatedCounterStatsBlock',
+      interactiveMap: 'InteractiveMapBlock',
+      filterableGallery: 'FilterableGalleryBlock',
+      tabbedContent: 'TabbedContentBlock',
+      accordion: 'EnhancedAccordionBlock',
+      projectGrid: 'ProjectGridBlock',
+      projectHeader: 'ProjectHeaderBlock',
+      projectDetails: 'ProjectDetailsBlock',
+      projectNavigation: 'ProjectNavigationBlock',
+      fullFrameBadge: 'FullFrameBadgeBlock',
+      ppaLogo: 'PPALogoBlock',
+      trustBadgesCombined: 'TrustBadgesCombinedBlock',
+      projectShowcase: 'ProjectShowcaseBlock',
+      publicSection: 'PublicSectionBlock',
+    }
+    return map[type] || type
+  }
+
+  const buildEditableHomepageStarter = () => [
+    {
+      id: 'home-hero',
+      type: 'hero',
+      data: {
+        title: 'Studio37 Photography',
+        subtitle: 'Wedding, portrait, event, and commercial photography across Pinehurst, Montgomery County, The Woodlands, and Greater Houston.',
+        backgroundImage: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1759639187/A4B03835-ED8B-4FBB-A27E-1F2EE6CA1A18_1_105_c_gstgil_e_gen_restore_e_improve_e_sharpen_l_image_upload_My_Brand_IMG_2115_mtuowt_c_scale_fl_relative_w_0.40_o_80_fl_layer_apply_g_south_x_0.03_y_0.04_yqgycj.jpg',
+        buttonText: 'Book a Session',
+        buttonLink: '/book-a-session',
+        secondaryButtonText: 'Compare Packages',
+        secondaryButtonLink: '/tools/package-recommender',
+        alignment: 'center',
+        overlay: 58,
+        titleColor: 'text-white',
+        subtitleColor: 'text-amber-50',
+        buttonStyle: 'primary',
+        animation: 'fade-in',
+        buttonAnimation: 'hover-zoom',
+        fullBleed: true,
+        overlapHeader: false,
+      },
+      visibility: { desktop: true, tablet: true, mobile: true },
+    },
+    {
+      id: 'home-trust-strip',
+      type: 'publicSection',
+      data: {
+        section: 'publicTrust',
+        label: 'Trust Strip',
+      },
+      visibility: { desktop: true, tablet: true, mobile: true },
+    },
+    {
+      id: 'home-narrative-flow',
+      type: 'publicSection',
+      data: {
+        section: 'homepageNarrative',
+        label: 'Homepage Narrative Flow',
+      },
+      visibility: { desktop: true, tablet: true, mobile: true },
+    },
+    {
+      id: 'home-choose-path',
+      type: 'publicSection',
+      data: {
+        section: 'chooseYourPath',
+        label: 'Choose Your Path',
+      },
+      visibility: { desktop: true, tablet: true, mobile: true },
+    },
+    {
+      id: 'home-recent-work',
+      type: 'publicSection',
+      data: {
+        section: 'curatedRecentWork',
+        label: 'Curated Recent Work',
+      },
+      visibility: { desktop: true, tablet: true, mobile: true },
+    },
+    {
+      id: 'home-review-proof',
+      type: 'publicSection',
+      data: {
+        section: 'realReviewProof',
+        label: 'Real Review Proof',
+      },
+      visibility: { desktop: true, tablet: true, mobile: true },
+    },
+    {
+      id: 'home-next-steps',
+      type: 'publicSection',
+      data: {
+        section: 'whatHappensNext',
+        label: 'What Happens Next',
+        serviceName: 'photography session',
+      },
+      visibility: { desktop: true, tablet: true, mobile: true },
+    },
+    { id: 'home-package-recommender', type: 'publicSection', data: { section: 'packageRecommender', label: 'Package Recommender CTA' }, visibility: { desktop: true, tablet: true, mobile: true } },
+    { id: 'home-services', type: 'publicSection', data: { section: 'services', label: 'Photography Services Grid' }, visibility: { desktop: true, tablet: true, mobile: true } },
+    { id: 'home-service-areas', type: 'publicSection', data: { section: 'serviceAreaMarkets', label: 'Service Area Market Modules', compact: true }, visibility: { desktop: true, tablet: true, mobile: true } },
+    { id: 'home-seo', type: 'publicSection', data: { section: 'homeSeoAccordion', label: 'Home SEO Accordion' }, visibility: { desktop: true, tablet: true, mobile: true } },
+    {
+      id: 'home-contact',
+      type: 'contactForm',
+      data: {
+        heading: 'Ready to plan the right session?',
+        subheading: 'Tell us what you are planning and we will point you toward the right next step.',
+        animation: 'fade-in',
+      },
+      visibility: { desktop: true, tablet: true, mobile: true },
+    },
+  ]
+
   const visualComponentsToRouteBlocks = (list: any[]) =>
     list.map((component, index) => ({
       id: component.id || `block-${index + 1}`,
-      type: component.type,
+      type: visualToRuntimeType(component.type),
       props: component.data || component.props || {},
     }))
 
@@ -159,7 +300,16 @@ export default function PageBuilderPage() {
       if (targetMode === 'route') {
         const res = await fetch(`/api/editor/layout?path=${encodeURIComponent(routePath)}&draft=1`, { cache: 'no-store' })
         if (res.status === 404) {
-          setComponents([])
+          const targetPath = normalizeRoutePath(routePath)
+          if (targetPath === '/') {
+            setComponents(buildEditableHomepageStarter())
+            setMessage({
+              type: 'warning',
+              text: 'Loaded an editable homepage starter because Home does not have a saved CMS layout yet. Save draft or publish to make it editable.',
+            })
+          } else {
+            setComponents([])
+          }
           setRenderMode('replace')
           return
         }
@@ -315,7 +465,20 @@ export default function PageBuilderPage() {
             animation: (a.animation as any) || 'none'
           }
         })
-  } else if (line.startsWith('<HeroBlock')) {
+      } else if (line.startsWith('<PublicSectionBlock')) {
+        const a = parseAttrs(line)
+        comps.push({
+          id: `component-${Date.now()}-${comps.length}`,
+          type: 'publicSection',
+          data: {
+            section: a.section || 'curatedRecentWork',
+            label: a.label || '',
+            serviceName: a.serviceName || 'photography session',
+            compact: String(a.compact) === 'true',
+            className: a.className || '',
+          },
+        })
+      } else if (line.startsWith('<HeroBlock')) {
         const a = parseAttrs(line)
         comps.push({
           id: `component-${Date.now()}-${comps.length}`,
@@ -580,6 +743,17 @@ export default function PageBuilderPage() {
         const res = await fetch(`/api/editor/layout?path=${encodeURIComponent(targetPath)}`, { cache: 'no-store' })
 
         if (res.status === 404) {
+          if (targetPath === '/') {
+            const imported = buildEditableHomepageStarter()
+            setImportedComponents(imported)
+            setImportSourceSlug(targetPath)
+            setShowImportPreview(true)
+            setMessage({
+              type: 'warning',
+              text: 'Home is a coded page, so I loaded an editable homepage starter that mirrors the live homepage flow.',
+            })
+            return
+          }
           setMessage({
             type: 'warning',
             text: `No published CMS layout exists for ${targetPath} yet. Add blocks manually, or use append/prepend mode to layer new content around the coded page.`,
@@ -718,6 +892,10 @@ export default function PageBuilderPage() {
         }
         case 'newsletterSignup': {
           md.push(`<NewsletterBlock heading="${escapeAttr(d.heading || '')}" subheading="${escapeAttr(d.subheading || '')}" disclaimer="${escapeAttr(d.disclaimer || '')}" style="${escapeAttr(d.style || 'card')}" animation="${escapeAttr(d.animation || 'fade-in')}" />`)
+          break
+        }
+        case 'publicSection': {
+          md.push(`<PublicSectionBlock section="${escapeAttr(d.section || 'curatedRecentWork')}" label="${escapeAttr(d.label || '')}" serviceName="${escapeAttr(d.serviceName || 'photography session')}" compact="${d.compact ? 'true' : 'false'}" className="${escapeAttr(d.className || '')}" />`)
           break
         }
         case 'logo': {
