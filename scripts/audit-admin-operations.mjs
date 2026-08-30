@@ -70,6 +70,7 @@ const markerChecks = [
   { file: 'app/admin/operations/page.tsx', markers: ['Recent Work Manager', 'Lead Magnet Report', 'Admin Route Inventory', 'Admin Route Simplification Review', 'routes to keep quiet', 'Sitemap Alerting', 'Public Launch Checklist', 'Saved Quote Template', 'Lead Timeline Events', 'Real-Record Admin Workflow QA', 'Blog Scheduling QA'] },
   { file: 'lib/admin-route-ownership.ts', markers: ['Canonical WYSIWYG builder', 'Canonical content-only editor', 'Single trusted admin control center'] },
   { file: 'lib/admin-tools.ts', markers: ['Visual Page Builder', 'Content Editor', 'Primary WYSIWYG builder', 'Gallery Delivery', 'Legacy Image Manager'] },
+  { file: 'app/admin/page-builder/page.tsx', markers: ['AI Editor Assistant', 'handleAIGenerate', '/api/site/generate', 'Publish readiness'] },
   { file: 'app/admin/dashboard/page.tsx', markers: ["redirect('/admin')"] },
   { file: 'app/admin/redirect-page.tsx', markers: ["redirect('/admin')"] },
   { file: 'app/api/leads/route.ts', markers: ['saved-quote-follow-up', 'source_metadata'] },

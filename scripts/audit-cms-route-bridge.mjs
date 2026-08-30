@@ -18,7 +18,7 @@ const checks = [
   },
   {
     file: 'app/admin/page-builder/page.tsx',
-    patterns: ['Existing public page', 'routeOptions', '/api/admin/public-routes', 'visualComponentsToRouteBlocks', '/api/editor/draft', '/api/editor/save', 'renderMode'],
+    patterns: ['Existing public page', 'routeOptions', '/api/admin/public-routes', 'AI Editor Assistant', 'handleAIGenerate', '/api/site/generate', 'visualComponentsToRouteBlocks', '/api/editor/draft', '/api/editor/save', 'renderMode'],
   },
   {
     file: 'lib/pageConfigs.ts',

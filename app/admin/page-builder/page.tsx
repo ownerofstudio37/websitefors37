@@ -2,14 +2,16 @@
 
 import { useState, useEffect } from 'react'
 import { supabase } from '@/lib/supabase'
-import { ArrowLeft } from 'lucide-react'
+import { ArrowLeft, Loader2, Sparkles } from 'lucide-react'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
 import { useSearchParams } from 'next/navigation'
 import { revalidateContent } from '@/lib/revalidate'
+import { AI_PAGE_TEMPLATES, evaluateAIPageQuality, type AIPageTemplate, type AIPageQualityStatus } from '@/lib/ai-page-builder-quality'
 
 type BuilderTargetMode = 'slug' | 'route'
 type RouteRenderMode = 'replace' | 'prepend' | 'append'
+type AIInsertMode = 'replace' | 'prepend' | 'append'
 
 const VisualEditor = dynamic(() => import('@/components/VisualEditor'), {
   ssr: false,
@@ -41,6 +43,13 @@ export default function PageBuilderPage() {
   const [importedComponents, setImportedComponents] = useState<any[]>([])
   const [importSourceSlug, setImportSourceSlug] = useState('')
   const [routeOptions, setRouteOptions] = useState<string[]>([])
+  const [aiBrief, setAiBrief] = useState('Improve this page with Studio37-specific proof, clean CTA flow, real local context, and premium service-page polish.')
+  const [aiTemplate, setAiTemplate] = useState<AIPageTemplate>('auto')
+  const [aiInsertMode, setAiInsertMode] = useState<AIInsertMode>('append')
+  const [aiStyle, setAiStyle] = useState('premium, clear, local, conversion-focused')
+  const [aiWordCount, setAiWordCount] = useState(650)
+  const [aiGenerating, setAiGenerating] = useState(false)
+  const [showAIAssistant, setShowAIAssistant] = useState(false)
 
   useEffect(() => {
     // Initialize slug from query string if provided
@@ -976,6 +985,56 @@ export default function PageBuilderPage() {
     }
   }
 
+  const handleAIGenerate = async () => {
+    setAiGenerating(true)
+    setMessage(null)
+    try {
+      const currentPage = targetMode === 'route' ? normalizeRoutePath(routePath) : `/${slug}`
+      const currentContext = components.length
+        ? `Current page has ${components.length} builder blocks. Improve or extend this structure without generic copy. Existing component summary: ${components.map((component) => component.type).join(', ')}.`
+        : 'The current builder canvas is empty. Create a complete premium first draft.'
+
+      const res = await fetch('/api/site/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          prompt: `${aiBrief}\n\nTarget page: ${currentPage}\n\n${currentContext}`,
+          style: aiStyle,
+          wordCount: aiWordCount,
+          template: aiTemplate,
+        }),
+      })
+      const json = await res.json().catch(() => ({}))
+      if (!res.ok) throw new Error(json?.error || 'AI generation failed.')
+
+      const generated = Array.isArray(json?.components) ? json.components : []
+      if (!generated.length) throw new Error('The AI response did not include editable blocks.')
+
+      const next =
+        aiInsertMode === 'replace'
+          ? generated
+          : aiInsertMode === 'prepend'
+            ? [...generated, ...components]
+            : [...components, ...generated]
+
+      setComponents(next)
+      if (json?.title && !pageTitle) setPageTitle(json.title)
+      if (json?.notes && !metaDescription) setMetaDescription(String(json.notes).slice(0, 160))
+      setMessage({ type: 'success', text: `AI assistant added ${generated.length} block${generated.length === 1 ? '' : 's'} as ${aiInsertMode}. Review, save draft, then publish when ready.` })
+    } catch (e: any) {
+      setMessage({ type: 'error', text: e?.message || 'AI assistant failed. Try a shorter brief or a smaller section.' })
+    } finally {
+      setAiGenerating(false)
+    }
+  }
+
+  const qualityChecks = evaluateAIPageQuality({ title: pageTitle, metaDescription, components })
+  const qualityStyles: Record<AIPageQualityStatus, string> = {
+    pass: 'border-green-200 bg-green-50 text-green-700',
+    warn: 'border-amber-200 bg-amber-50 text-amber-800',
+    fail: 'border-red-200 bg-red-50 text-red-700',
+  }
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -1084,6 +1143,14 @@ export default function PageBuilderPage() {
                 </>
               )}
             </button>
+            <button
+              onClick={() => setShowAIAssistant((value) => !value)}
+              className="px-3 py-1.5 text-sm rounded bg-purple-600 text-white hover:bg-purple-700 flex items-center gap-2"
+              title="Open AI editor assistant"
+            >
+              <Sparkles className="h-4 w-4" />
+              AI Assistant
+            </button>
           </div>
           {targetMode === 'route' && (
             <p className="text-xs text-gray-500">
@@ -1098,6 +1165,98 @@ export default function PageBuilderPage() {
           CMS routes
         </Link>
       </div>
+
+      {showAIAssistant && (
+        <div className="border-b bg-slate-950 px-4 py-4 text-white">
+          <div className="mx-auto grid max-w-7xl gap-4 xl:grid-cols-[1fr_360px]">
+            <div className="space-y-3">
+              <div className="flex items-center justify-between gap-3">
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-purple-200">AI Editor Assistant</p>
+                  <h3 className="text-lg font-semibold">Generate, extend, or reshape this page inside the main builder.</h3>
+                </div>
+                <button
+                  onClick={handleAIGenerate}
+                  disabled={aiGenerating || !aiBrief.trim()}
+                  className="inline-flex items-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-semibold text-slate-950 hover:bg-purple-50 disabled:opacity-50"
+                >
+                  {aiGenerating ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4 text-purple-700" />}
+                  {aiGenerating ? 'Generating...' : 'Apply AI'}
+                </button>
+              </div>
+              <textarea
+                value={aiBrief}
+                onChange={(event) => setAiBrief(event.target.value)}
+                rows={3}
+                className="w-full rounded-xl border border-white/15 bg-white/10 px-3 py-2 text-sm text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-purple-300"
+                placeholder="Tell the assistant what to add, rewrite, or improve..."
+              />
+              <div className="grid gap-2 md:grid-cols-4">
+                <label className="text-xs font-semibold text-white/70">
+                  Page type
+                  <select
+                    value={aiTemplate}
+                    onChange={(event) => setAiTemplate(event.target.value as AIPageTemplate)}
+                    className="mt-1 w-full rounded-lg border border-white/15 bg-slate-900 px-2 py-2 text-sm text-white"
+                  >
+                    {AI_PAGE_TEMPLATES.map((item) => (
+                      <option key={item.id} value={item.id}>{item.label}</option>
+                    ))}
+                  </select>
+                </label>
+                <label className="text-xs font-semibold text-white/70">
+                  Insert mode
+                  <select
+                    value={aiInsertMode}
+                    onChange={(event) => setAiInsertMode(event.target.value as AIInsertMode)}
+                    className="mt-1 w-full rounded-lg border border-white/15 bg-slate-900 px-2 py-2 text-sm text-white"
+                  >
+                    <option value="append">Append new blocks</option>
+                    <option value="prepend">Prepend new blocks</option>
+                    <option value="replace">Replace canvas</option>
+                  </select>
+                </label>
+                <label className="text-xs font-semibold text-white/70 md:col-span-1">
+                  Tone
+                  <input
+                    value={aiStyle}
+                    onChange={(event) => setAiStyle(event.target.value)}
+                    className="mt-1 w-full rounded-lg border border-white/15 bg-slate-900 px-2 py-2 text-sm text-white"
+                  />
+                </label>
+                <label className="text-xs font-semibold text-white/70">
+                  Words
+                  <input
+                    type="number"
+                    min={250}
+                    max={1200}
+                    value={aiWordCount}
+                    onChange={(event) => setAiWordCount(Number(event.target.value) || 650)}
+                    className="mt-1 w-full rounded-lg border border-white/15 bg-slate-900 px-2 py-2 text-sm text-white"
+                  />
+                </label>
+              </div>
+            </div>
+            <div className="rounded-2xl border border-white/10 bg-white/10 p-4">
+              <div className="flex items-center justify-between">
+                <p className="text-sm font-semibold">Publish readiness</p>
+                <span className="rounded-full bg-white/15 px-2 py-1 text-xs">{components.length} blocks</span>
+              </div>
+              <div className="mt-3 grid gap-2">
+                {qualityChecks.map((check) => (
+                  <div key={check.id} className={`rounded-lg border px-3 py-2 text-xs ${qualityStyles[check.status]}`}>
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="font-semibold">{check.label}</span>
+                      <span className="font-bold uppercase">{check.status}</span>
+                    </div>
+                    <p className="mt-1 opacity-85">{check.detail}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* SEO Suggestions Modal */}
       {showSEOModal && seoSuggestions && (
