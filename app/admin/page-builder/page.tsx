@@ -40,6 +40,7 @@ export default function PageBuilderPage() {
   const [showImportPreview, setShowImportPreview] = useState(false)
   const [importedComponents, setImportedComponents] = useState<any[]>([])
   const [importSourceSlug, setImportSourceSlug] = useState('')
+  const [routeOptions, setRouteOptions] = useState<string[]>([])
 
   useEffect(() => {
     // Initialize slug from query string if provided
@@ -60,6 +61,24 @@ export default function PageBuilderPage() {
     setLoading(true)
     loadPageData()
   }, [slug, routePath, targetMode])
+
+  useEffect(() => {
+    if (targetMode !== 'route') return
+    let cancelled = false
+
+    fetch('/api/admin/public-routes', { cache: 'no-store' })
+      .then((res) => (res.ok ? res.json() : { routes: [] }))
+      .then((json) => {
+        if (!cancelled && Array.isArray(json.routes)) setRouteOptions(json.routes)
+      })
+      .catch(() => {
+        if (!cancelled) setRouteOptions([])
+      })
+
+    return () => {
+      cancelled = true
+    }
+  }, [targetMode])
 
   const normalizeRoutePath = (value: string) => {
     const trimmed = value.trim()
@@ -1008,11 +1027,26 @@ export default function PageBuilderPage() {
               <>
                 <div className="flex items-center gap-1">
                   <span className="text-sm text-gray-600">Route:</span>
+                  {routeOptions.length > 0 && (
+                    <select
+                      value={routeOptions.includes(normalizeRoutePath(routePath)) ? normalizeRoutePath(routePath) : ''}
+                      onChange={(event) => event.target.value && setRoutePath(event.target.value)}
+                      className="max-w-56 border rounded px-2 py-1 text-sm"
+                      aria-label="Select public route"
+                    >
+                      <option value="">Select page...</option>
+                      {routeOptions.map((route) => (
+                        <option key={route} value={route}>
+                          {route === '/' ? 'Home /' : route}
+                        </option>
+                      ))}
+                    </select>
+                  )}
                   <input
                     value={routePath}
                     onChange={(e) => setRoutePath(e.target.value)}
                     onBlur={(e) => setRoutePath(normalizeRoutePath(e.target.value))}
-                    className="border rounded px-2 py-1 text-sm w-72"
+                    className="border rounded px-2 py-1 text-sm w-64"
                     placeholder="/services/portrait-photography"
                     aria-label="Public route path"
                   />

@@ -824,6 +824,14 @@ Audit notes: `npm run audit:seo-assets` passed across public metadata/source fil
 ## Admin Dashboard UX/UI
 
 - [x] Consolidate overlapping content/editor/page-builder tools into a clearer primary editing flow.
+- [x] Promote a two-tool CMS model in admin: `Visual Page Builder` for WYSIWYG page/layout work and `Content Editor` for content-only editing.
+- [x] Hide redundant CMS/page-builder entry points from the main dashboard/sidebar while keeping legacy routes available for compatibility.
+- [x] Add a public route picker directly inside the Visual Page Builder so hardcoded pages can be selected without typing paths.
+- [ ] Rebuild the Visual Page Builder as the single WYSIWYG surface with AI generation, route selection, block library, page preview, and publish controls in one place.
+- [ ] Fold the old AI Page Builder generation flow into the Visual Page Builder as an AI starter mode instead of a separate admin tool.
+- [ ] Keep one content-only editor for blog/page copy, SEO fields, scheduling, revisions, and simple non-design updates.
+- [ ] Add CMS coverage status badges for every public route: coded only, draft CMS, published CMS, append/prepend override, or full CMS replacement.
+- [ ] Add import guidance that clearly explains coded pages cannot be decompiled automatically, but can be extended or rebuilt with CMS blocks.
 - [x] Add a unified command/search palette for leads, pages, galleries, settings, and admin tools.
 - [x] Add a "today" operations view: new leads, stale follow-ups, upcoming appointments, campaigns due, broken SEO items.
 - [x] Add clearer admin navigation grouping for content, gallery, CRM, marketing, SEO, and settings.

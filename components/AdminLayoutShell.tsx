@@ -58,10 +58,10 @@ export default function AdminLayoutShell({
           <div className="flex items-center gap-4">
             <AdminCommandPalette />
             <Link
-              href="/admin/ai-site-builder"
+              href="/admin/page-builder"
               className="bg-purple-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-purple-700 transition duration-200 flex items-center gap-2"
             >
-              <span>⚙️</span> AI Page Builder
+              <span>⚙️</span> Visual Builder
             </Link>
             <details className="relative group">
               <summary className="list-none cursor-pointer select-none border border-gray-300 text-gray-700 px-3 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition focus:outline-none focus:ring-2 focus:ring-purple-500">
@@ -73,6 +73,12 @@ export default function AdminLayoutShell({
                   className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-100"
                 >
                   <span>🧠</span> AI Training
+                </Link>
+                <Link
+                  href="/admin/content-enhanced"
+                  className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >
+                  <span>✏️</span> Content Editor
                 </Link>
               </div>
             </details>

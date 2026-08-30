@@ -18,7 +18,7 @@ const checks = [
   },
   {
     file: 'app/admin/page-builder/page.tsx',
-    patterns: ['Existing public page', 'visualComponentsToRouteBlocks', '/api/editor/draft', '/api/editor/save', 'renderMode'],
+    patterns: ['Existing public page', 'routeOptions', '/api/admin/public-routes', 'visualComponentsToRouteBlocks', '/api/editor/draft', '/api/editor/save', 'renderMode'],
   },
   {
     file: 'lib/pageConfigs.ts',
@@ -33,12 +33,20 @@ const checks = [
     patterns: ['CMS Page Editor', 'collectPublicPageRoutes', 'availablePaths'],
   },
   {
+    file: 'app/api/admin/public-routes/route.ts',
+    patterns: ['collectPublicPageRoutes', 'isAuthenticated', 'routes'],
+  },
+  {
+    file: 'lib/admin-public-routes.ts',
+    patterns: ['collectPublicPageRoutes', "entry.name === 'page.tsx'", "entry.name === 'admin'"],
+  },
+  {
     file: 'lib/admin-tools.ts',
-    patterns: ['CMS Page Editor', '/admin/editor/layout', 'Clean route editor'],
+    patterns: ['Visual Page Builder', 'Content Editor', 'Primary WYSIWYG builder'],
   },
   {
     file: 'lib/admin-route-ownership.ts',
-    patterns: ['Clean CMS Page Editor', 'replace/prepend/append'],
+    patterns: ['Canonical WYSIWYG builder', 'Canonical content-only editor', 'replace/prepend/append'],
   },
   {
     file: 'supabase/migrations/20260830_page_configs_route_bridge.sql',

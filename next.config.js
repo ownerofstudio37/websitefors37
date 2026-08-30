@@ -89,6 +89,13 @@ const nextConfig = {
   },
   async redirects() {
     return [
+      { source: '/admin/ai-site-builder', destination: '/admin/page-builder', permanent: false },
+      { source: '/admin/live-editor', destination: '/admin/page-builder', permanent: false },
+      { source: '/admin/page-builder-v2', destination: '/admin/page-builder', permanent: false },
+      { source: '/admin/block-editor', destination: '/admin/page-builder', permanent: false },
+      { source: '/admin/edit-homepage', destination: '/admin/page-builder?path=%2F', permanent: false },
+      { source: '/admin/content', destination: '/admin/content-enhanced', permanent: false },
+      { source: '/admin/visual-editor/:slug', destination: '/admin/page-builder?slug=:slug', permanent: false },
       { source: '/pinehurst', destination: '/local-photographer-pinehurst-tx', permanent: true },
       { source: '/the-woodlands', destination: '/local-photographer-the-woodlands-tx', permanent: true },
       { source: '/spring', destination: '/local-photographer-spring-tx', permanent: true },

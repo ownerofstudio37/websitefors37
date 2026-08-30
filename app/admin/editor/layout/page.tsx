@@ -1,30 +1,11 @@
 import React from 'react'
-import fs from 'node:fs'
-import path from 'node:path'
 import Link from 'next/link'
 import { LayoutTemplate, Sparkles, Workflow } from 'lucide-react'
 import AdminProtected from '@/components/AdminProtected'
 import BlockLayoutClient from '@/components/editor/BlockLayoutClient'
+import { collectPublicPageRoutes } from '@/lib/admin-public-routes'
 
 export const dynamic = 'force-dynamic'
-
-function collectPublicPageRoutes(dir = path.join(process.cwd(), 'app'), prefix = ''): string[] {
-  const routes: string[] = []
-  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-    if (entry.name.startsWith('_') || entry.name === 'api' || entry.name === 'admin') continue
-    const absolute = path.join(dir, entry.name)
-    if (entry.isDirectory()) {
-      if (entry.name.startsWith('(')) {
-        routes.push(...collectPublicPageRoutes(absolute, prefix))
-      } else if (!entry.name.includes('[')) {
-        routes.push(...collectPublicPageRoutes(absolute, `${prefix}/${entry.name}`))
-      }
-    } else if (entry.name === 'page.tsx') {
-      routes.push(prefix || '/')
-    }
-  }
-  return Array.from(new Set(routes)).sort((a, b) => a.localeCompare(b))
-}
 
 export default function LayoutEditorPage({ searchParams }: { searchParams?: Record<string, string | string[]> }) {
   const rawPath = typeof searchParams?.path === 'string' ? searchParams?.path : '/'
