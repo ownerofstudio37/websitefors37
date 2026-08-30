@@ -49,7 +49,7 @@ export const adminRouteOwnership: AdminRouteOwnership[] = [
   { route: '/admin/editor-test', file: 'app/admin/editor-test/page.tsx', status: 'internal', owner: 'content', note: 'Editor verification page only.' },
   { route: '/admin/editor', file: 'app/admin/editor/page.tsx', status: 'utility', owner: 'content', note: 'Deep-link editor form shell.' },
   { route: '/admin/editor/form-client', file: 'app/admin/editor/EditorFormClient.tsx', status: 'utility', owner: 'content', note: 'Shared editor form client.' },
-  { route: '/admin/editor/layout', file: 'app/admin/editor/layout/page.tsx', status: 'utility', owner: 'content', note: 'Layout editor utility.' },
+  { route: '/admin/editor/layout', file: 'app/admin/editor/layout/page.tsx', status: 'primary', owner: 'content', note: 'Clean CMS Page Editor for existing public routes, draft previews, and replace/prepend/append publishing.' },
   { route: '/admin/visual-editor/[slug]', file: 'app/admin/visual-editor/[slug]/page.tsx', status: 'utility', owner: 'content', note: 'Direct visual editor for a known slug.' },
   { route: '/admin/visual-editor/[slug]/client', file: 'app/admin/visual-editor/[slug]/VisualEditorClient.tsx', status: 'utility', owner: 'content', note: 'Shared visual editor client.' },
   { route: '/admin/content-studio', file: 'app/admin/content-studio/page.tsx', status: 'active', owner: 'marketing', note: 'PDF/social guide and visual content studio.' },

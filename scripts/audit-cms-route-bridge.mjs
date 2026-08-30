@@ -22,11 +22,19 @@ const checks = [
   },
   {
     file: 'components/editor/BlockLayoutClient.tsx',
-    patterns: ['Editable public route', 'Render mode', 'is_published: true'],
+    patterns: ['Visual CMS Editor', 'Quick starters', 'Draft preview', 'is_published: !draftOnly'],
   },
   {
     file: 'app/admin/editor/layout/page.tsx',
-    patterns: ['collectPublicPageRoutes', 'availablePaths'],
+    patterns: ['CMS Page Editor', 'collectPublicPageRoutes', 'availablePaths'],
+  },
+  {
+    file: 'lib/admin-tools.ts',
+    patterns: ['CMS Page Editor', '/admin/editor/layout', 'Clean route editor'],
+  },
+  {
+    file: 'lib/admin-route-ownership.ts',
+    patterns: ['Clean CMS Page Editor', 'replace/prepend/append'],
   },
   {
     file: 'supabase/migrations/20260830_page_configs_route_bridge.sql',

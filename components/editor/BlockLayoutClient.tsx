@@ -1,13 +1,109 @@
 "use client"
 
 import React from 'react'
+import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
+import { ArrowDown, ArrowUp, Copy, ExternalLink, FileJson, LayoutTemplate, Plus, Save, Trash2 } from 'lucide-react'
 
 type LayoutBlock = { id: string; type: string; props?: Record<string, any> }
+type RenderMode = 'replace' | 'prepend' | 'append'
+type Notice = { type: 'success' | 'error'; text: string } | null
 
 const BUILDER_BLOCK_TYPES = [
-  'LogoBlock','HeroBlock','TextBlock','ImageBlock','ButtonBlock','ColumnsBlock','SpacerBlock','SeoFooterBlock','BadgesBlock','SlideshowHeroBlock','TestimonialsBlock','GalleryHighlightsBlock','WidgetEmbedBlock','ServicesGridBlock','StatsBlock','CTABannerBlock','IconFeaturesBlock','ContactFormBlock','NewsletterBlock','FAQBlock','PricingTableBlock','PricingCalculatorBlock'
+  'LogoBlock',
+  'HeroBlock',
+  'TextBlock',
+  'ImageBlock',
+  'ButtonBlock',
+  'ColumnsBlock',
+  'SpacerBlock',
+  'SeoFooterBlock',
+  'BadgesBlock',
+  'SlideshowHeroBlock',
+  'TestimonialsBlock',
+  'GalleryHighlightsBlock',
+  'WidgetEmbedBlock',
+  'ServicesGridBlock',
+  'StatsBlock',
+  'CTABannerBlock',
+  'IconFeaturesBlock',
+  'ContactFormBlock',
+  'NewsletterBlock',
+  'FAQBlock',
+  'PricingTableBlock',
+  'PricingCalculatorBlock',
 ]
+
+const STARTER_BLOCKS: Array<{ label: string; type: string; id: string; props: Record<string, any> }> = [
+  {
+    label: 'Hero starter',
+    type: 'HeroBlock',
+    id: 'hero',
+    props: {
+      eyebrow: 'Studio37',
+      title: 'Premium photography with clear planning',
+      subtitle: 'Add page-specific proof, pricing context, and a clean next step.',
+      buttonText: 'Book a Consultation',
+      buttonLink: '/book-consultation',
+    },
+  },
+  {
+    label: 'Proof starter',
+    type: 'GalleryHighlightsBlock',
+    id: 'proof',
+    props: {
+      heading: 'Recent Studio37 proof',
+      subheading: 'Show real examples that match the service, location, or client decision.',
+    },
+  },
+  {
+    label: 'CTA starter',
+    type: 'CTABannerBlock',
+    id: 'book-next-step',
+    props: {
+      title: 'Ready to plan the right coverage?',
+      subtitle: 'Send the details and we will recommend the cleanest next step.',
+      buttonText: 'Book a Consultation',
+      buttonLink: '/book-consultation',
+    },
+  },
+]
+
+const MODE_HELP: Record<RenderMode, string> = {
+  replace: 'Use the CMS layout as the full page. Best for redesigned pages.',
+  prepend: 'Show CMS blocks above the coded page. Best for announcements or hero tests.',
+  append: 'Show CMS blocks below the coded page. Best for proof, FAQs, or extra CTAs.',
+}
+
+function blockLabel(type: string) {
+  return type.replace(/Block$/, '').replace(/([a-z])([A-Z])/g, '$1 $2')
+}
+
+function uniqueId(base: string, blocks: LayoutBlock[]) {
+  const clean = base
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '') || 'section'
+  let next = clean
+  let count = 2
+  while (blocks.some((block) => block.id === next)) {
+    next = `${clean}-${count}`
+    count += 1
+  }
+  return next
+}
+
+function normalizePublicPath(value: string) {
+  const trimmed = value.trim()
+  if (!trimmed) return '/'
+  return trimmed.startsWith('/') ? trimmed : `/${trimmed}`
+}
+
+function previewHref(path: string, draft: boolean) {
+  if (!draft) return path
+  return path === '/' ? '/?edit=1' : `${path}?edit=1`
+}
 
 export default function BlockLayoutClient({ path, availablePaths = [] }: { path: string; availablePaths?: string[] }) {
   const router = useRouter()
@@ -16,14 +112,26 @@ export default function BlockLayoutClient({ path, availablePaths = [] }: { path:
 
   const [loading, setLoading] = React.useState(true)
   const [blocks, setBlocks] = React.useState<LayoutBlock[]>([])
-  const [mode, setMode] = React.useState<'replace' | 'prepend' | 'append'>('replace')
+  const [mode, setMode] = React.useState<RenderMode>('replace')
   const [saving, setSaving] = React.useState(false)
-  const [error, setError] = React.useState<string| null>(null)
+  const [notice, setNotice] = React.useState<Notice>(null)
+  const [newBlockType, setNewBlockType] = React.useState('TextBlock')
+  const [newBlockId, setNewBlockId] = React.useState('')
+  const [customPath, setCustomPath] = React.useState(path)
+  const [draggedId, setDraggedId] = React.useState<string | null>(null)
+  const [editingBlockId, setEditingBlockId] = React.useState<string | null>(null)
+  const [propsText, setPropsText] = React.useState('{}')
+  const [deleteId, setDeleteId] = React.useState<string | null>(null)
 
   React.useEffect(() => {
-    (async () => {
+    setCustomPath(path)
+  }, [path])
+
+  React.useEffect(() => {
+    ;(async () => {
       try {
         setLoading(true)
+        setNotice(null)
         const res = await fetch(`/api/editor/layout?path=${encodeURIComponent(path)}${useDraft ? '&draft=1' : ''}`, { cache: 'no-store' })
         if (res.ok) {
           const json = await res.json()
@@ -33,74 +141,56 @@ export default function BlockLayoutClient({ path, availablePaths = [] }: { path:
           setBlocks([])
           setMode('replace')
         } else {
-          setError('Failed to load layout')
+          setNotice({ type: 'error', text: 'Failed to load this layout.' })
         }
       } catch {
-        setError('Failed to load layout')
+        setNotice({ type: 'error', text: 'Failed to load this layout.' })
       } finally {
         setLoading(false)
       }
     })()
   }, [path, useDraft])
 
-  function addBlock(type = 'TextBlock') {
-    const id = prompt('Enter a unique anchor id (e.g., hero, section-1):') || ''
-    if (!id) return
-    if (blocks.some(b => b.id === id)) {
-      alert('A block with that id already exists.')
-      return
-    }
-    setBlocks(prev => [...prev, { id, type, props: {} }])
+  function addBlock(type = newBlockType, starter?: { id: string; props: Record<string, any> }) {
+    const id = uniqueId(newBlockId || starter?.id || blockLabel(type), blocks)
+    setBlocks((prev) => [...prev, { id, type, props: starter?.props || {} }])
+    setNewBlockId('')
+    setNotice({ type: 'success', text: `${blockLabel(type)} added as ${id}.` })
   }
 
   function removeBlock(id: string) {
-    if (!confirm('Remove this block from layout?')) return
-    setBlocks(prev => prev.filter(b => b.id !== id))
+    setBlocks((prev) => prev.filter((block) => block.id !== id))
+    setDeleteId(null)
+    setNotice({ type: 'success', text: 'Block removed from this draft layout.' })
   }
 
   function move(id: string, dir: -1 | 1) {
-    setBlocks(prev => {
-      const idx = prev.findIndex(b => b.id === id)
+    setBlocks((prev) => {
+      const idx = prev.findIndex((block) => block.id === id)
       if (idx < 0) return prev
-      const ni = idx + dir
-      if (ni < 0 || ni >= prev.length) return prev
+      const nextIdx = idx + dir
+      if (nextIdx < 0 || nextIdx >= prev.length) return prev
       const copy = prev.slice()
       const [item] = copy.splice(idx, 1)
-      copy.splice(ni, 0, item)
+      copy.splice(nextIdx, 0, item)
       return copy
     })
   }
 
   function cloneBlock(id: string) {
-    const blk = blocks.find(b => b.id === id)
-    if (!blk) return
-    const newId = prompt('Enter a unique id for the cloned block:', `${id}-copy`) || ''
-    if (!newId) return
-    if (blocks.some(b => b.id === newId)) {
-      alert('A block with that id already exists.')
-      return
-    }
-    setBlocks(prev => [...prev, { ...blk, id: newId }])
-  }
-
-  const [draggedId, setDraggedId] = React.useState<string | null>(null)
-
-  function handleDragStart(e: React.DragEvent, id: string) {
-    setDraggedId(id)
-    e.dataTransfer.effectAllowed = 'move'
-  }
-
-  function handleDragOver(e: React.DragEvent) {
-    e.preventDefault()
-    e.dataTransfer.dropEffect = 'move'
+    const block = blocks.find((item) => item.id === id)
+    if (!block) return
+    const nextId = uniqueId(`${id}-copy`, blocks)
+    setBlocks((prev) => [...prev, { ...block, id: nextId, props: { ...(block.props || {}) } }])
+    setNotice({ type: 'success', text: `Cloned ${id} as ${nextId}.` })
   }
 
   function handleDrop(e: React.DragEvent, targetId: string) {
     e.preventDefault()
     if (!draggedId || draggedId === targetId) return
-    setBlocks(prev => {
-      const fromIdx = prev.findIndex(b => b.id === draggedId)
-      const toIdx = prev.findIndex(b => b.id === targetId)
+    setBlocks((prev) => {
+      const fromIdx = prev.findIndex((block) => block.id === draggedId)
+      const toIdx = prev.findIndex((block) => block.id === targetId)
       if (fromIdx < 0 || toIdx < 0) return prev
       const copy = prev.slice()
       const [item] = copy.splice(fromIdx, 1)
@@ -110,149 +200,261 @@ export default function BlockLayoutClient({ path, availablePaths = [] }: { path:
     setDraggedId(null)
   }
 
-  function handleDragEnd() {
-    setDraggedId(null)
+  function startEditingProps(block: LayoutBlock) {
+    setEditingBlockId(block.id)
+    setPropsText(JSON.stringify(block.props || {}, null, 2))
   }
 
-  function updateProps(id: string) {
-    const blk = blocks.find(b => b.id === id)
-    if (!blk) return
-    const curr = JSON.stringify(blk.props || {}, null, 2)
-    const next = prompt('Edit JSON props for this block', curr)
-    if (!next) return
+  function saveProps(id: string) {
     try {
-      const obj = JSON.parse(next)
-      setBlocks(prev => prev.map(b => b.id === id ? { ...b, props: obj } : b))
-    } catch (e) {
-      alert('Invalid JSON')
+      const props = JSON.parse(propsText)
+      setBlocks((prev) => prev.map((block) => (block.id === id ? { ...block, props } : block)))
+      setEditingBlockId(null)
+      setNotice({ type: 'success', text: `Props saved for ${id}.` })
+    } catch {
+      setNotice({ type: 'error', text: 'Invalid JSON. Fix the props before saving.' })
     }
   }
 
   function changeType(id: string, type: string) {
-    setBlocks(prev => prev.map(b => b.id === id ? { ...b, type } : b))
+    setBlocks((prev) => prev.map((block) => (block.id === id ? { ...block, type } : block)))
   }
 
   async function save(draftOnly = true) {
     setSaving(true)
-    setError(null)
+    setNotice(null)
     try {
-      if (draftOnly) {
-        const res = await fetch('/api/editor/draft', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ path, block: 'layout', id: '__layout__', props: { blocks, mode } })
-        })
-        if (!res.ok) throw new Error('Save draft failed')
-      } else {
-        const res = await fetch('/api/editor/save', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ path, block: 'layout', id: '__layout__', props: { blocks, mode }, is_published: true })
-        })
-        if (!res.ok) throw new Error('Save failed')
-      }
+      const res = await fetch(draftOnly ? '/api/editor/draft' : '/api/editor/save', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          path,
+          block: 'layout',
+          id: '__layout__',
+          props: { blocks, mode },
+          is_published: !draftOnly,
+        }),
+      })
+      if (!res.ok) throw new Error(draftOnly ? 'Save draft failed' : 'Publish failed')
+      setNotice({ type: 'success', text: draftOnly ? 'Draft saved.' : 'Published to the selected route.' })
       router.refresh()
     } catch (e: any) {
-      setError(e?.message || 'Failed to save')
+      setNotice({ type: 'error', text: e?.message || 'Failed to save.' })
     } finally {
       setSaving(false)
     }
   }
 
+  const sortedPaths = [path, ...availablePaths.filter((item) => item !== path)]
+
   return (
-    <div className="bg-white rounded-lg shadow border">
-      <div className="p-4 border-b flex items-center justify-between">
-        <div>
-          <div className="font-semibold">Layout for {path}</div>
-          <div className="text-xs text-gray-500">Published layouts can replace a hardcoded route or add CMS blocks before/after it.</div>
-        </div>
-        <div className="flex gap-2">
-          <button onClick={() => save(true)} disabled={saving} className="px-3 py-1.5 text-sm rounded bg-gray-100 hover:bg-gray-200">Save Draft</button>
-          <button onClick={() => save(false)} disabled={saving} className="px-3 py-1.5 text-sm rounded bg-primary-600 text-white hover:bg-primary-700">Publish</button>
+    <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+      <div className="border-b border-slate-200 bg-slate-950 px-5 py-5 text-white">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+          <div>
+            <div className="flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.22em] text-amber-200">
+              <LayoutTemplate className="h-4 w-4" />
+              Visual CMS Editor
+            </div>
+            <h2 className="mt-2 text-2xl font-bold">Edit {path}</h2>
+            <p className="mt-1 max-w-2xl text-sm text-slate-300">
+              Build clean route-level layouts from CMS blocks while keeping the coded page as the fallback.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <Link href={previewHref(path, false)} target="_blank" className="inline-flex items-center gap-2 rounded-lg border border-white/20 px-3 py-2 text-sm hover:bg-white/10">
+              Live page <ExternalLink className="h-4 w-4" />
+            </Link>
+            <Link href={previewHref(path, true)} target="_blank" className="inline-flex items-center gap-2 rounded-lg border border-white/20 px-3 py-2 text-sm hover:bg-white/10">
+              Draft preview <ExternalLink className="h-4 w-4" />
+            </Link>
+          </div>
         </div>
       </div>
-      <div className="p-4">
-        <div className="mb-4 grid gap-3 md:grid-cols-[1fr_auto]">
-          <div>
-            <label htmlFor="cms-route-picker" className="mb-1 block text-xs font-semibold uppercase tracking-wide text-gray-500">
-              Editable public route
-            </label>
-            <select
-              id="cms-route-picker"
-              value={path}
-              onChange={(event) => router.push(`/admin/editor/layout?path=${encodeURIComponent(event.target.value)}`)}
-              className="w-full rounded border border-gray-300 bg-white px-3 py-2 text-sm"
-            >
-              {[path, ...availablePaths.filter((item) => item !== path)].map((item) => (
-                <option key={item} value={item}>{item}</option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label htmlFor="cms-render-mode" className="mb-1 block text-xs font-semibold uppercase tracking-wide text-gray-500">
-              Render mode
-            </label>
-            <select
-              id="cms-render-mode"
-              value={mode}
-              onChange={(event) => setMode(event.target.value as typeof mode)}
-              className="rounded border border-gray-300 bg-white px-3 py-2 text-sm"
-            >
-              <option value="replace">Replace page with CMS layout</option>
-              <option value="prepend">Add CMS blocks before code page</option>
-              <option value="append">Add CMS blocks after code page</option>
-            </select>
-          </div>
-        </div>
-        {loading ? (
-          <div className="text-gray-500">Loading…</div>
-        ) : (
-          <>
-            {blocks.length === 0 && (
-              <div className="text-gray-500 text-sm mb-3">No layout yet. Add blocks to start.</div>
-            )}
-            <ul className="space-y-2">
-              {blocks.map((b, idx) => (
-                <li 
-                  key={b.id} 
-                  className={`border rounded p-3 flex items-center justify-between cursor-move ${draggedId === b.id ? 'opacity-50' : ''}`}
-                  draggable
-                  onDragStart={(e) => handleDragStart(e, b.id)}
-                  onDragOver={handleDragOver}
-                  onDrop={(e) => handleDrop(e, b.id)}
-                  onDragEnd={handleDragEnd}
+
+      <div className="grid gap-0 lg:grid-cols-[320px_1fr]">
+        <aside className="border-b border-slate-200 bg-slate-50 p-5 lg:border-b-0 lg:border-r">
+          <div className="space-y-5">
+            <div>
+              <label htmlFor="cms-route-picker" className="mb-2 block text-xs font-bold uppercase tracking-[0.18em] text-slate-500">
+                Public route
+              </label>
+              <select
+                id="cms-route-picker"
+                value={path}
+                onChange={(event) => router.push(`/admin/editor/layout?path=${encodeURIComponent(event.target.value)}`)}
+                className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm"
+              >
+                {sortedPaths.map((item) => (
+                  <option key={item} value={item}>{item}</option>
+                ))}
+              </select>
+              <div className="mt-2 flex gap-2">
+                <input
+                  value={customPath}
+                  onChange={(event) => setCustomPath(event.target.value)}
+                  className="min-w-0 flex-1 rounded-lg border border-slate-300 px-3 py-2 text-sm"
+                  placeholder="/services/portrait-photography"
+                />
+                <button
+                  type="button"
+                  onClick={() => router.push(`/admin/editor/layout?path=${encodeURIComponent(normalizePublicPath(customPath))}`)}
+                  className="rounded-lg bg-slate-900 px-3 py-2 text-sm font-semibold text-white"
                 >
-                  <div className="flex items-center gap-3">
-                    <span className="text-xs text-gray-500 w-6">{idx+1}</span>
-                    <input value={b.id} readOnly className="text-sm bg-gray-50 border rounded px-2 py-1 w-40" />
-                    <select value={b.type} onChange={e => changeType(b.id, e.target.value)} className="text-sm border rounded px-2 py-1">
-                      {BUILDER_BLOCK_TYPES.map(t => <option key={t} value={t}>{t.replace(/Block$/, '')}</option>)}
-                    </select>
+                  Go
+                </button>
+              </div>
+            </div>
+
+            <div>
+              <label htmlFor="cms-render-mode" className="mb-2 block text-xs font-bold uppercase tracking-[0.18em] text-slate-500">
+                Render mode
+              </label>
+              <select
+                id="cms-render-mode"
+                value={mode}
+                onChange={(event) => setMode(event.target.value as RenderMode)}
+                className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm"
+              >
+                <option value="replace">Replace page with CMS layout</option>
+                <option value="prepend">Add CMS blocks before code page</option>
+                <option value="append">Add CMS blocks after code page</option>
+              </select>
+              <p className="mt-2 text-xs leading-5 text-slate-500">{MODE_HELP[mode]}</p>
+            </div>
+
+            <div>
+              <div className="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Quick starters</div>
+              <div className="grid gap-2">
+                {STARTER_BLOCKS.map((starter) => (
+                  <button
+                    key={starter.id}
+                    type="button"
+                    onClick={() => addBlock(starter.type, starter)}
+                    className="inline-flex items-center justify-between rounded-lg border border-slate-200 bg-white px-3 py-2 text-left text-sm font-semibold hover:border-amber-300 hover:bg-amber-50"
+                  >
+                    {starter.label}
+                    <Plus className="h-4 w-4 text-amber-700" />
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <div className="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Add custom block</div>
+              <div className="grid gap-2">
+                <select value={newBlockType} onChange={(event) => setNewBlockType(event.target.value)} className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm">
+                  {BUILDER_BLOCK_TYPES.map((type) => <option key={type} value={type}>{blockLabel(type)}</option>)}
+                </select>
+                <input
+                  value={newBlockId}
+                  onChange={(event) => setNewBlockId(event.target.value)}
+                  className="rounded-lg border border-slate-300 px-3 py-2 text-sm"
+                  placeholder="Optional anchor id"
+                />
+                <button type="button" onClick={() => addBlock()} className="inline-flex items-center justify-center gap-2 rounded-lg bg-amber-700 px-3 py-2 text-sm font-semibold text-white hover:bg-amber-800">
+                  <Plus className="h-4 w-4" />
+                  Add block
+                </button>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+        <main className="p-5">
+          <div className="mb-4 flex flex-col gap-3 border-b border-slate-200 pb-4 md:flex-row md:items-center md:justify-between">
+            <div>
+              <div className="text-sm font-semibold text-slate-900">{blocks.length} block{blocks.length === 1 ? '' : 's'} in layout</div>
+              <p className="text-xs text-slate-500">Drag rows to reorder. Publish only when the draft preview looks right.</p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <button onClick={() => save(true)} disabled={saving} className="inline-flex items-center gap-2 rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold hover:bg-slate-50 disabled:opacity-50">
+                <Save className="h-4 w-4" />
+                Save draft
+              </button>
+              <button onClick={() => save(false)} disabled={saving} className="inline-flex items-center gap-2 rounded-lg bg-slate-950 px-3 py-2 text-sm font-semibold text-white hover:bg-slate-800 disabled:opacity-50">
+                Publish
+              </button>
+            </div>
+          </div>
+
+          {notice && (
+            <div className={`mb-4 rounded-lg border px-3 py-2 text-sm ${notice.type === 'error' ? 'border-red-200 bg-red-50 text-red-700' : 'border-emerald-200 bg-emerald-50 text-emerald-700'}`}>
+              {notice.text}
+            </div>
+          )}
+
+          {loading ? (
+            <div className="rounded-xl border border-dashed border-slate-300 p-8 text-center text-sm text-slate-500">Loading layout...</div>
+          ) : blocks.length === 0 ? (
+            <div className="rounded-xl border border-dashed border-slate-300 bg-slate-50 p-8 text-center">
+              <FileJson className="mx-auto h-8 w-8 text-slate-400" />
+              <h3 className="mt-3 text-lg font-semibold text-slate-900">No CMS layout yet</h3>
+              <p className="mx-auto mt-1 max-w-md text-sm text-slate-500">
+                Add a starter block, save a draft, preview it, then publish when it is ready.
+              </p>
+            </div>
+          ) : (
+            <ul className="space-y-3">
+              {blocks.map((block, idx) => (
+                <li
+                  key={block.id}
+                  className={`rounded-xl border border-slate-200 bg-white p-4 shadow-sm ${draggedId === block.id ? 'opacity-50' : ''}`}
+                  draggable
+                  onDragStart={(event) => {
+                    setDraggedId(block.id)
+                    event.dataTransfer.effectAllowed = 'move'
+                  }}
+                  onDragOver={(event) => {
+                    event.preventDefault()
+                    event.dataTransfer.dropEffect = 'move'
+                  }}
+                  onDrop={(event) => handleDrop(event, block.id)}
+                  onDragEnd={() => setDraggedId(null)}
+                >
+                  <div className="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
+                    <div className="flex min-w-0 flex-1 items-center gap-3">
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-100 text-xs font-bold text-slate-600">{idx + 1}</span>
+                      <div className="min-w-0 flex-1">
+                        <div className="font-semibold text-slate-900">{block.id}</div>
+                        <div className="text-xs text-slate-500">{blockLabel(block.type)}</div>
+                      </div>
+                      <select value={block.type} onChange={(event) => changeType(block.id, event.target.value)} className="hidden rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm md:block">
+                        {BUILDER_BLOCK_TYPES.map((type) => <option key={type} value={type}>{blockLabel(type)}</option>)}
+                      </select>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      <button onClick={() => startEditingProps(block)} className="rounded-lg border border-slate-300 px-3 py-2 text-xs font-semibold hover:bg-slate-50">Edit props</button>
+                      <button onClick={() => cloneBlock(block.id)} className="rounded-lg border border-slate-300 px-3 py-2 text-xs font-semibold hover:bg-slate-50" aria-label={`Clone ${block.id}`}><Copy className="h-4 w-4" /></button>
+                      <button onClick={() => move(block.id, -1)} disabled={idx === 0} className="rounded-lg border border-slate-300 px-3 py-2 text-xs font-semibold hover:bg-slate-50 disabled:opacity-40" aria-label={`Move ${block.id} up`}><ArrowUp className="h-4 w-4" /></button>
+                      <button onClick={() => move(block.id, 1)} disabled={idx === blocks.length - 1} className="rounded-lg border border-slate-300 px-3 py-2 text-xs font-semibold hover:bg-slate-50 disabled:opacity-40" aria-label={`Move ${block.id} down`}><ArrowDown className="h-4 w-4" /></button>
+                      {deleteId === block.id ? (
+                        <button onClick={() => removeBlock(block.id)} className="rounded-lg bg-red-600 px-3 py-2 text-xs font-semibold text-white">Confirm remove</button>
+                      ) : (
+                        <button onClick={() => setDeleteId(block.id)} className="rounded-lg border border-red-200 px-3 py-2 text-xs font-semibold text-red-600 hover:bg-red-50" aria-label={`Remove ${block.id}`}><Trash2 className="h-4 w-4" /></button>
+                      )}
+                    </div>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <button onClick={() => updateProps(b.id)} className="px-2 py-1 text-xs rounded border">Props</button>
-                    <button onClick={() => cloneBlock(b.id)} className="px-2 py-1 text-xs rounded border text-blue-600">Clone</button>
-                    <button onClick={() => move(b.id, -1)} disabled={idx===0} className="px-2 py-1 text-xs rounded border">Up</button>
-                    <button onClick={() => move(b.id, 1)} disabled={idx===blocks.length-1} className="px-2 py-1 text-xs rounded border">Down</button>
-                    <button onClick={() => removeBlock(b.id)} className="px-2 py-1 text-xs rounded border text-red-600">Remove</button>
-                  </div>
+
+                  {editingBlockId === block.id && (
+                    <div className="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-3">
+                      <textarea
+                        value={propsText}
+                        onChange={(event) => setPropsText(event.target.value)}
+                        className="h-56 w-full rounded-lg border border-slate-300 bg-white p-3 font-mono text-xs leading-5"
+                        spellCheck={false}
+                      />
+                      <div className="mt-3 flex gap-2">
+                        <button onClick={() => saveProps(block.id)} className="rounded-lg bg-slate-950 px-3 py-2 text-sm font-semibold text-white">Save props</button>
+                        <button onClick={() => setEditingBlockId(null)} className="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold">Cancel</button>
+                      </div>
+                    </div>
+                  )}
                 </li>
               ))}
             </ul>
-            <div className="mt-4">
-              <label className="text-sm mr-2">Add block:</label>
-              <select id="new-type" className="text-sm border rounded px-2 py-1 mr-2">
-                {BUILDER_BLOCK_TYPES.map(t => <option key={t} value={t}>{t.replace(/Block$/, '')}</option>)}
-              </select>
-              <button onClick={() => {
-                const el = document.getElementById('new-type') as HTMLSelectElement | null
-                const type = el?.value || 'TextBlock'
-                addBlock(type)
-              }} className="px-3 py-1.5 text-sm rounded bg-gray-100 hover:bg-gray-200">Add</button>
-            </div>
-            {error && <div className="mt-3 text-sm text-red-600">{error}</div>}
-          </>
-        )}
+          )}
+        </main>
       </div>
     </div>
   )
