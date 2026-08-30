@@ -17,13 +17,25 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Missing required fields: path, block, id' }, { status: 400 })
     }
 
-    const { data, error } = await supabaseAdmin
+    let { data, error } = await supabaseAdmin
       .from('page_configs')
       .upsert(
         [{ path, block_id: id, block_type: block, draft_props: props }],
         { onConflict: 'path,block_id' }
       )
       .select()
+
+    if (error?.code === 'PGRST204' || error?.message?.includes('draft_props')) {
+      const fallback = await supabaseAdmin
+        .from('page_configs')
+        .upsert(
+          [{ path, block_id: id, block_type: block, props }],
+          { onConflict: 'path,block_id' }
+        )
+        .select()
+      data = fallback.data
+      error = fallback.error
+    }
 
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })
     return NextResponse.json({ ok: true, data })

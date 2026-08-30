@@ -28,10 +28,19 @@ export type PageLayout = {
  * Call this in server components or API routes.
  */
 export async function getPageConfigs(path: string): Promise<Map<string, PageConfig>> {
-  const { data, error } = await supabaseAdmin
+  let { data, error } = await supabaseAdmin
     .from('page_configs')
     .select('path, block_id, block_type, props, draft_props, is_published, updated_at')
     .eq('path', path)
+
+  if (error?.code === '42703' || error?.message?.includes('draft_props') || error?.message?.includes('is_published')) {
+    const fallback = await supabaseAdmin
+      .from('page_configs')
+      .select('path, block_id, block_type, props, updated_at')
+      .eq('path', path)
+    data = fallback.data as any
+    error = fallback.error
+  }
 
   if (error) {
     console.error('[getPageConfigs] Error fetching configs for path:', path, error)
@@ -63,12 +72,23 @@ export function selectProps(config: PageConfig | undefined, useDraft: boolean): 
 
 /** Fetch layout config (if any) for a page. Uses special block_id '__layout__'. */
 export async function getPageLayout(path: string, useDraft = false): Promise<PageLayout | null> {
-  const { data, error } = await supabaseAdmin
+  let { data, error } = await supabaseAdmin
     .from('page_configs')
     .select('path, block_id, block_type, props, draft_props')
     .eq('path', path)
     .eq('block_id', '__layout__')
     .maybeSingle()
+
+  if (error?.code === '42703' || error?.message?.includes('draft_props')) {
+    const fallback = await supabaseAdmin
+      .from('page_configs')
+      .select('path, block_id, block_type, props')
+      .eq('path', path)
+      .eq('block_id', '__layout__')
+      .maybeSingle()
+    data = fallback.data as any
+    error = fallback.error
+  }
 
   if (error || !data) return null
 
@@ -80,12 +100,23 @@ export async function getPageLayout(path: string, useDraft = false): Promise<Pag
 
 /** Public rendering bridge for hardcoded routes. Drafts only render in explicit edit mode. */
 export async function getRenderablePageLayout(path: string, useDraft = false): Promise<PageLayout | null> {
-  const { data, error } = await supabaseAdmin
+  let { data, error } = await supabaseAdmin
     .from('page_configs')
     .select('path, block_id, block_type, props, draft_props, is_published')
     .eq('path', path)
     .eq('block_id', '__layout__')
     .maybeSingle()
+
+  if (error?.code === '42703' || error?.message?.includes('draft_props') || error?.message?.includes('is_published')) {
+    const fallback = await supabaseAdmin
+      .from('page_configs')
+      .select('path, block_id, block_type, props')
+      .eq('path', path)
+      .eq('block_id', '__layout__')
+      .maybeSingle()
+    data = fallback.data as any
+    error = fallback.error
+  }
 
   if (error || !data) return null
   if (!useDraft && (data as any).is_published === false) return null

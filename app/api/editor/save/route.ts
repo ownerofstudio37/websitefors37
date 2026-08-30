@@ -26,13 +26,25 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Server not configured with Supabase env vars' }, { status: 500 })
     }
 
-    const { data, error } = await supabaseAdmin
+    let { data, error } = await supabaseAdmin
       .from('page_configs')
       .upsert(
         [{ path, block_id: id, block_type: block, props, is_published: isPublished }],
         { onConflict: 'path,block_id' }
       )
       .select()
+
+    if (error?.code === 'PGRST204' || error?.message?.includes('is_published')) {
+      const fallback = await supabaseAdmin
+        .from('page_configs')
+        .upsert(
+          [{ path, block_id: id, block_type: block, props }],
+          { onConflict: 'path,block_id' }
+        )
+        .select()
+      data = fallback.data
+      error = fallback.error
+    }
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 500 })

@@ -16,25 +16,48 @@ export async function POST(req: NextRequest) {
     }
 
     // Fetch current row to get draft_props
-    const { data: rows, error: selErr } = await supabaseAdmin
+    let { data: rows, error: selErr } = await supabaseAdmin
       .from('page_configs')
       .select('props, draft_props')
       .eq('path', path)
       .eq('block_id', id)
       .limit(1)
 
+    if (selErr?.code === '42703' || selErr?.message?.includes('draft_props')) {
+      const fallback = await supabaseAdmin
+        .from('page_configs')
+        .select('props')
+        .eq('path', path)
+        .eq('block_id', id)
+        .limit(1)
+      rows = fallback.data as any
+      selErr = fallback.error
+    }
+
     if (selErr) return NextResponse.json({ error: selErr.message }, { status: 500 })
     const existingProps = rows?.[0]?.props || {}
     const draft = rows?.[0]?.draft_props
     const publishedProps = draft && Object.keys(draft || {}).length > 0 ? draft : existingProps
 
-    const { data, error } = await supabaseAdmin
+    let { data, error } = await supabaseAdmin
       .from('page_configs')
       .upsert(
         [{ path, block_id: id, props: publishedProps, is_published: true }],
         { onConflict: 'path,block_id' }
       )
       .select()
+
+    if (error?.code === 'PGRST204' || error?.message?.includes('is_published')) {
+      const fallback = await supabaseAdmin
+        .from('page_configs')
+        .upsert(
+          [{ path, block_id: id, props: publishedProps }],
+          { onConflict: 'path,block_id' }
+        )
+        .select()
+      data = fallback.data
+      error = fallback.error
+    }
 
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })
     return NextResponse.json({ ok: true, data })
