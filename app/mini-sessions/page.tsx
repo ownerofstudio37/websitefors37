@@ -6,6 +6,7 @@ import { generateServiceSchema } from '@/lib/seo-config'
 import FAQSection from '@/components/FAQSection'
 import { TurnaroundExpectationsSection, ServiceTestimonialsSection } from '@/components/PublicFeatureContent'
 import PrepGuideLeadMagnet from '@/components/PrepGuideLeadMagnet'
+import SubServiceSeoExpansion from '@/components/SubServiceSeoExpansion'
 
 export const metadata = generateSEOMetadata({
   title: 'Mini Sessions in Pinehurst TX | Studio37',
@@ -91,6 +92,34 @@ export default function MiniSessionsPage() {
           </div>
         </div>
       </section>
+
+      <SubServiceSeoExpansion
+        title="Mini sessions for focused updates without the full-session timeline"
+        intro={[
+          'Mini sessions are best when the goal is focused: holiday cards, a quick family update, a couple portrait, a senior add-on, or a polished profile refresh. Studio37 keeps the session short while still directing expression, posing, and final gallery consistency.',
+          'Because time is limited, the planning matters. We help narrow the shot list, keep wardrobe simple, and choose a location that gives the strongest look without wasting minutes walking between backgrounds.',
+        ]}
+        planning={[
+          'Best for one outfit, one simple location, and a focused portrait goal.',
+          'Works well for small families, couples, seniors, and quick professional updates.',
+          'Clear expectations for image variety, session pace, and private gallery delivery.',
+        ]}
+        localNotes={[
+          'Pinehurst and Magnolia mini sessions work best with easy parking and short walking routes.',
+          'Seasonal setups can be planned around holiday cards, spring color, fall texture, or milestone timing.',
+          'Upgrade to a full portrait session when you need multiple outfits, extended family, or more location variety.',
+        ]}
+        searchTopics={[
+          'mini sessions Pinehurst TX',
+          'family mini sessions Montgomery County',
+          'holiday photo sessions near Houston',
+          'quick portrait session The Woodlands',
+        ]}
+        relatedLinks={[
+          { label: 'Compare Portrait Options', href: '/services/portrait-photography' },
+          { label: 'Book a Mini Session', href: '/book-a-session?package=portrait_mini' },
+        ]}
+      />
 
       <TurnaroundExpectationsSection service="portrait" />
       <FAQSection title="Mini Session FAQ" faqs={miniFaqs} />

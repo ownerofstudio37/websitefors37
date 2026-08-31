@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 import { generateServiceSchema } from '@/lib/seo-config'
 import PortraitSubServiceSupport from '@/components/PortraitSubServiceSupport'
+import SubServiceSeoExpansion from '@/components/SubServiceSeoExpansion'
 
 export const metadata = generateSEOMetadata({
   title: 'Professional Headshots Pinehurst TX for Teams & Executives | Studio37',
@@ -115,6 +116,34 @@ export default function ProfessionalHeadshotsPage() {
           </div>
         </div>
       </section>
+
+      <SubServiceSeoExpansion
+        title="Headshots built for the way your business will actually use them"
+        intro={[
+          'Professional headshots should work across LinkedIn, websites, proposals, speaker bios, directories, and sales materials. Studio37 plans the session around usage first, then chooses background, crop, wardrobe, and retouching style.',
+          'For teams, we focus on consistency. That means matching lighting, framing, expression direction, and file delivery so a whole staff page feels cohesive even when headshots are captured across separate sessions.',
+        ]}
+        planning={[
+          'Individual, executive, and team headshot workflows with clear usage goals.',
+          'Wardrobe and background direction for modern, approachable, or more formal brand presence.',
+          'Consistent framing and retouching standards for websites, directories, and marketing assets.',
+        ]}
+        localNotes={[
+          'Pinehurst and Magnolia business owners often use clean outdoor or on-location headshots.',
+          'The Woodlands, Tomball, and Houston teams can plan on-site headshot days to reduce staff disruption.',
+          'Commercial usage, team naming, and file needs can be clarified before the session.',
+        ]}
+        searchTopics={[
+          'professional headshots Pinehurst TX',
+          'business headshots Houston area',
+          'team headshots The Woodlands',
+          'LinkedIn headshot photographer Montgomery County',
+        ]}
+        relatedLinks={[
+          { label: 'View Commercial Services', href: '/services/commercial-photography' },
+          { label: 'Book Headshots', href: '/book-consultation?service=professional-headshots' },
+        ]}
+      />
       <PortraitSubServiceSupport
         service="professional headshots"
         proof={[

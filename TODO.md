@@ -811,6 +811,16 @@ Audit notes: `npm run audit:seo-assets` passed across public metadata/source fil
 - [x] Design consistency screenshot audit: compare homepage, all main services, sub-services, local pages, blog, booking, request portfolio, and admin command surfaces against the premium visual system.
 - [x] Public performance budget pass: set rough budgets for hero image weight, route JS size, lazy section height, and mobile first-load experience.
 
+### Homepage Clutter And Sub-Service SEO Expansion - August 30, 2026
+
+- [x] Audit homepage desktop/mobile scroll for duplicated proof, repeated decision prompts, and SEO-safe consolidation opportunities.
+- [x] Remove the duplicate homepage testimonials module because real review proof already appears earlier in the conversion path.
+- [x] Keep service navigation, local SEO, and FAQ-style crawlable content intact while reducing visitor-facing repetition.
+- [x] Add a reusable sub-service SEO expansion component for planning context, local fit, common search intent, and internal links.
+- [x] Upgrade the family photography page with a premium hero before package cards so it matches the stronger sub-service system.
+- [x] Expand family, senior portraits, professional headshots, maternity sessions, and mini sessions with location-aware SEO copy and decision-support content.
+- [ ] Continue the same SEO expansion pattern across remaining sub-service pages where content still feels thin or overly template-like.
+
 ## Public Site Features
 
 - [x] Build an interactive package recommender that routes users to booking with a prefilled package/service.

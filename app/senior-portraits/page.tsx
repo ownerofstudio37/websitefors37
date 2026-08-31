@@ -5,6 +5,7 @@ import { generateSEOMetadata } from '@/lib/seo-helpers'
 import { generateServiceSchema } from '@/lib/seo-config'
 import PrepGuideLeadMagnet from '@/components/PrepGuideLeadMagnet'
 import PortraitSubServiceSupport from '@/components/PortraitSubServiceSupport'
+import SubServiceSeoExpansion from '@/components/SubServiceSeoExpansion'
 
 export const metadata = generateSEOMetadata({
   title: 'Senior Portraits in Pinehurst, TX | Studio37',
@@ -124,6 +125,34 @@ export default function SeniorPortraitsPage() {
           </div>
         </div>
       </section>
+
+      <SubServiceSeoExpansion
+        title="Senior portraits with outfit, location, and graduation-use planning"
+        intro={[
+          'Senior portraits need more than one pretty background. Studio37 helps students and parents plan the session around personality, cap-and-gown needs, announcement images, parent favorites, and social-ready portraits.',
+          'Sessions can stay close to Pinehurst and Montgomery County or branch into The Woodlands, Tomball, Huntsville, or College Station when a campus, downtown, sports, or editorial look better fits the senior.',
+        ]}
+        planning={[
+          'Outfit sequencing for casual, dressy, cap-and-gown, sports, or hobby looks.',
+          'Shot list balance for parent keepsakes, announcements, yearbook needs, and social posts.',
+          'Location timing that avoids harsh light and keeps outfit changes realistic.',
+        ]}
+        localNotes={[
+          'Pinehurst and Magnolia work well for natural senior portraits with soft fields, trees, and warm light.',
+          'The Woodlands and Tomball add more polished paths, storefronts, water, and town-center variety.',
+          'Huntsville, College Station, and campus-style routes can be planned for graduation-specific sessions.',
+        ]}
+        searchTopics={[
+          'senior portraits Pinehurst TX',
+          'graduation photographer Montgomery County',
+          'senior pictures The Woodlands',
+          'cap and gown photos near Houston',
+        ]}
+        relatedLinks={[
+          { label: 'Compare Portrait Packages', href: '/services/portrait-photography#pricing' },
+          { label: 'Book Senior Portraits', href: '/book-consultation?service=senior-portraits' },
+        ]}
+      />
       <PortraitSubServiceSupport
         service="senior portraits"
         proof={[

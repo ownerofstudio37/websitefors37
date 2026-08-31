@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 import { generateServiceSchema } from '@/lib/seo-config'
 import PortraitSubServiceSupport from '@/components/PortraitSubServiceSupport'
+import SubServiceSeoExpansion from '@/components/SubServiceSeoExpansion'
 
 export const metadata = generateSEOMetadata({
   title: 'Maternity Sessions in Pinehurst, TX | Studio37',
@@ -119,6 +120,34 @@ export default function MaternitySessionsPage() {
           </div>
         </div>
       </section>
+
+      <SubServiceSeoExpansion
+        title="Maternity portraits planned for comfort, timing, and flattering light"
+        intro={[
+          'Maternity sessions need a calm pace and a practical plan. Studio37 helps choose the best session week, location, wardrobe direction, walking distance, and portrait mix so the experience feels comfortable instead of rushed.',
+          'Whether the session is solo, partner-inclusive, or includes siblings, the goal is a polished gallery with soft portraits, natural connection, and enough variety for keepsakes, wall art, and announcements.',
+        ]}
+        planning={[
+          'Ideal session timing, usually around 28 to 34 weeks depending on comfort and schedule.',
+          'Wardrobe planning for movement, texture, shape, and coordinated partner or sibling outfits.',
+          'A portrait flow that includes full-length, close detail, seated, standing, partner, and family moments.',
+        ]}
+        localNotes={[
+          'Pinehurst and Magnolia locations are strong for soft natural backdrops and relaxed walking routes.',
+          'The Woodlands and Montgomery County parks can add water, paths, trees, and more refined scenery.',
+          'Location selection considers shade, parking, restroom access, and how much walking feels realistic.',
+        ]}
+        searchTopics={[
+          'maternity photographer Pinehurst TX',
+          'maternity photos Montgomery County',
+          'The Woodlands maternity session',
+          'pregnancy portraits near Houston',
+        ]}
+        relatedLinks={[
+          { label: 'View Portrait Services', href: '/services/portrait-photography' },
+          { label: 'Plan Maternity Photos', href: '/book-consultation?service=maternity-sessions' },
+        ]}
+      />
       <PortraitSubServiceSupport
         service="maternity sessions"
         proof={[

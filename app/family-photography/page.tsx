@@ -4,6 +4,8 @@ import Link from 'next/link'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 import { generateServiceSchema } from '@/lib/seo-config'
 import PortraitSubServiceSupport from '@/components/PortraitSubServiceSupport'
+import SubServiceSeoExpansion from '@/components/SubServiceSeoExpansion'
+import { SubServiceHero } from '@/components/SubServicePageSections'
 
 export const metadata = generateSEOMetadata({
   title: 'Family Photography Pinehurst TX with Location Planning | Studio37',
@@ -49,11 +51,22 @@ export default function FamilyPhotographyPage() {
   return (
     <div className="pt-16">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
+      <SubServiceHero
+        eyebrow="Pinehurst Family Sessions"
+        title="Family Photography"
+        copy="Relaxed family portraits with kid-friendly pacing, location planning, gentle direction, and polished private gallery delivery."
+        priceNote="Family sessions start at $350"
+        image="https://res.cloudinary.com/dmjxho2rl/image/upload/v1784790718/Hotard_Family_Day_2_-_49_1_eernop.jpg"
+        imageAlt="Studio37 family photography session in Montgomery County"
+        primaryHref="/book-consultation?service=family-photography"
+        secondaryHref="/tools/package-recommender?service=portrait"
+        secondaryLabel="Compare Family Options"
+      />
       <section className="section-shell bg-stone-50 pb-24 md:pb-16">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center mb-12">
-            <p className="eyebrow mb-2">Studio37 Family Sessions</p>
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">Family Photography</h1>
+            <p className="eyebrow mb-2">Family Packages</p>
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">Choose the right family session</h2>
             <p className="text-lg text-stone-600">
               Timeless, personality-filled family portraits designed around your story.
             </p>
@@ -76,6 +89,34 @@ export default function FamilyPhotographyPage() {
           </div>
         </div>
       </section>
+
+      <SubServiceSeoExpansion
+        title="Family photos planned around real kids, real light, and real logistics"
+        intro={[
+          'Family photography works best when the session is planned around energy level, walking distance, shade, and the combinations you care about most. Studio37 builds the session around your actual family instead of forcing everyone through stiff poses.',
+          'For Pinehurst, Magnolia, Tomball, The Woodlands, and Montgomery County families, that means choosing a location with the right background, parking, restroom access when needed, and enough variety for classic portraits plus natural connection moments.',
+        ]}
+        planning={[
+          'Immediate family, extended family, sibling, grandparent, and parent-child combinations.',
+          'Wardrobe direction for coordinated outfits without everyone matching too heavily.',
+          'Kid-friendly pacing with movement prompts, breaks, and backup shade options.',
+        ]}
+        localNotes={[
+          'Pinehurst and Magnolia sessions often lean natural, green, relaxed, and golden-hour friendly.',
+          'The Woodlands and Tomball are strong fits when you want polished parks, paths, water, or town-center variety.',
+          'Montgomery County locations are selected for walking burden, parking, sunset direction, and background variety.',
+        ]}
+        searchTopics={[
+          'family photographer Pinehurst TX',
+          'family photography Montgomery County',
+          'The Woodlands family photos',
+          'Magnolia TX family photographer',
+        ]}
+        relatedLinks={[
+          { label: 'View Portrait Services', href: '/services/portrait-photography' },
+          { label: 'Plan a Family Session', href: '/book-consultation?service=family-photography' },
+        ]}
+      />
 
       <section className="section-shell bg-white">
         <div className="container mx-auto px-4">

@@ -32,9 +32,6 @@ const PortraitHighlightGallery = dynamic(
     loading: () => <div className="h-96 bg-gray-50" />,
   }
 );
-const Testimonials = dynamic(() => import("@/components/Testimonials"), {
-  loading: () => <div className="h-96 bg-white" />,
-});
 
 // Defer newsletter modal - loads after page is interactive
 const DiscountNewsletterModal = dynamic(
@@ -291,10 +288,7 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
             <LeadCaptureForm />
           </div>
         </section>
-        <LazyMount minHeight={400}>
-          <Testimonials />
-        </LazyMount>
-        
+
         {/* Press & Credentials Section */}
         <PressCredentialsBlock 
           title="Featured In & Professional Credentials"
@@ -347,9 +341,6 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
           <LeadCaptureForm />
         </div>
       </section>
-      <LazyMount minHeight={400}>
-        <Testimonials />
-      </LazyMount>
 
       {/* Press & Credentials Section */}
       <PressCredentialsBlock 
