@@ -266,11 +266,11 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
         </LazyMount>
         <CuratedRecentWork />
         <RealReviewProofStrip />
-        <WhatHappensNextSection serviceName="photography session" />
         <PackageRecommenderCTA />
         <LazyMount minHeight={720}>
           <Services />
         </LazyMount>
+        <WhatHappensNextSection serviceName="photography session" />
         <LazyMount minHeight={520}>
           <ServiceAreaSEO />
         </LazyMount>
@@ -321,11 +321,11 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
       </LazyMount>
       <CuratedRecentWork />
       <RealReviewProofStrip />
-      <WhatHappensNextSection serviceName="photography session" />
       <PackageRecommenderCTA />
       <LazyMount minHeight={720}>
         <Services />
       </LazyMount>
+      <WhatHappensNextSection serviceName="photography session" />
       <LazyMount minHeight={520}>
         <ServiceAreaSEO />
       </LazyMount>

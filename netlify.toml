@@ -12,7 +12,7 @@
 [[plugins]]
   package = "@netlify/plugin-nextjs"
 
-# PRIORITY: Exclude XML files from CSP to prevent crawl blocking (must come BEFORE global headers)
+# PRIORITY: Keep XML crawlable for Search Console and sitemap discovery (must come BEFORE global headers)
 [[headers]]
   for = "/*.xml"
   [headers.values]
@@ -23,7 +23,6 @@
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
     Cache-Control = "public, max-age=600, s-maxage=600, stale-while-revalidate=60"
     Content-Security-Policy = "default-src 'none'"
-    X-Robots-Tag = "noindex"
 
 # Security headers for all pages (CSP defined in next.config.js)
 [[headers]]
