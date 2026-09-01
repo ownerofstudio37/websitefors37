@@ -114,6 +114,7 @@
 ### P1 SEO / Content
 
 - [x] Add live sitemap validation to admin SEO that checks deployed `sitemap.xml`, `sitemap_index.xml`, headers, content-type, URL count, and Search Console handoff.
+- [x] Stabilize blog indexing signals: switch blog posts from always-dynamic private rendering to ISR, generate static params where possible, add self-canonical/noindex fallback metadata, and audit live blog canonicals from the sitemap with `npm run audit:blog-canonicals`.
 - [x] Add local/service-page sameness detection for repeated titles, meta descriptions, first paragraphs, FAQs, and proof blocks.
 - [x] Add schema coverage checks for service pages, sub-service pages, local pages, blog posts, FAQs, and breadcrumbs.
 - [x] Add image SEO audit for missing alt text, generic alt text, broken Cloudinary URLs, and oversized hero images.

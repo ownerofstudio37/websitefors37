@@ -16,6 +16,23 @@ import { getStaticBlogPost, staticBlogPosts } from '@/lib/static-blog-posts'
 
 const isValidSlug = (s: string) => /^[a-z0-9-]{1,200}$/.test(s) // Increased from 64 to 200 chars for longer blog titles
 
+export const revalidate = 3600
+export const dynamicParams = true
+
+function blogCanonical(slug: string) {
+  return `${businessInfo.contact.website}/blog/${slug}`
+}
+
+function notFoundMetadata(slug?: string) {
+  return generateSEOMetadata({
+    title: 'Blog Post Not Found | Studio37',
+    description: 'This Studio37 blog post is unavailable.',
+    canonicalUrl: slug && isValidSlug(slug) ? blogCanonical(slug) : `${businessInfo.contact.website}/blog`,
+    pageType: 'article',
+    noIndex: true,
+  })
+}
+
 function getArticleIntent(post: any) {
   const haystack = `${post.title || ''} ${(post.tags || []).join(' ')} ${post.excerpt || ''}`.toLowerCase()
   if (/wedding|bride|groom|venue|timeline/.test(haystack)) {
@@ -58,23 +75,41 @@ function getArticleIntent(post: any) {
   }
 }
 
-// Force fresh server render to avoid stale edge variants for crawlers/structured data
-export const dynamic = 'force-dynamic'
+export async function generateStaticParams() {
+  const params = new Map(staticBlogPosts.map((post) => [post.slug, { slug: post.slug }]))
+
+  try {
+    const supabase = getSupabaseAdmin()
+    const now = new Date().toISOString()
+    const { data, error } = await supabase
+      .from('blog_posts')
+      .select('slug')
+      .eq('published', true)
+      .or(`published_at.is.null,published_at.lte.${now}`)
+
+    if (!error) {
+      data?.forEach((post) => {
+        if (post.slug && isValidSlug(post.slug)) params.set(post.slug, { slug: post.slug })
+      })
+    }
+  } catch (error) {
+    console.warn('Blog static params DB fetch failed; using bundled posts only.', error)
+  }
+
+  return Array.from(params.values())
+}
 
 // Generate metadata dynamically based on blog post
 export async function generateMetadata({ params }: { params: { slug: string } }) {
   if (!isValidSlug(params.slug)) {
-    return {
-      title: 'Post Not Found',
-      description: 'The requested blog post could not be found'
-    }
+    return notFoundMetadata()
   }
   
   const supabase = getSupabaseAdmin()
   const now = new Date().toISOString()
   const { data: post } = await supabase
     .from('blog_posts')
-    .select('title, meta_description, excerpt, meta_keywords')
+    .select('title, meta_description, excerpt, meta_keywords, featured_image')
     .eq('slug', params.slug)
     .eq('published', true)
     .or(`published_at.is.null,published_at.lte.${now}`)
@@ -83,10 +118,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   const staticPost = getStaticBlogPost(params.slug)
 
   if (!post && !staticPost) {
-    return {
-      title: 'Post Not Found',
-      description: 'The requested blog post could not be found'
-    }
+    return notFoundMetadata(params.slug)
   }
 
   if (staticPost) {
@@ -94,23 +126,22 @@ export async function generateMetadata({ params }: { params: { slug: string } })
       title: staticPost.title,
       description: staticPost.meta_description,
       keywords: staticPost.meta_keywords,
-      canonicalUrl: `${businessInfo.contact.website}/blog/${staticPost.slug}`,
+      canonicalUrl: blogCanonical(staticPost.slug),
+      ogImage: staticPost.featured_image,
       pageType: 'article'
     })
   }
 
   if (!post) {
-    return {
-      title: 'Post Not Found',
-      description: 'The requested blog post could not be found'
-    }
+    return notFoundMetadata(params.slug)
   }
 
   return generateSEOMetadata({
     title: post.title,
-    description: post.meta_description || post.excerpt || 'Studio 37 Photography Blog',
+    description: post.meta_description || post.excerpt || 'Studio37 photography planning guide for Pinehurst, Montgomery County, and Greater Houston.',
     keywords: post.meta_keywords || [],
-    canonicalUrl: `${businessInfo.contact.website}/blog/${params.slug}`,
+    canonicalUrl: blogCanonical(params.slug),
+    ogImage: post.featured_image || undefined,
     pageType: 'article'
   })
 }
