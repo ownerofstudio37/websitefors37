@@ -9,7 +9,7 @@ import { MDXRemote } from 'next-mdx-remote/rsc'
 import rehypeHighlight from 'rehype-highlight'
 import rehypeRaw from 'rehype-raw'
 import { generateSEOMetadata, generateArticleSchema } from '@/lib/seo-helpers'
-import { businessInfo } from '@/lib/seo-config'
+import { businessInfo, formatServiceAreaForSchema, generateServiceSchema, geoServiceAreas } from '@/lib/seo-config'
 import { generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
 import ComparePackagesCTA from '@/components/ComparePackagesCTA'
 import { getStaticBlogPost, staticBlogPosts } from '@/lib/static-blog-posts'
@@ -73,6 +73,50 @@ function getArticleIntent(post: any) {
     ctaCopy: 'If you are deciding on location, wardrobe, pacing, or package fit, request examples matched to your session type.',
     proofPoints: ['Guided posing and wardrobe support', 'Local light and location planning', 'Portrait galleries matched to your need'],
   }
+}
+
+function getLocalizedBlogAreas(post: any) {
+  const haystack = `${post.title || ''} ${(post.tags || []).join(' ')} ${post.excerpt || ''} ${post.content || ''}`.toLowerCase()
+
+  return geoServiceAreas.filter((area) => {
+    const cityMatch = haystack.includes(area.name.toLowerCase())
+    const landmarkMatch = area.landmarks.some((landmark) => haystack.includes(landmark.toLowerCase()))
+    return cityMatch || landmarkMatch
+  })
+}
+
+function getLocalizedBlogServiceSchema(post: any, intent: ReturnType<typeof getArticleIntent>) {
+  const matchedAreas = getLocalizedBlogAreas(post)
+  if (matchedAreas.length === 0) return null
+
+  return {
+    ...generateServiceSchema(
+      `${intent.serviceLabel} in ${matchedAreas.map((area) => area.name).join(', ')}, TX`,
+      `Studio37 ${intent.serviceLabel.toLowerCase()} planning and coverage for ${matchedAreas
+        .map((area) => `${area.name}, TX`)
+        .join(', ')} with local location, lighting, and gallery delivery guidance.`
+    ),
+    '@id': `${blogCanonical(post.slug)}#localized-service`,
+    url: blogCanonical(post.slug),
+    areaServed: matchedAreas.map(formatServiceAreaForSchema),
+  }
+}
+
+function getLocalizedBlogLinks(post: any, intent: ReturnType<typeof getArticleIntent>) {
+  return getLocalizedBlogAreas(post).map((area) => ({
+    href: `/${area.slug}`,
+    label:
+      area.name === 'Cypress'
+        ? 'Cypress portrait session details'
+        : area.name === 'Tomball'
+          ? 'Book a Tomball family photographer'
+          : area.name === 'Spring'
+            ? 'Book a Spring family photographer'
+            : area.name === 'The Woodlands'
+              ? 'The Woodlands photographer details'
+              : `${area.name} ${intent.serviceLabel.toLowerCase()} details`,
+    landmarks: area.landmarks.slice(0, 2).join(' and '),
+  }))
 }
 
 export async function generateStaticParams() {
@@ -173,6 +217,8 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
       ? (articlePost as any).featured_image_position
       : '50% 40%'
   const articleIntent = getArticleIntent(articlePost)
+  const localizedServiceSchema = getLocalizedBlogServiceSchema(articlePost, articleIntent)
+  const localizedBlogLinks = getLocalizedBlogLinks(articlePost, articleIntent)
   
   // Get related posts using same admin client
   const { data: relatedPosts } = await supabase
@@ -215,6 +261,12 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
+      {localizedServiceSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(localizedServiceSchema) }}
+        />
+      )}
 
       <div className="border-b border-stone-200 bg-stone-50 py-10 md:py-12">
         <div className="container mx-auto px-4">
@@ -296,6 +348,26 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
               }}
             />
           </article>
+
+            {localizedBlogLinks.length > 0 && (
+              <section className="mt-10 rounded-lg border border-stone-200 bg-white p-5 shadow-sm">
+                <p className="eyebrow mb-3">Local Session Planning</p>
+                <div className="grid gap-3 sm:grid-cols-2">
+                  {localizedBlogLinks.map((link) => (
+                    <Link
+                      key={link.href}
+                      href={`${link.href}?source=localized-blog`}
+                      className="rounded-lg border border-stone-200 px-4 py-3 text-sm font-semibold text-stone-800 transition hover:border-primary-400 hover:bg-primary-50"
+                    >
+                      {link.label}
+                      <span className="mt-1 block text-xs font-normal text-stone-500">
+                        Location confidence near {link.landmarks}
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              </section>
+            )}
 
             <ComparePackagesCTA context="this session" />
             <section className="mt-12 rounded-lg border border-amber-200 bg-amber-50 p-6 md:p-8">

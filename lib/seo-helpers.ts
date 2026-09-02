@@ -104,9 +104,11 @@ export function generateSEOMetadata({
     },
     other: {
       'geo.region': 'US-TX',
-      'geo.placename': 'Pinehurst, Texas',
+      'geo.placename': 'Pinehurst, Montgomery County, Harris County, Greater Houston, Texas',
       'geo.position': `${businessInfo.geo.latitude};${businessInfo.geo.longitude}`,
       'ICBM': `${businessInfo.geo.latitude}, ${businessInfo.geo.longitude}`,
+      'coverage': 'Pinehurst, Tomball, Magnolia, Cypress, Spring, The Woodlands, Montgomery County, Harris County',
+      'areaServed': 'Tomball TX, Magnolia TX, Cypress TX, Spring TX, The Woodlands TX',
       'DC.title': fullTitle,
       'DC.creator': businessInfo.name,
       'DC.subject': allKeywords.slice(0, 5).join(', '),

@@ -1193,29 +1193,28 @@ export default function BlogManagementPage() {
                   </div>
                 </div>
 
-                {/* Model Info */}
+                {/* Writer guidance */}
                 <div className="bg-gradient-to-br from-blue-50 to-indigo-50 border-2 border-indigo-200 rounded-lg p-4">
                   <h3 className="font-semibold text-indigo-900 mb-2 flex items-center gap-2">
                     <Sparkles className="h-4 w-4" />
-                    AI Model: Gemini 3.1 Pro Preview
+                    Studio37 Editorial Mode
                   </h3>
                   <p className="text-sm text-indigo-700">
-                    Optimized for human-like flow and creative content generation. Delivers high-quality, SEO-optimized blog posts with natural language and engaging structure.
+                    Drafts now use Studio37 package facts, local planning context, internal links, and anti-generic copy rules before content is returned.
                   </p>
                 </div>
 
                 <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
                   <h3 className="font-semibold text-purple-900 mb-2 flex items-center gap-2">
                     <Sparkles className="h-4 w-4" />
-                    What you'll get with Gemini 3.1 Pro Preview:
+                    What the writer checks:
                   </h3>
                   <ul className="text-sm text-purple-700 space-y-1">
                     <li>• SEO-optimized title & meta description</li>
-                    <li>• Well-structured content with headings</li>
-                    <li>• Photography tips and insights</li>
-                    <li>• Call-to-action for Studio37</li>
+                    <li>• Human-sounding planning advice, not venue-brochure filler</li>
+                    <li>• Accurate Studio37 pricing, turnaround, and gallery language</li>
+                    <li>• Relevant internal links and a calm next step</li>
                     <li>• Suggested tags and category</li>
-                    <li>• Enhanced reasoning with Gemini 3.1 Pro Preview's advanced capabilities</li>
                   </ul>
                 </div>
 

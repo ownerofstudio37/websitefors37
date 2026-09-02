@@ -75,11 +75,92 @@ export const businessInfo = {
   }
 }
 
+export type GeoServiceArea = {
+  name: string
+  slug: string
+  county: string
+  postalCodes: string[]
+  landmarks: string[]
+}
+
+export const geoServiceAreas: GeoServiceArea[] = [
+  {
+    name: 'Cypress',
+    slug: 'local-photographer-cypress-tx',
+    county: 'Harris County',
+    postalCodes: ['77429', '77433'],
+    landmarks: ['Towne Lake', 'Bridgeland', 'Cypress Creek'],
+  },
+  {
+    name: 'Spring',
+    slug: 'local-photographer-spring-tx',
+    county: 'Harris County and Montgomery County',
+    postalCodes: ['77373', '77379', '77380', '77381', '77382', '77386', '77388', '77389'],
+    landmarks: ['Mercer Botanic Gardens', 'Old Town Spring', 'Spring Creek Greenway'],
+  },
+  {
+    name: 'Tomball',
+    slug: 'local-photographer-tomball-tx',
+    county: 'Harris County',
+    postalCodes: ['77375', '77377'],
+    landmarks: ['Kleb Woods Nature Preserve', 'Old Town Tomball', 'Spring Creek Park'],
+  },
+  {
+    name: 'Magnolia',
+    slug: 'local-photographer-magnolia-tx',
+    county: 'Montgomery County',
+    postalCodes: ['77354', '77355'],
+    landmarks: ['Unity Park', 'Magnolia Stroll', 'The Woodlands edge'],
+  },
+  {
+    name: 'The Woodlands',
+    slug: 'local-photographer-the-woodlands-tx',
+    county: 'Montgomery County',
+    postalCodes: ['77380', '77381', '77382', '77384', '77385'],
+    landmarks: ['The Waterway', 'Market Street', 'Northshore Park'],
+  },
+]
+
+export function formatServiceAreaForSchema(area: GeoServiceArea) {
+  return {
+    '@type': 'City',
+    name: `${area.name}, TX`,
+    url: `${businessInfo.contact.website}/${area.slug}`,
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: area.name,
+      addressRegion: 'TX',
+      addressCountry: 'US',
+      postalCode: area.postalCodes.join(', '),
+    },
+    containedInPlace: {
+      '@type': 'AdministrativeArea',
+      name: `${area.county}, Texas`,
+    },
+    additionalProperty: [
+      {
+        '@type': 'PropertyValue',
+        name: 'Primary ZIP codes served',
+        value: area.postalCodes.join(', '),
+      },
+      {
+        '@type': 'PropertyValue',
+        name: 'Local photography landmarks',
+        value: area.landmarks.join(', '),
+      },
+    ],
+  }
+}
+
+export function formatServiceAreasForSchema() {
+  return geoServiceAreas.map(formatServiceAreaForSchema)
+}
+
 // Generate structured data for local business
 export function generateLocalBusinessSchema() {
   return {
     '@context': 'https://schema.org',
-    '@type': 'LocalBusiness',
+    '@type': ['LocalBusiness', 'ProfessionalService'],
     '@id': businessInfo.contact.website,
     name: businessInfo.legalName,
     alternateName: businessInfo.name,
@@ -100,10 +181,7 @@ export function generateLocalBusinessSchema() {
       latitude: businessInfo.geo.latitude,
       longitude: businessInfo.geo.longitude
     },
-    areaServed: businessInfo.serviceAreas.map(area => ({
-      '@type': 'City',
-      name: area
-    })),
+    areaServed: formatServiceAreasForSchema(),
     serviceType: businessInfo.services,
     openingHoursSpecification: Object.entries(businessInfo.businessHours).map(([day, hours]) => ({
       '@type': 'OpeningHoursSpecification',
@@ -139,6 +217,6 @@ export function generateServiceSchema(serviceName: string, serviceDescription: s
       telephone: businessInfo.contact.phone,
       url: businessInfo.contact.website
     },
-    areaServed: businessInfo.serviceAreas
+    areaServed: formatServiceAreasForSchema()
   }
 }

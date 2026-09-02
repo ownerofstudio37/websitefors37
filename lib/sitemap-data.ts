@@ -274,6 +274,12 @@ export async function getSitemapRoutes(): Promise<MetadataRoute.Sitemap> {
       priority: PRIORITIES.servicePages,
     },
     {
+      url: `${sitemapBaseUrl}/local-photographer-cypress-tx`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly',
+      priority: PRIORITIES.servicePages,
+    },
+    {
       url: `${sitemapBaseUrl}/local-photographer-tomball-tx`,
       lastModified: currentDate,
       changeFrequency: 'monthly',

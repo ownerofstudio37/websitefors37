@@ -89,9 +89,11 @@ export const metadata = {
   referrer: 'strict-origin-when-cross-origin',
   other: {
     "geo.region": "US-TX",
-    "geo.placename": "Pinehurst, Texas",
+    "geo.placename": "Pinehurst, Montgomery County, Harris County, Greater Houston, Texas",
     "geo.position": `${businessInfo.geo.latitude};${businessInfo.geo.longitude}`,
     ICBM: `${businessInfo.geo.latitude}, ${businessInfo.geo.longitude}`,
+    coverage: "Pinehurst, Tomball, Magnolia, Cypress, Spring, The Woodlands, Montgomery County, Harris County",
+    areaServed: "Tomball TX, Magnolia TX, Cypress TX, Spring TX, The Woodlands TX",
   },
 };
 

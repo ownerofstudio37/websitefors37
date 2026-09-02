@@ -1,8 +1,10 @@
 // Enhanced local business structured data for better Google visibility
+import { formatServiceAreasForSchema } from './seo-config'
+
 export function generateEnhancedLocalBusinessSchema() {
   return {
     '@context': 'https://schema.org',
-    '@type': 'LocalBusiness',
+    '@type': ['LocalBusiness', 'ProfessionalService'],
     '@id': 'https://www.studio37.cc/#organization',
     name: 'Studio37 Photography',
     alternateName: 'Studio37',
@@ -41,64 +43,7 @@ export function generateEnhancedLocalBusinessSchema() {
       latitude: 30.1647,
       longitude: -95.4677
     },
-    areaServed: [
-      {
-        '@type': 'City',
-        name: 'Pinehurst',
-        containedInPlace: {
-          '@type': 'AdministrativeArea',
-          name: 'Texas'
-        }
-      },
-      {
-        '@type': 'City',
-        name: 'The Woodlands',
-        containedInPlace: {
-          '@type': 'AdministrativeArea',
-          name: 'Texas'
-        }
-      },
-      {
-        '@type': 'City',
-        name: 'Montgomery',
-        containedInPlace: {
-          '@type': 'AdministrativeArea',
-          name: 'Texas'
-        }
-      },
-      {
-        '@type': 'City',
-        name: 'Spring',
-        containedInPlace: {
-          '@type': 'AdministrativeArea',
-          name: 'Texas'
-        }
-      },
-      {
-        '@type': 'City',
-        name: 'Tomball',
-        containedInPlace: {
-          '@type': 'AdministrativeArea',
-          name: 'Texas'
-        }
-      },
-      {
-        '@type': 'City',
-        name: 'Conroe',
-        containedInPlace: {
-          '@type': 'AdministrativeArea',
-          name: 'Texas'
-        }
-      },
-      {
-        '@type': 'AdministrativeArea',
-        name: 'Montgomery County',
-        containedInPlace: {
-          '@type': 'AdministrativeArea',
-          name: 'Texas'
-        }
-      }
-    ],
+    areaServed: formatServiceAreasForSchema(),
     openingHoursSpecification: [
       {
         '@type': 'OpeningHoursSpecification',

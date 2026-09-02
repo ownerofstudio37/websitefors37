@@ -486,16 +486,49 @@ export async function generateBlogPost(
 ): Promise<BlogPost> {
   const targetWordCount = Math.min(Math.max(Math.round(Number(wordCount) || 700), 400), 750);
   const maxOutputTokens = targetWordCount <= 550 ? 4096 : 5120;
-  const prompt = `Write a comprehensive, SEO-optimized blog post about: ${topic}
+  const primaryKeyword = keywords.find(Boolean) || "professional photography"
+  const prompt = `You are the Studio37 editorial assistant. Write a useful, human-sounding blog draft for Studio37 Photography in Pinehurst, TX.
+
+Topic: ${topic}
 
 Requirements:
-- Target keywords: ${keywords.join(", ")}
+- Primary search intent: ${primaryKeyword}
+- Supporting keywords: ${keywords.join(", ")}
 - Word count: approximately ${targetWordCount} words
 - Tone: ${tone}
-- Include H2 and H3 headings for structure
-- Write in an engaging, natural style
-- Focus on photography business context (Studio37)
-- Include actionable tips and insights
+- Audience: a real client comparing photographers, venues, locations, pricing, or prep decisions.
+- Write in Markdown with one H1, practical H2/H3 headings, short paragraphs, and concrete bullets where helpful.
+- Make the advice specific to planning, lighting, timeline, location logistics, wardrobe, delivery expectations, or service fit.
+- Mention Studio37 naturally 2-3 times. Do not over-repeat the brand.
+- Include at least 3 concrete Studio37-style proof details when relevant: two photographers on wedding/event coverage, Pinehurst/Montgomery County/Greater Houston service area, private gallery examples by request, planning around light and walking distance, guided posing, turnaround expectations, or package fit.
+- Add 3-5 internal links naturally using these exact destinations when relevant:
+  - /services/wedding-photography
+  - /services/portrait-photography
+  - /services/event-photography
+  - /services/commercial-photography
+  - /request-portfolio
+  - /book-consultation
+  - /tools/pricing
+- End with one calm, specific next step, not a generic sales pitch.
+
+Studio37 facts to keep accurate:
+- Wedding coverage starts at $1,200 for Micro / Elopement coverage: 3 hours, guest count under 30, both Studio37 photographers on site, 150+ edited photos, 48-hour sneak peek, private digital gallery. Do not say print release is included.
+- Portrait sessions start at $350. Standard portrait sneak peek is available as an add-on, not included by default.
+- Event coverage starts at $600. Basic event coverage does not include a highlights preview. Standard event sneak peek is 72 hours.
+- Commercial photography starts at $500. Fast delivery and final delivery guarantees are add-ons unless a custom quote includes them.
+- Full galleries are usually shared privately by request, not published publicly.
+
+Avoid AI/stock-blog language:
+- Do not use "nestled", "breathtaking", "timeless imagery", "unforgettable moments", "capture the essence", "stands as a testament", "monument to", "elevate your", "magic", "masterpiece", "comprehensive guide", or "once-in-a-lifetime" unless it is in a client quote.
+- Do not make venue-specific factual claims unless the topic provides them. If uncertain, frame as planning questions or things to confirm.
+- Do not write advice for other photographers. Write for clients.
+- Do not invent awards, review quotes, venue access rules, room names, permit rules, delivery guarantees, or exact timelines.
+
+Before returning JSON, silently self-edit:
+- Replace generic adjectives with concrete planning details.
+- Remove repeated phrases.
+- Make the title sound like a human search result, not a content farm.
+- Make the excerpt clear enough to help someone decide whether to click.
 
 IMPORTANT: Respond with ONLY a valid JSON object. No markdown, no code blocks, no extra text.
 
@@ -518,8 +551,8 @@ JSON structure:
       const response = await generateText(prompt, {
         model: BLOG_MODEL_FALLBACKS[0],
         config: {
-          temperature: 0.7,
-          topP: 0.9,
+          temperature: 0.55,
+          topP: 0.85,
           topK: 40,
           maxOutputTokens,
           responseMimeType: "application/json",
@@ -584,7 +617,7 @@ JSON structure:
         contentLength: blogPost.content?.length || 0,
       });
 
-      return blogPost;
+      return polishStudio37BlogPost(blogPost, topic, keywords);
     } catch (error: any) {
       // If this is already our own "out of attempts" error, or a hard API error,
       // stop retrying and surface it immediately.
@@ -663,6 +696,44 @@ The right preparation turns a good photo session into a smooth experience and a 
     category,
     excerpt: `A practical Studio37 guide to ${cleanTopic.toLowerCase()}, with planning tips you can use before your next session.`,
   };
+}
+
+function polishStudio37BlogPost(post: BlogPost, topic: string, keywords: string[]): BlogPost {
+  const bannedReplacements: Array<[RegExp, string]> = [
+    [/\bnestled in the heart of\b/gi, "located near"],
+    [/\bbreathtaking\b/gi, "strong"],
+    [/\btimeless imagery\b/gi, "a finished gallery"],
+    [/\bunforgettable moments\b/gi, "important moments"],
+    [/\bcapture the essence of\b/gi, "photograph"],
+    [/\bstands as a testament to\b/gi, "shows"],
+    [/\bmonument to\b/gi, "mix of"],
+    [/\belevate your\b/gi, "improve your"],
+    [/\bcomprehensive guide\b/gi, "planning guide"],
+    [/\btechnical mastery\b/gi, "lighting experience"],
+  ]
+
+  const clean = (value: string) => {
+    let out = value || ""
+    for (const [pattern, replacement] of bannedReplacements) {
+      out = out.replace(pattern, replacement)
+    }
+    return out
+      .replace(/\n{3,}/g, "\n\n")
+      .replace(/[ \t]+$/gm, "")
+      .trim()
+  }
+
+  const fallbackTags = Array.from(new Set([...(keywords || []), "Studio37", "photography planning"].filter(Boolean))).slice(0, 8)
+  const category = post.category || (/wedding|bride|groom|venue/i.test(topic) ? "wedding" : /brand|business|commercial|headshot/i.test(topic) ? "business" : "guides")
+
+  return {
+    title: clean(post.title || topic).slice(0, 80),
+    metaDescription: clean(post.metaDescription || `Studio37 planning tips for ${topic.toLowerCase()}, including location, lighting, service fit, and next steps.`).slice(0, 170),
+    content: clean(post.content),
+    tags: Array.isArray(post.tags) && post.tags.length ? post.tags.slice(0, 8) : fallbackTags,
+    category,
+    excerpt: clean(post.excerpt || `A practical Studio37 guide to ${topic.toLowerCase()} with planning details clients can use before booking.`).slice(0, 220),
+  }
 }
 
 /**
