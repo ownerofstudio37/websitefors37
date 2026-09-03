@@ -28,6 +28,7 @@ const redirectedPaths = [
   '/pinehurst',
   '/the-woodlands',
   '/spring',
+  '/cypress',
   '/tomball',
   '/conroe',
   '/magnolia',

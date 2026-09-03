@@ -10,12 +10,23 @@ const conflictGroups = [
   ['app/houston/page.tsx', 'app/locations/[slug]/page.tsx', 'app/local-photographer-houston-tx/page.tsx'],
   ['app/magnolia/page.tsx', 'app/locations/[slug]/page.tsx', 'app/local-photographer-magnolia-tx/page.tsx'],
   ['app/tomball/page.tsx', 'app/locations/[slug]/page.tsx', 'app/local-photographer-tomball-tx/page.tsx'],
+  ['app/cypress/page.tsx', 'app/locations/[slug]/page.tsx', 'app/local-photographer-cypress-tx/page.tsx'],
+  ['app/spring/page.tsx', 'app/locations/[slug]/page.tsx', 'app/local-photographer-spring-tx/page.tsx'],
+]
+
+const targetCityRoutes = [
+  'local-photographer-cypress-tx',
+  'local-photographer-spring-tx',
+  'local-photographer-tomball-tx',
+  'local-photographer-magnolia-tx',
+  'local-photographer-the-woodlands-tx',
 ]
 
 const redirectedShortRoutes = [
   'pinehurst',
   'the-woodlands',
   'spring',
+  'cypress',
   'tomball',
   'conroe',
   'magnolia',
@@ -41,6 +52,16 @@ function canonicalFromSource(source) {
 
 const issues = []
 const sitemapSource = read('lib/sitemap-data.ts')
+
+for (const route of targetCityRoutes) {
+  const pagePath = path.join(appDir, route, 'page.tsx')
+  if (!fs.existsSync(pagePath)) {
+    issues.push(`target city landing page missing app/${route}/page.tsx`)
+  }
+  if (!sitemapSource.includes(`/${route}`)) {
+    issues.push(`sitemap-data is missing target city URL /${route}`)
+  }
+}
 
 for (const shortRoute of redirectedShortRoutes) {
   if (!sitemapSource.includes(`'${shortRoute}'`)) {

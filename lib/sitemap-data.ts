@@ -44,6 +44,7 @@ const REDIRECTED_LOCATION_SLUGS = new Set([
   'pinehurst',
   'the-woodlands',
   'spring',
+  'cypress',
   'tomball',
   'conroe',
   'magnolia',

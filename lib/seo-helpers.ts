@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import { businessInfo } from '@/lib/seo-config'
+import { businessInfo, formatServiceAreasForSchema } from '@/lib/seo-config'
 
 interface SEOProps {
   title: string
@@ -168,7 +168,19 @@ export function generateArticleSchema(article: {
     mainEntityOfPage: {
       '@type': 'WebPage',
       '@id': article.url
-    }
+    },
+    about: businessInfo.services.map((service) => ({
+      '@type': 'Thing',
+      name: service,
+    })),
+    mentions: [
+      {
+        '@type': 'Organization',
+        name: businessInfo.legalName,
+        url: businessInfo.contact.website,
+      },
+      ...formatServiceAreasForSchema(),
+    ],
   }
 }
 

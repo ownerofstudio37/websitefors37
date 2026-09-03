@@ -99,6 +99,7 @@ const nextConfig = {
       { source: '/pinehurst', destination: '/local-photographer-pinehurst-tx', permanent: true },
       { source: '/the-woodlands', destination: '/local-photographer-the-woodlands-tx', permanent: true },
       { source: '/spring', destination: '/local-photographer-spring-tx', permanent: true },
+      { source: '/cypress', destination: '/local-photographer-cypress-tx', permanent: true },
       { source: '/tomball', destination: '/local-photographer-tomball-tx', permanent: true },
       { source: '/conroe', destination: '/local-photographer-conroe-tx', permanent: true },
       { source: '/magnolia', destination: '/local-photographer-magnolia-tx', permanent: true },
