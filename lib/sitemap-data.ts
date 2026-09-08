@@ -28,6 +28,7 @@ const PRIORITIES = {
 const EXCLUDED_PAGE_SLUGS = new Set([
   'algolia-verification',
   'bing-site-auth',
+  'brand-photography',
   'gallery',
   'google-site-verification',
   'portfolio',

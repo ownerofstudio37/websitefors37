@@ -96,6 +96,7 @@ const nextConfig = {
       { source: '/admin/edit-homepage', destination: '/admin/page-builder?path=%2F', permanent: false },
       { source: '/admin/content', destination: '/admin/content-enhanced', permanent: false },
       { source: '/admin/visual-editor/:slug', destination: '/admin/page-builder?slug=:slug', permanent: false },
+      { source: '/brand-photography', destination: '/services/branding-marketing', permanent: true },
       { source: '/pinehurst', destination: '/local-photographer-pinehurst-tx', permanent: true },
       { source: '/the-woodlands', destination: '/local-photographer-the-woodlands-tx', permanent: true },
       { source: '/spring', destination: '/local-photographer-spring-tx', permanent: true },

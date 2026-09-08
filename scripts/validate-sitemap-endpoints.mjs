@@ -17,6 +17,7 @@ const excludedPatterns = [
   /\/admin(?:\/|$)/,
   /\/login$/,
   /\/setup-admin$/,
+  /\/brand-photography$/,
   /\/gallery$/,
   /\/gallery\/[^/]+/,
   /\/portfolio$/,
@@ -25,6 +26,7 @@ const excludedPatterns = [
 const redirectedPaths = [
   '/gallery',
   '/portfolio',
+  '/brand-photography',
   '/pinehurst',
   '/the-woodlands',
   '/spring',
@@ -133,5 +135,45 @@ assert(
   robotsText.includes('Sitemap: https://www.studio37.cc/sitemap_index.xml'),
   'robots.txt does not reference sitemap_index.xml'
 )
+
+if (process.env.CHECK_SITEMAP_URLS === 'true') {
+  const failures = []
+  const concurrency = Number(process.env.SITEMAP_CHECK_CONCURRENCY || 12)
+  let cursor = 0
+
+  async function checkUrl(url) {
+    const controller = new AbortController()
+    const timeout = setTimeout(() => controller.abort(), 10000)
+
+    try {
+      const response = await fetch(url, {
+        method: 'HEAD',
+        redirect: 'manual',
+        signal: controller.signal,
+        headers: {
+          'user-agent': 'Googlebot/2.1 (+http://www.google.com/bot.html)',
+        },
+      })
+      const robotsTag = response.headers.get('x-robots-tag') || ''
+      if (response.status !== 200 || /noindex/i.test(robotsTag)) {
+        failures.push(`${url} returned ${response.status}${robotsTag ? ` with x-robots-tag: ${robotsTag}` : ''}`)
+      }
+    } catch (error) {
+      failures.push(`${url} failed: ${error?.name || error?.message || 'unknown error'}`)
+    } finally {
+      clearTimeout(timeout)
+    }
+  }
+
+  async function worker() {
+    while (cursor < sitemapUrls.length) {
+      const url = sitemapUrls[cursor++]
+      await checkUrl(url)
+    }
+  }
+
+  await Promise.all(Array.from({ length: concurrency }, worker))
+  assert(failures.length === 0, `sitemap.xml contains unhealthy URLs:\n${failures.join('\n')}`)
+}
 
 console.log(`Sitemap endpoint validation passed with ${sitemapUrls.length} URLs.`)
