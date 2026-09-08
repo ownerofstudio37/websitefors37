@@ -381,6 +381,20 @@ export default function LocalPhotographerCityPage({
       answer: `Current starting prices are: portraits ${STARTING_PRICES.portrait}, engagement sessions ${STARTING_PRICES.engagement}, event coverage ${STARTING_PRICES.event}, wedding coverage ${STARTING_PRICES.wedding}, and commercial sessions ${STARTING_PRICES.commercial}.`,
     },
     {
+      question: `Do you photograph at ${cityProfile?.venueHighlights[0] || `${city} parks and venues`}?`,
+      answer: `Yes. We plan sessions around ${cityProfile?.venueHighlights.slice(0, 3).join(', ') || `${city} parks, venues, and neighborhood backdrops`}, with attention to parking, walking distance, light direction, and backup spots when the weather or crowds shift.`,
+    },
+    {
+      question: `Do Studio37 sessions in ${city} include two photographers?`,
+      answer:
+        'Wedding coverage is built around the Studio37 two-photographer model. Portrait, engagement, event, and commercial sessions can also be planned with both photographers when the timeline, guest count, shot list, or coverage needs call for it.',
+    },
+    {
+      question: `How long does gallery delivery take for ${city} sessions?`,
+      answer:
+        'Most portrait and event galleries are delivered within about three weeks unless a rush add-on is arranged. Wedding delivery depends on collection size and season, and preview timing is confirmed during planning.',
+    },
+    {
       question: `Do you travel outside of ${city}?`,
       answer: `Yes. We regularly serve clients across ${county}, including ${nearbyCities.slice(0, 4).join(', ')} and surrounding areas.`,
     },

@@ -1,5 +1,22 @@
 # Studio37 UX/UI, SEO, and Feature TODO
 
+## Canonical, SEO, And AEO Growth Roadmap - September 7, 2026
+
+- [x] Canonical + indexing cleanup: add Cypress to the short-route redirect/sitemap exclusion set and expand the canonical conflict audit for Cypress/Spring/local landing page variants.
+- [x] Blog entity schema upgrade: enrich blog Article JSON-LD with Studio37 services and served-area mentions so localized posts read as connected Studio37 service content.
+- [x] Blog-to-service silo foundation: keep indexed blogs connected to matching service, city, booking/pricing, portfolio request, and related-guide links through the localized blog planning sections.
+- [ ] Live canonical cleanup validation: after deploy, inspect Search Console duplicate/no-user-canonical examples and confirm each canonical page self-references while short city routes 301 to their local-photographer pages.
+- [ ] FAQ / Q&A schema expansion: add high-intent service and local questions about pricing, two photographers, delivery timing, major locations, and city-specific coverage.
+- [ ] Entity proof hubs: build `/two-photographer-wedding-coverage`, `/private-gallery-examples`, `/photography-locations/magnolia-tomball-spring`, and `/studio37-reviews`.
+- [ ] Review schema and proof placement: place real review excerpts by service/location and add structured review data where it is appropriate.
+- [ ] Image SEO pass: strengthen alt text and captions around city + service intent for major proof, hero, recent work, local, and blog images.
+- [ ] Search Console refresh queue: prioritize pages with impressions and low CTR for title, meta, H1, intro, FAQ, and CTA updates before writing brand-new content.
+- [ ] Blog quality triage: review the remaining non-indexed blogs and choose improve, merge, or noindex.
+- [ ] Service-area authority hubs: create stronger regional pages for Tomball + Magnolia, Cypress + Spring, and The Woodlands wedding/portrait intent.
+- [ ] Blog internal-link system 2.0: make “Related Studio37 guides” and “Plan this session” links more systematic by city/service intent.
+- [ ] Chatbot SEO/AEO alignment: keep chatbot package answers synced with site facts and include source links in pricing/service replies.
+- [ ] Review/proof expansion: add wedding proof to wedding pages, family proof to family/local pages, and business proof to commercial/branding pages.
+
 ## CMS / Visual Builder Coverage - August 30, 2026
 
 - [x] Connect published `page_configs` layouts to hardcoded public routes so existing pages can be replaced, prepended, or appended from the built-in CMS/Visual Builder while code remains the fallback.
