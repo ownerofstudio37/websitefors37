@@ -327,9 +327,31 @@ export default function SEOPage() {
       if (sitemapResponse?.ok) {
         const sitemapText = await sitemapResponse.clone().text();
         const sitemapXml = new DOMParser().parseFromString(sitemapText, "application/xml");
-        sitemapUrls = Array.from(sitemapXml.querySelectorAll("url > loc"))
+        const directUrls = Array.from(sitemapXml.querySelectorAll("url > loc"))
           .map((node) => node.textContent?.trim())
           .filter((url): url is string => Boolean(url));
+        const childSitemapUrls = Array.from(sitemapXml.querySelectorAll("sitemap > loc"))
+          .map((node) => node.textContent?.trim())
+          .filter((url): url is string => Boolean(url));
+
+        if (childSitemapUrls.length > 0) {
+          const childResponses = await Promise.all(
+            childSitemapUrls.map((url) => fetch(new URL(url).pathname).catch(() => null))
+          );
+          const childTexts = await Promise.all(
+            childResponses
+              .filter((response): response is Response => Boolean(response?.ok))
+              .map((response) => response.text())
+          );
+          sitemapUrls = childTexts.flatMap((text) => {
+            const childXml = new DOMParser().parseFromString(text, "application/xml");
+            return Array.from(childXml.querySelectorAll("url > loc"))
+              .map((node) => node.textContent?.trim())
+              .filter((url): url is string => Boolean(url));
+          });
+        } else {
+          sitemapUrls = directUrls;
+        }
       }
 
       if (robotsResponse?.ok) {

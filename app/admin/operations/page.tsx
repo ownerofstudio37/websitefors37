@@ -42,8 +42,8 @@ const blogSchedulingQA = [
 
 const searchConsoleSubmission = [
   'Submit https://www.studio37.cc/sitemap.xml',
-  'Submit https://www.studio37.cc/sitemap_index.xml',
-  'Confirm Search Console does not report noindex headers on either sitemap.',
+  'Confirm Search Console discovers the child sitemap index files.',
+  'Confirm Search Console does not report noindex headers on sitemap XML.',
   'Recheck `/admin/seo` after submission and confirm required URL coverage remains green.',
 ]
 

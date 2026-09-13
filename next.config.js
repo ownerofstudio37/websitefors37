@@ -211,16 +211,7 @@ const nextConfig = {
         ],
       },
       {
-        source: "/sitemap.xml",
-        headers: [
-          {
-            key: "X-Content-Type-Options",
-            value: "nosniff",
-          },
-        ],
-      },
-      {
-        source: "/sitemap_index.xml",
+        source: "/:path*sitemap.xml",
         headers: [
           {
             key: "X-Content-Type-Options",

@@ -68,8 +68,16 @@ const sitemap = await fetchText('/sitemap.xml')
 const sitemapIndex = await fetchText('/sitemap_index.xml')
 const robots = await fetchText('/robots.txt')
 
-const sitemapUrls = extractLocs(sitemap.text)
+const childSitemapUrls = extractLocs(sitemap.text)
 const sitemapIndexUrls = extractLocs(sitemapIndex.text)
+const childSitemaps = await Promise.all(
+  childSitemapUrls.map((url) => fetchText(new URL(url).pathname))
+)
+const sitemapUrls = childSitemaps.flatMap((child) => extractLocs(child.text))
+
+if (childSitemapUrls.length < 4) {
+  fail(`Live sitemap index has too few child sitemaps: ${childSitemapUrls.length}`)
+}
 
 const missingRequired = requiredUrls.filter((url) => !sitemapUrls.includes(url))
 if (missingRequired.length) {
@@ -83,8 +91,8 @@ if (redirectedInSitemap.length) {
   fail(`Live sitemap contains redirected source URLs: ${redirectedInSitemap.join(', ')}`)
 }
 
-if (!sitemapIndexUrls.includes('https://www.studio37.cc/sitemap.xml')) {
-  fail('Live sitemap_index.xml does not reference sitemap.xml')
+if (sitemapIndexUrls.join('|') !== childSitemapUrls.join('|')) {
+  fail('Live sitemap_index.xml does not mirror sitemap.xml')
 }
 
 if (!robots.text.includes('Sitemap: https://www.studio37.cc/sitemap.xml')) {

@@ -94,19 +94,30 @@ const sitemapXml = await fetchText('/sitemap.xml')
 const sitemapIndexXml = await fetchText('/sitemap_index.xml')
 const robotsText = await fetchText('/robots.txt')
 
-assertXmlDocument(sitemapXml, 'urlset', 'sitemap.xml')
+assertXmlDocument(sitemapXml, 'sitemapindex', 'sitemap.xml')
 assertXmlDocument(sitemapIndexXml, 'sitemapindex', 'sitemap_index.xml')
 
-const sitemapUrls = extractLocs(sitemapXml)
+const childSitemapUrls = extractLocs(sitemapXml)
 const sitemapIndexUrls = extractLocs(sitemapIndexXml)
+
+assert(childSitemapUrls.length >= 4, `sitemap.xml has too few child sitemaps: ${childSitemapUrls.length}`)
+assertAbsoluteUrls(childSitemapUrls, 'sitemap.xml')
+assert(
+  sitemapIndexUrls.join('|') === childSitemapUrls.join('|'),
+  'sitemap_index.xml should mirror the primary sitemap.xml index'
+)
+
+const childSitemapXml = await Promise.all(
+  childSitemapUrls.map((url) => fetchText(new URL(url).pathname))
+)
+childSitemapXml.forEach((xml, index) => {
+  assertXmlDocument(xml, 'urlset', childSitemapUrls[index])
+})
+
+const sitemapUrls = childSitemapXml.flatMap(extractLocs)
 
 assert(sitemapUrls.length >= 50, `sitemap.xml has too few URLs: ${sitemapUrls.length}`)
 assertAbsoluteUrls(sitemapUrls, 'sitemap.xml')
-assertAbsoluteUrls(sitemapIndexUrls, 'sitemap_index.xml')
-assert(
-  sitemapIndexUrls.includes('https://www.studio37.cc/sitemap.xml'),
-  'sitemap_index.xml does not reference sitemap.xml'
-)
 
 const missingRequiredUrls = requiredUrls.filter((url) => !sitemapUrls.includes(url))
 assert(
@@ -130,10 +141,6 @@ assert(
 assert(
   robotsText.includes('Sitemap: https://www.studio37.cc/sitemap.xml'),
   'robots.txt does not reference sitemap.xml'
-)
-assert(
-  robotsText.includes('Sitemap: https://www.studio37.cc/sitemap_index.xml'),
-  'robots.txt does not reference sitemap_index.xml'
 )
 
 if (process.env.CHECK_SITEMAP_URLS === 'true') {
