@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { MapPin, Star, Users, Camera, Award, CheckCircle } from 'lucide-react'
 import FAQSection from '@/components/FAQSection'
 import GoogleBusinessWidget from '@/components/GoogleBusinessWidget'
-import { generateEnhancedLocalBusinessSchema, generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
+import { generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
 import { generateFAQSchema } from '@/lib/seo-helpers'
 import { BestPhotoLocationsSection } from '@/components/PublicFeatureContent'
 import { localTrustReviews } from '@/lib/public-content'
@@ -368,8 +368,6 @@ export default function LocalPhotographerCityPage({
       details: ['Shot list and usage planning', 'Brand-ready export sets', 'Licensing support available'],
     },
   ]
-
-  const localBusinessSchema = generateEnhancedLocalBusinessSchema()
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Home', url: 'https://www.studio37.cc' },
     { name: `Local Photographer ${cityLabel}`, url: `https://www.studio37.cc/${slug}` },
@@ -411,10 +409,6 @@ export default function LocalPhotographerCityPage({
 
   return (
     <div className="pt-16">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
-      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}

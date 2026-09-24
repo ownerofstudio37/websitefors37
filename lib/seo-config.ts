@@ -75,6 +75,13 @@ export const businessInfo = {
   }
 }
 
+export const schemaAssetUrls = {
+  logo: `${businessInfo.contact.website}/brand/studio37-logo-dark.svg`,
+  image: `${businessInfo.contact.website}/brand/studio37-badge-square.svg`,
+  portfolioImage:
+    'https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_1200,h_630,c_fill,g_auto/v1784795585/Untitled-160_convert.io_c7oit0.jpg',
+}
+
 export type GeoServiceArea = {
   name: string
   slug: string
@@ -161,11 +168,18 @@ export function generateLocalBusinessSchema() {
   return {
     '@context': 'https://schema.org',
     '@type': ['LocalBusiness', 'ProfessionalService'],
-    '@id': businessInfo.contact.website,
+    '@id': `${businessInfo.contact.website}/#organization`,
     name: businessInfo.legalName,
     alternateName: businessInfo.name,
     description: businessInfo.description,
     url: businessInfo.contact.website,
+    logo: {
+      '@type': 'ImageObject',
+      url: schemaAssetUrls.logo,
+      width: 1200,
+      height: 300,
+    },
+    image: schemaAssetUrls.portfolioImage,
     telephone: businessInfo.contact.phone,
     email: businessInfo.contact.email,
     address: {

@@ -2,7 +2,6 @@ import React from "react";
 import dynamic from "next/dynamic";
 import Hero from "@/components/Hero";
 import LeadCaptureForm from "@/components/LeadCaptureForm";
-import LocalBusinessSchema from "@/components/LocalBusinessSchema";
 import LazyMount from "@/components/LazyMount";
 import { PressCredentialsBlock } from "@/components/BuilderRuntime";
 import { HomepageNarrativeFlow, PackageRecommenderCTA, PublicTrustStrip, RealReviewProofStrip, WhatHappensNextSection } from "@/components/PublicConversionSections";
@@ -256,7 +255,6 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
             <a href="/admin/content" className="underline ml-2 font-semibold">create MDX content</a> for this page.
           </p>
         </div>
-        <LocalBusinessSchema />
         <Hero />
         <PublicTrustStrip />
         <HomepageNarrativeFlow />
@@ -311,7 +309,6 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
   // Static fallback homepage
   return (
     <>
-      <LocalBusinessSchema />
       <Hero />
       <PublicTrustStrip />
       <HomepageNarrativeFlow />

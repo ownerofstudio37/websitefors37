@@ -73,9 +73,6 @@ export const metadata = {
   creator: businessInfo.name,
   publisher: businessInfo.name,
   metadataBase: new URL(businessInfo.contact.website),
-  alternates: {
-    canonical: "/",
-  },
   verification: {
     google: process.env.GOOGLE_SITE_VERIFICATION,
     other: {

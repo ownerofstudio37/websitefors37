@@ -3,7 +3,7 @@
  * Generates JSON-LD markup for Google rich snippets
  */
 
-import { businessInfo } from '@/lib/seo-config'
+import { businessInfo, schemaAssetUrls } from '@/lib/seo-config'
 
 export interface SchemaType {
   '@context': string
@@ -15,7 +15,7 @@ export function generateOrganizationSchema(): SchemaType {
   return {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
-    '@id': businessInfo.contact.website,
+    '@id': `${businessInfo.contact.website}/#organization`,
     name: businessInfo.name,
     description: businessInfo.description,
     url: businessInfo.contact.website,
@@ -40,7 +40,7 @@ export function generateOrganizationSchema(): SchemaType {
       businessInfo.socialMedia.twitter,
     ],
     priceRange: '$$',
-    image: 'https://www.studio37.cc/og-image.jpg',
+    image: schemaAssetUrls.portfolioImage,
     areaServed: {
       '@type': 'City',
       name: `${businessInfo.address.addressLocality}, ${businessInfo.address.addressRegion}`,
@@ -129,7 +129,7 @@ export function generateBlogPostSchema(post: {
     '@type': 'BlogPosting',
     headline: post.title,
     description: post.description,
-    image: post.image || 'https://www.studio37.cc/og-image.jpg',
+    image: post.image || schemaAssetUrls.portfolioImage,
     datePublished: post.datePublished,
     dateModified: post.dateModified || post.datePublished,
     author: {
@@ -141,7 +141,7 @@ export function generateBlogPostSchema(post: {
       name: 'Studio37',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://www.studio37.cc/logo.png'
+        url: schemaAssetUrls.logo
       }
     },
     url: `https://www.studio37.cc/blog/${post.slug}`,

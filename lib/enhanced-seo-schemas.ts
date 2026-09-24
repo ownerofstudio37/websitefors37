@@ -1,5 +1,5 @@
 // Enhanced local business structured data for better Google visibility
-import { formatServiceAreasForSchema } from './seo-config'
+import { formatServiceAreasForSchema, schemaAssetUrls } from './seo-config'
 
 export function generateEnhancedLocalBusinessSchema() {
   return {
@@ -19,14 +19,14 @@ export function generateEnhancedLocalBusinessSchema() {
     ],
     logo: {
       '@type': 'ImageObject',
-      url: 'https://www.studio37.cc/logo.png',
-      width: 300,
-      height: 100
+      url: schemaAssetUrls.logo,
+      width: 1200,
+      height: 300
     },
     image: [
-      'https://www.studio37.cc/images/studio-exterior.jpg',
-      'https://www.studio37.cc/images/photography-equipment.jpg',
-      'https://www.studio37.cc/images/portfolio-sample.jpg'
+      schemaAssetUrls.portfolioImage,
+      schemaAssetUrls.logo,
+      schemaAssetUrls.image
     ],
     telephone: '+1-832-713-9944',
     email: 'sales@studio37.cc',
@@ -139,7 +139,7 @@ export function generateOrganizationSchema() {
     url: 'https://www.studio37.cc',
     logo: {
       '@type': 'ImageObject',
-      url: 'https://www.studio37.cc/logo.png'
+      url: schemaAssetUrls.logo
     },
     contactPoint: {
       '@type': 'ContactPoint',

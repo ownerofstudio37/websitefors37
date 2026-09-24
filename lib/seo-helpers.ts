@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import { businessInfo, formatServiceAreasForSchema } from '@/lib/seo-config'
+import { businessInfo, formatServiceAreasForSchema, schemaAssetUrls } from '@/lib/seo-config'
 
 interface SEOProps {
   title: string
@@ -162,7 +162,7 @@ export function generateArticleSchema(article: {
       name: businessInfo.name,
       logo: {
         '@type': 'ImageObject',
-        url: `${businessInfo.contact.website}/logo.png`
+        url: schemaAssetUrls.logo
       }
     },
     mainEntityOfPage: {
