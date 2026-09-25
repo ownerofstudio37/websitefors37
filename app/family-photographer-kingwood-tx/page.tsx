@@ -37,7 +37,7 @@ export default function FamilyPhotographerKingwoodPage() {
       ]}
       faqs={[
         { question: 'What are the best portrait locations in Kingwood, TX?', answer: 'Town Center Park\'s tree canopy and East End Park\'s open fields are our top two picks - each delivers a distinctly different aesthetic.' },
-        { question: 'How do you handle large family groups?', answer: 'We use natural grouping techniques and can add a second photographer for groups over 20 to ensure complete coverage without rushed posing.' },
+        { question: 'How do you handle large family groups?', answer: 'We use natural grouping techniques and two photographers on every session to ensure complete coverage without rushed posing.' },
         { question: 'When do fall family portrait slots fill in Kingwood?', answer: 'October weekends typically fill 6-8 weeks ahead. We recommend booking by early September.' },
         { question: 'Do you cover nearby areas?', answer: 'Yes. We serve Humble, Atascocita, Porter, New Caney, Spring, and greater NE Houston.' },
       ]}

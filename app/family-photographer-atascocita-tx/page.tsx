@@ -38,7 +38,7 @@ export default function FamilyPhotographerAtascocitaPage() {
       faqs={[
         { question: 'Where are the best family portrait locations in Atascocita, TX?', answer: 'Lake Houston waterfront and Atascocita Commons greenways are our top picks - each offers a very different aesthetic for the same community.' },
         { question: 'When is the best time of year for family sessions near Atascocita?', answer: 'Fall (October–November) is our most popular window. Spring (March–April) is excellent for temperature and color variety.' },
-        { question: 'Can you photograph large extended family groups?', answer: 'Yes. We accommodate all group sizes and offer a two-photographer option for extended family groups over 20.' },
+        { question: 'Can you photograph large extended family groups?', answer: 'Yes. We accommodate all group sizes, and every session includes two photographers so extended families can be covered without rushed posing.' },
         { question: 'Do you serve nearby areas?', answer: 'Yes. We cover Humble, Kingwood, Porter, New Caney, Spring, and broader NE Houston and Harris County.' },
       ]}
       nearbyCities={['Humble', 'Kingwood', 'Porter', 'New Caney', 'Spring']}

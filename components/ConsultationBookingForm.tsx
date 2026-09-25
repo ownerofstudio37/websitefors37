@@ -23,7 +23,7 @@ interface AvailableDate {
 const bookingContextByKey: Record<string, { label: string; focus: string; nextStep: string }> = {
   wedding: {
     label: 'Wedding photography',
-    focus: 'coverage hours, timeline pressure, two-photographer fit, and delivery expectations',
+    focus: 'coverage hours, timeline pressure, the two-photographer workflow, and delivery expectations',
     nextStep: 'compare wedding coverage and confirm the cleanest booking path',
   },
   portrait: {

@@ -33,7 +33,7 @@ export default function FamilyPhotographerNewCaneyPage() {
         { title: 'Valley Ranch Town Center', description: 'The community\'s growing commercial hub offers walkable, modern backdrops with consistent access and open lighting.' },
         { title: 'Lake Houston Wilderness Park', description: 'Dense forest trails and creek corridors create stunning natural-light backdrops for outdoor family lifestyle sessions.' },
         { title: 'All Family Sizes Welcome', description: 'From couples and newborns to multi-generational extended family groups - our sessions are designed for everyone.' },
-        { title: 'Two-Photographer Option', description: 'Add a second photographer for larger groups to ensure full simultaneous coverage without missing candid moments.' },
+        { title: 'Two-Photographer Coverage', description: 'Every Studio37 session includes two photographers for simultaneous coverage without missing candid moments.' },
       ]}
       faqs={[
         { question: 'Where do you recommend for family sessions in New Caney?', answer: 'Lake Houston Wilderness Park is our top pick for natural light and scenic variety; Valley Ranch Town Center works well for a modern urban feel.' },

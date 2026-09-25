@@ -385,7 +385,7 @@ export default function LocalPhotographerCityPage({
     {
       question: `Do Studio37 sessions in ${city} include two photographers?`,
       answer:
-        'Wedding coverage is built around the Studio37 two-photographer model. Portrait, engagement, event, and commercial sessions can also be planned with both photographers when the timeline, guest count, shot list, or coverage needs call for it.',
+        'Every Studio37 session is built around a two-photographer model, including portrait, engagement, event, wedding, and commercial coverage. That gives us room to guide the planned frame while still catching reactions, details, and candid moments.',
     },
     {
       question: `How long does gallery delivery take for ${city} sessions?`,

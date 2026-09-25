@@ -36,7 +36,7 @@ export default function FamilyPhotographerPorterPage() {
       ]}
       faqs={[
         { question: 'Where do you recommend for family portraits in Porter, TX?', answer: 'Valley Ranch Town Center and Bens Branch greenway are our top picks for variety and natural-light quality.' },
-        { question: 'Can you photograph large extended family groups?', answer: 'Yes. We accommodate families of all sizes and can add a second photographer for groups over 20 people.' },
+        { question: 'Can you photograph large extended family groups?', answer: 'Yes. We accommodate families of all sizes, and every session includes two photographers for complete group coverage without rushed posing.' },
         { question: 'What time of year is best for outdoor family sessions near Porter?', answer: 'October–November is our highest-demand window; spring (March–April) is also excellent for temperature and color.' },
         { question: 'Do you serve nearby areas?', answer: 'Yes. We cover New Caney, Humble, Kingwood, Spring, Conroe, and surrounding East Montgomery County.' },
       ]}

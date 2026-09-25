@@ -250,7 +250,7 @@ const PACKAGE_CATALOG: PackageOption[] = [
     features: [
       'Up to 8 hours full-day event coverage',
       '250+ edited photos',
-      'Two-photographer support',
+      'Two photographers on every session',
       'Custom mobile gallery app',
       'Priority delivery workflow',
     ],
