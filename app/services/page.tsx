@@ -9,7 +9,7 @@ import { PackageRecommenderCTA } from '@/components/PublicConversionSections'
 
 export const metadata = generateSEOMetadata({
   title: 'Professional Photography Services in Pinehurst, TX',
-  description: 'Studio37 offers comprehensive photography services in Pinehurst, Texas including wedding photography, portrait sessions, event coverage, and commercial photography. Serving Montgomery County and surrounding areas.',
+  description: 'Studio37 offers wedding, portrait, event, engagement, and commercial photography in Pinehurst, Texas with clear planning and practical next steps.',
   keywords: [
     'wedding photography Pinehurst TX',
     'portrait photography Texas',
@@ -142,9 +142,9 @@ export default function ServicesPage() {
         <div className="container mx-auto px-4 py-24 md:py-28 relative z-10">
           <div className="max-w-3xl">
             <div className="eyebrow mb-4 bg-white/10 text-amber-200 border-white/10">Services</div>
-            <h1 className="text-4xl md:text-6xl font-bold mb-4">Photography Services in Pinehurst, TX</h1>
+            <h1 className="text-4xl md:text-6xl font-bold mb-4">Start with the shoot you actually need.</h1>
             <p className="text-xl text-stone-200 mb-8 leading-relaxed">
-              Capturing life's most precious moments with artistic excellence and professional craftsmanship throughout Montgomery County.
+              Compare weddings, portraits, events, commercial work, engagement sessions, and custom planning without sorting through look-alike packages.
             </p>
             <Link 
               href="#services" 

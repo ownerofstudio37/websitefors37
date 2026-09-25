@@ -32,7 +32,21 @@ export default async function CuratedRecentWork({ className = '' }: { className?
             return (
               <article key={item.title} className={`interactive-card flex h-full flex-col overflow-hidden rounded-lg border border-stone-200 bg-stone-50 ${balancedSpan}`}>
                 <div className="relative aspect-[4/3] bg-gradient-to-br from-stone-100 via-amber-50 to-stone-200">
-                  <Image src={item.image} alt={item.alt} fill className="interactive-image object-cover" sizes="(min-width: 1280px) 420px, (min-width: 768px) 33vw, 100vw" quality={88} />
+                  <div className="absolute inset-0 flex items-end p-4 text-sm font-semibold text-stone-600">
+                    <span className="rounded-full bg-white/80 px-3 py-1 shadow-sm">{item.service} / {item.location}</span>
+                  </div>
+                  <Image
+                    src={item.image}
+                    alt={item.alt}
+                    fill
+                    className="interactive-image object-cover"
+                    sizes="(min-width: 1280px) 420px, (min-width: 768px) 33vw, 100vw"
+                    quality={88}
+                    loading={index < 6 ? 'eager' : 'lazy'}
+                  />
+                  <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-stone-950/65 to-transparent p-4 text-white">
+                    <p className="text-sm font-semibold">{item.title}</p>
+                  </div>
                 </div>
                 <div className="flex flex-1 flex-col p-5">
                   <div className="mb-3 flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-stone-500">

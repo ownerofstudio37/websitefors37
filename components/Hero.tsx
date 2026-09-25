@@ -7,8 +7,8 @@ import Image from "next/image";
 import { optimizeCloudinaryUrl } from "@/lib/cloudinaryOptimizer";
 
 export default function Hero() {
-  const heroTitle = "Studio37 Photography for Pinehurst, The Woodlands, and Greater Houston.";
-  const heroSubtitle = "Book wedding, portrait, event, brand, engagement, and concierge photography with clear planning, two-photographer coverage, and polished gallery delivery.";
+  const heroTitle = "Photography that feels planned, calm, and true to you.";
+  const heroSubtitle = "Studio37 covers weddings, portraits, events, brands, and proposals across Pinehurst, The Woodlands, and Greater Houston with clear direction and two-photographer support when the moment calls for it.";
   
   // Static hero image - optimized for LCP
   const rawHeroImage = "https://res.cloudinary.com/dmjxho2rl/image/upload/v1759639187/A4B03835-ED8B-4FBB-A27E-1F2EE6CA1A18_1_105_c_gstgil_e_gen_restore_e_improve_e_sharpen_l_image_upload_My_Brand_IMG_2115_mtuowt_c_scale_fl_relative_w_0.40_o_80_fl_layer_apply_g_south_x_0.03_y_0.04_yqgycj.jpg";
@@ -95,7 +95,7 @@ export default function Hero() {
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
             <Link
               href="/book-consultation"
-              className="btn-primary text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 focus:outline-none focus:ring-4 focus:ring-amber-500 focus:ring-offset-2"
+              className="btn-primary w-[calc(100%-4.75rem)] justify-center text-base sm:w-auto sm:text-lg px-6 sm:px-8 py-3 sm:py-4 focus:outline-none focus:ring-4 focus:ring-amber-500 focus:ring-offset-2"
               aria-label="Book a free Studio37 consultation"
             >
               Book Free Consultation
@@ -104,7 +104,7 @@ export default function Hero() {
 
             <Link
               href="/tools/package-recommender"
-              className="btn-secondary text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 focus:outline-none focus:ring-4 focus:ring-amber-500 focus:ring-offset-2"
+              className="btn-secondary w-[calc(100%-4.75rem)] justify-center text-base sm:w-auto sm:text-lg px-6 sm:px-8 py-3 sm:py-4 focus:outline-none focus:ring-4 focus:ring-amber-500 focus:ring-offset-2"
               aria-label="Find the best Studio37 package"
             >
               Find My Package
@@ -112,7 +112,7 @@ export default function Hero() {
 
             <Link
               href="https://gallery.studio37.cc"
-              className="btn-ghost text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 focus:outline-none focus:ring-4 focus:ring-amber-500 focus:ring-offset-2"
+              className="btn-ghost w-[calc(100%-4.75rem)] justify-center text-base sm:w-auto sm:text-lg px-6 sm:px-8 py-3 sm:py-4 focus:outline-none focus:ring-4 focus:ring-amber-500 focus:ring-offset-2"
               aria-label="View featured Studio37 photography work"
             >
               Featured Work
@@ -128,7 +128,7 @@ export default function Hero() {
               <div>
                 <p className="text-sm uppercase tracking-[0.2em] text-amber-200 mb-2">Why Studio37</p>
                 <p className="text-base md:text-lg text-stone-100 leading-relaxed">
-                  Vintage warmth, modern polish, and a white-glove client experience from inquiry to final delivery.
+                  Warm color, clean direction, and practical planning before anyone steps in front of the camera.
                 </p>
               </div>
             </div>

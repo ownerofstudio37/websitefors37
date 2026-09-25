@@ -176,6 +176,9 @@ export default function Navigation({
   const mobileSecondaryItems = navItems.filter(isMobileSecondaryItem)
 
   const lightPagePrefixes = [
+    '/blog',
+    '/request-portfolio',
+    '/gallery-experience',
     '/tools/pricing',
     '/tools/package-recommender',
     '/session-prep',

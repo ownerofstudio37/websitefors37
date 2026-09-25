@@ -14,7 +14,7 @@ export const revalidate = 86400
 const faqSchema = generateFAQSchema([
   {
     question: 'Why are complete galleries shared privately?',
-    answer: 'Studio37 keeps the public gallery curated and sends complete galleries privately so clients can review examples that match their service, location, lighting, and decision criteria.',
+    answer: 'Studio37 keeps the public gallery focused and sends complete galleries privately so clients can review examples that match their service, location, lighting, and what they need to compare.',
   },
   {
     question: 'How quickly will Studio37 respond to a portfolio request?',
@@ -37,7 +37,7 @@ export default function RequestPortfolioPage() {
           <p className="eyebrow-hero mb-4">Portfolio Request</p>
           <h1 className="text-4xl font-bold leading-tight md:text-6xl">Request private galleries that match your project.</h1>
           <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-stone-200">
-            The public gallery is a curated best-of preview. Tell us what you are planning and we will privately send complete galleries or a tailored portfolio that fits your service, location, timing, and decision criteria.
+            The public gallery is a focused preview. Tell us what you are planning and we will privately send complete galleries or a proof set that fits your service, location, timing, and what you need to compare.
           </p>
         </div>
       </section>
