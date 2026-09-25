@@ -52,7 +52,7 @@ export default function ServiceAreaSEO() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
           {/* Commercial */}
           <div className="bg-gray-50 rounded-xl p-6 hover:shadow-md transition-shadow border border-gray-100">
             <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center mb-4 shadow-sm text-primary-600">
@@ -78,6 +78,20 @@ export default function ServiceAreaSEO() {
             </p>
             <Link href="/services/wedding-photography" className="text-primary-600 font-medium text-sm hover:underline">
               View Wedding Packages &rarr;
+            </Link>
+          </div>
+
+          {/* Engagements */}
+          <div className="bg-gray-50 rounded-xl p-6 hover:shadow-md transition-shadow border border-gray-100">
+            <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center mb-4 shadow-sm text-primary-600">
+              <Heart className="w-6 h-6" />
+            </div>
+            <h3 className="text-xl font-bold text-gray-900 mb-2">Engagements</h3>
+            <p className="text-gray-600 mb-4 text-sm">
+              Engagement sessions and proposal coverage with location planning, timing help, and natural direction.
+            </p>
+            <Link href="/services/engagement-session" className="text-primary-600 font-medium text-sm hover:underline">
+              Plan Engagement Photos &rarr;
             </Link>
           </div>
 
