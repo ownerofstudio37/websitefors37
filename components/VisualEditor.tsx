@@ -1282,7 +1282,7 @@ function buildLocationTemplate(): PageComponent[] {
         items: [
           { question: 'What locations do you recommend?', answer: 'We curate parks, urban textures, and hidden natural backdrops depending on your vision. We also scout light beforehand.' },
           { question: 'How far in advance should I book?', answer: 'Peak seasons (spring & fall) fill fast. Booking 2–3 weeks ahead ensures preferred timing.' },
-          { question: 'Do you help with posing?', answer: 'Yes—we guide you into natural movement-driven poses that look relaxed and flattering.' },
+          { question: 'Do you help with posing?', answer: 'Yes. We guide you into natural movement-driven poses that look relaxed and flattering.' },
           { question: 'Can I get both color and black & white?', answer: 'Absolutely. We deliver refined color edits plus select artistic monochrome versions.' },
         ],
         columns: 1,
@@ -1314,7 +1314,7 @@ function buildLocationTemplate(): PageComponent[] {
       type: 'ctaBanner',
       data: {
         heading: `Ready to book your ${locationName} session?`,
-        subheading: 'Tell us your vision—we’ll shape the lighting, composition & creative direction for impact.',
+        subheading: 'Tell us your vision. We will shape the lighting, composition, and creative direction for impact.',
         primaryButtonText: 'Start Your Booking',
         primaryButtonLink: '/book-a-session',
         secondaryButtonText: 'Contact Us',
@@ -1348,7 +1348,7 @@ export default function VisualEditor({
 }: VisualEditorProps) {
   const [components, setComponents] =
     useState<PageComponent[]>(initialComponents);
-  // Selected component ID (persisted) — keep stable across re-renders so user doesn't need to reselect
+  // Selected component ID (persisted) - keep stable across re-renders so user doesn't need to reselect
   const [selectedComponent, setSelectedComponent] = useState<string | null>(() => {
     if (typeof window === 'undefined') return null;
     try {
@@ -3099,7 +3099,7 @@ export default function VisualEditor({
       case "liveCounter":
         return {
           counters: [
-            { id: "c1", label: "Happy Clients", targetValue: 500, suffix: "+" },
+            { id: "c1", label: "Average Rating", targetValue: 5, suffix: ".0" },
             { id: "c2", label: "Photos Taken", targetValue: 10000, suffix: "+" },
             { id: "c3", label: "Years Experience", targetValue: 5, suffix: "" },
           ],
@@ -8021,7 +8021,7 @@ function buildServicesPricingTemplate(): PageComponent[] {
             "https://images.unsplash.com/photo-1511895426328-dc8714191300?w=600&h=400&fit=crop",
           title: "Portrait Sessions",
           description:
-            "Headshots, family portraits, senior photos—studio or on-location.",
+            "Headshots, family portraits, senior photos, studio or on-location.",
           features: [
             "Studio or outdoor",
             "Multiple outfits",
@@ -17480,7 +17480,7 @@ function StatsProperties({
                     value={s.label || ""}
                     onChange={(e) => updateStat(idx, "label", e.target.value)}
                     className="w-full border rounded px-2 py-1 text-sm"
-                    placeholder="Happy Clients"
+                    placeholder="Average Rating"
                   />
                 </div>
               </div>

@@ -94,7 +94,7 @@ export default async function BlogPage() {
       <div className="bg-stone-950 py-14 text-white md:py-20">
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-4xl text-center">
-            <p className="eyebrow-hero mb-4">Studio37 Guides</p>
+            <p className="eyebrow-hero mb-4">Studio37 Field Notes</p>
             <h1 className="text-4xl font-bold leading-tight md:text-6xl">Photography planning without the guesswork.</h1>
             <p className="mx-auto mt-5 max-w-3xl text-lg leading-8 text-stone-200">
               Clear Studio37 notes for comparing services, preparing well, choosing locations, and knowing what happens after you inquire.
@@ -130,7 +130,7 @@ export default async function BlogPage() {
         <div className="container mx-auto px-4">
           <div className="mb-8 grid gap-5 lg:grid-cols-[1fr_auto] lg:items-end">
             <div className="max-w-3xl">
-              <p className="eyebrow mb-3">Latest Articles</p>
+              <p className="eyebrow mb-3">Latest Planning Notes</p>
               <h2 className="text-3xl font-bold text-stone-950 md:text-4xl">Guides for real shoots, not generic photo tips</h2>
               <p className="mt-3 text-stone-600">
                 Start here if you want to know what to book, how we plan locations and light, what clients usually ask, and what happens after your inquiry.

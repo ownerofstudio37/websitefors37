@@ -28,12 +28,12 @@ export default function PortraitPhotographerCypressPage() {
       pageUrl="https://www.studio37.cc/portrait-photographer-cypress-tx"
       serviceUrl="https://www.studio37.cc/services/portrait-photography"
       startingPrice="$350"
-      intro="Cypress, TX is one of Northwest Houston's largest and most vibrant suburban communities — and Studio37 brings professional portrait sessions directly to Towne Lake, Bridgeland, and Cypress Creek's greenbelt corridors. Whether you need polished family portraits, modern headshots, or engagement session photography, we tailor every session to your aesthetic and the best light Cypress has to offer."
+      intro="Cypress, TX is one of Northwest Houston's largest and most vibrant suburban communities - and Studio37 brings professional portrait sessions directly to Towne Lake, Bridgeland, and Cypress Creek's greenbelt corridors. Whether you need polished family portraits, modern headshots, or engagement session photography, we tailor every session to your aesthetic and the best light Cypress has to offer."
       highlights={[
-        { title: 'Towne Lake Waterfront', description: 'Cypress\'s premier waterfront destination — sunset sessions here deliver stunning water reflections and warm horizon light that elevate any portrait.' },
+        { title: 'Towne Lake Waterfront', description: 'Cypress\'s premier waterfront destination - sunset sessions here deliver stunning water reflections and warm horizon light that elevate any portrait.' },
         { title: 'Bridgeland Community Parks', description: 'Well-maintained park settings with open lawns and tree canopy provide clean, versatile backdrops for family and lifestyle sessions.' },
         { title: 'Cypress Creek Greenbelt', description: 'Natural creek-side corridors with filtered light and organic textures for intimate, nature-forward portrait work.' },
-        { title: 'Professional Headshots', description: 'Clean, modern headshots for LinkedIn, company websites, and personal branding — delivered in 3–5 business days.' },
+        { title: 'Professional Headshots', description: 'Clean, modern headshots for LinkedIn, company websites, and personal branding - delivered in 3–5 business days.' },
       ]}
       faqs={[
         { question: 'What are the best portrait locations in Cypress, TX?', answer: 'Towne Lake waterfront, Bridgeland park system, and Cypress Creek greenbelt are our top three for variety and light quality.' },

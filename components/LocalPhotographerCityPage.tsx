@@ -144,7 +144,7 @@ const CITY_PROFILES: Record<string, CityProfile> = {
   'montgomery': {
     venueHighlights: ['Historic Downtown square', 'Fernland Historical Park', 'Lake Conroe lakeside paths'],
     bestLightWindow: 'Sunset for lake reflections and warm tones that complement historic architecture.',
-    seasonalTip: 'Premium wedding venue market — weekend bookings fill early; consult 9-12 months out for ceremonies.',
+    seasonalTip: 'Premium wedding venue market - weekend bookings fill early; consult 9-12 months out for ceremonies.',
   },
   'willis': {
     venueHighlights: ['Cedar Creek greenbelts', 'Downtown Willis storefronts', 'Lake Conroe North shoreline'],
@@ -154,27 +154,27 @@ const CITY_PROFILES: Record<string, CityProfile> = {
   'huntsville': {
     venueHighlights: ['Sam Houston State University campus', 'Huntsville State Park pines', 'Downtown Huntsville square'],
     bestLightWindow: 'Morning light on campus for clean editorial tones; late afternoon in the park for lifestyle work.',
-    seasonalTip: 'Graduation season (May) and fall semester portrait demand peak simultaneously — reserve early.',
+    seasonalTip: 'Graduation season (May) and fall semester portrait demand peak simultaneously - reserve early.',
   },
   'new caney': {
     venueHighlights: ['Valley Ranch Town Center', 'Lake Houston Wilderness Park trails', 'Community park corridors'],
     bestLightWindow: 'Late afternoon for warm tones in open park and residential settings.',
-    seasonalTip: 'Fast-growing community — fall family portrait demand builds quickly each September.',
+    seasonalTip: 'Fast-growing community - fall family portrait demand builds quickly each September.',
   },
   'hockley': {
     venueHighlights: ['Zube Park open spaces', 'Houston Oaks venue grounds', 'Rural pasture corridors'],
     bestLightWindow: 'Sunset across open pasture for wide golden-hour compositions with minimal obstruction.',
-    seasonalTip: 'Overlaps with Tomball and Magnolia demand — late summer booking is common for fall sessions.',
+    seasonalTip: 'Overlaps with Tomball and Magnolia demand - late summer booking is common for fall sessions.',
   },
   'porter': {
     venueHighlights: ['Valley Ranch Town Center', 'Bens Branch greenways', 'Sorters-McClellan corridors'],
     bestLightWindow: 'Golden hour in open residential and park settings for lifestyle and family work.',
-    seasonalTip: 'Expanding family base drives strong fall portrait demand — book September by early August.',
+    seasonalTip: 'Expanding family base drives strong fall portrait demand - book September by early August.',
   },
   'splendora': {
     venueHighlights: ['Downtown Splendora storefronts', 'FM 2090 open fields', 'Caney Creek access points'],
     bestLightWindow: 'Late afternoon for open-field golden hour with minimal foot traffic.',
-    seasonalTip: 'Lower competition market — mid-week sessions available year-round with flexible scheduling.',
+    seasonalTip: 'Lower competition market - mid-week sessions available year-round with flexible scheduling.',
   },
   'cleveland': {
     venueHighlights: ['City Park open greens', 'Trinity River area', 'Downtown Cleveland facades'],
@@ -184,7 +184,7 @@ const CITY_PROFILES: Record<string, CityProfile> = {
   'waller': {
     venueHighlights: ['Waller County Fairgrounds', 'Fields Store rural landscapes', 'Downtown Waller streetscapes'],
     bestLightWindow: 'Sunset across open terrain for wide, romantic compositions.',
-    seasonalTip: 'Emerging wedding market — fall and spring ceremonies are growing in this corridor.',
+    seasonalTip: 'Emerging wedding market - fall and spring ceremonies are growing in this corridor.',
   },
   'plantersville': {
     venueHighlights: ['FM 1774 ranch venue corridor', 'Navasota River bottomland', 'Rustic barn and pasture venues'],
@@ -194,32 +194,32 @@ const CITY_PROFILES: Record<string, CityProfile> = {
   'navasota': {
     venueHighlights: ['Downtown Navasota Railroad District', 'Washington Avenue heritage facades', 'Local ranch venues'],
     bestLightWindow: 'Late afternoon for warm heritage-brick tones and open-sky ceremony setups.',
-    seasonalTip: 'Bridge market between Montgomery County and Brazos Valley — flexible booking windows available.',
+    seasonalTip: 'Bridge market between Montgomery County and Brazos Valley - flexible booking windows available.',
   },
   'bryan': {
     venueHighlights: ['Downtown Bryan historic district', 'Lake Walk waterfront', 'Messina Hof Wine Estate'],
     bestLightWindow: 'Evening light in the historic district for warm brick tones and cinematic depth.',
-    seasonalTip: 'University proximity drives May graduation demand — confirm portrait dates 3-4 months ahead.',
+    seasonalTip: 'University proximity drives May graduation demand - confirm portrait dates 3-4 months ahead.',
   },
   'college station': {
     venueHighlights: ['Texas A&M campus architecture', 'Century Square plaza', 'Research Park greenways'],
     bestLightWindow: 'Morning on campus for clean editorial tones; sunset at Century Square for lifestyle work.',
-    seasonalTip: 'A&M event calendar drives high demand — graduation, Aggie weddings, and Greek events fill dates fast.',
+    seasonalTip: 'A&M event calendar drives high demand - graduation, Aggie weddings, and Greek events fill dates fast.',
   },
   'cypress': {
     venueHighlights: ['Towne Lake waterfront', 'Bridgeland community parks', 'Cypress Creek greenbelt'],
     bestLightWindow: 'Sunset at Towne Lake for water reflections and warm residential backdrop lighting.',
-    seasonalTip: 'Large suburban population — fall family portrait weekends fill 6-8 weeks in advance.',
+    seasonalTip: 'Large suburban population - fall family portrait weekends fill 6-8 weeks in advance.',
   },
   'kingwood': {
     venueHighlights: ['Town Center Park trails', 'East End Park open fields', 'Kingwood Drive greenway corridor'],
     bestLightWindow: 'Late afternoon in park settings for natural dappled light through tree canopy.',
-    seasonalTip: 'Established residential community with high milestone photography demand — book spring sessions early.',
+    seasonalTip: 'Established residential community with high milestone photography demand - book spring sessions early.',
   },
   'atascocita': {
     venueHighlights: ['Lake Houston waterfront', 'Atascocita Commons greenways', 'Luce Bayou parkway'],
     bestLightWindow: 'Sunset at Lake Houston for dramatic waterfront reflections and warm horizon tones.',
-    seasonalTip: 'High-intent family and lifestyle market — fall bookings are the most competitive period.',
+    seasonalTip: 'High-intent family and lifestyle market - fall bookings are the most competitive period.',
   },
   'new waverly': {
     venueHighlights: ['Sam Houston National Forest trailheads', 'Downtown New Waverly', 'Lone Star Hiking Trail'],
@@ -811,46 +811,46 @@ export default function LocalPhotographerCityPage({
             </div>
 
             <div className="section-soft p-8 md:p-10">
-              <h2 className="text-3xl font-bold mb-6">Why Choose Studio37</h2>
+              <h2 className="text-3xl font-bold mb-6">How Studio37 Plans {city} Sessions</h2>
 
               <div className="space-y-4">
                 <div className="flex items-start gap-3">
                   <CheckCircle className="h-6 w-6 text-primary-600 flex-shrink-0 mt-0.5" />
                   <div>
-                    <h3 className="text-lg font-medium">Experienced Local Team</h3>
-                    <p className="text-stone-600">We know popular venues, parks, and lighting conditions across {county}.</p>
+                    <h3 className="text-lg font-medium">Location Advice Before You Book</h3>
+                    <p className="text-stone-600">We compare access, parking, shade, and light around {topLocalBackdrops} before recommending a route.</p>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-3">
                   <CheckCircle className="h-6 w-6 text-primary-600 flex-shrink-0 mt-0.5" />
                   <div>
-                    <h3 className="text-lg font-medium">Clear Starting Prices</h3>
-                    <p className="text-gray-600">Published rates stay aligned with our core service pages for consistency.</p>
+                    <h3 className="text-lg font-medium">Published Starting Prices</h3>
+                    <p className="text-gray-600">Portrait, wedding, event, engagement, and commercial starting rates match the main service pages.</p>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-3">
                   <CheckCircle className="h-6 w-6 text-primary-600 flex-shrink-0 mt-0.5" />
                   <div>
-                    <h3 className="text-lg font-medium">Two-Photographer Coverage</h3>
-                    <p className="text-gray-600">More angles and more key moments without a complicated upgrade structure.</p>
+                    <h3 className="text-lg font-medium">Two People Watching The Room</h3>
+                    <p className="text-gray-600">One photographer can guide the planned frame while the second catches candids, reactions, and detail coverage.</p>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-3">
                   <CheckCircle className="h-6 w-6 text-primary-600 flex-shrink-0 mt-0.5" />
                   <div>
-                    <h3 className="text-lg font-medium">Fast Turnaround</h3>
-                    <p className="text-gray-600">Sneak peeks and polished edits are delivered quickly so you can use your images right away.</p>
+                    <h3 className="text-lg font-medium">Delivery Matched To The Use</h3>
+                    <p className="text-gray-600">Portraits, events, weddings, and commercial shoots are planned with realistic preview and final-gallery timing.</p>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-3">
                   <CheckCircle className="h-6 w-6 text-primary-600 flex-shrink-0 mt-0.5" />
                   <div>
-                    <h3 className="text-lg font-medium">Guided Experience</h3>
-                    <p className="text-gray-600">From planning through delivery, we keep communication simple and supportive.</p>
+                    <h3 className="text-lg font-medium">Gallery Handoff Included</h3>
+                    <p className="text-gray-600">Your finished gallery is organized for download, sharing, printing, and business use when licensing applies.</p>
                   </div>
                 </div>
               </div>

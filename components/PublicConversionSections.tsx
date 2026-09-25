@@ -226,16 +226,29 @@ export function NextStepDecisionBand({
 }
 
 export function PackageRecommenderCTA() {
+  const paths = [
+    { label: 'I know the service', href: '/book-consultation', cta: 'Book a consult' },
+    { label: 'I am comparing budgets', href: '/tools/pricing', cta: 'Open pricing' },
+    { label: 'I need proof first', href: '/request-portfolio', cta: 'Request examples' },
+  ]
+
   return (
     <section className="motion-section border-b border-stone-200 bg-amber-50">
-      <div className="container mx-auto flex flex-col gap-4 px-4 py-6 md:flex-row md:items-center md:justify-between">
+      <div className="container mx-auto grid gap-5 px-4 py-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
         <div>
-          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-amber-800">Not sure where to start?</p>
-          <h2 className="mt-1 text-2xl font-bold text-stone-950">Get a package recommendation in under a minute</h2>
+          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-amber-800">Pick The Next Step</p>
+          <h2 className="mt-1 text-2xl font-bold text-stone-950">Choose the path that matches how ready you are</h2>
         </div>
-        <Link href="/tools/package-recommender" className="btn-primary inline-flex w-fit items-center">
-          Find My Package <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
-        </Link>
+        <div className="grid gap-2 sm:grid-cols-3">
+          {paths.map((path) => (
+            <Link key={path.href} href={path.href} className="rounded-lg border border-amber-200 bg-white px-4 py-3 text-sm transition hover:border-amber-400 hover:bg-amber-50">
+              <span className="block font-semibold text-stone-950">{path.label}</span>
+              <span className="mt-1 inline-flex items-center font-semibold text-amber-800">
+                {path.cta} <ArrowRight className="ml-1.5 h-3.5 w-3.5" aria-hidden="true" />
+              </span>
+            </Link>
+          ))}
+        </div>
       </div>
     </section>
   )

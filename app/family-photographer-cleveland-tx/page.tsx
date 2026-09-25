@@ -27,12 +27,12 @@ export default function FamilyPhotographerClevelandPage() {
       pageUrl="https://www.studio37.cc/family-photographer-cleveland-tx"
       serviceUrl="https://www.studio37.cc/services/portrait-photography"
       startingPrice="$350"
-      intro="Cleveland, TX serves a wide residential footprint across Liberty County and surrounding areas — and Studio37 brings professional family portrait sessions right to your community. From open park greens at City Park to the natural Trinity River corridor, we match your family's personality to the right setting for images that feel authentic and timeless."
+      intro="Cleveland, TX serves a wide residential footprint across Liberty County and surrounding areas - and Studio37 brings professional family portrait sessions right to your community. From open park greens at City Park to the natural Trinity River corridor, we match your family's personality to the right setting for images that feel authentic and timeless."
       highlights={[
         { title: 'City Park Open Greens', description: 'Large, open park grounds with consistent natural light and easy access for families with young children.' },
         { title: 'Trinity River Corridor', description: 'Natural riverside scenery with organic textures and water features for a dramatic, nature-forward family backdrop.' },
         { title: 'Relaxed Family Direction', description: 'We use natural movement prompts and candid-focused session flow so even camera-shy family members feel comfortable.' },
-        { title: 'All Ages Welcome', description: 'From newborns and toddlers to teenagers and multi-generational groups — we photograph every stage of family life.' },
+        { title: 'All Ages Welcome', description: 'From newborns and toddlers to teenagers and multi-generational groups - we photograph every stage of family life.' },
       ]}
       faqs={[
         { question: 'What are the best outdoor photo locations in Cleveland, TX?', answer: 'City Park open greens and the Trinity River area are our top picks for light quality and scenic variety.' },

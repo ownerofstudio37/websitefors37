@@ -55,7 +55,7 @@ export default function LeadSignupForm() {
   return (
     <section
       aria-label="Newsletter Signup"
-      className="mt-20 mx-auto max-w-4xl rounded-lg border border-amber-200 bg-amber-50/60 backdrop-blur-sm p-6 shadow-sm"
+      className="mb-10 mx-auto max-w-4xl rounded-lg border border-amber-200 bg-amber-50/90 backdrop-blur-sm p-5 shadow-sm md:p-6"
     >
       <div className="md:flex md:items-center md:gap-10">
         <div className="mb-5 md:mb-0 md:flex-1">
@@ -64,7 +64,7 @@ export default function LeadSignupForm() {
             Studio37 Newsletter
           </h2>
           <p className="text-sm text-amber-700 leading-relaxed">
-            Be the first to hear about mini sessions, seasonal promotions, and exclusive photography tips. One email at a time—unsubscribe anytime.
+            Be the first to hear about mini sessions, seasonal promotions, and practical photography planning notes. One email at a time. Unsubscribe anytime.
           </p>
         </div>
 

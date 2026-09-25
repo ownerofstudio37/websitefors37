@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { businessInfo } from '@/lib/seo-config'
+import LeadSignupForm from './LeadSignupForm'
 
 export default function SEOFooter() {
   const { name, legalName, address, contact, serviceAreas } = businessInfo
@@ -20,6 +21,8 @@ export default function SEOFooter() {
             </div>
           </div>
         </div>
+
+        <LeadSignupForm />
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div>

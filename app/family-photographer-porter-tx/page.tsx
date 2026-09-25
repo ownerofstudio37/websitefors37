@@ -27,12 +27,12 @@ export default function FamilyPhotographerPorterPage() {
       pageUrl="https://www.studio37.cc/family-photographer-porter-tx"
       serviceUrl="https://www.studio37.cc/services/portrait-photography"
       startingPrice="$350"
-      intro="Porter, TX is a fast-growing community in East Montgomery County where young families are putting down roots — and Studio37 is here to document every milestone. From the walkable corridors of Valley Ranch Town Center to the natural greenways along Bens Branch, we find the right setting to capture your family authentically."
+      intro="Porter, TX is a fast-growing community in East Montgomery County where young families are putting down roots - and Studio37 is here to document every milestone. From the walkable corridors of Valley Ranch Town Center to the natural greenways along Bens Branch, we find the right setting to capture your family authentically."
       highlights={[
         { title: 'Valley Ranch Town Center', description: 'A modern, accessible location with clean architecture and open-sky lighting suitable for any family style.' },
         { title: 'Bens Branch Greenways', description: 'Natural creek-side corridors with dappled light and organic textures for a relaxed, outdoor family session.' },
         { title: 'Extended Family Groups', description: 'We specialize in coordinating and photographing large multi-generational families with efficient session flow.' },
-        { title: 'Quick Turnaround', description: '3–5 business day gallery delivery — your images are ready before the memory fades.' },
+        { title: 'Quick Turnaround', description: '3–5 business day gallery delivery - your images are ready before the memory fades.' },
       ]}
       faqs={[
         { question: 'Where do you recommend for family portraits in Porter, TX?', answer: 'Valley Ranch Town Center and Bens Branch greenway are our top picks for variety and natural-light quality.' },

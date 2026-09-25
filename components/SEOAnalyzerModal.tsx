@@ -262,7 +262,7 @@ export default function SEOAnalyzerModal({
             <div className="mb-4 p-3 bg-amber-50 border border-amber-200 rounded-lg flex items-start gap-2">
               <Info className="h-4 w-4 text-amber-600 mt-0.5 flex-shrink-0" />
               <div className="text-sm text-amber-800">
-                <strong>AI is off</strong> — using local suggestions. Enable AI
+                <strong>AI is off</strong> - using local suggestions. Enable AI
                 in{" "}
                 <a href="/admin/settings" className="underline font-medium">
                   Admin Settings

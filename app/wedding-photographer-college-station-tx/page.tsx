@@ -28,12 +28,12 @@ export default function WeddingPhotographerCollegeStationPage() {
       pageUrl="https://www.studio37.cc/wedding-photographer-college-station-tx"
       serviceUrl="https://www.studio37.cc/services/wedding-photography"
       startingPrice="$1,200"
-      intro="College Station, TX is home to Texas A&M University, Century Square, and one of the most active wedding markets in Central Texas. Aggie couples, university alumni, and Brazos Valley locals choose Studio37 for cinematic wedding photography that captures the tradition, emotion, and energy of their wedding day — with Signature Duo Coverage putting two photographers on-site at a single package rate."
+      intro="College Station, TX is home to Texas A&M University, Century Square, and one of the most active wedding markets in Central Texas. Aggie couples, university alumni, and Brazos Valley locals choose Studio37 for cinematic wedding photography that captures the tradition, emotion, and energy of their wedding day - with Signature Duo Coverage putting two photographers on-site at a single package rate."
       highlights={[
         { title: 'Texas A&M Campus Coverage', description: 'We know the campus architecture, traditions, and lighting conditions for Aggie wedding photos and couple portrait sets.' },
-        { title: 'Century Square Venue Experience', description: 'Urban plaza and event space photography expertise — sharp, editorial coverage regardless of indoor or outdoor setting.' },
+        { title: 'Century Square Venue Experience', description: 'Urban plaza and event space photography expertise - sharp, editorial coverage regardless of indoor or outdoor setting.' },
         { title: 'Research Park & Modern Venues', description: 'Modern corporate and event venue coverage with clean, contemporary aesthetics perfect for forward-facing couples.' },
-        { title: 'Signature Duo Coverage', description: 'Two photographers on your wedding day — ceremony, candid guests, reception, and private moments covered simultaneously.' },
+        { title: 'Signature Duo Coverage', description: 'Two photographers on your wedding day - ceremony, candid guests, reception, and private moments covered simultaneously.' },
       ]}
       faqs={[
         { question: 'Do you photograph Aggie weddings near Texas A&M?', answer: 'Yes. We regularly photograph Aggie weddings on campus, at Century Square, and throughout the Brazos Valley.' },

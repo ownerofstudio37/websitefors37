@@ -28,12 +28,12 @@ export default function WeddingPhotographerBryanPage() {
       pageUrl="https://www.studio37.cc/wedding-photographer-bryan-tx"
       serviceUrl="https://www.studio37.cc/services/wedding-photography"
       startingPrice="$1,200"
-      intro="Bryan, TX is a vibrant Brazos Valley community with a booming wedding venue scene — from the historic Downtown Bryan district and Lake Walk waterfront to Messina Hof Wine Estate and gallery event spaces. Studio37 brings cinematic wedding photography to Bryan with our Signature Duo Coverage, ensuring every ceremony processional, reception dance floor, and private moment is captured from multiple angles at a single package rate."
+      intro="Bryan, TX is a vibrant Brazos Valley community with a booming wedding venue scene - from the historic Downtown Bryan district and Lake Walk waterfront to Messina Hof Wine Estate and gallery event spaces. Studio37 brings cinematic wedding photography to Bryan with our Signature Duo Coverage, ensuring every ceremony processional, reception dance floor, and private moment is captured from multiple angles at a single package rate."
       highlights={[
         { title: 'Downtown Bryan Venues', description: 'Historic brick architecture and event gallery spaces in Downtown Bryan provide dramatic ceremony and portrait backdrops.' },
-        { title: 'Lake Walk Waterfront', description: 'Scenic waterfront promenade with open-sky views and golden reflections — a standout location for couple portraits and romantic first-look moments.' },
+        { title: 'Lake Walk Waterfront', description: 'Scenic waterfront promenade with open-sky views and golden reflections - a standout location for couple portraits and romantic first-look moments.' },
         { title: 'Messina Hof Wine Estate', description: 'We are experienced with estate venue lighting, vineyard landscape, and the specific coverage needs of Messina Hof\'s indoor and outdoor event spaces.' },
-        { title: 'Signature Duo Coverage', description: 'Two photographers, one price — ceremony processional covered from both sides, candid guest moments, and full reception timeline.' },
+        { title: 'Signature Duo Coverage', description: 'Two photographers, one price - ceremony processional covered from both sides, candid guest moments, and full reception timeline.' },
       ]}
       faqs={[
         { question: 'What are the most popular wedding venues in Bryan, TX?', answer: 'Downtown Bryan event spaces, Lake Walk, and Messina Hof Wine Estate are among the most sought-after. We are experienced at all three.' },

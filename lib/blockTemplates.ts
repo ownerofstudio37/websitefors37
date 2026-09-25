@@ -58,7 +58,7 @@ export const PAGE_TEMPLATES: Record<string, PageTemplate> = {
           contentB64: encodeBase64(`
             <h2>Our Story</h2>
             <p>Founded in 2015, Studio 37 was born from a passion for capturing authentic moments and telling stories through imagery. What started as a small home studio has grown into a full-service photography business serving clients across the region.</p>
-            <p>We believe that every photograph tells a story—your story. Our approach combines technical excellence with artistic vision to create images that resonate emotionally and stand the test of time.</p>
+            <p>We believe that every photograph tells a story: your story. Our approach combines technical excellence with artistic vision to create images that resonate emotionally and stand the test of time.</p>
           `),
           alignment: 'left',
           size: 'lg',
@@ -281,7 +281,7 @@ export const PAGE_TEMPLATES: Record<string, PageTemplate> = {
           style: 'carousel',
           testimonialsB64: encodeBase64([
             {
-              quote: 'Studio 37 captured our wedding day perfectly. Every emotion, every detail—absolutely stunning!',
+              quote: 'Studio 37 captured our wedding day perfectly. Every emotion, every detail. Absolutely stunning!',
               author: 'Sarah & John Martinez',
               role: 'Wedding Clients',
               image: '/testimonials/sarah-john.jpg',
@@ -424,7 +424,7 @@ export const SECTION_TEMPLATES: Record<string, PageTemplate> = {
           accentColor: '#b46e14',
           statsB64: encodeBase64([
             { icon: '📸', number: 10, suffix: '+', label: 'Years Experience' },
-            { icon: '💑', number: 500, suffix: '+', label: 'Happy Clients' },
+            { icon: '⭐', number: 5, suffix: '.0', label: 'Average Rating' },
             { icon: '⭐', number: 4.9, suffix: '/5', label: 'Average Rating' },
             { icon: '🏆', number: 15, suffix: '+', label: 'Awards Won' }
           ])

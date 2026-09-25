@@ -28,7 +28,7 @@ export default function PortraitPhotographerHuntsvillePage() {
       pageUrl="https://www.studio37.cc/portrait-photographer-huntsville-tx"
       serviceUrl="https://www.studio37.cc/services/portrait-photography"
       startingPrice="$350"
-      intro="Huntsville, TX is home to Sam Houston State University, Huntsville State Park, and a vibrant local community that values milestone photography. Studio37 delivers portrait sessions designed for seniors, faculty, families, and professionals — using the campus architecture, park pine forests, and downtown square as natural-setting backdrops."
+      intro="Huntsville, TX is home to Sam Houston State University, Huntsville State Park, and a vibrant local community that values milestone photography. Studio37 delivers portrait sessions designed for seniors, faculty, families, and professionals - using the campus architecture, park pine forests, and downtown square as natural-setting backdrops."
       highlights={[
         { title: 'Campus & Academic Portraits', description: 'SHSU campus architecture provides polished academic backdrops for graduation portraits, faculty headshots, and senior sessions.' },
         { title: 'State Park Nature Portraits', description: 'Huntsville State Park pine forests offer filtered light and scenic depth for relaxed, lifestyle-oriented portrait sessions.' },
@@ -38,7 +38,7 @@ export default function PortraitPhotographerHuntsvillePage() {
       faqs={[
         { question: 'Do you photograph seniors at Sam Houston State University?', answer: 'Yes. We regularly photograph SHSU seniors and graduates at campus locations and nearby parks.' },
         { question: 'What are the best portrait locations in Huntsville, TX?', answer: 'SHSU campus, Huntsville State Park, and the downtown square are our top three spots for varied aesthetics and quality light.' },
-        { question: 'How early should I book for graduation season?', answer: 'For May graduation, we recommend booking by February — portrait slots and venue windows fill 3-4 months ahead.' },
+        { question: 'How early should I book for graduation season?', answer: 'For May graduation, we recommend booking by February - portrait slots and venue windows fill 3-4 months ahead.' },
         { question: 'Do you serve nearby cities?', answer: 'Yes. We cover Willis, Conroe, Montgomery, Pinehurst, and the broader Walker and Montgomery County area.' },
       ]}
       nearbyCities={['Willis', 'Conroe', 'Montgomery', 'Pinehurst', 'College Station']}

@@ -30,7 +30,7 @@ const EMAIL_TEMPLATES = {
   'booking-request-confirmation': BookingRequestConfirmationEmail,
   'coupon-delivery': CouponDeliveryEmail,
   'newsletter-welcome': NewsletterWelcomeEmail,
-  // Follow-up sequence — pass followUpDay: 1|3|7 in the variables
+  // Follow-up sequence - pass followUpDay: 1|3|7 in the variables
   'lead-follow-up-day1': (props: any) => LeadFollowUpEmail({ ...props, followUpDay: 1 }),
   'lead-follow-up-day3': (props: any) => LeadFollowUpEmail({ ...props, followUpDay: 3 }),
   'lead-follow-up-day7': (props: any) => LeadFollowUpEmail({ ...props, followUpDay: 7 }),

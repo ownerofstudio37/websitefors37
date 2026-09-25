@@ -28,12 +28,12 @@ export default function PortraitPhotographerHumblePage() {
       pageUrl="https://www.studio37.cc/portrait-photographer-humble-tx"
       serviceUrl="https://www.studio37.cc/services/portrait-photography"
       startingPrice="$350"
-      intro="Humble, TX serves a large NE Houston residential and commercial community — from the historic Downtown Humble district and Deerbrook corridor to Lake Houston-adjacent parks and neighborhoods. Studio37 brings professional portrait sessions to Humble with polished headshots, family lifestyle photography, and individual portraits that perform at every scale — personal social media to corporate directories."
+      intro="Humble, TX serves a large NE Houston residential and commercial community - from the historic Downtown Humble district and Deerbrook corridor to Lake Houston-adjacent parks and neighborhoods. Studio37 brings professional portrait sessions to Humble with polished headshots, family lifestyle photography, and individual portraits that perform at every scale - personal social media to corporate directories."
       highlights={[
         { title: 'Downtown Humble Character', description: 'The historic district offers charming urban backdrops with brick textures and local character for editorial-style portrait work.' },
         { title: 'Lake Houston Area Settings', description: 'Waterfront-adjacent park settings provide open sky, water reflections, and dramatic golden-hour light for lifestyle portraits.' },
         { title: 'Deerbrook Corridor Access', description: 'Modern commercial and green-space settings along the Deerbrook corridor work well for clean, contemporary headshot work.' },
-        { title: 'Fast Delivery', description: 'Portraits delivered in 3–5 business days — professional, edited, and ready for print or digital use without a long wait.' },
+        { title: 'Fast Delivery', description: 'Portraits delivered in 3–5 business days - professional, edited, and ready for print or digital use without a long wait.' },
       ]}
       faqs={[
         { question: 'What are the best portrait locations in Humble, TX?', answer: 'Downtown Humble, Lake Houston area parks, and Deerbrook-adjacent green spaces are our top picks for variety and natural light.' },

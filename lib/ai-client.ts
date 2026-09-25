@@ -27,13 +27,13 @@ const ENV_MODEL =
 // Current live models as of June 2026 (from Google AI Studio).
 // Fast production models first, with latest aliases and older stable fallbacks after them.
 export const MODEL_FALLBACKS = [
-  "gemini-3.5-flash",       // Gemini 3.5 Flash — latest fast default
-  "gemini-flash-latest",    // Latest Flash alias — useful when a specific endpoint is saturated
-  "gemini-3.1-flash-lite",  // Gemini 3.1 Flash-Lite — lower latency fallback
-  "gemini-2.5-flash",       // Gemini 2.5 Flash — stable fallback
-  "gemini-2.5-flash-lite",  // Gemini 2.5 Flash-Lite — fastest / cheapest fallback
-  "gemini-3.1-pro-preview", // Gemini 3.1 Pro Preview — complex-task fallback
-  "gemini-2.5-pro",         // Gemini 2.5 Pro — stable complex-task fallback
+  "gemini-3.5-flash",       // Gemini 3.5 Flash - latest fast default
+  "gemini-flash-latest",    // Latest Flash alias - useful when a specific endpoint is saturated
+  "gemini-3.1-flash-lite",  // Gemini 3.1 Flash-Lite - lower latency fallback
+  "gemini-2.5-flash",       // Gemini 2.5 Flash - stable fallback
+  "gemini-2.5-flash-lite",  // Gemini 2.5 Flash-Lite - fastest / cheapest fallback
+  "gemini-3.1-pro-preview", // Gemini 3.1 Pro Preview - complex-task fallback
+  "gemini-2.5-pro",         // Gemini 2.5 Pro - stable complex-task fallback
 ];
 
 const BLOG_MODEL_FALLBACKS = [
@@ -896,8 +896,8 @@ Available block types and their content fields:
 - image: { url?: string, alt: string, align?: 'left'|'center'|'right', caption?: string }
 - button: { text: string, url: string, backgroundColor?: string, textColor?: string, align?: 'left'|'center'|'right' }
 - columns: { col1Title?: string, col1Text: string, col2Title?: string, col2Text: string }
-- social: {} (no editable content — auto-renders Studio37 social links)
-- footer: {} (no editable content — auto-renders Studio37 address/contact)
+- social: {} (no editable content - auto-renders Studio37 social links)
+- footer: {} (no editable content - auto-renders Studio37 address/contact)
 - spacer: { height?: number }
 - divider: {}
 

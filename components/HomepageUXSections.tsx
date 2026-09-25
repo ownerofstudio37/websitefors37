@@ -49,8 +49,8 @@ export function ChooseYourPathSection() {
       <div className="container mx-auto px-4 py-8">
         <div className="mb-5 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-amber-800">Choose Your Path</p>
-            <h2 className="text-3xl font-bold text-stone-950">Start with what you&apos;re planning</h2>
+            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-amber-800">Service Fit</p>
+            <h2 className="text-3xl font-bold text-stone-950">Start with the shoot, not the package name</h2>
             <p className="mt-2 max-w-2xl text-sm leading-6 text-stone-600">
               Know the session type? Pick a service. Still comparing? Use the recommender before booking.
             </p>
@@ -97,7 +97,7 @@ export function HomeSEOAccordion() {
               <p className="eyebrow mb-3">Why clients choose us</p>
               <h2 className="text-3xl font-bold text-stone-950 md:text-4xl">Professional photography in Pinehurst, TX</h2>
               <div className="mt-5 grid gap-3 text-sm text-stone-700 sm:grid-cols-3 lg:grid-cols-1">
-                <div className="rounded-lg bg-white p-4"><strong>500+</strong><br />client sessions</div>
+                <div className="rounded-lg bg-white p-4"><strong>5.0</strong><br />Google + Thumbtack rating</div>
                 <div className="rounded-lg bg-white p-4"><strong>2 photographers</strong><br />included on site</div>
                 <div className="rounded-lg bg-white p-4"><strong>24-48h</strong><br />sneak peek options</div>
               </div>

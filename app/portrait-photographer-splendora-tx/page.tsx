@@ -27,7 +27,7 @@ export default function PortraitPhotographerSplendoraPage() {
       pageUrl="https://www.studio37.cc/portrait-photographer-splendora-tx"
       serviceUrl="https://www.studio37.cc/services/portrait-photography"
       startingPrice="$350"
-      intro="Splendora, TX offers the kind of open landscapes and quiet natural settings that make for genuinely beautiful portrait photography — without the urban crowds. Studio37 serves the Splendora corridor with professional portrait sessions at open-field locations, FM 2090 scenery, and Caney Creek access points that deliver wide, warm golden-hour compositions."
+      intro="Splendora, TX offers the kind of open landscapes and quiet natural settings that make for genuinely beautiful portrait photography - without the urban crowds. Studio37 serves the Splendora corridor with professional portrait sessions at open-field locations, FM 2090 scenery, and Caney Creek access points that deliver wide, warm golden-hour compositions."
       highlights={[
         { title: 'Open-Field Settings', description: 'Wide open terrain along FM 2090 provides unobstructed horizon light for dramatic golden-hour and lifestyle portraits.' },
         { title: 'Caney Creek Access', description: 'Creekside natural areas offer organic textures and soft forest light for a more intimate, nature-forward portrait experience.' },

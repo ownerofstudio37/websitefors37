@@ -28,11 +28,11 @@ export default function WeddingPhotographerPlantersvillePage() {
       pageUrl="https://www.studio37.cc/wedding-photographer-plantersville-tx"
       serviceUrl="https://www.studio37.cc/services/wedding-photography"
       startingPrice="$1,200"
-      intro="Plantersville, TX is one of Texas's premier rustic wedding destinations — with ranch venues, barn properties, and wide pasture settings along the FM 1774 corridor drawing couples from Houston, College Station, and beyond. Studio37 is experienced in the unique lighting challenges and creative opportunities that come with outdoor and barn venue weddings, delivering cinematic coverage that honors the atmosphere you worked hard to create."
+      intro="Plantersville, TX is one of Texas's premier rustic wedding destinations - with ranch venues, barn properties, and wide pasture settings along the FM 1774 corridor drawing couples from Houston, College Station, and beyond. Studio37 is experienced in the unique lighting challenges and creative opportunities that come with outdoor and barn venue weddings, delivering cinematic coverage that honors the atmosphere you worked hard to create."
       highlights={[
         { title: 'Ranch & Barn Venue Expertise', description: 'We understand mixed indoor/outdoor barn lighting and use both natural and supplemental light to ensure sharp, beautiful images in any setting.' },
         { title: 'Golden-Hour Ceremony Coverage', description: 'Plantersville\'s open sky and flat horizon make for some of the most dramatic golden-hour ceremony backdrops in Southeast Texas.' },
-        { title: 'Signature Duo Coverage', description: 'Two photographers at one rate — covering ceremony processional and guests simultaneously for complete, gallery-ready coverage.' },
+        { title: 'Signature Duo Coverage', description: 'Two photographers at one rate - covering ceremony processional and guests simultaneously for complete, gallery-ready coverage.' },
         { title: 'Navasota River Landscape Portraits', description: 'We leverage the river bottomland and natural Texas landscape for wide-format portrait sets between ceremony and reception.' },
       ]}
       faqs={[

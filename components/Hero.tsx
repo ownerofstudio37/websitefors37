@@ -83,7 +83,7 @@ export default function Hero() {
             </p>
 
             <div className="mb-6 grid max-w-2xl gap-2 text-xs text-stone-100/95 sm:grid-cols-3 sm:text-sm">
-              <span className="rounded-lg border border-white/15 bg-white/10 px-4 py-3 backdrop-blur">500+ client sessions</span>
+              <span className="rounded-lg border border-white/15 bg-white/10 px-4 py-3 backdrop-blur">5.0 rated</span>
               <span className="rounded-lg border border-white/15 bg-white/10 px-4 py-3 backdrop-blur">Two photographers</span>
               <span className="rounded-lg border border-white/15 bg-white/10 px-4 py-3 backdrop-blur">Packages from $350</span>
             </div>

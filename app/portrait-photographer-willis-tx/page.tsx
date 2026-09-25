@@ -28,11 +28,11 @@ export default function PortraitPhotographerWillisPage() {
       pageUrl="https://www.studio37.cc/portrait-photographer-willis-tx"
       serviceUrl="https://www.studio37.cc/services/portrait-photography"
       startingPrice="$350"
-      intro="Willis, TX is a growing community along the I-45 North corridor with some of the best natural light settings in Montgomery County — from Lake Conroe North's shoreline to Cedar Creek's shaded greenbelts. Studio37 brings professional portrait sessions to Willis residents with relaxed direction, quick turnaround, and gallery quality that stands out."
+      intro="Willis, TX is a growing community along the I-45 North corridor with some of the best natural light settings in Montgomery County - from Lake Conroe North's shoreline to Cedar Creek's shaded greenbelts. Studio37 brings professional portrait sessions to Willis residents with relaxed direction, quick turnaround, and gallery quality that stands out."
       highlights={[
         { title: 'Lake Conroe North Locations', description: 'Waterfront settings offer dynamic backgrounds for portraits with open sky, reflective water, and soft horizon light.' },
         { title: 'Cedar Creek Greenbelts', description: 'Wooded and shaded walking corridors provide natural, organic backdrops perfect for lifestyle and family portrait work.' },
-        { title: 'Individual & Family Sessions', description: 'From solo headshots and couple portraits to extended family groups — we tailor every session to your style and comfort level.' },
+        { title: 'Individual & Family Sessions', description: 'From solo headshots and couple portraits to extended family groups - we tailor every session to your style and comfort level.' },
         { title: 'Next-Day Preview Delivery', description: 'Sneak-peek images delivered the next business day so you\'re not waiting weeks to see your results.' },
       ]}
       faqs={[

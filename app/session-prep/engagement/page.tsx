@@ -118,7 +118,7 @@ export default function EngagementSessionPrep() {
                 <li>• I'll guide poses, but the best photos come from genuine interaction</li>
                 <li>• Talk to each other, joke, laugh, and be yourselves</li>
                 <li>• The camera captures real smiles and connection</li>
-                <li>• Don't worry about feeling awkward—it's normal at first</li>
+                <li>• Don't worry about feeling awkward. It's normal at first</li>
                 <li>• By the end, you'll both be relaxed and having fun</li>
               </ul>
             </div>

@@ -15,8 +15,8 @@ export default async function CuratedRecentWork({ className = '' }: { className?
       <div className="container mx-auto px-4">
         <div className="mb-10 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="eyebrow mb-3">Recent Work</p>
-            <h2 className="text-3xl font-bold text-stone-950 md:text-4xl">Curated highlights from Studio37 sessions</h2>
+            <p className="eyebrow mb-3">Proof Before You Book</p>
+            <h2 className="text-3xl font-bold text-stone-950 md:text-4xl">Real sessions, not placeholder portfolio pieces</h2>
             <p className="mt-3 max-w-2xl text-stone-600">
               A few recent examples to preview the style, pacing, and polish of Studio37 work. Complete galleries are shared privately by request.
             </p>
@@ -33,7 +33,7 @@ export default async function CuratedRecentWork({ className = '' }: { className?
               <article key={item.title} className={`interactive-card flex h-full flex-col overflow-hidden rounded-lg border border-stone-200 bg-stone-50 ${balancedSpan}`}>
                 <div className="relative aspect-[4/3] bg-gradient-to-br from-stone-100 via-amber-50 to-stone-200">
                   <div className="absolute inset-0 flex items-end p-4 text-sm font-semibold text-stone-600">
-                    <span className="rounded-full bg-white/80 px-3 py-1 shadow-sm">{item.service} / {item.location}</span>
+                    <span className="rounded-full bg-white/80 px-3 py-1 shadow-sm">Studio37 {item.service} in {item.location}</span>
                   </div>
                   <Image
                     src={item.image}

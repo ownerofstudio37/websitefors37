@@ -138,7 +138,7 @@ export default function CommercialPhotographyPage() {
               We don&apos;t just take photos; we build your brand&apos;s visual identity. With our Two-Pro Production Team, we capture more content in less time, so you can get back to business.
             </p>
             <p className="text-base mb-8 text-white/70">
-              Starting at $500 — commercial usage is scoped clearly for web, social, listings, ads, and campaign needs.
+              Starting at $500 - commercial usage is scoped clearly for web, social, listings, ads, and campaign needs.
             </p>
             <Link 
               href="/book-consultation" 
@@ -269,7 +269,7 @@ export default function CommercialPhotographyPage() {
             <div>
               <h2 className="text-3xl font-bold mb-6">Why Choose Studio37 for Commercial Photography?</h2>
               <p className="text-lg text-stone-600 mb-8">
-                Located in Pinehurst, Texas, our Two-Pro Production Team brings double the coverage, perspective, and efficiency to every commercial shoot — all for the same rate as a single-photographer session.
+                Located in Pinehurst, Texas, our Two-Pro Production Team brings double the coverage, perspective, and efficiency to every commercial shoot - all for the same rate as a single-photographer session.
               </p>
               
               <div className="space-y-4">
@@ -277,7 +277,7 @@ export default function CommercialPhotographyPage() {
                   <CheckCircle className="h-6 w-6 text-green-600 flex-shrink-0 mt-1" />
                   <div>
                     <h3 className="font-semibold mb-1">Two-Pro Production Team</h3>
-                    <p className="text-stone-600">Two photographers on every session — one leads creative direction while the second captures candid moments and detail shots simultaneously</p>
+                    <p className="text-stone-600">Two photographers on every session - one leads creative direction while the second captures candid moments and detail shots simultaneously</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
@@ -298,7 +298,7 @@ export default function CommercialPhotographyPage() {
                   <CheckCircle className="h-6 w-6 text-green-600 flex-shrink-0 mt-1" />
                   <div>
                     <h3 className="font-semibold mb-1">Full Commercial License on Every Session</h3>
-                    <p className="text-stone-600">No hidden licensing fees — every package includes unlimited commercial usage rights across all your marketing channels</p>
+                    <p className="text-stone-600">No hidden licensing fees - every package includes unlimited commercial usage rights across all your marketing channels</p>
                   </div>
                 </div>
               </div>
@@ -415,7 +415,7 @@ export default function CommercialPhotographyPage() {
             <p className="eyebrow mb-2">Transparent Pricing</p>
             <h2 className="text-3xl font-bold mb-4">Commercial Photography Packages</h2>
             <p className="text-lg text-stone-600 max-w-2xl mx-auto">
-              Every tier includes our Two-Pro Production Team — two photographers, one rate, twice the coverage.
+              Every tier includes our Two-Pro Production Team - two photographers, one rate, twice the coverage.
             </p>
           </div>
 
@@ -459,7 +459,7 @@ export default function CommercialPhotographyPage() {
               </div>
               <ul className="space-y-2 mb-8 flex-1">
                 {[
-                  'The Duo Advantage: One photographer handles product and detail work while the second captures lifestyle and team moments — no need to pause and reset.',
+                  'The Duo Advantage: One photographer handles product and detail work while the second captures lifestyle and team moments - no need to pause and reset.',
                   '30+ professionally edited images',
                   'Brand style brief & shot list planning',
                   'Full Commercial Usage License',
@@ -478,7 +478,7 @@ export default function CommercialPhotographyPage() {
               </Link>
             </div>
 
-            {/* Content Library — Most Popular */}
+            {/* Content Library - Most Popular */}
             <div className="surface-panel p-8 flex flex-col h-full border-2 border-primary-400 relative">
               <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                 <span className="bg-primary-600 text-white px-4 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
@@ -493,7 +493,7 @@ export default function CommercialPhotographyPage() {
               </div>
               <ul className="space-y-2 mb-8 flex-1">
                 {[
-                  'The Duo Advantage: Dedicated coverage of your space, team, product, and brand lifestyle — all in one production block, with zero overlap in shot coverage.',
+                  'The Duo Advantage: Dedicated coverage of your space, team, product, and brand lifestyle - all in one production block, with zero overlap in shot coverage.',
                   '75+ professionally edited images',
                   'Pre-shoot brand consultation & strategy',
                   'Full Commercial Usage License',
@@ -523,7 +523,7 @@ export default function CommercialPhotographyPage() {
               </div>
               <ul className="space-y-2 mb-8 flex-1">
                 {[
-                  'The Duo Advantage: A full day with two photographers means every angle, every team member, every product SKU, and every brand moment is captured — guaranteed.',
+                  'The Duo Advantage: A full day with two photographers means every angle, every team member, every product SKU, and every brand moment is captured - guaranteed.',
                   '150+ professionally edited images',
                   'Pre-shoot branding audit & shot strategy',
                   'Full Commercial Usage License',
@@ -615,7 +615,7 @@ export default function CommercialPhotographyPage() {
           <div className="max-w-4xl mx-auto">
             <h2 className="text-2xl font-bold text-stone-900 mb-4">Commercial Photography for Businesses in Pinehurst, TX &amp; Montgomery County</h2>
             <p className="text-stone-700 leading-relaxed mb-4">
-              Studio37 provides full-service commercial photography for businesses of every size across Pinehurst, The Woodlands, Conroe, Magnolia, Tomball, Spring, Montgomery, Willis, New Caney, Hockley, Bryan, College Station, and the Houston business corridor. Our commercial services include product photography, e-commerce catalog shoots, real estate and architectural photography, corporate headshots, executive portrait sessions, brand lifestyle content, food and beverage photography, industrial facility documentation, and trade show coverage. Every commercial project is approached with a creative brief process — we study your brand guidelines, target audience, and competitive landscape before lifting a camera, ensuring every image communicates your unique value proposition. With Signature Duo Coverage, complex shoots requiring simultaneous product and lifestyle content are handled in a single session, saving your team valuable time and production budget. We deliver print-ready, web-optimized, and social-media-formatted image assets to keep your marketing team moving fast. Our commercial clients include retailers, restaurants, health and wellness brands, tech startups, real estate agencies, and professional service firms throughout Greater Houston. Get your commercial photography quote today.
+              Studio37 provides full-service commercial photography for businesses of every size across Pinehurst, The Woodlands, Conroe, Magnolia, Tomball, Spring, Montgomery, Willis, New Caney, Hockley, Bryan, College Station, and the Houston business corridor. Our commercial services include product photography, e-commerce catalog shoots, real estate and architectural photography, corporate headshots, executive portrait sessions, brand lifestyle content, food and beverage photography, industrial facility documentation, and trade show coverage. Every commercial project is approached with a creative brief process - we study your brand guidelines, target audience, and competitive landscape before lifting a camera, ensuring every image communicates your unique value proposition. With Signature Duo Coverage, complex shoots requiring simultaneous product and lifestyle content are handled in a single session, saving your team valuable time and production budget. We deliver print-ready, web-optimized, and social-media-formatted image assets to keep your marketing team moving fast. Our commercial clients include retailers, restaurants, health and wellness brands, tech startups, real estate agencies, and professional service firms throughout Greater Houston. Get your commercial photography quote today.
             </p>
             <p className="text-sm text-stone-500">
               Serving: Pinehurst TX · The Woodlands · Conroe · Magnolia · Tomball · Spring · Montgomery · Willis · New Caney · Hockley · Bryan · College Station · Houston
@@ -660,7 +660,7 @@ export default function CommercialPhotographyPage() {
       <div className="bg-primary-50 border-y border-primary-200">
         <div className="container mx-auto px-4 py-4">
           <p className="text-center text-primary-800 font-medium">
-            Two-Pro Production Team on every commercial shoot — double the coverage, same competitive rate.
+            Two-Pro Production Team on every commercial shoot - double the coverage, same competitive rate.
           </p>
         </div>
       </div>

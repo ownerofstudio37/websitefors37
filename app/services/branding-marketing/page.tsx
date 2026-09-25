@@ -475,7 +475,7 @@ export default function BrandingMarketingPage() {
             <div className="flex items-start gap-6 mb-8 p-5 bg-white border border-stone-200 rounded-xl">
               <a
                 href="https://app-na2.hubspot.com/academy/achievements/l22vmwbz/en/1/christian-combest/seo-certified"
-                title="SEO Certified — Christian Combest, Studio37"
+                title="SEO Certified - Christian Combest, Studio37"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex-shrink-0"
@@ -483,7 +483,7 @@ export default function BrandingMarketingPage() {
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="https://hubspot-credentials-na1.s3.amazonaws.com/prod/badges/user/ec3fc569f28e4b85b99d8afbd76c274d.png"
-                  alt="HubSpot SEO Certified — Christian Combest"
+                  alt="HubSpot SEO Certified - Christian Combest"
                   width={120}
                   height={120}
                   className="rounded-lg"

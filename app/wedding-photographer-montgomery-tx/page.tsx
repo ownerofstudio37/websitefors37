@@ -28,15 +28,15 @@ export default function WeddingPhotographerMontgomeryPage() {
       pageUrl="https://www.studio37.cc/wedding-photographer-montgomery-tx"
       serviceUrl="https://www.studio37.cc/services/wedding-photography"
       startingPrice="$1,200"
-      intro="Montgomery, TX sits at the heart of Montgomery County's premier wedding corridor — with Lake Conroe venues, Fernland Historical Park, and the charming historic downtown square drawing couples from across the region. Studio37's Signature Duo Coverage puts two photographers on your wedding day at a single rate, ensuring every ceremony, reception, and reception moment is covered from multiple perspectives."
+      intro="Montgomery, TX sits at the heart of Montgomery County's premier wedding corridor - with Lake Conroe venues, Fernland Historical Park, and the charming historic downtown square drawing couples from across the region. Studio37's Signature Duo Coverage puts two photographers on your wedding day at a single rate, ensuring every ceremony, reception, and reception moment is covered from multiple perspectives."
       highlights={[
         { title: 'Lake Conroe Venue Coverage', description: 'We know the best lighting windows and vantage points at the area\'s top lakeside venues for ceremony and reception coverage.' },
         { title: 'Historic Downtown Settings', description: 'Montgomery\'s downtown square and Fernland Historical Park offer timeless backdrops for portraits and detail shots.' },
-        { title: 'Signature Duo Coverage', description: 'Two photographers on every wedding — ceremony from both sides, candid guests, and exclusive getting-ready coverage included.' },
+        { title: 'Signature Duo Coverage', description: 'Two photographers on every wedding - ceremony from both sides, candid guests, and exclusive getting-ready coverage included.' },
         { title: 'Engagement Session Add-On', description: 'Pre-wedding engagement sessions at your venue or a local favorite help build comfort on camera before your big day.' },
       ]}
       faqs={[
-        { question: 'How far in advance should I book a wedding photographer in Montgomery, TX?', answer: 'Lake Conroe and Montgomery area venues fill quickly — most couples book 9-12 months in advance, especially for fall and spring weekends.' },
+        { question: 'How far in advance should I book a wedding photographer in Montgomery, TX?', answer: 'Lake Conroe and Montgomery area venues fill quickly - most couples book 9-12 months in advance, especially for fall and spring weekends.' },
         { question: 'Do you cover weddings at Lake Conroe venues?', answer: 'Yes. We regularly photograph weddings at lakeside venues around Lake Conroe and the wider Montgomery County corridor.' },
         { question: 'What is included in your wedding photography packages?', answer: 'Packages include planned coverage, two photographers, and online gallery delivery with print-store ordering. Add-ons like albums, engagement sessions, and print releases are available.' },
         { question: 'Do you also serve nearby areas?', answer: 'Yes. We cover Conroe, Magnolia, Pinehurst, The Woodlands, and the broader Montgomery County region.' },

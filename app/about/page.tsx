@@ -165,15 +165,15 @@ export default function AboutPage() {
                 <div className="space-y-3">
                   <div className="flex items-center gap-3">
                     <span className="w-2 h-2 bg-green-600 rounded-full"></span>
-                    <span>500+ happy clients served</span>
+                    <span>5.0 rating across Google and Thumbtack</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <span className="w-2 h-2 bg-green-600 rounded-full"></span>
-                    <span>4.9-star average rating</span>
+                    <span>PPA member and fully insured</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <span className="w-2 h-2 bg-green-600 rounded-full"></span>
-                    <span>Award-winning photography team</span>
+                    <span>Two-photographer coverage model</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <span className="w-2 h-2 bg-green-600 rounded-full"></span>
@@ -195,9 +195,9 @@ export default function AboutPage() {
       <section className="section-shell bg-white">
         <div className="container mx-auto px-4">
           <div className="section-soft max-w-5xl mx-auto p-8 md:p-12">
-            <h2 className="text-2xl md:text-3xl font-bold text-stone-950 mb-4">About Studio37 — Pinehurst, TX Photography Team</h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-stone-950 mb-4">About Studio37: Pinehurst, TX Photography Team</h2>
             <p className="text-stone-700 leading-8 mb-4">
-              Studio37 Photography is owned and operated by Christian and Caitie, a husband-and-wife creative team based in Pinehurst, Texas. Together they've built Montgomery County's most sought-after photography studio, earning a 4.9-star average rating and serving more than 500 clients since 2020 across Pinehurst, The Woodlands, Conroe, Magnolia, Tomball, Spring, Montgomery, Willis, New Caney, Hockley, Huntsville, and Greater Houston. Christian brings a background in business strategy, marketing, and cinematography — making him uniquely positioned to deliver images that serve both artistic and commercial goals. Caitie's expertise in editorial post-processing and creative direction ensures every gallery has a cohesive, intentional look that clients love. As proud members of the Professional Photographers of America (PPA) and a fully insured studio, Studio37 holds itself to the highest standards of professionalism, safety, and creative excellence. Our specialty services include wedding photography with Signature Duo Coverage, family and lifestyle portrait sessions, senior and graduation portraits, newborn photography, corporate event documentation, commercial product and brand photography, and full-service digital marketing retainers. If you're looking for a photographer in Pinehurst TX, Montgomery County, or the Greater Houston area who treats every session as a creative collaboration — not just a job — Studio37 is the studio for you.
+              Studio37 Photography is owned and operated by Christian and Caitie, a husband-and-wife creative team based in Pinehurst, Texas. The studio is 5.0 rated across Google and Thumbtack, recognized as a Thumbtack Top Pro, and built around a two-photographer coverage model for weddings, portraits, events, and commercial shoots across Pinehurst, The Woodlands, Conroe, Magnolia, Tomball, Spring, Montgomery, Willis, New Caney, Hockley, Huntsville, and Greater Houston. Christian brings a background in business strategy, marketing, and cinematography, which helps shape images that serve both artistic and commercial goals. Caitie's expertise in editorial post-processing and creative direction keeps every gallery cohesive and intentional. As proud members of the Professional Photographers of America (PPA) and a fully insured studio, Studio37 holds itself to a professional standard before, during, and after each session. Our specialty services include wedding photography with Signature Duo Coverage, family and lifestyle portrait sessions, senior and graduation portraits, newborn photography, corporate event documentation, commercial product and brand photography, and full-service digital marketing retainers. If you're looking for a photographer in Pinehurst TX, Montgomery County, or the Greater Houston area who treats every session as a creative collaboration, Studio37 is the studio for you.
             </p>
             <p className="text-sm text-stone-500">
               Studio37 Photography · 1701 Goodson Loop Unit 80, Pinehurst, TX 77362 · (832) 713-9944 · sales@studio37.cc

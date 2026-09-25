@@ -161,9 +161,9 @@ export default function MetaLeadFunnelClient() {
           <h1 className="text-3xl font-bold text-white mb-3">You're on the list!</h1>
           <p className="text-gray-400 mb-6">We'll be in touch within 24 hours to talk through your session and get you a personalized quote.</p>
           <div className="flex justify-center gap-6 text-sm text-gray-500">
-            <span>✅ 500+ happy clients</span>
-            <span>⭐ 5 stars</span>
-            <span>📷 48hr delivery</span>
+            <span>5.0 rated</span>
+            <span>Two photographers</span>
+            <span>48hr delivery options</span>
           </div>
         </div>
       </div>

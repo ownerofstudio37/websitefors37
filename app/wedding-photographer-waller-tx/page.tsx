@@ -28,11 +28,11 @@ export default function WeddingPhotographerWallerPage() {
       pageUrl="https://www.studio37.cc/wedding-photographer-waller-tx"
       serviceUrl="https://www.studio37.cc/services/wedding-photography"
       startingPrice="$1,200"
-      intro="Waller, TX is an emerging wedding market in Northwest Houston with wide-open landscapes, fairground venues, and rural terrain that pairs beautifully with Texas golden-hour light. Studio37 brings full wedding day coverage to Waller County with our Signature Duo Coverage — two photographers at a single rate — so no moment from your ceremony or reception goes undocumented."
+      intro="Waller, TX is an emerging wedding market in Northwest Houston with wide-open landscapes, fairground venues, and rural terrain that pairs beautifully with Texas golden-hour light. Studio37 brings full wedding day coverage to Waller County with our Signature Duo Coverage - two photographers at a single rate - so no moment from your ceremony or reception goes undocumented."
       highlights={[
         { title: 'Ranch & Barn Venue Expertise', description: 'We know how to work with barn lighting, open field settings, and dramatic Texas sky backdrops for reception and ceremony coverage.' },
         { title: 'Waller County Fairgrounds', description: 'The fairgrounds offer spacious, flexible event venue coverage with large indoor and outdoor photography opportunities.' },
-        { title: 'Signature Duo Coverage', description: 'Two photographers on your wedding day at one package rate — ceremony from both sides, candid guests, and preparation coverage.' },
+        { title: 'Signature Duo Coverage', description: 'Two photographers on your wedding day at one package rate - ceremony from both sides, candid guests, and preparation coverage.' },
         { title: 'Engagement Session Option', description: 'Pre-wedding sessions at your Waller venue or a scenic nearby location help you get comfortable on camera before the big day.' },
       ]}
       faqs={[

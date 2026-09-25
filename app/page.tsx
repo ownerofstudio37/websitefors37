@@ -35,15 +35,6 @@ const Testimonials = dynamic(() => import("@/components/Testimonials"), {
   loading: () => <div className="h-96 bg-white" />,
 });
 
-// Defer newsletter modal - loads after page is interactive
-const DiscountNewsletterModal = dynamic(
-  () => import("@/components/DiscountNewsletterModal"),
-  {
-    ssr: false,
-    loading: () => null,
-  }
-);
-
 export const metadata = generateSEOMetadata({
   title: "Studio37 Photography | Pinehurst Wedding, Portrait & Event Photographer",
   description:
@@ -250,7 +241,7 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
       <>
         <div className="bg-yellow-50 border-b-2 border-yellow-400 px-4 py-3 text-center">
           <p className="text-sm text-yellow-800">
-            <strong>Edit Mode Active</strong> — This page uses static components. 
+            <strong>Edit Mode Active</strong> - This page uses static components. 
             <a href="/admin/editor/layout?path=/" className="underline ml-2 font-semibold">Create a layout</a> to add editable blocks, or 
             <a href="/admin/content" className="underline ml-2 font-semibold">create MDX content</a> for this page.
           </p>
@@ -300,7 +291,6 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
           showPress={true}
         />
 
-        <DiscountNewsletterModal />
       </>
     )
   }
@@ -354,7 +344,6 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
         showPress={true}
       />
 
-      <DiscountNewsletterModal />
     </>
   );
 }

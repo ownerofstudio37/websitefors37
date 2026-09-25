@@ -451,7 +451,7 @@ export default function PortraitPhotographyPage() {
       <div className="bg-primary-50 border-y border-primary-200">
         <div className="container mx-auto px-4 py-4">
           <p className="text-center text-primary-800 font-medium">
-            Signature Duo Coverage on every portrait session — more variety, more candids, one seamless experience.
+            Signature Duo Coverage on every portrait session - more variety, more candids, one seamless experience.
           </p>
         </div>
       </div>
@@ -471,7 +471,7 @@ export default function PortraitPhotographyPage() {
           <div className="max-w-4xl mx-auto">
             <h2 className="text-2xl font-bold text-stone-900 mb-4">Portrait Photography in Pinehurst, TX &amp; Montgomery County</h2>
             <p className="text-stone-700 leading-relaxed mb-4">
-              Studio37 is Pinehurst's premier portrait photography studio, serving families, seniors, newborns, and professionals throughout Montgomery County and core nearby markets including The Woodlands, Conroe, Magnolia, Tomball, Spring, Montgomery, Willis, New Caney, Hockley, and Huntsville. Our Signature Duo Coverage — two photographers on every session — means zero missed moments, more creative angles, and a richer gallery of memories delivered in every package. Whether you're looking for timeless family portraits in an outdoor setting, vibrant senior portraits at a location that reflects your personality, intimate newborn lifestyle sessions at home, or polished professional headshots for LinkedIn and corporate use, Studio37 brings artistic vision and technical precision to every frame. We blend warm, film-inspired tones with modern editing techniques to produce portraits that feel authentic, editorial, and built to last. Every session is custom-tailored to your vision — from wardrobe styling guidance and location scouting to final delivery of fully retouched, gallery-quality images. Book your portrait session with Studio37 today and experience the difference that two photographers and genuine passion make.
+              Studio37 is Pinehurst's premier portrait photography studio, serving families, seniors, newborns, and professionals throughout Montgomery County and core nearby markets including The Woodlands, Conroe, Magnolia, Tomball, Spring, Montgomery, Willis, New Caney, Hockley, and Huntsville. Our Signature Duo Coverage - two photographers on every session - means zero missed moments, more creative angles, and a richer gallery of memories delivered in every package. Whether you're looking for timeless family portraits in an outdoor setting, vibrant senior portraits at a location that reflects your personality, intimate newborn lifestyle sessions at home, or polished professional headshots for LinkedIn and corporate use, Studio37 brings artistic vision and technical precision to every frame. We blend warm, film-inspired tones with modern editing techniques to produce portraits that feel authentic, editorial, and built to last. Every session is custom-tailored to your vision - from wardrobe styling guidance and location scouting to final delivery of fully retouched, gallery-quality images. Book your portrait session with Studio37 today and experience the difference that two photographers and genuine passion make.
             </p>
             <p className="text-sm text-stone-500">
               Serving: Pinehurst TX · The Woodlands · Conroe · Magnolia · Tomball · Spring · Montgomery · Willis · New Caney · Hockley · Huntsville · Houston

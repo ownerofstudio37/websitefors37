@@ -177,7 +177,7 @@ export default function WeddingPhotographyPage() {
       <div className="bg-primary-50 border-y border-primary-200">
         <div className="container mx-auto px-4 py-4">
           <p className="text-center text-primary-800 font-medium">
-            The Duo Experience on every wedding day — more angles, more moments, one seamless team.
+            The Duo Experience on every wedding day - more angles, more moments, one seamless team.
           </p>
         </div>
       </div>
@@ -569,7 +569,7 @@ export default function WeddingPhotographyPage() {
           <div className="max-w-4xl mx-auto">
             <h2 className="text-2xl font-bold text-stone-900 mb-4">Wedding Photography in Pinehurst, TX &amp; The Woodlands</h2>
             <p className="text-stone-700 leading-relaxed mb-4">
-              Studio37 is Montgomery County's most trusted wedding photography team, capturing love stories across Pinehurst, The Woodlands, Conroe, Magnolia, Tomball, Spring, Montgomery, Willis, New Caney, Hockley, Huntsville, and Greater Houston. With our Signature Duo Coverage, both Christian and Caitie are present on your wedding day — giving you the coverage of two photographers at no extra cost. From the quiet anticipation of getting-ready details to the grandeur of your ceremony and the joy of the reception dance floor, every chapter of your day is preserved with artistry and care. We specialize in candid documentary-style wedding photography paired with refined editorial portraits, producing galleries that blend emotion, beauty, and storytelling. Our packages include full-day coverage, engagement sessions, bridal portrait sessions, and rehearsal dinner add-ons. We are proud PPA members, fully insured, and experienced with venues across Montgomery County, Harris County, and destination weddings beyond Texas. Start planning your dream wedding gallery by booking a complimentary consultation today.
+              Studio37 is Montgomery County's most trusted wedding photography team, capturing love stories across Pinehurst, The Woodlands, Conroe, Magnolia, Tomball, Spring, Montgomery, Willis, New Caney, Hockley, Huntsville, and Greater Houston. With our Signature Duo Coverage, both Christian and Caitie are present on your wedding day - giving you the coverage of two photographers at no extra cost. From the quiet anticipation of getting-ready details to the grandeur of your ceremony and the joy of the reception dance floor, every chapter of your day is preserved with artistry and care. We specialize in candid documentary-style wedding photography paired with refined editorial portraits, producing galleries that blend emotion, beauty, and storytelling. Our packages include full-day coverage, engagement sessions, bridal portrait sessions, and rehearsal dinner add-ons. We are proud PPA members, fully insured, and experienced with venues across Montgomery County, Harris County, and destination weddings beyond Texas. Start planning your dream wedding gallery by booking a complimentary consultation today.
             </p>
             <p className="text-sm text-stone-500">
               Serving: Pinehurst TX · The Woodlands · Conroe · Magnolia · Tomball · Spring · Montgomery · Willis · New Caney · Hockley · Huntsville · Houston

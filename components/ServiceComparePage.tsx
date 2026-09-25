@@ -181,7 +181,7 @@ export default function ServiceComparePage() {
             Which Studio37 package is right for you?
           </h1>
           <p className="text-lg text-stone-600 max-w-xl mx-auto">
-            Answer one question below and we&apos;ll highlight your best match — or scroll to compare all services side by side.
+            Answer one question below and we&apos;ll highlight your best match - or scroll to compare all services side by side.
           </p>
         </div>
       </section>
@@ -379,11 +379,11 @@ export default function ServiceComparePage() {
               },
               {
                 q: 'Do all packages really include two photographers?',
-                a: 'Yes — the Duo Experience is our standard across all services. Every session is covered by two trained photographers so you never miss a moment from a different angle.',
+                a: 'Yes - the Duo Experience is our standard across all services. Every session is covered by two trained photographers so you never miss a moment from a different angle.',
               },
               {
                 q: 'How do I choose between Commercial and Branding?',
-                a: 'Commercial is ideal for a focused shoot — product images, headshots, or marketing content for a specific campaign. Branding is a deeper engagement that includes strategy, lifestyle photography, and a complete visual identity package for your business.',
+                a: 'Commercial is ideal for a focused shoot - product images, headshots, or marketing content for a specific campaign. Branding is a deeper engagement that includes strategy, lifestyle photography, and a complete visual identity package for your business.',
               },
               {
                 q: 'How fast will I receive my photos?',

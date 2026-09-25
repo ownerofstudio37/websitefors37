@@ -448,7 +448,7 @@ export default function EventPhotographyPage() {
       <div className="bg-primary-50 border-y border-primary-200">
         <div className="container mx-auto px-4 py-4">
           <p className="text-center text-primary-800 font-medium">
-            Signature Duo Coverage on every event — wider storytelling, cleaner logistics, no missed moments.
+            Signature Duo Coverage on every event - wider storytelling, cleaner logistics, no missed moments.
           </p>
         </div>
       </div>
@@ -469,7 +469,7 @@ export default function EventPhotographyPage() {
           <div className="max-w-4xl mx-auto">
             <h2 className="text-2xl font-bold text-stone-900 mb-4">Event Photography in Pinehurst, TX &amp; Greater Houston</h2>
             <p className="text-stone-700 leading-relaxed mb-4">
-              Studio37 delivers professional event photography for corporate conferences, galas, award ceremonies, birthday milestones, graduation celebrations, quinceañeras, holiday parties, and community events throughout Pinehurst, The Woodlands, Conroe, Magnolia, Tomball, Spring, Montgomery, Willis, New Caney, Hockley, Huntsville, and the Houston metro area. Our Signature Duo Coverage model deploys two photographers simultaneously — one capturing wide establishing shots of the venue and crowd, the other focused on candid expressions, key speakers, and detail moments — so your event story is complete from start to finish. We bring professional lighting rigs for indoor ballrooms, outdoor tents, and low-light venues, ensuring crisp, vibrant images regardless of conditions. Highlight delivery can be added when your team needs social or PR images quickly, while full event galleries are planned around a polished three-week delivery expectation. Whether you're a corporate marketing team needing deliverables for your PR campaign or a family celebrating a milestone birthday, Studio37 elevates your event with the quality and reliability of a true professional photography partner. Request your custom event quote today.
+              Studio37 delivers professional event photography for corporate conferences, galas, award ceremonies, birthday milestones, graduation celebrations, quinceañeras, holiday parties, and community events throughout Pinehurst, The Woodlands, Conroe, Magnolia, Tomball, Spring, Montgomery, Willis, New Caney, Hockley, Huntsville, and the Houston metro area. Our Signature Duo Coverage model deploys two photographers simultaneously - one capturing wide establishing shots of the venue and crowd, the other focused on candid expressions, key speakers, and detail moments - so your event story is complete from start to finish. We bring professional lighting rigs for indoor ballrooms, outdoor tents, and low-light venues, ensuring crisp, vibrant images regardless of conditions. Highlight delivery can be added when your team needs social or PR images quickly, while full event galleries are planned around a polished three-week delivery expectation. Whether you're a corporate marketing team needing deliverables for your PR campaign or a family celebrating a milestone birthday, Studio37 elevates your event with the quality and reliability of a true professional photography partner. Request your custom event quote today.
             </p>
             <p className="text-sm text-stone-500">
               Serving: Pinehurst TX · The Woodlands · Conroe · Magnolia · Tomball · Spring · Montgomery · Willis · New Caney · Hockley · Huntsville · Houston · Harris County

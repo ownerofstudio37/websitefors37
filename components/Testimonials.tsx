@@ -155,7 +155,7 @@ const testimonials = [
 		name: 'Kolton Kidd',
 		service: 'Family Portraits',
 		rating: 5,
-		text: 'Christian and the Studio37 team were amazing to work with for our family portraits! We chose the outdoor on-location setup, and the images are stunning—truly professional quality. The dual-photographer approach meant we got candid moments and beautifully posed shots all at once. The process was smooth, and the prints we ordered were absolutely perfect. Highly recommend!',
+		text: 'Christian and the Studio37 team were amazing to work with for our family portraits! We chose the outdoor on-location setup, and the images are stunning. Truly professional quality. The dual-photographer approach meant we got candid moments and beautifully posed shots all at once. The process was smooth, and the prints we ordered were absolutely perfect. Highly recommend!',
 		image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1756077115/My%20Brand/IMG_2115_mtuowt.png',
 		source: 'Google',
 		sourceUrl: 'https://share.google/QzdIYuD9QZX4CMgUk'

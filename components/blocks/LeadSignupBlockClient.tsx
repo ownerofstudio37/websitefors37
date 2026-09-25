@@ -22,7 +22,7 @@ export interface LeadSignupBlockClientProps {
 
 export default function LeadSignupBlockClient({
   heading = 'Join the Studio37 Newsletter',
-  subheading = 'Mini session announcements, seasonal promotions, and exclusive photography tips—straight to your inbox.',
+  subheading = 'Mini session announcements, seasonal promotions, and practical photography planning notes, straight to your inbox.',
   animation = 'fade-in',
   buttonVariant = 'primary',
 }: LeadSignupBlockClientProps) {

@@ -125,10 +125,10 @@ export default function PortraitSessionPrep() {
               <div>
                 <h3 className="font-semibold text-gray-900">Feeling Confident in Front of the Camera</h3>
                 <ul className="mt-2 space-y-2 text-gray-700">
-                  <li>• Don't worry about poses—I'll guide you through everything</li>
+                  <li>• Don't worry about poses. I'll guide you through everything</li>
                   <li>• Think of something that makes you smile (a favorite memory, inside joke, etc.)</li>
                   <li>• Relax your shoulders and take deep breaths</li>
-                  <li>• Movement is flattering—we'll walk, adjust, and shift positions naturally</li>
+                  <li>• Movement is flattering. We'll walk, adjust, and shift positions naturally</li>
                   <li>• The camera captures genuine moments better than forced smiles</li>
                   <li>• We take many shots, so you'll have plenty of amazing options</li>
                 </ul>

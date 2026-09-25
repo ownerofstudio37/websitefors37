@@ -72,7 +72,7 @@ export default function QrTwoStepForm({ campaign = 'shirt' }: Props) {
       {step === 1 && (
         <div className="bg-white rounded-xl shadow-lg p-6">
           <h2 className="text-2xl font-bold text-gray-900 mb-2">Claim your offer</h2>
-          <p className="text-gray-600 mb-4">Enter a few details and we’ll save your contact — takes 10 seconds.</p>
+          <p className="text-gray-600 mb-4">Enter a few details and we’ll save your contact - takes 10 seconds.</p>
 
           <div className="space-y-4 mb-4">
             <div>
@@ -131,7 +131,7 @@ export default function QrTwoStepForm({ campaign = 'shirt' }: Props) {
           <div className="w-16 h-16 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-4">
             <CheckCircle2 className="h-8 w-8 text-green-600" />
           </div>
-          <h3 className="text-xl font-bold text-gray-900 mb-2">Thanks—what would you like to do next?</h3>
+          <h3 className="text-xl font-bold text-gray-900 mb-2">Thanks. What would you like to do next?</h3>
           <p className="text-gray-600 mb-6">Book a consultation now to get up to $50 off your session, or save our contact and we’ll be in touch.</p>
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -147,7 +147,7 @@ export default function QrTwoStepForm({ campaign = 'shirt' }: Props) {
           <div className="w-16 h-16 bg-primary-50 rounded-full flex items-center justify-center mx-auto mb-4">
             <CheckCircle2 className="h-8 w-8 text-primary-600" />
           </div>
-          <h3 className="text-xl font-bold text-gray-900 mb-2">Thanks — we’ll be in touch!</h3>
+          <h3 className="text-xl font-bold text-gray-900 mb-2">Thanks - we’ll be in touch!</h3>
           <p className="text-gray-600 mb-4">We saved your contact and will reach out about this offer. If you decide to book later, you can always <a href="/book-consultation" className="underline">book a consultation</a>.</p>
           <div className="flex gap-4 justify-center">
             <button onClick={() => window.location.href = '/'} className="px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors font-semibold">Back to Home</button>
