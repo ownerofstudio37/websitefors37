@@ -2,6 +2,7 @@ import { createClient } from '@supabase/supabase-js'
 import type { MetadataRoute } from 'next'
 import { locationPages } from '@/lib/location-pages'
 import { staticBlogPosts } from '@/lib/static-blog-posts'
+import { brandingMarketingServices } from '@/lib/branding-marketing-services'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co'
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key'
@@ -147,6 +148,12 @@ export async function getSitemapRoutes(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
+    ...brandingMarketingServices.map((service) => ({
+      url: `${sitemapBaseUrl}/services/branding-marketing/${service.slug}`,
+      lastModified: staticLastModified,
+      changeFrequency: 'monthly' as const,
+      priority: PRIORITIES.servicePages,
+    })),
     ...[
       'the-woodlands',
       'magnolia',

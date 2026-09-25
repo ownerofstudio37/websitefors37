@@ -7,7 +7,6 @@ import FAQSection from '@/components/FAQSection'
 import { generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
 import {
   Megaphone,
-  Camera,
   Video,
   MonitorSmartphone,
   Package,
@@ -21,6 +20,7 @@ import {
   ArrowRight,
 } from 'lucide-react'
 import ServiceIntentPanel from '@/components/ServiceIntentPanel'
+import { brandingMarketingServices } from '@/lib/branding-marketing-services'
 
 export const metadata = generateSEOMetadata({
   title: 'Branding & Marketing Services Pinehurst TX - White-Glove Growth Partner | Studio37',
@@ -82,64 +82,68 @@ export default function BrandingMarketingPage() {
 
   const solutions = [
     {
-      icon: Camera,
-      title: 'Branding Content Production',
-      description:
-        'Strategic photoshoots for campaigns, websites, ads, and social media built around your brand voice and buyer journey.',
+      icon: Megaphone,
+      title: brandingMarketingServices[4].shortTitle,
+      href: `/services/branding-marketing/${brandingMarketingServices[4].slug}`,
+      description: brandingMarketingServices[4].parentCardDescription,
     },
     {
       icon: Video,
-      title: 'Video Content Creation',
-      description:
-        'Brand films, product videos, short-form social content, and ad creatives designed to increase engagement and conversions.',
+      title: brandingMarketingServices[5].shortTitle,
+      href: `/services/branding-marketing/${brandingMarketingServices[5].slug}`,
+      description: brandingMarketingServices[5].parentCardDescription,
     },
     {
       icon: MonitorSmartphone,
       title: 'Social Media Content',
+      href: `/services/branding-marketing/${brandingMarketingServices[3].slug}`,
       description:
         'Platform-ready visuals, captions, and publishing strategy to keep your brand consistent and visible week after week.',
     },
     {
       icon: Package,
       title: 'Product Photo + Video',
+      href: `/services/branding-marketing/${brandingMarketingServices[4].slug}`,
       description:
         'Ecommerce-ready product imagery and video assets that improve perceived value and drive purchase intent.',
     },
     {
       icon: Users,
       title: 'Executive + Team Headshots',
+      href: '/services/commercial-photography',
       description:
         'Professional headshots and team portraits for websites, press, proposals, and employer branding.',
     },
     {
       icon: CalendarDays,
       title: 'Corporate Event Coverage',
+      href: '/services/event-photography',
       description:
         'Capture launches, mixers, conferences, and retreats with dual-perspective storytelling for post-event marketing.',
     },
     {
       icon: Globe,
-      title: 'Website Development + Conversion Pages',
-      description:
-        'Custom websites, service pages, landing pages, and conversion paths built around your offer, content, SEO, and client journey.',
+      title: brandingMarketingServices[0].shortTitle,
+      href: `/services/branding-marketing/${brandingMarketingServices[0].slug}`,
+      description: brandingMarketingServices[0].parentCardDescription,
     },
     {
       icon: Search,
-      title: 'SEO Strategy + Execution',
-      description:
-        'Technical, on-page, local, and content SEO designed to improve rankings, qualified traffic, and long-term growth.',
+      title: brandingMarketingServices[1].shortTitle,
+      href: `/services/branding-marketing/${brandingMarketingServices[1].slug}`,
+      description: brandingMarketingServices[1].parentCardDescription,
     },
     {
       icon: Target,
-      title: 'PPC Campaign Management',
-      description:
-        'Google and social ad campaign planning, testing, and optimization to generate efficient leads and sales.',
+      title: brandingMarketingServices[2].shortTitle,
+      href: `/services/branding-marketing/${brandingMarketingServices[2].slug}`,
+      description: brandingMarketingServices[2].parentCardDescription,
     },
     {
       icon: TrendingUp,
-      title: 'Social Media Management',
-      description:
-        'Full management across planning, posting, community engagement, and performance reporting to scale brand presence.',
+      title: brandingMarketingServices[3].shortTitle,
+      href: `/services/branding-marketing/${brandingMarketingServices[3].slug}`,
+      description: brandingMarketingServices[3].parentCardDescription,
     },
   ]
 
@@ -264,13 +268,16 @@ export default function BrandingMarketingPage() {
             {solutions.map((item) => {
               const Icon = item.icon
               return (
-                <div key={item.title} className="surface-panel p-6 hover:-translate-y-1 transition-transform">
+                <Link key={item.title} href={item.href} className="surface-panel block p-6 transition-transform hover:-translate-y-1 hover:border-primary-200">
                   <div className="w-12 h-12 rounded-lg bg-primary-100 flex items-center justify-center mb-4">
                     <Icon className="h-6 w-6 text-primary-700" />
                   </div>
                   <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
                   <p className="text-stone-600">{item.description}</p>
-                </div>
+                  <span className="mt-4 inline-flex items-center text-sm font-semibold text-primary-700">
+                    Explore service <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden="true" />
+                  </span>
+                </Link>
               )
             })}
           </div>
