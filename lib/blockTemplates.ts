@@ -123,8 +123,8 @@ export const PAGE_TEMPLATES: Record<string, PageTemplate> = {
       {
         block: 'CTABannerBlock',
         props: {
-          heading: 'Ready to Tell Your Story?',
-          subheading: 'Let\'s create something beautiful together',
+          heading: 'Ready when you are.',
+          subheading: 'Tell us the date, the city, and what you are planning. We will take it from there.',
           primaryButtonText: 'Book a Consultation',
           primaryButtonLink: '/contact',
           secondaryButtonText: 'Request Complete Galleries',

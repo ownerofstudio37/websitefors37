@@ -317,7 +317,7 @@ function getDefaultPropsForBlock(blockType: string): Record<string, any> {
     },
     CTABannerBlock: {
       title: 'Ready to Book?',
-      subtitle: 'Let\'s create something beautiful together',
+      subtitle: 'Tell us the date, city, and kind of coverage you need.',
       buttonText: 'Get Started',
       buttonLink: '/contact',
     },

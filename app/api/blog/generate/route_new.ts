@@ -203,7 +203,7 @@ Return the response in this exact JSON format (no markdown code blocks):
       
       // Add CTA if missing
       if (!/book-a-session/.test(out) && !/\/contact/.test(out)) {
-        out += "\n\n---\n\n**Ready to create something beautiful?** [Book a session with Studio37](https://www.studio37.cc/book-a-session) or [contact us](https://www.studio37.cc/contact) to discuss your photography needs.";
+        out += "\n\n---\n\n**Ready when you are.** [Book a session with Studio37](https://www.studio37.cc/book-a-session) or [contact us](https://www.studio37.cc/contact) with your date, city, and coverage needs.";
       }
       
       return out;

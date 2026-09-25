@@ -203,11 +203,11 @@ export default function Testimonials() {
 					<div className="eyebrow mb-4">Social Proof</div>
 					<h2 className="text-4xl md:text-5xl font-bold mb-4 text-stone-950">What Our Clients Say</h2>
 					<p className="text-lg md:text-xl text-stone-600 max-w-2xl mx-auto leading-relaxed">
-						Don&apos;t just take our word for it. Here&apos;s what our satisfied clients have to say about their experience with Studio 37.
+						Real notes from clients after weddings, portraits, events, and commercial sessions with Studio37.
 					</p>
 					<div
 					className="flex flex-wrap items-center justify-center gap-2 mt-6 bg-stone-50 border border-stone-200 rounded-full px-6 py-3 w-fit mx-auto shadow-sm"
-					aria-label="5 out of 5 stars from 15 verified reviews"
+					aria-label="5 out of 5 stars across Google and Thumbtack"
 				>
 					<div className="flex" aria-hidden="true">
 						{[...Array(5)].map((_, i) => (
@@ -216,7 +216,7 @@ export default function Testimonials() {
 					</div>
 					<span className="font-bold text-gray-900">5.0 / 5.0</span>
 					<span className="text-gray-400">·</span>
-					<span className="text-gray-700">15 verified reviews on</span>
+					<span className="text-gray-700">Rated across</span>
 					<span className="font-semibold text-blue-700">Thumbtack</span>
 					<span className="text-gray-400">&amp;</span>
 					<span className="font-semibold text-red-600">Google</span>

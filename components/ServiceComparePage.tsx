@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { ArrowRight, Check, Star } from 'lucide-react'
+import { ArrowRight, Briefcase, CalendarDays, Camera, Check, Star, Users } from 'lucide-react'
 
 // ─── Service Data ────────────────────────────────────────────────────────────
 
@@ -129,10 +129,10 @@ const SERVICES: ServiceDef[] = [
 // ─── Quiz Options ─────────────────────────────────────────────────────────────
 
 const QUIZ_OPTIONS = [
-  { label: 'Wedding or Ceremony', emoji: '💍', match: 'wedding' },
-  { label: 'Family & Portraits', emoji: '📸', match: 'portrait' },
-  { label: 'Event or Party', emoji: '🎉', match: 'event' },
-  { label: 'Business & Brand', emoji: '💼', match: 'branding' },
+  { label: 'Wedding or Ceremony', icon: Camera, match: 'wedding' },
+  { label: 'Family & Portraits', icon: Users, match: 'portrait' },
+  { label: 'Event or Party', icon: CalendarDays, match: 'event' },
+  { label: 'Business & Brand', icon: Briefcase, match: 'branding' },
 ]
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -166,7 +166,7 @@ export default function ServiceComparePage() {
         <span className="text-amber-400 mr-2" aria-hidden>⭐⭐⭐⭐⭐</span>
         <strong>5.0 Google Stars</strong>
         <span className="text-stone-400 mx-2">·</span>
-        15 verified reviews
+        Thumbtack and Google
         <span className="text-stone-400 mx-2">·</span>
         Pinehurst, TX
         <span className="text-stone-400 mx-2">·</span>
@@ -195,6 +195,7 @@ export default function ServiceComparePage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {QUIZ_OPTIONS.map((opt) => {
               const active = selected === opt.match
+              const Icon = opt.icon
               return (
                 <button
                   key={opt.match}
@@ -206,7 +207,7 @@ export default function ServiceComparePage() {
                       : 'border-stone-200 bg-white hover:border-amber-300 hover:shadow-sm'
                   }`}
                 >
-                  <span className="text-3xl" aria-hidden>{opt.emoji}</span>
+                  <Icon className={`h-7 w-7 ${active ? 'text-amber-700' : 'text-stone-600'}`} aria-hidden="true" />
                   <span className={`text-sm font-semibold ${active ? 'text-amber-700' : 'text-stone-700'}`}>
                     {opt.label}
                   </span>
@@ -351,7 +352,7 @@ export default function ServiceComparePage() {
               { icon: '👥', title: 'Duo Experience', sub: 'Two photographers on every session' },
               { icon: '⚡', title: '48-hr Sneak Peek', sub: 'First looks delivered in 48 hours' },
               { icon: '🖼️', title: 'Private Gallery', sub: 'Online gallery with download rights' },
-              { icon: '⭐', title: '5.0 Google Stars', sub: '15 verified 5-star reviews' },
+              { icon: '⭐', title: '5.0 Rating', sub: 'Across Thumbtack and Google' },
             ].map((item) => (
               <div key={item.title} className="flex flex-col items-center gap-2">
                 <span className="text-3xl" aria-hidden>{item.icon}</span>

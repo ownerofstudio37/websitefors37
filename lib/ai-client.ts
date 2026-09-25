@@ -686,7 +686,7 @@ The right preparation turns a good photo session into a smooth experience and a 
 
 ---
 
-**Ready to create something beautiful?** [Book a session with Studio37](https://www.studio37.cc/book-a-session) or [contact us](https://www.studio37.cc/contact) to discuss your photography needs.`;
+**Ready when you are.** [Book a session with Studio37](https://www.studio37.cc/book-a-session) or [contact us](https://www.studio37.cc/contact) with your date, city, and coverage needs.`;
 
   return {
     title,

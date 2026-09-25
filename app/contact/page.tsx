@@ -58,9 +58,9 @@ export default async function ContactPage() {
       <div className="container mx-auto px-4 py-24 max-w-6xl w-full flex-1 relative z-10">
         <div className="max-w-3xl mb-12 rounded-3xl border border-white/10 bg-stone-950/45 backdrop-blur-sm px-6 py-7 md:px-8 md:py-9 shadow-[0_20px_45px_rgba(0,0,0,0.35)]">
           <div className="eyebrow mb-4 bg-white/10 text-amber-200 border-white/10">Contact</div>
-          <h1 className="text-4xl md:text-6xl font-bold mb-4 text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.45)]">Let’s plan something beautiful.</h1>
+          <h1 className="text-4xl md:text-6xl font-bold mb-4 text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.45)]">Contact Studio37</h1>
           <p className="text-xl text-stone-100 mb-1 leading-relaxed">
-          Get in touch with our team to discuss your photography needs, book a session, or ask any questions.
+            Tell us the date, city, and kind of coverage you need. We will help you sort out the next step.
           </p>
           <Link href="/tools/package-recommender" className="btn-primary mt-5 inline-flex">
             Not sure what to book?
@@ -70,7 +70,7 @@ export default async function ContactPage() {
         <section className="pb-8">
           <div className="grid lg:grid-cols-[1.15fr_0.85fr] gap-8 items-start">
             <div>
-              <h2 className="text-3xl font-bold mb-8 text-white">Send Us a Message</h2>
+              <h2 className="text-3xl font-bold mb-8 text-stone-950">Send Us a Message</h2>
               <LeadCaptureForm />
             </div>
             <div>
@@ -174,9 +174,9 @@ export default async function ContactPage() {
       <section className="section-shell bg-stone-50">
         <div className="container mx-auto px-4">
           <div className="section-soft max-w-5xl mx-auto p-8 md:p-12">
-            <h2 className="text-2xl md:text-3xl font-bold text-stone-950 mb-4">Book a Photography Session in Pinehurst, TX</h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-stone-950 mb-4">Photography Inquiries From Pinehurst And Greater Houston</h2>
             <p className="text-stone-700 leading-8 mb-4">
-              Ready to book professional photography in Pinehurst, Texas or anywhere in Montgomery County? Studio37 Photography makes it easy to get started. Use the contact form above, call us directly at (832) 713-9944, or email sales@studio37.cc to inquire about availability, pricing, and custom packages. We respond to all inquiries within 24 hours, 7 days a week. Our studio serves clients across Pinehurst, The Woodlands, Conroe, Magnolia, Tomball, Spring, Montgomery, Willis, New Caney, Hockley, Huntsville, and the Greater Houston metro area for weddings, family portraits, senior photos, newborn sessions, corporate headshots, event coverage, commercial product photography, and brand content creation. Whether you're looking for a one-hour portrait session starting at $350 or a comprehensive wedding day package with two photographers included, Studio37 has a solution tailored to your needs and budget. Studio visits are available by appointment at 1701 Goodson Loop Unit 80, Pinehurst, TX 77362. We also offer phone and video consultations for clients located further away. Contact us today and let's start planning your session.
+              Studio37 is based in Pinehurst and serves Montgomery County, The Woodlands, Conroe, Magnolia, Tomball, Spring, Montgomery, Willis, New Caney, Hockley, Huntsville, and Greater Houston. Use the form above, call (832) 713-9944, or email sales@studio37.cc with your date, city, and service type. Portrait sessions start at $350, wedding coverage starts at $1,200, and studio visits are available by appointment at 1701 Goodson Loop Unit 80, Pinehurst, TX 77362.
             </p>
             <p className="text-sm text-stone-500">
               Studio37 Photography · Pinehurst, TX · Phone: (832) 713-9944 · Email: sales@studio37.cc · Serving Montgomery County, The Woodlands, Conroe, Magnolia, Tomball, Spring, Montgomery, Willis, New Caney, Hockley, Huntsville &amp; Greater Houston

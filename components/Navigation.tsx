@@ -177,6 +177,7 @@ export default function Navigation({
 
   const lightPagePrefixes = [
     '/blog',
+    '/contact',
     '/request-portfolio',
     '/gallery-experience',
     '/tools/pricing',

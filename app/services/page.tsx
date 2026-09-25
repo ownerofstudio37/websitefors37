@@ -2,7 +2,7 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
-import { CheckCircle, ArrowRight } from 'lucide-react'
+import { ArrowRight, Briefcase, CalendarDays, Camera, CheckCircle, Heart, TrendingUp, Users } from 'lucide-react'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 import { generateServiceSchema } from '@/lib/seo-config'
 import { PackageRecommenderCTA } from '@/components/PublicConversionSections'
@@ -265,7 +265,7 @@ export default function ServicesPage() {
       <div className="bg-amber-50 border-y border-amber-200/80">
         <div className="container mx-auto px-4 py-4">
           <p className="text-center text-amber-900 font-medium">
-            Two photographers on site — for the price of one. More coverage, more moments, same rate.
+            Two photographers on site for the price of one. More coverage, more moments, same rate.
           </p>
         </div>
       </div>
@@ -287,12 +287,12 @@ export default function ServicesPage() {
               className="group surface-panel p-6 rounded-2xl transition-all duration-300 hover:-translate-y-1"
             >
               <div className="text-center">
-                <div className="bg-rose-100 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-rose-200 transition-colors">
-                  <span className="text-3xl">💍</span>
+                <div className="bg-amber-50 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-amber-100 transition-colors">
+                  <Camera className="h-8 w-8 text-amber-800" aria-hidden="true" />
                 </div>
                 <h3 className="text-xl font-semibold mb-2 text-gray-800">Wedding Photography</h3>
                 <p className="text-gray-600 mb-4">Romantic, timeless wedding photography in Pinehurst, TX</p>
-                <div className="flex items-center justify-center text-rose-600 group-hover:text-rose-700">
+                <div className="flex items-center justify-center text-amber-800 group-hover:text-amber-900">
                   <span className="font-medium">Learn More</span>
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </div>
@@ -304,12 +304,12 @@ export default function ServicesPage() {
               className="group surface-panel p-6 rounded-2xl transition-all duration-300 hover:-translate-y-1"
             >
               <div className="text-center">
-                <div className="bg-blue-100 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-200 transition-colors">
-                  <span className="text-3xl">👨‍👩‍👧‍👦</span>
+                <div className="bg-amber-50 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-amber-100 transition-colors">
+                  <Users className="h-8 w-8 text-amber-800" aria-hidden="true" />
                 </div>
                 <h3 className="text-xl font-semibold mb-2 text-gray-800">Portrait Photography</h3>
                 <p className="text-gray-600 mb-4">Family portraits, senior photos, and professional headshots</p>
-                <div className="flex items-center justify-center text-blue-600 group-hover:text-blue-700">
+                <div className="flex items-center justify-center text-amber-800 group-hover:text-amber-900">
                   <span className="font-medium">Learn More</span>
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </div>
@@ -321,12 +321,12 @@ export default function ServicesPage() {
               className="group surface-panel p-6 rounded-2xl transition-all duration-300 hover:-translate-y-1"
             >
               <div className="text-center">
-                <div className="bg-green-100 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-green-200 transition-colors">
-                  <span className="text-3xl">🎉</span>
+                <div className="bg-amber-50 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-amber-100 transition-colors">
+                  <CalendarDays className="h-8 w-8 text-amber-800" aria-hidden="true" />
                 </div>
                 <h3 className="text-xl font-semibold mb-2 text-gray-800">Event Photography</h3>
                 <p className="text-gray-600 mb-4">Corporate events, parties, and special celebrations</p>
-                <div className="flex items-center justify-center text-green-600 group-hover:text-green-700">
+                <div className="flex items-center justify-center text-amber-800 group-hover:text-amber-900">
                   <span className="font-medium">Learn More</span>
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </div>
@@ -338,12 +338,12 @@ export default function ServicesPage() {
               className="group surface-panel p-6 rounded-2xl transition-all duration-300 hover:-translate-y-1"
             >
               <div className="text-center">
-                <div className="bg-gray-100 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-gray-200 transition-colors">
-                  <span className="text-3xl">🏢</span>
+                <div className="bg-amber-50 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-amber-100 transition-colors">
+                  <Briefcase className="h-8 w-8 text-amber-800" aria-hidden="true" />
                 </div>
                 <h3 className="text-xl font-semibold mb-2 text-gray-800">Commercial Photography</h3>
                 <p className="text-gray-600 mb-4">Commercial photos, product/detail shots, headshots, and brand refresh sessions</p>
-                <div className="flex items-center justify-center text-gray-600 group-hover:text-gray-700">
+                <div className="flex items-center justify-center text-amber-800 group-hover:text-amber-900">
                   <span className="font-medium">Learn More</span>
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </div>
@@ -355,12 +355,12 @@ export default function ServicesPage() {
               className="group surface-panel p-6 rounded-2xl transition-all duration-300 hover:-translate-y-1"
             >
               <div className="text-center">
-                <div className="bg-pink-100 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-pink-200 transition-colors">
-                  <span className="text-3xl">💖</span>
+                <div className="bg-amber-50 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-amber-100 transition-colors">
+                  <Heart className="h-8 w-8 text-amber-800" aria-hidden="true" />
                 </div>
                 <h3 className="text-xl font-semibold mb-2 text-gray-800">Engagement Photography</h3>
                 <p className="text-gray-600 mb-4">Signature engagement sessions plus full concierge proposal planning</p>
-                <div className="flex items-center justify-center text-pink-700 group-hover:text-pink-800">
+                <div className="flex items-center justify-center text-amber-800 group-hover:text-amber-900">
                   <span className="font-medium">Learn More</span>
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </div>
@@ -372,12 +372,12 @@ export default function ServicesPage() {
               className="group surface-panel p-6 rounded-2xl transition-all duration-300 hover:-translate-y-1"
             >
               <div className="text-center">
-                <div className="bg-violet-100 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-violet-200 transition-colors">
-                  <span className="text-3xl">📈</span>
+                <div className="bg-amber-50 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-amber-100 transition-colors">
+                  <TrendingUp className="h-8 w-8 text-amber-800" aria-hidden="true" />
                 </div>
                 <h3 className="text-xl font-semibold mb-2 text-gray-800">Branding &amp; Marketing</h3>
                 <p className="text-gray-600 mb-4">Custom websites, SEO, PPC, social systems, and growth strategy</p>
-                <div className="flex items-center justify-center text-violet-700 group-hover:text-violet-800">
+                <div className="flex items-center justify-center text-amber-800 group-hover:text-amber-900">
                   <span className="font-medium">Learn More</span>
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </div>

@@ -1,5 +1,32 @@
 # Studio37 UX/UI, SEO, and Feature TODO
 
+## Pending Third-Party UX/UI + Design Audit - September 25, 2026
+
+- [x] Review the new third-party UX/UI + design audit before starting the next public-site design pass.
+- [x] Remove emoji-prefixed public service/pricing cards from all local photographer pages and replace them with Studio37-aligned Lucide icons.
+- [x] Audit the main services hub for emoji service cards and replace with Lucide icons where the page should feel premium instead of playful.
+- [x] Replace generic "Ready to Capture Your Story?" / "create something beautiful together" CTA copy with more grounded Studio37 language.
+- [x] Replace the contact page "Let's plan something beautiful" hero and dense SEO paragraph with clearer, less AI-patterned copy.
+- [x] Replace homepage portfolio placeholder labels like "Portfolio Highlight 1" with descriptive titles and alt text.
+- [x] Search all local/city templates for missing-space interpolation bugs such as `Houston, TXso`, `inHouston`, or joined phrase fragments.
+- [ ] Rewrite or trim generic "Why Choose Studio37" grids on local pages so each proof point uses a concrete operational detail.
+- [x] Replace vague credential copy with concrete PPA membership and insurance language.
+- [x] Normalize public review proof around the 5.0 rating across Google and Thumbtack instead of changing review-count claims.
+- [ ] Review inconsistent public metrics like 500+ sessions, 1000+ sessions, and happy-client counts and either source them or remove them.
+- [ ] Replace public em dashes that create avoidable polish issues in short marketing copy.
+- [ ] Keep the homepage hero image on hold until Christian discusses the direction with his partner.
+- [ ] Discuss newsletter popup strategy after the mechanical AI-tell cleanup is complete.
+- [ ] Homepage Studio37 identity pass: make the first viewport feel more authored and specific to Studio37 without adding generic marketing fluff.
+- [ ] Service hierarchy pass: make wedding, portrait, commercial, event, proposal, and local service cards/pages feel more distinct while staying in one visual system.
+- [ ] CTA language pass: reduce repeated generic labels and map calls-to-action to visitor intent, such as checking wedding availability, planning a portrait session, requesting private examples, or comparing coverage.
+- [ ] Operational proof pass: add small real-business details where helpful, including service area, two-photographer support, delivery expectations, planning help, and weather/location logistics.
+- [ ] Mobile spacing and rhythm pass: tighten pages where mobile sections feel too evenly padded, too airy, or tiring to scroll.
+- [ ] Branded image-loading pass: extend intentional placeholders/fallback treatments to image-heavy sections so slow loads never look unfinished.
+- [ ] Section label pass: replace selected generic labels like Services, Recent Work, and Why Choose Us with more specific Studio37 language where it improves clarity.
+- [ ] Blog index editorial pass: strengthen featured-post hierarchy, card rhythm, categories, and photographic texture so the archive feels less stock-CMS.
+- [ ] Local page authenticity pass: add more useful local context such as venues, location conditions, travel radius, session fit, and city-specific planning notes without over-SEOing.
+- [ ] Conversion path clarity pass: make pricing, package recommender, booking, and portfolio request feel like distinct paths for different visitor intents.
+
 ## Canonical, SEO, And AEO Growth Roadmap - September 7, 2026
 
 - [x] Canonical + indexing cleanup: add Cypress to the short-route redirect/sitemap exclusion set and expand the canonical conflict audit for Cypress/Spring/local landing page variants.

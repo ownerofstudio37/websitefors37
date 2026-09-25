@@ -5976,7 +5976,7 @@ function DualCTAProperties({
           onChange={(e) => onUpdate({ subheading: e.target.value })}
           className="w-full border rounded px-3 py-2"
           rows={2}
-          placeholder="Let's create something beautiful together"
+          placeholder="Tell us the date, city, and kind of coverage you need."
         />
       </div>
       <div className="grid grid-cols-2 gap-3">
@@ -7412,7 +7412,7 @@ function buildHomepageTemplate(): PageComponent[] {
     type: "text",
     data: {
       content:
-        '<h2 class="text-3xl font-bold mb-2">Ready to Capture Your Story?</h2><p class="text-lg text-gray-600">Let\'s discuss your photography needs and create something beautiful together.</p>',
+        '<h2 class="text-3xl font-bold mb-2">Ready when you are.</h2><p class="text-lg text-gray-600">Tell us the date, the city, and what you are planning. We will take it from there.</p>',
       alignment: "center",
       size: "md",
       animation: "fade-in",
@@ -7761,15 +7761,15 @@ function buildServicesTemplate(): PageComponent[] {
       columns: [
         {
           content:
-            '<div class="text-center p-4"><span class="text-4xl mb-3 block">💍</span><h3 class="text-xl font-bold mb-2">Wedding Photography</h3><p class="text-gray-600">Romantic, timeless wedding photography capturing your special day.</p></div>',
+            '<div class="text-center p-4"><p class="text-xs font-semibold uppercase tracking-wide text-amber-700 mb-3">Wedding</p><h3 class="text-xl font-bold mb-2">Wedding Photography</h3><p class="text-gray-600">Coverage for the people, details, and timing that matter most.</p></div>',
         },
         {
           content:
-            '<div class="text-center p-4"><span class="text-4xl mb-3 block">👨‍👩‍👧‍👦</span><h3 class="text-xl font-bold mb-2">Portrait Photography</h3><p class="text-gray-600">Family portraits, senior photos, and professional headshots.</p></div>',
+            '<div class="text-center p-4"><p class="text-xs font-semibold uppercase tracking-wide text-amber-700 mb-3">Portraits</p><h3 class="text-xl font-bold mb-2">Portrait Photography</h3><p class="text-gray-600">Family portraits, senior photos, and professional headshots.</p></div>',
         },
         {
           content:
-            '<div class="text-center p-4"><span class="text-4xl mb-3 block">🎉</span><h3 class="text-xl font-bold mb-2">Event Photography</h3><p class="text-gray-600">Corporate events, parties, and special occasions.</p></div>',
+            '<div class="text-center p-4"><p class="text-xs font-semibold uppercase tracking-wide text-amber-700 mb-3">Events</p><h3 class="text-xl font-bold mb-2">Event Photography</h3><p class="text-gray-600">Corporate events, parties, and special occasions.</p></div>',
         },
       ],
     },
@@ -7797,7 +7797,7 @@ function buildServicesTemplate(): PageComponent[] {
         },
         {
           content:
-            '<div class="text-center p-4"><span class="text-4xl mb-3 block">🏢</span><h3 class="text-xl font-bold mb-2">Real Estate</h3><p class="text-gray-600">Professional property photography for listings.</p></div>',
+            '<div class="text-center p-4"><p class="text-xs font-semibold uppercase tracking-wide text-amber-700 mb-3">Property</p><h3 class="text-xl font-bold mb-2">Real Estate</h3><p class="text-gray-600">Professional property photography for listings.</p></div>',
         },
       ],
     },
@@ -7834,7 +7834,7 @@ function buildServicesTemplate(): PageComponent[] {
     type: "text",
     data: {
       content:
-        '<h2 class="text-3xl font-bold mb-2">Ready to Book Your Session?</h2><p class="text-lg text-gray-600">Let\'s discuss your photography needs and create something beautiful together.</p>',
+        '<h2 class="text-3xl font-bold mb-2">Ready to book your session?</h2><p class="text-lg text-gray-600">Tell us the date, the city, and what you are planning. We will take it from there.</p>',
       alignment: "center",
       size: "md",
       animation: "fade-in",
@@ -8149,7 +8149,7 @@ function buildServicesPricingTemplate(): PageComponent[] {
     type: "ctaBanner",
     data: {
       heading: "Ready to Book Your Session?",
-      subheading: "Let's create something beautiful together.",
+      subheading: "Tell us the date, city, and kind of coverage you need.",
       primaryButtonText: "Book Now",
       primaryButtonLink: "/book-a-session",
       secondaryButtonText: "Contact Us",
@@ -9451,7 +9451,7 @@ function buildSaaSTemplate(): PageComponent[] {
           description: "Professional headshots and team photos that build trust and credibility",
         },
         {
-          icon: "🏢",
+          icon: "Briefcase",
           title: "Office & Culture",
           description: "Showcase your workspace and company culture to attract top talent",
         },
@@ -9988,10 +9988,10 @@ function buildEventInfoTemplate(): PageComponent[] {
       style: "default",
       animation: "fade-in",
       events: [
-        { id: id(), date: "6-12 Months Before", icon: "💍", title: "Initial Consultation", description: "We meet to discuss your vision, timeline, and package options." },
+        { id: id(), date: "6-12 Months Before", icon: "Calendar", title: "Initial Consultation", description: "We meet to discuss your vision, timeline, and package options." },
         { id: id(), date: "2-3 Months Before", icon: "📋", title: "Planning Session", description: "Finalize shot list, timeline, and location details." },
         { id: id(), date: "1 Month Before", icon: "📸", title: "Engagement Shoot", description: "Optional engagement session included in most packages." },
-        { id: id(), date: "Wedding Day", icon: "🎉", title: "Full Coverage", description: "We capture every moment from prep to reception." },
+        { id: id(), date: "Wedding Day", icon: "Camera", title: "Full Coverage", description: "We capture every moment from prep to reception." },
         { id: id(), date: "48 Hours After", icon: "🖼️", title: "Sneak Peek", description: "Receive a preview of 10-15 favorite shots." },
         { id: id(), date: "4-6 Weeks After", icon: "📱", title: "Full Gallery", description: "Your complete gallery delivered via online platform." },
       ],

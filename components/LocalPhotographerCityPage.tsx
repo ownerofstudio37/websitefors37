@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { MapPin, Star, Users, Camera, Award, CheckCircle } from 'lucide-react'
+import { Briefcase, CalendarDays, Camera, CheckCircle, Heart, MapPin, ShieldCheck, Star, Users } from 'lucide-react'
 import FAQSection from '@/components/FAQSection'
 import GoogleBusinessWidget from '@/components/GoogleBusinessWidget'
 import { generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
@@ -498,19 +498,19 @@ export default function LocalPhotographerCityPage({
               <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-amber-50">
                 <Users className="h-6 w-6 text-amber-700" />
               </div>
-              <h3 className="text-2xl font-bold text-stone-950 mb-2">500+</h3>
-              <p className="text-stone-600">Happy Clients</p>
+              <h3 className="text-2xl font-bold text-stone-950 mb-2">Top Pro</h3>
+              <p className="text-stone-600">Thumbtack Recognition</p>
             </div>
             <div className="surface-panel p-5 text-center">
               <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-amber-50">
-                <Camera className="h-6 w-6 text-amber-700" />
+                <ShieldCheck className="h-6 w-6 text-amber-700" />
               </div>
-              <h3 className="text-2xl font-bold text-stone-950 mb-2">1000+</h3>
-              <p className="text-stone-600">Sessions Completed</p>
+              <h3 className="text-2xl font-bold text-stone-950 mb-2">Insured</h3>
+              <p className="text-stone-600">Professional Coverage</p>
             </div>
             <div className="surface-panel p-5 text-center">
               <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-amber-50">
-                <Award className="h-6 w-6 text-amber-700" />
+                <MapPin className="h-6 w-6 text-amber-700" />
               </div>
               <h3 className="text-2xl font-bold text-stone-950 mb-2">Local</h3>
               <p className="text-stone-600">Area Expertise</p>
@@ -613,93 +613,93 @@ export default function LocalPhotographerCityPage({
           <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
             <Link href="/services/portrait-photography" className="group surface-panel p-6 rounded-2xl transition-all duration-300 hover:-translate-y-1">
               <div className="text-center">
-                <div className="bg-blue-100 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-200 transition-colors">
-                  <span className="text-3xl">👨‍👩‍👧‍👦</span>
+                <div className="bg-amber-50 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-amber-100 transition-colors">
+                  <Users className="h-8 w-8 text-amber-800" aria-hidden="true" />
                 </div>
                 <h3 className="text-xl font-semibold mb-1 text-gray-800">Portrait Photography</h3>
-                <p className="text-sm uppercase tracking-wide text-blue-700 font-semibold mb-3">Starting at {STARTING_PRICES.portrait}</p>
+                <p className="text-sm uppercase tracking-wide text-amber-800 font-semibold mb-3">Starting at {STARTING_PRICES.portrait}</p>
                 <p className="text-gray-600 mb-4">Family portraits, seniors, maternity, and professional headshots planned around {topLocalBackdrops}.</p>
                 <ul className="text-sm text-stone-600 space-y-1 mb-4">
                   <li>• Guided posing + location planning</li>
                   <li>• Professionally edited gallery</li>
                   <li>• Print and sharing rights</li>
                 </ul>
-                <span className="font-medium text-blue-700">View portrait options</span>
+                <span className="font-medium text-amber-800">View portrait options</span>
               </div>
             </Link>
 
             <Link href="/services/engagement-session" className="group surface-panel p-6 rounded-2xl transition-all duration-300 hover:-translate-y-1">
               <div className="text-center">
-                <div className="bg-pink-100 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-pink-200 transition-colors">
-                  <span className="text-3xl">💖</span>
+                <div className="bg-amber-50 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-amber-100 transition-colors">
+                  <Heart className="h-8 w-8 text-amber-800" aria-hidden="true" />
                 </div>
                 <h3 className="text-xl font-semibold mb-1 text-gray-800">Engagement Photography</h3>
-                <p className="text-sm uppercase tracking-wide text-pink-700 font-semibold mb-3">Starting at {STARTING_PRICES.engagement}</p>
+                <p className="text-sm uppercase tracking-wide text-amber-800 font-semibold mb-3">Starting at {STARTING_PRICES.engagement}</p>
                 <p className="text-gray-600 mb-4">Romantic save-the-date sessions and proposal-friendly planning support in {cityLabel}.</p>
                 <ul className="text-sm text-stone-600 space-y-1 mb-4">
                   <li>• Style and concept guidance</li>
                   <li>• Golden-hour timeline support</li>
                   <li>• Multi-location options available</li>
                 </ul>
-                <span className="font-medium text-pink-700">View engagement options</span>
+                <span className="font-medium text-amber-800">View engagement options</span>
               </div>
             </Link>
 
             <Link href="/services/event-photography" className="group surface-panel p-6 rounded-2xl transition-all duration-300 hover:-translate-y-1">
               <div className="text-center">
-                <div className="bg-green-100 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-green-200 transition-colors">
-                  <span className="text-3xl">🎉</span>
+                <div className="bg-amber-50 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-amber-100 transition-colors">
+                  <CalendarDays className="h-8 w-8 text-amber-800" aria-hidden="true" />
                 </div>
                 <h3 className="text-xl font-semibold mb-1 text-gray-800">Event Photography</h3>
-                <p className="text-sm uppercase tracking-wide text-green-700 font-semibold mb-3">Starting at {STARTING_PRICES.event}</p>
+                <p className="text-sm uppercase tracking-wide text-amber-800 font-semibold mb-3">Starting at {STARTING_PRICES.event}</p>
                 <p className="text-gray-600 mb-4">Corporate events, birthday parties, private celebrations, and community events across {county}.</p>
                 <ul className="text-sm text-stone-600 space-y-1 mb-4">
                   <li>• Candid + key moment coverage</li>
                   <li>• Team portraits on request</li>
                   <li>• Fast post-event gallery delivery</li>
                 </ul>
-                <span className="font-medium text-green-700">View event options</span>
+                <span className="font-medium text-amber-800">View event options</span>
               </div>
             </Link>
 
             <Link href="/services/wedding-photography" className="group surface-panel p-6 rounded-2xl transition-all duration-300 hover:-translate-y-1">
               <div className="text-center">
-                <div className="bg-rose-100 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-rose-200 transition-colors">
-                  <span className="text-3xl">💍</span>
+                <div className="bg-amber-50 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-amber-100 transition-colors">
+                  <Camera className="h-8 w-8 text-amber-800" aria-hidden="true" />
                 </div>
                 <h3 className="text-xl font-semibold mb-1 text-gray-800">Wedding Photography</h3>
-                <p className="text-sm uppercase tracking-wide text-rose-700 font-semibold mb-3">Starting at {STARTING_PRICES.wedding}</p>
+                <p className="text-sm uppercase tracking-wide text-amber-800 font-semibold mb-3">Starting at {STARTING_PRICES.wedding}</p>
                 <p className="text-gray-600 mb-4">Full-day storytelling for weddings in {cityLabel} and across {county}.</p>
                 <ul className="text-sm text-stone-600 space-y-1 mb-4">
                   <li>• Timeline planning assistance</li>
                   <li>• Two-photographer team model</li>
                   <li>• Sneak peeks + full gallery delivery</li>
                 </ul>
-                <span className="font-medium text-rose-700">View wedding options</span>
+                <span className="font-medium text-amber-800">View wedding options</span>
               </div>
             </Link>
 
             <Link href="/services/commercial-photography" className="group surface-panel p-6 rounded-2xl transition-all duration-300 hover:-translate-y-1">
               <div className="text-center">
-                <div className="bg-gray-100 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-gray-200 transition-colors">
-                  <span className="text-3xl">🏢</span>
+                <div className="bg-amber-50 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-amber-100 transition-colors">
+                  <Briefcase className="h-8 w-8 text-amber-800" aria-hidden="true" />
                 </div>
                 <h3 className="text-xl font-semibold mb-1 text-gray-800">Commercial Photography</h3>
-                <p className="text-sm uppercase tracking-wide text-gray-700 font-semibold mb-3">Starting at {STARTING_PRICES.commercial}</p>
+                <p className="text-sm uppercase tracking-wide text-amber-800 font-semibold mb-3">Starting at {STARTING_PRICES.commercial}</p>
                 <p className="text-gray-600 mb-4">Branding sessions, products, headshots, and business content for teams near {cityLabel}.</p>
                 <ul className="text-sm text-stone-600 space-y-1 mb-4">
                   <li>• Brand-consistent image direction</li>
                   <li>• Website + social-ready exports</li>
                   <li>• Licensing support available</li>
                 </ul>
-                <span className="font-medium text-gray-700">View commercial options</span>
+                <span className="font-medium text-amber-800">View commercial options</span>
               </div>
             </Link>
           </div>
 
           <div className="mt-8 bg-amber-50 border-y border-amber-200/80 rounded-xl p-4">
             <p className="text-center text-amber-900 font-medium">
-              Two photographers on site — for the price of one. More coverage, more moments, same rate.
+              Two photographers on site for the price of one. More coverage, more moments, same rate.
             </p>
           </div>
         </div>

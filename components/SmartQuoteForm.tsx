@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Calendar, Users, DollarSign, MapPin, Camera, CheckCircle, ArrowRight, ArrowLeft, Sparkles } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Briefcase, Calendar, CalendarDays, Camera, CheckCircle, DollarSign, Heart, MapPin, Sparkles, Users } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { withLeadContext } from '@/lib/client-lead-context'
 
@@ -189,12 +189,14 @@ Additional Details: ${formData.additionalDetails || 'None'}`,
 
               <div className="grid md:grid-cols-2 gap-4">
                 {[
-                  { value: 'wedding', label: 'Wedding Photography', icon: '💍', desc: 'Full wedding day coverage' },
-                  { value: 'portrait', label: 'Portrait Session', icon: '👨‍👩‍👧‍👦', desc: 'Family, senior, or individual' },
-                  { value: 'engagement', label: 'Engagement Session', icon: '💖', desc: 'Signature or full-service concierge engagement' },
-                  { value: 'event', label: 'Event Photography', icon: '🎉', desc: 'Corporate or social events' },
-                  { value: 'commercial', label: 'Commercial Shoot', icon: '🏢', desc: 'Business and product photography' }
-                ].map((service) => (
+                  { value: 'wedding', label: 'Wedding Photography', icon: Camera, desc: 'Full wedding day coverage' },
+                  { value: 'portrait', label: 'Portrait Session', icon: Users, desc: 'Family, senior, or individual' },
+                  { value: 'engagement', label: 'Engagement Session', icon: Heart, desc: 'Signature or full-service concierge engagement' },
+                  { value: 'event', label: 'Event Photography', icon: CalendarDays, desc: 'Corporate or social events' },
+                  { value: 'commercial', label: 'Commercial Shoot', icon: Briefcase, desc: 'Business and product photography' }
+                ].map((service) => {
+                  const Icon = service.icon
+                  return (
                   <button
                     key={service.value}
                     onClick={() => {
@@ -204,14 +206,14 @@ Additional Details: ${formData.additionalDetails || 'None'}`,
                     className={`p-6 rounded-lg border-2 transition-all hover:border-primary-500 hover:shadow-md text-left ${
                       formData.serviceType === service.value
                         ? 'border-primary-500 bg-primary-50'
-                        : 'border-gray-200'
+                      : 'border-gray-200'
                     }`}
                   >
-                    <div className="text-4xl mb-3">{service.icon}</div>
+                    <Icon className="mb-3 h-9 w-9 text-primary-700" aria-hidden="true" />
                     <h3 className="text-lg font-semibold text-gray-900 mb-1">{service.label}</h3>
                     <p className="text-sm text-gray-600">{service.desc}</p>
                   </button>
-                ))}
+                )})}
               </div>
             </motion.div>
           )}

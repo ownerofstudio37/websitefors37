@@ -279,11 +279,10 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto text-center mb-12">
               <h2 className="text-3xl font-bold mb-4">
-                Ready to Capture Your Story?
+                Ready when you are.
               </h2>
               <p className="text-lg text-gray-700">
-                Let&apos;s discuss your photography needs and create something
-                beautiful together.
+                Tell us the date, the city, and what you&apos;re planning. We&apos;ll take it from there.
               </p>
             </div>
             <LeadCaptureForm />
@@ -296,7 +295,7 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
         {/* Press & Credentials Section */}
         <PressCredentialsBlock 
           title="Featured In & Professional Credentials"
-          subtitle="Award-winning photographer recognized by leading industry organizations"
+          subtitle="Members of Professional Photographers of America. Fully insured for client work."
           showBadges={true}
           showPress={true}
         />
@@ -334,11 +333,10 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
           <div className="max-w-4xl mx-auto text-center mb-12">
             <div className="eyebrow mb-4">Contact</div>
             <h2 className="text-4xl md:text-5xl font-bold mb-4 text-stone-950">
-              Ready to Capture Your Story?
+              Ready when you are.
             </h2>
             <p className="text-lg md:text-xl text-stone-600 leading-relaxed">
-              Let&apos;s discuss your photography needs and create something
-              beautiful together.
+              Tell us the date, the city, and what you&apos;re planning. We&apos;ll take it from there.
             </p>
           </div>
           <LeadCaptureForm />
@@ -351,7 +349,7 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
       {/* Press & Credentials Section */}
       <PressCredentialsBlock 
         title="Featured In & Professional Credentials"
-        subtitle="Award-winning photographer recognized by leading industry organizations"
+        subtitle="Members of Professional Photographers of America. Fully insured for client work."
         showBadges={true}
         showPress={true}
       />

@@ -10,7 +10,7 @@ const galleryUrl = '/request-portfolio'
 
 export function PublicTrustStrip() {
   const items = [
-    { icon: Star, label: '500+ sessions and local reviews' },
+    { icon: Star, label: '5.0 rating across Google and Thumbtack' },
     { icon: Clock, label: 'Clear previews and delivery timelines' },
     { icon: ShieldCheck, label: 'PPA member, insured, and prepared' },
     { icon: MapPin, label: 'Two photographers across Greater Houston' },
