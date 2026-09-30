@@ -57,12 +57,12 @@ function getArticleIntent(post: any) {
   }
   if (/brand|business|commercial|headshot|website|campaign/.test(haystack)) {
     return {
-      label: 'Business content planning',
-      serviceHref: '/services/commercial-photography',
-      serviceLabel: 'Commercial Photography',
-      context: 'commercial content',
-      ctaCopy: 'If you need website, campaign, headshot, or brand-refresh images, we can match examples to your usage and delivery needs.',
-      proofPoints: ['Website and campaign usage planning', 'Product, team, and workspace coverage', 'Commercial examples matched to your business'],
+      label: 'Business growth planning',
+      serviceHref: '/services/branding-marketing',
+      serviceLabel: 'Branding & Marketing',
+      context: 'marketing-audit',
+      ctaCopy: 'If your website, content, SEO, ads, or brand visuals feel disconnected, start with a growth audit so we can identify the first bottleneck.',
+      proofPoints: ['Website and SEO structure', 'Content and campaign planning', 'Lead-path and conversion review'],
     }
   }
   return {
@@ -381,8 +381,12 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
               </div>
               <div className="mt-5 flex flex-wrap gap-3">
                 <Link href={`${articleIntent.serviceHref}?source=blog`} className="btn-secondary">{articleIntent.serviceLabel}</Link>
-                <Link href={`/request-portfolio?service=${encodeURIComponent(articleIntent.context)}&source=blog`} className="btn-secondary">Request matched examples</Link>
-                <Link href={`/book-consultation?service=${encodeURIComponent(articleIntent.context)}&source=blog`} className="btn-primary">Book a consult</Link>
+                <Link href={articleIntent.context === 'marketing-audit' ? '/services/branding-marketing/results?source=blog' : `/request-portfolio?service=${encodeURIComponent(articleIntent.context)}&source=blog`} className="btn-secondary">
+                  {articleIntent.context === 'marketing-audit' ? 'See marketing results' : 'Request matched examples'}
+                </Link>
+                <Link href={`/book-consultation?service=${encodeURIComponent(articleIntent.context)}&source=blog`} className="btn-primary">
+                  {articleIntent.context === 'marketing-audit' ? 'Request growth audit' : 'Book a consult'}
+                </Link>
               </div>
             </section>
           
@@ -417,8 +421,9 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
                 <Link href="/services/wedding-photography" className="rounded-lg border border-stone-300 bg-white px-4 py-3 transition-colors hover:border-primary-400 hover:bg-primary-50">Wedding Photography</Link>
                 <Link href="/services/portrait-photography" className="rounded-lg border border-stone-300 bg-white px-4 py-3 transition-colors hover:border-primary-400 hover:bg-primary-50">Portrait Sessions</Link>
                 <Link href="/services/event-photography" className="rounded-lg border border-stone-300 bg-white px-4 py-3 transition-colors hover:border-primary-400 hover:bg-primary-50">Event Photography</Link>
+                <Link href="/services/branding-marketing" className="rounded-lg border border-stone-300 bg-white px-4 py-3 transition-colors hover:border-primary-400 hover:bg-primary-50">Branding & Marketing</Link>
                 <Link href="/tools/package-recommender" className="rounded-lg border border-stone-300 bg-white px-4 py-3 transition-colors hover:border-primary-400 hover:bg-primary-50">Compare Packages</Link>
-                <Link href="/request-portfolio" className="rounded-lg border border-stone-300 bg-white px-4 py-3 transition-colors hover:border-primary-400 hover:bg-primary-50">Request Private Examples</Link>
+                <Link href="/services/branding-marketing/results" className="rounded-lg border border-stone-300 bg-white px-4 py-3 transition-colors hover:border-primary-400 hover:bg-primary-50">Marketing Results</Link>
                 <Link href="/book-consultation" className="rounded-lg border border-primary-700 bg-primary-700 px-4 py-3 text-white transition-colors hover:bg-primary-800">Book Consultation</Link>
               </div>
             </section>

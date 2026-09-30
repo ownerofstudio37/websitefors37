@@ -6,6 +6,7 @@ import { ArrowRight, Briefcase, CalendarDays, Camera, CheckCircle, Heart, Trendi
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 import { generateServiceSchema } from '@/lib/seo-config'
 import { PackageRecommenderCTA } from '@/components/PublicConversionSections'
+import MarketingAuditCTA from '@/components/MarketingAuditCTA'
 
 export const metadata = generateSEOMetadata({
   title: 'Professional Photography Services in Pinehurst, TX',
@@ -158,6 +159,8 @@ export default function ServicesPage() {
       </div>
 
       <PackageRecommenderCTA />
+
+      <MarketingAuditCTA compact source="services-page" />
 
       <section className="section-shell bg-white">
         <div className="container mx-auto px-4">

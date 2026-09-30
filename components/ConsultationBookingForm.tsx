@@ -61,6 +61,11 @@ const bookingContextByKey: Record<string, { label: string; focus: string; nextSt
     focus: 'website goals, content gaps, SEO/PPC needs, and visual proof',
     nextStep: 'outline a custom website, content, or marketing plan',
   },
+  'marketing-audit': {
+    label: 'Website and SEO growth audit',
+    focus: 'your website URL, service offer, search visibility, content gaps, ads, social presence, and lead path',
+    nextStep: 'identify the first growth bottleneck and recommend a practical next move',
+  },
 }
 
 function normalizeContextKey(value: string) {
@@ -72,6 +77,7 @@ function normalizeContextKey(value: string) {
   if (normalized.includes('concierge')) return 'concierge'
   if (normalized.includes('event') || normalized.includes('party') || normalized.includes('corporate')) return 'event'
   if (normalized.includes('commercial') || normalized.includes('product') || normalized.includes('architect')) return 'commercial'
+  if (normalized.includes('audit') || normalized.includes('growth')) return 'marketing-audit'
   if (normalized.includes('brand') || normalized.includes('marketing') || normalized.includes('website') || normalized.includes('seo')) return 'branding'
   return ''
 }
@@ -593,7 +599,9 @@ const ConsultationBookingForm = () => {
                   onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent"
                   rows={3}
-                  placeholder="Tell us about your photography needs..."
+                  placeholder={normalizedContextKey === 'marketing-audit'
+                    ? 'Share your website URL, current goal, and what feels stuck...'
+                    : 'Tell us about your photography needs...'}
                 />
               </div>
             </div>

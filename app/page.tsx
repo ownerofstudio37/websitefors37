@@ -12,6 +12,7 @@ import { cookies } from "next/headers";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import rehypeHighlight from "rehype-highlight";
 import { ChooseYourPathSection, HomeSEOAccordion, HomepageConversionGuardrail } from "@/components/HomepageUXSections";
+import MarketingAuditCTA from "@/components/MarketingAuditCTA";
 // Note: MDX builder components are dynamically imported only when needed
 
 // Lazy load below-the-fold components for better initial page load
@@ -250,6 +251,7 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
         <PublicTrustStrip />
         <HomepageNarrativeFlow />
         <ChooseYourPathSection />
+        <MarketingAuditCTA compact source="homepage-static" />
         <LazyMount minHeight={560}>
           <PortraitHighlightGallery />
         </LazyMount>
@@ -302,6 +304,7 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
       <PublicTrustStrip />
       <HomepageNarrativeFlow />
       <ChooseYourPathSection />
+      <MarketingAuditCTA compact source="homepage-static" />
       <LazyMount minHeight={560}>
         <PortraitHighlightGallery />
       </LazyMount>

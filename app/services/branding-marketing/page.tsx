@@ -23,6 +23,7 @@ import {
 import ServiceIntentPanel from '@/components/ServiceIntentPanel'
 import { brandingMarketingServices } from '@/lib/branding-marketing-services'
 import AboveBeyondPoolsProof from '@/components/AboveBeyondPoolsProof'
+import MarketingAuditCTA from '@/components/MarketingAuditCTA'
 
 export const metadata = generateSEOMetadata({
   title: 'SEO, Web Design and Branding Services Pinehurst TX | Studio37',
@@ -255,6 +256,8 @@ export default function BrandingMarketingPage() {
       </section>
 
       <AboveBeyondPoolsProof />
+
+      <MarketingAuditCTA source="branding-marketing-parent" />
 
       <section className="border-b border-stone-200 bg-white">
         <div className="container mx-auto px-4 py-8 md:py-10">

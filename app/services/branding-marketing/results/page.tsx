@@ -90,8 +90,8 @@ export default function BrandingMarketingResultsPage() {
               <Link href="/book-consultation?service=branding" className="btn-primary inline-flex items-center justify-center">
                 Book a Consultation <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
               </Link>
-              <Link href="/services/branding-marketing/seo-services" className="btn-ghost inline-flex items-center justify-center">
-                Explore SEO Services
+              <Link href="/case-studies/above-beyond-pools-seo" className="btn-ghost inline-flex items-center justify-center">
+                Read Case Study
               </Link>
             </div>
           </div>

@@ -6,8 +6,8 @@ import { generateSEOMetadata } from '@/lib/seo-helpers'
 import { staticBlogPosts } from '@/lib/static-blog-posts'
 
 export const metadata = generateSEOMetadata({
-  title: 'Photography Planning Guides | Studio37 Pinehurst, TX',
-  description: 'Clear Studio37 guides for choosing a photography service, planning locations, preparing for portraits, weddings, events, and brand shoots around Pinehurst and Greater Houston.',
+  title: 'Photography and Marketing Planning Guides | Studio37 Pinehurst, TX',
+  description: 'Clear Studio37 guides for choosing photography services, planning portraits and weddings, and improving websites, SEO, content, PPC, and brand marketing.',
   keywords: [
     'photography blog',
     'photography tips Texas',
@@ -15,7 +15,9 @@ export const metadata = generateSEOMetadata({
     'portrait photography tips',
     'photography techniques',
     'Studio37 blog',
-    'photographer insights Pinehurst'
+    'photographer insights Pinehurst',
+    'small business marketing guides',
+    'SEO and website tips'
   ],
   canonicalUrl: 'https://www.studio37.cc/blog'
 })
@@ -54,9 +56,27 @@ const editorialPaths = [
     copy: 'Location, light, wardrobe, proposal privacy, and save-the-date planning.',
   },
   {
-    label: 'Business Content',
-    href: '/services/commercial-photography',
-    copy: 'Shot lists, usage, websites, campaigns, headshots, and brand refreshes.',
+    label: 'Business Growth',
+    href: '/services/branding-marketing',
+    copy: 'Websites, SEO, PPC, content, campaigns, and brand growth systems.',
+  },
+]
+
+const businessGrowthGuides = [
+  {
+    title: 'What Should a Small Business Website Actually Include?',
+    href: '/blog/small-business-website-must-haves',
+    copy: 'Service pages, proof, SEO structure, conversion paths, and lead capture basics.',
+  },
+  {
+    title: 'SEO vs PPC for Local Service Businesses',
+    href: '/blog/seo-vs-ppc-local-service-businesses',
+    copy: 'When to use organic search, paid traffic, landing pages, and tracking.',
+  },
+  {
+    title: 'Plan Marketing Photos, Website, and Ads Together',
+    href: '/blog/plan-marketing-photos-website-ads-together',
+    copy: 'Why brand visuals, web content, SEO, and ad creative should share one plan.',
   },
 ]
 
@@ -95,9 +115,9 @@ export default async function BlogPage() {
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-4xl text-center">
             <p className="eyebrow-hero mb-4">Studio37 Field Notes</p>
-            <h1 className="text-4xl font-bold leading-tight md:text-6xl">Photography planning without the guesswork.</h1>
+            <h1 className="text-4xl font-bold leading-tight md:text-6xl">Planning notes for better shoots, websites, and growth systems.</h1>
             <p className="mx-auto mt-5 max-w-3xl text-lg leading-8 text-stone-200">
-              Clear Studio37 notes for comparing services, preparing well, choosing locations, and knowing what happens after you inquire.
+              Clear Studio37 notes for comparing services, preparing well, choosing locations, and making websites, SEO, content, and campaigns work together.
             </p>
           </div>
         </div>
@@ -108,6 +128,8 @@ export default async function BlogPage() {
           <Link href="/services/portrait-photography" className="whitespace-nowrap rounded-full bg-stone-50 px-4 py-2 transition hover:bg-amber-50 hover:text-amber-900">Portrait planning</Link>
           <Link href="/services/wedding-photography" className="whitespace-nowrap rounded-full bg-stone-50 px-4 py-2 transition hover:bg-amber-50 hover:text-amber-900">Wedding planning</Link>
           <Link href="/services/engagement-session" className="whitespace-nowrap rounded-full bg-stone-50 px-4 py-2 transition hover:bg-amber-50 hover:text-amber-900">Engagement prep</Link>
+          <Link href="/services/branding-marketing" className="whitespace-nowrap rounded-full bg-stone-50 px-4 py-2 transition hover:bg-amber-50 hover:text-amber-900">Marketing growth</Link>
+          <Link href="/services/branding-marketing/results" className="whitespace-nowrap rounded-full bg-stone-50 px-4 py-2 transition hover:bg-amber-50 hover:text-amber-900">SEO results</Link>
           <Link href="/tools/package-recommender" className="whitespace-nowrap rounded-full bg-stone-50 px-4 py-2 transition hover:bg-amber-50 hover:text-amber-900">Choose a package</Link>
           <Link href="/book-consultation" className="whitespace-nowrap rounded-full bg-stone-950 px-4 py-2 text-white transition hover:bg-amber-700">Book a consult</Link>
         </div>
@@ -120,6 +142,28 @@ export default async function BlogPage() {
               <Link key={path.label} href={path.href} className="rounded-lg border border-stone-200 bg-stone-50 p-4 transition hover:-translate-y-0.5 hover:border-amber-300 hover:bg-amber-50">
                 <h2 className="text-sm font-bold uppercase tracking-[0.16em] text-stone-950">{path.label}</h2>
                 <p className="mt-2 text-sm leading-6 text-stone-600">{path.copy}</p>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-stone-200 bg-amber-50 py-8">
+        <div className="container mx-auto px-4">
+          <div className="mb-5 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+            <div>
+              <p className="eyebrow mb-2">Business Growth Guides</p>
+              <h2 className="text-2xl font-bold text-stone-950">Website, SEO, content, and campaign planning</h2>
+            </div>
+            <Link href="/book-consultation?service=marketing-audit&source=blog-index" className="btn-primary w-fit">
+              Request growth audit
+            </Link>
+          </div>
+          <div className="grid gap-3 md:grid-cols-3">
+            {businessGrowthGuides.map((guide) => (
+              <Link key={guide.href} href={guide.href} className="rounded-lg border border-amber-200 bg-white p-4 transition hover:-translate-y-0.5 hover:border-amber-400">
+                <h3 className="font-semibold leading-snug text-stone-950">{guide.title}</h3>
+                <p className="mt-2 text-sm leading-6 text-stone-600">{guide.copy}</p>
               </Link>
             ))}
           </div>

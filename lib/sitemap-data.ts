@@ -154,6 +154,12 @@ export async function getSitemapRoutes(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
+    {
+      url: `${sitemapBaseUrl}/case-studies/above-beyond-pools-seo`,
+      lastModified: staticLastModified,
+      changeFrequency: 'monthly',
+      priority: PRIORITIES.contentPages,
+    },
     ...brandingMarketingServices.map((service) => ({
       url: `${sitemapBaseUrl}/services/branding-marketing/${service.slug}`,
       lastModified: staticLastModified,

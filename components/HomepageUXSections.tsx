@@ -3,6 +3,7 @@ import { ArrowRight } from 'lucide-react'
 import CuratedRecentWork from '@/components/CuratedRecentWork'
 import ServiceAreaMarketModules from '@/components/ServiceAreaMarketModules'
 import { PackageRecommenderCTA } from '@/components/PublicConversionSections'
+import MarketingAuditCTA from '@/components/MarketingAuditCTA'
 
 const pathOptions = [
   {
@@ -133,6 +134,7 @@ export function HomepageConversionGuardrail() {
   return (
     <>
       <ChooseYourPathSection />
+      <MarketingAuditCTA compact source="homepage" />
       <PackageRecommenderCTA />
       <CuratedRecentWork />
       <ServiceAreaMarketModules compact />
