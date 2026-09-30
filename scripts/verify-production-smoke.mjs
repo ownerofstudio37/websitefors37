@@ -31,6 +31,16 @@ for (const [pathname, contentTypeNeedle, requiredHeaders] of checks) {
   if (pathname.endsWith('.xml') && /noindex/i.test(response.headers.get('x-robots-tag') || '')) {
     issues.push(`${pathname} returns x-robots-tag noindex`)
   }
+  if (pathname.endsWith('.xml')) {
+    const csp = response.headers.get('content-security-policy')
+    const corp = response.headers.get('cross-origin-resource-policy')
+    if (csp) issues.push(`${pathname} should not send Content-Security-Policy`)
+    if (corp) issues.push(`${pathname} should not send Cross-Origin-Resource-Policy`)
+    const body = await response.text()
+    if (body.includes('xml-stylesheet')) {
+      issues.push(`${pathname} should not include an xml-stylesheet processing instruction`)
+    }
+  }
 }
 
 if (issues.length) {

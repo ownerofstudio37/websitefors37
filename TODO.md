@@ -43,6 +43,7 @@
 - [ ] Blog internal-link system 2.0: make “Related Studio37 guides” and “Plan this session” links more systematic by city/service intent.
 - [ ] Chatbot SEO/AEO alignment: keep chatbot package answers synced with site facts and include source links in pricing/service replies.
 - [ ] Review/proof expansion: add wedding proof to wedding pages, family proof to family/local pages, and business proof to commercial/branding pages.
+- [x] Sitemap crawler hardening: remove optional XML stylesheet processing instructions and enforce XML/robots exclusions from page-level CSP/CORP headers in local and production audits.
 
 ## CMS / Visual Builder Coverage - August 30, 2026
 

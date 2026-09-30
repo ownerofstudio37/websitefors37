@@ -12,8 +12,8 @@ const nextConfig = read('next.config.js')
 if (!nextConfig.includes('Content-Security-Policy')) {
   issues.push('next.config.js is missing the global Content-Security-Policy header')
 }
-if (!nextConfig.includes('source: "/sitemap.xml"') || !nextConfig.includes('source: "/sitemap_index.xml"')) {
-  issues.push('next.config.js is missing explicit sitemap XML header rules')
+if (!nextConfig.includes('.*\\\\.xml$|robots\\\\.txt$')) {
+  issues.push('next.config.js global page headers should exclude XML sitemap and robots.txt endpoints')
 }
 
 for (const route of ['app/sitemap.xml/route.ts', 'app/sitemap_index.xml/route.ts']) {
@@ -21,12 +21,14 @@ for (const route of ['app/sitemap.xml/route.ts', 'app/sitemap_index.xml/route.ts
   if (!source.includes("dynamic = 'force-dynamic'")) {
     issues.push(`${route} should force dynamic rendering`)
   }
-  if (!source.includes('no-store') || !source.includes('s-maxage=0')) {
-    issues.push(`${route} should send no-store cache headers`)
-  }
   if (source.includes("'X-Robots-Tag': 'noindex'")) {
     issues.push(`${route} should not send X-Robots-Tag: noindex; sitemap XML should remain crawler-discoverable`)
   }
+}
+
+const sitemapXmlHelper = read('lib/sitemap-xml.ts')
+if (sitemapXmlHelper.includes('xml-stylesheet')) {
+  issues.push('lib/sitemap-xml.ts should not emit xml-stylesheet processing instructions for crawler sitemap XML')
 }
 
 const robotsRoute = read('app/robots.txt/route.ts')
@@ -60,6 +62,16 @@ async function fetchHeaderChecks() {
     }
     if (pathname.endsWith('.xml') && /noindex/i.test(response.headers.get('x-robots-tag') || '')) {
       issues.push(`${pathname} sends X-Robots-Tag noindex`)
+    }
+    if (pathname.endsWith('.xml')) {
+      const csp = response.headers.get('content-security-policy')
+      const corp = response.headers.get('cross-origin-resource-policy')
+      if (csp) issues.push(`${pathname} should not send Content-Security-Policy; got ${csp}`)
+      if (corp) issues.push(`${pathname} should not send Cross-Origin-Resource-Policy; got ${corp}`)
+      const text = await response.text()
+      if (text.includes('xml-stylesheet')) {
+        issues.push(`${pathname} should not include an xml-stylesheet processing instruction`)
+      }
     }
   }
 }

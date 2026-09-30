@@ -113,8 +113,25 @@ for (const [label, headers] of [
     fail(`${label} returns x-robots-tag noindex`)
   }
 
+  if (headers.get('content-security-policy')) {
+    fail(`${label} should not send Content-Security-Policy`)
+  }
+
+  if (headers.get('cross-origin-resource-policy')) {
+    fail(`${label} should not send Cross-Origin-Resource-Policy`)
+  }
+
   if (age !== null && allowedAge !== null && age > allowedAge * 2) {
     fail(`${label} appears stale: age=${age}, cache-control=${cacheControl}, cache-status=${cacheStatus}`)
+  }
+}
+
+for (const [label, text] of [
+  ['sitemap.xml', sitemap.text],
+  ['sitemap_index.xml', sitemapIndex.text],
+]) {
+  if (text.includes('xml-stylesheet')) {
+    fail(`${label} should not include an xml-stylesheet processing instruction`)
   }
 }
 

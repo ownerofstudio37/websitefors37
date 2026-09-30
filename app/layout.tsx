@@ -64,10 +64,10 @@ const montserrat = Montserrat({
 export const metadata = {
   title: {
     template: `%s | ${businessInfo.name} - Pinehurst, TX Photography`,
-    default: `Studio37 Photography - Pinehurst, TX | Vintage Film Warmth Meets Modern Precision`,
+    default: `Studio37 - Pinehurst Photography & Branding Studio`,
   },
   description:
-    "Studio37 Photography blends vintage film warmth with modern digital precision. Award-winning wedding, portrait, and commercial photography in Pinehurst, TX and Montgomery County.",
+    "Studio37 blends vintage film warmth with modern digital precision for wedding, portrait, commercial, branding, and marketing work in Pinehurst, TX and Montgomery County.",
   keywords:
     "photography, photographer, Houston TX, Pinehurst TX, wedding photography, portrait photography, vintage style photography, film photography, digital photography, commercial photography",
   authors: [{ name: businessInfo.name }],
