@@ -1,6 +1,6 @@
-import { notFound } from 'next/navigation'
+import { notFound, permanentRedirect } from 'next/navigation'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
-import { getLocationBySlug, locationPages, locationSlugs } from '@/lib/location-pages'
+import { getLocalPhotographerPathForLocationSlug, getLocationBySlug, locationPages, locationSlugs } from '@/lib/location-pages'
 import { getPageConfigs, getPageLayout, selectProps } from '@/lib/pageConfigs'
 import LocationPageTemplate from '@/components/LocationPageTemplate'
 
@@ -11,6 +11,16 @@ export function generateStaticParams() {
 }
 
 export function generateMetadata({ params }: { params: { slug: string } }) {
+  const localPhotographerPath = getLocalPhotographerPathForLocationSlug(params.slug)
+  if (localPhotographerPath) {
+    return generateSEOMetadata({
+      title: 'Local Photographer',
+      description: 'Studio37 local photographer service area page.',
+      canonicalUrl: `https://www.studio37.cc${localPhotographerPath}`,
+      pageType: 'service',
+    })
+  }
+
   const location = getLocationBySlug(params.slug)
   if (!location) {
     return generateSEOMetadata({
@@ -44,6 +54,9 @@ export default async function LocationPage({
   params: { slug: string }
   searchParams?: Record<string, string | string[]>
 }) {
+  const localPhotographerPath = getLocalPhotographerPathForLocationSlug(params.slug)
+  if (localPhotographerPath) permanentRedirect(localPhotographerPath)
+
   const location = getLocationBySlug(params.slug)
   if (!location) notFound()
 

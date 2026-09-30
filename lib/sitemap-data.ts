@@ -1,6 +1,6 @@
 import { createClient } from '@supabase/supabase-js'
 import type { MetadataRoute } from 'next'
-import { locationPages } from '@/lib/location-pages'
+import { localPhotographerLocationSlugs, locationPages } from '@/lib/location-pages'
 import { staticBlogPosts } from '@/lib/static-blog-posts'
 import { brandingMarketingServices } from '@/lib/branding-marketing-services'
 
@@ -658,12 +658,14 @@ export async function getSitemapRoutes(): Promise<MetadataRoute.Sitemap> {
   for (const location of locationPages) {
     const shortSlug = location.slug.replace(/-tx$/, '')
 
-    routes.push({
-      url: `${sitemapBaseUrl}/locations/${location.slug}`,
-      lastModified: staticLastModified,
-      changeFrequency: 'monthly',
-      priority: PRIORITIES.contentPages,
-    })
+    if (!localPhotographerLocationSlugs.has(location.slug)) {
+      routes.push({
+        url: `${sitemapBaseUrl}/locations/${location.slug}`,
+        lastModified: staticLastModified,
+        changeFrequency: 'monthly',
+        priority: PRIORITIES.contentPages,
+      })
+    }
 
     if (REDIRECTED_LOCATION_SLUGS.has(shortSlug)) continue
 

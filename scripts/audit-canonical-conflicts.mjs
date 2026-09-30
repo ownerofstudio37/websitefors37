@@ -41,6 +41,8 @@ const redirectedShortRoutes = [
   'houston',
 ]
 
+const redirectedLocationRoutes = redirectedShortRoutes.map((route) => `locations/${route}-tx`)
+
 function read(relativePath) {
   return fs.readFileSync(path.join(rootDir, relativePath), 'utf8')
 }
@@ -69,6 +71,18 @@ for (const shortRoute of redirectedShortRoutes) {
   }
   if (sitemapSource.includes(`\`${'${sitemapBaseUrl}'}/${shortRoute}\``)) {
     issues.push(`sitemap-data appears to include redirected short route /${shortRoute}`)
+  }
+}
+
+const nextConfig = read('next.config.js')
+for (const locationRoute of redirectedLocationRoutes) {
+  const source = `/${locationRoute}`
+  const destination = `/local-photographer-${locationRoute.replace('locations/', '')}`
+  if (!nextConfig.includes(`source: '${source}'`) || !nextConfig.includes(`destination: '${destination}'`)) {
+    issues.push(`next.config.js is missing redirect ${source} -> ${destination}`)
+  }
+  if (sitemapSource.includes(`\`${'${sitemapBaseUrl}'}/${locationRoute}\``)) {
+    issues.push(`sitemap-data appears to include redirected location route /${locationRoute}`)
   }
 }
 

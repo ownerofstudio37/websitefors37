@@ -212,6 +212,30 @@ export const locationPages: LocationPage[] = [
 
 export const locationSlugs = locationPages.map((l) => l.slug)
 
+export const localPhotographerLocationSlugs = new Set([
+  'pinehurst-tx',
+  'the-woodlands-tx',
+  'spring-tx',
+  'cypress-tx',
+  'tomball-tx',
+  'conroe-tx',
+  'magnolia-tx',
+  'montgomery-tx',
+  'willis-tx',
+  'huntsville-tx',
+  'new-caney-tx',
+  'new-waverly-tx',
+  'hockley-tx',
+  'bryan-tx',
+  'college-station-tx',
+  'houston-tx',
+])
+
 export function getLocationBySlug(slug: string) {
   return locationPages.find((l) => l.slug === slug)
+}
+
+export function getLocalPhotographerPathForLocationSlug(slug: string) {
+  if (!localPhotographerLocationSlugs.has(slug)) return null
+  return `/local-photographer-${slug}`
 }

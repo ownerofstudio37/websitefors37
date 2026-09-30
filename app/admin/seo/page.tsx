@@ -101,6 +101,22 @@ const REDIRECTED_SITEMAP_PATHS = [
   "/bryan",
   "/college-station",
   "/houston",
+  "/locations/pinehurst-tx",
+  "/locations/the-woodlands-tx",
+  "/locations/spring-tx",
+  "/locations/cypress-tx",
+  "/locations/tomball-tx",
+  "/locations/conroe-tx",
+  "/locations/magnolia-tx",
+  "/locations/montgomery-tx",
+  "/locations/willis-tx",
+  "/locations/huntsville-tx",
+  "/locations/new-caney-tx",
+  "/locations/new-waverly-tx",
+  "/locations/hockley-tx",
+  "/locations/bryan-tx",
+  "/locations/college-station-tx",
+  "/locations/houston-tx",
 ];
 
 const CANONICAL_CHECK_URLS = [
@@ -155,10 +171,22 @@ const LOCAL_SEO_CHECK_URLS = [
 ];
 
 const CANONICAL_CONFLICT_GROUPS = [
-  ["https://www.studio37.cc/the-woodlands", "https://www.studio37.cc/locations/the-woodlands-tx", "https://www.studio37.cc/local-photographer-the-woodlands-tx"],
-  ["https://www.studio37.cc/houston", "https://www.studio37.cc/locations/houston-tx", "https://www.studio37.cc/local-photographer-houston-tx"],
-  ["https://www.studio37.cc/magnolia", "https://www.studio37.cc/locations/magnolia-tx", "https://www.studio37.cc/local-photographer-magnolia-tx"],
-  ["https://www.studio37.cc/tomball", "https://www.studio37.cc/locations/tomball-tx", "https://www.studio37.cc/local-photographer-tomball-tx"],
+  {
+    winner: "https://www.studio37.cc/local-photographer-the-woodlands-tx",
+    sources: ["https://www.studio37.cc/the-woodlands", "https://www.studio37.cc/locations/the-woodlands-tx"],
+  },
+  {
+    winner: "https://www.studio37.cc/local-photographer-houston-tx",
+    sources: ["https://www.studio37.cc/houston", "https://www.studio37.cc/locations/houston-tx"],
+  },
+  {
+    winner: "https://www.studio37.cc/local-photographer-magnolia-tx",
+    sources: ["https://www.studio37.cc/magnolia", "https://www.studio37.cc/locations/magnolia-tx"],
+  },
+  {
+    winner: "https://www.studio37.cc/local-photographer-tomball-tx",
+    sources: ["https://www.studio37.cc/tomball", "https://www.studio37.cc/locations/tomball-tx"],
+  },
 ];
 
 export default function SEOPage() {
@@ -388,11 +416,11 @@ export default function SEOPage() {
       ).length;
       const canonicalConflictResults = await Promise.all(
         CANONICAL_CONFLICT_GROUPS.map(async (group) => {
-          const results = await Promise.all(group.map(async (url) => ({ url, data: await analyzeLiveUrl(url) })))
-          const canonicals = results
-            .map(({ data }) => data?.canonical)
-            .filter((value): value is string => Boolean(value))
-          return new Set(canonicals).size === canonicals.length
+          const urls = [...group.sources, group.winner];
+          const results = await Promise.all(urls.map(async (url) => ({ url, data: await analyzeLiveUrl(url) })))
+          return results.every(({ data }) =>
+            data?.canonical === group.winner || data?.canonical === `${group.winner}/`
+          )
         })
       );
 
@@ -671,8 +699,8 @@ export default function SEOPage() {
     },
     {
       id: "canonical-conflicts",
-      title: "Canonical conflict report",
-      description: `${metrics.canonicalConflictHealthy}/${metrics.canonicalConflictChecked} sampled city route groups have distinct canonical targets across short, location, and service pages.`,
+      title: "City URL consolidation",
+      description: `${metrics.canonicalConflictHealthy}/${metrics.canonicalConflictChecked} sampled city route groups now resolve to the local-photographer winner URL.`,
       status: metrics.canonicalConflictChecked > 0 && metrics.canonicalConflictHealthy === metrics.canonicalConflictChecked ? "resolved" : "open",
       owner: "SEO / Engineering",
       severity: "medium",

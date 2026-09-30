@@ -43,6 +43,22 @@ const redirectedPaths = [
   '/bryan',
   '/college-station',
   '/houston',
+  '/locations/pinehurst-tx',
+  '/locations/the-woodlands-tx',
+  '/locations/spring-tx',
+  '/locations/cypress-tx',
+  '/locations/tomball-tx',
+  '/locations/conroe-tx',
+  '/locations/magnolia-tx',
+  '/locations/montgomery-tx',
+  '/locations/willis-tx',
+  '/locations/huntsville-tx',
+  '/locations/new-caney-tx',
+  '/locations/new-waverly-tx',
+  '/locations/hockley-tx',
+  '/locations/bryan-tx',
+  '/locations/college-station-tx',
+  '/locations/houston-tx',
 ]
 
 function assert(condition, message) {
