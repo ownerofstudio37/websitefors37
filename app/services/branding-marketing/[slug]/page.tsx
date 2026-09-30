@@ -7,6 +7,7 @@ import { generateFAQSchema } from '@/lib/seo-helpers'
 import { generateServiceSchema } from '@/lib/seo-config'
 import { brandingMarketingServices, getBrandingMarketingService } from '@/lib/branding-marketing-services'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
+import AboveBeyondPoolsProof from '@/components/AboveBeyondPoolsProof'
 
 type PageProps = {
   params: Promise<{ slug: string }>
@@ -91,6 +92,8 @@ export default async function BrandingMarketingSubServicePage({ params }: PagePr
           </div>
         </div>
       </section>
+
+      {service.slug === 'seo-services' && <AboveBeyondPoolsProof compact />}
 
       <section className="section-shell bg-white">
         <div className="container mx-auto px-4">

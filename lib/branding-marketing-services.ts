@@ -65,7 +65,7 @@ export const brandingMarketingServices: BrandingMarketingService[] = [
       'Technical, on-page, local, and content SEO for businesses that need qualified search traffic instead of surface-level keyword edits.',
     parentCardDescription:
       'Technical, on-page, local, and content SEO designed to improve rankings, qualified traffic, and long-term growth.',
-    metaTitle: 'SEO Services Pinehurst TX | Local SEO & Content Strategy | Studio37',
+    metaTitle: 'SEO Services Pinehurst TX | Web, Content & Local Search | Studio37',
     metaDescription:
       'SEO services in Pinehurst, TX covering technical SEO, local search, service pages, content planning, internal links, and ongoing optimization.',
     keywords: ['SEO services Pinehurst TX', 'local SEO Montgomery County', 'technical SEO consultant', 'service page SEO'],

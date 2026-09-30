@@ -6,6 +6,7 @@ import { generateServiceSchema } from '@/lib/seo-config'
 import FAQSection from '@/components/FAQSection'
 import { generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
 import {
+  Award,
   Megaphone,
   Video,
   MonitorSmartphone,
@@ -21,11 +22,12 @@ import {
 } from 'lucide-react'
 import ServiceIntentPanel from '@/components/ServiceIntentPanel'
 import { brandingMarketingServices } from '@/lib/branding-marketing-services'
+import AboveBeyondPoolsProof from '@/components/AboveBeyondPoolsProof'
 
 export const metadata = generateSEOMetadata({
-  title: 'Branding & Marketing Services Pinehurst TX - White-Glove Growth Partner | Studio37',
+  title: 'SEO, Web Design and Branding Services Pinehurst TX | Studio37',
   description:
-    'White-glove branding and marketing services in Pinehurst, TX. Brand content, corporate events, custom website development, SEO, PPC, and social media management for growth-focused businesses.',
+    'One-stop branding and marketing services in Pinehurst, TX. Studio37 handles SEO, custom web design, brand content, PPC, and social media for growth-focused businesses.',
   keywords: [
     'branding services Pinehurst TX',
     'marketing agency Pinehurst',
@@ -238,15 +240,59 @@ export default function BrandingMarketingPage() {
             </p>
             <h1 className="text-4xl md:text-5xl font-bold mb-4">Branding & Marketing Services in Pinehurst, TX</h1>
             <p className="text-xl mb-7 text-white/90">
-              We build the content, website, and marketing system around your business, from brand visuals to advanced custom sites and ongoing support.
+              One team for the content, custom website, SEO, paid campaigns, social presence, and follow-through your business needs to grow.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link href="/book-consultation" className="btn-primary text-lg px-8 py-4 inline-flex items-center justify-center">
                 Book a Consultation <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
-              <Link href="/contact?service=branding-marketing" className="btn-ghost border-white/40 text-white hover:text-white inline-flex items-center justify-center">
-                Talk With Our Team
+              <Link href="#seo-results" className="btn-ghost border-white/40 text-white hover:text-white inline-flex items-center justify-center">
+                See SEO Results
               </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <AboveBeyondPoolsProof />
+
+      <section className="border-b border-stone-200 bg-white">
+        <div className="container mx-auto px-4 py-8 md:py-10">
+          <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+            <div>
+              <p className="eyebrow mb-3">Expertise Behind The Work</p>
+              <h2 className="text-3xl font-bold leading-tight text-stone-950 md:text-4xl">
+                SEO strategy, creative production, and website execution under one roof.
+              </h2>
+            </div>
+            <div className="rounded-xl border border-stone-200 bg-stone-50 p-5">
+              <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
+                <a
+                  href="https://app-na2.hubspot.com/academy/achievements/l22vmwbz/en/1/christian-combest/seo-certified"
+                  title="SEO Certified - Christian Combest, Studio37"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-shrink-0"
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="https://hubspot-credentials-na1.s3.amazonaws.com/prod/badges/user/ec3fc569f28e4b85b99d8afbd76c274d.png"
+                    alt="HubSpot SEO Certified - Christian Combest"
+                    width={96}
+                    height={96}
+                    className="rounded-lg"
+                  />
+                </a>
+                <div>
+                  <p className="mb-2 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-primary-700">
+                    <Award className="h-4 w-4" aria-hidden="true" />
+                    HubSpot SEO Certified
+                  </p>
+                  <p className="text-sm leading-6 text-stone-700">
+                    Christian Combest leads Studio37&apos;s SEO and growth strategy, pairing technical search work with the content, site structure, conversion paths, and creative assets needed to turn visibility into qualified action.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -295,7 +341,7 @@ export default function BrandingMarketingPage() {
                 <div>
                   <h3 className="text-2xl font-bold mb-4">We Take on a Small Number of Clients by Design</h3>
                   <p className="text-stone-600 mb-6">
-                    Our model is intentionally high-touch. We prioritize depth over volume so every partner gets strategic attention, rapid execution, and proactive support.
+                    Our model is intentionally high-touch. Instead of passing your brand between disconnected vendors, one Studio37 team owns the strategy, creative, website, search, ads, and follow-through.
                   </p>
                   <ul className="space-y-3">
                     <li className="flex items-start gap-2 text-stone-700">
@@ -478,32 +524,6 @@ export default function BrandingMarketingPage() {
       <section className="section-shell bg-stone-50">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
-            {/* HubSpot SEO Certification */}
-            <div className="flex items-start gap-6 mb-8 p-5 bg-white border border-stone-200 rounded-xl">
-              <a
-                href="https://app-na2.hubspot.com/academy/achievements/l22vmwbz/en/1/christian-combest/seo-certified"
-                title="SEO Certified - Christian Combest, Studio37"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex-shrink-0"
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="https://hubspot-credentials-na1.s3.amazonaws.com/prod/badges/user/ec3fc569f28e4b85b99d8afbd76c274d.png"
-                  alt="HubSpot SEO Certified - Christian Combest"
-                  width={120}
-                  height={120}
-                  className="rounded-lg"
-                />
-              </a>
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-widest text-stone-500 mb-1">Credentials</p>
-                <h3 className="text-lg font-bold text-stone-900 mb-1">HubSpot SEO Certified</h3>
-                <p className="text-sm text-stone-600">
-                  Christian Combest holds HubSpot Academy&apos;s SEO certification, validating hands-on expertise in technical SEO, on-page optimization, content strategy, and local search ranking. This credential backs every SEO engagement Studio37 delivers.
-                </p>
-              </div>
-            </div>
             <h2 className="text-2xl font-bold text-stone-900 mb-4">Branding, Marketing &amp; Content Creation in Pinehurst, TX</h2>
             <p className="text-stone-700 leading-relaxed mb-4">
               Studio37 is a full-service branding and marketing studio in Pinehurst, TX combining professional photography, video production, custom website development, SEO, PPC advertising, and social media management under one roof. We serve small businesses, entrepreneurs, growing brands, and enterprise clients across Montgomery County and key growth markets including The Woodlands, Conroe, Magnolia, Tomball, Spring, Montgomery, Willis, New Caney, Hockley, Bryan, College Station, and Houston. Our white-glove model means a dedicated creative team can handle your brand content strategy, photo and video shoots, website or web app build, service pages, social media calendar, Google Ads campaigns, and organic search optimization in one coordinated plan. Unlike agencies that separate creative production from web execution, Studio37 can produce the visuals and build the digital experience those visuals live inside, from focused campaign pages to advanced custom websites like studio37.cc. Scope and pricing are custom because every business needs a different mix of content, website depth, SEO, ads, and management. Schedule your strategy consultation today.
