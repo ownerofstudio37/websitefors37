@@ -72,6 +72,10 @@ function extractLocs(xml) {
   )
 }
 
+function extractLastmods(xml) {
+  return Array.from(xml.matchAll(/<lastmod>([^<]+)<\/lastmod>/g)).map((match) => match[1])
+}
+
 function assertXmlDocument(xml, rootTag, label) {
   assert(xml.startsWith('<?xml version="1.0" encoding="UTF-8"?>'), `${label} is missing XML declaration`)
   assert(xml.includes(`<${rootTag}`), `${label} is missing <${rootTag}>`)
@@ -113,6 +117,19 @@ const childSitemapXml = await Promise.all(
 childSitemapXml.forEach((xml, index) => {
   assertXmlDocument(xml, 'urlset', childSitemapUrls[index])
 })
+
+const futureDateAllowanceMs = 5 * 60 * 1000
+const now = Date.now()
+const futureLastmods = [
+  ['sitemap.xml', sitemapXml],
+  ['sitemap_index.xml', sitemapIndexXml],
+  ...childSitemapXml.map((xml, index) => [childSitemapUrls[index], xml]),
+].flatMap(([label, xml]) =>
+  extractLastmods(xml)
+    .filter((date) => new Date(date).getTime() > now + futureDateAllowanceMs)
+    .map((date) => `${label}: ${date}`)
+)
+assert(futureLastmods.length === 0, `sitemap.xml contains future lastmod values: ${futureLastmods.join(', ')}`)
 
 const sitemapUrls = childSitemapXml.flatMap(extractLocs)
 

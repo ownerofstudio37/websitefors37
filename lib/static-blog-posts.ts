@@ -22,8 +22,8 @@ export const staticBlogPosts: StaticBlogPost[] = [
     meta_keywords: ['small business website checklist', 'service business website', 'website design Pinehurst TX', 'local business website SEO'],
     featured_image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1781169103/carlos-muza-hpjSkU2UYSU-unsplash_ploflu.jpg',
     featured_image_position: '50% 45%',
-    published_at: '2026-09-30T12:00:00.000Z',
-    updated_at: '2026-09-30T12:00:00.000Z',
+    published_at: '2026-09-30T00:00:00.000Z',
+    updated_at: '2026-09-30T00:00:00.000Z',
     author: 'Studio37',
     tags: ['Marketing', 'Websites', 'SEO'],
     content: `# What Should a Small Business Website Actually Include?
@@ -60,8 +60,8 @@ Studio37 builds custom websites, SEO structure, content, and growth paths togeth
     meta_keywords: ['SEO vs PPC local business', 'local service business marketing', 'Google Ads vs SEO', 'PPC management Pinehurst TX'],
     featured_image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1781169103/carlos-muza-hpjSkU2UYSU-unsplash_ploflu.jpg',
     featured_image_position: '50% 45%',
-    published_at: '2026-09-30T12:10:00.000Z',
-    updated_at: '2026-09-30T12:10:00.000Z',
+    published_at: '2026-09-30T00:00:00.000Z',
+    updated_at: '2026-09-30T00:00:00.000Z',
     author: 'Studio37',
     tags: ['Marketing', 'SEO', 'PPC'],
     content: `# SEO vs PPC for Local Service Businesses: Which Should You Start With?
@@ -94,8 +94,8 @@ Studio37 handles SEO, PPC, content, and landing pages together so traffic does n
     meta_keywords: ['brand photos website ads', 'business content strategy', 'brand content production', 'website and marketing strategy'],
     featured_image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255706/PS373287_d7fl9k.jpg',
     featured_image_position: '50% 44%',
-    published_at: '2026-09-30T12:20:00.000Z',
-    updated_at: '2026-09-30T12:20:00.000Z',
+    published_at: '2026-09-30T00:00:00.000Z',
+    updated_at: '2026-09-30T00:00:00.000Z',
     author: 'Studio37',
     tags: ['Marketing', 'Brand Content', 'Websites'],
     content: `# Why Your Marketing Photos, Website, and Ads Should Be Planned Together
