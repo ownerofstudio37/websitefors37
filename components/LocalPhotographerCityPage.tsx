@@ -315,8 +315,7 @@ const highIntentLinks = [
 ]
 
 const commercialSeoLinks = [
-  { label: 'Houston commercial photography', href: '/local-photographer-houston-tx' },
-  { label: 'Commercial photography services', href: '/services/commercial-photography' },
+  { label: 'Commercial photography', href: '/services/commercial-photography' },
   { label: 'Product photography', href: '/product-photography' },
   { label: 'Architecture and real estate photography', href: '/architectural-photography' },
   { label: 'Brand refresh sessions', href: '/brand-refresh-sessions' },
@@ -443,12 +442,12 @@ export default function LocalPhotographerCityPage({
             </div>
             <h1 className="mb-6 text-4xl font-bold leading-tight md:text-6xl">
               {isHouston
-                ? 'Commercial Photography Studio & Photography Services in Houston, TX'
+                ? 'Photographer in Houston, TX'
                 : `Photographer in ${cityLabel} for Weddings, Portraits & Events`}
             </h1>
             <p className="mb-7 max-w-3xl text-lg leading-8 text-stone-100 md:text-xl">
               {isHouston
-                ? 'Studio37 plans Houston photography services around business content, product photos, corporate headshots, events, portraits, and brand refresh sessions that support websites, campaigns, listings, and social channels.'
+                ? 'Studio37 photographs weddings, portraits, engagements, events, headshots, brand sessions, and business projects across Houston with clear planning, local location guidance, and two photographers on every session.'
                 : `Looking for a trusted photographer in ${cityLabel}? Studio37 delivers wedding, portrait, engagement, event, and commercial photography for families and businesses across ${county}. We bring a two-photographer team, clear pricing, and location planning shaped around local light, access, and timing.`}
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
@@ -747,10 +746,10 @@ export default function LocalPhotographerCityPage({
           </div>
           {isHouston && (
             <div className="mt-6 rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
-              <p className="eyebrow mb-3">Commercial Search Paths</p>
-              <h3 className="text-2xl font-bold text-stone-950">Commercial photography studio support with clear Houston service paths</h3>
+              <p className="eyebrow mb-3">Houston Service Paths</p>
+              <h3 className="text-2xl font-bold text-stone-950">Find the right Houston photography service</h3>
               <p className="mt-3 max-w-3xl leading-7 text-stone-700">
-                Businesses searching for photography services in Houston often need a specific use case: website content, product photos, corporate photography, real estate or architecture, headshots, or a broader brand refresh. We scope the session around where the images need to work, then connect the right Studio37 service path.
+                Most Houston clients start with a simple need: a wedding, proposal, family session, corporate event, headshot day, product shoot, or fresh visuals for a growing brand. We help you choose the right service path before planning locations, timing, shot priorities, and delivery needs.
               </p>
               <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
                 {commercialSeoLinks.map((link) => (
@@ -760,7 +759,7 @@ export default function LocalPhotographerCityPage({
                 ))}
               </div>
               <div className="mt-5 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm leading-6 text-amber-950">
-                Studio37 can also pair the photo plan with custom website, SEO, PPC, and social media support when you need a one-stop shop instead of separate vendors.
+                Need business content too? Our commercial photography page covers product, real estate, website, campaign, and brand-refresh work in more detail.
               </div>
             </div>
           )}
