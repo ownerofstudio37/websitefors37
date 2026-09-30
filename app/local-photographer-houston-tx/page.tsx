@@ -2,7 +2,7 @@ import LocalPhotographerCityPage from '@/components/LocalPhotographerCityPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 
 export const metadata = generateSEOMetadata({
-  title: 'Houston Commercial Photographer Near Me | Studio37',
+  title: 'Commercial Photography Studio in Houston, TX | Studio37',
   description:
     'Houston commercial photographer near me for business content, product photos, architecture, headshots, events, portraits, and brand refresh sessions with clear planning.',
   keywords: [

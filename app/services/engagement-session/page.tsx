@@ -10,7 +10,7 @@ import { ServiceTestimonialsSection } from '@/components/PublicFeatureContent'
 import ServiceIntentPanel from '@/components/ServiceIntentPanel'
 
 export const metadata = generateSEOMetadata({
-  title: 'Engagement Photography and Proposal Planning - Pinehurst, TX',
+  title: 'Engagement & Proposal Photographer Pinehurst TX | Studio37',
   description: 'Studio37 engagement photography in Pinehurst, TX with location planning, posing direction, surprise proposal coverage, concierge planning, and photo/video options.',
   keywords: [
     'engagement photographer Pinehurst TX',

@@ -12,7 +12,7 @@ import { ServiceTestimonialsSection, TurnaroundExpectationsSection } from '@/com
 import ServiceIntentPanel from '@/components/ServiceIntentPanel'
 
 export const metadata = generateSEOMetadata({
-  title: 'Portrait Photography in Pinehurst TX | Family, Senior & Headshots',
+  title: 'Family & Portrait Photographer in Pinehurst TX | Studio37',
   description: 'Portrait photography in Pinehurst, TX for families, seniors, maternity, headshots, and personal branding with location planning, posing guidance, and polished galleries.',
   keywords: [
     'portrait photography Pinehurst TX',

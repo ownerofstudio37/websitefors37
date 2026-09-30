@@ -37,7 +37,7 @@ const Testimonials = dynamic(() => import("@/components/Testimonials"), {
 });
 
 export const metadata = generateSEOMetadata({
-  title: "Studio37 Photography | Pinehurst Wedding, Portrait & Event Photographer",
+  title: "Studio37 | Pinehurst Wedding Photographer & Branding Studio",
   description:
     "Award-winning wedding, portrait & event photography in Pinehurst, Texas. Blending vintage film warmth with modern precision. Serving Montgomery County & Houston. Book today!",
   keywords: [

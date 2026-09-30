@@ -7,7 +7,7 @@ import { brandingMarketingServices } from '@/lib/branding-marketing-services'
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co'
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key'
 export const sitemapBaseUrl = 'https://www.studio37.cc'
-const staticLastModified = new Date('2026-09-24T00:00:00.000Z')
+const staticLastModified = new Date('2026-09-30T00:00:00.000Z')
 
 const hasRealSupabaseConfig =
   !!process.env.NEXT_PUBLIC_SUPABASE_URL &&
