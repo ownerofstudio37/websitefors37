@@ -119,7 +119,7 @@ const nextConfig = {
   async headers() {
     return [
       {
-        source: "/(.*)",
+        source: "/((?!.*\\.xml$|robots\\.txt$).*)",
         headers: [
           {
             key: "X-DNS-Prefetch-Control",
