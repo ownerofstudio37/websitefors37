@@ -50,6 +50,14 @@ export default function PortraitPhotographyPage() {
       question: 'How long does it take to receive our portraits?',
       answer: 'Most portrait galleries are delivered within about three weeks, with optional 24-hour sneak peeks available as an add-on.',
     },
+    {
+      question: 'Do portrait sessions include two photographers?',
+      answer: 'Yes. Studio37 sessions are built around two photographers on site so one person can guide posing and direction while the other catches expressions, details, and candid in-between moments.',
+    },
+    {
+      question: 'Where do you photograph portraits near Pinehurst and Houston?',
+      answer: 'We plan portrait sessions across Pinehurst, The Woodlands, Spring, Tomball, Magnolia, Conroe, Montgomery County, and Greater Houston, choosing locations around light, parking, walking distance, and the look you want.',
+    },
   ]
 
   const faqSchema = generateFAQSchema(portraitFaqs)
@@ -89,10 +97,9 @@ export default function PortraitPhotographyPage() {
         <div className="relative z-10 container mx-auto px-4 h-full flex items-center">
           <div className="text-white max-w-2xl">
             <p className="eyebrow-hero mb-3">Signature Duo Coverage · Pinehurst, TX</p>
-            <h1 className="text-5xl font-bold mb-4">Portrait Photography in Pinehurst, TX</h1>
+            <h1 className="text-5xl font-bold mb-4">Family & Portrait Photography in Pinehurst, TX</h1>
             <p className="text-xl mb-3 text-white/90">
-              Capture life's precious moments with professional portrait photography. 
-              From family sessions to senior portraits, we create timeless images you'll treasure forever.
+              Family portraits, senior photos, maternity sessions, headshots, and personal branding portraits with clear direction, location planning, and two photographers on site.
             </p>
             <p className="text-base mb-8 text-white/70">
               Portrait sessions start at $350 with two photographers on site.
@@ -200,7 +207,7 @@ export default function PortraitPhotographyPage() {
               <h2 className="text-3xl font-bold mb-6">Why Choose Studio37 for Portraits?</h2>
               <p className="text-lg text-stone-600 mb-8">
                 Located in Pinehurst, Texas, we understand what makes Montgomery County families special. 
-                Our portrait sessions are relaxed, fun, and focused on capturing authentic moments.
+                Our portrait sessions are calm, directed, and built around real logistics: light, parking, wardrobe, kid pacing, group combinations, and the final images you want to use.
               </p>
               
               <div className="space-y-4">

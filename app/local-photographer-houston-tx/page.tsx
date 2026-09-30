@@ -4,8 +4,10 @@ import { generateSEOMetadata } from '@/lib/seo-helpers'
 export const metadata = generateSEOMetadata({
   title: 'Commercial Photography Studio in Houston, TX | Studio37',
   description:
-    'Houston commercial photographer near me for business content, product photos, architecture, headshots, events, portraits, and brand refresh sessions with clear planning.',
+    'Photography services in Houston, TX from a commercial photography studio for business content, product photos, headshots, events, portraits, and brand refresh sessions.',
   keywords: [
+    'photography services Houston TX',
+    'commercial photography studio Houston',
     'photographer Houston TX',
     'wedding photographer Houston Texas',
     'portrait photographer Houston TX',

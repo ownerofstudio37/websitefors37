@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Briefcase, CalendarDays, Camera, CheckCircle, Heart, MapPin, ShieldCheck, Star, Users } from 'lucide-react'
 import FAQSection from '@/components/FAQSection'
 import GoogleBusinessWidget from '@/components/GoogleBusinessWidget'
-import { generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
+import { generateBreadcrumbSchema, generateEnhancedLocalBusinessSchema } from '@/lib/enhanced-seo-schemas'
 import { generateFAQSchema } from '@/lib/seo-helpers'
 import { BestPhotoLocationsSection } from '@/components/PublicFeatureContent'
 import { localTrustReviews } from '@/lib/public-content'
@@ -372,6 +372,7 @@ export default function LocalPhotographerCityPage({
     { name: 'Home', url: 'https://www.studio37.cc' },
     { name: `Local Photographer ${cityLabel}`, url: `https://www.studio37.cc/${slug}` },
   ])
+  const localBusinessSchema = generateEnhancedLocalBusinessSchema()
 
   const cityFaqs = [
     {
@@ -406,12 +407,17 @@ export default function LocalPhotographerCityPage({
   const faqSchema = generateFAQSchema(cityFaqs)
 
   const faqTitle = `Frequently Asked Questions - ${city} Photographer`
+  const isHouston = cityKey === 'houston'
 
   return (
     <div className="pt-16">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
       />
       <script
         type="application/ld+json"
@@ -435,10 +441,15 @@ export default function LocalPhotographerCityPage({
               <MapPin className="h-4 w-4" />
               <span>Proudly serving {cityLabel} and {county}</span>
             </div>
-            <h1 className="mb-6 text-4xl font-bold leading-tight md:text-6xl">Photographer in {cityLabel} for Weddings, Portraits &amp; Events</h1>
+            <h1 className="mb-6 text-4xl font-bold leading-tight md:text-6xl">
+              {isHouston
+                ? 'Commercial Photography Studio & Photography Services in Houston, TX'
+                : `Photographer in ${cityLabel} for Weddings, Portraits & Events`}
+            </h1>
             <p className="mb-7 max-w-3xl text-lg leading-8 text-stone-100 md:text-xl">
-              Looking for a trusted photographer in {cityLabel}? Studio37 delivers wedding, portrait, engagement, event, and commercial photography for families and businesses across {county}.
-              We bring a two-photographer team, clear pricing, and location planning shaped around local light, access, and timing.
+              {isHouston
+                ? 'Studio37 plans Houston photography services around business content, product photos, corporate headshots, events, portraits, and brand refresh sessions that support websites, campaigns, listings, and social channels.'
+                : `Looking for a trusted photographer in ${cityLabel}? Studio37 delivers wedding, portrait, engagement, event, and commercial photography for families and businesses across ${county}. We bring a two-photographer team, clear pricing, and location planning shaped around local light, access, and timing.`}
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link
@@ -734,19 +745,22 @@ export default function LocalPhotographerCityPage({
               </div>
             </div>
           </div>
-          {cityKey === 'houston' && (
+          {isHouston && (
             <div className="mt-6 rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
               <p className="eyebrow mb-3">Commercial Search Paths</p>
-              <h3 className="text-2xl font-bold text-stone-950">Commercial photography near Houston with clear service paths</h3>
+              <h3 className="text-2xl font-bold text-stone-950">Commercial photography studio support with clear Houston service paths</h3>
               <p className="mt-3 max-w-3xl leading-7 text-stone-700">
-                Businesses searching for a commercial photographer near me often need a specific use case: website content, product photos, real estate or architecture, headshots, or a broader brand refresh.
+                Businesses searching for photography services in Houston often need a specific use case: website content, product photos, corporate photography, real estate or architecture, headshots, or a broader brand refresh. We scope the session around where the images need to work, then connect the right Studio37 service path.
               </p>
-              <div className="mt-5 flex flex-wrap gap-3">
+              <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
                 {commercialSeoLinks.map((link) => (
-                  <Link key={link.href} href={link.href} className="rounded-full border border-stone-200 bg-stone-50 px-4 py-2 text-sm font-semibold text-stone-800 transition hover:border-amber-300 hover:bg-amber-50">
+                  <Link key={link.href} href={link.href} className="rounded-lg border border-stone-200 bg-stone-50 px-4 py-3 text-sm font-semibold text-stone-800 transition hover:border-amber-300 hover:bg-amber-50">
                     {link.label}
                   </Link>
                 ))}
+              </div>
+              <div className="mt-5 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm leading-6 text-amber-950">
+                Studio37 can also pair the photo plan with custom website, SEO, PPC, and social media support when you need a one-stop shop instead of separate vendors.
               </div>
             </div>
           )}

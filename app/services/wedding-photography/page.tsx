@@ -11,8 +11,8 @@ import { ServiceTestimonialsSection, TurnaroundExpectationsSection, VenueStyleEx
 import ServiceIntentPanel from '@/components/ServiceIntentPanel'
 
 export const metadata = generateSEOMetadata({
-  title: 'Wedding Photography Pinehurst TX - Studio37 Professional Wedding Photographer',
-  description: 'Studio37 offers professional wedding photography services in Pinehurst, Texas and surrounding areas. Capturing your special day with romantic, timeless images. Serving Montgomery County, The Woodlands, and Houston.',
+  title: 'Wedding Photographer in Pinehurst TX | Studio37',
+  description: 'Wedding photographer in Pinehurst, TX serving Montgomery County, The Woodlands, and Houston with two photographers, timeline support, and timeless galleries.',
   keywords: [
     'wedding photography Pinehurst TX',
     'wedding photographer Texas',
@@ -62,6 +62,14 @@ const weddingFAQs = [
   {
     question: "Do you photograph both the ceremony and reception?",
     answer: "Coverage depends on the collection you choose. Six hours fits tighter timelines, eight hours fits most full wedding days, and 10+ hours protects complex multi-location days. We capture ceremony, family photos, couple portraits, reception coverage, and planned milestone moments."
+  },
+  {
+    question: "Do all Studio37 wedding collections include two photographers?",
+    answer: "Yes. Two photographers are part of our wedding coverage model. One photographer can lead portraits and timeline direction while the other protects reactions, details, alternate angles, and candid moments."
+  },
+  {
+    question: "Can you help us decide how much wedding coverage we need?",
+    answer: "Yes. We review your ceremony time, getting-ready plans, locations, reception flow, family photo needs, and exit plans before recommending a collection. The goal is enough coverage without paying for hours you do not need."
   }
 ]
 
@@ -153,10 +161,9 @@ export default function WeddingPhotographyPage() {
         <div className="relative z-10 container mx-auto px-4 h-full flex items-center">
           <div className="text-white max-w-2xl">
             <p className="eyebrow-hero mb-3">The Duo Experience · Pinehurst, TX</p>
-            <h1 className="text-5xl font-bold mb-4">Wedding Photography in Pinehurst, TX</h1>
+            <h1 className="text-5xl font-bold mb-4">Wedding Photographer in Pinehurst, TX</h1>
             <p className="text-xl mb-3 text-white/90">
-              Your love story deserves to be captured beautifully. Studio37 specializes in romantic, 
-              timeless wedding photography throughout Montgomery County and surrounding areas.
+              Romantic, timeline-aware wedding photography throughout Montgomery County, The Woodlands, and Greater Houston with two photographers on every collection.
             </p>
             <p className="text-base mb-8 text-white/70">
               Wedding coverage starts at $1,200 with two photographers on every collection.
@@ -189,8 +196,7 @@ export default function WeddingPhotographyPage() {
             <div>
               <h2 className="text-3xl font-bold mb-6">Why Choose Studio37 for Your Wedding?</h2>
               <p className="text-lg text-stone-600 mb-8">
-                Based in Pinehurst, Texas, we understand the unique beauty of Montgomery County venues 
-                and the importance of capturing every precious moment of your special day.
+                Based in Pinehurst, Texas, we build wedding coverage around real timelines, venue logistics, family portraits, ceremony flow, reception priorities, and the moments you do not want missed.
               </p>
               
               <div className="space-y-4">

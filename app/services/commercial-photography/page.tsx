@@ -11,8 +11,8 @@ import { ServiceTestimonialsSection, TurnaroundExpectationsSection } from '@/com
 import ServiceIntentPanel from '@/components/ServiceIntentPanel'
 
 export const metadata = generateSEOMetadata({
-  title: 'Commercial Photographer Houston & Pinehurst TX | Studio37',
-  description: 'Commercial photographer near Houston and Pinehurst for product photography, architecture, headshots, brand refresh sessions, and website content starting at $500.',
+  title: 'Commercial Photography Studio Houston & Pinehurst | Studio37',
+  description: 'Commercial photography studio serving Houston and Pinehurst with product photography, architecture, headshots, brand refresh sessions, and website content from $500.',
   keywords: [
     'commercial photography Pinehurst TX',
     'business photographer Texas',
@@ -51,6 +51,14 @@ export default function CommercialPhotographyPage() {
     {
       question: 'Can you photograph products, teams, and branding content in one shoot?',
       answer: 'Absolutely. We can build mixed shot lists for products, team headshots, lifestyle branding, and location content in one coordinated production day.',
+    },
+    {
+      question: 'Do you serve Houston businesses that need photography services for a website or campaign?',
+      answer: 'Yes. We serve Houston-area businesses that need commercial photography for websites, service pages, ads, product listings, team profiles, launch campaigns, and social content.',
+    },
+    {
+      question: 'Can Studio37 help after the commercial photo shoot?',
+      answer: 'Yes. If you need a one-stop shop, Studio37 can also scope custom website work, SEO, PPC, and social media support through our branding and marketing services.',
     },
   ]
 
@@ -132,10 +140,10 @@ export default function CommercialPhotographyPage() {
         </div>
         <div className="relative z-10 container mx-auto px-4 h-full flex items-center">
           <div className="text-white max-w-2xl">
-            <p className="eyebrow-hero mb-3">Two-Pro Production Team · Pinehurst, TX</p>
-            <h1 className="text-5xl font-bold mb-4">Commercial Photography in Pinehurst, TX</h1>
+            <p className="eyebrow-hero mb-3">Commercial Photography Studio · Houston & Pinehurst</p>
+            <h1 className="text-5xl font-bold mb-4">Commercial Photography Studio for Houston & Pinehurst Businesses</h1>
             <p className="text-xl mb-3 text-white/90">
-              We don&apos;t just take photos; we build your brand&apos;s visual identity. With our Two-Pro Production Team, we capture more content in less time, so you can get back to business.
+              Business photography services for product images, team headshots, architecture, brand refresh sessions, website content, launch campaigns, and social assets.
             </p>
             <p className="text-base mb-8 text-white/70">
               Starting at $500 - commercial usage is scoped clearly for web, social, listings, ads, and campaign needs.

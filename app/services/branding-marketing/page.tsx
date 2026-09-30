@@ -74,6 +74,14 @@ export default function BrandingMarketingPage() {
       question: 'What does Request a Demo mean on this page?',
       answer: 'Request a Demo means asking for a walkthrough of website, content, SEO, and marketing capabilities so you can see what a custom Studio37 business build could include.',
     },
+    {
+      question: 'Can you handle photography, website, SEO, and paid marketing together?',
+      answer: 'Yes. Studio37 is built as a one-stop shop for businesses that need the content, website, SEO structure, PPC strategy, and social presence to work together instead of being split across disconnected vendors.',
+    },
+    {
+      question: 'Do you work with Houston-area businesses?',
+      answer: 'Yes. We serve Pinehurst, Montgomery County, The Woodlands, Houston, and nearby growth markets with custom website, SEO, brand content, commercial photography, PPC, and social media support.',
+    },
   ]
 
   const faqSchema = generateFAQSchema(brandingFaqs)
@@ -239,9 +247,9 @@ export default function BrandingMarketingPage() {
               <Megaphone className="h-4 w-4" />
               White-Glove Growth Partner
             </p>
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">Branding & Marketing Services in Pinehurst, TX</h1>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">Branding, Website, SEO & Marketing Services in Pinehurst, TX</h1>
             <p className="text-xl mb-7 text-white/90">
-              One team for the content, custom website, SEO, paid campaigns, social presence, and follow-through your business needs to grow.
+              One team for commercial content, custom website design, SEO, paid campaigns, social presence, and the follow-through your business needs to grow.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link href="/book-consultation" className="btn-primary text-lg px-8 py-4 inline-flex items-center justify-center">
