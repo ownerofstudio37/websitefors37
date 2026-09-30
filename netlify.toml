@@ -22,7 +22,6 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
     Cache-Control = "public, max-age=600, s-maxage=600, stale-while-revalidate=60"
-    Content-Security-Policy = "default-src 'none'"
 
 # Security headers for all pages (CSP defined in next.config.js)
 [[headers]]

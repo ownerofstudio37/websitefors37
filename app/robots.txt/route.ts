@@ -14,6 +14,7 @@ export async function GET() {
     'Disallow: /gallery/',
     '',
     `Sitemap: ${sitemapBaseUrl}/sitemap.xml`,
+    `Sitemap: ${sitemapBaseUrl}/gsc-sitemap.xml`,
     '',
   ].join('\n')
 
