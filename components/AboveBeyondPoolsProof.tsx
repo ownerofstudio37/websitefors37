@@ -3,6 +3,8 @@ import { ArrowRight, CheckCircle2 } from 'lucide-react'
 
 type AboveBeyondPoolsProofProps = {
   compact?: boolean
+  secondaryHref?: string
+  secondaryLabel?: string
 }
 
 const stats = [
@@ -19,7 +21,11 @@ const rankings = [
   '#3 austin pool cleaning',
 ]
 
-export default function AboveBeyondPoolsProof({ compact = false }: AboveBeyondPoolsProofProps) {
+export default function AboveBeyondPoolsProof({
+  compact = false,
+  secondaryHref = '/services/branding-marketing/results',
+  secondaryLabel = 'View Results Hub',
+}: AboveBeyondPoolsProofProps) {
   return (
     <section id="seo-results" className={`${compact ? 'border-y border-stone-200 bg-white' : 'bg-stone-950 text-white'} py-12 md:py-14`}>
       <div className="container mx-auto px-4">
@@ -36,8 +42,8 @@ export default function AboveBeyondPoolsProof({ compact = false }: AboveBeyondPo
               <Link href="/book-consultation?service=seo" className="btn-primary inline-flex items-center justify-center">
                 Book a Consultation <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
               </Link>
-              <Link href="/services/branding-marketing/seo-services" className={compact ? 'btn-secondary inline-flex items-center justify-center' : 'btn-ghost inline-flex items-center justify-center'}>
-                See Our SEO Services
+              <Link href={secondaryHref} className={compact ? 'btn-secondary inline-flex items-center justify-center' : 'btn-ghost inline-flex items-center justify-center'}>
+                {secondaryLabel}
               </Link>
             </div>
           </div>

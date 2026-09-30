@@ -9,6 +9,14 @@ export type BrandingMarketingService = {
   metaDescription: string
   keywords: string[]
   heroBullets: string[]
+  outcomeStats: Array<{
+    value: string
+    label: string
+    note: string
+  }>
+  improvementAreas: string[]
+  industryFits: string[]
+  relatedServices: string[]
   bestFor: string[]
   deliverables: string[]
   process: Array<{
@@ -36,6 +44,15 @@ export const brandingMarketingServices: BrandingMarketingService[] = [
       'Custom website development in Pinehurst, TX for service businesses that need conversion pages, SEO structure, lead flows, and room to grow.',
     keywords: ['custom website development Pinehurst TX', 'service business websites', 'conversion website design', 'local SEO website build'],
     heroBullets: ['Service page architecture', 'Lead capture and follow-up paths', 'SEO-ready content structure', 'Custom admin tools when needed'],
+    outcomeStats: [
+      { value: '1', label: 'conversion path', note: 'Primary visitor action planned before page design starts.' },
+      { value: 'Core Web Vitals', label: 'performance target', note: 'Fast, mobile-friendly pages are part of the build standard.' },
+      { value: 'Schema + metadata', label: 'SEO basics', note: 'Search structure is built into priority pages before launch.' },
+      { value: '0 dead ends', label: 'navigation goal', note: 'Every key page should give visitors a clear next step.' },
+    ],
+    improvementAreas: ['Offer clarity', 'Mobile lead flow', 'Service page structure', 'Local SEO foundation', 'Form and consultation paths'],
+    industryFits: ['Home services', 'Professional services', 'Local medical and wellness', 'Real estate and construction', 'Specialty retail and ecommerce'],
+    relatedServices: ['seo-services', 'ppc-management', 'brand-content-production'],
     bestFor: ['Service businesses with more than one offer', 'Local companies investing in search visibility', 'Brands outgrowing template websites'],
     deliverables: ['Website architecture map', 'Priority page buildout', 'Conversion forms and CTAs', 'Metadata, schema, and analytics basics'],
     process: [
@@ -70,6 +87,15 @@ export const brandingMarketingServices: BrandingMarketingService[] = [
       'SEO services in Pinehurst, TX covering technical SEO, local search, service pages, content planning, internal links, and ongoing optimization.',
     keywords: ['SEO services Pinehurst TX', 'local SEO Montgomery County', 'technical SEO consultant', 'service page SEO'],
     heroBullets: ['Technical SEO cleanup', 'Local search structure', 'Service and location page planning', 'Content topics tied to buyer intent'],
+    outcomeStats: [
+      { value: '76', label: 'peak page-one keywords', note: 'Reached in the Above Beyond Pools SEO case study.' },
+      { value: '3', label: '#1 rankings', note: 'Money-term rankings documented in the same case study.' },
+      { value: '58%', label: 'impression growth', note: 'Measured over a three-month window.' },
+      { value: '64', label: 'indexed pages', note: 'Expanded from about 45 indexed pages.' },
+    ],
+    improvementAreas: ['Technical crawlability', 'Service-intent content', 'Local search coverage', 'Click-through rate', 'Internal linking'],
+    industryFits: ['Home services', 'Local contractors', 'Professional services', 'Location-based brands', 'Service businesses with multiple offers'],
+    relatedServices: ['custom-website-development', 'brand-content-production', 'ppc-management'],
     bestFor: ['Businesses with weak organic visibility', 'Sites with unclear page structure', 'Teams that need SEO handled with content and conversion together'],
     deliverables: ['SEO audit and priority map', 'Metadata and on-page improvements', 'Internal linking plan', 'Content and local page roadmap'],
     process: [
@@ -104,6 +130,15 @@ export const brandingMarketingServices: BrandingMarketingService[] = [
       'PPC campaign management in Pinehurst, TX for Google Ads and paid social with offer strategy, landing pages, testing, and reporting.',
     keywords: ['PPC management Pinehurst TX', 'Google Ads management Montgomery County', 'paid social ads Texas', 'lead generation campaigns'],
     heroBullets: ['Offer and audience planning', 'Landing page alignment', 'Campaign setup and testing', 'Performance reporting'],
+    outcomeStats: [
+      { value: 'CPL', label: 'cost per lead', note: 'Tracked so spend can move toward better-qualified inquiries.' },
+      { value: 'CVR', label: 'conversion rate', note: 'Landing pages and forms are evaluated against actual action.' },
+      { value: 'CTR', label: 'ad relevance', note: 'Click-through rate helps reveal stronger messages and audiences.' },
+      { value: 'ROAS', label: 'sales signal', note: 'Used when ecommerce or revenue tracking is available.' },
+    ],
+    improvementAreas: ['Offer-message fit', 'Landing page clarity', 'Conversion tracking', 'Lead quality', 'Budget allocation'],
+    industryFits: ['Appointment-based services', 'High-value local offers', 'Campaign launches', 'Seasonal promotions', 'Lead-generation businesses'],
+    relatedServices: ['custom-website-development', 'seo-services', 'brand-content-production'],
     bestFor: ['Businesses ready to test lead generation', 'Teams with a clear offer and sales follow-up', 'Campaigns that need creative and landing pages aligned'],
     deliverables: ['Campaign structure', 'Ad copy and creative direction', 'Conversion tracking recommendations', 'Performance review and optimization plan'],
     process: [
@@ -138,6 +173,15 @@ export const brandingMarketingServices: BrandingMarketingService[] = [
       'Social media management in Pinehurst, TX with content calendars, captions, platform-ready creative, posting support, and performance reporting.',
     keywords: ['social media management Pinehurst TX', 'content calendar service', 'social media marketing Montgomery County', 'brand social media support'],
     heroBullets: ['Content calendar planning', 'Caption and post development', 'Platform-ready creative', 'Reporting and refinement'],
+    outcomeStats: [
+      { value: '30 days', label: 'planning rhythm', note: 'Monthly content planning keeps publishing from becoming reactive.' },
+      { value: '3-5', label: 'content pillars', note: 'Focused themes make the brand easier to follow and remember.' },
+      { value: 'Saves + shares', label: 'quality signals', note: 'Engagement quality matters more than empty posting volume.' },
+      { value: 'Profile visits', label: 'interest signal', note: 'Tracked as a bridge between content and inquiry.' },
+    ],
+    improvementAreas: ['Posting consistency', 'Brand voice', 'Content pillars', 'Campaign support', 'Engagement quality'],
+    industryFits: ['Founder-led brands', 'Local service businesses', 'Personal brands', 'Hospitality and events', 'Visual product brands'],
+    relatedServices: ['brand-content-production', 'video-content-creation', 'ppc-management'],
     bestFor: ['Brands that need a consistent voice', 'Businesses with content but no publishing system', 'Teams that want social tied to campaigns and offers'],
     deliverables: ['Monthly content plan', 'Post copy and creative direction', 'Publishing workflow', 'Performance notes and next-step recommendations'],
     process: [
@@ -172,6 +216,15 @@ export const brandingMarketingServices: BrandingMarketingService[] = [
       'Brand content production in Pinehurst, TX for campaign visuals, website assets, social content, product content, and sales materials.',
     keywords: ['brand content production Pinehurst TX', 'business content creation Texas', 'campaign content studio', 'website content production'],
     heroBullets: ['Campaign asset planning', 'Website and ad creative', 'Team and product content', 'Usage-aware delivery'],
+    outcomeStats: [
+      { value: '1 library', label: 'multi-channel asset set', note: 'Plan content for website, ads, email, social, and sales follow-up together.' },
+      { value: 'Shot list', label: 'production control', note: 'Priority assets are mapped before the production day.' },
+      { value: 'Usage-ready', label: 'delivery standard', note: 'Assets are grouped around how the business will actually use them.' },
+      { value: 'Consistent', label: 'brand system', note: 'Creative direction keeps pages, ads, and social from feeling disconnected.' },
+    ],
+    improvementAreas: ['Campaign asset planning', 'Website visuals', 'Ad creative', 'Product and team content', 'Sales enablement assets'],
+    industryFits: ['Product brands', 'Service businesses', 'Personal brands', 'Real estate and builders', 'Restaurants and hospitality'],
+    relatedServices: ['custom-website-development', 'social-media-management', 'video-content-creation'],
     bestFor: ['Brands refreshing their website', 'Businesses launching a campaign', 'Teams that need content for web, ads, social, and sales'],
     deliverables: ['Creative brief', 'Shot and asset list', 'Production schedule', 'Web, social, and campaign-ready deliverables'],
     process: [
@@ -206,6 +259,15 @@ export const brandingMarketingServices: BrandingMarketingService[] = [
       'Video content creation in Pinehurst, TX for brand videos, product clips, social reels, campaign assets, and ad creative.',
     keywords: ['video content creation Pinehurst TX', 'brand video Texas', 'social media video production', 'ad creative video'],
     heroBullets: ['Message and hook planning', 'Short-form video assets', 'Brand and product clips', 'Campaign-ready delivery'],
+    outcomeStats: [
+      { value: 'Hook', label: 'first-three-second focus', note: 'Short-form video starts with the reason someone should keep watching.' },
+      { value: 'Multi-use', label: 'channel planning', note: 'Clips can support website, paid ads, social, and sales follow-up.' },
+      { value: 'Variants', label: 'testing fuel', note: 'Multiple cuts help campaigns test message, length, and format.' },
+      { value: 'CTA', label: 'conversion cue', note: 'Each video should point toward a useful next action.' },
+    ],
+    improvementAreas: ['Message clarity', 'Short-form hooks', 'Ad creative variety', 'Website trust signals', 'Campaign consistency'],
+    industryFits: ['Service businesses', 'Product launches', 'Founder-led brands', 'Event venues', 'Local experts and educators'],
+    relatedServices: ['social-media-management', 'ppc-management', 'brand-content-production'],
     bestFor: ['Brands needing stronger social creative', 'Product or service launches', 'Businesses that need video aligned with web and ads'],
     deliverables: ['Video content brief', 'Shot and message plan', 'Platform-specific edits', 'Campaign usage recommendations'],
     process: [

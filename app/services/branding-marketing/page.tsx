@@ -246,7 +246,7 @@ export default function BrandingMarketingPage() {
               <Link href="/book-consultation" className="btn-primary text-lg px-8 py-4 inline-flex items-center justify-center">
                 Book a Consultation <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
-              <Link href="#seo-results" className="btn-ghost border-white/40 text-white hover:text-white inline-flex items-center justify-center">
+              <Link href="/services/branding-marketing/results" className="btn-ghost border-white/40 text-white hover:text-white inline-flex items-center justify-center">
                 See SEO Results
               </Link>
             </div>

@@ -148,6 +148,12 @@ export async function getSitemapRoutes(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,
     },
+    {
+      url: `${sitemapBaseUrl}/services/branding-marketing/results`,
+      lastModified: staticLastModified,
+      changeFrequency: 'monthly',
+      priority: PRIORITIES.servicePages,
+    },
     ...brandingMarketingServices.map((service) => ({
       url: `${sitemapBaseUrl}/services/branding-marketing/${service.slug}`,
       lastModified: staticLastModified,
