@@ -6,7 +6,7 @@ import CuratedRecentWork from '@/components/CuratedRecentWork'
 import ServiceAreaMarketModules from '@/components/ServiceAreaMarketModules'
 import { studio37Reviews } from '@/lib/public-content'
 
-const galleryUrl = '/request-portfolio'
+const galleryUrl = 'https://gallery.studio37.cc'
 
 export function PublicTrustStrip() {
   const items = [
@@ -121,10 +121,10 @@ export function HomepageProofUpgrade() {
 
 export function PortfolioPathSection() {
   const paths = [
-    { label: 'Wedding galleries', href: '/request-portfolio?service=wedding', copy: 'Ceremony, family, reception, detail, and couple coverage variety.' },
-    { label: 'Portrait galleries', href: '/request-portfolio?service=portrait', copy: 'Families, seniors, headshots, maternity, and editorial portraits.' },
-    { label: 'Event galleries', href: '/request-portfolio?service=event', copy: 'Milestones, corporate events, parties, and community coverage.' },
-    { label: 'Brand galleries', href: '/request-portfolio?service=commercial', copy: 'Commercial, product, website, team, and campaign content.' },
+    { label: 'Wedding galleries', href: galleryUrl, copy: 'Ceremony, family, reception, detail, and couple coverage variety.' },
+    { label: 'Portrait galleries', href: galleryUrl, copy: 'Families, seniors, headshots, maternity, and editorial portraits.' },
+    { label: 'Event galleries', href: galleryUrl, copy: 'Milestones, corporate events, parties, and community coverage.' },
+    { label: 'Brand galleries', href: galleryUrl, copy: 'Commercial, product, website, team, and campaign content.' },
   ]
 
   return (
@@ -135,11 +135,11 @@ export function PortfolioPathSection() {
             <p className="eyebrow mb-3">Portfolio Paths</p>
             <h2 className="text-3xl font-bold text-stone-950 md:text-4xl">Get to the proof that matches your project</h2>
             <p className="mt-3 max-w-2xl text-stone-600">
-              The public gallery is curated. Complete galleries are sent privately so you can review full-session pacing and delivery quality.
+              The public gallery is curated for fast proof. Complete galleries can still be requested privately when you need a closer match.
             </p>
           </div>
-          <Link href="/request-portfolio" className="btn-primary inline-flex w-fit items-center">
-            Request Examples <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+          <Link href={galleryUrl} className="btn-primary inline-flex w-fit items-center">
+            View Portfolio <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
           </Link>
         </div>
         <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
@@ -148,7 +148,7 @@ export function PortfolioPathSection() {
               <h3 className="font-semibold text-stone-950">{path.label}</h3>
               <p className="mt-2 text-sm leading-6 text-stone-600">{path.copy}</p>
               <span className="mt-4 inline-flex text-sm font-semibold text-amber-800">
-                Request this proof <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+                View portfolio <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
               </span>
             </Link>
           ))}
@@ -310,7 +310,7 @@ export function NextStepDecisionBand({
           </p>
         </div>
         <div className="flex flex-col gap-3 sm:flex-row md:flex-col">
-          <Link href="/request-portfolio" className="btn-primary inline-flex items-center">
+          <Link href={galleryUrl} className="btn-primary inline-flex items-center">
             {ctaLabel} <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
           </Link>
           <Link href="/book-consultation" className="btn-ghost inline-flex items-center">
@@ -326,7 +326,7 @@ export function PackageRecommenderCTA() {
   const paths = [
     { label: 'I know the service', href: '/book-consultation', cta: 'Book a consult' },
     { label: 'I am comparing budgets', href: '/tools/pricing', cta: 'Open pricing' },
-    { label: 'I need proof first', href: '/request-portfolio', cta: 'Request examples' },
+    { label: 'I need proof first', href: galleryUrl, cta: 'View portfolio' },
   ]
 
   return (

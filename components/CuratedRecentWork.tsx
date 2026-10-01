@@ -21,8 +21,8 @@ export default async function CuratedRecentWork({ className = '' }: { className?
               A few recent examples to preview the style, pacing, and polish of Studio37 work. Complete galleries are shared privately by request.
             </p>
           </div>
-          <TrackedPortfolioRequestLink href="/request-portfolio" source="curated-recent-work-header" aria-label="Open the full Studio37 gallery request flow" className="btn-secondary inline-flex w-fit items-center">
-            Request Tailored Examples <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+          <TrackedPortfolioRequestLink href="https://gallery.studio37.cc" source="curated-recent-work-header" aria-label="Open the Studio37 featured portfolio gallery" className="btn-secondary inline-flex w-fit items-center">
+            View Portfolio <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
           </TrackedPortfolioRequestLink>
         </div>
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-6">
@@ -56,8 +56,8 @@ export default async function CuratedRecentWork({ className = '' }: { className?
                   </div>
                   <h3 className="text-xl font-semibold text-stone-950">{item.title}</h3>
                   <p className="mt-2 flex-1 text-sm leading-6 text-stone-600">{item.note}</p>
-                  <TrackedPortfolioRequestLink href="/request-portfolio" source="curated-recent-work-card" aria-label={`Request complete Studio37 gallery examples for ${item.title}`} className="mt-4 inline-flex text-sm font-semibold text-primary-700 hover:underline focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2">
-                    Request similar galleries
+                  <TrackedPortfolioRequestLink href="https://gallery.studio37.cc" source="curated-recent-work-card" aria-label={`View the Studio37 featured portfolio gallery from ${item.title}`} className="mt-4 inline-flex text-sm font-semibold text-primary-700 hover:underline focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2">
+                    View portfolio
                   </TrackedPortfolioRequestLink>
                 </div>
               </article>

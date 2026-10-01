@@ -91,8 +91,8 @@ export default async function ContactPage() {
               <Link href="/book-consultation" className="btn-primary inline-flex items-center justify-center">
                 Book Consultation <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
               </Link>
-              <Link href="/request-portfolio" className="btn-ghost inline-flex items-center justify-center border-white/30 text-white hover:text-white">
-                Request Galleries
+              <Link href="https://gallery.studio37.cc" className="btn-ghost inline-flex items-center justify-center border-white/30 text-white hover:text-white">
+                View Portfolio
               </Link>
             </div>
           </div>
