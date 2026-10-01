@@ -17,6 +17,7 @@ import {
   Save,
   Sparkles,
   Wand2,
+  ChevronDown,
 } from "lucide-react";
 import dynamic from "next/dynamic";
 const MarkdownEditor = dynamic(() => import("@/components/MarkdownEditor"), {
@@ -77,8 +78,27 @@ const contentWithSeoTitle = (content: string, seoTitle: string) => {
 const LONGFORM_TARGET_WORDS = 1800;
 const LONGFORM_MAX_PASSES = 6;
 const AI_PASS_TIMEOUT_MS = 25000;
+const AI_WRITER_DEFAULTS = {
+  tone: "professional",
+  wordCount: 800,
+  reader: "a real client comparing Studio37 sessions or marketing help",
+  linkTarget: "/book-consultation",
+  localSpecifics: "Pinehurst, The Woodlands, Greater Houston",
+};
 
 const countMarkdownWords = (value: string) => (value.match(/\b[\w'-]+\b/g) || []).length;
+
+const buildAutoOutline = (topic: string, keyword: string) => {
+  const cleanTopic = topic.trim() || "the session";
+  const cleanKeyword = keyword.split(",")[0]?.trim() || cleanTopic;
+  return [
+    `What to know about ${cleanTopic}`,
+    `How Studio37 plans ${cleanKeyword}`,
+    "Local details that can change the plan",
+    "How to get ready before you book",
+    "The next best step",
+  ].join("\n");
+};
 
 const resolveWriterTargetWords = (value: unknown) => {
   const raw = String(value ?? "").toLowerCase();
@@ -96,15 +116,16 @@ export default function BlogManagementPage() {
   const [showPostModal, setShowPostModal] = useState(false);
   const [showAIGenerator, setShowAIGenerator] = useState(false);
   const [generatingPost, setGeneratingPost] = useState(false);
+  const [showAiMoreOptions, setShowAiMoreOptions] = useState(false);
   const [aiForm, setAiForm] = useState({
     topic: "",
     keywords: "",
-    tone: "professional",
-    wordCount: 800,
+    tone: AI_WRITER_DEFAULTS.tone,
+    wordCount: AI_WRITER_DEFAULTS.wordCount,
     outline: "",
     reader: "",
-    linkTarget: "/book-consultation",
-    localSpecifics: "Pinehurst, The Woodlands, Greater Houston",
+    linkTarget: AI_WRITER_DEFAULTS.linkTarget,
+    localSpecifics: AI_WRITER_DEFAULTS.localSpecifics,
   });
   const [postForm, setPostForm] = useState({
     title: "",
@@ -362,10 +383,12 @@ export default function BlogManagementPage() {
     pass,
     previousDraft,
     targetWords,
+    brief,
   }: {
     pass: number;
     previousDraft?: any;
     targetWords: number;
+    brief: typeof aiForm;
   }) => {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), AI_PASS_TIMEOUT_MS);
@@ -378,7 +401,7 @@ export default function BlogManagementPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          brief: aiForm,
+          brief,
           pass,
           previousDraft,
           targetWords,
@@ -430,11 +453,11 @@ export default function BlogManagementPage() {
         if (responseText.includes("#") || responseText.length > 50) {
           return {
             draft: {
-              title: aiForm.topic || "Untitled",
+              title: brief.topic || "Untitled",
               metaDescription: "Generated content (raw markdown)",
               content: responseText,
               excerpt: responseText.split(/\n\n/)[0]?.slice(0, 160) || "",
-              suggestedTags: (aiForm.keywords || "").split(",").map((k) => k.trim()).filter(Boolean),
+              suggestedTags: (brief.keywords || "").split(",").map((k) => k.trim()).filter(Boolean),
               category: "Photography Tips",
               warnings: [`Pass ${pass} returned raw markdown instead of JSON.`],
             },
@@ -459,7 +482,16 @@ export default function BlogManagementPage() {
     setAiPassLog([]);
 
     try {
-      const targetWords = resolveWriterTargetWords(aiForm.wordCount);
+      const writerBrief = {
+        ...aiForm,
+        tone: aiForm.tone || AI_WRITER_DEFAULTS.tone,
+        wordCount: Number(aiForm.wordCount) || AI_WRITER_DEFAULTS.wordCount,
+        reader: aiForm.reader.trim() || AI_WRITER_DEFAULTS.reader,
+        linkTarget: aiForm.linkTarget.trim() || AI_WRITER_DEFAULTS.linkTarget,
+        localSpecifics: aiForm.localSpecifics.trim() || AI_WRITER_DEFAULTS.localSpecifics,
+        outline: aiForm.outline.trim() || buildAutoOutline(aiForm.topic, aiForm.keywords),
+      };
+      const targetWords = resolveWriterTargetWords(writerBrief.wordCount);
       const isLongform = targetWords >= LONGFORM_TARGET_WORDS;
       let latestData: any = null;
       let previousDraft: any = null;
@@ -469,7 +501,7 @@ export default function BlogManagementPage() {
       for (let pass = 1; pass <= maxPasses; pass++) {
         setAiProgress(isLongform ? `Writing... pass ${pass} of max ${LONGFORM_MAX_PASSES}` : "Writing...");
         try {
-          latestData = await requestBlogWriterPass({ pass, previousDraft, targetWords });
+          latestData = await requestBlogWriterPass({ pass, previousDraft, targetWords, brief: writerBrief });
           previousDraft = latestData.draft || latestData;
           latestData.wordCount = Math.max(
             Number(latestData.wordCount) || 0,
@@ -1244,37 +1276,9 @@ export default function BlogManagementPage() {
                   </div>
                 )}
 
-                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
-                  <h3 className="font-semibold text-yellow-900 mb-2 flex items-center gap-2">
-                    <Sparkles className="h-4 w-4" />
-                    AI Output Format
-                  </h3>
-                  <p className="text-sm text-yellow-700">
-                    <strong>All AI-generated blog posts will be formatted in Markdown.</strong> <br />
-                    <span>
-                      <ul className="list-disc ml-6 mt-2">
-                        <li>Use <code>#</code> for headings, <code>**bold**</code> for emphasis, and <code>-</code> or <code>*</code> for lists.</li>
-                        <li>Do <strong>not</strong> use HTML tags.</li>
-                        <li>All output must be valid markdown for best results.</li>
-                      </ul>
-                    </span>
-                  </p>
-                </div>
-
-                <div className="rounded-lg border border-purple-200 bg-purple-50 p-4">
-                  <h3 className="font-semibold text-purple-950 mb-2">Reliability Mode</h3>
-                  <ul className="list-disc ml-5 space-y-1 text-sm text-purple-800">
-                    <li>SEO Longform drafts run as independent passes so Netlify does not close one huge request.</li>
-                    <li>Longform stops when each outline section is substantive, not when it hits a word-count quota.</li>
-                    <li>If a later pass fails, the draft-so-far is kept and marked for human review.</li>
-                    <li>Drafts stay unpublished and may include a human-review banner for dates, removed prices, or stats.</li>
-                  </ul>
-                </div>
-
-
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    What should we write about? *
+                    Topic *
                   </label>
                   <input
                     type="text"
@@ -1283,7 +1287,7 @@ export default function BlogManagementPage() {
                       setAiForm({ ...aiForm, topic: e.target.value })
                     }
                     className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                    placeholder="e.g., How to prepare for your wedding photoshoot"
+                    placeholder="e.g., Fall mini sessions in The Woodlands"
                   />
                   {/* Topic suggestions */}
                   {suggestions && suggestions.topics.length > 0 && (
@@ -1305,7 +1309,7 @@ export default function BlogManagementPage() {
 
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Target Keywords (comma-separated)
+                    Target Keyword *
                   </label>
                   <input
                     type="text"
@@ -1314,7 +1318,7 @@ export default function BlogManagementPage() {
                       setAiForm({ ...aiForm, keywords: e.target.value })
                     }
                     className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                    placeholder="e.g., wedding photography, bridal photos, engagement shoot"
+                    placeholder="e.g., fall mini sessions The Woodlands"
                   />
                   {/* Keyword suggestions */}
                   {suggestions && suggestions.keywords.length > 0 && (
@@ -1334,145 +1338,139 @@ export default function BlogManagementPage() {
                   )}
                 </div>
 
-                <div className="grid gap-4 md:grid-cols-2">
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      Declared Reader *
-                    </label>
-                    <input
-                      type="text"
-                      value={aiForm.reader}
-                      onChange={(e) =>
-                        setAiForm({ ...aiForm, reader: e.target.value })
-                      }
-                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                      placeholder="e.g., bride planning a Woodlands wedding"
+                <div className="rounded-lg border border-gray-200 bg-gray-50">
+                  <button
+                    type="button"
+                    onClick={() => setShowAiMoreOptions((current) => !current)}
+                    className="flex w-full items-center justify-between px-4 py-3 text-left"
+                  >
+                    <span>
+                      <span className="block font-semibold text-gray-900">More options</span>
+                      <span className="text-sm text-gray-500">
+                        Defaults: /book-consultation, medium length, professional tone, editorial checks on.
+                      </span>
+                    </span>
+                    <ChevronDown
+                      className={`h-5 w-5 text-gray-500 transition-transform ${showAiMoreOptions ? "rotate-180" : ""}`}
                     />
-                    <p className="mt-1 text-xs text-gray-500">
-                      Keeps the draft aimed at the client, not Studio37 or other photographers.
-                    </p>
-                  </div>
+                  </button>
 
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      Internal Link Target *
-                    </label>
-                    <input
-                      type="text"
-                      value={aiForm.linkTarget}
-                      onChange={(e) =>
-                        setAiForm({ ...aiForm, linkTarget: e.target.value })
-                      }
-                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                      placeholder="/mini-sessions"
-                    />
-                    <p className="mt-1 text-xs text-gray-500">
-                      One relative URL only. The primary keyword becomes the anchor.
-                    </p>
-                  </div>
-                </div>
+                  {showAiMoreOptions && (
+                    <div className="space-y-5 border-t border-gray-200 p-4">
+                      <div className="grid gap-4 md:grid-cols-2">
+                        <div>
+                          <label className="block text-sm font-semibold text-gray-700 mb-2">
+                            Declared Reader
+                          </label>
+                          <input
+                            type="text"
+                            value={aiForm.reader}
+                            onChange={(e) =>
+                              setAiForm({ ...aiForm, reader: e.target.value })
+                            }
+                            className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                            placeholder={AI_WRITER_DEFAULTS.reader}
+                          />
+                        </div>
 
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Structured Outline
-                  </label>
-                  <textarea
-                    value={aiForm.outline}
-                    onChange={(e) =>
-                      setAiForm({ ...aiForm, outline: e.target.value })
-                    }
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                    rows={5}
-                    placeholder={"Paste required H2s, one per line.\nExample:\nWhy fall mini sessions work for busy families\nWhat to wear for Texas fall photos\nHow to choose the right location"}
-                  />
-                  <p className="mt-1 text-xs text-gray-500">
-                    The writer follows these H2s in order and avoids extra major sections.
-                  </p>
-                </div>
+                        <div>
+                          <label className="block text-sm font-semibold text-gray-700 mb-2">
+                            Internal Link Target
+                          </label>
+                          <input
+                            type="text"
+                            value={aiForm.linkTarget}
+                            onChange={(e) =>
+                              setAiForm({ ...aiForm, linkTarget: e.target.value })
+                            }
+                            className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                            placeholder={AI_WRITER_DEFAULTS.linkTarget}
+                          />
+                        </div>
+                      </div>
 
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Approved Local Specifics
-                  </label>
-                  <input
-                    type="text"
-                    value={aiForm.localSpecifics}
-                    onChange={(e) =>
-                      setAiForm({ ...aiForm, localSpecifics: e.target.value })
-                    }
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                    placeholder="Pinehurst, The Woodlands, Greater Houston"
-                  />
-                  <p className="mt-1 text-xs text-gray-500">
-                    Use real approved cities, parks, venues, or areas only. Leave out anything uncertain.
-                  </p>
-                </div>
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-2">
+                          Structured Outline
+                        </label>
+                        <textarea
+                          value={aiForm.outline}
+                          onChange={(e) =>
+                            setAiForm({ ...aiForm, outline: e.target.value })
+                          }
+                          className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                          rows={5}
+                          placeholder={"Leave blank to auto-generate H2s from the topic.\nExample:\nWhy fall mini sessions work for busy families\nWhat to wear for Texas fall photos\nHow to choose the right location"}
+                        />
+                      </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      Tone
-                    </label>
-                    <select
-                      value={aiForm.tone}
-                      onChange={(e) =>
-                        setAiForm({ ...aiForm, tone: e.target.value })
-                      }
-                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                    >
-                      <option value="professional">Professional</option>
-                      <option value="friendly">Friendly & Casual</option>
-                      <option value="creative">Creative & Artistic</option>
-                      <option value="educational">Educational</option>
-                    </select>
-                  </div>
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-2">
+                          Approved Local Specifics
+                        </label>
+                        <input
+                          type="text"
+                          value={aiForm.localSpecifics}
+                          onChange={(e) =>
+                            setAiForm({ ...aiForm, localSpecifics: e.target.value })
+                          }
+                          className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                          placeholder={AI_WRITER_DEFAULTS.localSpecifics}
+                        />
+                      </div>
 
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      Word Count
-                    </label>
-                    <select
-                      value={aiForm.wordCount}
-                      onChange={(e) =>
-                        setAiForm({
-                          ...aiForm,
-                          wordCount: parseInt(e.target.value),
-                        })
-                      }
-                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                    >
-                      <option value="500">Short (~500 words)</option>
-                      <option value="800">Medium (~800 words)</option>
-                      <option value="900">Long (~900 words)</option>
-                      <option value="1800">SEO Longform (1,800+ words)</option>
-                    </select>
-                  </div>
-                </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-semibold text-gray-700 mb-2">
+                            Tone
+                          </label>
+                          <select
+                            value={aiForm.tone}
+                            onChange={(e) =>
+                              setAiForm({ ...aiForm, tone: e.target.value })
+                            }
+                            className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                          >
+                            <option value="professional">Professional</option>
+                            <option value="friendly">Friendly & Casual</option>
+                            <option value="creative">Creative & Artistic</option>
+                            <option value="educational">Educational</option>
+                          </select>
+                        </div>
 
-                {/* Writer guidance */}
-                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 border-2 border-indigo-200 rounded-lg p-4">
-                  <h3 className="font-semibold text-indigo-900 mb-2 flex items-center gap-2">
-                    <Sparkles className="h-4 w-4" />
-                    Studio37 Editorial Mode
-                  </h3>
-                  <p className="text-sm text-indigo-700">
-                    Drafts now use Studio37 package facts, local planning context, internal links, and anti-generic copy rules before content is returned.
-                  </p>
-                </div>
+                        <div>
+                          <label className="block text-sm font-semibold text-gray-700 mb-2">
+                            Word Count
+                          </label>
+                          <select
+                            value={aiForm.wordCount}
+                            onChange={(e) =>
+                              setAiForm({
+                                ...aiForm,
+                                wordCount: parseInt(e.target.value),
+                              })
+                            }
+                            className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                          >
+                            <option value="500">Short (~500 words)</option>
+                            <option value="800">Medium (~800 words)</option>
+                            <option value="900">Long (~900 words)</option>
+                            <option value="1800">SEO Longform (outline coverage)</option>
+                          </select>
+                        </div>
+                      </div>
 
-                <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
-                  <h3 className="font-semibold text-purple-900 mb-2 flex items-center gap-2">
-                    <Sparkles className="h-4 w-4" />
-                    What the writer checks:
-                  </h3>
-                  <ul className="text-sm text-purple-700 space-y-1">
-                    <li>• Keyword in title/H1, first 100 words, one H2, and one link anchor</li>
-                    <li>• FAQ block with long-tail variants</li>
-                    <li>• Human-sounding first-person voice, not venue-brochure filler</li>
-                    <li>• Accurate Studio37 pricing, turnaround, and gallery language</li>
-                    <li>• Exactly one relative internal link</li>
-                    <li>• Human-review warnings for dates, prices, and stats</li>
-                  </ul>
+                      <div className="rounded-lg border border-purple-200 bg-purple-50 p-4">
+                        <h3 className="font-semibold text-purple-950 mb-2">Editorial checks</h3>
+                        <ul className="list-disc ml-5 space-y-1 text-sm text-purple-800">
+                          <li>Keyword placement, single internal link, FAQ count, and human-review warnings stay on.</li>
+                          <li>Drafts stay unpublished and save through the internal-link 404 gate.</li>
+                          <li>Longform stops when each outline section is substantive.</li>
+                          <li>Markdown output is enforced; no HTML tags.</li>
+                        </ul>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 {aiProgress && (
@@ -1501,7 +1499,7 @@ export default function BlogManagementPage() {
                   </button>
                   <button
                     onClick={generateBlogPost}
-                    disabled={generatingPost || !aiForm.topic || !aiForm.keywords || !aiForm.reader || !aiForm.linkTarget}
+                    disabled={generatingPost || !aiForm.topic.trim() || !aiForm.keywords.trim()}
                     className="flex-1 px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:from-purple-700 hover:to-pink-700 disabled:opacity-50 disabled:cursor-not-allowed font-medium shadow-lg flex items-center justify-center gap-2"
                   >
                     {generatingPost ? (
