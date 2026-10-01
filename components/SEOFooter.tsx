@@ -87,7 +87,16 @@ export default function SEOFooter() {
           </div>
         </div>
         <div className="mt-10 pt-6 border-t border-white/10 text-sm text-stone-400 flex flex-col md:flex-row gap-3 md:items-center md:justify-between">
-          <p>© {new Date().getFullYear()} {name}. All rights reserved.</p>
+          <p>
+            © {new Date().getFullYear()} {name}. All rights reserved.
+            <Link
+              href="/login"
+              aria-label="Admin sign in"
+              className="ml-1 inline-block text-stone-600 transition-colors hover:text-stone-300 focus:outline-none focus:ring-2 focus:ring-amber-300 focus:ring-offset-2 focus:ring-offset-stone-950"
+            >
+              .
+            </Link>
+          </p>
           <div className="flex items-center gap-4">
             <Link href="https://gallery.studio37.cc" className="hover:text-white transition-colors">Featured Work</Link>
             <Link href="/gallery-experience" className="hover:text-white transition-colors">Gallery Help</Link>
