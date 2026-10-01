@@ -24,6 +24,7 @@ const targetCityRoutes = [
 
 const redirectedShortRoutes = [
   'pinehurst',
+  'katy',
   'the-woodlands',
   'spring',
   'cypress',

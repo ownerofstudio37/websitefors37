@@ -8,7 +8,7 @@ export const REQUIRED_SITEMAP_URLS = [
   'https://www.studio37.cc/gallery-experience',
   'https://www.studio37.cc/session-prep',
   'https://www.studio37.cc/locations',
-  'https://www.studio37.cc/locations/katy-tx',
+  'https://www.studio37.cc/local-photographer-katy-tx',
 ] as const
 
 export const INDEXABILITY_CHECK_URLS = [

@@ -49,6 +49,7 @@ const EXCLUDED_PAGE_PATTERNS: RegExp[] = [
 
 const REDIRECTED_LOCATION_SLUGS = new Set([
   'pinehurst',
+  'katy',
   'the-woodlands',
   'spring',
   'cypress',
@@ -283,6 +284,12 @@ export async function getSitemapRoutes(): Promise<MetadataRoute.Sitemap> {
     // Local SEO landing page
     {
       url: `${sitemapBaseUrl}/local-photographer-pinehurst-tx`,
+      lastModified: staticLastModified,
+      changeFrequency: 'monthly',
+      priority: PRIORITIES.servicePages,
+    },
+    {
+      url: `${sitemapBaseUrl}/local-photographer-katy-tx`,
       lastModified: staticLastModified,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,

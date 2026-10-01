@@ -214,6 +214,7 @@ export const locationSlugs = locationPages.map((l) => l.slug)
 
 export const localPhotographerLocationSlugs = new Set([
   'pinehurst-tx',
+  'katy-tx',
   'the-woodlands-tx',
   'spring-tx',
   'cypress-tx',

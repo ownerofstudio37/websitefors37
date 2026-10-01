@@ -95,6 +95,7 @@ const REDIRECTED_SITEMAP_PATHS = [
   "/senior",
   "/corporate-headshots",
   "/pinehurst",
+  "/katy",
   "/the-woodlands",
   "/spring",
   "/tomball",
@@ -110,6 +111,7 @@ const REDIRECTED_SITEMAP_PATHS = [
   "/college-station",
   "/houston",
   "/locations/pinehurst-tx",
+  "/locations/katy-tx",
   "/locations/the-woodlands-tx",
   "/locations/spring-tx",
   "/locations/cypress-tx",
@@ -136,7 +138,7 @@ const CANONICAL_CHECK_URLS = [
   "https://www.studio37.cc/tools/package-recommender",
   "https://www.studio37.cc/session-prep",
   "https://www.studio37.cc/locations",
-  "https://www.studio37.cc/locations/katy-tx",
+  "https://www.studio37.cc/local-photographer-katy-tx",
 ];
 
 const SERVICE_SCHEMA_URLS = [
@@ -146,7 +148,7 @@ const SERVICE_SCHEMA_URLS = [
 ];
 
 const LOCATION_SCHEMA_URLS = [
-  "https://www.studio37.cc/locations/katy-tx",
+  "https://www.studio37.cc/local-photographer-katy-tx",
   "https://www.studio37.cc/local-photographer-houston-tx",
   "https://www.studio37.cc/local-photographer-the-woodlands-tx",
 ];

@@ -10,7 +10,7 @@ const requiredUrls = [
   'https://www.studio37.cc/gallery-experience',
   'https://www.studio37.cc/session-prep',
   'https://www.studio37.cc/locations',
-  'https://www.studio37.cc/locations/katy-tx',
+  'https://www.studio37.cc/local-photographer-katy-tx',
 ]
 
 const excludedPatterns = [
@@ -36,6 +36,7 @@ const redirectedPaths = [
   '/senior',
   '/corporate-headshots',
   '/pinehurst',
+  '/katy',
   '/the-woodlands',
   '/spring',
   '/cypress',
@@ -52,6 +53,7 @@ const redirectedPaths = [
   '/college-station',
   '/houston',
   '/locations/pinehurst-tx',
+  '/locations/katy-tx',
   '/locations/the-woodlands-tx',
   '/locations/spring-tx',
   '/locations/cypress-tx',
