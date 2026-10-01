@@ -58,12 +58,14 @@ const bannedOpeners = [
   /we pride ourselves/gi,
 ]
 
-const monthDatePattern = /\b(?:jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|jun(?:e)?|jul(?:y)?|aug(?:ust)?|sep(?:t(?:ember)?)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)\.?\s+\d{1,2}(?:,\s*\d{4})?\b/gi
-const numericDatePattern = /\b\d{1,2}[/-]\d{1,2}(?:[/-]\d{2,4})?\b/g
-const yearPattern = /\b20(?:2[0-9]|3[0-9])\b/g
 const pricePattern = /\$\s?\d[\d,]*(?:\.\d{2})?/g
 const statPattern = /\b\d+(?:\.\d+)?\s?(?:%|percent|x|times|keywords|clicks|leads|bookings|sessions)\b/gi
 const markdownLinkPattern = /\[([^\]]+)\]\(([^)]+)\)/g
+const faqHeadingPattern = /^##\s+.*(?:faq|faqs|frequently asked questions).*$\n?/gim
+const riskyDatePattern = /\b(?:jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|jun(?:e)?|jul(?:y)?|aug(?:ust)?|sep(?:t(?:ember)?)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)\.?\s+\d{1,2}(?:,\s*\d{4})?\b|\b\d{1,2}\/\d{1,2}(?:\/\d{2,4})?\b|\b20\d{2}-\d{1,2}-\d{1,2}\b/gi
+const availabilityPattern = /\b(?:available|availability|booking|bookings|spots|slots|openings)\b[^.!?\n]*(?:available|open|left|remaining|limited|filling|gone|sold out|deadline|close[sd]?|end[sd]?)\b|\b(?:only|last)\s+\d+\s+(?:spots|slots|openings)\b/gi
+
+const titleMinorWords = new Set(['a', 'an', 'and', 'as', 'at', 'but', 'by', 'for', 'from', 'in', 'nor', 'of', 'on', 'or', 'per', 'the', 'to', 'vs', 'via', 'with'])
 
 function escapeRegExp(value: string) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
@@ -92,8 +94,34 @@ function getFirstHundredWords(markdown: string) {
   return (markdown.match(/\b[\w'-]+\b/g) || []).slice(0, 100).join(' ')
 }
 
-function hasFaq(markdown: string) {
-  return /^##\s+(?:FAQ|Frequently Asked Questions)\s*$/im.test(markdown)
+function toTitleCase(value: string) {
+  const words = value
+    .replace(/[-_]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .split(' ')
+
+  return words
+    .map((word, index) => {
+      if (/^\d{4}$/.test(word)) return word
+      const clean = word.replace(/[^a-z0-9]/gi, '')
+      const lower = word.toLowerCase()
+      const upperKnown = clean.toUpperCase()
+      if (['TX', 'SEO', 'PPC', 'FAQ', 'FAQs', 'AI'].includes(upperKnown)) {
+        return word.replace(clean, upperKnown)
+      }
+      const previousStartsNewPhrase = index > 0 && /[:.!?]$/.test(words[index - 1])
+      if (titleMinorWords.has(lower) && index !== 0 && index !== words.length - 1 && !previousStartsNewPhrase) return lower
+      return word.replace(/[A-Za-z][A-Za-z']*/g, (part) => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
+    })
+    .join(' ')
+    .replace(/\bthe Woodlands\b/g, 'The Woodlands')
+    .replace(/\bgreater Houston\b/g, 'Greater Houston')
+}
+
+function buildDisplayTitle(topic: string, fallback: string) {
+  const source = topic?.trim() || fallback
+  return toTitleCase(source)
 }
 
 function buildFaq(primaryKeyword: string, topic: string) {
@@ -125,10 +153,21 @@ Pick the package or session direction that fits best, then send us the city, pre
 }
 
 function replaceFaq(markdown: string, faqMarkdown: string) {
-  const faqStart = markdown.search(/^##\s+(?:FAQ|Frequently Asked Questions)\s*$/im)
-  if (faqStart === -1) return `${markdown.replace(/\s+$/, '')}\n\n${faqMarkdown}`
-  const beforeFaq = markdown.slice(0, faqStart).replace(/\s+$/, '')
-  return `${beforeFaq}\n\n${faqMarkdown}`
+  let out = markdown
+  let match: RegExpExecArray | null
+  faqHeadingPattern.lastIndex = 0
+
+  while ((match = faqHeadingPattern.exec(out)) !== null) {
+    const start = match.index
+    const afterHeading = start + match[0].length
+    const rest = out.slice(afterHeading)
+    const nextH2Match = rest.match(/^##\s+/m)
+    const end = nextH2Match?.index !== undefined ? afterHeading + nextH2Match.index : out.length
+    out = `${out.slice(0, start).replace(/\s+$/, '')}\n\n${out.slice(end).replace(/^\s+/, '')}`.trim()
+    faqHeadingPattern.lastIndex = 0
+  }
+
+  return `${out.replace(/\s+$/, '')}\n\n${faqMarkdown}`
 }
 
 function insertAfterH1(markdown: string, insertion: string) {
@@ -167,18 +206,19 @@ function enforceSingleRelativeLink(markdown: string, primaryKeyword: string, lin
 
 function buildWarnings(content: string) {
   const warnings = new Set<string>()
-  const dateMatches = [
-    ...(content.match(monthDatePattern) || []),
-    ...(content.match(numericDatePattern) || []),
-    ...(content.match(yearPattern) || []),
-  ]
-  if (dateMatches.length) {
-    warnings.add(`Review time-sensitive claims before publishing: ${Array.from(new Set(dateMatches)).slice(0, 6).join(', ')}.`)
+  const riskyDates = content.match(riskyDatePattern) || []
+  if (riskyDates.length) {
+    warnings.add(`Review exact date claim(s): ${Array.from(new Set(riskyDates)).slice(0, 6).join(', ')}.`)
+  }
+
+  const availabilityClaims = content.match(availabilityPattern) || []
+  if (availabilityClaims.length) {
+    warnings.add(`Review availability claim(s): ${Array.from(new Set(availabilityClaims)).slice(0, 3).join(' | ')}.`)
   }
 
   const stats = content.match(statPattern) || []
   if (stats.length) {
-    warnings.add(`Verify stats/results have a source before publishing: ${Array.from(new Set(stats)).slice(0, 6).join(', ')}.`)
+    warnings.add(`Verify sourced stat/result claim(s): ${Array.from(new Set(stats)).slice(0, 6).join(', ')}.`)
   }
 
   return Array.from(warnings)
@@ -245,20 +285,17 @@ export function applyBlogWriterGuardrails(post: BlogWriterPost, brief: BlogWrite
   const requestedLocalSpecifics = (brief.localSpecifics || []).filter((item) => APPROVED_LOCAL_SPECIFICS.includes(item))
   const warnings = new Set([...(post.warnings || [])])
 
-  let title = removeBannedVoice(post.title || brief.topic).trim()
-  if (!keywordRe.test(title)) {
-    title = keyword.length <= 58 ? keyword : `${keyword.slice(0, 57).trim()}...`
-  }
+  let title = buildDisplayTitle(removeBannedVoice(brief.topic || post.title || keyword), keyword)
 
   let seoTitle = removeBannedVoice(post.seoTitle || title).trim()
-  if (!keywordRe.test(seoTitle)) seoTitle = title
+  if (!keywordRe.test(seoTitle)) seoTitle = keyword
   if (seoTitle.length > 60) seoTitle = seoTitle.slice(0, 57).trim().replace(/[|,-]\s*$/, '') + '...'
 
   let content = removeBannedVoice(post.content || '').trim()
   if (!/^#\s+/m.test(content)) {
-    content = `# ${title}\n\n${content}`
+    content = `# ${keyword}\n\n${content}`
   }
-  content = content.replace(/^#\s+(.+)$/m, (full, heading) => (keywordRe.test(heading) ? full : `# ${title}`))
+  content = content.replace(/^#\s+(.+)$/m, (full, heading) => (keywordRe.test(heading) ? full : `# ${keyword}`))
 
   if (!keywordRe.test(getFirstHundredWords(content))) {
     content = insertAfterH1(content, `If you are comparing ${keyword}, start with the season, the city, and the kind of images you actually need.`)

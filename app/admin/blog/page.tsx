@@ -59,6 +59,7 @@ const getPostStatus = (post: Pick<BlogPost, "published" | "published_at">) => {
 };
 
 const SEO_TITLE_COMMENT = /<!--\s*seo_title:\s*([\s\S]*?)\s*-->\s*/i;
+const HUMAN_REVIEW_BANNER = /^>\s+\*\*Human review needed before publishing:\*\*.*(?:\n>\s?.*)*\n{2,}/i;
 
 const extractSeoTitle = (content?: string, fallback = "") => {
   const match = (content || "").match(SEO_TITLE_COMMENT);
@@ -332,11 +333,12 @@ export default function BlogManagementPage() {
     const warningBanner = draft.warnings?.length
       ? `> **Human review needed before publishing:** ${draft.warnings.join(" ")}\n\n`
       : "";
+    const cleanGeneratedContent = (data.content || draft.content || "").replace(HUMAN_REVIEW_BANNER, "").trimStart();
     setPostForm({
       title: draft.title,
       slug: generateSlug(draft.title),
       excerpt: draft.excerpt || "",
-      content: data.content || `${warningBanner}${draft.content || ""}`,
+      content: `${warningBanner}${cleanGeneratedContent}`,
       featured_image: "",
       featured_image_position: "center center",
       seo_title: draft.seoTitle || draft.title || "",
