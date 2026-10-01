@@ -4,7 +4,7 @@ import Hero from "@/components/Hero";
 import LeadCaptureForm from "@/components/LeadCaptureForm";
 import LazyMount from "@/components/LazyMount";
 import { PressCredentialsBlock } from "@/components/BuilderRuntime";
-import { HomepageNarrativeFlow, PackageRecommenderCTA, PublicTrustStrip, RealReviewProofStrip, WhatHappensNextSection } from "@/components/PublicConversionSections";
+import { HomepageNarrativeFlow, HomepageProofUpgrade, PackageRecommenderCTA, PortfolioPathSection, PublicTrustStrip, RealReviewProofStrip, WhatHappensNextSection } from "@/components/PublicConversionSections";
 import CuratedRecentWork from "@/components/CuratedRecentWork";
 import { generateSEOMetadata } from "@/lib/seo-helpers";
 import { MDXRemote } from "next-mdx-remote/rsc";
@@ -248,6 +248,7 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
         </div>
         <Hero />
         <PublicTrustStrip />
+        <HomepageProofUpgrade />
         <HomepageNarrativeFlow />
         <ChooseYourPathSection />
         <MarketingAuditCTA compact source="homepage-static" />
@@ -255,6 +256,7 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
           <PortraitHighlightGallery />
         </LazyMount>
         <CuratedRecentWork />
+        <PortfolioPathSection />
         <RealReviewProofStrip />
         <PackageRecommenderCTA />
         <LazyMount minHeight={720}>
@@ -301,6 +303,7 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
     <>
       <Hero />
       <PublicTrustStrip />
+      <HomepageProofUpgrade />
       <HomepageNarrativeFlow />
       <ChooseYourPathSection />
       <MarketingAuditCTA compact source="homepage-static" />
@@ -308,6 +311,7 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
         <PortraitHighlightGallery />
       </LazyMount>
       <CuratedRecentWork />
+      <PortfolioPathSection />
       <RealReviewProofStrip />
       <PackageRecommenderCTA />
       <LazyMount minHeight={720}>

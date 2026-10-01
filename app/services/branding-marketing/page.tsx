@@ -263,6 +263,35 @@ export default function BrandingMarketingPage() {
         </div>
       </section>
 
+      <section className="border-b border-stone-200 bg-white">
+        <div className="container mx-auto px-4 py-10 md:py-12">
+          <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+            <div>
+              <p className="eyebrow mb-3">One-Stop Growth System</p>
+              <h2 className="text-3xl font-bold leading-tight text-stone-950 md:text-4xl">
+                The content, website, SEO, ads, and follow-up should all tell the same story.
+              </h2>
+              <p className="mt-4 text-lg leading-8 text-stone-600">
+                Studio37 is strongest when we can connect what people see with how they find you, trust you, and become a qualified lead.
+              </p>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-2">
+              {[
+                ['Content', 'Photography, video, brand visuals, and social assets.'],
+                ['Website', 'Custom pages, lead paths, forms, and conversion structure.'],
+                ['Search', 'Technical SEO, service pages, local intent, and content planning.'],
+                ['Campaigns', 'PPC, social presence, reporting, and ongoing improvement.'],
+              ].map(([title, copy]) => (
+                <div key={title} className="rounded-lg border border-stone-200 bg-stone-50 p-5">
+                  <h3 className="font-semibold text-stone-950">{title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-stone-600">{copy}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       <AboveBeyondPoolsProof />
 
       <MarketingAuditCTA source="branding-marketing-parent" />

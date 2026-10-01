@@ -61,6 +61,103 @@ export function RealReviewProofStrip() {
   )
 }
 
+export function HomepageProofUpgrade() {
+  const reviews = [studio37Reviews[1], studio37Reviews[4], studio37Reviews[7]].filter(Boolean)
+  const serviceLinks = [
+    { label: 'Weddings', href: '/services/wedding-photography' },
+    { label: 'Portraits', href: '/services/portrait-photography' },
+    { label: 'Events', href: '/services/event-photography' },
+    { label: 'Branding', href: '/services/branding-marketing' },
+  ]
+
+  return (
+    <section className="border-b border-stone-200 bg-white">
+      <div className="container mx-auto px-4 py-10 md:py-12">
+        <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+          <div>
+            <p className="eyebrow mb-3">Why Studio37</p>
+            <h2 className="text-3xl font-bold leading-tight text-stone-950 md:text-4xl">
+              Calm direction, two photographers, and proof before you book.
+            </h2>
+            <p className="mt-4 text-lg leading-8 text-stone-600">
+              Studio37 serves weddings, portraits, events, and growth-focused businesses across Pinehurst, The Woodlands, and Greater Houston with a planning-first process and polished final galleries.
+            </p>
+            <div className="mt-6 grid gap-3 sm:grid-cols-3">
+              {[
+                ['5.0', 'rated across Google and Thumbtack'],
+                ['2', 'photographers on every session'],
+                ['24-48h', 'sneak peek options on select work'],
+              ].map(([value, label]) => (
+                <div key={label} className="rounded-lg border border-stone-200 bg-stone-50 p-4">
+                  <p className="text-3xl font-bold text-amber-800">{value}</p>
+                  <p className="mt-1 text-sm leading-5 text-stone-600">{label}</p>
+                </div>
+              ))}
+            </div>
+            <div className="mt-6 flex flex-wrap gap-2">
+              {serviceLinks.map((item) => (
+                <Link key={item.href} href={item.href} className="rounded-full border border-stone-200 bg-white px-4 py-2 text-sm font-semibold text-stone-800 transition hover:border-amber-300 hover:bg-amber-50">
+                  {item.label}
+                </Link>
+              ))}
+            </div>
+          </div>
+          <div className="grid gap-3">
+            {reviews.map((review) => (
+              <figure key={review.name} className="rounded-lg border border-stone-200 bg-stone-50 p-5">
+                <blockquote className="text-sm leading-6 text-stone-700">&quot;{review.quote}&quot;</blockquote>
+                <figcaption className="mt-3 text-sm">
+                  <span className="font-semibold text-stone-950">{review.name}</span>
+                  <span className="text-stone-500"> · {review.detail}</span>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+export function PortfolioPathSection() {
+  const paths = [
+    { label: 'Wedding galleries', href: '/request-portfolio?service=wedding', copy: 'Ceremony, family, reception, detail, and couple coverage variety.' },
+    { label: 'Portrait galleries', href: '/request-portfolio?service=portrait', copy: 'Families, seniors, headshots, maternity, and editorial portraits.' },
+    { label: 'Event galleries', href: '/request-portfolio?service=event', copy: 'Milestones, corporate events, parties, and community coverage.' },
+    { label: 'Brand galleries', href: '/request-portfolio?service=commercial', copy: 'Commercial, product, website, team, and campaign content.' },
+  ]
+
+  return (
+    <section className="border-b border-stone-200 bg-stone-50">
+      <div className="container mx-auto px-4 py-10 md:py-12">
+        <div className="mb-8 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p className="eyebrow mb-3">Portfolio Paths</p>
+            <h2 className="text-3xl font-bold text-stone-950 md:text-4xl">Get to the proof that matches your project</h2>
+            <p className="mt-3 max-w-2xl text-stone-600">
+              The public gallery is curated. Complete galleries are sent privately so you can review full-session pacing and delivery quality.
+            </p>
+          </div>
+          <Link href="/request-portfolio" className="btn-primary inline-flex w-fit items-center">
+            Request Examples <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+          </Link>
+        </div>
+        <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
+          {paths.map((path) => (
+            <Link key={path.href} href={path.href} className="rounded-lg border border-stone-200 bg-white p-5 transition hover:border-amber-300 hover:bg-amber-50">
+              <h3 className="font-semibold text-stone-950">{path.label}</h3>
+              <p className="mt-2 text-sm leading-6 text-stone-600">{path.copy}</p>
+              <span className="mt-4 inline-flex text-sm font-semibold text-amber-800">
+                Request this proof <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+              </span>
+            </Link>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
 export function HomepageNarrativeFlow() {
   const steps = [
     ['Start with the need', 'Choose the kind of shoot, or use the recommender if you are comparing options.'],

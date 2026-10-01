@@ -1,5 +1,6 @@
 import React from 'react'
-import { Mail, Phone, MapPin, Instagram, Facebook, Twitter } from 'lucide-react'
+import Link from 'next/link'
+import { ArrowRight, CalendarCheck, CheckCircle, Clock, Mail, MapPin, Phone, ShieldCheck } from 'lucide-react'
 import Image from 'next/image'
 import LeadCaptureForm from '@/components/LeadCaptureForm'
 import Schema from '@/components/Schema'
@@ -24,6 +25,30 @@ export const metadata = generateSEOMetadata({
 })
 
 export default async function ContactPage() {
+  const contactCards = [
+    {
+      icon: Mail,
+      title: 'Email',
+      value: businessInfo.contact.email,
+      href: `mailto:${businessInfo.contact.email}`,
+      note: 'Best for details, dates, links, and project context.',
+    },
+    {
+      icon: Phone,
+      title: 'Phone',
+      value: businessInfo.contact.phone,
+      href: `tel:${businessInfo.contact.phone}`,
+      note: 'Available 7 days a week, 8AM-9PM CST.',
+    },
+    {
+      icon: MapPin,
+      title: 'Studio',
+      value: 'Pinehurst, TX',
+      href: '/local-photographer-pinehurst-tx',
+      note: 'Studio visits by appointment only. We serve Greater Houston and Montgomery County.',
+    },
+  ]
+
   return (
     <div className="relative min-h-screen flex flex-col bg-stone-50">
       <Schema schema={[generateContactPageSchema(), generateOrganizationSchema()]} />
@@ -43,7 +68,7 @@ export default async function ContactPage() {
           })
         }}
       />
-      <div className="absolute top-0 left-0 w-full h-[36rem] -z-10 pointer-events-none bg-stone-900">
+      <div className="absolute left-0 top-20 w-full h-[39rem] z-0 pointer-events-none bg-stone-900">
         <Image
           src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1759639187/A4B03835-ED8B-4FBB-A27E-1F2EE6CA1A18_1_105_c_gstgil_e_gen_restore_e_improve_e_sharpen_l_image_upload_My_Brand_IMG_2115_mtuowt_c_scale_fl_relative_w_0.40_o_80_fl_layer_apply_g_south_x_0.03_y_0.04_yqgycj.jpg"
           alt="Studio37 Pinehurst photography contact background"
@@ -55,75 +80,80 @@ export default async function ContactPage() {
         <div className="absolute inset-0 bg-gradient-to-b from-stone-950/85 via-stone-950/75 to-stone-950/55" />
       </div>
       <div className="container mx-auto px-4 py-24 max-w-6xl w-full flex-1 relative z-10">
-        <div className="max-w-3xl mb-12 rounded-3xl border border-white/10 bg-stone-950/45 backdrop-blur-sm px-6 py-7 md:px-8 md:py-9 shadow-[0_20px_45px_rgba(0,0,0,0.35)]">
-          <div className="eyebrow mb-4 bg-white/10 text-amber-200 border-white/10">Contact</div>
-          <h1 className="text-4xl md:text-6xl font-bold mb-4 text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.45)]">Contact Studio37</h1>
-          <p className="text-xl text-stone-100 mb-1 leading-relaxed">
-            Tell us the date, city, and kind of coverage you need. We will help you sort out the next step.
-          </p>
-        </div>
-        {/* Contact Form and Information */}
+        <section className="grid gap-10 pb-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
+          <div className="text-white">
+            <div className="eyebrow mb-4 inline-flex bg-white/10 text-amber-200 border-white/10">Contact Studio37</div>
+            <h1 className="text-4xl md:text-6xl font-bold mb-5 drop-shadow-[0_2px_10px_rgba(0,0,0,0.45)]">Tell us what you&apos;re planning.</h1>
+            <p className="max-w-2xl text-xl text-stone-100 leading-relaxed">
+              Send the date, city, and type of coverage you need. We&apos;ll help you choose the right next step without making you guess.
+            </p>
+            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+              <Link href="/book-consultation" className="btn-primary inline-flex items-center justify-center">
+                Book Consultation <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+              </Link>
+              <Link href="/request-portfolio" className="btn-ghost inline-flex items-center justify-center border-white/30 text-white hover:text-white">
+                Request Galleries
+              </Link>
+            </div>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
+            {[
+              [Clock, 'Replies within 24 hours'],
+              [ShieldCheck, 'PPA member and insured'],
+              [CalendarCheck, 'Two photographers on every session'],
+            ].map(([Icon, label]) => (
+              <div key={label as string} className="flex items-center gap-3 rounded-lg border border-white/10 bg-white/10 px-4 py-3 text-sm font-semibold text-white backdrop-blur-sm">
+                <Icon className="h-5 w-5 text-amber-200" aria-hidden="true" />
+                <span>{label as string}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+
         <section className="pb-8">
-          <div className="grid lg:grid-cols-[1.15fr_0.85fr] gap-8 items-start">
+          <div className="grid lg:grid-cols-[1.08fr_0.92fr] gap-8 items-start">
             <div>
-              <h2 className="text-3xl font-bold mb-8 text-stone-950">Send Us a Message</h2>
               <LeadCaptureForm />
             </div>
-            <div>
-              <div className="surface-panel bg-white/95 backdrop-blur-sm p-8 md:p-10">
-              <h2 className="text-3xl font-bold mb-8 text-stone-950">Contact Information</h2>
-              <div className="space-y-8">
-                {/* Email */}
-                <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 bg-amber-50 rounded-2xl flex items-center justify-center">
-                    <Mail className="h-6 w-6 text-primary-600" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold mb-1 text-stone-950">Email</h3>
-                    <a href={`mailto:${businessInfo.contact.email}`} className="text-primary-700 hover:text-primary-800 underline">
-                      {businessInfo.contact.email}
-                    </a>
-                    <p className="text-stone-600 mt-1 leading-6">
-                      We respond to all inquiries within 24 hours during business days.
-                    </p>
-                  </div>
-                </div>
-                {/* Phone */}
-                <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 bg-amber-50 rounded-2xl flex items-center justify-center">
-                    <Phone className="h-6 w-6 text-primary-600" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold mb-1 text-stone-950">Phone</h3>
-                    <a href={`tel:${businessInfo.contact.phone}`} className="text-primary-700 hover:text-primary-800 underline">
-                      {businessInfo.contact.phone}
-                    </a>
-                    <p className="text-stone-600 mt-1 leading-6">
-                      Available 7 days a week, 8AM-9PM CST
-                    </p>
-                  </div>
-                </div>
-                {/* Address */}
-                <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 bg-amber-50 rounded-2xl flex items-center justify-center">
-                    <MapPin className="h-6 w-6 text-primary-600" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold mb-1 text-stone-950">Studio Location</h3>
-                    <p className="text-stone-700">
-                      {businessInfo.address.fullAddress}
-                    </p>
-                    <p className="text-stone-600 mt-1">
-                      Serving Pinehurst, Montgomery County, The Woodlands, and Greater Houston Area
-                    </p>
-                    <p className="text-stone-600 mt-1">
-                      Studio visits by appointment only
-                    </p>
-                  </div>
+            <aside className="space-y-4">
+              <div className="rounded-lg border border-stone-200 bg-white p-6 shadow-sm">
+                <p className="eyebrow mb-3">What Happens Next</p>
+                <h2 className="text-2xl font-bold text-stone-950">A real person reviews the details.</h2>
+                <div className="mt-5 space-y-4">
+                  {[
+                    'We confirm service fit, date, city, and package direction.',
+                    'If proof helps, we send private examples matched to your project.',
+                    'If you are ready, we move you into consultation or booking.',
+                  ].map((item) => (
+                    <div key={item} className="flex gap-3 text-sm leading-6 text-stone-700">
+                      <CheckCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-green-600" aria-hidden="true" />
+                      <span>{item}</span>
+                    </div>
+                  ))}
                 </div>
               </div>
+              <div className="grid gap-3">
+                {contactCards.map(({ icon: Icon, title, value, href, note }) => (
+                  <div key={title} className="rounded-lg border border-stone-200 bg-white p-5 shadow-sm">
+                    <div className="flex items-start gap-4">
+                      <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-lg bg-amber-50">
+                        <Icon className="h-5 w-5 text-primary-700" aria-hidden="true" />
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-stone-950">{title}</h3>
+                        <a href={href} className="mt-1 inline-flex font-semibold text-primary-700 hover:text-primary-800 hover:underline">
+                          {value}
+                        </a>
+                        <p className="mt-1 text-sm leading-6 text-stone-600">{note}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
-            </div>
+              <div className="rounded-lg border border-amber-200 bg-amber-50 p-5 text-sm leading-6 text-stone-700">
+                Not sure what to book? Choose <strong>Not sure yet</strong> in the form and tell us what you are comparing.
+              </div>
+            </aside>
           </div>
         </section>
       </div>

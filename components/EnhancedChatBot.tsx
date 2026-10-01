@@ -73,7 +73,7 @@ function getQuickRepliesForRoute(route: ChatbotRoute) {
   if (route.intent === "pricing") return ["View details", "Get a quote", "Book consultation"];
   if (route.nextStep === "request_complete_galleries") return ["Request galleries", "Featured work", "Book consultation"];
   if (route.nextStep === "view_featured_work") return ["Featured work", "Request galleries", "Book consultation"];
-  if (route.intent === "booking") return ["Check calendar", "Get pricing", "Request galleries"];
+  if (route.intent === "booking") return ["Open booking page", "Call Studio37", "Get pricing"];
   if (route.intent === "human") return ["Call Studio37", "Book consultation", "Get pricing"];
   return undefined;
 }
@@ -260,6 +260,13 @@ export default function EnhancedChatBot() {
     if (deterministicRoute.response) {
       if (deterministicRoute.pageUrl) setServicePageUrl(deterministicRoute.pageUrl);
       if (deterministicRoute.serviceDetail) setServiceDetail(deterministicRoute.serviceDetail);
+      if (deterministicRoute.intent === "booking" && leadData.nextStep === "book_consultation") {
+        addBotMessage(
+          "Yes. The fastest path is the booking page: [open the consultation calendar](https://www.studio37.cc/book-consultation). If you want, send your service, city, and date here and I can pass that context with your inquiry.",
+          ["Open booking page", "Call Studio37", "Share details here"]
+        );
+        return;
+      }
       setLeadData((prev) => ({
         ...prev,
         intent: deterministicRoute.intent,
@@ -405,8 +412,12 @@ export default function EnhancedChatBot() {
   };
 
   const handleQuickReply = (reply: string) => {
-    if (reply === "Book consultation" || reply === "Check calendar") {
+    if (reply === "Book consultation" || reply === "Check calendar" || reply === "Open booking page") {
       window.open("/book-consultation", "_blank");
+      return;
+    }
+    if (reply === "Share details here") {
+      addBotMessage("Perfect. Send the service, date, city, and anything important about the session. If you include your email or phone, I can save it for the Studio37 team.");
       return;
     }
     if (reply === "View services") {
