@@ -148,7 +148,7 @@ export default function LeadCaptureForm() {
         className="space-y-6"
       >
         <input type="hidden" name="bot-field" />
-        <div className="grid md:grid-cols-2 gap-5">
+        <div className="grid xl:grid-cols-2 gap-5">
           <div>
             <label htmlFor="name-input" className="block text-sm font-medium text-gray-700 mb-2">
               Full Name *
@@ -215,7 +215,7 @@ export default function LeadCaptureForm() {
           </div>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-5">
+        <div className="grid xl:grid-cols-2 gap-5">
           <div>
             <label htmlFor="phone-input" className="block text-sm font-medium text-gray-700 mb-2">
               Phone Number
@@ -270,7 +270,7 @@ export default function LeadCaptureForm() {
           </div>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid xl:grid-cols-2 gap-6">
           <div>
             <label htmlFor="budget-select" className="block text-sm font-medium text-gray-700 mb-2">
               Package Interest <span className="text-gray-400 text-xs">(Optional)</span>

@@ -41,8 +41,8 @@ export default async function CuratedRecentWork({ className = '' }: { className?
                     fill
                     className="interactive-image object-cover"
                     sizes="(min-width: 1280px) 420px, (min-width: 768px) 33vw, 100vw"
-                    quality={88}
-                    loading={index < 6 ? 'eager' : 'lazy'}
+                    quality={82}
+                    loading="lazy"
                   />
                   <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-stone-950/65 to-transparent p-4 text-white">
                     <p className="text-sm font-semibold">{item.title}</p>

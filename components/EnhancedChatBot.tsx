@@ -14,7 +14,7 @@ import {
   Paperclip,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { routeChatbotIntent, type ChatbotRoute } from "@/lib/chatbot-quality";
+import { chatbotFallbacks, routeChatbotIntent, type ChatbotRoute } from "@/lib/chatbot-quality";
 
 interface Message {
   id: string;
@@ -71,6 +71,7 @@ function normalizePhone(value?: string) {
 
 function getQuickRepliesForRoute(route: ChatbotRoute) {
   if (route.intent === "pricing") return ["View details", "Get a quote", "Book consultation"];
+  if (route.intent === "services") return ["View details", "Book consultation", "View portfolio"];
   if (route.nextStep === "request_complete_galleries") return ["Request galleries", "Featured work", "Book consultation"];
   if (route.nextStep === "view_featured_work") return ["Featured work", "Request galleries", "Book consultation"];
   if (route.intent === "booking") return ["Open booking page", "Call Studio37", "Get pricing"];
@@ -200,7 +201,7 @@ export default function EnhancedChatBot() {
     setIsOpen(true);
     if (messages.length === 0) {
       addBotMessage(
-        "Hi! 👋 I'm the Studio37 AI assistant. I'm here to help you find the perfect photography package.\n\nWhat brings you here today?",
+        "Hi, I'm the Studio37 assistant. What are you planning?",
         FAQ_QUICK_REPLIES
       );
     }
@@ -278,11 +279,14 @@ export default function EnhancedChatBot() {
     }
 
     setIsTyping(true);
+    const controller = new AbortController();
+    const timeoutId = window.setTimeout(() => controller.abort(), 9000);
 
     try {
       const res = await fetch("/api/chat/respond", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        signal: controller.signal,
         body: JSON.stringify({
           message: userMessage,
           context: messages
@@ -293,6 +297,7 @@ export default function EnhancedChatBot() {
           imageData: attachedImage,
         }),
       });
+      window.clearTimeout(timeoutId);
 
       // Clear attached image after sending
       if (attachedImage) {
@@ -355,6 +360,10 @@ export default function EnhancedChatBot() {
           quickReplies = merged;
         }
 
+        if (typeof data.response !== "string" || !data.response.trim()) {
+          throw new Error("Chat API returned an empty response");
+        }
+
         addBotMessage(data.response, quickReplies);
       } else {
         // Fallback response
@@ -376,11 +385,16 @@ export default function EnhancedChatBot() {
       }
     } catch (error) {
       console.error("Chat error:", error);
+      const fallback =
+        deterministicRoute.intent === "general"
+          ? chatbotFallbacks.general
+          : chatbotFallbacks[deterministicRoute.intent] || chatbotFallbacks.general;
       addBotMessage(
-        "Let me connect you with our team. What's the best way to reach you?",
-        ["Share email", "Share phone"]
+        fallback,
+        ["Book consultation", "View services", "Pricing info", "Call Studio37"]
       );
     } finally {
+      window.clearTimeout(timeoutId);
       setIsTyping(false);
     }
   };
@@ -436,7 +450,11 @@ export default function EnhancedChatBot() {
       window.open("https://gallery.studio37.cc", "_blank", "noopener,noreferrer");
       return;
     }
-    if (reply === "View portfolio" || reply === "See portfolio" || reply === "Request galleries") {
+    if (reply === "View portfolio" || reply === "See portfolio") {
+      window.open("https://gallery.studio37.cc", "_blank", "noopener,noreferrer");
+      return;
+    }
+    if (reply === "Request galleries") {
       window.open("/request-portfolio", "_blank");
       return;
     }
@@ -681,7 +699,7 @@ ${conversationSummary}`;
                 <div>
                   <h3 className="font-semibold">Studio37 Assistant</h3>
                   <p className="text-xs text-purple-100">
-                    AI-powered • Always here to help
+                    Planning help • Fast next steps
                   </p>
                 </div>
               </div>
@@ -925,7 +943,7 @@ ${conversationSummary}`;
                         <>
                           <span>Was this helpful?</span>
                           <button type="button" onClick={() => sendFeedback(message, "good")} className="hover:text-green-700">Yes</button>
-                          <button type="button" onClick={() => sendFeedback(message, "bad")} className="hover:text-red-700">Wrong</button>
+                          <button type="button" onClick={() => sendFeedback(message, "bad")} className="hover:text-red-700">Needs help</button>
                         </>
                       )}
                     </div>

@@ -15,6 +15,8 @@ const servicePages = {
   event: 'https://www.studio37.cc/services/event-photography',
   commercial: 'https://www.studio37.cc/services/commercial-photography',
   engagement: 'https://www.studio37.cc/services/engagement-session',
+  brandingMarketing: 'https://www.studio37.cc/services/branding-marketing',
+  houston: 'https://www.studio37.cc/local-photographer-houston-tx',
 }
 
 const links = {
@@ -32,11 +34,38 @@ export const chatbotFallbacks = {
   pricing: `I am having trouble answering live right now, but you can use the [pricing tool](${links.pricing}) or [package recommender](${links.recommender}) to get a useful starting point.`,
   portfolio: `I am having trouble answering live right now. You can view our curated featured work at [gallery.studio37.cc](${links.featured}) or [request complete galleries](${links.portfolio}) for private examples.`,
   human: `I am having trouble answering live right now. You can [contact Studio37](${links.contact}) or call (832) 713-9944 and a real person can help.`,
+  services: `I am having trouble answering live right now. You can [browse Studio37 services](${links.services}), [book a consultation](${links.consult}), or call (832) 713-9944 for help choosing the right next step.`,
   general: `I am having trouble answering live right now. You can [book a consultation](${links.consult}), [browse services](${links.services}), [check pricing](${links.pricing}), or call Studio37 at (832) 713-9944.`,
 }
 
 export function routeChatbotIntent(message: string): ChatbotRoute {
   const text = message.toLowerCase()
+
+  if (/\b(houston|greater houston|the woodlands|pinehurst|conroe|magnolia|tomball|spring|katy|humble|kingwood|atascocita|cypress|montgomery|willis|new caney|hockley|huntsville|porter|splendora|waller|cleveland|navasota|plantersville)\b/.test(text) && /\b(photographer|photography|photo|photos|wedding|portrait|event|engagement|proposal|headshot|commercial|local|near me|available|serve|service)\b/.test(text)) {
+    const isHouston = /\b(houston|greater houston)\b/.test(text)
+    const pageUrl = isHouston ? servicePages.houston : 'https://www.studio37.cc/local-photographer-pinehurst-tx'
+    return {
+      intent: 'services',
+      nextStep: 'book_consultation',
+      service: isHouston ? 'houston-photographer' : 'local-photographer',
+      pageUrl,
+      serviceDetail: isHouston ? 'local-photographer-houston-tx' : 'local-photographer-pinehurst-tx',
+      response: isHouston
+        ? `Yes. Studio37 serves Houston with wedding, portrait, engagement, event, and commercial photography, with two Studio37 photographers on every session. You can review the Houston page here: [Photographer in Houston, TX](${pageUrl}). The fastest next step is to [book a consultation](${links.consult}) so we can confirm the service, date, location, and package direction.`
+        : `Yes. Studio37 serves Pinehurst, The Woodlands, Houston, and nearby Greater Houston communities with weddings, portraits, engagements, events, and commercial work. Start with the [service areas page](${pageUrl}) or [book a consultation](${links.consult}) so we can confirm fit and availability.`,
+    }
+  }
+
+  if (/\b(branding|brand|seo|search engine|website|web design|digital marketing|marketing|ppc|google ads|paid ads|social media|content|copywriting)\b/.test(text)) {
+    return {
+      intent: 'services',
+      nextStep: 'book_consultation',
+      service: 'branding-marketing',
+      pageUrl: servicePages.brandingMarketing,
+      serviceDetail: 'services/branding-marketing',
+      response: `Yes. Studio37 is a one-stop creative and marketing partner: brand direction, websites, SEO, content, PPC, social, and photography can all work together instead of being managed in separate silos. You can start with the [Branding & Marketing page](${servicePages.brandingMarketing}) or [book a consultation](${links.consult}) so we can map the right next step.`,
+    }
+  }
 
   if (/\b(full|complete|finished|sample|private).{0,30}galler|\bgaller(y|ies)\b|portfolio|examples|see.*work|view.*work/.test(text)) {
     if (/\b(featured|best|public|link|shootproof)\b/.test(text)) {
@@ -181,5 +210,15 @@ export const chatbotFactCases = [
     message: 'Engagement packages',
     mustInclude: ['$450', '$650', '$900'],
     mustNotInclude: ['wedding packages start'],
+  },
+  {
+    message: 'I need a photographer in Houston',
+    mustInclude: ['Houston', 'two Studio37 photographers', 'book a consultation'],
+    mustNotInclude: ['I am having trouble'],
+  },
+  {
+    message: 'Do you do branding and SEO?',
+    mustInclude: ['one-stop', 'SEO', 'Branding & Marketing'],
+    mustNotInclude: ['I am having trouble'],
   },
 ]

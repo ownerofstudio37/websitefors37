@@ -273,7 +273,7 @@ const ConsultationBookingForm = () => {
               setSelectedDate(dateStr)
             }
           }}
-          className={`p-2 border ${borderColor} ${bgColor} ${cursor} rounded-lg transition-all relative min-h-[50px] ${
+          className={`relative min-h-[44px] min-w-0 rounded-lg border p-1.5 transition-all sm:min-h-[50px] sm:p-2 ${borderColor} ${bgColor} ${cursor} ${
             isSelected ? 'ring-2 ring-primary-600 ring-offset-2' : ''
           }`}
         >
@@ -443,14 +443,14 @@ const ConsultationBookingForm = () => {
 
             {/* Calendar Grid */}
             <div className="mb-4">
-              <div className="grid grid-cols-7 gap-2 mb-2">
+              <div className="grid grid-cols-7 gap-1 mb-2 sm:gap-2">
                 {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
-                  <div key={day} className="text-center text-xs font-semibold text-gray-600 py-2">
+                  <div key={day} className="min-w-0 px-0.5 py-2 text-center text-[11px] font-semibold uppercase tracking-normal text-gray-600 sm:text-xs">
                     {day}
                   </div>
                 ))}
               </div>
-              <div className="grid grid-cols-7 gap-2">
+              <div className="grid grid-cols-7 gap-1 sm:gap-2">
                 {renderCalendar()}
               </div>
             </div>
