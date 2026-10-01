@@ -14,6 +14,85 @@ function countWords(value: string) {
   return (value.match(/\b[\w'-]+\b/g) || []).length;
 }
 
+function normalizeHeading(value: string) {
+  return value
+    .toLowerCase()
+    .replace(/[`*_#[\]()]/g, "")
+    .replace(/[^\w\s-]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function parseOutlineSections(outline: unknown) {
+  if (typeof outline !== "string") return [];
+  return outline
+    .split(/\r?\n/)
+    .map((line) => line.replace(/^#{1,6}\s+/, "").replace(/^[-*]\s+/, "").trim())
+    .filter(Boolean);
+}
+
+function getMarkdownH2Sections(markdown: string) {
+  const sections: Array<{ heading: string; normalized: string; body: string; wordCount: number }> = [];
+  const h2Pattern = /^##\s+(.+)$/gm;
+  const matches = Array.from(markdown.matchAll(h2Pattern));
+
+  for (let index = 0; index < matches.length; index++) {
+    const match = matches[index];
+    const next = matches[index + 1];
+    const heading = (match[1] || "").trim();
+    const bodyStart = (match.index || 0) + match[0].length;
+    const bodyEnd = next?.index ?? markdown.length;
+    const body = markdown.slice(bodyStart, bodyEnd).trim();
+    sections.push({
+      heading,
+      normalized: normalizeHeading(heading),
+      body,
+      wordCount: countWords(body),
+    });
+  }
+
+  return sections;
+}
+
+function analyzeOutlineCoverage(markdown: string, outline: unknown) {
+  const outlineSections = parseOutlineSections(outline);
+  if (!outlineSections.length) {
+    return {
+      hasOutline: false,
+      complete: true,
+      thinSections: [] as string[],
+      sections: [] as Array<{ heading: string; wordCount: number; substantive: boolean; found: boolean }>,
+    };
+  }
+
+  const markdownSections = getMarkdownH2Sections(markdown);
+  const sections = outlineSections.map((heading) => {
+    const normalized = normalizeHeading(heading);
+    const match = markdownSections.find((section) => {
+      return section.normalized === normalized ||
+        section.normalized.includes(normalized) ||
+        normalized.includes(section.normalized);
+    });
+    const wordCount = match?.wordCount || 0;
+    return {
+      heading,
+      wordCount,
+      substantive: Boolean(match) && wordCount >= 80,
+      found: Boolean(match),
+    };
+  });
+  const thinSections = sections
+    .filter((section) => !section.substantive)
+    .map((section) => section.heading);
+
+  return {
+    hasOutline: true,
+    complete: thinSections.length === 0,
+    thinSections,
+    sections,
+  };
+}
+
 function parseKeywords(keywords: unknown) {
   return typeof keywords === "string"
     ? keywords.split(",").map((k: string) => k.trim()).filter(Boolean)
@@ -57,7 +136,14 @@ function ensureLinks(md: string): string {
   return out;
 }
 
-function jsonDraftResponse(blogPost: BlogPost, targetWords: number, pass: number, doneOverride?: boolean, doneReason?: string) {
+function jsonDraftResponse(
+  blogPost: BlogPost,
+  targetWords: number,
+  pass: number,
+  doneOverride?: boolean,
+  doneReason?: string,
+  coverage?: ReturnType<typeof analyzeOutlineCoverage>
+) {
   const cleanContent = ensureLinks(blogPost.content);
   const wordCount = countWords(cleanContent);
   const done = doneOverride ?? wordCount >= targetWords;
@@ -76,8 +162,9 @@ function jsonDraftResponse(blogPost: BlogPost, targetWords: number, pass: number
     },
     wordCount,
     done,
-    doneReason: done ? doneReason || (wordCount >= targetWords ? "target-met" : "stopped") : "needs-expansion",
+    doneReason: done ? doneReason || (coverage?.complete ? "coverage-complete" : "stopped") : doneReason || "needs-expansion",
     targetWords,
+    coverage,
     pass,
     title: blogPost.title,
     seoTitle: blogPost.seoTitle,
@@ -193,15 +280,21 @@ export async function POST(req: Request) {
       linkTarget,
       localSpecifics: parseLocalSpecifics(localSpecifics),
     };
+    const isLongform = targetWords >= LONGFORM_TARGET_WORDS || /longform|1,800|1800/i.test(String(wordCount));
 
     const hasApiKey = !!(process.env.GOOGLE_API_KEY || process.env.GEMINI_API_KEY);
     if (!hasApiKey) {
       log.error("API key not found in environment");
       if (pass === 1) {
+        const fallbackPost = buildStarterDraft(writerBrief, "AI pass 1 could not run because the server API key is missing. Starter draft returned for review.");
+        const coverage = analyzeOutlineCoverage(fallbackPost.content, outline);
         return jsonDraftResponse(
-          buildStarterDraft(writerBrief, "AI pass 1 could not run because the server API key is missing. Starter draft returned for review."),
+          fallbackPost,
           targetWords,
-          pass
+          pass,
+          isLongform ? coverage.complete : undefined,
+          isLongform ? (coverage.complete ? "coverage-complete" : "needs-outline-coverage") : undefined,
+          coverage
         );
       }
       if (previousDraft?.content) {
@@ -216,7 +309,8 @@ export async function POST(req: Request) {
           targetWords,
           pass,
           true,
-          "provider-unavailable"
+          "provider-unavailable",
+          analyzeOutlineCoverage(previousDraft.content, outline)
         );
       }
       return NextResponse.json(
@@ -233,8 +327,13 @@ export async function POST(req: Request) {
     });
 
     try {
+      const previousCoverage = previousDraft?.content
+        ? analyzeOutlineCoverage(previousDraft.content, outline)
+        : undefined;
       const blogPost = pass > 1 && previousDraft?.content
-        ? await expandBlogPostChunk(previousDraft, writerBrief, pass)
+        ? await expandBlogPostChunk(previousDraft, writerBrief, pass, {
+            thinSections: previousCoverage?.thinSections || [],
+          })
         : await generateBlogPost(
             topic,
             keywordArray,
@@ -265,7 +364,18 @@ export async function POST(req: Request) {
       const noMeaningfulGrowth = pass > 1 && previousDraft?.content
         ? wordCountAfterPass <= countWords(previousDraft.content) + 60
         : false;
-      return jsonDraftResponse(blogPost, targetWords, pass, noMeaningfulGrowth ? true : undefined, noMeaningfulGrowth ? "no-growth" : undefined);
+      const coverage = analyzeOutlineCoverage(blogPost.content || "", outline);
+      const longformDone = isLongform
+        ? coverage.complete || noMeaningfulGrowth
+        : wordCountAfterPass >= targetWords;
+      const reason = isLongform
+        ? coverage.complete
+          ? "coverage-complete"
+          : noMeaningfulGrowth
+            ? "no-growth"
+            : "needs-outline-coverage"
+        : undefined;
+      return jsonDraftResponse(blogPost, targetWords, pass, longformDone, reason, coverage);
     } catch (aiError: any) {
       log.error("AI generation failed with error", { 
         error: aiError.message,
@@ -274,10 +384,15 @@ export async function POST(req: Request) {
       });
       
       if (pass === 1) {
+        const fallbackPost = buildStarterDraft(writerBrief, `AI pass 1 failed: ${aiError.message || "Unknown error"}. Starter draft returned for review.`);
+        const coverage = analyzeOutlineCoverage(fallbackPost.content, outline);
         return jsonDraftResponse(
-          buildStarterDraft(writerBrief, `AI pass 1 failed: ${aiError.message || "Unknown error"}. Starter draft returned for review.`),
+          fallbackPost,
           targetWords,
-          pass
+          pass,
+          isLongform ? coverage.complete : undefined,
+          isLongform ? (coverage.complete ? "coverage-complete" : "needs-outline-coverage") : undefined,
+          coverage
         );
       }
 
@@ -293,7 +408,8 @@ export async function POST(req: Request) {
           targetWords,
           pass,
           true,
-          "provider-error"
+          "provider-error",
+          analyzeOutlineCoverage(previousDraft.content, outline)
         );
       }
 

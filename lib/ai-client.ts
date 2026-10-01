@@ -481,7 +481,9 @@ export interface BlogPost {
 }
 
 type BlogWriterOptions = AIClientOptions &
-  Partial<Pick<BlogWriterBrief, "outline" | "reader" | "linkTarget" | "localSpecifics">>;
+  Partial<Pick<BlogWriterBrief, "outline" | "reader" | "linkTarget" | "localSpecifics">> & {
+    thinSections?: string[];
+  };
 
 function countMarkdownWords(value: string) {
   return (value.match(/\b[\w'-]+\b/g) || []).length;
@@ -502,7 +504,8 @@ export async function expandBlogPostChunk(
 ): Promise<BlogPost> {
   const currentWords = countMarkdownWords(post.content || "");
   const primaryKeyword = brief.keywords.find(Boolean) || "professional photography";
-  const expansionPrompt = `Expand this Studio37 blog draft by one useful section or by deepening the thinnest existing section. Add roughly 300-450 words, then return the full updated Markdown draft.
+  const thinSectionList = options.thinSections?.length ? options.thinSections.join(", ") : "the thinnest outline section";
+  const expansionPrompt = `Expand this Studio37 blog draft only where the outline coverage is thin. Focus on: ${thinSectionList}. Add useful detail to those section(s), then return the full updated Markdown draft.
 
 Critical rules:
 - Return ONLY the full expanded Markdown content, not JSON.
@@ -511,8 +514,10 @@ Critical rules:
 - Keep exactly one contextual link to ${brief.linkTarget || "/book-consultation"} using the exact keyword anchor.
 - Keep first-person "we" voice, short sentences, and add one subtle playful/nerdy beat if one is missing.
 - Add depth through planning details, examples, decision criteria, wardrobe/logistics guidance, and local context.
+- Do not pad complete sections just to raise the word count.
+- Keep existing H2s and outline order. Do not add unrequested major sections.
 - Do not write to photographers or Studio37 as the audience.
-- This is pass ${pass} of a multi-pass longform draft. Do not try to finish everything in one response.
+- This is pass ${pass} of a coverage-based longform draft. Stop adding once the thin section feels complete.
 
 Declared reader: ${brief.reader || "a real client planning a session"}
 Approved local specifics: ${(brief.localSpecifics || []).join(", ") || "Pinehurst, The Woodlands, Greater Houston"}
@@ -553,7 +558,7 @@ ${post.content}`;
       ...post,
       warnings: [
         ...(post.warnings || []),
-        `Expansion pass failed at ${currentWords} words; review or regenerate for 1,800+ words.`,
+        `Expansion pass failed at ${currentWords} words; review thin outline sections before publishing.`,
       ],
     };
   }

@@ -285,11 +285,6 @@ export function applyBlogWriterGuardrails(post: BlogWriterPost, brief: BlogWrite
     )
   }
 
-  const wordTotal = countWords(content)
-  if (brief.wordCount >= 1800 && wordTotal < 1800) {
-    warnings.add(`Draft is ${wordTotal} words; requested 1,800+ words. Add depth before publishing or regenerate.`)
-  }
-
   buildWarnings(content).forEach((warning) => warnings.add(warning))
 
   return {

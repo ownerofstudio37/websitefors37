@@ -462,7 +462,7 @@ export default function BlogManagementPage() {
       let latestData: any = null;
       let previousDraft: any = null;
       const maxPasses = isLongform ? LONGFORM_MAX_PASSES : 1;
-      setAiPassLog([`Detected ${isLongform ? "longform" : "standard"} mode from Word Count "${aiForm.wordCount}" with target ${targetWords}.`]);
+      setAiPassLog([`Detected ${isLongform ? "longform" : "standard"} mode from Word Count "${aiForm.wordCount}"${isLongform ? " using outline coverage as the stop rule" : ` with target ${targetWords}`}.`]);
 
       for (let pass = 1; pass <= maxPasses; pass++) {
         setAiProgress(isLongform ? `Writing... pass ${pass} of max ${LONGFORM_MAX_PASSES}` : "Writing...");
@@ -497,14 +497,15 @@ export default function BlogManagementPage() {
           throw passError;
         }
 
-        const reachedTarget = (Number(latestData.wordCount) || 0) >= targetWords;
+        const coverageComplete = latestData.coverage?.complete === true;
+        const thinSections = Array.isArray(latestData.coverage?.thinSections) ? latestData.coverage.thinSections : [];
         const serverStoppedForGrowth = latestData.doneReason === "no-growth";
         const serverStoppedForFailure = /provider|error|unavailable|stopped/i.test(latestData.doneReason || "");
         setAiPassLog((current) => [
           ...current,
-          `Pass ${pass} result: ${latestData.wordCount || 0}/${targetWords} words, done=${Boolean(latestData.done)}, reason=${latestData.doneReason || "none"}.`,
+          `Pass ${pass} result: ${latestData.wordCount || 0} words, done=${Boolean(latestData.done)}, reason=${latestData.doneReason || "none"}${isLongform ? `, thin sections=${thinSections.length ? thinSections.join("; ") : "none"}` : ""}.`,
         ]);
-        if (!isLongform || reachedTarget || serverStoppedForGrowth || serverStoppedForFailure) break;
+        if (!isLongform || coverageComplete || serverStoppedForGrowth || serverStoppedForFailure) break;
       }
 
       if (!latestData) throw new Error("AI writer returned no draft.");
@@ -1245,7 +1246,8 @@ export default function BlogManagementPage() {
                 <div className="rounded-lg border border-purple-200 bg-purple-50 p-4">
                   <h3 className="font-semibold text-purple-950 mb-2">Reliability Mode</h3>
                   <ul className="list-disc ml-5 space-y-1 text-sm text-purple-800">
-                    <li>1,800-word drafts run as independent passes so Netlify does not close one huge request.</li>
+                    <li>SEO Longform drafts run as independent passes so Netlify does not close one huge request.</li>
+                    <li>Longform stops when each outline section is substantive, not when it hits a word-count quota.</li>
                     <li>If a later pass fails, the draft-so-far is kept and marked for human review.</li>
                     <li>Drafts stay unpublished and may include a human-review banner for dates, removed prices, or stats.</li>
                   </ul>
