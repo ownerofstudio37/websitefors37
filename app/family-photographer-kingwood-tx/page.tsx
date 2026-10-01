@@ -2,7 +2,7 @@ import ServiceCityLandingPage from '@/components/ServiceCityLandingPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 
 export const metadata = generateSEOMetadata({
-  title: 'Family Photographer Kingwood TX - Studio37 Photography',
+  title: 'Family Photography in Kingwood, TX | Studio37',
   description:
     'Family photographer in Kingwood, TX. Studio37 captures natural family moments at Town Center Park, East End Park, and Kingwood\'s greenbelt trail system.',
   keywords: [

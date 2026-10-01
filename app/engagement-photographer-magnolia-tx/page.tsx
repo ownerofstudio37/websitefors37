@@ -2,7 +2,7 @@ import ServiceCityLandingPage from '@/components/ServiceCityLandingPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 
 export const metadata = generateSEOMetadata({
-  title: 'Engagement Photographer Magnolia TX | Studio37',
+  title: 'Engagement Photography in Magnolia, TX | Studio37',
   description: 'Magnolia, TX engagement and proposal photography with rural backdrops, golden-hour planning, styling support, and concierge proposal options.',
   keywords: ['engagement photographer Magnolia TX', 'proposal photographer Magnolia Texas', 'Magnolia engagement photos'],
   canonicalUrl: 'https://www.studio37.cc/engagement-photographer-magnolia-tx',

@@ -52,6 +52,18 @@ const LOCAL_HERO_IMAGES = [
   'https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_1800,c_limit/v1784791657/VB_School_Chris_Faves_-_28_vdjsiw.jpg',
   'https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_1800,c_limit/v1784790718/Hotard_Family_Day_2_-_49_1_eernop.jpg',
   'https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_1800,c_limit/v1784791658/VB_School_Chris_Faves_-_158_wlcspc.jpg',
+  'https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_1800,c_limit/v1778033085/KELLY_-_1_8_1__2_x7leuc.jpg',
+  'https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_1800,c_limit/v1778033087/IMG_4591_1_r62hly.jpg',
+  'https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_1800,c_limit/v1778033090/Untitled-36_mape8j.jpg',
+  'https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_1800,c_limit/v1778033152/IMG_4582_1_lmosd6.jpg',
+  'https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_1800,c_limit/v1778033155/KELLY_-_1_11_wgadni.jpg',
+  'https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_1800,c_limit/v1779268257/PS374813_vuos93.jpg',
+  'https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_1800,c_limit/v1779268257/PS375315_zyvbbi.jpg',
+  'https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_1800,c_limit/v1765642849/JoshuaMapson-029_rgc1xu.jpg',
+  'https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_1800,c_limit/v1769255559/PS379799_ayoxbp.jpg',
+  'https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_1800,c_limit/v1769255706/PS373287_d7fl9k.jpg',
+  'https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_1800,c_limit/v1775537570/Jay_Proposal_-_1_12_e7wqsb.jpg',
+  'https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_1800,c_limit/v1775537572/JayKnee3_1_dm2pwk.jpg',
 ]
 
 const LOCAL_PROOF_IMAGES: LocalProofImage[] = [
@@ -959,7 +971,7 @@ export default function LocalPhotographerCityPage({
 
             <div className="flex flex-wrap gap-3 text-sm mb-4">
               <Link href="/services" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">All Services</Link>
-              <Link href="/locations" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">All Service Areas</Link>
+              <Link href="/local-photographer-pinehurst-tx" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">All Service Areas</Link>
               <Link href="/services/wedding-photography" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">Wedding</Link>
               <Link href="/services/portrait-photography" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">Portrait</Link>
               <Link href="/services/engagement-session" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">Engagement</Link>

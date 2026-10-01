@@ -2,7 +2,7 @@ import ServiceCityLandingPage from '@/components/ServiceCityLandingPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 
 export const metadata = generateSEOMetadata({
-  title: 'Wedding Photographer Navasota TX - Studio37 Photography',
+  title: 'Wedding Photography in Navasota, TX | Studio37',
   description:
     'Wedding photographer in Navasota, TX. Studio37 covers ceremonies in the Railroad District, heritage venues, and Brazos Valley gateway corridor.',
   keywords: [

@@ -2,7 +2,7 @@ import ServiceCityLandingPage from '@/components/ServiceCityLandingPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 
 export const metadata = generateSEOMetadata({
-  title: 'Engagement Photographer Houston TX | Studio37',
+  title: 'Engagement Photography in Houston, TX | Studio37',
   description: 'Houston engagement and proposal photography with city, park, and golden-hour planning plus concierge proposal support from Studio37.',
   keywords: ['engagement photographer Houston TX', 'proposal photographer Houston', 'Houston engagement photos'],
   canonicalUrl: 'https://www.studio37.cc/engagement-photographer-houston-tx',

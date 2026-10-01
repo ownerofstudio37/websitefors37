@@ -2301,7 +2301,7 @@ export default function VisualEditor({
       case "seoFooter":
         return {
           content:
-            '<h3 class="text-lg font-bold mb-2">About Studio37</h3><p class="text-sm">Professional photography serving Pinehurst, Tomball, Magnolia, The Woodlands, Conroe, Spring, and surrounding areas within 50 miles. Specializing in portraits, weddings, events, and commercial photography.</p><h3 class="text-lg font-bold mt-4 mb-2">Contact</h3><p class="text-sm">Studio37 • 832-713-9944 • sales@studio37.cc • 1701 Goodson Loop, TRLR 80, Pinehurst, TX 77362</p>',
+            '<h3 class="text-lg font-bold mb-2">About Studio37</h3><p class="text-sm">Professional photography serving Pinehurst, Tomball, Magnolia, The Woodlands, Conroe, Spring, and surrounding areas within 50 miles. Specializing in portraits, weddings, events, and commercial photography.</p><h3 class="text-lg font-bold mt-4 mb-2">Contact</h3><p class="text-sm">Studio37 • 832-713-9944 • sales@studio37.cc • 1701 Goodson Loop Unit 80, Pinehurst, TX 77362</p>',
           includeSchema: true,
         };
       case "publicSection":
@@ -2823,7 +2823,7 @@ export default function VisualEditor({
       
       case "mapEmbed":
         return {
-          address: "1701 Goodson Loop, TRLR 80, Pinehurst, TX 77362",
+          address: "1701 Goodson Loop Unit 80, Pinehurst, TX 77362",
           zoom: 14,
           height: "md",
           showMarker: true,
@@ -7515,7 +7515,7 @@ function buildHomepageTemplate(): PageComponent[] {
     type: "seoFooter",
     data: {
       content:
-        '<h3 class="text-lg font-bold mb-2">About Studio37</h3><p class="text-sm">Professional photography serving Pinehurst, Tomball, Magnolia, The Woodlands, Conroe, Spring, and surrounding areas within 50 miles. Specializing in portraits, weddings, events, and commercial photography.</p><h3 class="text-lg font-bold mt-4 mb-2">Contact</h3><p class="text-sm">Studio37 • 832-713-9944 • sales@studio37.cc • 1701 Goodson Loop, TRLR 80, Pinehurst, TX 77362</p>',
+        '<h3 class="text-lg font-bold mb-2">About Studio37</h3><p class="text-sm">Professional photography serving Pinehurst, Tomball, Magnolia, The Woodlands, Conroe, Spring, and surrounding areas within 50 miles. Specializing in portraits, weddings, events, and commercial photography.</p><h3 class="text-lg font-bold mt-4 mb-2">Contact</h3><p class="text-sm">Studio37 • 832-713-9944 • sales@studio37.cc • 1701 Goodson Loop Unit 80, Pinehurst, TX 77362</p>',
       includeSchema: true,
     },
   } as SEOFooterComponent);
@@ -7948,7 +7948,7 @@ function buildContactTemplate(): PageComponent[] {
     id: id(),
     type: "mapEmbed",
     data: {
-      address: "1701 Goodson Loop, TRLR 80, Pinehurst, TX 77362",
+      address: "1701 Goodson Loop Unit 80, Pinehurst, TX 77362",
       zoom: 14,
       height: 400,
       showMarker: true,

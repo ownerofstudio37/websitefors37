@@ -2,7 +2,7 @@ import ServiceCityLandingPage from '@/components/ServiceCityLandingPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 
 export const metadata = generateSEOMetadata({
-  title: 'Wedding Photographer College Station TX - Studio37 Photography',
+  title: 'Wedding Photography in College Station, TX | Studio37',
   description:
     'Wedding photographer in College Station, TX. Studio37 covers Aggie weddings, A&M venue ceremonies, Century Square events, and Brazos Valley receptions.',
   keywords: [

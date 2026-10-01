@@ -2,7 +2,7 @@ import ServiceCityLandingPage from '@/components/ServiceCityLandingPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 
 export const metadata = generateSEOMetadata({
-  title: 'Portrait Photographer Hockley TX - Studio37 Photography',
+  title: 'Portrait Photography in Hockley, TX | Studio37',
   description:
     'Portrait photographer in Hockley, TX. Studio37 delivers outdoor portrait sessions at Zube Park, Houston Oaks, and rural pasture settings in Northwest Harris County.',
   keywords: [

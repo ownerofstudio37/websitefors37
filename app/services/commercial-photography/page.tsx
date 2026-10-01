@@ -629,7 +629,7 @@ export default function CommercialPhotographyPage() {
               Serving: Pinehurst TX · The Woodlands · Conroe · Magnolia · Tomball · Spring · Montgomery · Willis · New Caney · Hockley · Bryan · College Station · Houston
             </p>
             <p className="text-sm mt-2 text-primary-700">
-              Commercial area pages: <Link href="/the-woodlands" className="hover:underline">The Woodlands</Link>, <Link href="/bryan" className="hover:underline">Bryan</Link>, <Link href="/college-station" className="hover:underline">College Station</Link>, <Link href="/locations" className="hover:underline">all locations</Link>.
+              Commercial area pages: <Link href="/local-photographer-the-woodlands-tx" className="hover:underline">The Woodlands</Link>, <Link href="/local-photographer-bryan-tx" className="hover:underline">Bryan</Link>, <Link href="/local-photographer-college-station-tx" className="hover:underline">College Station</Link>, <Link href="/local-photographer-pinehurst-tx" className="hover:underline">all locations</Link>.
             </p>
           </div>
         </div>

@@ -2,7 +2,7 @@ import ServiceCityLandingPage from '@/components/ServiceCityLandingPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 
 export const metadata = generateSEOMetadata({
-  title: 'Portrait Photographer New Waverly TX - Studio37 Photography',
+  title: 'Portrait Photography in New Waverly, TX | Studio37',
   description:
     'Portrait photographer in New Waverly, TX. Studio37 creates natural family portraits, senior sessions, and lifestyle photography with quiet forest backdrops.',
   keywords: [

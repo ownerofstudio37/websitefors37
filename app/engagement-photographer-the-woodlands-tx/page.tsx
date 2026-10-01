@@ -2,7 +2,7 @@ import ServiceCityLandingPage from '@/components/ServiceCityLandingPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 
 export const metadata = generateSEOMetadata({
-  title: 'Engagement Photographer The Woodlands TX | Studio37',
+  title: 'Engagement Photography in The Woodlands, TX | Studio37',
   description: 'Engagement and proposal photography in The Woodlands, TX with location planning, golden-hour timing, privacy notes, and optional concierge support.',
   keywords: ['engagement photographer The Woodlands TX', 'proposal photographer The Woodlands', 'The Woodlands engagement photos'],
   canonicalUrl: 'https://www.studio37.cc/engagement-photographer-the-woodlands-tx',

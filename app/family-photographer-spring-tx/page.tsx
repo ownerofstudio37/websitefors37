@@ -2,7 +2,7 @@ import ServiceCityLandingPage from '@/components/ServiceCityLandingPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 
 export const metadata = generateSEOMetadata({
-  title: 'Family Photographer Spring TX - Studio37 Photography',
+  title: 'Family Photography in Spring, TX | Studio37',
   description:
     'Family photographer in Spring, TX. Studio37 captures natural, genuine family moments at Old Town Spring, Meyer Park, and Pundt Park with clear pricing and two photographers on every session.',
   keywords: [

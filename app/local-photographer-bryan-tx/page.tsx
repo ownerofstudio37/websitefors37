@@ -2,7 +2,7 @@ import LocalPhotographerCityPage from '@/components/LocalPhotographerCityPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 
 export const metadata = generateSEOMetadata({
-  title: 'Professional Photographer Bryan TX - Studio37 Photography',
+  title: 'Photographer in Bryan, TX | Studio37',
   description:
     'Professional photographer in Bryan, Texas offering wedding, portrait, engagement, event, and commercial photography with transparent pricing.',
   keywords: [

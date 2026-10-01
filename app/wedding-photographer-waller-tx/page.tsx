@@ -2,7 +2,7 @@ import ServiceCityLandingPage from '@/components/ServiceCityLandingPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 
 export const metadata = generateSEOMetadata({
-  title: 'Wedding Photographer Waller TX - Studio37 Photography',
+  title: 'Wedding Photography in Waller, TX | Studio37',
   description:
     'Wedding photographer in Waller, TX. Studio37 covers ranch, barn, and outdoor ceremonies in Waller County with dual-shooter coverage and artistic editing.',
   keywords: [

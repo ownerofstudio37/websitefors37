@@ -65,7 +65,7 @@ export default function SEOFooter() {
               <li><Link href="/services/event-photography" className="hover:text-white transition-colors">Event Photography</Link></li>
               <li><Link href="/services/commercial-photography" className="hover:text-white transition-colors">Commercial Photography</Link></li>
               <li><Link href="/services/branding-marketing" className="hover:text-white transition-colors">Branding &amp; Marketing</Link></li>
-              <li><Link href="/locations" className="hover:text-white transition-colors">Service Areas</Link></li>
+              <li><Link href="/local-photographer-pinehurst-tx" className="hover:text-white transition-colors">Service Areas</Link></li>
             </ul>
           </div>
 

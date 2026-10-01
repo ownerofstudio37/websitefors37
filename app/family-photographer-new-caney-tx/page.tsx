@@ -2,7 +2,7 @@ import ServiceCityLandingPage from '@/components/ServiceCityLandingPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 
 export const metadata = generateSEOMetadata({
-  title: 'Family Photographer New Caney TX - Studio37 Photography',
+  title: 'Family Photography in New Caney, TX | Studio37',
   description:
     'Family photographer in New Caney, TX. Studio37 captures genuine family moments at Valley Ranch Town Center, Lake Houston Wilderness Park, and local parks.',
   keywords: [

@@ -11,7 +11,7 @@ import { ServiceTestimonialsSection, TurnaroundExpectationsSection, VenueStyleEx
 import ServiceIntentPanel from '@/components/ServiceIntentPanel'
 
 export const metadata = generateSEOMetadata({
-  title: 'Wedding Photographer in Pinehurst TX | Studio37',
+  title: 'Wedding Photographer in Pinehurst, TX | Studio37',
   description: 'Wedding photographer in Pinehurst, TX serving Montgomery County, The Woodlands, and Houston with two photographers, timeline support, and timeless galleries.',
   keywords: [
     'wedding photography Pinehurst TX',
@@ -581,7 +581,7 @@ export default function WeddingPhotographyPage() {
               Serving: Pinehurst TX · The Woodlands · Conroe · Magnolia · Tomball · Spring · Montgomery · Willis · New Caney · Hockley · Huntsville · Houston
             </p>
             <p className="text-sm mt-2 text-primary-700">
-              Popular wedding areas: <Link href="/the-woodlands" className="hover:underline">The Woodlands</Link>, <Link href="/montgomery" className="hover:underline">Montgomery</Link>, <Link href="/magnolia" className="hover:underline">Magnolia</Link>, <Link href="/college-station" className="hover:underline">College Station</Link>.
+              Popular wedding areas: <Link href="/local-photographer-the-woodlands-tx" className="hover:underline">The Woodlands</Link>, <Link href="/local-photographer-montgomery-tx" className="hover:underline">Montgomery</Link>, <Link href="/local-photographer-magnolia-tx" className="hover:underline">Magnolia</Link>, <Link href="/local-photographer-college-station-tx" className="hover:underline">College Station</Link>.
             </p>
             <p className="text-sm mt-2 text-primary-700">
               Planning tips: <Link href="/blog/10-essential-tips-for-choosing-your-wedding-photographer" className="hover:underline">How to choose a wedding photographer</Link>.

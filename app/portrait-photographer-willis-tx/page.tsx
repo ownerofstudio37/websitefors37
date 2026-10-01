@@ -2,7 +2,7 @@ import ServiceCityLandingPage from '@/components/ServiceCityLandingPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 
 export const metadata = generateSEOMetadata({
-  title: 'Portrait Photographer Willis TX - Studio37 Photography',
+  title: 'Portrait Photography in Willis, TX | Studio37',
   description:
     'Portrait photographer in Willis, TX. Studio37 delivers natural, polished portraits at Lake Conroe North, Cedar Creek, and local park settings.',
   keywords: [

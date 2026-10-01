@@ -200,13 +200,13 @@ export default function ServicesPage() {
               Huntsville, New Caney, Hockley, Bryan, and College Station.
             </p>
             <div className="flex flex-wrap gap-3 text-sm">
-              <Link href="/locations" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">All Service Areas</Link>
-              <Link href="/the-woodlands" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">The Woodlands</Link>
+              <Link href="/local-photographer-pinehurst-tx" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">All Service Areas</Link>
+              <Link href="/local-photographer-the-woodlands-tx" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">The Woodlands</Link>
               <Link href="/katy" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">Katy</Link>
-              <Link href="/conroe" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">Conroe</Link>
-              <Link href="/magnolia" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">Magnolia</Link>
-              <Link href="/huntsville" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">Huntsville</Link>
-              <Link href="/college-station" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">College Station</Link>
+              <Link href="/local-photographer-conroe-tx" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">Conroe</Link>
+              <Link href="/local-photographer-magnolia-tx" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">Magnolia</Link>
+              <Link href="/local-photographer-huntsville-tx" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">Huntsville</Link>
+              <Link href="/local-photographer-college-station-tx" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">College Station</Link>
             </div>
             <div className="flex flex-wrap gap-3 text-sm mt-4">
               <Link href="/wedding-photographer-katy-tx" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-primary-300">Wedding Photographer Katy</Link>

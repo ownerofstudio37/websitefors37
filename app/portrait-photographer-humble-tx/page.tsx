@@ -2,7 +2,7 @@ import ServiceCityLandingPage from '@/components/ServiceCityLandingPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 
 export const metadata = generateSEOMetadata({
-  title: 'Portrait Photographer Humble TX - Studio37 Photography',
+  title: 'Portrait Photography in Humble, TX | Studio37',
   description:
     'Portrait photographer in Humble, TX. Studio37 delivers professional headshots, family portraits, and lifestyle sessions near Lake Houston and Deerbrook.',
   keywords: [

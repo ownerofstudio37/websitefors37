@@ -2,7 +2,7 @@ import ServiceCityLandingPage from '@/components/ServiceCityLandingPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 
 export const metadata = generateSEOMetadata({
-  title: 'Family Photographer Magnolia TX | Studio37',
+  title: 'Family Photography in Magnolia, TX | Studio37',
   description:
     'Need a family photographer in Magnolia, TX? Studio37 creates relaxed, guided family sessions with warm edits and clear package pricing.',
   keywords: [

@@ -2,7 +2,7 @@ import LocalPhotographerCityPage from '@/components/LocalPhotographerCityPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 
 export const metadata = generateSEOMetadata({
-  title: 'Professional Photographer Spring TX - Studio37 Photography',
+  title: 'Photographer in Spring, TX | Studio37',
   description:
     'Professional photographer in Spring, Texas for weddings, portraits, engagement, events, and commercial work. Serving Montgomery County with clear package pricing.',
   keywords: [

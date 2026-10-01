@@ -2,7 +2,7 @@ import ServiceCityLandingPage from '@/components/ServiceCityLandingPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 
 export const metadata = generateSEOMetadata({
-  title: 'Portrait Photographer Splendora TX - Studio37 Photography',
+  title: 'Portrait Photography in Splendora, TX | Studio37',
   description:
     'Portrait photographer in Splendora, TX. Studio37 delivers professional portrait sessions in the US-59 corridor with open-field and natural-light locations.',
   keywords: [

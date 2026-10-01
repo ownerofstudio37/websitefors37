@@ -26,7 +26,7 @@ import AboveBeyondPoolsProof from '@/components/AboveBeyondPoolsProof'
 import MarketingAuditCTA from '@/components/MarketingAuditCTA'
 
 export const metadata = generateSEOMetadata({
-  title: 'SEO, Web Design and Branding Services Pinehurst TX | Studio37',
+  title: 'SEO, Web Design & Branding in Pinehurst, TX | Studio37',
   description:
     'One-stop branding and marketing services in Pinehurst, TX. Studio37 handles SEO, custom web design, brand content, PPC, and social media for growth-focused businesses.',
   keywords: [
@@ -543,7 +543,7 @@ export default function BrandingMarketingPage() {
               Serving: Pinehurst TX · The Woodlands · Conroe · Magnolia · Tomball · Spring · Montgomery · Willis · New Caney · Hockley · Bryan · College Station · Houston
             </p>
             <p className="text-sm mt-2 text-primary-700">
-              Business growth pages: <Link href="/the-woodlands" className="hover:underline">The Woodlands</Link>, <Link href="/conroe" className="hover:underline">Conroe</Link>, <Link href="/bryan" className="hover:underline">Bryan</Link>, <Link href="/college-station" className="hover:underline">College Station</Link>.
+              Business growth pages: <Link href="/local-photographer-the-woodlands-tx" className="hover:underline">The Woodlands</Link>, <Link href="/local-photographer-conroe-tx" className="hover:underline">Conroe</Link>, <Link href="/local-photographer-bryan-tx" className="hover:underline">Bryan</Link>, <Link href="/local-photographer-college-station-tx" className="hover:underline">College Station</Link>.
             </p>
           </div>
         </div>

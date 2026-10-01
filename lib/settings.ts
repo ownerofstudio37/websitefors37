@@ -25,7 +25,7 @@ export const DEFAULT_SETTINGS = {
   tagline: "Capturing Moments, Creating Memories",
   contact_email: "sales@studio37.cc",
   contact_phone: "832-713-9944",
-  business_address: "1701 Goodson Loop, TRLR 80, Pinehurst, TX 77362",
+  business_address: "1701 Goodson Loop Unit 80, Pinehurst, TX 77362",
   social_facebook: "",
   social_instagram: "",
   social_twitter: "",

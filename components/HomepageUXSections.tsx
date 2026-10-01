@@ -44,6 +44,23 @@ const pathOptions = [
   },
 ]
 
+const homeServiceAreaLinks = [
+  { label: 'Pinehurst', href: '/local-photographer-pinehurst-tx' },
+  { label: 'The Woodlands', href: '/local-photographer-the-woodlands-tx' },
+  { label: 'Conroe', href: '/local-photographer-conroe-tx' },
+  { label: 'Magnolia', href: '/local-photographer-magnolia-tx' },
+  { label: 'Tomball', href: '/local-photographer-tomball-tx' },
+  { label: 'Spring', href: '/local-photographer-spring-tx' },
+  { label: 'Montgomery', href: '/local-photographer-montgomery-tx' },
+  { label: 'Willis', href: '/local-photographer-willis-tx' },
+  { label: 'New Caney', href: '/local-photographer-new-caney-tx' },
+  { label: 'Hockley', href: '/local-photographer-hockley-tx' },
+  { label: 'Huntsville', href: '/local-photographer-huntsville-tx' },
+  { label: 'Houston', href: '/local-photographer-houston-tx' },
+  { label: 'Bryan', href: '/local-photographer-bryan-tx' },
+  { label: 'College Station', href: '/local-photographer-college-station-tx' },
+]
+
 export function ChooseYourPathSection() {
   return (
     <section className="border-b border-stone-200 bg-white">
@@ -118,8 +135,19 @@ export function HomeSEOAccordion() {
               </details>
               <details className="rounded-lg border border-stone-200 bg-white p-4">
                 <summary className="cursor-pointer font-semibold text-stone-950">Where we work</summary>
-                <p className="mt-3 leading-7 text-stone-700">
-                  Studio37 serves Pinehurst, The Woodlands, Conroe, Magnolia, Tomball, Spring, Montgomery, Willis, New Caney, Hockley, Huntsville, Houston, Bryan, College Station, and surrounding Texas markets.
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {homeServiceAreaLinks.map((area) => (
+                    <Link
+                      key={area.href}
+                      href={area.href}
+                      className="rounded-full border border-stone-200 bg-stone-50 px-3 py-1.5 text-sm font-semibold text-stone-700 transition hover:border-amber-300 hover:bg-amber-50 hover:text-amber-900"
+                    >
+                      {area.label}
+                    </Link>
+                  ))}
+                </div>
+                <p className="mt-3 text-sm leading-6 text-stone-600">
+                  We also plan sessions across surrounding Texas markets when the location, venue, or event calls for it.
                 </p>
               </details>
             </div>

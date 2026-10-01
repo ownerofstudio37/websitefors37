@@ -10,7 +10,7 @@ import { ServiceTestimonialsSection, TurnaroundExpectationsSection, VenueStyleEx
 import ServiceIntentPanel from '@/components/ServiceIntentPanel'
 
 export const metadata = generateSEOMetadata({
-  title: 'Event Photographer in Pinehurst TX | Studio37',
+  title: 'Event Photographer in Pinehurst, TX | Studio37',
   description: 'Make your special event unforgettable! Corporate events, parties, celebrations captured with professional photography in Pinehurst, TX. Serving Montgomery County & Houston. Book today!',
   keywords: [
     'event photography Pinehurst TX',
@@ -475,7 +475,7 @@ export default function EventPhotographyPage() {
               Serving: Pinehurst TX · The Woodlands · Conroe · Magnolia · Tomball · Spring · Montgomery · Willis · New Caney · Hockley · Huntsville · Houston · Harris County
             </p>
             <p className="text-sm mt-2 text-primary-700">
-              Event coverage hubs: <Link href="/the-woodlands" className="hover:underline">The Woodlands</Link>, <Link href="/conroe" className="hover:underline">Conroe</Link>, <Link href="/huntsville" className="hover:underline">Huntsville</Link>, <Link href="/locations" className="hover:underline">all locations</Link>.
+              Event coverage hubs: <Link href="/local-photographer-the-woodlands-tx" className="hover:underline">The Woodlands</Link>, <Link href="/local-photographer-conroe-tx" className="hover:underline">Conroe</Link>, <Link href="/local-photographer-huntsville-tx" className="hover:underline">Huntsville</Link>, <Link href="/local-photographer-pinehurst-tx" className="hover:underline">all locations</Link>.
             </p>
           </div>
         </div>

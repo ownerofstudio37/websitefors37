@@ -12,7 +12,7 @@ import { ServiceTestimonialsSection, TurnaroundExpectationsSection } from '@/com
 import ServiceIntentPanel from '@/components/ServiceIntentPanel'
 
 export const metadata = generateSEOMetadata({
-  title: 'Family & Portrait Photographer in Pinehurst TX | Studio37',
+  title: 'Family & Portrait Photographer in Pinehurst, TX | Studio37',
   description: 'Portrait photography in Pinehurst, TX for families, seniors, maternity, headshots, and personal branding with location planning, posing guidance, and polished galleries.',
   keywords: [
     'portrait photography Pinehurst TX',
@@ -484,7 +484,7 @@ export default function PortraitPhotographyPage() {
               Serving: Pinehurst TX · The Woodlands · Conroe · Magnolia · Tomball · Spring · Montgomery · Willis · New Caney · Hockley · Huntsville · Houston
             </p>
             <p className="text-sm mt-2 text-primary-700">
-              Explore nearby city pages: <Link href="/the-woodlands" className="hover:underline">The Woodlands</Link>, <Link href="/conroe" className="hover:underline">Conroe</Link>, <Link href="/magnolia" className="hover:underline">Magnolia</Link>, <Link href="/locations" className="hover:underline">all locations</Link>.
+              Explore nearby city pages: <Link href="/local-photographer-the-woodlands-tx" className="hover:underline">The Woodlands</Link>, <Link href="/local-photographer-conroe-tx" className="hover:underline">Conroe</Link>, <Link href="/local-photographer-magnolia-tx" className="hover:underline">Magnolia</Link>, <Link href="/local-photographer-pinehurst-tx" className="hover:underline">all locations</Link>.
             </p>
           </div>
         </div>

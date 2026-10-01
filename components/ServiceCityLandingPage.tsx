@@ -244,7 +244,7 @@ export default function ServiceCityLandingPage({
             <h2 className="text-2xl font-bold text-gray-900 mb-3">Related local guides</h2>
             <div className="flex flex-wrap gap-3 text-sm">
               <Link href="/services" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">All Services</Link>
-              <Link href="/locations" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">All Service Areas</Link>
+              <Link href="/local-photographer-pinehurst-tx" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">All Service Areas</Link>
               <Link href="/wedding-photographer-katy-tx" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">Wedding Photographer Katy</Link>
               <Link href="/portrait-photographer-conroe-tx" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">Portrait Photographer Conroe</Link>
               <Link href="/family-photographer-magnolia-tx" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">Family Photographer Magnolia</Link>

@@ -2,7 +2,7 @@ import ServiceCityLandingPage from '@/components/ServiceCityLandingPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 
 export const metadata = generateSEOMetadata({
-  title: 'Wedding Photographer Bryan TX - Studio37 Photography',
+  title: 'Wedding Photography in Bryan, TX | Studio37',
   description:
     'Wedding photographer in Bryan, TX. Studio37 covers Downtown Bryan, Lake Walk, Messina Hof, and Brazos Valley venues with dual-photographer coverage.',
   keywords: [

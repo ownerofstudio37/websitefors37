@@ -46,7 +46,7 @@ export default function ServiceAreaSEO() {
             <span className="flex items-center gap-1 bg-gray-100 px-3 py-1 rounded-full">
               <MapPin className="w-4 h-4 text-primary-600" /> Greater Houston Area
             </span>
-            <Link href="/locations" className="flex items-center gap-1 bg-primary-50 border border-primary-200 px-3 py-1 rounded-full text-primary-700 hover:bg-primary-100 transition-colors">
+            <Link href="/local-photographer-pinehurst-tx" className="flex items-center gap-1 bg-primary-50 border border-primary-200 px-3 py-1 rounded-full text-primary-700 hover:bg-primary-100 transition-colors">
               <MapPin className="w-4 h-4" /> All Service Areas
             </Link>
           </div>

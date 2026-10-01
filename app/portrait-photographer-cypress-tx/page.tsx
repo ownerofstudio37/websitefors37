@@ -2,7 +2,7 @@ import ServiceCityLandingPage from '@/components/ServiceCityLandingPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 
 export const metadata = generateSEOMetadata({
-  title: 'Portrait Photographer Cypress TX - Studio37 Photography',
+  title: 'Portrait Photography in Cypress, TX | Studio37',
   description:
     'Portrait photographer in Cypress, TX. Studio37 delivers polished portraits at Towne Lake, Bridgeland, and Cypress Creek greenbelt locations.',
   keywords: [

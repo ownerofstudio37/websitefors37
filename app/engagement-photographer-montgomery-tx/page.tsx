@@ -2,7 +2,7 @@ import ServiceCityLandingPage from '@/components/ServiceCityLandingPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 
 export const metadata = generateSEOMetadata({
-  title: 'Engagement Photographer Montgomery TX | Studio37',
+  title: 'Engagement Photography in Montgomery, TX | Studio37',
   description: 'Montgomery, TX engagement and proposal photography with historic downtown, Lake Conroe, golden-hour planning, and concierge options.',
   keywords: ['engagement photographer Montgomery TX', 'proposal photographer Montgomery Texas', 'Lake Conroe engagement photos'],
   canonicalUrl: 'https://www.studio37.cc/engagement-photographer-montgomery-tx',

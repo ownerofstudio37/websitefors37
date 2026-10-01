@@ -2,7 +2,7 @@ import ServiceCityLandingPage from '@/components/ServiceCityLandingPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 
 export const metadata = generateSEOMetadata({
-  title: 'Family Photographer Porter TX - Studio37 Photography',
+  title: 'Family Photography in Porter, TX | Studio37',
   description:
     'Family photographer in Porter, TX. Studio37 captures natural family moments at Valley Ranch Town Center, Bens Branch greenways, and East Montgomery County parks.',
   keywords: [

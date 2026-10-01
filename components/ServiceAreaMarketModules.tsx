@@ -6,7 +6,7 @@ const topMarkets = [
     market: 'Montgomery County',
     cities: 'Pinehurst, The Woodlands, Conroe, Magnolia, and Montgomery',
     angle: 'Local coverage for weddings, portraits, business branding, and community events.',
-    href: '/locations',
+    href: '/local-photographer-pinehurst-tx',
   },
   {
     market: 'Northwest Houston',

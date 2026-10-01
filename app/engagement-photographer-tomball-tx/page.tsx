@@ -2,7 +2,7 @@ import ServiceCityLandingPage from '@/components/ServiceCityLandingPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 
 export const metadata = generateSEOMetadata({
-  title: 'Engagement Photographer Tomball TX | Studio37',
+  title: 'Engagement Photography in Tomball, TX | Studio37',
   description: 'Tomball, TX engagement and proposal photography with downtown texture, natural light planning, and concierge proposal options.',
   keywords: ['engagement photographer Tomball TX', 'proposal photographer Tomball', 'Tomball engagement photos'],
   canonicalUrl: 'https://www.studio37.cc/engagement-photographer-tomball-tx',

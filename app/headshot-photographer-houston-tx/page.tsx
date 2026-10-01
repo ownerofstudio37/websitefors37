@@ -2,7 +2,7 @@ import ServiceCityLandingPage from '@/components/ServiceCityLandingPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 
 export const metadata = generateSEOMetadata({
-  title: 'Headshot Photographer Houston TX | Studio37',
+  title: 'Professional Headshots in Houston, TX | Studio37',
   description:
     'Studio37 provides professional headshot photography in Houston, TX for executives, teams, and personal branding with fast turnaround and polished delivery.',
   keywords: [

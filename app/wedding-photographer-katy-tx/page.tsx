@@ -2,7 +2,7 @@ import ServiceCityLandingPage from '@/components/ServiceCityLandingPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 
 export const metadata = generateSEOMetadata({
-  title: 'Wedding Photographer Katy TX | Studio37',
+  title: 'Wedding Photography in Katy, TX | Studio37',
   description:
     'Searching for a wedding photographer in Katy, TX? Studio37 provides romantic, documentary-style wedding coverage with two photographers on every session and transparent pricing.',
   keywords: [

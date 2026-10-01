@@ -2,7 +2,7 @@ import ServiceCityLandingPage from '@/components/ServiceCityLandingPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 
 export const metadata = generateSEOMetadata({
-  title: 'Wedding Photographer Plantersville TX - Studio37 Photography',
+  title: 'Wedding Photography in Plantersville, TX | Studio37',
   description:
     'Wedding photographer in Plantersville, TX. Studio37 specializes in rustic ranch, barn, and outdoor wedding venues along the FM 1774 corridor in Grimes County.',
   keywords: [

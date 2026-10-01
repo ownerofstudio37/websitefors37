@@ -183,7 +183,7 @@ export default async function BlogPage() {
             <div className="flex flex-wrap gap-2 text-sm font-semibold lg:justify-end">
               <Link href="/book-consultation" className="rounded-full bg-primary-700 px-4 py-2 text-white hover:bg-primary-800">Ready to talk</Link>
               <Link href="/services" className="rounded-full border border-stone-300 px-4 py-2 text-stone-800 hover:bg-stone-100">Compare services</Link>
-              <Link href="/locations" className="rounded-full border border-stone-300 px-4 py-2 text-stone-800 hover:bg-stone-100">Browse local areas</Link>
+              <Link href="/local-photographer-pinehurst-tx" className="rounded-full border border-stone-300 px-4 py-2 text-stone-800 hover:bg-stone-100">Browse local areas</Link>
             </div>
           </div>
           {error && posts.length === 0 ? (
@@ -311,7 +311,7 @@ export default async function BlogPage() {
               Studio37 Photography Blog · Pinehurst, TX · Montgomery County · The Woodlands · Conroe · Magnolia · Tomball · Spring · Montgomery · Willis · New Caney · Hockley · Huntsville · Houston Area
             </p>
             <p className="text-sm mt-2">
-              Looking for city-specific details? <a href="/locations" className="text-primary-700 hover:underline">Browse service area pages</a>.
+              Looking for city-specific details? <a href="/local-photographer-pinehurst-tx" className="text-primary-700 hover:underline">Browse service area pages</a>.
             </p>
           </div>
         </div>

@@ -2,7 +2,7 @@ import ServiceCityLandingPage from '@/components/ServiceCityLandingPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 
 export const metadata = generateSEOMetadata({
-  title: 'Portrait Photographer Huntsville TX - Studio37 Photography',
+  title: 'Portrait Photography in Huntsville, TX | Studio37',
   description:
     'Portrait photographer in Huntsville, TX. Studio37 serves Sam Houston State University students, seniors, faculty, and local families with polished portrait sessions.',
   keywords: [

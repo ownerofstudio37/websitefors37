@@ -2,7 +2,7 @@ import LocalPhotographerCityPage from '@/components/LocalPhotographerCityPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 
 export const metadata = generateSEOMetadata({
-  title: 'Local Photographer Near Me in Cypress TX | Studio37',
+  title: 'Photographer in Cypress, TX | Studio37',
   description:
     'Local photographer near me in Cypress, TX for portraits, family sessions, events, engagement sessions, and business content near Towne Lake, Bridgeland, and Cypress Creek.',
   keywords: [

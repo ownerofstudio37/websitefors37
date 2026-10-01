@@ -2,7 +2,7 @@ import ServiceCityLandingPage from '@/components/ServiceCityLandingPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 
 export const metadata = generateSEOMetadata({
-  title: 'Portrait Photographer Conroe TX | Studio37',
+  title: 'Portrait Photography in Conroe, TX | Studio37',
   description:
     'Studio37 offers portrait photography in Conroe, TX for families, seniors, couples, and professionals with clear pricing and session planning support.',
   keywords: [

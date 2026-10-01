@@ -35,6 +35,29 @@ const BASE_SERVICE_NAV_CHILDREN: NavigationItem[] = [
   { id: 'services-compare', label: 'Compare Packages', href: '/compare', order: 8, visible: true },
 ]
 
+const LOCAL_SERVICE_AREA_NAV_CHILDREN: NavigationItem[] = [
+  { id: 'pinehurst', label: 'Pinehurst, TX', href: '/local-photographer-pinehurst-tx', order: 1, visible: true },
+  { id: 'woodlands', label: 'The Woodlands, TX', href: '/local-photographer-the-woodlands-tx', order: 2, visible: true },
+  { id: 'conroe', label: 'Conroe, TX', href: '/local-photographer-conroe-tx', order: 3, visible: true },
+  { id: 'magnolia', label: 'Magnolia, TX', href: '/local-photographer-magnolia-tx', order: 4, visible: true },
+  { id: 'tomball', label: 'Tomball, TX', href: '/local-photographer-tomball-tx', order: 5, visible: true },
+  { id: 'spring', label: 'Spring, TX', href: '/local-photographer-spring-tx', order: 6, visible: true },
+  { id: 'houston', label: 'Houston, TX', href: '/local-photographer-houston-tx', order: 7, visible: true },
+]
+
+const LOCAL_SERVICE_AREA_REDIRECTS = new Map([
+  ['/locations', '/local-photographer-pinehurst-tx'],
+  ['/pinehurst', '/local-photographer-pinehurst-tx'],
+  ['/the-woodlands', '/local-photographer-the-woodlands-tx'],
+  ['/conroe', '/local-photographer-conroe-tx'],
+  ['/magnolia', '/local-photographer-magnolia-tx'],
+  ['/tomball', '/local-photographer-tomball-tx'],
+  ['/spring', '/local-photographer-spring-tx'],
+  ['/cypress', '/local-photographer-cypress-tx'],
+  ['/houston', '/local-photographer-houston-tx'],
+  ['/huntsville', '/local-photographer-huntsville-tx'],
+])
+
 function normalizeNavHref(href: string): string {
   const trimmed = href.trim()
   if (/^https?:\/\//i.test(trimmed)) return trimmed
@@ -43,6 +66,27 @@ function normalizeNavHref(href: string): string {
 
 export function normalizeNavigationItems(items: NavigationItem[]): NavigationItem[] {
   return items.map((item) => {
+    const itemHref = normalizeNavHref(item.href)
+    const isServiceAreasItem =
+      item.id === 'service-areas' ||
+      itemHref === '/locations' ||
+      item.label.toLowerCase().includes('service area')
+
+    if (isServiceAreasItem) {
+      const children = Array.isArray(item.children) && item.children.length > 0
+        ? item.children.map((child) => {
+            const href = normalizeNavHref(child.href)
+            return { ...child, href: LOCAL_SERVICE_AREA_REDIRECTS.get(href) || href }
+          })
+        : LOCAL_SERVICE_AREA_NAV_CHILDREN
+
+      return {
+        ...item,
+        href: '/local-photographer-pinehurst-tx',
+        children,
+      }
+    }
+
     if (item.id !== 'services') {
       return item
     }
@@ -96,16 +140,10 @@ export const FALLBACK_NAV_ITEMS: NavigationItem[] = [
   {
     id: 'service-areas',
     label: 'Service Areas',
-    href: '/locations',
+    href: '/local-photographer-pinehurst-tx',
     order: 3,
     visible: true,
-    children: [
-      { id: 'pinehurst', label: 'Pinehurst, TX', href: '/pinehurst', order: 1, visible: true },
-      { id: 'woodlands', label: 'The Woodlands, TX', href: '/the-woodlands', order: 2, visible: true },
-      { id: 'conroe', label: 'Conroe, TX', href: '/conroe', order: 3, visible: true },
-      { id: 'magnolia', label: 'Magnolia, TX', href: '/magnolia', order: 4, visible: true },
-      { id: 'huntsville', label: 'Huntsville, TX', href: '/huntsville', order: 5, visible: true },
-    ],
+    children: LOCAL_SERVICE_AREA_NAV_CHILDREN,
   },
   {
     id: 'services',

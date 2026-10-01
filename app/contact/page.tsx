@@ -193,12 +193,12 @@ export default async function ContactPage() {
               Use our service-area pages to review local coverage details and book faster.
             </p>
             <div className="flex flex-wrap gap-3 text-sm">
-              <a href="/locations" className="px-3 py-2 rounded-full bg-white border border-gray-300 hover:border-primary-300">All Locations</a>
+              <a href="/local-photographer-pinehurst-tx" className="px-3 py-2 rounded-full bg-white border border-gray-300 hover:border-primary-300">All Locations</a>
               <a href="/new-caney" className="px-3 py-2 rounded-full bg-white border border-gray-300 hover:border-primary-300">New Caney</a>
               <a href="/willis" className="px-3 py-2 rounded-full bg-white border border-gray-300 hover:border-primary-300">Willis</a>
               <a href="/hockley" className="px-3 py-2 rounded-full bg-white border border-gray-300 hover:border-primary-300">Hockley</a>
-              <a href="/bryan" className="px-3 py-2 rounded-full bg-white border border-gray-300 hover:border-primary-300">Bryan</a>
-              <a href="/college-station" className="px-3 py-2 rounded-full bg-white border border-gray-300 hover:border-primary-300">College Station</a>
+              <a href="/local-photographer-bryan-tx" className="px-3 py-2 rounded-full bg-white border border-gray-300 hover:border-primary-300">Bryan</a>
+              <a href="/local-photographer-college-station-tx" className="px-3 py-2 rounded-full bg-white border border-gray-300 hover:border-primary-300">College Station</a>
             </div>
           </div>
         </div>

@@ -2,7 +2,7 @@ import LocalPhotographerCityPage from '@/components/LocalPhotographerCityPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 
 export const metadata = generateSEOMetadata({
-  title: 'Professional Photographer Willis TX - Studio37 Photography',
+  title: 'Photographer in Willis, TX | Studio37',
   description:
     'Professional photographer in Willis, Texas for weddings, portraits, engagement, events, and commercial sessions with clear package pricing.',
   keywords: [
