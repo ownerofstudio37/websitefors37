@@ -20,7 +20,7 @@ import ToasterClient from "@/components/ToasterClient";
 import ChatBotMount from "@/components/ChatBotMount";
 import AnalyticsSetup from "@/components/AnalyticsSetup";
 import SEOFooter from "@/components/SEOFooter";
-import ConsultationHelpPopup from "@/components/ConsultationHelpPopup";
+import ConsultationHelpPopupMount from "@/components/ConsultationHelpPopupMount";
 import PublicStickyCTA from "@/components/PublicStickyCTA";
 import QuoteCaptureMount from "@/components/QuoteCaptureMount";
 import CmsRouteComposer from "@/components/CmsRouteComposer";
@@ -225,7 +225,7 @@ export default async function RootLayout({
             <QuoteCaptureMount />
           </ClientErrorBoundary>
           <ClientErrorBoundary label="consultation-help-popup">
-            <ConsultationHelpPopup />
+            <ConsultationHelpPopupMount />
           </ClientErrorBoundary>
           {/* Interaction-based ChatBot mount for performance */}
           <ClientErrorBoundary label="chatbot">
