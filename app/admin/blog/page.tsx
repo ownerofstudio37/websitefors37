@@ -79,6 +79,15 @@ const AI_PASS_TIMEOUT_MS = 25000;
 
 const countMarkdownWords = (value: string) => (value.match(/\b[\w'-]+\b/g) || []).length;
 
+const resolveWriterTargetWords = (value: unknown) => {
+  const raw = String(value ?? "").toLowerCase();
+  const numeric = Number(value);
+  if (Number.isFinite(numeric) && numeric >= LONGFORM_TARGET_WORDS) return LONGFORM_TARGET_WORDS;
+  if (/\b1800\b|1,800|longform/.test(raw)) return LONGFORM_TARGET_WORDS;
+  if (Number.isFinite(numeric) && numeric > 0) return numeric;
+  return 900;
+};
+
 export default function BlogManagementPage() {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
@@ -124,6 +133,7 @@ export default function BlogManagementPage() {
   // Raw AI response for debugging
   const [rawPreview, setRawPreview] = useState<string>("");
   const [aiProgress, setAiProgress] = useState<string>("");
+  const [aiPassLog, setAiPassLog] = useState<string[]>([]);
   // Suggestions for AI modal
   const [suggestions, setSuggestions] = useState<BlogSuggestions | null>(null);
   const [loadingSuggestions, setLoadingSuggestions] = useState(false);
@@ -357,6 +367,9 @@ export default function BlogManagementPage() {
   }) => {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), AI_PASS_TIMEOUT_MS);
+    const outboundLog = `Sending pass ${pass} with target ${targetWords}${previousDraft?.content ? ` after ${countMarkdownWords(previousDraft.content)} words` : ""}.`;
+    setAiPassLog((current) => [...current, outboundLog]);
+    console.info("[AI Writer]", outboundLog);
 
     try {
       const response = await fetch("/api/blog/generate", {
@@ -403,7 +416,14 @@ export default function BlogManagementPage() {
       }
 
       try {
-        return JSON.parse(responseText);
+        const parsed = JSON.parse(responseText);
+        console.info("[AI Writer]", `Pass ${pass} returned`, {
+          wordCount: parsed.wordCount,
+          done: parsed.done,
+          doneReason: parsed.doneReason,
+          targetWords: parsed.targetWords,
+        });
+        return parsed;
       } catch {
         if (responseText.includes("#") || responseText.length > 50) {
           return {
@@ -434,13 +454,15 @@ export default function BlogManagementPage() {
     setError(null);
     setRawPreview("");
     setAiProgress("");
+    setAiPassLog([]);
 
     try {
-      const targetWords = Number(aiForm.wordCount) >= LONGFORM_TARGET_WORDS ? LONGFORM_TARGET_WORDS : Number(aiForm.wordCount) || 900;
+      const targetWords = resolveWriterTargetWords(aiForm.wordCount);
       const isLongform = targetWords >= LONGFORM_TARGET_WORDS;
       let latestData: any = null;
       let previousDraft: any = null;
       const maxPasses = isLongform ? LONGFORM_MAX_PASSES : 1;
+      setAiPassLog([`Detected ${isLongform ? "longform" : "standard"} mode from Word Count "${aiForm.wordCount}" with target ${targetWords}.`]);
 
       for (let pass = 1; pass <= maxPasses; pass++) {
         setAiProgress(isLongform ? `Writing... pass ${pass} of max ${LONGFORM_MAX_PASSES}` : "Writing...");
@@ -478,6 +500,10 @@ export default function BlogManagementPage() {
         const reachedTarget = (Number(latestData.wordCount) || 0) >= targetWords;
         const serverStoppedForGrowth = latestData.doneReason === "no-growth";
         const serverStoppedForFailure = /provider|error|unavailable|stopped/i.test(latestData.doneReason || "");
+        setAiPassLog((current) => [
+          ...current,
+          `Pass ${pass} result: ${latestData.wordCount || 0}/${targetWords} words, done=${Boolean(latestData.done)}, reason=${latestData.doneReason || "none"}.`,
+        ]);
         if (!isLongform || reachedTarget || serverStoppedForGrowth || serverStoppedForFailure) break;
       }
 
@@ -1432,6 +1458,17 @@ export default function BlogManagementPage() {
                 {aiProgress && (
                   <div className="rounded-lg border border-purple-200 bg-purple-50 px-4 py-3 text-sm font-medium text-purple-900">
                     {aiProgress}
+                  </div>
+                )}
+
+                {aiPassLog.length > 0 && (
+                  <div className="rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-xs text-gray-700">
+                    <div className="mb-2 font-semibold text-gray-900">Generation pass log</div>
+                    <ul className="space-y-1">
+                      {aiPassLog.map((entry, index) => (
+                        <li key={`${entry}-${index}`}>{entry}</li>
+                      ))}
+                    </ul>
                   </div>
                 )}
 

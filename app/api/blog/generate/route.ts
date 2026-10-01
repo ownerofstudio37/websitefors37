@@ -8,6 +8,7 @@ const log = createLogger("api/blog/generate");
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 25;
+const LONGFORM_TARGET_WORDS = 1800;
 
 function countWords(value: string) {
   return (value.match(/\b[\w'-]+\b/g) || []).length;
@@ -27,6 +28,24 @@ function parseLocalSpecifics(localSpecifics: unknown) {
     : typeof localSpecifics === "string"
       ? localSpecifics.split(",").map((item: string) => item.trim()).filter(Boolean)
       : undefined;
+}
+
+function resolveTargetWords(targetWords: unknown, wordCount: unknown) {
+  const targetRaw = String(targetWords ?? "").toLowerCase();
+  const wordRaw = String(wordCount ?? "").toLowerCase();
+  const targetNumber = Number(targetWords);
+  const wordNumber = Number(wordCount);
+
+  if (/\b1800\b|1,800|longform/.test(`${targetRaw} ${wordRaw}`)) {
+    return LONGFORM_TARGET_WORDS;
+  }
+  if (Number.isFinite(targetNumber) && targetNumber > 0) {
+    return Math.min(Math.max(Math.round(targetNumber), 400), 1900);
+  }
+  if (Number.isFinite(wordNumber) && wordNumber > 0) {
+    return Math.min(Math.max(Math.round(wordNumber), 400), 1900);
+  }
+  return 900;
 }
 
 function ensureLinks(md: string): string {
@@ -136,9 +155,9 @@ export async function POST(req: Request) {
     } = brief;
     const pass = Math.max(1, Math.round(Number(body.pass) || 1));
     const previousDraft = body.previousDraft as BlogPost | undefined;
-    const targetWords = Math.min(Math.max(Math.round(Number(body.targetWords || wordCount) || 900), 400), 1900);
+    const targetWords = resolveTargetWords(body.targetWords, wordCount);
 
-    log.info("Blog generation request received", { topic, keywords, tone, wordCount });
+    log.info("Blog generation request received", { topic, keywords, tone, wordCount, targetWords, pass });
 
     if (!topic) {
       return NextResponse.json({ error: "Topic is required" }, { status: 400 });
