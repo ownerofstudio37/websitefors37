@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { revalidatePath } from 'next/cache'
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin'
 import { createLogger } from '@/lib/logger'
+import { validateBlogInternalLinks } from '@/lib/blog-link-validation'
 
 const log = createLogger('api/blog/save')
 
@@ -28,6 +29,18 @@ export async function POST(request: NextRequest) {
     }
 
     const supabase = getSupabaseAdmin()
+
+    const linkValidation = await validateBlogInternalLinks(postData.content)
+    if (linkValidation.brokenLinks.length) {
+      return NextResponse.json(
+        {
+          error: `Broken internal link${linkValidation.brokenLinks.length === 1 ? '' : 's'} found: ${linkValidation.brokenLinks.join(', ')}`,
+          brokenLinks: linkValidation.brokenLinks,
+        },
+        { status: 400 }
+      )
+    }
+    postData.content = linkValidation.content
 
     // Process meta_keywords if it's a comma-separated string
     if (typeof postData.meta_keywords === 'string') {

@@ -570,28 +570,44 @@ export default function BlogManagementPage() {
         published_at: !post.published ? new Date().toISOString() : null,
       };
 
-      const { error } = await supabase
-        .from("blog_posts")
-        .update(updateData)
-        .eq("id", post.id);
+      const response = await fetch('/api/blog/save', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id: post.id,
+          title: post.title,
+          slug: post.slug,
+          excerpt: post.excerpt || "",
+          content: post.content,
+          featured_image: post.featured_image || "",
+          featured_image_position: post.featured_image_position || "center center",
+          meta_description: post.meta_description || "",
+          meta_keywords: post.meta_keywords || [],
+          author: post.author_id || "Admin",
+          category: post.category || "",
+          tags: post.tags || [],
+          ...updateData,
+        }),
+      });
 
-      if (error) throw error;
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to update publish status');
+      }
+
+      const { post: savedPost } = await response.json();
 
       // Update local state
       setBlogPosts(
         blogPosts.map((p) =>
           p.id === post.id
-            ? {
-                ...p,
-                ...updateData,
-                published_at: updateData.published_at || undefined,
-              }
+            ? savedPost
             : p
         )
       );
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error toggling publish status:", error);
-      setToast({ type: "error", message: "Failed to update publish status." });
+      setToast({ type: "error", message: error.message || "Failed to update publish status." });
     }
   };
 
