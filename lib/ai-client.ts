@@ -494,19 +494,15 @@ function stripMarkdownFences(value: string) {
     .trim();
 }
 
-async function expandBlogPostIfNeeded(
+export async function expandBlogPostChunk(
   post: BlogPost,
   brief: BlogWriterBrief,
-  options: BlogWriterOptions
+  pass: number,
+  options: BlogWriterOptions = {}
 ): Promise<BlogPost> {
-  if (brief.wordCount < 1600) return post;
-
   const currentWords = countMarkdownWords(post.content || "");
-  if (currentWords >= 1800) return post;
-
   const primaryKeyword = brief.keywords.find(Boolean) || "professional photography";
-  const targetWords = Math.max(1850, brief.wordCount);
-  const expansionPrompt = `Expand this Studio37 blog draft to at least ${targetWords} words while preserving the existing H1, H2 order, FAQ section, single internal link, and voice rules.
+  const expansionPrompt = `Expand this Studio37 blog draft by one useful section or by deepening the thinnest existing section. Add roughly 300-450 words, then return the full updated Markdown draft.
 
 Critical rules:
 - Return ONLY the full expanded Markdown content, not JSON.
@@ -516,6 +512,7 @@ Critical rules:
 - Keep first-person "we" voice, short sentences, and add one subtle playful/nerdy beat if one is missing.
 - Add depth through planning details, examples, decision criteria, wardrobe/logistics guidance, and local context.
 - Do not write to photographers or Studio37 as the audience.
+- This is pass ${pass} of a multi-pass longform draft. Do not try to finish everything in one response.
 
 Declared reader: ${brief.reader || "a real client planning a session"}
 Approved local specifics: ${(brief.localSpecifics || []).join(", ") || "Pinehurst, The Woodlands, Greater Houston"}
@@ -530,25 +527,26 @@ ${post.content}`;
         temperature: 0.48,
         topP: 0.82,
         topK: 35,
-        maxOutputTokens: 14000,
+        maxOutputTokens: 6500,
       },
       retries: 1,
       retryDelayMs: 500,
-      timeoutMs: 28000,
+      timeoutMs: 18000,
       fallbackModels: BLOG_MODEL_FALLBACKS,
       maxFallbackModels: 4,
       ...options,
     });
 
     const cleanContent = stripMarkdownFences(expandedContent);
-    return {
+    const expandedPost = {
       ...post,
       content: cleanContent || post.content,
       warnings: [
         ...(post.warnings || []),
-        `Expanded draft from ${currentWords} words toward the 1,800+ target.`,
+        `Expansion pass ${pass} ran from ${currentWords} words.`,
       ],
     };
+    return applyBlogWriterGuardrails(expandedPost, brief);
   } catch (error: any) {
     log.warn("Blog expansion pass failed", { error: error?.message, currentWords });
     return {
@@ -659,7 +657,7 @@ JSON structure:
         },
         retries: 1,
         retryDelayMs: 500,
-        timeoutMs: targetWordCount >= 1600 ? 30000 : 12000,
+        timeoutMs: targetWordCount >= 1600 ? 18000 : 12000,
         fallbackModels: BLOG_MODEL_FALLBACKS,
         maxFallbackModels: 4,
         ...options,
@@ -726,19 +724,7 @@ JSON structure:
         contentLength: blogPost.content?.length || 0,
       });
 
-      const polishedPost = polishStudio37BlogPost(blogPost, topic, keywords);
-      const expandedPost = await expandBlogPostIfNeeded(polishedPost, {
-        topic,
-        keywords,
-        wordCount: targetWordCount,
-        tone,
-        outline,
-        reader,
-        linkTarget,
-        localSpecifics,
-      }, options);
-
-      return applyBlogWriterGuardrails(expandedPost, {
+      return applyBlogWriterGuardrails(polishStudio37BlogPost(blogPost, topic, keywords), {
         topic,
         keywords,
         wordCount: targetWordCount,

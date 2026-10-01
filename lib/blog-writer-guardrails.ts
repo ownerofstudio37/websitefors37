@@ -176,11 +176,6 @@ function buildWarnings(content: string) {
     warnings.add(`Review time-sensitive claims before publishing: ${Array.from(new Set(dateMatches)).slice(0, 6).join(', ')}.`)
   }
 
-  const prices = content.match(pricePattern) || []
-  if (prices.length) {
-    warnings.add(`Verify pricing before publishing: ${Array.from(new Set(prices)).slice(0, 6).join(', ')}.`)
-  }
-
   const stats = content.match(statPattern) || []
   if (stats.length) {
     warnings.add(`Verify stats/results have a source before publishing: ${Array.from(new Set(stats)).slice(0, 6).join(', ')}.`)

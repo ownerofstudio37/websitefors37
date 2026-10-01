@@ -73,6 +73,10 @@ const contentWithSeoTitle = (content: string, seoTitle: string) => {
   return cleanSeoTitle ? `<!-- seo_title: ${cleanSeoTitle} -->\n\n${cleanContent}` : cleanContent;
 };
 
+const LONGFORM_TARGET_WORDS = 1800;
+const LONGFORM_MAX_PASSES = 6;
+const AI_PASS_TIMEOUT_MS = 25000;
+
 export default function BlogManagementPage() {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
@@ -117,6 +121,7 @@ export default function BlogManagementPage() {
   const showRawAiDebug = process.env.NODE_ENV !== "production";
   // Raw AI response for debugging
   const [rawPreview, setRawPreview] = useState<string>("");
+  const [aiProgress, setAiProgress] = useState<string>("");
   // Suggestions for AI modal
   const [suggestions, setSuggestions] = useState<BlogSuggestions | null>(null);
   const [loadingSuggestions, setLoadingSuggestions] = useState(false);
@@ -310,94 +315,165 @@ export default function BlogManagementPage() {
     setTagInput("");
   };
 
-  // Generate blog post with AI (with timeout + fallback + raw preview)
-  const generateBlogPost = async () => {
-    setGeneratingPost(true);
-    setError(null);
-    setRawPreview("");
+  const applyGeneratedBlogDraft = (data: any) => {
+    const draft = data?.draft || data;
+    const warningBanner = draft.warnings?.length
+      ? `> **Human review needed before publishing:** ${draft.warnings.join(" ")}\n\n`
+      : "";
+    setPostForm({
+      title: draft.title,
+      slug: generateSlug(draft.title),
+      excerpt: draft.excerpt || "",
+      content: data.content || `${warningBanner}${draft.content || ""}`,
+      featured_image: "",
+      featured_image_position: "center center",
+      seo_title: draft.seoTitle || draft.title || "",
+      meta_description: draft.metaDescription || "",
+      meta_keywords: (draft.suggestedTags || []).join(", "),
+      author: "Admin",
+      category: draft.category || "",
+      tags: draft.suggestedTags || [],
+      published: false,
+      scheduled_at: "",
+    });
+    if (draft.warnings?.length) {
+      setToast({
+        type: "info",
+        message: `Draft created with ${draft.warnings.length} human-review warning${draft.warnings.length === 1 ? "" : "s"}. Review the banner before publishing.`,
+      });
+    }
+  };
 
+  const requestBlogWriterPass = async ({
+    pass,
+    previousDraft,
+    targetWords,
+  }: {
+    pass: number;
+    previousDraft?: any;
+    targetWords: number;
+  }) => {
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 88000);
+    const timeout = setTimeout(() => controller.abort(), AI_PASS_TIMEOUT_MS);
 
     try {
-      const res = await fetch("/api/blog/generate", {
+      const response = await fetch("/api/blog/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(aiForm),
+        body: JSON.stringify({
+          brief: aiForm,
+          pass,
+          previousDraft,
+          targetWords,
+        }),
         signal: controller.signal,
       }).catch((err) => {
         if (err.name === "AbortError") {
-          throw new Error("The AI writer took too long. Try the short or medium length and run it again in a moment.");
+          throw new Error(`AI writer pass ${pass} took too long. Draft-so-far was kept if an earlier pass finished.`);
         }
         throw err;
       });
 
-      if (!res) throw new Error("No response from server");
+      if (!response) throw new Error("No response from server");
 
-      const responseText = await res.text();
+      const responseText = await response.text();
       if (showRawAiDebug) {
-        setRawPreview(responseText || "(empty response)");
+        setRawPreview((current) =>
+          `${current ? `${current}\n\n---\n\n` : ""}PASS ${pass}\n${responseText || "(empty response)"}`
+        );
       }
 
-      if (!res.ok) {
-        let errorMessage = `Server error: ${res.status} ${res.statusText}`;
+      if (!response.ok) {
+        let errorMessage = `Server error: ${response.status} ${response.statusText}`;
         try {
           const errorData = JSON.parse(responseText);
           errorMessage = errorData.error || errorMessage;
         } catch {
           if (!responseText) {
-            errorMessage = `Server error (${res.status}). Empty response. Possibly model quota / invalid model / missing key in production.`;
+            errorMessage = `Server error (${response.status}). Empty response. Possibly model quota / invalid model / missing key in production.`;
           } else if (/<title>\s*inactivity timeout\s*<\/title>|<h1>\s*inactivity timeout\s*<\/h1>/i.test(responseText)) {
-            errorMessage = "The AI writer took too long and Netlify closed the request. Try the short or medium length and run it again.";
+            errorMessage = `AI writer pass ${pass} timed out before Netlify returned a response.`;
           } else {
-            errorMessage = `Server error (${res.status}): ${responseText.substring(0, 300)}`;
+            errorMessage = `Server error (${response.status}): ${responseText.substring(0, 300)}`;
           }
         }
         throw new Error(errorMessage);
       }
 
-      let data: any = null;
       try {
-        data = JSON.parse(responseText);
-      } catch (parseError) {
-        // Attempt to salvage by wrapping in object if content looks like markdown
+        return JSON.parse(responseText);
+      } catch {
         if (responseText.includes("#") || responseText.length > 50) {
-          data = {
-            title: aiForm.topic || "Untitled",
-            metaDescription: "Generated content (raw markdown)",
-            content: responseText,
-            excerpt: responseText.split(/\n\n/)[0]?.slice(0, 160) || "",
-            suggestedTags: (aiForm.keywords || "").split(",").map((k) => k.trim()).filter(Boolean),
-            category: "Photography Tips",
+          return {
+            draft: {
+              title: aiForm.topic || "Untitled",
+              metaDescription: "Generated content (raw markdown)",
+              content: responseText,
+              excerpt: responseText.split(/\n\n/)[0]?.slice(0, 160) || "",
+              suggestedTags: (aiForm.keywords || "").split(",").map((k) => k.trim()).filter(Boolean),
+              category: "Photography Tips",
+              warnings: [`Pass ${pass} returned raw markdown instead of JSON.`],
+            },
+            wordCount: responseText.match(/\b[\w'-]+\b/g)?.length || 0,
+            done: true,
+            pass,
           };
-        } else {
-          throw new Error(`Invalid JSON response: ${responseText.substring(0, 300)}`);
         }
+        throw new Error(`Invalid JSON response: ${responseText.substring(0, 300)}`);
+      }
+    } finally {
+      clearTimeout(timeout);
+    }
+  };
+
+  // Generate blog post with AI (client-driven passes for longform)
+  const generateBlogPost = async () => {
+    setGeneratingPost(true);
+    setError(null);
+    setRawPreview("");
+    setAiProgress("");
+
+    try {
+      const targetWords = Number(aiForm.wordCount) >= LONGFORM_TARGET_WORDS ? LONGFORM_TARGET_WORDS : Number(aiForm.wordCount) || 900;
+      const isLongform = targetWords >= LONGFORM_TARGET_WORDS;
+      let latestData: any = null;
+      let previousDraft: any = null;
+      const maxPasses = isLongform ? LONGFORM_MAX_PASSES : 1;
+
+      for (let pass = 1; pass <= maxPasses; pass++) {
+        setAiProgress(isLongform ? `Writing... pass ${pass} of max ${LONGFORM_MAX_PASSES}` : "Writing...");
+        try {
+          latestData = await requestBlogWriterPass({ pass, previousDraft, targetWords });
+          previousDraft = latestData.draft || latestData;
+        } catch (passError: any) {
+          if (previousDraft) {
+            latestData = {
+              draft: {
+                ...previousDraft,
+                content: previousDraft.content || latestData?.content || "",
+                warnings: [
+                  ...(previousDraft.warnings || []),
+                  `Client stopped after pass ${pass - 1}: ${passError.message || "Unknown error"}. Draft-so-far kept for review.`,
+                ],
+              },
+              wordCount: previousDraft.content?.match(/\b[\w'-]+\b/g)?.length || latestData?.wordCount || 0,
+              done: true,
+              pass,
+            };
+            setToast({
+              type: "info",
+              message: "Longform generation stopped mid-chain, but the draft-so-far was kept for review.",
+            });
+            break;
+          }
+          throw passError;
+        }
+
+        if (!isLongform || latestData.done) break;
       }
 
-      setPostForm({
-        title: data.title,
-        slug: generateSlug(data.title),
-        excerpt: data.excerpt || "",
-        content: data.content,
-        featured_image: "",
-        featured_image_position: "center center",
-        seo_title: data.seoTitle || data.title || "",
-        meta_description: data.metaDescription || "",
-        meta_keywords: (data.suggestedTags || []).join(", "),
-        author: "Admin",
-        category: data.category || "",
-        tags: data.suggestedTags || [],
-        published: false,
-        scheduled_at: "",
-      });
-      if (data.warnings?.length) {
-        setToast({
-          type: "info",
-          message: `Draft created with ${data.warnings.length} human-review warning${data.warnings.length === 1 ? "" : "s"}. Review the banner before publishing.`,
-        });
-      }
-
+      if (!latestData) throw new Error("AI writer returned no draft.");
+      applyGeneratedBlogDraft(latestData);
       setIsNewPost(true);
       setShowAIGenerator(false);
       setShowPostModal(true);
@@ -410,7 +486,7 @@ export default function BlogManagementPage() {
           : message
       );
     } finally {
-      clearTimeout(timeout);
+      setAiProgress("");
       setGeneratingPost(false);
     }
   };
@@ -1086,7 +1162,7 @@ export default function BlogManagementPage() {
                     <div>
                       <h2 className="text-2xl font-bold">AI Blog Writer</h2>
                       <p className="text-sm text-purple-100 mt-1">
-                        Generate a complete, SEO-optimized blog post in seconds
+                        Generate a guarded, SEO-optimized blog draft
                       </p>
                     </div>
                   </div>
@@ -1134,9 +1210,9 @@ export default function BlogManagementPage() {
                 <div className="rounded-lg border border-purple-200 bg-purple-50 p-4">
                   <h3 className="font-semibold text-purple-950 mb-2">Reliability Mode</h3>
                   <ul className="list-disc ml-5 space-y-1 text-sm text-purple-800">
-                    <li>1,800-word drafts use a longer model timeout and may take the full request window.</li>
-                    <li>If longform times out, keep the brief and retry once; the server still returns a guarded starter draft when the provider fails.</li>
-                    <li>Drafts stay unpublished and may include a human-review banner for dates, prices, or stats.</li>
+                    <li>1,800-word drafts run as independent passes so Netlify does not close one huge request.</li>
+                    <li>If a later pass fails, the draft-so-far is kept and marked for human review.</li>
+                    <li>Drafts stay unpublished and may include a human-review banner for dates, removed prices, or stats.</li>
                   </ul>
                 </div>
 
@@ -1344,6 +1420,12 @@ export default function BlogManagementPage() {
                   </ul>
                 </div>
 
+                {aiProgress && (
+                  <div className="rounded-lg border border-purple-200 bg-purple-50 px-4 py-3 text-sm font-medium text-purple-900">
+                    {aiProgress}
+                  </div>
+                )}
+
                 <div className="flex gap-3 pt-4">
                   <button
                     onClick={() => setShowAIGenerator(false)}
@@ -1359,7 +1441,7 @@ export default function BlogManagementPage() {
                     {generatingPost ? (
                       <>
                         <Loader2 className="h-5 w-5 animate-spin" />
-                        Generating...
+                        {aiProgress || "Generating..."}
                       </>
                     ) : (
                       <>
