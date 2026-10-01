@@ -483,6 +483,84 @@ export interface BlogPost {
 type BlogWriterOptions = AIClientOptions &
   Partial<Pick<BlogWriterBrief, "outline" | "reader" | "linkTarget" | "localSpecifics">>;
 
+function countMarkdownWords(value: string) {
+  return (value.match(/\b[\w'-]+\b/g) || []).length;
+}
+
+function stripMarkdownFences(value: string) {
+  return value
+    .replace(/^```(?:markdown|md)?\s*/i, "")
+    .replace(/```\s*$/i, "")
+    .trim();
+}
+
+async function expandBlogPostIfNeeded(
+  post: BlogPost,
+  brief: BlogWriterBrief,
+  options: BlogWriterOptions
+): Promise<BlogPost> {
+  if (brief.wordCount < 1600) return post;
+
+  const currentWords = countMarkdownWords(post.content || "");
+  if (currentWords >= 1800) return post;
+
+  const primaryKeyword = brief.keywords.find(Boolean) || "professional photography";
+  const targetWords = Math.max(1850, brief.wordCount);
+  const expansionPrompt = `Expand this Studio37 blog draft to at least ${targetWords} words while preserving the existing H1, H2 order, FAQ section, single internal link, and voice rules.
+
+Critical rules:
+- Return ONLY the full expanded Markdown content, not JSON.
+- Keep the exact primary keyword: ${primaryKeyword}
+- Do not add prices, dates, venue names, stats, availability claims, or extra links.
+- Keep exactly one contextual link to ${brief.linkTarget || "/book-consultation"} using the exact keyword anchor.
+- Keep first-person "we" voice, short sentences, and add one subtle playful/nerdy beat if one is missing.
+- Add depth through planning details, examples, decision criteria, wardrobe/logistics guidance, and local context.
+- Do not write to photographers or Studio37 as the audience.
+
+Declared reader: ${brief.reader || "a real client planning a session"}
+Approved local specifics: ${(brief.localSpecifics || []).join(", ") || "Pinehurst, The Woodlands, Greater Houston"}
+
+Draft to expand:
+${post.content}`;
+
+  try {
+    const expandedContent = await generateText(expansionPrompt, {
+      model: BLOG_MODEL_FALLBACKS[0],
+      config: {
+        temperature: 0.48,
+        topP: 0.82,
+        topK: 35,
+        maxOutputTokens: 14000,
+      },
+      retries: 1,
+      retryDelayMs: 500,
+      timeoutMs: 28000,
+      fallbackModels: BLOG_MODEL_FALLBACKS,
+      maxFallbackModels: 4,
+      ...options,
+    });
+
+    const cleanContent = stripMarkdownFences(expandedContent);
+    return {
+      ...post,
+      content: cleanContent || post.content,
+      warnings: [
+        ...(post.warnings || []),
+        `Expanded draft from ${currentWords} words toward the 1,800+ target.`,
+      ],
+    };
+  } catch (error: any) {
+    log.warn("Blog expansion pass failed", { error: error?.message, currentWords });
+    return {
+      ...post,
+      warnings: [
+        ...(post.warnings || []),
+        `Expansion pass failed at ${currentWords} words; review or regenerate for 1,800+ words.`,
+      ],
+    };
+  }
+}
+
 export async function generateBlogPost(
   topic: string,
   keywords: string[],
@@ -516,6 +594,8 @@ Requirements:
 - Include 2-3 local specifics from this approved list only: ${localSpecifics.join(", ")}.
 - Never invent venue names, dates, availability, stats, permits, prices, timelines, or local rules.
 - Never publish a stat unless the topic/brief provides a source. If a stat is not supplied, avoid it.
+- Do not mention prices unless the topic is directly about that service and the price is listed in the Studio37 facts below.
+- For mini sessions, seasonal sessions, prep guides, or location guides, do not mention wedding, event, commercial, or portrait starting prices unless the brief supplies that exact price.
 - Do not present calendar dates as upcoming unless the brief provides exact dates.
 - Make the advice specific to planning, lighting, timeline, location logistics, wardrobe, delivery expectations, or service fit.
 - Use first-person plural voice: "we," meaning Christian + Caitie / Studio37. Keep sentences short.
@@ -646,7 +726,19 @@ JSON structure:
         contentLength: blogPost.content?.length || 0,
       });
 
-      return applyBlogWriterGuardrails(polishStudio37BlogPost(blogPost, topic, keywords), {
+      const polishedPost = polishStudio37BlogPost(blogPost, topic, keywords);
+      const expandedPost = await expandBlogPostIfNeeded(polishedPost, {
+        topic,
+        keywords,
+        wordCount: targetWordCount,
+        tone,
+        outline,
+        reader,
+        linkTarget,
+        localSpecifics,
+      }, options);
+
+      return applyBlogWriterGuardrails(expandedPost, {
         topic,
         keywords,
         wordCount: targetWordCount,

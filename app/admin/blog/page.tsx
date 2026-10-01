@@ -317,7 +317,7 @@ export default function BlogManagementPage() {
     setRawPreview("");
 
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 58000);
+    const timeout = setTimeout(() => controller.abort(), 88000);
 
     try {
       const res = await fetch("/api/blog/generate", {

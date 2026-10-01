@@ -103,21 +103,32 @@ function buildFaq(primaryKeyword: string, topic: string) {
 
 Start once you know the season, city, and general goal for the session. We can help narrow the timing around light, location flow, and how the photos will be used.
 
-### What should I bring to ${primaryKeyword}?
+### What should I bring?
 
 Bring simple outfit options, any must-have props, comfortable shoes for walking, and a short list of people or details that matter most.
 
-### Where should we do ${primaryKeyword}?
+### Where should we do the session?
 
 The right spot depends on your city, the light, the walking distance, and the look you want. Pinehurst, The Woodlands, Conroe, Magnolia, and Greater Houston all give us different planning options.
 
-### Can Studio37 help with planning?
+### What if my family needs extra direction?
 
-Yes. We help with timing, location fit, pacing, posing, and the practical little details that keep the session calm.
+That is normal. We guide posing, pacing, and little transitions so nobody has to arrive knowing what to do with their hands. Hands are weird. We plan for that.
 
-### What is the next step after reading about ${topic}?
+### How do I know if this session type is enough?
+
+Think about your goal first. If you need a focused seasonal update, a shorter session can work well. If you need multiple outfits, extended family combinations, or a slower pace, a full session may fit better.
+
+### What is the next step?
 
 Pick the package or session direction that fits best, then send us the city, preferred season, and any important constraints so we can help confirm the plan.`
+}
+
+function replaceFaq(markdown: string, faqMarkdown: string) {
+  const faqStart = markdown.search(/^##\s+(?:FAQ|Frequently Asked Questions)\s*$/im)
+  if (faqStart === -1) return `${markdown.replace(/\s+$/, '')}\n\n${faqMarkdown}`
+  const beforeFaq = markdown.slice(0, faqStart).replace(/\s+$/, '')
+  return `${beforeFaq}\n\n${faqMarkdown}`
 }
 
 function insertAfterH1(markdown: string, insertion: string) {
@@ -182,6 +193,56 @@ function removeBannedVoice(value: string) {
   return bannedOpeners.reduce((text, pattern) => text.replace(pattern, 'Here is the practical part'), value)
 }
 
+function truncateAtWord(value: string, maxLength: number) {
+  const clean = (value || '').trim()
+  if (clean.length <= maxLength) return clean
+  const truncated = clean.slice(0, maxLength + 1)
+  const wordBoundary = truncated.search(/\s+\S*$/)
+  const safe = wordBoundary > 40 ? truncated.slice(0, wordBoundary) : clean.slice(0, maxLength)
+  return safe.replace(/[.,;:!?-]\s*$/, '').trim()
+}
+
+function allowedPricesForBrief(brief: BlogWriterBrief) {
+  const haystack = `${brief.topic} ${brief.keywords.join(' ')} ${brief.outline || ''}`.toLowerCase()
+  const allowed = new Set<string>()
+  if (/wedding|elopement/.test(haystack)) allowed.add('$1,200')
+  if (/portrait|family|senior|headshot/.test(haystack)) allowed.add('$350')
+  if (/\bevent|party|fundraiser|graduation/.test(haystack)) allowed.add('$600')
+  if (/commercial|brand|business/.test(haystack)) allowed.add('$500')
+  return allowed
+}
+
+function removeUnapprovedPrices(content: string, brief: BlogWriterBrief, warnings: Set<string>) {
+  const allowed = allowedPricesForBrief(brief)
+  let removedPrices: string[] = []
+
+  const paragraphs = content.split(/(\n{2,})/)
+  const cleaned = paragraphs.map((part) => {
+    if (/^\n{2,}$/.test(part) || !pricePattern.test(part)) {
+      pricePattern.lastIndex = 0
+      return part
+    }
+    pricePattern.lastIndex = 0
+    const prices = Array.from(part.matchAll(pricePattern)).map((match) => match[0].replace(/\s+/g, ''))
+    const unapproved = prices.filter((price) => !allowed.has(price))
+    if (!unapproved.length) return part
+    removedPrices = [...removedPrices, ...unapproved]
+    return part
+      .split(/(?<=[.!?])\s+/)
+      .filter((sentence) => {
+        const sentencePrices = Array.from(sentence.matchAll(pricePattern)).map((match) => match[0].replace(/\s+/g, ''))
+        return sentencePrices.length === 0 || sentencePrices.every((price) => allowed.has(price))
+      })
+      .join(' ')
+  }).join('')
+
+  if (removedPrices.length) {
+    warnings.add(`Removed unapproved pricing claims before draft return: ${Array.from(new Set(removedPrices)).join(', ')}.`)
+  }
+
+  return cleaned.replace(/\n{3,}/g, '\n\n').trim()
+}
+
 export function applyBlogWriterGuardrails(post: BlogWriterPost, brief: BlogWriterBrief): BlogWriterPost {
   const primaryKeyword = brief.keywords.find(Boolean)?.trim() || brief.topic.trim()
   const keyword = primaryKeyword || 'Studio37 photography'
@@ -214,10 +275,9 @@ export function applyBlogWriterGuardrails(post: BlogWriterPost, brief: BlogWrite
   }
 
   content = enforceSingleRelativeLink(content, keyword, brief.linkTarget)
+  content = removeUnapprovedPrices(content, brief, warnings)
 
-  if (!hasFaq(content)) {
-    content = `${content.replace(/\s+$/, '')}\n\n${buildFaq(keyword, brief.topic)}`
-  }
+  content = replaceFaq(content, buildFaq(keyword, brief.topic))
 
   const localProof = requestedLocalSpecifics.length
     ? requestedLocalSpecifics
@@ -241,7 +301,7 @@ export function applyBlogWriterGuardrails(post: BlogWriterPost, brief: BlogWrite
     ...post,
     title,
     seoTitle,
-    metaDescription: removeBannedVoice(post.metaDescription || '').slice(0, 170),
+    metaDescription: truncateAtWord(removeBannedVoice(post.metaDescription || ''), 160),
     content: content.replace(/\n{3,}/g, '\n\n').trim(),
     excerpt: removeBannedVoice(post.excerpt || '').slice(0, 220),
     tags: Array.isArray(post.tags) ? post.tags : [],

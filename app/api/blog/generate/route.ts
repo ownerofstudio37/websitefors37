@@ -7,7 +7,7 @@ import { createLogger } from "@/lib/logger";
 const log = createLogger("api/blog/generate");
 
 export const dynamic = "force-dynamic";
-export const maxDuration = 60;
+export const maxDuration = 90;
 
 export async function POST(req: Request) {
   try {
