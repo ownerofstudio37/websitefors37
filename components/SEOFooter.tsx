@@ -92,7 +92,6 @@ export default function SEOFooter() {
             <Link href="https://gallery.studio37.cc" className="hover:text-white transition-colors">Featured Work</Link>
             <Link href="/gallery-experience" className="hover:text-white transition-colors">Gallery Help</Link>
             <Link href="/contact" className="hover:text-white transition-colors">Contact</Link>
-            <Link href="/admin" className="text-xs text-stone-500 hover:text-stone-300 transition-colors">Admin</Link>
           </div>
         </div>
       </div>

@@ -7,8 +7,6 @@ import { PressCredentialsBlock } from "@/components/BuilderRuntime";
 import { HomepageNarrativeFlow, PackageRecommenderCTA, PublicTrustStrip, RealReviewProofStrip, WhatHappensNextSection } from "@/components/PublicConversionSections";
 import CuratedRecentWork from "@/components/CuratedRecentWork";
 import { generateSEOMetadata } from "@/lib/seo-helpers";
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import rehypeHighlight from "rehype-highlight";
 import { ChooseYourPathSection, HomeSEOAccordion, HomepageConversionGuardrail } from "@/components/HomepageUXSections";
@@ -39,7 +37,7 @@ const Testimonials = dynamic(() => import("@/components/Testimonials"), {
 export const metadata = generateSEOMetadata({
   title: "Studio37 | Pinehurst Wedding Photographer & Branding Studio",
   description:
-    "Award-winning wedding, portrait & event photography in Pinehurst, Texas. Blending vintage film warmth with modern precision. Serving Montgomery County & Houston. Book today!",
+    "Award-winning wedding, portrait and event photography in Pinehurst, TX with two photographers, calm direction, clear pricing and polished galleries.",
   keywords: [
     "wedding photography Pinehurst TX",
     "portrait photographer Texas",
@@ -118,7 +116,8 @@ async function renderVisualLayout(path: string, layout: { blocks: Array<{ id?: s
 export default async function HomePage({ searchParams }: { searchParams?: Record<string, string | string[]> }) {
   // If an editor-managed home page exists in content_pages (slug 'home'), render it.
   // Otherwise, fall back to the static homepage sections below.
-  const supabase = createServerComponentClient({ cookies });
+  const { getSupabaseAdmin } = await import("@/lib/supabaseAdmin");
+  const supabase = getSupabaseAdmin();
   const { data: page } = await supabase
     .from("content_pages")
     .select("*")

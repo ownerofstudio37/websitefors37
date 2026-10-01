@@ -281,7 +281,15 @@ export default function LeadCaptureForm() {
               className="w-full px-4 py-3.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             >
               <option value="">Select a package</option>
-              <option value="custom">Custom Package</option>
+              <option value="portrait-classic">Portrait Classic - starts at $350</option>
+              <option value="portrait-style">Portrait Style - starts at $500</option>
+              <option value="portrait-ultimate">Portrait Ultimate - starts at $750</option>
+              <option value="engagement">Engagement Session - starts at $450</option>
+              <option value="wedding">Wedding Coverage - starts at $1,200</option>
+              <option value="event">Event Coverage - starts at $600</option>
+              <option value="commercial">Commercial Photography - starts at $500</option>
+              <option value="branding-marketing">Branding & Marketing Plan</option>
+              <option value="not-sure">Not sure yet</option>
             </select>
           </div>
 

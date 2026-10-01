@@ -1,5 +1,4 @@
 import React from 'react'
-import Link from 'next/link'
 import { Mail, Phone, MapPin, Instagram, Facebook, Twitter } from 'lucide-react'
 import Image from 'next/image'
 import LeadCaptureForm from '@/components/LeadCaptureForm'
@@ -10,7 +9,7 @@ import { businessInfo } from '@/lib/seo-config'
 
 export const metadata = generateSEOMetadata({
   title: 'Contact Studio37 - Professional Photography in Pinehurst, TX',
-  description: `Contact Studio37 for professional photography services in Pinehurst, Texas. Located at ${businessInfo.address.fullAddress}. Call ${businessInfo.contact.phone} or email ${businessInfo.contact.email} for bookings and consultations.`,
+  description: `Contact Studio37 in Pinehurst, TX for weddings, portraits and branding. Email ${businessInfo.contact.email} or call ${businessInfo.contact.phone}. Replies within 24 hours.`,
   keywords: [
     'contact Studio37',
     'photography booking Pinehurst TX',
@@ -62,9 +61,6 @@ export default async function ContactPage() {
           <p className="text-xl text-stone-100 mb-1 leading-relaxed">
             Tell us the date, city, and kind of coverage you need. We will help you sort out the next step.
           </p>
-          <Link href="/tools/package-recommender" className="btn-primary mt-5 inline-flex">
-            Not sure what to book?
-          </Link>
         </div>
         {/* Contact Form and Information */}
         <section className="pb-8">
@@ -194,9 +190,9 @@ export default async function ContactPage() {
             </p>
             <div className="flex flex-wrap gap-3 text-sm">
               <a href="/local-photographer-pinehurst-tx" className="px-3 py-2 rounded-full bg-white border border-gray-300 hover:border-primary-300">All Locations</a>
-              <a href="/new-caney" className="px-3 py-2 rounded-full bg-white border border-gray-300 hover:border-primary-300">New Caney</a>
-              <a href="/willis" className="px-3 py-2 rounded-full bg-white border border-gray-300 hover:border-primary-300">Willis</a>
-              <a href="/hockley" className="px-3 py-2 rounded-full bg-white border border-gray-300 hover:border-primary-300">Hockley</a>
+              <a href="/local-photographer-new-caney-tx" className="px-3 py-2 rounded-full bg-white border border-gray-300 hover:border-primary-300">New Caney</a>
+              <a href="/local-photographer-willis-tx" className="px-3 py-2 rounded-full bg-white border border-gray-300 hover:border-primary-300">Willis</a>
+              <a href="/local-photographer-hockley-tx" className="px-3 py-2 rounded-full bg-white border border-gray-300 hover:border-primary-300">Hockley</a>
               <a href="/local-photographer-bryan-tx" className="px-3 py-2 rounded-full bg-white border border-gray-300 hover:border-primary-300">Bryan</a>
               <a href="/local-photographer-college-station-tx" className="px-3 py-2 rounded-full bg-white border border-gray-300 hover:border-primary-300">College Station</a>
             </div>

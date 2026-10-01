@@ -10,7 +10,7 @@ import SubServiceSeoExpansion from '@/components/SubServiceSeoExpansion'
 export const metadata = generateSEOMetadata({
   title: 'Senior Portraits in Pinehurst, TX | Studio37',
   description:
-    'Senior portraits in Pinehurst, TX with Studio37. Explore Classic, Style, and Ultimate sessions.',
+    'Senior portraits in Pinehurst, TX with relaxed direction, outfit guidance, polished galleries, and Classic, Style, and Ultimate session options.',
   canonicalUrl: 'https://www.studio37.cc/senior-portraits',
   pageType: 'service',
 })

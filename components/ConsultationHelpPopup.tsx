@@ -6,6 +6,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { CalendarCheck, PackageSearch, X } from 'lucide-react'
 
 const DISMISS_KEY = 'studio37_help_popup_dismissed_at'
+const SESSION_SHOWN_KEY = 'studio37_help_popup_shown_session'
 const DISMISS_DAYS = 14
 
 const excludedPrefixes = [
@@ -34,6 +35,7 @@ export default function ConsultationHelpPopup() {
   const pathname = usePathname()
   const [open, setOpen] = useState(false)
   const [eligible, setEligible] = useState(false)
+  const [footerVisible, setFooterVisible] = useState(false)
 
   const shouldSuppress = useMemo(
     () => excludedPrefixes.some((prefix) => pathname === prefix || pathname?.startsWith(`${prefix}/`)),
@@ -45,6 +47,7 @@ export default function ConsultationHelpPopup() {
     setEligible(false)
 
     if (shouldSuppress || dismissedRecently()) return
+    if (window.sessionStorage.getItem(SESSION_SHOWN_KEY)) return
 
     let cancelled = false
     const timer = window.setTimeout(() => {
@@ -74,20 +77,36 @@ export default function ConsultationHelpPopup() {
 
   useEffect(() => {
     if (!eligible || shouldSuppress || dismissedRecently()) return
-    const timer = window.setTimeout(() => setOpen(true), 250)
+    const timer = window.setTimeout(() => {
+      window.sessionStorage.setItem(SESSION_SHOWN_KEY, 'true')
+      setOpen(true)
+    }, 250)
     return () => window.clearTimeout(timer)
   }, [eligible, shouldSuppress])
+
+  useEffect(() => {
+    const footer = document.querySelector('footer')
+    if (!footer || typeof IntersectionObserver === 'undefined') return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setFooterVisible(Boolean(entry?.isIntersecting)),
+      { rootMargin: '0px 0px 120px 0px' },
+    )
+
+    observer.observe(footer)
+    return () => observer.disconnect()
+  }, [pathname])
 
   const dismiss = () => {
     window.localStorage.setItem(DISMISS_KEY, String(Date.now()))
     setOpen(false)
   }
 
-  if (!open) return null
+  if (!open || footerVisible) return null
 
   return (
     <aside
-      className="fixed inset-x-3 bottom-[calc(8.75rem+env(safe-area-inset-bottom))] z-40 mx-auto max-w-md rounded-lg border border-amber-200 bg-white p-4 shadow-2xl shadow-stone-950/20 md:inset-x-auto md:bottom-6 md:left-6 md:mx-0 md:w-[23rem]"
+      className="fixed inset-x-3 bottom-[calc(8.75rem+env(safe-area-inset-bottom))] z-40 mx-auto max-w-md rounded-lg border border-amber-200 bg-white p-4 shadow-2xl shadow-stone-950/20 md:inset-x-auto md:bottom-24 md:left-6 md:mx-0 md:w-[23rem]"
       aria-label="Studio37 consultation help"
     >
       <button

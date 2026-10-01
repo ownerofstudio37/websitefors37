@@ -640,11 +640,12 @@ ${conversationSummary}`;
             animate={{ scale: 1 }}
             exit={{ scale: 0 }}
             onClick={startChat}
-            className="fixed bottom-[calc(5.75rem+env(safe-area-inset-bottom))] right-4 z-50 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 p-4 text-white shadow-2xl transition-all hover:scale-110 hover:shadow-3xl md:bottom-6 md:right-6"
+            className="fixed bottom-[calc(5.75rem+env(safe-area-inset-bottom))] right-4 z-50 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 px-4 py-3 text-sm font-semibold text-white shadow-2xl transition-all hover:scale-105 hover:shadow-3xl md:bottom-6 md:right-6"
             aria-label="Open Studio37 chat assistant"
           >
-            <MessageCircle className="h-6 w-6" />
-            <span className="absolute -top-1 -right-1 h-3 w-3 bg-green-400 rounded-full animate-pulse"></span>
+            <MessageCircle className="h-5 w-5" aria-hidden="true" />
+            <span>Chat</span>
+            <span className="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-green-400 animate-pulse"></span>
           </motion.button>
         )}
       </AnimatePresence>
