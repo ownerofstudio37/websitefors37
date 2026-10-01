@@ -77,6 +77,8 @@ const LONGFORM_TARGET_WORDS = 1800;
 const LONGFORM_MAX_PASSES = 6;
 const AI_PASS_TIMEOUT_MS = 25000;
 
+const countMarkdownWords = (value: string) => (value.match(/\b[\w'-]+\b/g) || []).length;
+
 export default function BlogManagementPage() {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
@@ -445,6 +447,10 @@ export default function BlogManagementPage() {
         try {
           latestData = await requestBlogWriterPass({ pass, previousDraft, targetWords });
           previousDraft = latestData.draft || latestData;
+          latestData.wordCount = Math.max(
+            Number(latestData.wordCount) || 0,
+            countMarkdownWords(previousDraft.content || latestData.content || "")
+          );
         } catch (passError: any) {
           if (previousDraft) {
             latestData = {
@@ -456,7 +462,7 @@ export default function BlogManagementPage() {
                   `Client stopped after pass ${pass - 1}: ${passError.message || "Unknown error"}. Draft-so-far kept for review.`,
                 ],
               },
-              wordCount: previousDraft.content?.match(/\b[\w'-]+\b/g)?.length || latestData?.wordCount || 0,
+              wordCount: countMarkdownWords(previousDraft.content || "") || latestData?.wordCount || 0,
               done: true,
               pass,
             };
@@ -469,7 +475,10 @@ export default function BlogManagementPage() {
           throw passError;
         }
 
-        if (!isLongform || latestData.done) break;
+        const reachedTarget = (Number(latestData.wordCount) || 0) >= targetWords;
+        const serverStoppedForGrowth = latestData.doneReason === "no-growth";
+        const serverStoppedForFailure = /provider|error|unavailable|stopped/i.test(latestData.doneReason || "");
+        if (!isLongform || reachedTarget || serverStoppedForGrowth || serverStoppedForFailure) break;
       }
 
       if (!latestData) throw new Error("AI writer returned no draft.");

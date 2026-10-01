@@ -38,7 +38,7 @@ function ensureLinks(md: string): string {
   return out;
 }
 
-function jsonDraftResponse(blogPost: BlogPost, targetWords: number, pass: number, doneOverride?: boolean) {
+function jsonDraftResponse(blogPost: BlogPost, targetWords: number, pass: number, doneOverride?: boolean, doneReason?: string) {
   const cleanContent = ensureLinks(blogPost.content);
   const wordCount = countWords(cleanContent);
   const done = doneOverride ?? wordCount >= targetWords;
@@ -57,6 +57,8 @@ function jsonDraftResponse(blogPost: BlogPost, targetWords: number, pass: number
     },
     wordCount,
     done,
+    doneReason: done ? doneReason || (wordCount >= targetWords ? "target-met" : "stopped") : "needs-expansion",
+    targetWords,
     pass,
     title: blogPost.title,
     seoTitle: blogPost.seoTitle,
@@ -194,7 +196,8 @@ export async function POST(req: Request) {
           },
           targetWords,
           pass,
-          true
+          true,
+          "provider-unavailable"
         );
       }
       return NextResponse.json(
@@ -243,7 +246,7 @@ export async function POST(req: Request) {
       const noMeaningfulGrowth = pass > 1 && previousDraft?.content
         ? wordCountAfterPass <= countWords(previousDraft.content) + 60
         : false;
-      return jsonDraftResponse(blogPost, targetWords, pass, noMeaningfulGrowth ? true : undefined);
+      return jsonDraftResponse(blogPost, targetWords, pass, noMeaningfulGrowth ? true : undefined, noMeaningfulGrowth ? "no-growth" : undefined);
     } catch (aiError: any) {
       log.error("AI generation failed with error", { 
         error: aiError.message,
@@ -270,7 +273,8 @@ export async function POST(req: Request) {
           },
           targetWords,
           pass,
-          true
+          true,
+          "provider-error"
         );
       }
 
