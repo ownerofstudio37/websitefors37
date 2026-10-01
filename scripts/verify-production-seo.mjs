@@ -16,6 +16,10 @@ const requiredUrls = [
 const redirectedPaths = [
   '/gallery',
   '/portfolio',
+  '/seo',
+  '/digital-marketing',
+  '/senior',
+  '/corporate-headshots',
   '/pinehurst',
   '/the-woodlands',
   '/spring',

@@ -31,9 +31,13 @@ const EXCLUDED_PAGE_SLUGS = new Set([
   'algolia-verification',
   'bing-site-auth',
   'brand-photography',
+  'corporate-headshots',
+  'digital-marketing',
   'gallery',
   'google-site-verification',
   'portfolio',
+  'senior',
+  'seo',
   'yandex-verification',
 ])
 
