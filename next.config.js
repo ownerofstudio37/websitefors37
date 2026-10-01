@@ -135,6 +135,15 @@ const nextConfig = {
       { source: '/locations/bryan-tx', destination: '/local-photographer-bryan-tx', statusCode: 301 },
       { source: '/locations/college-station-tx', destination: '/local-photographer-college-station-tx', statusCode: 301 },
       { source: '/locations/houston-tx', destination: '/local-photographer-houston-tx', statusCode: 301 },
+      { source: '/locations/humble-tx', destination: '/humble', statusCode: 301 },
+      { source: '/locations/atascocita-tx', destination: '/atascocita', statusCode: 301 },
+      { source: '/locations/kingwood-tx', destination: '/kingwood', statusCode: 301 },
+      { source: '/locations/cleveland-tx', destination: '/cleveland', statusCode: 301 },
+      { source: '/locations/navasota-tx', destination: '/navasota', statusCode: 301 },
+      { source: '/locations/plantersville-tx', destination: '/plantersville', statusCode: 301 },
+      { source: '/locations/porter-tx', destination: '/porter', statusCode: 301 },
+      { source: '/locations/splendora-tx', destination: '/splendora', statusCode: 301 },
+      { source: '/locations/waller-tx', destination: '/waller', statusCode: 301 },
     ];
   },
   // Headers for performance and security

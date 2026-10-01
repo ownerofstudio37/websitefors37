@@ -127,6 +127,15 @@ const REDIRECTED_SITEMAP_PATHS = [
   "/locations/bryan-tx",
   "/locations/college-station-tx",
   "/locations/houston-tx",
+  "/locations/humble-tx",
+  "/locations/atascocita-tx",
+  "/locations/kingwood-tx",
+  "/locations/cleveland-tx",
+  "/locations/navasota-tx",
+  "/locations/plantersville-tx",
+  "/locations/porter-tx",
+  "/locations/splendora-tx",
+  "/locations/waller-tx",
 ];
 
 const CANONICAL_CHECK_URLS = [

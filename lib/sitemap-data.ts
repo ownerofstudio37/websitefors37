@@ -67,6 +67,18 @@ const REDIRECTED_LOCATION_SLUGS = new Set([
   'houston',
 ])
 
+const REDIRECTED_LOCATION_PAGE_SLUGS = new Set([
+  'atascocita-tx',
+  'cleveland-tx',
+  'humble-tx',
+  'kingwood-tx',
+  'navasota-tx',
+  'plantersville-tx',
+  'porter-tx',
+  'splendora-tx',
+  'waller-tx',
+])
+
 // Helper to determine priority based on post age
 function getBlogPostPriority(publishedAt: string | null, updatedAt: string | null): number {
   const compareDate = publishedAt ?? updatedAt
@@ -669,7 +681,7 @@ export async function getSitemapRoutes(): Promise<MetadataRoute.Sitemap> {
   for (const location of locationPages) {
     const shortSlug = location.slug.replace(/-tx$/, '')
 
-    if (!localPhotographerLocationSlugs.has(location.slug)) {
+    if (!localPhotographerLocationSlugs.has(location.slug) && !REDIRECTED_LOCATION_PAGE_SLUGS.has(location.slug)) {
       routes.push({
         url: `${sitemapBaseUrl}/locations/${location.slug}`,
         lastModified: staticLastModified,

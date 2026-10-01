@@ -11,6 +11,15 @@ const requiredUrls = [
   'https://www.studio37.cc/session-prep',
   'https://www.studio37.cc/locations',
   'https://www.studio37.cc/local-photographer-katy-tx',
+  'https://www.studio37.cc/humble',
+  'https://www.studio37.cc/atascocita',
+  'https://www.studio37.cc/kingwood',
+  'https://www.studio37.cc/cleveland',
+  'https://www.studio37.cc/navasota',
+  'https://www.studio37.cc/plantersville',
+  'https://www.studio37.cc/porter',
+  'https://www.studio37.cc/splendora',
+  'https://www.studio37.cc/waller',
 ]
 
 const excludedPatterns = [
@@ -69,6 +78,15 @@ const redirectedPaths = [
   '/locations/bryan-tx',
   '/locations/college-station-tx',
   '/locations/houston-tx',
+  '/locations/humble-tx',
+  '/locations/atascocita-tx',
+  '/locations/kingwood-tx',
+  '/locations/cleveland-tx',
+  '/locations/navasota-tx',
+  '/locations/plantersville-tx',
+  '/locations/porter-tx',
+  '/locations/splendora-tx',
+  '/locations/waller-tx',
 ]
 
 function assert(condition, message) {
