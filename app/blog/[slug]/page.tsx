@@ -23,6 +23,16 @@ function blogCanonical(slug: string) {
   return `${businessInfo.contact.website}/blog/${slug}`
 }
 
+const SEO_TITLE_COMMENT = /<!--\s*seo_title:\s*([\s\S]*?)\s*-->\s*/i
+
+function getSeoTitleFromContent(content?: string | null) {
+  return content?.match(SEO_TITLE_COMMENT)?.[1]?.trim()
+}
+
+function stripSeoTitleComment(content?: string | null) {
+  return (content || '').replace(SEO_TITLE_COMMENT, '').trimStart()
+}
+
 function notFoundMetadata(slug?: string) {
   return generateSEOMetadata({
     title: 'Blog Post Not Found | Studio37',
@@ -153,7 +163,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   const now = new Date().toISOString()
   const { data: post } = await supabase
     .from('blog_posts')
-    .select('title, meta_description, excerpt, meta_keywords, featured_image')
+    .select('title, content, meta_description, excerpt, meta_keywords, featured_image')
     .eq('slug', params.slug)
     .eq('published', true)
     .or(`published_at.is.null,published_at.lte.${now}`)
@@ -181,7 +191,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   }
 
   return generateSEOMetadata({
-    title: post.title,
+    title: getSeoTitleFromContent(post.content) || post.title,
     description: post.meta_description || post.excerpt || 'Studio37 photography planning guide for Pinehurst, Montgomery County, and Greater Houston.',
     keywords: post.meta_keywords || [],
     canonicalUrl: blogCanonical(params.slug),
@@ -219,6 +229,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
   const articleIntent = getArticleIntent(articlePost)
   const localizedServiceSchema = getLocalizedBlogServiceSchema(articlePost, articleIntent)
   const localizedBlogLinks = getLocalizedBlogLinks(articlePost, articleIntent)
+  const articleContent = stripSeoTitleComment(articlePost.content)
   
   // Get related posts using same admin client
   const { data: relatedPosts } = await supabase
@@ -338,7 +349,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
           
           <article className="prose max-w-none prose-stone lg:prose-lg prose-headings:text-stone-950 prose-a:text-primary-700">
             <MDXRemote 
-              source={articlePost.content}
+              source={articleContent}
               options={{
                 mdxOptions: {
                   rehypePlugins: [[rehypeRaw as any, {

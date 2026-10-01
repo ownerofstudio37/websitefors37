@@ -1,16 +1,26 @@
 import { NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
 import { generateBlogPost } from "@/lib/ai-client";
+import { buildBlogWriterWarningBanner } from "@/lib/blog-writer-guardrails";
 import { createLogger } from "@/lib/logger";
 
 const log = createLogger("api/blog/generate");
 
 export const dynamic = "force-dynamic";
-export const maxDuration = 40;
+export const maxDuration = 60;
 
 export async function POST(req: Request) {
   try {
-    const { topic, keywords, tone, wordCount } = await req.json();
+    const {
+      topic,
+      keywords,
+      tone,
+      wordCount,
+      outline,
+      reader,
+      linkTarget,
+      localSpecifics,
+    } = await req.json();
 
     log.info("Blog generation request received", { topic, keywords, tone, wordCount });
 
@@ -51,8 +61,8 @@ export async function POST(req: Request) {
       ? keywords 
       : ["photography", "Studio37", "Pinehurst TX"];
 
-    const requestedWordCount = Number(wordCount) || 800;
-    const boundedWordCount = Math.min(Math.max(Math.round(requestedWordCount), 400), 750);
+    const requestedWordCount = Number(wordCount) || 900;
+    const boundedWordCount = Math.min(Math.max(Math.round(requestedWordCount), 400), 1900);
 
     log.info("Calling generateBlogPost with bounded AI budget", {
       topic, 
@@ -66,7 +76,17 @@ export async function POST(req: Request) {
         topic,
         keywordArray,
         boundedWordCount,
-        tone || "professional and friendly"
+        tone || "professional and friendly",
+        {
+          outline,
+          reader,
+          linkTarget,
+          localSpecifics: Array.isArray(localSpecifics)
+            ? localSpecifics
+            : typeof localSpecifics === "string"
+              ? localSpecifics.split(",").map((item: string) => item.trim()).filter(Boolean)
+              : undefined,
+        }
       );
 
       if (!blogPost || !blogPost.content) {
@@ -90,16 +110,7 @@ export async function POST(req: Request) {
         out = out.replace(/www\.studio37photography\.com/gi, "www.studio37.cc");
         out = out.replace(/studio37photography\.com/gi, "www.studio37.cc");
         out = out.replace(/\[([^\]]+)\]\(https?:\/\/(?!www\.studio37\.cc)[^)]+\)/gi, "$1");
-        
-        // Link brand mention
-        if (!/\[Studio37 Photography\]\(/.test(out) && out.includes("Studio37 Photography")) {
-          out = out.replace(/(Studio37 Photography)(?![\]\)])/, "[Studio37 Photography](https://www.studio37.cc/services)");
-        }
-        
-        // Add CTA if missing
-        if (!/book-a-session/.test(out) && !/\/contact/.test(out)) {
-          out += "\n\n---\n\n**Ready when you are.** [Book a session with Studio37](https://www.studio37.cc/book-a-session) or [contact us](https://www.studio37.cc/contact) with your date, city, and coverage needs.";
-        }
+        out = out.replace(/\]\(https?:\/\/(?:www\.)?studio37\.cc\//gi, "](/");
         
         return out;
       };
@@ -107,11 +118,13 @@ export async function POST(req: Request) {
       // Return with processed content
       return NextResponse.json({
         title: blogPost.title,
+        seoTitle: blogPost.seoTitle,
         metaDescription: blogPost.metaDescription,
-        content: ensureLinks(blogPost.content),
+        content: `${buildBlogWriterWarningBanner(blogPost.warnings)}${ensureLinks(blogPost.content)}`,
         excerpt: blogPost.excerpt,
         suggestedTags: blogPost.tags || keywordArray,
         category: blogPost.category || "Photography Tips",
+        warnings: blogPost.warnings || [],
       });
     } catch (aiError: any) {
       log.error("AI generation failed with error", { 

@@ -12,6 +12,7 @@
 
 import { GoogleGenerativeAI, GenerativeModel } from "@google/generative-ai";
 import { createLogger } from "./logger";
+import { applyBlogWriterGuardrails, type BlogWriterBrief } from "./blog-writer-guardrails";
 
 const log = createLogger("lib/ai-client");
 
@@ -470,23 +471,32 @@ Generate SEO suggestions as JSON:
  */
 export interface BlogPost {
   title: string;
+  seoTitle?: string;
   metaDescription: string;
   content: string;
   tags: string[];
   category: string;
   excerpt: string;
+  warnings?: string[];
 }
+
+type BlogWriterOptions = AIClientOptions &
+  Partial<Pick<BlogWriterBrief, "outline" | "reader" | "linkTarget" | "localSpecifics">>;
 
 export async function generateBlogPost(
   topic: string,
   keywords: string[],
   wordCount: number = 1000,
   tone: string = "professional",
-  options: AIClientOptions = {}
+  options: BlogWriterOptions = {}
 ): Promise<BlogPost> {
-  const targetWordCount = Math.min(Math.max(Math.round(Number(wordCount) || 700), 400), 750);
-  const maxOutputTokens = targetWordCount <= 550 ? 4096 : 5120;
+  const targetWordCount = Math.min(Math.max(Math.round(Number(wordCount) || 900), 400), 1900);
+  const maxOutputTokens = targetWordCount >= 1600 ? 12000 : targetWordCount <= 550 ? 4096 : 8192;
   const primaryKeyword = keywords.find(Boolean) || "professional photography"
+  const outline = options.outline?.trim()
+  const reader = options.reader?.trim() || "a real client comparing photographers, locations, packages, or marketing help"
+  const linkTarget = options.linkTarget?.trim() || "/book-consultation"
+  const localSpecifics = options.localSpecifics?.length ? options.localSpecifics : ["Pinehurst", "The Woodlands", "Greater Houston"]
   const prompt = `You are the Studio37 editorial assistant. Write a useful, human-sounding blog draft for Studio37 Photography in Pinehurst, TX.
 
 Topic: ${topic}
@@ -496,20 +506,24 @@ Requirements:
 - Supporting keywords: ${keywords.join(", ")}
 - Word count: approximately ${targetWordCount} words
 - Tone: ${tone}
-- Audience: a real client comparing photographers, venues, locations, pricing, or prep decisions.
+- Declared reader: ${reader}
 - Write in Markdown with one H1, practical H2/H3 headings, short paragraphs, and concrete bullets where helpful.
+- The exact primary keyword must appear in the SEO title, H1, first 100 words, and at least one H2.
+- Use this exact internal link target once: ${linkTarget}
+- Use the exact primary keyword as the anchor text for that one internal link.
+- Use relative internal links only. Do not include absolute URLs. Do not add extra internal links.
+- Include an FAQ section with 4-6 Q&As using long-tail variants of the primary keyword.
+- Include 2-3 local specifics from this approved list only: ${localSpecifics.join(", ")}.
+- Never invent venue names, dates, availability, stats, permits, prices, timelines, or local rules.
+- Never publish a stat unless the topic/brief provides a source. If a stat is not supplied, avoid it.
+- Do not present calendar dates as upcoming unless the brief provides exact dates.
 - Make the advice specific to planning, lighting, timeline, location logistics, wardrobe, delivery expectations, or service fit.
+- Use first-person plural voice: "we," meaning Christian + Caitie / Studio37. Keep sentences short.
+- Include one light playful or nerdy beat, but keep it subtle.
 - Mention Studio37 naturally 2-3 times. Do not over-repeat the brand.
 - Include at least 3 concrete Studio37-style proof details when relevant: two photographers on wedding/event coverage, Pinehurst/Montgomery County/Greater Houston service area, private gallery examples by request, planning around light and walking distance, guided posing, turnaround expectations, or package fit.
-- Add 3-5 internal links naturally using these exact destinations when relevant:
-  - /services/wedding-photography
-  - /services/portrait-photography
-  - /services/event-photography
-  - /services/commercial-photography
-  - /request-portfolio
-  - /book-consultation
-  - /tools/pricing
 - End with one calm, specific next step, not a generic sales pitch.
+${outline ? `\nRequired outline. Use these H2s in this order and do not add unrequested major sections:\n${outline}` : ""}
 
 Studio37 facts to keep accurate:
 - Wedding coverage starts at $1,200 for Micro / Elopement coverage: 3 hours, guest count under 30, both Studio37 photographers on site, 150+ edited photos, 48-hour sneak peek, private digital gallery. Do not say print release is included.
@@ -522,19 +536,25 @@ Avoid AI/stock-blog language:
 - Do not use "nestled", "breathtaking", "timeless imagery", "unforgettable moments", "capture the essence", "stands as a testament", "monument to", "elevate your", "magic", "masterpiece", "comprehensive guide", or "once-in-a-lifetime" unless it is in a client quote.
 - Do not make venue-specific factual claims unless the topic provides them. If uncertain, frame as planning questions or things to confirm.
 - Do not write advice for other photographers. Write for clients.
+- Do not address Studio37 as the reader.
 - Do not invent awards, review quotes, venue access rules, room names, permit rules, delivery guarantees, or exact timelines.
+- Do not use corporate third-person voice like "At Studio37, we pride ourselves."
+- Do not open with filler like "In today's fast-paced digital landscape."
 
 Before returning JSON, silently self-edit:
 - Replace generic adjectives with concrete planning details.
 - Remove repeated phrases.
 - Make the title sound like a human search result, not a content farm.
 - Make the excerpt clear enough to help someone decide whether to click.
+- Confirm the exact keyword is in the H1, first 100 words, one H2, and the single internal link anchor.
+- Confirm the FAQ block exists.
 
 IMPORTANT: Respond with ONLY a valid JSON object. No markdown, no code blocks, no extra text.
 
 JSON structure:
 {
-  "title": "compelling SEO title (50-60 chars)",
+  "title": "H1 title for the post",
+  "seoTitle": "dedicated SEO title, 60 chars or less, includes exact primary keyword",
   "metaDescription": "meta description (150-160 chars)",
   "content": "full blog post content with markdown formatting",
   "tags": ["relevant", "tags", "for", "categorization"],
@@ -559,7 +579,7 @@ JSON structure:
         },
         retries: 1,
         retryDelayMs: 500,
-        timeoutMs: 3500,
+        timeoutMs: targetWordCount >= 1600 ? 30000 : 12000,
         fallbackModels: BLOG_MODEL_FALLBACKS,
         maxFallbackModels: 4,
         ...options,
@@ -587,7 +607,16 @@ JSON structure:
           continue;
         }
         log.warn("Gemini returned invalid blog JSON, returning starter draft", { topic, targetWordCount });
-        return buildFallbackBlogPost(topic, keywords, targetWordCount, tone);
+        return applyBlogWriterGuardrails(buildFallbackBlogPost(topic, keywords, targetWordCount, tone), {
+          topic,
+          keywords,
+          wordCount: targetWordCount,
+          tone,
+          outline,
+          reader,
+          linkTarget,
+          localSpecifics,
+        });
       }
 
       log.info("Blog post JSON parsed", {
@@ -617,7 +646,16 @@ JSON structure:
         contentLength: blogPost.content?.length || 0,
       });
 
-      return polishStudio37BlogPost(blogPost, topic, keywords);
+      return applyBlogWriterGuardrails(polishStudio37BlogPost(blogPost, topic, keywords), {
+        topic,
+        keywords,
+        wordCount: targetWordCount,
+        tone,
+        outline,
+        reader,
+        linkTarget,
+        localSpecifics,
+      });
     } catch (error: any) {
       // If this is already our own "out of attempts" error, or a hard API error,
       // stop retrying and surface it immediately.
@@ -636,11 +674,29 @@ JSON structure:
       if (isHard || attempt >= MAX_PARSE_ATTEMPTS) {
         if (error?.message?.includes("Empty response")) {
           log.warn("Gemini returned empty blog response, returning starter draft", { topic, targetWordCount });
-          return buildFallbackBlogPost(topic, keywords, targetWordCount, tone);
+          return applyBlogWriterGuardrails(buildFallbackBlogPost(topic, keywords, targetWordCount, tone), {
+            topic,
+            keywords,
+            wordCount: targetWordCount,
+            tone,
+            outline,
+            reader,
+            linkTarget,
+            localSpecifics,
+          });
         }
         if (/high demand|overloaded|service unavailable|timed out|timeout/i.test(error?.message || "")) {
           log.warn("All Gemini blog models busy, returning starter draft", { topic, targetWordCount });
-          return buildFallbackBlogPost(topic, keywords, targetWordCount, tone);
+          return applyBlogWriterGuardrails(buildFallbackBlogPost(topic, keywords, targetWordCount, tone), {
+            topic,
+            keywords,
+            wordCount: targetWordCount,
+            tone,
+            outline,
+            reader,
+            linkTarget,
+            localSpecifics,
+          });
         }
         throw error;
       }
@@ -690,6 +746,7 @@ The right preparation turns a good photo session into a smooth experience and a 
 
   return {
     title,
+    seoTitle: title,
     metaDescription: `Learn ${cleanTopic.toLowerCase()} tips from Studio37 Photography, including planning, lighting, and preparation advice for stronger photos.`,
     content,
     tags: tagSet,
@@ -728,6 +785,7 @@ function polishStudio37BlogPost(post: BlogPost, topic: string, keywords: string[
 
   return {
     title: clean(post.title || topic).slice(0, 80),
+    seoTitle: clean(post.seoTitle || post.title || topic).slice(0, 60),
     metaDescription: clean(post.metaDescription || `Studio37 planning tips for ${topic.toLowerCase()}, including location, lighting, service fit, and next steps.`).slice(0, 170),
     content: clean(post.content),
     tags: Array.isArray(post.tags) && post.tags.length ? post.tags.slice(0, 8) : fallbackTags,

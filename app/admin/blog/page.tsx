@@ -58,6 +58,21 @@ const getPostStatus = (post: Pick<BlogPost, "published" | "published_at">) => {
   return post.published ? "Published" : "Draft";
 };
 
+const SEO_TITLE_COMMENT = /<!--\s*seo_title:\s*([\s\S]*?)\s*-->\s*/i;
+
+const extractSeoTitle = (content?: string, fallback = "") => {
+  const match = (content || "").match(SEO_TITLE_COMMENT);
+  return match?.[1]?.trim() || fallback;
+};
+
+const stripSeoTitleComment = (content: string) => content.replace(SEO_TITLE_COMMENT, "").trimStart();
+
+const contentWithSeoTitle = (content: string, seoTitle: string) => {
+  const cleanContent = stripSeoTitleComment(content || "");
+  const cleanSeoTitle = seoTitle.trim();
+  return cleanSeoTitle ? `<!-- seo_title: ${cleanSeoTitle} -->\n\n${cleanContent}` : cleanContent;
+};
+
 export default function BlogManagementPage() {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
@@ -70,6 +85,10 @@ export default function BlogManagementPage() {
     keywords: "",
     tone: "professional",
     wordCount: 800,
+    outline: "",
+    reader: "",
+    linkTarget: "/book-consultation",
+    localSpecifics: "Pinehurst, The Woodlands, Greater Houston",
   });
   const [postForm, setPostForm] = useState({
     title: "",
@@ -78,6 +97,7 @@ export default function BlogManagementPage() {
     content: "",
     featured_image: "",
     featured_image_position: "center center",
+    seo_title: "",
     meta_description: "",
     meta_keywords: "", // Will be split into array on submit
     author: "Admin",
@@ -192,7 +212,7 @@ export default function BlogManagementPage() {
         title: postForm.title,
         slug: postForm.slug,
         excerpt: postForm.excerpt,
-        content: postForm.content,
+        content: contentWithSeoTitle(postForm.content, postForm.seo_title),
         featured_image: postForm.featured_image,
         featured_image_position: postForm.featured_image_position,
         meta_description: postForm.meta_description,
@@ -278,6 +298,7 @@ export default function BlogManagementPage() {
       content: "",
       featured_image: "",
       featured_image_position: "center center",
+      seo_title: "",
       meta_description: "",
       meta_keywords: "",
       author: "Admin",
@@ -296,7 +317,7 @@ export default function BlogManagementPage() {
     setRawPreview("");
 
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 36000);
+    const timeout = setTimeout(() => controller.abort(), 58000);
 
     try {
       const res = await fetch("/api/blog/generate", {
@@ -361,6 +382,7 @@ export default function BlogManagementPage() {
         content: data.content,
         featured_image: "",
         featured_image_position: "center center",
+        seo_title: data.seoTitle || data.title || "",
         meta_description: data.metaDescription || "",
         meta_keywords: (data.suggestedTags || []).join(", "),
         author: "Admin",
@@ -369,6 +391,12 @@ export default function BlogManagementPage() {
         published: false,
         scheduled_at: "",
       });
+      if (data.warnings?.length) {
+        setToast({
+          type: "info",
+          message: `Draft created with ${data.warnings.length} human-review warning${data.warnings.length === 1 ? "" : "s"}. Review the banner before publishing.`,
+        });
+      }
 
       setIsNewPost(true);
       setShowAIGenerator(false);
@@ -394,9 +422,10 @@ export default function BlogManagementPage() {
       title: post.title,
       slug: post.slug,
       excerpt: post.excerpt || "",
-      content: post.content,
+        content: stripSeoTitleComment(post.content),
       featured_image: post.featured_image || "",
       featured_image_position: post.featured_image_position || "center center",
+      seo_title: extractSeoTitle(post.content, post.title || ""),
       meta_description: post.meta_description || "",
       meta_keywords: Array.isArray(post.meta_keywords)
         ? post.meta_keywords.join(", ")
@@ -953,6 +982,27 @@ export default function BlogManagementPage() {
                       <div className="space-y-4">
                         <div>
                           <label className="block text-sm font-medium text-gray-700 mb-2">
+                            SEO Title <span className="text-xs text-gray-500">(≤60 chars)</span>
+                          </label>
+                          <input
+                            type="text"
+                            value={postForm.seo_title}
+                            onChange={(e) =>
+                              setPostForm({
+                                ...postForm,
+                                seo_title: e.target.value,
+                              })
+                            }
+                            maxLength={60}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                            placeholder="SEO title for search results..."
+                          />
+                          <p className="mt-1 text-xs text-gray-500">
+                            {postForm.seo_title.length}/60 characters. Saved as hidden metadata and used for the public title tag.
+                          </p>
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
                             Meta Description
                           </label>
                           <textarea
@@ -1028,7 +1078,7 @@ export default function BlogManagementPage() {
         {/* AI Blog Generator Modal */}
         {showAIGenerator && (
           <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="bg-white rounded-2xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
               <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-6 rounded-t-2xl">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
@@ -1084,9 +1134,9 @@ export default function BlogManagementPage() {
                 <div className="rounded-lg border border-purple-200 bg-purple-50 p-4">
                   <h3 className="font-semibold text-purple-950 mb-2">Reliability Mode</h3>
                   <ul className="list-disc ml-5 space-y-1 text-sm text-purple-800">
-                    <li>Short and Medium are safest on Netlify because they finish before request timeouts.</li>
-                    <li>If a long post times out, keep the topic, schedule the draft, and retry later instead of retyping.</li>
-                    <li>Generation uses model fallbacks server-side; repeated failures usually mean provider demand or a long prompt.</li>
+                    <li>1,800-word drafts use a longer model timeout and may take the full request window.</li>
+                    <li>If longform times out, keep the brief and retry once; the server still returns a guarded starter draft when the provider fails.</li>
+                    <li>Drafts stay unpublished and may include a human-review banner for dates, prices, or stats.</li>
                   </ul>
                 </div>
 
@@ -1153,6 +1203,80 @@ export default function BlogManagementPage() {
                   )}
                 </div>
 
+                <div className="grid gap-4 md:grid-cols-2">
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      Declared Reader *
+                    </label>
+                    <input
+                      type="text"
+                      value={aiForm.reader}
+                      onChange={(e) =>
+                        setAiForm({ ...aiForm, reader: e.target.value })
+                      }
+                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                      placeholder="e.g., bride planning a Woodlands wedding"
+                    />
+                    <p className="mt-1 text-xs text-gray-500">
+                      Keeps the draft aimed at the client, not Studio37 or other photographers.
+                    </p>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      Internal Link Target *
+                    </label>
+                    <input
+                      type="text"
+                      value={aiForm.linkTarget}
+                      onChange={(e) =>
+                        setAiForm({ ...aiForm, linkTarget: e.target.value })
+                      }
+                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                      placeholder="/mini-sessions"
+                    />
+                    <p className="mt-1 text-xs text-gray-500">
+                      One relative URL only. The primary keyword becomes the anchor.
+                    </p>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Structured Outline
+                  </label>
+                  <textarea
+                    value={aiForm.outline}
+                    onChange={(e) =>
+                      setAiForm({ ...aiForm, outline: e.target.value })
+                    }
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    rows={5}
+                    placeholder={"Paste required H2s, one per line.\nExample:\nWhy fall mini sessions work for busy families\nWhat to wear for Texas fall photos\nHow to choose the right location"}
+                  />
+                  <p className="mt-1 text-xs text-gray-500">
+                    The writer follows these H2s in order and avoids extra major sections.
+                  </p>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Approved Local Specifics
+                  </label>
+                  <input
+                    type="text"
+                    value={aiForm.localSpecifics}
+                    onChange={(e) =>
+                      setAiForm({ ...aiForm, localSpecifics: e.target.value })
+                    }
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    placeholder="Pinehurst, The Woodlands, Greater Houston"
+                  />
+                  <p className="mt-1 text-xs text-gray-500">
+                    Use real approved cities, parks, venues, or areas only. Leave out anything uncertain.
+                  </p>
+                </div>
+
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-2">
@@ -1189,6 +1313,7 @@ export default function BlogManagementPage() {
                       <option value="500">Short (~500 words)</option>
                       <option value="800">Medium (~800 words)</option>
                       <option value="900">Long (~900 words)</option>
+                      <option value="1800">SEO Longform (1,800+ words)</option>
                     </select>
                   </div>
                 </div>
@@ -1210,11 +1335,12 @@ export default function BlogManagementPage() {
                     What the writer checks:
                   </h3>
                   <ul className="text-sm text-purple-700 space-y-1">
-                    <li>• SEO-optimized title & meta description</li>
-                    <li>• Human-sounding planning advice, not venue-brochure filler</li>
+                    <li>• Keyword in title/H1, first 100 words, one H2, and one link anchor</li>
+                    <li>• FAQ block with long-tail variants</li>
+                    <li>• Human-sounding first-person voice, not venue-brochure filler</li>
                     <li>• Accurate Studio37 pricing, turnaround, and gallery language</li>
-                    <li>• Relevant internal links and a calm next step</li>
-                    <li>• Suggested tags and category</li>
+                    <li>• Exactly one relative internal link</li>
+                    <li>• Human-review warnings for dates, prices, and stats</li>
                   </ul>
                 </div>
 
@@ -1227,7 +1353,7 @@ export default function BlogManagementPage() {
                   </button>
                   <button
                     onClick={generateBlogPost}
-                    disabled={generatingPost || !aiForm.topic}
+                    disabled={generatingPost || !aiForm.topic || !aiForm.keywords || !aiForm.reader || !aiForm.linkTarget}
                     className="flex-1 px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:from-purple-700 hover:to-pink-700 disabled:opacity-50 disabled:cursor-not-allowed font-medium shadow-lg flex items-center justify-center gap-2"
                   >
                     {generatingPost ? (
