@@ -1,3 +1,4 @@
+import React from 'react'
 import {
   Body,
   Container,
@@ -24,6 +25,7 @@ interface BookingConfirmationEmailProps {
   totalAmount?: string
   depositAmount?: string
   photographer?: string
+  confirmationType?: 'photography' | 'marketing-audit'
 }
 
 export default function BookingConfirmationEmail({
@@ -37,11 +39,39 @@ export default function BookingConfirmationEmail({
   totalAmount = '',
   depositAmount = '',
   photographer = 'Studio37 Team',
+  confirmationType = 'photography',
 }: BookingConfirmationEmailProps) {
+  const isMarketingAudit = confirmationType === 'marketing-audit'
+  const previewText = isMarketingAudit
+    ? 'Your Studio37 growth audit call is confirmed.'
+    : 'Your session with Studio37 is confirmed! 📸'
+  const headerTitle = isMarketingAudit ? 'Audit Call Confirmed! ✓' : 'Booking Confirmed! ✓'
+  const headerCopy = isMarketingAudit
+    ? 'We will review your growth path and next best move'
+    : "We're excited to photograph your session"
+  const introCopy = isMarketingAudit
+    ? `Great news! Your ${sessionType} is confirmed. We will review your website, search visibility, content gaps, paid traffic opportunities, and lead path so you leave with a clearer next step.`
+    : `Great news! Your ${sessionType} session is confirmed. We can't wait to capture amazing memories with you!`
+  const detailsHeading = isMarketingAudit ? 'Audit Call Details' : 'Session Details'
+  const teamLabel = isMarketingAudit ? 'Host:' : 'Photographer:'
+  const expectationItems = isMarketingAudit
+    ? [
+        'We will start with your website, offer, search visibility, content gaps, ads or social presence, and lead path.',
+        'If you have a website URL, Google Business Profile, ad account notes, or recent concerns, reply with them before the call.',
+        'You do not need a polished brief. A few goals, bottlenecks, or "this is not working" notes are enough.',
+        'After the call, we will recommend the cleanest next move before any larger scope is discussed.',
+      ]
+    : [
+        "We'll send a reminder 24 hours before your session",
+        'Please arrive 10 minutes early for setup',
+        'Bring any props or outfit changes discussed',
+        'Photos will be ready within 2-3 weeks',
+      ]
+
   return (
     <Html>
       <Head />
-      <Preview>Your session with Studio37 is confirmed! 📸</Preview>
+      <Preview>{previewText}</Preview>
       <Body style={main}>
         <Container style={container}>
           {/* Logo Header */}
@@ -55,8 +85,8 @@ export default function BookingConfirmationEmail({
 
           {/* Hero Header */}
           <div style={header}>
-            <Heading style={h1}>Booking Confirmed! ✓</Heading>
-            <Text style={headerSubtext}>We're excited to photograph your session</Text>
+            <Heading style={h1}>{headerTitle}</Heading>
+            <Text style={headerSubtext}>{headerCopy}</Text>
           </div>
           
           <Text style={text}>
@@ -64,11 +94,11 @@ export default function BookingConfirmationEmail({
           </Text>
 
           <Text style={text}>
-            Great news! Your {sessionType} session is confirmed. We can't wait to capture amazing memories with you!
+            {introCopy}
           </Text>
 
           <div style={confirmationBox}>
-            <Heading as="h2" style={h2}>Session Details</Heading>
+            <Heading as="h2" style={h2}>{detailsHeading}</Heading>
             
             <div style={detailRow}>
               <span style={label}>Date:</span>
@@ -91,7 +121,7 @@ export default function BookingConfirmationEmail({
             </div>
             
             <div style={detailRow}>
-              <span style={label}>Photographer:</span>
+              <span style={label}>{teamLabel}</span>
               <span style={value}>{photographer}</span>
             </div>
 
@@ -121,10 +151,9 @@ export default function BookingConfirmationEmail({
           <Section style={section}>
             <Heading as="h3" style={h3}>What to Expect</Heading>
             <ul style={list}>
-              <li>We'll send a reminder 24 hours before your session</li>
-              <li>Please arrive 10 minutes early for setup</li>
-              <li>Bring any props or outfit changes discussed</li>
-              <li>Photos will be ready within 2-3 weeks</li>
+              {expectationItems.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
             </ul>
           </Section>
 

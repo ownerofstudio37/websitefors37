@@ -167,6 +167,9 @@ export async function POST(request: NextRequest) {
     const sourceMetadata = buildBookingSourceMetadata(body, request)
     const bookingContext = sourceMetadata?.booking_context as { label?: string } | undefined
     const contextLabel = bookingContext?.label || serviceInterest || ''
+    const isMarketingAudit = /marketing-audit|growth audit|seo growth audit|website and seo/i.test(
+      `${bookingContext?.label || ''} ${serviceInterest || ''} ${notes || ''}`
+    )
 
     // Validation
     if (!date || !time || !name || !email || !phone) {
@@ -396,6 +399,7 @@ export async function POST(request: NextRequest) {
           duration: '30 minutes',
           photographer: 'Studio37 Team',
           packageName: contextLabel || undefined,
+          confirmationType: isMarketingAudit ? 'marketing-audit' : 'photography',
         })
 
         // Send to customer
