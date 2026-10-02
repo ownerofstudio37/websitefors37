@@ -19,6 +19,7 @@ import {
   TrendingUp,
   CheckCircle,
   ArrowRight,
+  Sparkles,
 } from 'lucide-react'
 import ServiceIntentPanel from '@/components/ServiceIntentPanel'
 import { brandingMarketingServices } from '@/lib/branding-marketing-services'
@@ -91,30 +92,37 @@ export default function BrandingMarketingPage() {
     { name: 'Branding & Marketing', url: 'https://www.studio37.cc/services/branding-marketing' },
   ])
 
+  const serviceBySlug = new Map(brandingMarketingServices.map((service) => [service.slug, service]))
+  const serviceCard = (slug: string, icon: typeof Globe) => {
+    const service = serviceBySlug.get(slug)
+    if (!service) throw new Error(`Missing branding marketing service: ${slug}`)
+    return {
+      icon,
+      title: service.shortTitle,
+      href: `/services/branding-marketing/${service.slug}`,
+      description: service.parentCardDescription,
+    }
+  }
+
   const solutions = [
-    {
-      icon: Megaphone,
-      title: brandingMarketingServices[4].shortTitle,
-      href: `/services/branding-marketing/${brandingMarketingServices[4].slug}`,
-      description: brandingMarketingServices[4].parentCardDescription,
-    },
-    {
-      icon: Video,
-      title: brandingMarketingServices[5].shortTitle,
-      href: `/services/branding-marketing/${brandingMarketingServices[5].slug}`,
-      description: brandingMarketingServices[5].parentCardDescription,
-    },
+    serviceCard('custom-website-development', Globe),
+    serviceCard('seo-services', Search),
+    serviceCard('aeo-services', Sparkles),
+    serviceCard('ppc-management', Target),
+    serviceCard('social-media-management', TrendingUp),
+    serviceCard('brand-content-production', Megaphone),
+    serviceCard('video-content-creation', Video),
     {
       icon: MonitorSmartphone,
       title: 'Social Media Content',
-      href: `/services/branding-marketing/${brandingMarketingServices[3].slug}`,
+      href: '/services/branding-marketing/social-media-management',
       description:
         'Platform-ready visuals, captions, and publishing strategy to keep your brand consistent and visible week after week.',
     },
     {
       icon: Package,
       title: 'Product Photo + Video',
-      href: `/services/branding-marketing/${brandingMarketingServices[4].slug}`,
+      href: '/services/branding-marketing/brand-content-production',
       description:
         'Ecommerce-ready product imagery and video assets that improve perceived value and drive purchase intent.',
     },
@@ -131,30 +139,6 @@ export default function BrandingMarketingPage() {
       href: '/services/event-photography',
       description:
         'Capture launches, mixers, conferences, and retreats with dual-perspective storytelling for post-event marketing.',
-    },
-    {
-      icon: Globe,
-      title: brandingMarketingServices[0].shortTitle,
-      href: `/services/branding-marketing/${brandingMarketingServices[0].slug}`,
-      description: brandingMarketingServices[0].parentCardDescription,
-    },
-    {
-      icon: Search,
-      title: brandingMarketingServices[1].shortTitle,
-      href: `/services/branding-marketing/${brandingMarketingServices[1].slug}`,
-      description: brandingMarketingServices[1].parentCardDescription,
-    },
-    {
-      icon: Target,
-      title: brandingMarketingServices[2].shortTitle,
-      href: `/services/branding-marketing/${brandingMarketingServices[2].slug}`,
-      description: brandingMarketingServices[2].parentCardDescription,
-    },
-    {
-      icon: TrendingUp,
-      title: brandingMarketingServices[3].shortTitle,
-      href: `/services/branding-marketing/${brandingMarketingServices[3].slug}`,
-      description: brandingMarketingServices[3].parentCardDescription,
     },
   ]
 
@@ -346,7 +330,7 @@ export default function BrandingMarketingPage() {
             <p className="eyebrow mb-2">Growth Services</p>
             <h2 className="text-3xl font-bold mb-4">Business Services We Handle End-to-End</h2>
             <p className="text-lg text-stone-600 max-w-3xl mx-auto">
-              From brand content to custom websites, SEO, paid campaigns, and social execution, we connect the assets clients see with the systems that help them take action.
+              From custom websites, SEO, and AI search visibility to brand content, paid campaigns, and social execution, we connect the assets clients see with the systems that help them take action.
             </p>
           </div>
 

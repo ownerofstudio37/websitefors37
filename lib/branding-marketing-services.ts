@@ -288,6 +288,49 @@ export const brandingMarketingServices: BrandingMarketingService[] = [
       },
     ],
   },
+  {
+    slug: 'aeo-services',
+    title: 'Answer Engine Optimization Services in Pinehurst, TX',
+    shortTitle: 'Answer Engine Optimization',
+    eyebrow: 'AI Search Visibility',
+    description:
+      'Answer Engine Optimization helps your business become easier for AI answer engines to understand, cite, and recommend through structured content, schema, and entity optimization.',
+    parentCardDescription:
+      'Get your brand cited by AI answer engines. Structured content, schema, and entity optimization so ChatGPT, Perplexity, and Google AI Overviews recommend your business.',
+    metaTitle: 'AEO Services Pinehurst TX | AI Search Visibility | Studio37',
+    metaDescription:
+      'Answer Engine Optimization services in Pinehurst, TX for brands that want to be cited by ChatGPT, Perplexity, Google AI Overviews, and other AI answer engines.',
+    keywords: ['AEO services Pinehurst TX', 'answer engine optimization', 'AI search visibility', 'Google AI Overviews optimization', 'ChatGPT brand citations'],
+    heroBullets: ['Structured answer content', 'Schema and entity optimization', 'AI citation readiness', 'Topic authority mapping'],
+    outcomeStats: [
+      { value: 'Entity', label: 'brand clarity', note: 'Help AI systems understand who you are, what you offer, and where you serve.' },
+      { value: 'Schema', label: 'machine-readable signals', note: 'Use structured data to reinforce services, FAQs, reviews, locations, and organization details.' },
+      { value: 'Answers', label: 'content format', note: 'Build clear, quotable pages that answer buyer questions directly.' },
+      { value: 'AI search', label: 'visibility channel', note: 'Plan for discovery beyond traditional blue-link search results.' },
+    ],
+    improvementAreas: ['Entity clarity', 'Schema coverage', 'FAQ depth', 'Topical authority', 'Citation-worthy content'],
+    industryFits: ['Local service businesses', 'Professional services', 'Healthcare and wellness', 'Home services', 'B2B and technical brands'],
+    relatedServices: ['seo-services', 'custom-website-development', 'brand-content-production'],
+    bestFor: ['Brands already investing in SEO', 'Businesses with expert answers buyers need', 'Teams that want visibility in AI-generated recommendations'],
+    deliverables: ['AEO visibility audit', 'Entity and schema recommendations', 'Answer-focused content plan', 'AI search citation roadmap'],
+    process: [
+      { title: 'Map the entity', copy: 'Clarify brand, services, locations, proof, people, and relationships so answer engines have cleaner context.' },
+      { title: 'Structure the answers', copy: 'Turn priority questions into clear pages, FAQs, definitions, comparisons, and service explanations AI tools can cite.' },
+      { title: 'Reinforce signals', copy: 'Improve schema, internal links, content consistency, and authority signals around the topics where you should be recommended.' },
+    ],
+    faq: [
+      {
+        question: 'How is AEO different from SEO?',
+        answer:
+          'SEO focuses on search rankings and organic traffic. AEO builds on that foundation by making your brand, services, answers, and proof easier for AI answer engines to understand and cite.',
+      },
+      {
+        question: 'Can you guarantee ChatGPT or Google AI Overviews will recommend us?',
+        answer:
+          'No one can guarantee a specific AI citation. The goal is to improve the signals, structure, and content quality that make your business a stronger candidate for AI-generated answers.',
+      },
+    ],
+  },
 ]
 
 export function getBrandingMarketingService(slug: string) {
