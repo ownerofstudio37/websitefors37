@@ -17,16 +17,19 @@ const DEFAULT_OG_IMAGE =
 
 // Must match the title template in app/layout.tsx.
 const LAYOUT_TITLE_SUFFIX = ` | ${businessInfo.name} - Pinehurst, TX Photography`
+const LOCAL_TITLE_SUFFIX = ` | ${businessInfo.name} Pinehurst, TX`
 const SHORT_TITLE_SUFFIX = ` | ${businessInfo.name}`
 // Roughly what Google shows before truncating a title or snippet.
 const MAX_TITLE_LENGTH = 65
 const MAX_DESCRIPTION_LENGTH = 160
 
-// Long titles drop the location suffix (or all branding) instead of being cut off mid-word in results.
+// Long titles step down to a shorter suffix (keeping the location while it fits) instead of being cut off mid-word in results.
 function resolveTitle(title: string): Metadata['title'] {
-  if (title.includes(businessInfo.name)) return { absolute: title }
+  if (/studio\s?37/i.test(title)) return { absolute: title }
   if (title.length + LAYOUT_TITLE_SUFFIX.length <= MAX_TITLE_LENGTH) return title
-  if (title.length + SHORT_TITLE_SUFFIX.length <= MAX_TITLE_LENGTH) return { absolute: `${title}${SHORT_TITLE_SUFFIX}` }
+  for (const suffix of [LOCAL_TITLE_SUFFIX, SHORT_TITLE_SUFFIX]) {
+    if (title.length + suffix.length <= MAX_TITLE_LENGTH) return { absolute: `${title}${suffix}` }
+  }
   return { absolute: title }
 }
 
