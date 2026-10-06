@@ -116,8 +116,14 @@ ${sections
   return new NextResponse(xml, { headers: sitemapHeaders() })
 }
 
-export async function getSitemapSectionResponse(sectionKey: SitemapSectionKey) {
-  const section = (await getSitemapSections()).find((candidate) => candidate.key === sectionKey)
+export async function getSitemapSectionResponse(sectionKey: SitemapSectionKey | 'all') {
+  const section =
+    sectionKey === 'all'
+      ? {
+          routes: await getSitemapRoutes(),
+        }
+      : (await getSitemapSections()).find((candidate) => candidate.key === sectionKey)
+
   if (!section) {
     return new NextResponse('Not found', { status: 404 })
   }

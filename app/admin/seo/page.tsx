@@ -1009,17 +1009,17 @@ export default function SEOPage() {
             <div className="p-6 border-b border-gray-200">
               <h2 className="text-lg font-semibold text-gray-900">Search Console Submission</h2>
               <p className="text-sm text-gray-600 mt-1">
-                Submit both sitemap endpoints and monitor submitted/indexed counts after deployment.
+                Submit the Google handoff sitemap and monitor submitted/indexed counts after deployment.
               </p>
             </div>
             <div className="p-6 space-y-4">
               <div className="rounded-lg bg-gray-50 p-4">
-                <p className="text-sm font-medium text-gray-900">Primary sitemap</p>
-                <code className="mt-1 block text-sm text-gray-700">https://www.studio37.cc/sitemap.xml</code>
+                <p className="text-sm font-medium text-gray-900">Google handoff sitemap</p>
+                <code className="mt-1 block text-sm text-gray-700">https://www.studio37.cc/google-sitemap.xml</code>
               </div>
               <div className="rounded-lg bg-gray-50 p-4">
-                <p className="text-sm font-medium text-gray-900">Sitemap index</p>
-                <code className="mt-1 block text-sm text-gray-700">https://www.studio37.cc/sitemap_index.xml</code>
+                <p className="text-sm font-medium text-gray-900">Legacy sitemap index</p>
+                <code className="mt-1 block text-sm text-gray-700">https://www.studio37.cc/sitemap.xml</code>
               </div>
               <div className="flex flex-wrap gap-2">
                 <a

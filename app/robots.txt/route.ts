@@ -13,8 +13,8 @@ export async function GET() {
     'Disallow: /login',
     'Disallow: /gallery/',
     '',
+    `Sitemap: ${sitemapBaseUrl}/google-sitemap.xml`,
     `Sitemap: ${sitemapBaseUrl}/sitemap.xml`,
-    `Sitemap: ${sitemapBaseUrl}/gsc-sitemap.xml`,
     '',
   ].join('\n')
 
