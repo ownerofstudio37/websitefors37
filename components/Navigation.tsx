@@ -175,19 +175,10 @@ export default function Navigation({
   const mobilePrimaryItems = navItems.filter((item) => !isMobileSecondaryItem(item))
   const mobileSecondaryItems = navItems.filter(isMobileSecondaryItem)
 
-  const lightPagePrefixes = [
-    '/blog',
-    '/contact',
-    '/request-portfolio',
-    '/gallery-experience',
-    '/tools/pricing',
-    '/tools/package-recommender',
-    '/session-prep',
-    '/locations',
-    '/book-consultation',
-    '/get-quote',
-  ]
-  const solidNav = scrolled || lightPagePrefixes.some((prefix) => pathname === prefix || pathname?.startsWith(`${prefix}/`))
+  // The transparent nav uses white text, so it is only safe on pages whose hero is a dark,
+  // full-bleed image directly behind the nav. Every other page gets the solid nav.
+  const darkHeroPaths = ['/', '/services', '/book-a-session']
+  const solidNav = scrolled || !darkHeroPaths.includes(pathname || '')
 
   // Hide navigation on admin pages
   if (pathname?.startsWith('/admin')) {

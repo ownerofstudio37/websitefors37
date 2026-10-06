@@ -74,7 +74,7 @@ export default function EventPhotographyPage() {
       />
 
       {/* Hero Section */}
-      <section className="relative h-[480px] bg-gradient-to-r from-green-900 to-blue-900">
+      <section className="relative min-h-[480px] bg-gradient-to-r from-green-900 to-blue-900">
         <div className="absolute inset-0 opacity-40">
           <Image
             src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1784791655/Alice_Birthday_Party_-_74_zxkulm.jpg"
@@ -84,7 +84,7 @@ export default function EventPhotographyPage() {
             priority
           />
         </div>
-        <div className="relative z-10 container mx-auto px-4 h-full flex items-center">
+        <div className="relative z-10 container mx-auto px-4 min-h-[480px] py-12 flex items-center">
           <div className="text-white max-w-2xl">
             <p className="eyebrow-hero mb-3">Signature Duo Coverage · Pinehurst, TX</p>
             <h1 className="text-5xl font-bold mb-4">Event Photography in Pinehurst, TX</h1>

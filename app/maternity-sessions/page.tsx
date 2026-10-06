@@ -47,7 +47,7 @@ export default function MaternitySessionsPage() {
   return (
     <div className="pt-16">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
-      <section className="relative h-[440px] bg-stone-900">
+      <section className="relative min-h-[440px] bg-stone-900">
         <Image
           src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033091/IMG_1503_Original_mtopcp.jpg"
           alt="Studio37 maternity session with soft outdoor portrait lighting"
@@ -55,7 +55,7 @@ export default function MaternitySessionsPage() {
           priority
           className="object-cover opacity-75"
         />
-        <div className="relative z-10 container mx-auto px-4 h-full flex items-center">
+        <div className="relative z-10 container mx-auto px-4 min-h-[440px] py-12 flex items-center">
           <div className="max-w-2xl text-white">
             <p className="eyebrow-hero mb-3">Studio37 Maternity</p>
             <h1 className="text-5xl font-bold mb-3">Maternity Sessions</h1>

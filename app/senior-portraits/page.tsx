@@ -48,7 +48,7 @@ export default function SeniorPortraitsPage() {
   return (
     <div className="pt-16">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
-      <section className="relative h-[440px] bg-stone-900">
+      <section className="relative min-h-[440px] bg-stone-900">
         <Image
           src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033092/Untitled-12_hih9qs.jpg"
           alt="Senior portrait hero image"
@@ -56,7 +56,7 @@ export default function SeniorPortraitsPage() {
           priority
           className="object-cover opacity-75"
         />
-        <div className="relative z-10 container mx-auto px-4 h-full flex items-center">
+        <div className="relative z-10 container mx-auto px-4 min-h-[440px] py-12 flex items-center">
           <div className="max-w-2xl text-white">
             <p className="eyebrow-hero mb-3">Studio37 Seniors</p>
             <h1 className="text-5xl font-bold mb-3">Senior Portraits</h1>

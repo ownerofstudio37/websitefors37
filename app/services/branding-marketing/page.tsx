@@ -215,7 +215,7 @@ export default function BrandingMarketingPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
-      <section className="relative h-[30rem] bg-gradient-to-r from-gray-900 to-primary-900">
+      <section className="relative min-h-[30rem] bg-gradient-to-r from-gray-900 to-primary-900">
         <div className="absolute inset-0 opacity-35">
           <Image
             src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1784791656/VB_School_Chris_Faves_-_4-2_u9lpel.jpg"
@@ -225,7 +225,7 @@ export default function BrandingMarketingPage() {
             priority
           />
         </div>
-        <div className="relative z-10 container mx-auto px-4 h-full flex items-center">
+        <div className="relative z-10 container mx-auto px-4 min-h-[30rem] py-12 flex items-center">
           <div className="text-white max-w-3xl">
             <p className="eyebrow-hero mb-3 inline-flex items-center gap-2">
               <Megaphone className="h-4 w-4" />

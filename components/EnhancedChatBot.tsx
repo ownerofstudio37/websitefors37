@@ -137,7 +137,8 @@ function renderMessageWithLinks(text: string) {
   return parts.length > 0 ? parts : text
 }
 
-export default function EnhancedChatBot() {
+// openSignal increments each time something outside the widget (the mobile quick-action bar) asks to open chat.
+export default function EnhancedChatBot({ openSignal = 0 }: { openSignal?: number }) {
   const [isMounted, setIsMounted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -162,6 +163,12 @@ export default function EnhancedChatBot() {
   const [feedbackSent, setFeedbackSent] = useState<Record<string, boolean>>({});
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const leadCapturedRef = useRef(false);
+  // startChat is declared after the mount guard below, so external open requests reach it through a ref.
+  const startChatRef = useRef<(() => void) | null>(null);
+
+  useEffect(() => {
+    if (isMounted && openSignal > 0) startChatRef.current?.();
+  }, [isMounted, openSignal]);
 
   // Avoid hydration issues by only rendering after client mount
   useEffect(() => {
@@ -206,6 +213,7 @@ export default function EnhancedChatBot() {
       );
     }
   };
+  startChatRef.current = startChat;
 
   const addBotMessage = (text: string, quickReplies?: string[]) => {
     const botMessage: Message = {
@@ -669,7 +677,7 @@ ${conversationSummary}`;
             animate={{ scale: 1 }}
             exit={{ scale: 0 }}
             onClick={startChat}
-            className="fixed bottom-[calc(5.75rem+env(safe-area-inset-bottom))] right-4 z-50 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 px-4 py-3 text-sm font-semibold text-white shadow-2xl transition-all hover:scale-105 hover:shadow-3xl md:bottom-6 md:right-6"
+            className="fixed bottom-[calc(5.75rem+env(safe-area-inset-bottom))] right-4 z-50 hidden md:inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 px-4 py-3 text-sm font-semibold text-white shadow-2xl transition-all hover:scale-105 hover:shadow-3xl md:bottom-6 md:right-6"
             aria-label="Open Studio37 chat assistant"
           >
             <MessageCircle className="h-5 w-5" aria-hidden="true" />

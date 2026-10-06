@@ -2,7 +2,8 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Calendar, Calculator, Image as ImageIcon } from 'lucide-react'
+import { Calendar, Calculator, Image as ImageIcon, MessageCircle } from 'lucide-react'
+import { OPEN_CHAT_EVENT } from '@/components/ChatBotMount'
 
 const hiddenPrefixes = [
   '/admin',
@@ -25,7 +26,7 @@ export default function PublicStickyCTA() {
 
   return (
     <div data-mobile-nav-hide className="sticky-cta-enter fixed inset-x-0 bottom-0 z-30 border-t border-stone-200 bg-white/95 pb-[env(safe-area-inset-bottom)] shadow-[0_-10px_30px_rgba(15,23,42,0.08)] backdrop-blur-xl transition-transform duration-200 md:hidden">
-      <nav className="grid grid-cols-3" aria-label="Quick actions">
+      <nav className="grid grid-cols-4" aria-label="Quick actions">
         <Link href="/book-consultation" aria-label="Book a Studio37 consultation" className={actionClass}>
           <Calendar className="h-5 w-5 text-amber-700 transition-transform duration-150 group-active:scale-95" aria-hidden="true" />
           Book consult
@@ -34,10 +35,20 @@ export default function PublicStickyCTA() {
           <Calculator className="h-5 w-5 text-amber-700 transition-transform duration-150 group-active:scale-95" aria-hidden="true" />
           Price
         </Link>
-        <Link href="https://gallery.studio37.cc" aria-label="Open the featured Studio37 gallery" className={actionClass}>
+        <Link href="https://gallery.studio37.cc" aria-label="Open the featured Studio37 gallery" className={`${actionClass} border-r border-stone-200`}>
           <ImageIcon className="h-5 w-5 text-amber-700 transition-transform duration-150 group-active:scale-95" aria-hidden="true" />
           Galleries
         </Link>
+        {/* Replaces the floating chat bubble on phones, which covered page CTAs. */}
+        <button
+          type="button"
+          onClick={() => window.dispatchEvent(new Event(OPEN_CHAT_EVENT))}
+          aria-label="Open the Studio37 chat assistant"
+          className={actionClass}
+        >
+          <MessageCircle className="h-5 w-5 text-amber-700 transition-transform duration-150 group-active:scale-95" aria-hidden="true" />
+          Chat
+        </button>
       </nav>
     </div>
   )

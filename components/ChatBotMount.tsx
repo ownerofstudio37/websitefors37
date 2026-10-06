@@ -9,8 +9,11 @@ const LazyChatBot = dynamic(() => import('@/components/EnhancedChatBot'), {
   loading: () => null,
 })
 
+export const OPEN_CHAT_EVENT = 'studio37:open-chat'
+
 export default function ChatBotMount() {
   const [ready, setReady] = React.useState(false)
+  const [openSignal, setOpenSignal] = React.useState(0)
   const pathname = usePathname()
   const hiddenPrefixes = ['/book-a-session', '/book-consultation', '/get-quote', '/tools/pricing', '/tools/package-recommender']
   const hidden = hiddenPrefixes.some((prefix) => pathname?.startsWith(prefix))
@@ -41,5 +44,16 @@ export default function ChatBotMount() {
     }
   }, [hidden])
 
-  return !hidden && ready ? <LazyChatBot /> : null
+  // The mobile quick-action bar dispatches this; load the widget if needed and open it.
+  React.useEffect(() => {
+    if (hidden) return
+    const onOpenRequest = () => {
+      setReady(true)
+      setOpenSignal((count) => count + 1)
+    }
+    window.addEventListener(OPEN_CHAT_EVENT, onOpenRequest)
+    return () => window.removeEventListener(OPEN_CHAT_EVENT, onOpenRequest)
+  }, [hidden])
+
+  return !hidden && ready ? <LazyChatBot openSignal={openSignal} /> : null
 }
