@@ -27,8 +27,10 @@ for (const route of ['app/sitemap.xml/route.ts', 'app/sitemap_index.xml/route.ts
 }
 
 const sitemapXmlHelper = read('lib/sitemap-xml.ts')
-if (sitemapXmlHelper.includes('xml-stylesheet')) {
-  issues.push('lib/sitemap-xml.ts should not emit xml-stylesheet processing instructions for crawler sitemap XML')
+for (const stylesheet of sitemapXmlHelper.match(/<\?xml-stylesheet[^?]*\?>/g) || []) {
+  if (!stylesheet.includes('href="/sitemap.xsl"')) {
+    issues.push(`lib/sitemap-xml.ts may only reference the same-origin /sitemap.xsl stylesheet; got ${stylesheet}`)
+  }
 }
 
 const robotsRoute = read('app/robots.txt/route.ts')

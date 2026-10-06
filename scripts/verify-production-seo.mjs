@@ -170,8 +170,10 @@ for (const [label, text] of [
   ['sitemap.xml', sitemap.text],
   ['sitemap_index.xml', sitemapIndex.text],
 ]) {
-  if (text.includes('xml-stylesheet')) {
-    fail(`${label} should not include an xml-stylesheet processing instruction`)
+  for (const stylesheet of text.match(/<\?xml-stylesheet[^?]*\?>/g) || []) {
+    if (!stylesheet.includes('href="/sitemap.xsl"')) {
+      fail(`${label} may only reference the same-origin /sitemap.xsl stylesheet; got ${stylesheet}`)
+    }
   }
 }
 

@@ -37,8 +37,10 @@ for (const [pathname, contentTypeNeedle, requiredHeaders] of checks) {
     if (csp) issues.push(`${pathname} should not send Content-Security-Policy`)
     if (corp) issues.push(`${pathname} should not send Cross-Origin-Resource-Policy`)
     const body = await response.text()
-    if (body.includes('xml-stylesheet')) {
-      issues.push(`${pathname} should not include an xml-stylesheet processing instruction`)
+    for (const stylesheet of body.match(/<\?xml-stylesheet[^?]*\?>/g) || []) {
+      if (!stylesheet.includes('href="/sitemap.xsl"')) {
+        issues.push(`${pathname} may only reference the same-origin /sitemap.xsl stylesheet; got ${stylesheet}`)
+      }
     }
   }
 }

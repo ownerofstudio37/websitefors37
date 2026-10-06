@@ -12,6 +12,9 @@ export type SitemapSectionKey =
 
 export const sitemapCacheControl = 'public, max-age=0, s-maxage=3600, stale-while-revalidate=86400'
 
+// Browser-only styling; crawlers ignore the processing instruction and read the raw XML.
+const sitemapStylesheet = '<?xml-stylesheet type="text/xsl" href="/sitemap.xsl"?>'
+
 const childSitemaps: Array<{ key: SitemapSectionKey; loc: string }> = [
   { key: 'pages', loc: `${sitemapBaseUrl}/page-sitemap.xml` },
   { key: 'services', loc: `${sitemapBaseUrl}/service-sitemap.xml` },
@@ -101,6 +104,7 @@ export async function getSitemapSections() {
 export async function getSitemapIndexResponse() {
   const sections = await getSitemapSections()
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
+${sitemapStylesheet}
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${sections
   .map(
@@ -144,6 +148,7 @@ export async function getSitemapSectionResponse(sectionKey: SitemapSectionKey | 
     .join('\n')
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
+${sitemapStylesheet}
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls}
 </urlset>
