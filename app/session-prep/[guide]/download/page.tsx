@@ -31,6 +31,8 @@ export function generateMetadata({ params }: { params: { guide: string } }) {
     description: guide.summary,
     canonicalUrl: `https://www.studio37.cc/session-prep/${params.guide}/download`,
     pageType: 'service',
+    // Thin download form; the indexable content lives on /session-prep/[guide].
+    noIndex: true,
   })
 }
 

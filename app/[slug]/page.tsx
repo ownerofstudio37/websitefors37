@@ -66,11 +66,17 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   
   return generateSEOMetadata({
     title: page.title,
-    description: page.meta_description || 'Studio 37 Photography',
+    description:
+      page.meta_description ||
+      `${page.title} from Studio37, a two-photographer studio in Pinehurst, TX serving Montgomery County and Greater Houston.`,
     canonicalUrl: `https://www.studio37.cc/${params.slug}`,
     pageType: 'website',
+    noIndex: NOINDEX_CMS_SLUGS.has(params.slug),
   })
 }
+
+// Thin CMS stubs kept live for visitors but out of search results.
+const NOINDEX_CMS_SLUGS = new Set(['project-showcase', 'projects'])
 
 // Revalidate CMS-driven pages every 2 minutes (can be overridden by on-demand revalidation)
 export const revalidate = 120

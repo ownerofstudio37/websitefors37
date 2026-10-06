@@ -15,9 +15,31 @@ interface SEOProps {
 const DEFAULT_OG_IMAGE =
   'https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_1200,h_630,c_fill,g_auto/v1784795585/Untitled-160_convert.io_c7oit0.jpg'
 
+// Must match the title template in app/layout.tsx.
+const LAYOUT_TITLE_SUFFIX = ` | ${businessInfo.name} - Pinehurst, TX Photography`
+const SHORT_TITLE_SUFFIX = ` | ${businessInfo.name}`
+// Roughly what Google shows before truncating a title or snippet.
+const MAX_TITLE_LENGTH = 65
+const MAX_DESCRIPTION_LENGTH = 160
+
+// Long titles drop the location suffix (or all branding) instead of being cut off mid-word in results.
+function resolveTitle(title: string): Metadata['title'] {
+  if (title.includes(businessInfo.name)) return { absolute: title }
+  if (title.length + LAYOUT_TITLE_SUFFIX.length <= MAX_TITLE_LENGTH) return title
+  if (title.length + SHORT_TITLE_SUFFIX.length <= MAX_TITLE_LENGTH) return { absolute: `${title}${SHORT_TITLE_SUFFIX}` }
+  return { absolute: title }
+}
+
+function clampDescription(description: string) {
+  const text = description.replace(/\s+/g, ' ').trim()
+  if (text.length <= MAX_DESCRIPTION_LENGTH) return text
+  const cut = text.slice(0, MAX_DESCRIPTION_LENGTH - 1)
+  return `${cut.slice(0, cut.lastIndexOf(' ')).replace(/[\s,;:.-]+$/, '')}…`
+}
+
 export function generateSEOMetadata({
   title,
-  description,
+  description: rawDescription,
   keywords = [],
   canonicalUrl,
   ogImage = DEFAULT_OG_IMAGE,
@@ -26,10 +48,9 @@ export function generateSEOMetadata({
   noIndex = false
 }: SEOProps): Metadata {
   const fullTitle = title
-  const resolvedTitle: Metadata['title'] = title.includes(businessInfo.name)
-    ? { absolute: title }
-    : title
-  
+  const resolvedTitle = resolveTitle(title)
+  const description = clampDescription(rawDescription)
+
   const defaultKeywords = [
     'photography',
     'photographer',
@@ -136,6 +157,10 @@ export function generateStructuredData(data: object) {
 }
 
 // Generate Article schema for blog posts
+export function isPlaceholderAuthor(author?: string | null) {
+  return !author || /^(admin|studio\s?37.*)$/i.test(author.trim())
+}
+
 export function generateArticleSchema(article: {
   headline: string
   description: string
@@ -153,10 +178,10 @@ export function generateArticleSchema(article: {
     image: article.image,
     datePublished: article.datePublished,
     dateModified: article.dateModified || article.datePublished,
-    author: {
-      '@type': 'Person',
-      name: article.author
-    },
+    // Placeholder CMS authors ("Admin", the studio name) are credited to the business, not a fake person.
+    author: isPlaceholderAuthor(article.author)
+      ? { '@type': 'Organization', name: businessInfo.legalName, url: businessInfo.contact.website }
+      : { '@type': 'Person', name: article.author },
     publisher: {
       '@type': 'Organization',
       name: businessInfo.name,

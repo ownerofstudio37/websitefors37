@@ -33,9 +33,19 @@ const EXCLUDED_PAGE_SLUGS = new Set([
   'brand-photography',
   'corporate-headshots',
   'digital-marketing',
+  // Coded route now owns /faq.
+  'faq',
+  // Expired seasonal promos.
+  'fall-mini-sale',
+  'feb14-mini',
   'gallery',
+  // Near-duplicate of /service-area.
+  'new-landing-page',
   'google-site-verification',
   'portfolio',
+  // Thin portfolio stubs (under 300 words); the real portfolio is the gallery subdomain.
+  'project-showcase',
+  'projects',
   'senior',
   'seo',
   'yandex-verification',
@@ -232,6 +242,12 @@ export async function getSitemapRoutes(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'monthly',
       priority: PRIORITIES.mainPages,
     },
+    {
+      url: `${sitemapBaseUrl}/faq`,
+      lastModified: staticLastModified,
+      changeFrequency: 'monthly',
+      priority: PRIORITIES.mainPages,
+    },
     // Session prep guides
     {
       url: `${sitemapBaseUrl}/session-prep`,
@@ -265,30 +281,6 @@ export async function getSitemapRoutes(): Promise<MetadataRoute.Sitemap> {
     },
     {
       url: `${sitemapBaseUrl}/session-prep/commercial`,
-      lastModified: staticLastModified,
-      changeFrequency: 'monthly',
-      priority: PRIORITIES.servicePages,
-    },
-    {
-      url: `${sitemapBaseUrl}/session-prep/portrait/download`,
-      lastModified: staticLastModified,
-      changeFrequency: 'monthly',
-      priority: PRIORITIES.servicePages,
-    },
-    {
-      url: `${sitemapBaseUrl}/session-prep/wedding/download`,
-      lastModified: staticLastModified,
-      changeFrequency: 'monthly',
-      priority: PRIORITIES.servicePages,
-    },
-    {
-      url: `${sitemapBaseUrl}/session-prep/event/download`,
-      lastModified: staticLastModified,
-      changeFrequency: 'monthly',
-      priority: PRIORITIES.servicePages,
-    },
-    {
-      url: `${sitemapBaseUrl}/session-prep/commercial/download`,
       lastModified: staticLastModified,
       changeFrequency: 'monthly',
       priority: PRIORITIES.servicePages,

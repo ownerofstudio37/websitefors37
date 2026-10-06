@@ -8,7 +8,7 @@ import { Calendar, User, Tag, ArrowLeft } from 'lucide-react'
 import { MDXRemote } from 'next-mdx-remote/rsc'
 import rehypeHighlight from 'rehype-highlight'
 import rehypeRaw from 'rehype-raw'
-import { generateSEOMetadata, generateArticleSchema } from '@/lib/seo-helpers'
+import { generateSEOMetadata, generateArticleSchema, isPlaceholderAuthor } from '@/lib/seo-helpers'
 import { businessInfo, formatServiceAreaForSchema, generateServiceSchema, geoServiceAreas } from '@/lib/seo-config'
 import { generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
 import ComparePackagesCTA from '@/components/ComparePackagesCTA'
@@ -31,6 +31,16 @@ function getSeoTitleFromContent(content?: string | null) {
 
 function stripSeoTitleComment(content?: string | null) {
   return (content || '').replace(SEO_TITLE_COMMENT, '').trimStart()
+}
+
+// Some stored titles end with "| Studio37 Texas"-style branding meant for search results, not the on-page heading.
+function displayTitle(title: string) {
+  return title.replace(/\s*[|–—-]\s*Studio\s?37\b.*$/i, '').trim() || title
+}
+
+// The page header already renders the post title as the only <h1>; demote any H1 inside the post body.
+const articleBodyComponents = {
+  h1: (props: React.ComponentProps<'h2'>) => <h2 {...props} />,
 }
 
 function notFoundMetadata(slug?: string) {
@@ -246,7 +256,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
 
   // Generate Article schema for SEO
   const articleSchema = generateArticleSchema({
-    headline: articlePost.title,
+    headline: displayTitle(articlePost.title),
     description: articlePost.meta_description || articlePost.excerpt || '',
     image: articlePost.featured_image || `${businessInfo.contact.website}/api/og?title=${encodeURIComponent(articlePost.title)}`,
     datePublished: articlePost.published_at || articlePost.created_at,
@@ -258,7 +268,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Home', url: businessInfo.contact.website },
     { name: 'Blog', url: `${businessInfo.contact.website}/blog` },
-    { name: articlePost.title, url: `${businessInfo.contact.website}/blog/${articlePost.slug}` },
+    { name: displayTitle(articlePost.title), url: `${businessInfo.contact.website}/blog/${articlePost.slug}` },
   ])
   
   return (
@@ -287,7 +297,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
           </Link>
           <div className="max-w-5xl">
             <p className="eyebrow mb-4">Studio37 Journal</p>
-            <h1 className="text-4xl font-bold leading-tight text-stone-950 md:text-6xl">{articlePost.title}</h1>
+            <h1 className="text-4xl font-bold leading-tight text-stone-950 md:text-6xl">{displayTitle(articlePost.title)}</h1>
           </div>
           
           <div className="mt-6 flex flex-wrap items-center text-sm text-stone-600">
@@ -302,7 +312,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
             </div>
             <div className="flex items-center mr-6 mb-2">
               <User className="h-4 w-4 mr-1" />
-              <span>{articlePost.author}</span>
+              <span>{isPlaceholderAuthor(articlePost.author) ? businessInfo.name : articlePost.author}</span>
             </div>
             {articlePost.tags && articlePost.tags.length > 0 && (
               <div className="flex items-center flex-wrap">
@@ -326,7 +336,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
           <div className="relative mx-auto aspect-[4/3] w-full max-w-6xl overflow-hidden rounded-lg border border-stone-200 bg-stone-100 shadow-sm sm:aspect-[16/10] lg:aspect-[16/9]">
             <Image
               src={articlePost.featured_image}
-              alt={articlePost.title}
+              alt={displayTitle(articlePost.title)}
               fill
               sizes="(max-width: 768px) 100vw, 1200px"
               priority
@@ -348,8 +358,9 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
           )}
           
           <article className="prose max-w-none prose-stone lg:prose-lg prose-headings:text-stone-950 prose-a:text-primary-700">
-            <MDXRemote 
+            <MDXRemote
               source={articleContent}
+              components={articleBodyComponents}
               options={{
                 mdxOptions: {
                   rehypePlugins: [[rehypeRaw as any, {
