@@ -1,6 +1,21 @@
+import type { ReactNode } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { CalendarDays, Camera, Car, CheckCircle, MapPin, ShieldCheck, Star } from 'lucide-react'
+import {
+  ArrowRight,
+  Briefcase,
+  CalendarDays,
+  Camera,
+  Car,
+  CheckCircle,
+  ChevronDown,
+  Heart,
+  MapPin,
+  PartyPopper,
+  ShieldCheck,
+  Star,
+  Users,
+} from 'lucide-react'
 import FAQSection from '@/components/FAQSection'
 import { generateBreadcrumbSchema, generateEnhancedLocalBusinessSchema } from '@/lib/enhanced-seo-schemas'
 import { type CityGuide, type CitySpot, getCityGuideReviews } from '@/lib/city-guides'
@@ -12,12 +27,39 @@ type CityGuidePageProps = {
   nearbyCities: string[]
 }
 
-const STARTING_PRICES = [
-  { title: 'Portraits & families', price: '$350', href: '/services/portrait-photography' },
-  { title: 'Engagements', price: '$450', href: '/services/engagement-session' },
-  { title: 'Events', price: '$600', href: '/services/event-photography' },
-  { title: 'Weddings', price: '$1,200', href: '/services/wedding-photography' },
-  { title: 'Commercial', price: '$500', href: '/services/commercial-photography' },
+const cld = (path: string, width: number) =>
+  `https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_${width},c_limit/${path}`
+
+// Real Studio37 work. Alt text describes the photo, never a city it was not taken in.
+const WORK = {
+  portrait: { path: 'v1778033088/PS379444_2_1_pge2hl.jpg', label: 'Portraits', alt: 'Studio37 outdoor portrait session' },
+  family: { path: 'v1784790718/Hotard_Family_Day_2_-_49_1_eernop.jpg', label: 'Families', alt: 'Studio37 family portrait session' },
+  proposal: { path: 'v1775537570/Jay_Proposal_-_1_12_e7wqsb.jpg', label: 'Proposals', alt: 'Studio37 proposal photography at Mercer Botanic Gardens' },
+  wedding: { path: 'v1778033155/KELLY_-_1_11_wgadni.jpg', label: 'Weddings', alt: 'Studio37 wedding photography' },
+  engagement: { path: 'v1770033072/PS370397-1_ooxygn.jpg', label: 'Engagements', alt: 'Studio37 golden-hour engagement session' },
+  event: { path: 'v1784791657/VB_School_Chris_Faves_-_28_vdjsiw.jpg', label: 'Events', alt: 'Studio37 event coverage' },
+  business: { path: 'v1784791656/VB_School_Caitie_Faves_-_6_gsn8fe.jpg', label: 'Business', alt: 'Studio37 brand and business content' },
+  commercial: { path: 'v1769255706/PS373287_d7fl9k.jpg', label: 'Commercial', alt: 'Studio37 commercial photography' },
+} as const
+
+type WorkKey = keyof typeof WORK
+
+// Where a city has its own real session photo, lead with it.
+const CITY_HERO: Record<string, WorkKey> = {
+  humble: 'proposal',
+  'local-photographer-katy-tx': 'event',
+  'local-photographer-houston-tx': 'family',
+  'local-photographer-magnolia-tx': 'wedding',
+}
+
+const WORK_ROTATION: WorkKey[] = ['portrait', 'engagement', 'family', 'wedding', 'proposal', 'event', 'commercial', 'business']
+
+const SERVICES = [
+  { title: 'Portraits & families', price: '$350', href: '/services/portrait-photography', icon: Users, note: 'Families, seniors, maternity, headshots' },
+  { title: 'Engagements & proposals', price: '$450', href: '/services/engagement-session', icon: Heart, note: 'Golden-hour couples and surprise proposals' },
+  { title: 'Weddings', price: '$1,200', href: '/services/wedding-photography', icon: Camera, note: 'Two photographers on every collection' },
+  { title: 'Events', price: '$600', href: '/services/event-photography', icon: PartyPopper, note: 'Birthdays, quinceañeras, corporate events' },
+  { title: 'Commercial & brand', price: '$500', href: '/services/commercial-photography', icon: Briefcase, note: 'Commercial usage included' },
 ]
 
 // City pages that exist on the site, so "nearby areas" can link instead of being plain text.
@@ -50,6 +92,17 @@ const CITY_ROUTES: Record<string, string> = {
   plantersville: '/plantersville',
 }
 
+const TOP_SPOT_COUNT = 3
+
+function hashString(value: string) {
+  return value.split('').reduce((total, char) => total + char.charCodeAt(0), 0)
+}
+
+function listWithAnd(items: string[]) {
+  if (items.length < 2) return items.join('')
+  return `${items.slice(0, -1).join(', ')}, and ${items[items.length - 1]}`
+}
+
 function SpotCard({ spot }: { spot: CitySpot }) {
   return (
     <article className="flex h-full flex-col rounded-lg border border-stone-200 bg-white p-5 shadow-sm">
@@ -62,11 +115,11 @@ function SpotCard({ spot }: { spot: CitySpot }) {
           </span>
         )}
       </div>
-      {spot.address && <p className="mb-3 text-sm text-stone-500">{spot.address}</p>}
-      <p className="mb-3 text-sm font-semibold text-stone-800">Best for: {spot.bestFor}</p>
+      {spot.address && <p className="mb-2 text-sm text-stone-500">{spot.address}</p>}
+      <p className="mb-2 text-sm font-semibold text-stone-800">Best for: {spot.bestFor}</p>
       <p className="leading-7 text-stone-600">{spot.notes}</p>
       {(spot.timing || spot.access || spot.permit) && (
-        <dl className="mt-4 space-y-2 border-t border-stone-100 pt-4 text-sm text-stone-600">
+        <dl className="mt-3 space-y-1.5 border-t border-stone-100 pt-3 text-sm text-stone-600">
           {spot.timing && (
             <div>
               <dt className="inline font-semibold text-stone-800">Timing: </dt>
@@ -91,18 +144,38 @@ function SpotCard({ spot }: { spot: CitySpot }) {
   )
 }
 
-function listWithAnd(items: string[]) {
-  if (items.length < 2) return items.join('')
-  return `${items.slice(0, -1).join(', ')}, and ${items[items.length - 1]}`
+function PlanningDetail({ title, icon: Icon, children }: { title: string; icon: typeof CalendarDays; children: ReactNode }) {
+  return (
+    <details className="group rounded-lg border border-stone-200 bg-white">
+      <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 [&::-webkit-details-marker]:hidden">
+        <h3 className="flex items-center gap-2 text-base font-bold text-stone-950 md:text-lg">
+          <Icon className="h-5 w-5 text-amber-700" aria-hidden="true" />
+          {title}
+        </h3>
+        <ChevronDown className="h-5 w-5 flex-shrink-0 text-stone-500 transition-transform group-open:rotate-180" aria-hidden="true" />
+      </summary>
+      <div className="border-t border-stone-100 px-5 pb-5 pt-4 leading-7 text-stone-600">{children}</div>
+    </details>
+  )
 }
 
-export default function CityGuidePage({ guide, stateAbbr, heroImage, nearbyCities }: CityGuidePageProps) {
+export default function CityGuidePage({ guide, stateAbbr, nearbyCities }: CityGuidePageProps) {
   const cityLabel = `${guide.city}, ${stateAbbr}`
   const pageUrl = `https://www.studio37.cc/${guide.slug}`
-  const shotSpots = guide.spots.filter((spot) => spot.verified)
-  const plannedSpots = guide.spots.filter((spot) => !spot.verified)
+  const bookHref = `/book-consultation?city=${encodeURIComponent(cityLabel)}`
   const reviews = getCityGuideReviews(guide)
-  const hasShotSection = guide.sessions.length > 0 || shotSpots.length > 0
+  const [featuredReview, secondReview] = reviews
+
+  // Lead with places we have actually shot, then the researched spots.
+  const orderedSpots = [...guide.spots.filter((spot) => spot.verified), ...guide.spots.filter((spot) => !spot.verified)]
+  const topSpots = orderedSpots.slice(0, TOP_SPOT_COUNT)
+  const moreSpots = orderedSpots.slice(TOP_SPOT_COUNT)
+
+  const offset = hashString(guide.slug)
+  const heroKey: WorkKey = CITY_HERO[guide.slug] || WORK_ROTATION[offset % WORK_ROTATION.length]
+  const heroWork = WORK[heroKey]
+  const stripKeys = WORK_ROTATION.filter((key) => key !== heroKey)
+  const strip = [0, 1, 2, 3].map((index) => WORK[stripKeys[(offset + index) % stripKeys.length]])
 
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Home', url: 'https://www.studio37.cc' },
@@ -113,8 +186,12 @@ export default function CityGuidePage({ guide, stateAbbr, heroImage, nearbyCitie
   // FAQ answers are built from this city's own data so they differ from every other city page.
   const faqs = [
     {
+      question: `How much does a photographer cost in ${guide.city}?`,
+      answer: `Studio37 starting prices are the same in ${guide.city} as everywhere we work: portraits from $350, engagements from $450, events from $600, weddings from $1,200, and commercial sessions from $500. Two photographers come to every session.`,
+    },
+    {
       question: `Where are the best places for photos in ${guide.city}?`,
-      answer: `Our go-to ${guide.city} spots are ${listWithAnd(guide.spots.slice(0, 4).map((spot) => spot.name))}. We pick between them based on the session type, the light at your session time, parking, and how much walking you want.`,
+      answer: `Our go-to ${guide.city} spots are ${listWithAnd(orderedSpots.slice(0, 4).map((spot) => spot.name))}. We pick between them based on the session type, the light at your session time, parking, and how much walking you want.`,
     },
     {
       question: `Do you need a permit to take photos in ${guide.city} parks?`,
@@ -141,243 +218,274 @@ export default function CityGuidePage({ guide, stateAbbr, heroImage, nearbyCitie
           },
         ]
       : []),
-    ...(guide.bookMost
-      ? [{ question: `What do ${guide.city} clients book Studio37 for most?`, answer: guide.bookMost }]
-      : []),
-    {
-      question: `How much does a photographer cost in ${guide.city}?`,
-      answer: `Studio37 starting prices are the same in ${guide.city} as everywhere we work: portraits from $350, engagements from $450, events from $600, weddings from $1,200, and commercial sessions from $500.`,
-    },
+    ...(guide.bookMost ? [{ question: `What do ${guide.city} clients book Studio37 for most?`, answer: guide.bookMost }] : []),
   ]
-
-  const sectionLinks = [
-    hasShotSection && ['Where we have shot', '#city-shot'],
-    plannedSpots.length > 0 && ['Photo spots', '#city-spots'],
-    guide.venues.length > 0 && ['Venues', '#city-venues'],
-    ['Seasons & permits', '#city-planning'],
-    ['Pricing', '#city-pricing'],
-    ['FAQ', '#city-faq'],
-  ].filter(Boolean) as Array<[string, string]>
 
   return (
     <div className="pt-16">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }} />
 
-      <section className="relative overflow-hidden bg-stone-950 py-20 text-white md:py-24">
-        <div className="absolute inset-0 opacity-45">
-          <Image src={heroImage} alt={`Studio37 photography session near ${cityLabel}`} fill className="object-cover" priority />
+      {/* 1. Hero: pitch, trust, and the booking action. Location detail waits until later in the page. */}
+      <section className="relative overflow-hidden bg-stone-950 text-white">
+        <div className="absolute inset-0">
+          <Image src={cld(heroWork.path, 1800)} alt={heroWork.alt} fill className="object-cover opacity-60" priority sizes="100vw" />
         </div>
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(28,25,23,0.92),rgba(28,25,23,0.68),rgba(28,25,23,0.36))]" aria-hidden="true" />
-        <div className="relative z-10 container mx-auto px-4">
-          <div className="max-w-4xl">
-            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-2 text-sm font-semibold text-amber-100 backdrop-blur">
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(12,10,9,0.35),rgba(12,10,9,0.85))] md:bg-[linear-gradient(90deg,rgba(12,10,9,0.9),rgba(12,10,9,0.55),rgba(12,10,9,0.2))]" aria-hidden="true" />
+        <div className="relative z-10 container mx-auto px-4 py-16 md:py-24">
+          <div className="max-w-3xl">
+            <p className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-1.5 text-sm font-semibold text-amber-100 backdrop-blur">
               <MapPin className="h-4 w-4" aria-hidden="true" />
-              <span>{cityLabel} · {guide.county}</span>
-            </div>
-            <h1 className="mb-6 text-4xl font-bold leading-tight md:text-6xl">Photographer in {cityLabel}</h1>
-            <p className="mb-5 max-w-3xl text-lg leading-8 text-stone-100 md:text-xl">{guide.intro}</p>
-            {guide.driveTime && (
-              <p className="mb-7 inline-flex items-center gap-2 text-sm font-semibold text-amber-100">
-                <Car className="h-4 w-4" aria-hidden="true" />
-                {guide.driveTime}
-              </p>
-            )}
-            <div className="flex flex-col gap-4 sm:flex-row">
-              <Link href={`/book-consultation?city=${encodeURIComponent(cityLabel)}`} className="btn-primary text-center">
-                Plan a {guide.city} Session
+              {cityLabel} · {guide.county}
+            </p>
+            <h1 className="mb-4 text-4xl font-bold leading-tight md:text-6xl">Photographer in {cityLabel}</h1>
+            <p className="mb-6 max-w-2xl text-lg leading-8 text-stone-100 md:text-xl">
+              Weddings, portraits, families, proposals, and brand sessions with two photographers, clear pricing, and {guide.city} locations we plan around.
+            </p>
+            <div className="mb-7 flex flex-col gap-3 sm:flex-row">
+              <Link href={bookHref} className="btn-primary inline-flex items-center justify-center gap-2 text-center">
+                Plan my {guide.city} session
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </Link>
               <Link
-                href="/tools/pricing"
+                href="/tools/package-recommender"
                 className="btn-secondary border-white/60 bg-white/10 text-center text-white hover:bg-white hover:text-stone-950"
               >
-                Compare Pricing
+                Find my package
               </Link>
             </div>
+            <ul className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm font-semibold text-stone-100 sm:flex sm:flex-wrap" aria-label="Why clients book Studio37">
+              <li className="flex items-center gap-1.5">
+                <Star className="h-4 w-4 fill-amber-400 text-amber-400" aria-hidden="true" />
+                5.0 on Google &amp; Thumbtack
+              </li>
+              <li className="flex items-center gap-1.5">
+                <Users className="h-4 w-4 text-amber-300" aria-hidden="true" />
+                Two photographers
+              </li>
+              <li className="flex items-center gap-1.5">
+                <ShieldCheck className="h-4 w-4 text-amber-300" aria-hidden="true" />
+                Thumbtack Top Pro
+              </li>
+              <li className="flex items-center gap-1.5">
+                <CheckCircle className="h-4 w-4 text-amber-300" aria-hidden="true" />
+                Sessions from $350
+              </li>
+            </ul>
           </div>
         </div>
       </section>
 
-      <nav className="border-b border-stone-200 bg-white" aria-label={`${cityLabel} page sections`}>
-        <div className="container mx-auto flex gap-3 overflow-x-auto px-4 py-4 text-sm font-semibold text-stone-700 md:justify-center">
-          {sectionLinks.map(([label, href]) => (
-            <a
-              key={href}
-              href={href}
-              className="inline-flex min-h-11 shrink-0 items-center rounded-full border border-stone-200 bg-white px-5 shadow-sm transition hover:border-amber-300 hover:bg-amber-50 hover:text-amber-900"
-            >
-              {label}
-            </a>
-          ))}
-        </div>
-      </nav>
-
-      {hasShotSection && (
-        <section id="city-shot" className="section-shell scroll-mt-28 bg-white">
-          <div className="container mx-auto px-4">
-            <p className="eyebrow mb-3">From our own sessions</p>
-            <h2 className="mb-4 text-3xl font-bold text-stone-950 md:text-4xl">Where we have photographed in {guide.city}</h2>
-            {guide.sessions.length > 0 && (
-              <ul className="mb-10 grid gap-3 md:grid-cols-2">
-                {guide.sessions.map((session) => (
-                  <li key={session.description} className="flex items-start gap-3 rounded-lg border border-stone-200 bg-stone-50 p-4">
-                    <CheckCircle className="mt-0.5 h-5 w-5 flex-shrink-0 text-amber-700" aria-hidden="true" />
-                    <span className="text-stone-700">
-                      {session.href ? (
-                        <Link href={session.href} className="font-semibold text-amber-800 underline-offset-2 hover:underline">
-                          {session.description}
-                        </Link>
-                      ) : (
-                        session.description
-                      )}
-                      {session.date && <span className="text-stone-500"> · {session.date}</span>}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            )}
-            {shotSpots.length > 0 && (
-              <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-                {shotSpots.map((spot) => (
-                  <SpotCard key={spot.name} spot={spot} />
-                ))}
-              </div>
-            )}
-          </div>
-        </section>
-      )}
-
-      {plannedSpots.length > 0 && (
-        <section id="city-spots" className="section-shell scroll-mt-28 bg-stone-50">
-          <div className="container mx-auto px-4">
-            <p className="eyebrow mb-3">Location planning</p>
-            <h2 className="mb-4 text-3xl font-bold text-stone-950 md:text-4xl">
-              {hasShotSection ? `More spots in and around ${guide.city}` : `Photo spots in and around ${guide.city}`}
-            </h2>
-            <p className="mb-8 max-w-3xl leading-7 text-stone-600">
-              What each spot is best for, when the light works, and what to know about parking and permits before you go.
-            </p>
-            <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-              {plannedSpots.map((spot) => (
-                <SpotCard key={spot.name} spot={spot} />
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {guide.venues.length > 0 && (
-        <section id="city-venues" className="section-shell scroll-mt-28 bg-white">
-          <div className="container mx-auto px-4">
-            <p className="eyebrow mb-3">Weddings and events</p>
-            <h2 className="mb-8 text-3xl font-bold text-stone-950 md:text-4xl">Wedding venues near {guide.city}</h2>
-            <div className="grid gap-4 md:grid-cols-2">
-              {guide.venues.map((venue) => (
-                <article key={venue.name} className="rounded-lg border border-stone-200 p-5">
-                  <div className="mb-1 flex flex-wrap items-center gap-2">
-                    <h3 className="text-lg font-bold text-stone-950">{venue.name}</h3>
-                    {venue.verified && (
-                      <span className="rounded-full bg-amber-50 px-2.5 py-0.5 text-xs font-semibold text-amber-800">In our venue guide</span>
-                    )}
-                  </div>
-                  {venue.address && <p className="mb-2 text-sm text-stone-500">{venue.address}</p>}
-                  <p className="leading-7 text-stone-600">{venue.description}</p>
-                </article>
-              ))}
-            </div>
-            <p className="mt-6 text-stone-600">
-              Every Studio37 wedding collection includes two photographers.{' '}
-              <Link href="/services/wedding-photography" className="font-semibold text-amber-800 hover:underline">
-                See wedding collections
-              </Link>
-            </p>
-          </div>
-        </section>
-      )}
-
-      <section id="city-planning" className="section-shell scroll-mt-28 bg-stone-50">
-        <div className="container mx-auto grid gap-6 px-4 lg:grid-cols-3">
-          <div className="rounded-lg border border-stone-200 bg-white p-6">
-            <h2 className="mb-4 flex items-center gap-2 text-xl font-bold text-stone-950">
-              <CalendarDays className="h-5 w-5 text-amber-700" aria-hidden="true" />
-              Seasons and timing in {guide.city}
-            </h2>
-            <ul className="space-y-3 text-stone-600">
-              {guide.seasons.map((item) => (
-                <li key={item} className="leading-7">{item}</li>
-              ))}
-            </ul>
-          </div>
-          <div className="rounded-lg border border-stone-200 bg-white p-6">
-            <h2 className="mb-4 flex items-center gap-2 text-xl font-bold text-stone-950">
-              <ShieldCheck className="h-5 w-5 text-amber-700" aria-hidden="true" />
-              Permits and park rules
-            </h2>
-            <ul className="space-y-3 text-stone-600">
-              {guide.permits.map((item) => (
-                <li key={item} className="leading-7">{item}</li>
-              ))}
-            </ul>
-          </div>
-          <div className="rounded-lg border border-stone-200 bg-white p-6">
-            <h2 className="mb-4 flex items-center gap-2 text-xl font-bold text-stone-950">
-              <Car className="h-5 w-5 text-amber-700" aria-hidden="true" />
-              Getting there
-            </h2>
-            <p className="leading-7 text-stone-600">{guide.driveTime || `We travel to ${guide.city} from our studio in Pinehurst.`}</p>
-            <p className="mt-3 leading-7 text-stone-600">{guide.travelNote}</p>
-            {guide.bookMost && (
-              <p className="mt-3 leading-7 text-stone-600">
-                <span className="font-semibold text-stone-800">Most booked here: </span>
-                {guide.bookMost}
-              </p>
-            )}
-          </div>
-        </div>
-      </section>
-
-      {reviews.length > 0 && (
-        <section className="section-shell bg-white">
-          <div className="container mx-auto px-4">
-            <h2 className="mb-2 text-3xl font-bold text-stone-950">What clients say</h2>
-            <p className="mb-8 text-stone-600">Rated 5.0 on Google and Thumbtack.</p>
-            <div className="grid gap-5 md:grid-cols-2">
-              {reviews.map((review) => (
-                <figure key={review.name} className="rounded-lg border border-stone-200 bg-stone-50 p-6">
-                  <div className="mb-3 flex gap-1 text-amber-500" aria-label="5 out of 5 stars">
-                    {Array.from({ length: 5 }).map((_, index) => (
-                      <Star key={index} className="h-4 w-4 fill-current" aria-hidden="true" />
-                    ))}
-                  </div>
-                  <blockquote className="leading-7 text-stone-700">&ldquo;{review.quote}&rdquo;</blockquote>
-                  <figcaption className="mt-4 text-sm font-semibold text-stone-900">
-                    {review.name} <span className="font-normal text-stone-500">· {review.detail}</span>
-                  </figcaption>
-                </figure>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      <section id="city-pricing" className="section-shell scroll-mt-28 bg-stone-50">
+      {/* 2. The work: lead with photos, not text. */}
+      <section className="bg-stone-950 pb-10 pt-2 md:pb-14" aria-label="Recent Studio37 work">
         <div className="container mx-auto px-4">
-          <h2 className="mb-2 text-3xl font-bold text-stone-950">Starting prices in {guide.city}</h2>
-          <p className="mb-8 max-w-3xl text-stone-600">Same published prices across every city we serve, with two photographers on every session.</p>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-            {STARTING_PRICES.map((service) => (
+          <div className="grid grid-cols-2 gap-2 md:grid-cols-4 md:gap-3">
+            {strip.map((work) => (
+              <figure key={work.path} className="group relative aspect-square overflow-hidden rounded-lg md:aspect-[4/5]">
+                <Image
+                  src={cld(work.path, 700)}
+                  alt={work.alt}
+                  fill
+                  sizes="(min-width: 768px) 25vw, 50vw"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 to-transparent px-3 pb-2.5 pt-8 text-sm font-semibold text-white">
+                  {work.label}
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+          <div className="mt-5 text-center">
+            <Link href="https://gallery.studio37.cc" className="inline-flex items-center gap-2 text-sm font-semibold text-amber-200 hover:text-amber-100">
+              See full galleries
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* 3. Proof: a featured review plus real sessions in this city. */}
+      {(featuredReview || guide.sessions.length > 0) && (
+        <section className="section-shell bg-white">
+          <div className="container mx-auto grid gap-8 px-4 lg:grid-cols-[1.2fr_1fr] lg:items-start">
+            {featuredReview && (
+              <figure className="rounded-2xl bg-stone-50 p-6 md:p-8">
+                <div className="mb-4 flex gap-1 text-amber-500" aria-label="5 out of 5 stars">
+                  {Array.from({ length: 5 }).map((_, index) => (
+                    <Star key={index} className="h-5 w-5 fill-current" aria-hidden="true" />
+                  ))}
+                </div>
+                <blockquote className="text-xl leading-8 text-stone-800 md:text-2xl md:leading-10">&ldquo;{featuredReview.quote}&rdquo;</blockquote>
+                <figcaption className="mt-5 text-sm font-semibold text-stone-900">
+                  {featuredReview.name} <span className="font-normal text-stone-500">· {featuredReview.detail}</span>
+                </figcaption>
+              </figure>
+            )}
+            <div>
+              {guide.sessions.length > 0 ? (
+                <>
+                  <p className="eyebrow mb-3">Recent work near you</p>
+                  <h2 className="mb-5 text-2xl font-bold text-stone-950 md:text-3xl">Studio37 sessions in {guide.city}</h2>
+                  <ul className="space-y-3">
+                    {guide.sessions.map((session) => (
+                      <li key={session.description} className="flex items-start gap-3">
+                        <CheckCircle className="mt-1 h-5 w-5 flex-shrink-0 text-amber-700" aria-hidden="true" />
+                        <span className="text-stone-700">
+                          {session.href ? (
+                            <Link href={session.href} className="font-semibold text-amber-800 hover:underline">
+                              {session.description}
+                            </Link>
+                          ) : (
+                            session.description
+                          )}
+                          {session.date && <span className="text-stone-500"> · {session.date}</span>}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              ) : (
+                secondReview && (
+                  <figure className="rounded-2xl border border-stone-200 p-6">
+                    <div className="mb-3 flex gap-1 text-amber-500" aria-label="5 out of 5 stars">
+                      {Array.from({ length: 5 }).map((_, index) => (
+                        <Star key={index} className="h-4 w-4 fill-current" aria-hidden="true" />
+                      ))}
+                    </div>
+                    <blockquote className="leading-7 text-stone-700">&ldquo;{secondReview.quote}&rdquo;</blockquote>
+                    <figcaption className="mt-4 text-sm font-semibold text-stone-900">
+                      {secondReview.name} <span className="font-normal text-stone-500">· {secondReview.detail}</span>
+                    </figcaption>
+                  </figure>
+                )
+              )}
+              <p className="mt-6 text-sm text-stone-500">Rated 5.0 on Google and Thumbtack, with Top Pro status on Thumbtack.</p>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* 4. What you can book, each with a clear next step. */}
+      <section className="section-shell bg-stone-50">
+        <div className="container mx-auto px-4">
+          <h2 className="mb-2 text-3xl font-bold text-stone-950">What you can book in {guide.city}</h2>
+          <p className="mb-8 max-w-2xl text-stone-600">Published starting prices, the same in every city we serve.</p>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+            {SERVICES.map((service) => (
               <Link
                 key={service.href}
                 href={service.href}
-                className="group rounded-lg border border-stone-200 bg-white p-5 transition hover:-translate-y-0.5 hover:border-amber-300"
+                className="group flex items-center gap-4 rounded-lg border border-stone-200 bg-white p-4 transition hover:-translate-y-0.5 hover:border-amber-300 lg:flex-col lg:items-start lg:p-5"
               >
-                <span className="block font-bold text-stone-950 group-hover:text-amber-900">{service.title}</span>
-                <span className="mt-1 block text-sm text-stone-600">from {service.price}</span>
+                <service.icon className="h-6 w-6 flex-shrink-0 text-amber-700" aria-hidden="true" />
+                <span className="flex-1">
+                  <span className="block font-bold text-stone-950 group-hover:text-amber-900">{service.title}</span>
+                  <span className="block text-sm text-stone-500">{service.note}</span>
+                </span>
+                <span className="text-sm font-semibold text-stone-900 lg:mt-1">from {service.price}</span>
               </Link>
             ))}
           </div>
         </div>
       </section>
+
+      {/* 5. Mid-page call to action. */}
+      <section className="bg-amber-700 text-white">
+        <div className="container mx-auto flex flex-col items-start gap-4 px-4 py-8 md:flex-row md:items-center md:justify-between">
+          <div>
+            <h2 className="text-2xl font-bold">Not sure which session fits?</h2>
+            <p className="mt-1 text-amber-50">Tell us your date and what you want photographed, and we will recommend the right coverage and {guide.city} spot.</p>
+          </div>
+          <Link href={bookHref} className="inline-flex min-h-12 flex-shrink-0 items-center gap-2 rounded-lg bg-white px-6 font-semibold text-amber-900 transition hover:bg-amber-50">
+            Book a free consultation
+            <ArrowRight className="h-4 w-4" aria-hidden="true" />
+          </Link>
+        </div>
+      </section>
+
+      {/* 6. Locations: the top spots up front, everything else one tap away (still in the HTML for search). */}
+      <section className="section-shell bg-white">
+        <div className="container mx-auto px-4">
+          <p className="eyebrow mb-3">Location planning</p>
+          <h2 className="mb-4 text-3xl font-bold text-stone-950 md:text-4xl">Where we photograph in and around {guide.city}</h2>
+          <p className="mb-8 max-w-3xl leading-8 text-stone-600">{guide.intro}</p>
+          <div className="grid gap-5 md:grid-cols-3">
+            {topSpots.map((spot) => (
+              <SpotCard key={spot.name} spot={spot} />
+            ))}
+          </div>
+          {moreSpots.length > 0 && (
+            <details className="group mt-5">
+              <summary className="inline-flex min-h-11 cursor-pointer list-none items-center gap-2 rounded-full border border-stone-300 px-5 font-semibold text-stone-800 transition hover:border-amber-400 hover:bg-amber-50 [&::-webkit-details-marker]:hidden">
+                See {moreSpots.length} more {guide.city} spot{moreSpots.length === 1 ? '' : 's'}
+                <ChevronDown className="h-4 w-4 transition-transform group-open:rotate-180" aria-hidden="true" />
+              </summary>
+              <div className="mt-5 grid gap-5 md:grid-cols-3">
+                {moreSpots.map((spot) => (
+                  <SpotCard key={spot.name} spot={spot} />
+                ))}
+              </div>
+            </details>
+          )}
+        </div>
+      </section>
+
+      {/* 7. Planning details, collapsed by default. */}
+      <section className="section-shell bg-stone-50">
+        <div className="container mx-auto max-w-4xl px-4">
+          <h2 className="mb-6 text-2xl font-bold text-stone-950 md:text-3xl">Planning a session in {guide.city}</h2>
+          <div className="space-y-3">
+            {guide.venues.length > 0 && (
+              <PlanningDetail title={`Wedding venues near ${guide.city}`} icon={Heart}>
+                <ul className="space-y-3">
+                  {guide.venues.map((venue) => (
+                    <li key={venue.name}>
+                      <span className="font-semibold text-stone-900">{venue.name}</span>
+                      {venue.verified && <span className="ml-2 rounded-full bg-amber-50 px-2 py-0.5 text-xs font-semibold text-amber-800">In our venue guide</span>}
+                      {venue.address && <span className="block text-sm text-stone-500">{venue.address}</span>}
+                      <span className="block">{venue.description}</span>
+                    </li>
+                  ))}
+                </ul>
+                <p className="mt-4">
+                  Every wedding collection includes two photographers.{' '}
+                  <Link href="/services/wedding-photography" className="font-semibold text-amber-800 hover:underline">
+                    See wedding collections
+                  </Link>
+                </p>
+              </PlanningDetail>
+            )}
+            <PlanningDetail title={`Seasons and timing in ${guide.city}`} icon={CalendarDays}>
+              <ul className="list-disc space-y-2 pl-5">
+                {guide.seasons.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </PlanningDetail>
+            <PlanningDetail title="Permits and park rules" icon={ShieldCheck}>
+              <ul className="list-disc space-y-2 pl-5">
+                {guide.permits.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </PlanningDetail>
+            <PlanningDetail title="Travel and getting there" icon={Car}>
+              <p>{guide.driveTime || `We travel to ${guide.city} from our studio in Pinehurst.`}</p>
+              <p className="mt-2">{guide.travelNote}</p>
+              {guide.bookMost && (
+                <p className="mt-2">
+                  <span className="font-semibold text-stone-800">Most booked here: </span>
+                  {guide.bookMost}
+                </p>
+              )}
+            </PlanningDetail>
+          </div>
+        </div>
+      </section>
+
+      <div id="city-faq" className="scroll-mt-28">
+        <FAQSection faqs={faqs} title={`${guide.city} photography questions`} />
+      </div>
 
       {(guide.guides?.length || nearbyCities.length > 0) && (
         <section className="section-shell bg-white">
@@ -421,19 +529,25 @@ export default function CityGuidePage({ guide, stateAbbr, heroImage, nearbyCitie
         </section>
       )}
 
-      <div id="city-faq" className="scroll-mt-28">
-        <FAQSection faqs={faqs} title={`${guide.city} photography questions`} />
-      </div>
-
-      <section className="bg-stone-950 py-16 text-white">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="mb-4 text-3xl font-bold">Plan your {guide.city} session</h2>
-          <p className="mx-auto mb-8 max-w-2xl text-stone-300">
-            Tell us the date, the people, and the look you want, and we will recommend the right {guide.city} spot and coverage.
+      {/* 8. Final call to action over real work. */}
+      <section className="relative overflow-hidden bg-stone-950 text-white">
+        <div className="absolute inset-0">
+          <Image src={cld(strip[0].path, 1600)} alt="" fill className="object-cover opacity-35" sizes="100vw" />
+        </div>
+        <div className="relative z-10 container mx-auto px-4 py-16 text-center md:py-20">
+          <h2 className="mb-4 text-3xl font-bold md:text-4xl">Ready to plan your {guide.city} session?</h2>
+          <p className="mx-auto mb-8 max-w-2xl text-stone-200">
+            Two photographers, published prices, and a {guide.city} location matched to your session.
           </p>
-          <Link href={`/book-consultation?city=${encodeURIComponent(cityLabel)}`} className="btn-primary">
-            Book a free consultation
-          </Link>
+          <div className="flex flex-col justify-center gap-3 sm:flex-row">
+            <Link href={bookHref} className="btn-primary inline-flex items-center justify-center gap-2">
+              Book a free consultation
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
+            <Link href="/request-portfolio" className="btn-secondary border-white/60 bg-white/10 text-white hover:bg-white hover:text-stone-950">
+              Request private examples
+            </Link>
+          </div>
         </div>
       </section>
     </div>
