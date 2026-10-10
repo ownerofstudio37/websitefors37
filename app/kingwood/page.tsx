@@ -2,7 +2,7 @@ import LocalPhotographerCityPage from '@/components/LocalPhotographerCityPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 
 export const metadata = generateSEOMetadata({
-  title: 'Kingwood TX Photographer - Wedding, Portrait & Event Photography | Studio37',
+  title: 'Photographer in Kingwood, TX | Studio37',
   description:
     'Looking for a photographer in Kingwood, TX? Studio37 provides wedding, family portrait, event, and commercial photography in NE Houston.',
   keywords: [

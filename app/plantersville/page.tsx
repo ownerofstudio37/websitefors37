@@ -2,7 +2,7 @@ import LocalPhotographerCityPage from '@/components/LocalPhotographerCityPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 
 export const metadata = generateSEOMetadata({
-  title: 'Plantersville TX Photographer - Wedding, Portrait & Event Photography | Studio37',
+  title: 'Photographer in Plantersville, TX | Studio37',
   description:
     'Looking for a photographer in Plantersville, TX? Studio37 specializes in ranch and barn weddings, outdoor portraits, and event photography in Grimes County.',
   keywords: [

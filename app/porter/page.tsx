@@ -2,7 +2,7 @@ import LocalPhotographerCityPage from '@/components/LocalPhotographerCityPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 
 export const metadata = generateSEOMetadata({
-  title: 'Porter TX Photographer - Wedding, Portrait & Event Photography | Studio37',
+  title: 'Photographer in Porter, TX | Studio37',
   description:
     'Looking for a photographer in Porter, TX? Studio37 provides wedding, family portrait, event, and commercial photography in East Montgomery County.',
   keywords: [
