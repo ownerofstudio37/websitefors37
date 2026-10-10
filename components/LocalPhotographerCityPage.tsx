@@ -4,9 +4,10 @@ import { Briefcase, CalendarDays, Camera, CheckCircle, Heart, MapPin, ShieldChec
 import FAQSection from '@/components/FAQSection'
 import GoogleBusinessWidget from '@/components/GoogleBusinessWidget'
 import { generateBreadcrumbSchema, generateEnhancedLocalBusinessSchema } from '@/lib/enhanced-seo-schemas'
-import { generateFAQSchema } from '@/lib/seo-helpers'
 import { BestPhotoLocationsSection } from '@/components/PublicFeatureContent'
 import { localTrustReviews } from '@/lib/public-content'
+import CityGuidePage from '@/components/CityGuidePage'
+import { getCityGuide } from '@/lib/city-guides'
 
 type LocalPhotographerCityPageProps = {
   city: string
@@ -368,6 +369,12 @@ export default function LocalPhotographerCityPage({
   nearbyCities,
   heroImage,
 }: LocalPhotographerCityPageProps) {
+  // Cities with first-hand content get the city guide layout; the rest keep this template until their content is ready.
+  const guide = getCityGuide(slug)
+  if (guide) {
+    return <CityGuidePage guide={guide} stateAbbr={stateAbbr} heroImage={heroImage} nearbyCities={nearbyCities} />
+  }
+
   const locationIdeaSlug = `${city.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}-${stateAbbr.toLowerCase()}`
   const cityLabel = `${city}, ${stateAbbr}`
   const cityKey = city.toLowerCase()
@@ -442,8 +449,7 @@ export default function LocalPhotographerCityPage({
     },
   ]
 
-  const faqSchema = generateFAQSchema(cityFaqs)
-
+  // FAQSection renders the FAQPage schema for cityFaqs; emitting it here too duplicated it.
   const faqTitle = `Frequently Asked Questions - ${city} Photographer`
   const isHouston = cityKey === 'houston'
 
@@ -456,10 +462,6 @@ export default function LocalPhotographerCityPage({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
       <section className="relative overflow-hidden bg-stone-950 py-20 text-white md:py-24">
