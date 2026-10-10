@@ -7,7 +7,7 @@ interface ReviewPromptProps {
 }
 
 export default function ReviewPrompt({ className = "", compact = false }: ReviewPromptProps) {
-  const googleReviewUrl = "https://www.google.com/maps/place/Studio37+Photography/@30.1647,-95.4677,17z/data=!4m5!3m4!1s0x0:0x0!8m2!3d30.1647!4d-95.4677?hl=en-US"
+  const googleReviewUrl = "https://www.google.com/maps/place/Studio37+Photography/@30.1605,-95.6970,17z/data=!4m5!3m4!1s0x0:0x0!8m2!3d30.1605!4d-95.6970?hl=en-US"
 
   if (compact) {
     return (
