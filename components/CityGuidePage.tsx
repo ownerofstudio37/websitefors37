@@ -120,10 +120,15 @@ export default function CityGuidePage({ guide, stateAbbr, heroImage, nearbyCitie
       question: `Do you need a permit to take photos in ${guide.city} parks?`,
       answer: guide.permits.join(' '),
     },
-    {
-      question: `How far is ${guide.city} from Studio37, and is there a travel fee?`,
-      answer: `${guide.driveTime} ${guide.travelNote}`,
-    },
+    guide.driveTime
+      ? {
+          question: `How far is ${guide.city} from Studio37, and is there a travel fee?`,
+          answer: `${guide.driveTime} ${guide.travelNote}`,
+        }
+      : {
+          question: `Is there a travel fee for ${guide.city} sessions?`,
+          answer: `We travel to ${guide.city} from our Pinehurst studio. ${guide.travelNote}`,
+        },
     {
       question: `When is the best time of year for outdoor photos in ${guide.city}?`,
       answer: guide.seasons.join(' '),
@@ -172,10 +177,12 @@ export default function CityGuidePage({ guide, stateAbbr, heroImage, nearbyCitie
             </div>
             <h1 className="mb-6 text-4xl font-bold leading-tight md:text-6xl">Photographer in {cityLabel}</h1>
             <p className="mb-5 max-w-3xl text-lg leading-8 text-stone-100 md:text-xl">{guide.intro}</p>
-            <p className="mb-7 inline-flex items-center gap-2 text-sm font-semibold text-amber-100">
-              <Car className="h-4 w-4" aria-hidden="true" />
-              {guide.driveTime}
-            </p>
+            {guide.driveTime && (
+              <p className="mb-7 inline-flex items-center gap-2 text-sm font-semibold text-amber-100">
+                <Car className="h-4 w-4" aria-hidden="true" />
+                {guide.driveTime}
+              </p>
+            )}
             <div className="flex flex-col gap-4 sm:flex-row">
               <Link href={`/book-consultation?city=${encodeURIComponent(cityLabel)}`} className="btn-primary text-center">
                 Plan a {guide.city} Session
@@ -245,7 +252,7 @@ export default function CityGuidePage({ guide, stateAbbr, heroImage, nearbyCitie
           <div className="container mx-auto px-4">
             <p className="eyebrow mb-3">Location planning</p>
             <h2 className="mb-4 text-3xl font-bold text-stone-950 md:text-4xl">
-              {hasShotSection ? `More ${guide.city} spots we plan sessions around` : `${guide.city} photo spots we plan sessions around`}
+              {hasShotSection ? `More spots in and around ${guide.city}` : `Photo spots in and around ${guide.city}`}
             </h2>
             <p className="mb-8 max-w-3xl leading-7 text-stone-600">
               What each spot is best for, when the light works, and what to know about parking and permits before you go.
@@ -317,7 +324,7 @@ export default function CityGuidePage({ guide, stateAbbr, heroImage, nearbyCitie
               <Car className="h-5 w-5 text-amber-700" aria-hidden="true" />
               Getting there
             </h2>
-            <p className="leading-7 text-stone-600">{guide.driveTime}</p>
+            <p className="leading-7 text-stone-600">{guide.driveTime || `We travel to ${guide.city} from our studio in Pinehurst.`}</p>
             <p className="mt-3 leading-7 text-stone-600">{guide.travelNote}</p>
             {guide.bookMost && (
               <p className="mt-3 leading-7 text-stone-600">
