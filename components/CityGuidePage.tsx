@@ -62,42 +62,10 @@ function CldImg({
 }
 
 const HERO_WIDTHS = [800, 1200, 1600, 2400]
+// Every city defines its own hero in lib/city-guides.ts; this only guards a future city added without one.
+const DEFAULT_HERO: CityImage = { id: 'Untitled_tpoc5r', alt: 'Extended family portrait by a lake lined with cypress trees' }
 const SECONDARY_WIDTHS = [800, 1200, 2000]
-const CARD_WIDTHS = [450, 900]
 
-// People-focused category examples shown on every city page. None of these is any city's hero or secondary photo.
-const PORTFOLIO_STRIP: Array<CityImage & { label: string }> = [
-  {
-    id: 'KELLY_-_1_8_1__2_x7leuc',
-    label: 'Weddings',
-    alt: 'Black and white photo of a ring bearer walking through bubbles at an outdoor wedding',
-  },
-  {
-    id: 'PS372952_gkvxjl',
-    label: 'Engagements',
-    alt: 'Black and white photo of a couple kissing in front of a backlit bar',
-  },
-  {
-    id: 'IMG_3787_kaecyl',
-    label: 'Headshots',
-    alt: 'Professional headshot of a smiling woman with long hair',
-  },
-  {
-    id: 'IMG_4591_1_r62hly',
-    label: 'Events',
-    alt: 'Friends in sunglasses cheering and laughing at a celebration',
-  },
-  {
-    id: 'PS370262_buzjak',
-    label: 'Details',
-    alt: 'Close-up of a hand with an engagement ring resting on a suit sleeve',
-  },
-  {
-    id: 'Untitled-100_gxzfgy',
-    label: 'Moments',
-    alt: 'Black and white close-up of a couple holding hands with an engagement ring',
-  },
-]
 
 const SERVICES = [
   {
@@ -168,10 +136,6 @@ const CITY_ROUTES: Record<string, string> = {
 }
 
 const TOP_SPOT_COUNT = 3
-
-function hashString(value: string) {
-  return value.split('').reduce((total, char) => total + char.charCodeAt(0), 0)
-}
 
 function listWithAnd(items: string[]) {
   if (items.length < 2) return items.join('')
@@ -246,9 +210,7 @@ export default function CityGuidePage({ guide, stateAbbr, nearbyCities }: CityGu
   const topSpots = orderedSpots.slice(0, TOP_SPOT_COUNT)
   const moreSpots = orderedSpots.slice(TOP_SPOT_COUNT)
 
-  const offset = hashString(guide.slug)
-  const heroImage: CityImage = guide.heroImage || PORTFOLIO_STRIP[0]
-  const strip = [0, 1, 2, 3].map((index) => PORTFOLIO_STRIP[(offset + index) % PORTFOLIO_STRIP.length])
+  const heroImage: CityImage = guide.heroImage || DEFAULT_HERO
 
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Home', url: 'https://www.studio37.cc' },
@@ -364,37 +326,6 @@ export default function CityGuidePage({ guide, stateAbbr, nearbyCities }: CityGu
                 Sessions from $350
               </li>
             </ul>
-          </div>
-        </div>
-      </section>
-
-      {/* 2. The work: lead with photos, not text. */}
-      <section className="bg-stone-950 pb-10 pt-2 md:pb-14" aria-label="Recent Studio37 work">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-2 gap-2 md:grid-cols-4 md:gap-3">
-            {strip.map((work) => (
-              <figure key={work.id} className="group relative aspect-square overflow-hidden rounded-lg md:aspect-[4/5]">
-                <CldImg
-                  image={work}
-                  widths={CARD_WIDTHS}
-                  crop=",c_limit"
-                  sizes="(min-width: 768px) 25vw, 50vw"
-                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-                <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 to-transparent px-3 pb-2.5 pt-8 text-sm font-semibold text-white">
-                  {work.label}
-                </figcaption>
-              </figure>
-            ))}
-          </div>
-          <div className="mt-5 text-center">
-            <Link
-              href="https://gallery.studio37.cc"
-              className="inline-flex items-center gap-2 text-sm font-semibold text-amber-200 hover:text-amber-100"
-            >
-              See full galleries
-              <ArrowRight className="h-4 w-4" aria-hidden="true" />
-            </Link>
           </div>
         </div>
       </section>
