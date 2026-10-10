@@ -1,52 +1,21 @@
-import ServiceCityLandingPage from '@/components/ServiceCityLandingPage'
+import ServiceGuidePage from '@/components/ServiceGuidePage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
+import { serviceGuides } from '@/lib/service-guides'
+
+const guide = serviceGuides['headshot-photographer-houston-tx']
+const description =
+  'Individual headshots in Houston, TX for LinkedIn, websites, and media kits, in the studio or in the Heights, Uptown, and downtown. From $350.'
 
 export const metadata = generateSEOMetadata({
-  title: 'Professional Headshots in Houston, TX | Studio37',
-  description:
-    'Studio37 provides professional headshot photography in Houston, TX for executives, teams, and personal branding with fast turnaround and polished delivery.',
-  keywords: [
-    'headshot photographer houston tx',
-    'professional headshots houston',
-    'corporate headshot photography houston',
-    'business headshots houston texas',
-  ],
+  title: 'Headshot Photographer in Houston, TX | Studio37',
+  description,
   canonicalUrl: 'https://www.studio37.cc/headshot-photographer-houston-tx',
+  ogImage: `https://res.cloudinary.com/dmjxho2rl/image/upload/f_jpg,q_auto:best,w_1200,h_630,c_fill,g_auto/${guide.heroImage.id}.jpg`,
   pageType: 'service',
 })
 
 export const revalidate = 86400
 
 export default function HeadshotPhotographerHoustonPage() {
-  return (
-    <ServiceCityLandingPage
-      serviceName="Professional Headshots"
-      city="Houston"
-      county="Harris County"
-      pageUrl="https://www.studio37.cc/headshot-photographer-houston-tx"
-      serviceUrl="/professional-headshots"
-      startingPrice="$350"
-      intro="Studio37 delivers modern professional headshots in Houston for executives, teams, and founders who need strong first-impression visuals for LinkedIn, websites, and media kits."
-      highlights={[
-        'Executive, team, and personal brand headshot formats',
-        'Consistent direction for natural expressions and strong posture',
-        'Quick turnaround options for urgent profile updates',
-      ]}
-      faqs={[
-        {
-          question: 'Do you offer team headshot sessions in Houston offices?',
-          answer: 'Yes. We can photograph teams on-site and keep framing/lighting consistent across all staff portraits.',
-        },
-        {
-          question: 'How quickly can headshots be delivered?',
-          answer: 'Standard delivery is fast, and rush options are available when timelines are tight.',
-        },
-        {
-          question: 'Can these be used for LinkedIn and websites?',
-          answer: 'Yes. Final files are prepared for professional web use and marketing channels.',
-        },
-      ]}
-      nearbyCities={['The Woodlands', 'Spring', 'Humble', 'Katy', 'Tomball']}
-    />
-  )
+  return <ServiceGuidePage guide={guide} serviceName="Individual Headshots" description={description} />
 }

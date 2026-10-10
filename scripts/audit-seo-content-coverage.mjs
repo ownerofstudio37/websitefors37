@@ -5,7 +5,12 @@ import path from 'node:path'
 
 const root = process.cwd()
 
-const read = (file) => fs.readFileSync(path.join(root, file), 'utf8')
+const readRaw = (file) => fs.readFileSync(path.join(root, file), 'utf8')
+// Pages rendered by the shared ServiceGuidePage template carry their markers in that component.
+const read = (file) => {
+  const source = readRaw(file)
+  return source.includes('ServiceGuidePage') ? source + readRaw('components/ServiceGuidePage.tsx') : source
+}
 const exists = (file) => fs.existsSync(path.join(root, file))
 
 function walk(dir, files = []) {
@@ -96,7 +101,9 @@ for (const key of ['title', 'description']) {
 for (const file of mainServicePages) {
   const source = read(file)
   if (!source.includes('generateServiceSchema(')) issues.push(`${file} missing Service schema`)
-  if (!source.includes('generateFAQSchema(')) issues.push(`${file} missing FAQ schema`)
+  // FAQSection emits the page's single FAQPage block; a separate generateFAQSchema block would duplicate it.
+  if (!source.includes('<FAQSection')) issues.push(`${file} missing FAQ schema`)
+  if (source.includes('generateFAQSchema(') && source.includes('<FAQSection')) issues.push(`${file} emits FAQPage twice`)
   if (!source.includes('generateBreadcrumbSchema(')) issues.push(`${file} missing Breadcrumb schema`)
   if (!source.includes('application/ld+json')) issues.push(`${file} missing JSON-LD output`)
 }
