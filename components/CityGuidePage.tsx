@@ -65,7 +65,7 @@ const HERO_WIDTHS = [800, 1200, 1600, 2400]
 const SECONDARY_WIDTHS = [800, 1200, 2000]
 const CARD_WIDTHS = [450, 900]
 
-// Category examples shown on every city page. None of these is any city's hero or secondary photo.
+// People-focused category examples shown on every city page. None of these is any city's hero or secondary photo.
 const PORTFOLIO_STRIP: Array<CityImage & { label: string }> = [
   {
     id: 'KELLY_-_1_8_1__2_x7leuc',
@@ -91,16 +91,6 @@ const PORTFOLIO_STRIP: Array<CityImage & { label: string }> = [
     id: 'PS370262_buzjak',
     label: 'Details',
     alt: 'Close-up of a hand with an engagement ring resting on a suit sleeve',
-  },
-  {
-    id: 'PS373287_d7fl9k',
-    label: 'Commercial',
-    alt: 'Craft cocktails photographed on a bar for a hospitality client',
-  },
-  {
-    id: 'Untitled-46_2_tg6z4m',
-    label: 'Brand',
-    alt: 'Black and white product photo of a cowboy hat on a table',
   },
   {
     id: 'Untitled-100_gxzfgy',
