@@ -1,10 +1,10 @@
 import LocalPhotographerCityPage from '@/components/LocalPhotographerCityPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
+import { cityMetaDescriptions } from '@/lib/city-guides'
 
 export const metadata = generateSEOMetadata({
   title: 'Photographer in Bryan, TX | Studio37',
-  description:
-    'Professional photographer in Bryan, Texas offering wedding, portrait, engagement, event, and commercial photography with transparent pricing.',
+  description: cityMetaDescriptions['local-photographer-bryan-tx'],
   keywords: [
     'photographer Bryan TX',
     'wedding photographer Bryan Texas',

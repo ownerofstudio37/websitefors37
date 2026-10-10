@@ -1,10 +1,10 @@
 import LocalPhotographerCityPage from '@/components/LocalPhotographerCityPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
+import { cityMetaDescriptions } from '@/lib/city-guides'
 
 export const metadata = generateSEOMetadata({
   title: 'Photographer in Waller, TX | Studio37',
-  description:
-    'Looking for a photographer in Waller, TX? Studio37 provides wedding, portrait, event, and commercial photography in Northwest Houston.',
+  description: cityMetaDescriptions['waller'],
   keywords: [
     'photographer Waller TX',
     'wedding photographer Waller Texas',

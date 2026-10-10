@@ -1,10 +1,10 @@
 import LocalPhotographerCityPage from '@/components/LocalPhotographerCityPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
+import { cityMetaDescriptions } from '@/lib/city-guides'
 
 export const metadata = generateSEOMetadata({
   title: 'Photographer in Huntsville, TX | Studio37',
-  description:
-    'Professional photographer in Huntsville, Texas for weddings, portraits, engagement, event, and commercial photography with transparent pricing.',
+  description: cityMetaDescriptions['local-photographer-huntsville-tx'],
   keywords: [
     'photographer Huntsville TX',
     'wedding photographer Huntsville Texas',

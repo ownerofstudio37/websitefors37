@@ -1,10 +1,10 @@
 import LocalPhotographerCityPage from '@/components/LocalPhotographerCityPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
+import { cityMetaDescriptions } from '@/lib/city-guides'
 
 export const metadata = generateSEOMetadata({
   title: 'Photographer in Splendora, TX | Studio37',
-  description:
-    'Looking for a photographer in Splendora, TX? Studio37 provides wedding, portrait, event, and commercial photography along the US-59 corridor.',
+  description: cityMetaDescriptions['splendora'],
   keywords: [
     'photographer Splendora TX',
     'wedding photographer Splendora Texas',

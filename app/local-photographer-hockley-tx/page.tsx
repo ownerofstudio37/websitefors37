@@ -1,10 +1,10 @@
 import LocalPhotographerCityPage from '@/components/LocalPhotographerCityPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
+import { cityMetaDescriptions } from '@/lib/city-guides'
 
 export const metadata = generateSEOMetadata({
   title: 'Photographer in Hockley, TX | Studio37',
-  description:
-    'Professional photographer in Hockley, Texas for weddings, portraits, engagement, events, and commercial photography with transparent pricing.',
+  description: cityMetaDescriptions['local-photographer-hockley-tx'],
   keywords: [
     'photographer Hockley TX',
     'wedding photographer Hockley Texas',

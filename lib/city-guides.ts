@@ -1808,3 +1808,33 @@ export function getCityGuideReviews(guide: CityGuide) {
 }
 
 export const cityGuideSlugs = cityGuides.map((guide) => guide.slug)
+
+// Search-result descriptions built around each city's signature spots (kept under ~155 characters).
+export const cityMetaDescriptions: Record<string, string> = {
+  'local-photographer-pinehurst-tx': 'Pinehurst, TX photographer based at our Goodson Loop studio. Lake, pine forest, and greenway sessions with two photographers. Sessions from $350.',
+  'local-photographer-magnolia-tx': 'Magnolia, TX photographer for families, seniors, and weddings at Unity Park, the 1902 depot, and Lake Windcrest. Two photographers, sessions from $350.',
+  'local-photographer-tomball-tx': 'Tomball, TX photographer for Old Town, Depot Plaza, Burroughs Park, and Kleb Woods sessions. Two photographers on every session, from $350.',
+  'local-photographer-the-woodlands-tx': 'The Woodlands photographer for pine-trail family sessions and Waterway portraits, plus resort and country club weddings. Two photographers, from $350.',
+  'local-photographer-conroe-tx': 'Conroe, TX photographer for Lake Conroe sunsets, W.G. Jones State Forest, and downtown sessions, plus Conroe wedding venues. Sessions from $350.',
+  'local-photographer-spring-tx': 'Spring, TX photographer for Mercer Botanic Gardens, Spring Creek Greenway, and Old Town Spring sessions. Two photographers, sessions from $350.',
+  'local-photographer-montgomery-tx': 'Montgomery, TX photographer for Fernland Historical Park, Lake Conroe sunsets, and barn and lakeside weddings. Two photographers, sessions from $350.',
+  'local-photographer-cypress-tx': 'Cypress, TX photographer for Kleb Woods, Kickerillo-Mischer Preserve, and Cypress Top Historic Park sessions. Two photographers, from $350.',
+  'local-photographer-houston-tx': 'Houston photographer for skyline sessions at Buffalo Bayou, the Arboretum, Hermann Park, and the Heights. We handle park permits. Sessions from $350.',
+  'local-photographer-katy-tx': 'Katy, TX photographer for Katy Boardwalk sunsets, Mary Jo Peckham Park, and Old Katy sessions, plus Katy wedding venues. Sessions from $350.',
+  'local-photographer-willis-tx': 'Willis, TX photographer for Sam Houston National Forest, Double Lake, and Lake Conroe sessions, plus rustic barn weddings. Sessions from $350.',
+  kingwood: 'Kingwood, TX photographer for East End Park, River Grove boardwalk, and greenbelt trail sessions near Lake Houston. Two photographers, from $350.',
+  humble: 'Humble, TX photographer for proposals, minis, and family sessions at Mercer Botanic Gardens and downtown Humble. Two photographers, from $350.',
+  atascocita: 'Atascocita, TX photographer for Lake Houston shoreline and Atascocita Park sessions, with Mercer Botanic Gardens nearby. Sessions from $350.',
+  'local-photographer-hockley-tx': 'Hockley, TX photographer for Kleb Woods, Zube Park, and New Kentucky Park sessions, plus Hockley wedding venues. Two photographers, from $350.',
+  waller: 'Waller, TX photographer for tallgrass prairie sessions at the Katy Prairie Preserve and Warren Lake. Two photographers, sessions from $350.',
+  'local-photographer-new-caney-tx': 'New Caney, TX photographer for pine forest and Peach Creek sessions at Lake Houston Wilderness Park. Two photographers, sessions from $350.',
+  porter: 'Porter, TX photographer for Lake Houston Wilderness Park, Kingwood lakefront parks, and Mercer Botanic Gardens. Two photographers, from $350.',
+  splendora: 'Splendora, TX photographer for family sessions at H.L. Patton Park and Heritage Park, plus Fountain View Farm weddings. Sessions from $350.',
+  cleveland: 'Cleveland, TX photographer for Sam Houston National Forest pine sessions and Stancil Park family photos. Two photographers, sessions from $350.',
+  'local-photographer-new-waverly-tx': 'New Waverly, TX photographer for Cagle Recreation Area lake-and-pines sessions and Big Creek Scenic Area. Two photographers, from $350.',
+  'local-photographer-huntsville-tx': 'Huntsville, TX photographer for SHSU senior portraits, Sam Houston Memorial Museum grounds, and Huntsville State Park. Sessions from $350.',
+  plantersville: 'Plantersville, TX photographer for wildflower byway minis, Renaissance Festival grounds, and rustic chapel and ranch weddings. From $350.',
+  navasota: 'Navasota, TX photographer for Buena Vista Ranch sunsets, downtown courthouse portraits, and August Horst Park. Two photographers, from $350.',
+  'local-photographer-bryan-tx': 'Bryan, TX photographer for Messina Hof vineyard weddings and engagements, downtown Bryan murals, and Lake Bryan sunsets. Sessions from $350.',
+  'local-photographer-college-station-tx': 'College Station photographer for Century Tree proposals, Texas A&M senior portraits, and Kyle Field sessions. Two photographers, from $350.',
+}

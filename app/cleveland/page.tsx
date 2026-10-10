@@ -1,10 +1,10 @@
 import LocalPhotographerCityPage from '@/components/LocalPhotographerCityPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
+import { cityMetaDescriptions } from '@/lib/city-guides'
 
 export const metadata = generateSEOMetadata({
   title: 'Photographer in Cleveland, TX | Studio37',
-  description:
-    'Looking for a photographer in Cleveland, TX? Studio37 provides wedding, family portrait, event, and commercial photography in Liberty County.',
+  description: cityMetaDescriptions['cleveland'],
   keywords: [
     'photographer Cleveland TX',
     'wedding photographer Cleveland Texas',

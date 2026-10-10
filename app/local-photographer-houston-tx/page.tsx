@@ -1,10 +1,10 @@
 import LocalPhotographerCityPage from '@/components/LocalPhotographerCityPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
+import { cityMetaDescriptions } from '@/lib/city-guides'
 
 export const metadata = generateSEOMetadata({
   title: 'Photographer in Houston, TX | Studio37',
-  description:
-    'Photographer in Houston, TX for weddings, portraits, engagements, events, headshots, brand sessions, and business photography across Greater Houston.',
+  description: cityMetaDescriptions['local-photographer-houston-tx'],
   keywords: [
     'photographer Houston TX',
     'wedding photographer Houston Texas',

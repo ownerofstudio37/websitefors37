@@ -1,10 +1,10 @@
 import LocalPhotographerCityPage from '@/components/LocalPhotographerCityPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
+import { cityMetaDescriptions } from '@/lib/city-guides'
 
 export const metadata = generateSEOMetadata({
   title: 'Photographer in Katy, TX | Studio37',
-  description:
-    'Photographer in Katy, TX for family portraits, weddings, events, engagement sessions, headshots, brand sessions, and business photos with clear local planning.',
+  description: cityMetaDescriptions['local-photographer-katy-tx'],
   keywords: [
     'photographer Katy TX',
     'wedding photographer Katy Texas',
