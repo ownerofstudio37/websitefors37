@@ -111,10 +111,11 @@ for (const file of subServicePages) {
 
 // City pages render through CityGuidePage; FAQSection emits the single FAQPage block (a second
 // generateFAQSchema block would duplicate it).
+const localTemplate = read('components/LocalPhotographerCityPage.tsx')
 for (const file of ['components/LocalPhotographerCityPage.tsx', 'components/CityGuidePage.tsx']) {
-  const localTemplate = read(file)
+  const template = read(file)
   for (const marker of ['generateEnhancedLocalBusinessSchema', 'generateBreadcrumbSchema', 'FAQSection', 'application/ld+json']) {
-    if (!localTemplate.includes(marker)) issues.push(`${file} missing local schema marker: ${marker}`)
+    if (!template.includes(marker)) issues.push(`${file} missing local schema marker: ${marker}`)
   }
 }
 
