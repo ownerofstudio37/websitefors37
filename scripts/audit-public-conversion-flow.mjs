@@ -149,7 +149,9 @@ for (const file of subServicePages) {
 const failures = []
 
 for (const check of checks) {
-  const source = fs.existsSync(check.file) ? fs.readFileSync(check.file, 'utf8') : ''
+  const raw = fs.existsSync(check.file) ? fs.readFileSync(check.file, 'utf8') : ''
+  // Pages rendered by the shared ServiceGuidePage template carry their CTAs in that component.
+  const source = raw.includes('ServiceGuidePage') ? raw + fs.readFileSync('components/ServiceGuidePage.tsx', 'utf8') : raw
   if (!source) {
     failures.push(`${check.file} missing`)
     continue

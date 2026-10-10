@@ -1,7 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { generateSEOMetadata, generateFAQSchema } from '@/lib/seo-helpers'
+import { generateSEOMetadata } from '@/lib/seo-helpers'
 import { generateServiceSchema } from '@/lib/seo-config'
 import PortraitHighlightGallery from '@/components/PortraitHighlightGallery'
 import FAQSection from '@/components/FAQSection'
@@ -10,10 +10,12 @@ import { Users, Camera, Clock, Star, CheckCircle, ArrowRight } from 'lucide-reac
 import PricingCalculator from '@/components/PricingCalculator'
 import { ServiceTestimonialsSection, TurnaroundExpectationsSection } from '@/components/PublicFeatureContent'
 import ServiceAreaLinks from '@/components/ServiceAreaLinks'
+import ServiceProofSection from '@/components/ServiceProofSection'
+import { PORTRAIT_FAMILY } from '@/lib/service-guides'
 import ServiceIntentPanel from '@/components/ServiceIntentPanel'
 
 export const metadata = generateSEOMetadata({
-  title: 'Family & Portrait Photographer in Pinehurst, TX | Studio37',
+  title: 'Portrait Photographer in Pinehurst, TX | Studio37',
   description: 'Portrait photography in Pinehurst, TX for families, seniors, maternity, headshots, and personal branding with location planning, posing guidance, and polished galleries.',
   keywords: [
     'portrait photography Pinehurst TX',
@@ -61,7 +63,6 @@ export default function PortraitPhotographyPage() {
     },
   ]
 
-  const faqSchema = generateFAQSchema(portraitFaqs)
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Home', url: 'https://www.studio37.cc' },
     { name: 'Services', url: 'https://www.studio37.cc/services' },
@@ -74,10 +75,6 @@ export default function PortraitPhotographyPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
       <script
         type="application/ld+json"
@@ -98,7 +95,7 @@ export default function PortraitPhotographyPage() {
         <div className="relative z-10 container mx-auto px-4 min-h-[480px] py-12 flex items-center">
           <div className="text-white max-w-2xl">
             <p className="eyebrow-hero mb-3">Signature Duo Coverage · Pinehurst, TX</p>
-            <h1 className="text-5xl font-bold mb-4">Family & Portrait Photography in Pinehurst, TX</h1>
+            <h1 className="text-5xl font-bold mb-4">Portrait Photography in Pinehurst, TX</h1>
             <p className="text-xl mb-3 text-white/90">
               Family portraits, senior photos, maternity sessions, headshots, and personal branding portraits with clear direction, location planning, and two photographers on site.
             </p>
@@ -116,6 +113,7 @@ export default function PortraitPhotographyPage() {
       </section>
 
       <ServiceIntentPanel service="portrait" />
+      <ServiceProofSection serviceKey="portrait" specialties={PORTRAIT_FAMILY} />
 
       {/* Portrait Types */}
       <section className="section-shell bg-white">

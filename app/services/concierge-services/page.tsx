@@ -2,18 +2,19 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowRight, CheckCircle, HeartHandshake, MapPinned, Sparkles, Video } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
-import { generateFAQSchema, generateSEOMetadata } from '@/lib/seo-helpers'
+import { generateSEOMetadata } from '@/lib/seo-helpers'
 import { generateServiceSchema } from '@/lib/seo-config'
 import { generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
 import ConciergeInquiryForm from '@/components/ConciergeInquiryForm'
 import { ServiceTestimonialsSection } from '@/components/PublicFeatureContent'
 import ServiceIntentPanel from '@/components/ServiceIntentPanel'
+import ServiceProofSection from '@/components/ServiceProofSection'
 import FAQSection from '@/components/FAQSection'
 
 export const metadata = generateSEOMetadata({
-  title: 'Concierge Proposal and Engagement Services - Pinehurst, TX',
+  title: 'Proposal Photographer & Planning in Pinehurst, TX | Studio37',
   description:
-    'Studio37 concierge services for surprise proposals and engagement photography, including location planning, decor coordination, timelines, and photo or video coverage.',
+    'Surprise proposal photography and planning in Pinehurst, TX: location scouting, decor, timeline, and photo or video coverage, from Mercer to Rose Hill.',
   keywords: [
     'concierge proposal planning Texas',
     'engagement concierge Pinehurst TX',
@@ -66,13 +67,11 @@ export default function ConciergeServicesPage() {
       answer: 'Yes. Proposal and engagement concierge packages can include photography plus a short highlight video when that is part of the planned scope.',
     },
   ]
-  const faqSchema = generateFAQSchema(conciergeFaqs)
 
   return (
     <div className="bg-white pt-16">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
       <section className="relative overflow-hidden bg-stone-950 text-white">
         <Image
@@ -87,7 +86,7 @@ export default function ConciergeServicesPage() {
         <div className="container relative z-10 mx-auto px-4 py-24 md:py-28">
           <div className="max-w-3xl">
             <p className="eyebrow-hero mb-3">Concierge Services</p>
-            <h1 className="mb-5 text-4xl font-bold md:text-6xl">Proposal Planning, Engagement Coverage, and Calm Logistics</h1>
+            <h1 className="mb-5 text-4xl font-bold md:text-6xl">Proposal Planning and Surprise Proposal Photography</h1>
             <p className="mb-8 text-lg leading-relaxed text-stone-100 md:text-xl">
               A white-glove planning path for couples who want the moment handled with care, from the reveal plan to the final gallery.
               Custom planning starts with a consultation so we can quote the right level of privacy, decor, and coverage.
@@ -105,6 +104,7 @@ export default function ConciergeServicesPage() {
       </section>
 
       <ServiceIntentPanel service="concierge" />
+      <ServiceProofSection serviceKey="concierge" />
 
       <section className="section-shell bg-stone-50">
         <div className="container mx-auto px-4">

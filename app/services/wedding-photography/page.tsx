@@ -1,7 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { generateSEOMetadata, generateFAQSchema } from '@/lib/seo-helpers'
+import { generateSEOMetadata } from '@/lib/seo-helpers'
 import { generateOfferSchema } from '@/lib/enhanced-seo-helpers'
 import { generateServiceSchema } from '@/lib/seo-config'
 import { generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
@@ -9,6 +9,7 @@ import { Heart, Camera, Clock, Star, CheckCircle, ArrowRight } from 'lucide-reac
 import FAQSection from '@/components/FAQSection'
 import { ServiceTestimonialsSection, TurnaroundExpectationsSection, VenueStyleExamplesSection } from '@/components/PublicFeatureContent'
 import ServiceAreaLinks from '@/components/ServiceAreaLinks'
+import ServiceProofSection from '@/components/ServiceProofSection'
 import ServiceIntentPanel from '@/components/ServiceIntentPanel'
 
 export const metadata = generateSEOMetadata({
@@ -80,7 +81,6 @@ export default function WeddingPhotographyPage() {
     'Professional wedding photography services in Pinehurst, Texas. Capturing your special day with romantic and timeless images that tell your love story.'
   )
 
-  const faqSchema = generateFAQSchema(weddingFAQs)
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Home', url: 'https://www.studio37.cc' },
     { name: 'Services', url: 'https://www.studio37.cc/services' },
@@ -122,10 +122,6 @@ export default function WeddingPhotographyPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
       <script
         type="application/ld+json"
@@ -180,6 +176,7 @@ export default function WeddingPhotographyPage() {
       </section>
 
       <ServiceIntentPanel service="wedding" />
+      <ServiceProofSection serviceKey="wedding" />
 
       {/* Two Photographers Announcement */}
       <div className="bg-primary-50 border-y border-primary-200">
