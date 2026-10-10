@@ -410,7 +410,7 @@ function getCuratedEntries(siteUrl: string): any[] {
       category: "services",
       question: "Do you travel for sessions?",
       answer:
-        "Yes! We love traveling for sessions. We're based in Pinehurst, TX and serve the Houston area. For locations outside our local area, travel fees may apply depending on distance. Destination weddings and special events are welcome - just ask!",
+        "Yes! We're based in Pinehurst, TX and photograph throughout Montgomery County and Greater Houston. Beyond the Houston area, we travel to Galveston for any package, the Austin area for sessions of $750 or more, and Dallas for projects of $2,000 or more. Destination weddings and special events are welcome, just ask!",
       keywords: ["travel", "location", "destination", "where", "area"],
       is_active: true,
     },

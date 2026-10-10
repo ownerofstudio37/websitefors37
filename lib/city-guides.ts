@@ -31,6 +31,11 @@ export type CitySession = {
   href?: string
 }
 
+export type CityImage = {
+  id: string
+  alt: string
+}
+
 export type CityGuide = {
   slug: string
   city: string
@@ -46,9 +51,14 @@ export type CityGuide = {
   bookMost?: string
   reviewNames: string[]
   guides?: Array<{ label: string; href: string }>
+  heroImage?: CityImage
+  secondaryImage?: CityImage
 }
 
-const TRAVEL_FEE_RULE = 'Travel fees only apply to venues more than 50 miles from our Pinehurst studio.'
+// Christian's stated travel policy (October 2026). There is no published mileage-based travel fee.
+export const DESTINATION_TRAVEL_POLICY =
+  'Beyond the Houston area, we travel to Galveston for any package, the Austin area for sessions of $750 or more, and Dallas for projects of $2,000 or more.'
+const TRAVEL_FEE_RULE = 'We travel throughout Montgomery County and Greater Houston from our Pinehurst studio.'
 
 const MERCER_PERMIT =
   'Mercer allows professional photography free of charge: sign in at the Visitor Center, finish 30 minutes before closing, and no drones.'
@@ -1696,8 +1706,99 @@ const cityGuides: CityGuide[] = [
   },
 ]
 
+// One unique photo set per city; no photo is used on two city pages. City names appear in alt text only
+// where the session actually happened there.
+const cityImages: Record<string, { heroImage: CityImage; secondaryImage?: CityImage }> = {
+  'local-photographer-pinehurst-tx': {
+    heroImage: { id: 'Untitled_tpoc5r', alt: 'Grandparents holding hands with their extended family gathered behind them by a lake lined with cypress trees' },
+    secondaryImage: { id: 'Untitled-12_fzsyvh', alt: 'Couple standing arm in arm on a wooden walkway beside a lake' },
+  },
+  'local-photographer-conroe-tx': {
+    heroImage: { id: 'PS373629_epurd9', alt: 'Two couples laughing together on a lakeshore under a blue sky' },
+    secondaryImage: { id: 'Hotard_Family_Day_2_-_763_1_jklpba', alt: 'High school senior holding her 2026 graduation cap tassel' },
+  },
+  humble: {
+    heroImage: { id: 'Jay_Proposal_-_1_12_e7wqsb', alt: 'Newly engaged couple showing the ring under a Will You Marry Me sign at Mercer Botanic Gardens in Humble, TX' },
+    secondaryImage: { id: 'Untitled-6_3_kmgp9o', alt: 'Man kneeling to propose on a garden path beside a picnic blanket and flowers' },
+  },
+  'local-photographer-katy-tx': {
+    heroImage: { id: 'VB_School_Chris_Faves_-_28_vdjsiw', alt: 'Volleyball school staff and families in matching pink shirts on the court in Katy, TX' },
+    secondaryImage: { id: 'Hotard_Family_Day_2_-_49_1_eernop', alt: 'Black and white family portrait of parents hugging their three daughters by the water' },
+  },
+  'local-photographer-houston-tx': {
+    heroImage: { id: 'Hotard_Family_Day_2_-_152_1_mcyhw2', alt: 'Family of six walking hand in hand through a grassy field by the water' },
+    secondaryImage: { id: 'Alice_Birthday_Party_-_74_zxkulm', alt: 'Guests celebrating at a first birthday party in Houston, TX' },
+  },
+  'local-photographer-bryan-tx': {
+    heroImage: { id: 'Untitled-30_fliqiq', alt: 'Bride walking down the aisle with her father at an outdoor vineyard ceremony' },
+    secondaryImage: { id: 'KELLY_-_1_11_wgadni', alt: 'Black and white photo of a bride laughing with her father among vineyard rows' },
+  },
+  'local-photographer-college-station-tx': {
+    heroImage: { id: 'PS379781_kttvv3', alt: 'Couple in formal attire smiling at each other under the trees' },
+    secondaryImage: { id: 'Hotard_Family_Day_2_-_764_1_b9enxd', alt: 'Black and white senior portrait of a graduate holding her 2026 tassel' },
+  },
+  'local-photographer-huntsville-tx': {
+    heroImage: { id: 'Untitled-4_1_osac8b', alt: 'Graduate holding a Sam Houston State Bearkats pennant outdoors' },
+  },
+  'local-photographer-magnolia-tx': {
+    heroImage: { id: 'PS375315_zyvbbi', alt: 'Woman in a flowing gown in a field of orange wildflowers' },
+  },
+  'local-photographer-tomball-tx': {
+    heroImage: { id: 'PS370397-1_ooxygn', alt: 'Engaged couple leaning against a large oak tree at golden hour' },
+  },
+  'local-photographer-the-woodlands-tx': {
+    heroImage: { id: 'IMG_4555_1_ppdkum', alt: 'Newly engaged woman holding red roses and showing her ring by the water' },
+  },
+  'local-photographer-spring-tx': {
+    heroImage: { id: 'Untitled-8_2_b18mim', alt: 'Couple walking hand in hand on a green garden path' },
+  },
+  'local-photographer-montgomery-tx': {
+    heroImage: { id: 'Untitled-15_vyz4oa', alt: 'Bride with sunflowers and groom in a cowboy hat under a rustic wooden arbor' },
+  },
+  'local-photographer-cypress-tx': {
+    heroImage: { id: 'PS374813_vuos93', alt: 'High school senior smiling among green plants' },
+  },
+  'local-photographer-willis-tx': {
+    heroImage: { id: 'Untitled_1_zwsrnm', alt: 'Expecting parents and their daughter holding ultrasound photos among tall pine trees' },
+  },
+  'local-photographer-new-waverly-tx': {
+    heroImage: { id: 'Untitled-4-3_dvlcs6', alt: 'Brother and sister laughing together on a sandy lakeshore' },
+  },
+  'local-photographer-new-caney-tx': {
+    heroImage: { id: 'Hotard_Family_Day_1_-_252-2_fjeggf', alt: 'Family of six posing on a wooded trail under a green canopy' },
+  },
+  'local-photographer-hockley-tx': {
+    heroImage: { id: 'Untitled-12_hih9qs', alt: 'High school senior in a letterman jacket sitting in the grass by a pond' },
+  },
+  cleveland: {
+    heroImage: { id: 'IMG_1503_Original_mtopcp', alt: 'Expecting father kissing his partner’s belly in a pine forest' },
+  },
+  kingwood: {
+    heroImage: { id: 'PS379799_ayoxbp', alt: 'Couple embracing among lush green trees' },
+  },
+  atascocita: {
+    heroImage: { id: 'IMG_4582_1_lmosd6', alt: 'Mother hugging her two grown daughters among tropical plants' },
+  },
+  porter: {
+    heroImage: { id: 'Untitled-3_2_u4p9kx', alt: 'Parents walking with their two young daughters on a sunny tree-lined path' },
+  },
+  splendora: {
+    heroImage: { id: 'PS379444_2_1_pge2hl', alt: 'Young woman posing among pink azalea blooms' },
+  },
+  waller: {
+    heroImage: { id: 'Untitled-26_1_m2xd8r', alt: 'Black and white portrait of a man in a cowboy hat and western scarf' },
+  },
+  navasota: {
+    heroImage: { id: 'IMG_8313_asvu5g', alt: 'Engaged couple kissing with the engagement ring in view' },
+  },
+  plantersville: {
+    heroImage: { id: 'Untitled-36_mape8j', alt: 'Bride holding sunflowers on a wooden porch with pine trees behind her' },
+  },
+}
+
 export function getCityGuide(slug: string) {
-  return cityGuides.find((guide) => guide.slug === slug)
+  const guide = cityGuides.find((item) => item.slug === slug)
+  return guide ? { ...guide, ...cityImages[slug] } : undefined
 }
 
 export function getCityGuideReviews(guide: CityGuide) {

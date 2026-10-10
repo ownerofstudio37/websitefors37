@@ -1,5 +1,4 @@
 import type { ReactNode } from 'react'
-import Image from 'next/image'
 import Link from 'next/link'
 import {
   ArrowRight,
@@ -18,7 +17,7 @@ import {
 } from 'lucide-react'
 import FAQSection from '@/components/FAQSection'
 import { generateBreadcrumbSchema, generateEnhancedLocalBusinessSchema } from '@/lib/enhanced-seo-schemas'
-import { type CityGuide, type CitySpot, getCityGuideReviews } from '@/lib/city-guides'
+import { type CityGuide, type CityImage, type CitySpot, DESTINATION_TRAVEL_POLICY, getCityGuideReviews } from '@/lib/city-guides'
 
 type CityGuidePageProps = {
   guide: CityGuide
@@ -27,39 +26,125 @@ type CityGuidePageProps = {
   nearbyCities: string[]
 }
 
-const cld = (path: string, width: number) =>
-  `https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:good,w_${width},c_limit/${path}`
+// Cloudinary delivery: q_auto:best at each width, served through srcset so phones get a smaller file
+// while large and high-density screens get the sharp 2400px (hero) / 2000px (secondary) versions.
+const cldUrl = (id: string, width: number, crop = '') =>
+  `https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:best,w_${width}${crop}/${id}.jpg`
 
-// Real Studio37 work. Alt text describes the photo, never a city it was not taken in.
-const WORK = {
-  portrait: { path: 'v1778033088/PS379444_2_1_pge2hl.jpg', label: 'Portraits', alt: 'Studio37 outdoor portrait session' },
-  family: { path: 'v1784790718/Hotard_Family_Day_2_-_49_1_eernop.jpg', label: 'Families', alt: 'Studio37 family portrait session' },
-  proposal: { path: 'v1775537570/Jay_Proposal_-_1_12_e7wqsb.jpg', label: 'Proposals', alt: 'Studio37 proposal photography at Mercer Botanic Gardens' },
-  wedding: { path: 'v1778033155/KELLY_-_1_11_wgadni.jpg', label: 'Weddings', alt: 'Studio37 wedding photography' },
-  engagement: { path: 'v1770033072/PS370397-1_ooxygn.jpg', label: 'Engagements', alt: 'Studio37 golden-hour engagement session' },
-  event: { path: 'v1784791657/VB_School_Chris_Faves_-_28_vdjsiw.jpg', label: 'Events', alt: 'Studio37 event coverage' },
-  business: { path: 'v1784791656/VB_School_Caitie_Faves_-_6_gsn8fe.jpg', label: 'Business', alt: 'Studio37 brand and business content' },
-  commercial: { path: 'v1769255706/PS373287_d7fl9k.jpg', label: 'Commercial', alt: 'Studio37 commercial photography' },
-} as const
-
-type WorkKey = keyof typeof WORK
-
-// Where a city has its own real session photo, lead with it.
-const CITY_HERO: Record<string, WorkKey> = {
-  humble: 'proposal',
-  'local-photographer-katy-tx': 'event',
-  'local-photographer-houston-tx': 'family',
-  'local-photographer-magnolia-tx': 'wedding',
+function CldImg({
+  image,
+  widths,
+  sizes,
+  className,
+  crop = '',
+  priority = false,
+}: {
+  image: CityImage
+  widths: number[]
+  sizes: string
+  className: string
+  crop?: string
+  priority?: boolean
+}) {
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={cldUrl(image.id, widths[widths.length - 1], crop)}
+      srcSet={widths.map((width) => `${cldUrl(image.id, width, crop)} ${width}w`).join(', ')}
+      sizes={sizes}
+      alt={image.alt}
+      className={className}
+      loading={priority ? 'eager' : 'lazy'}
+      fetchPriority={priority ? 'high' : undefined}
+      decoding="async"
+    />
+  )
 }
 
-const WORK_ROTATION: WorkKey[] = ['portrait', 'engagement', 'family', 'wedding', 'proposal', 'event', 'commercial', 'business']
+const HERO_WIDTHS = [800, 1200, 1600, 2400]
+const SECONDARY_WIDTHS = [800, 1200, 2000]
+const CARD_WIDTHS = [450, 900]
+
+// Category examples shown on every city page. None of these is any city's hero or secondary photo.
+const PORTFOLIO_STRIP: Array<CityImage & { label: string }> = [
+  {
+    id: 'KELLY_-_1_8_1__2_x7leuc',
+    label: 'Weddings',
+    alt: 'Black and white photo of a ring bearer walking through bubbles at an outdoor wedding',
+  },
+  {
+    id: 'PS372952_gkvxjl',
+    label: 'Engagements',
+    alt: 'Black and white photo of a couple kissing in front of a backlit bar',
+  },
+  {
+    id: 'IMG_3787_kaecyl',
+    label: 'Headshots',
+    alt: 'Professional headshot of a smiling woman with long hair',
+  },
+  {
+    id: 'IMG_4591_1_r62hly',
+    label: 'Events',
+    alt: 'Friends in sunglasses cheering and laughing at a celebration',
+  },
+  {
+    id: 'PS370262_buzjak',
+    label: 'Details',
+    alt: 'Close-up of a hand with an engagement ring resting on a suit sleeve',
+  },
+  {
+    id: 'PS373287_d7fl9k',
+    label: 'Commercial',
+    alt: 'Craft cocktails photographed on a bar for a hospitality client',
+  },
+  {
+    id: 'Untitled-46_2_tg6z4m',
+    label: 'Brand',
+    alt: 'Black and white product photo of a cowboy hat on a table',
+  },
+  {
+    id: 'Untitled-100_gxzfgy',
+    label: 'Moments',
+    alt: 'Black and white close-up of a couple holding hands with an engagement ring',
+  },
+]
 
 const SERVICES = [
-  { title: 'Portraits & families', price: '$350', href: '/services/portrait-photography', icon: Users, note: 'Families, seniors, maternity, headshots' },
-  { title: 'Engagements & proposals', price: '$450', href: '/services/engagement-session', icon: Heart, note: 'Golden-hour couples and surprise proposals' },
-  { title: 'Weddings', price: '$1,200', href: '/services/wedding-photography', icon: Camera, note: 'Two photographers on every collection' },
-  { title: 'Events', price: '$600', href: '/services/event-photography', icon: PartyPopper, note: 'Birthdays, quinceañeras, corporate events' },
-  { title: 'Commercial & brand', price: '$500', href: '/services/commercial-photography', icon: Briefcase, note: 'Commercial usage included' },
+  {
+    title: 'Portraits & families',
+    price: '$350',
+    href: '/services/portrait-photography',
+    icon: Users,
+    note: 'Families, seniors, maternity, headshots',
+  },
+  {
+    title: 'Engagements & proposals',
+    price: '$450',
+    href: '/services/engagement-session',
+    icon: Heart,
+    note: 'Golden-hour couples and surprise proposals',
+  },
+  {
+    title: 'Weddings',
+    price: '$1,200',
+    href: '/services/wedding-photography',
+    icon: Camera,
+    note: 'Two photographers on every collection',
+  },
+  {
+    title: 'Events',
+    price: '$600',
+    href: '/services/event-photography',
+    icon: PartyPopper,
+    note: 'Birthdays, quinceañeras, corporate events',
+  },
+  {
+    title: 'Commercial & brand',
+    price: '$500',
+    href: '/services/commercial-photography',
+    icon: Briefcase,
+    note: 'Commercial usage included',
+  },
 ]
 
 // City pages that exist on the site, so "nearby areas" can link instead of being plain text.
@@ -172,10 +257,8 @@ export default function CityGuidePage({ guide, stateAbbr, nearbyCities }: CityGu
   const moreSpots = orderedSpots.slice(TOP_SPOT_COUNT)
 
   const offset = hashString(guide.slug)
-  const heroKey: WorkKey = CITY_HERO[guide.slug] || WORK_ROTATION[offset % WORK_ROTATION.length]
-  const heroWork = WORK[heroKey]
-  const stripKeys = WORK_ROTATION.filter((key) => key !== heroKey)
-  const strip = [0, 1, 2, 3].map((index) => WORK[stripKeys[(offset + index) % stripKeys.length]])
+  const heroImage: CityImage = guide.heroImage || PORTFOLIO_STRIP[0]
+  const strip = [0, 1, 2, 3].map((index) => PORTFOLIO_STRIP[(offset + index) % PORTFOLIO_STRIP.length])
 
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Home', url: 'https://www.studio37.cc' },
@@ -203,8 +286,8 @@ export default function CityGuidePage({ guide, stateAbbr, nearbyCities }: CityGu
           answer: `${guide.driveTime} ${guide.travelNote}`,
         }
       : {
-          question: `Is there a travel fee for ${guide.city} sessions?`,
-          answer: `We travel to ${guide.city} from our Pinehurst studio. ${guide.travelNote}`,
+          question: `Do you travel to ${guide.city} for sessions?`,
+          answer: `Yes. ${guide.travelNote} ${DESTINATION_TRAVEL_POLICY}`,
         },
     {
       question: `When is the best time of year for outdoor photos in ${guide.city}?`,
@@ -218,20 +301,35 @@ export default function CityGuidePage({ guide, stateAbbr, nearbyCities }: CityGu
           },
         ]
       : []),
-    ...(guide.bookMost ? [{ question: `What do ${guide.city} clients book Studio37 for most?`, answer: guide.bookMost }] : []),
+    ...(guide.bookMost
+      ? [
+          {
+            question: `What do ${guide.city} clients book Studio37 for most?`,
+            answer: guide.bookMost,
+          },
+        ]
+      : []),
   ]
 
   return (
     <div className="pt-16">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(localBusinessSchema),
+        }}
+      />
 
       {/* 1. Hero: pitch, trust, and the booking action. Location detail waits until later in the page. */}
       <section className="relative overflow-hidden bg-stone-950 text-white">
         <div className="absolute inset-0">
-          <Image src={cld(heroWork.path, 1800)} alt={heroWork.alt} fill className="object-cover opacity-60" priority sizes="100vw" />
+          <CldImg image={heroImage} widths={HERO_WIDTHS} sizes="100vw" className="h-full w-full object-cover opacity-60" priority />
         </div>
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(12,10,9,0.35),rgba(12,10,9,0.85))] md:bg-[linear-gradient(90deg,rgba(12,10,9,0.9),rgba(12,10,9,0.55),rgba(12,10,9,0.2))]" aria-hidden="true" />
+        <div
+          className="absolute inset-0 bg-[linear-gradient(180deg,rgba(12,10,9,0.35),rgba(12,10,9,0.85))] md:bg-[linear-gradient(90deg,rgba(12,10,9,0.9),rgba(12,10,9,0.55),rgba(12,10,9,0.2))]"
+          aria-hidden="true"
+        />
         <div className="relative z-10 container mx-auto px-4 py-16 md:py-24">
           <div className="max-w-3xl">
             <p className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-1.5 text-sm font-semibold text-amber-100 backdrop-blur">
@@ -240,7 +338,8 @@ export default function CityGuidePage({ guide, stateAbbr, nearbyCities }: CityGu
             </p>
             <h1 className="mb-4 text-4xl font-bold leading-tight md:text-6xl">Photographer in {cityLabel}</h1>
             <p className="mb-6 max-w-2xl text-lg leading-8 text-stone-100 md:text-xl">
-              Weddings, portraits, families, proposals, and brand sessions with two photographers, clear pricing, and {guide.city} locations we plan around.
+              Weddings, portraits, families, proposals, and brand sessions with two photographers, clear pricing, and {guide.city} locations
+              we plan around.
             </p>
             <div className="mb-7 flex flex-col gap-3 sm:flex-row">
               <Link href={bookHref} className="btn-primary inline-flex items-center justify-center gap-2 text-center">
@@ -254,7 +353,10 @@ export default function CityGuidePage({ guide, stateAbbr, nearbyCities }: CityGu
                 Find my package
               </Link>
             </div>
-            <ul className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm font-semibold text-stone-100 sm:flex sm:flex-wrap" aria-label="Why clients book Studio37">
+            <ul
+              className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm font-semibold text-stone-100 sm:flex sm:flex-wrap"
+              aria-label="Why clients book Studio37"
+            >
               <li className="flex items-center gap-1.5">
                 <Star className="h-4 w-4 fill-amber-400 text-amber-400" aria-hidden="true" />
                 5.0 on Google &amp; Thumbtack
@@ -281,13 +383,13 @@ export default function CityGuidePage({ guide, stateAbbr, nearbyCities }: CityGu
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 gap-2 md:grid-cols-4 md:gap-3">
             {strip.map((work) => (
-              <figure key={work.path} className="group relative aspect-square overflow-hidden rounded-lg md:aspect-[4/5]">
-                <Image
-                  src={cld(work.path, 700)}
-                  alt={work.alt}
-                  fill
+              <figure key={work.id} className="group relative aspect-square overflow-hidden rounded-lg md:aspect-[4/5]">
+                <CldImg
+                  image={work}
+                  widths={CARD_WIDTHS}
+                  crop=",c_limit"
                   sizes="(min-width: 768px) 25vw, 50vw"
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
                 <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 to-transparent px-3 pb-2.5 pt-8 text-sm font-semibold text-white">
                   {work.label}
@@ -296,7 +398,10 @@ export default function CityGuidePage({ guide, stateAbbr, nearbyCities }: CityGu
             ))}
           </div>
           <div className="mt-5 text-center">
-            <Link href="https://gallery.studio37.cc" className="inline-flex items-center gap-2 text-sm font-semibold text-amber-200 hover:text-amber-100">
+            <Link
+              href="https://gallery.studio37.cc"
+              className="inline-flex items-center gap-2 text-sm font-semibold text-amber-200 hover:text-amber-100"
+            >
               See full galleries
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>
@@ -307,59 +412,78 @@ export default function CityGuidePage({ guide, stateAbbr, nearbyCities }: CityGu
       {/* 3. Proof: a featured review plus real sessions in this city. */}
       {(featuredReview || guide.sessions.length > 0) && (
         <section className="section-shell bg-white">
-          <div className="container mx-auto grid gap-8 px-4 lg:grid-cols-[1.2fr_1fr] lg:items-start">
-            {featuredReview && (
-              <figure className="rounded-2xl bg-stone-50 p-6 md:p-8">
-                <div className="mb-4 flex gap-1 text-amber-500" aria-label="5 out of 5 stars">
-                  {Array.from({ length: 5 }).map((_, index) => (
-                    <Star key={index} className="h-5 w-5 fill-current" aria-hidden="true" />
-                  ))}
-                </div>
-                <blockquote className="text-xl leading-8 text-stone-800 md:text-2xl md:leading-10">&ldquo;{featuredReview.quote}&rdquo;</blockquote>
-                <figcaption className="mt-5 text-sm font-semibold text-stone-900">
-                  {featuredReview.name} <span className="font-normal text-stone-500">· {featuredReview.detail}</span>
-                </figcaption>
-              </figure>
+          <div
+            className={`container mx-auto grid gap-8 px-4 lg:items-start ${
+              guide.secondaryImage ? 'lg:grid-cols-[0.9fr_1.1fr]' : 'lg:grid-cols-[1.2fr_1fr]'
+            }`}
+          >
+            {guide.secondaryImage && (
+              <div className="relative aspect-[4/3] overflow-hidden rounded-2xl lg:aspect-[4/5]">
+                <CldImg
+                  image={guide.secondaryImage}
+                  widths={SECONDARY_WIDTHS}
+                  sizes="(min-width: 1024px) 45vw, 100vw"
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
+              </div>
             )}
-            <div>
-              {guide.sessions.length > 0 ? (
-                <>
-                  <p className="eyebrow mb-3">Recent work near you</p>
-                  <h2 className="mb-5 text-2xl font-bold text-stone-950 md:text-3xl">Studio37 sessions in {guide.city}</h2>
-                  <ul className="space-y-3">
-                    {guide.sessions.map((session) => (
-                      <li key={session.description} className="flex items-start gap-3">
-                        <CheckCircle className="mt-1 h-5 w-5 flex-shrink-0 text-amber-700" aria-hidden="true" />
-                        <span className="text-stone-700">
-                          {session.href ? (
-                            <Link href={session.href} className="font-semibold text-amber-800 hover:underline">
-                              {session.description}
-                            </Link>
-                          ) : (
-                            session.description
-                          )}
-                          {session.date && <span className="text-stone-500"> · {session.date}</span>}
-                        </span>
-                      </li>
+            {/* With a secondary photo, review and sessions stack in one column; otherwise they sit side by side. */}
+            <div className={guide.secondaryImage ? 'space-y-8' : 'contents'}>
+              {featuredReview && (
+                <figure className="rounded-2xl bg-stone-50 p-6 md:p-8">
+                  <div className="mb-4 flex gap-1 text-amber-500" aria-label="5 out of 5 stars">
+                    {Array.from({ length: 5 }).map((_, index) => (
+                      <Star key={index} className="h-5 w-5 fill-current" aria-hidden="true" />
                     ))}
-                  </ul>
-                </>
-              ) : (
-                secondReview && (
-                  <figure className="rounded-2xl border border-stone-200 p-6">
-                    <div className="mb-3 flex gap-1 text-amber-500" aria-label="5 out of 5 stars">
-                      {Array.from({ length: 5 }).map((_, index) => (
-                        <Star key={index} className="h-4 w-4 fill-current" aria-hidden="true" />
-                      ))}
-                    </div>
-                    <blockquote className="leading-7 text-stone-700">&ldquo;{secondReview.quote}&rdquo;</blockquote>
-                    <figcaption className="mt-4 text-sm font-semibold text-stone-900">
-                      {secondReview.name} <span className="font-normal text-stone-500">· {secondReview.detail}</span>
-                    </figcaption>
-                  </figure>
-                )
+                  </div>
+                  <blockquote className="text-xl leading-8 text-stone-800 md:text-2xl md:leading-10">
+                    &ldquo;{featuredReview.quote}&rdquo;
+                  </blockquote>
+                  <figcaption className="mt-5 text-sm font-semibold text-stone-900">
+                    {featuredReview.name} <span className="font-normal text-stone-500">· {featuredReview.detail}</span>
+                  </figcaption>
+                </figure>
               )}
-              <p className="mt-6 text-sm text-stone-500">Rated 5.0 on Google and Thumbtack, with Top Pro status on Thumbtack.</p>
+              <div>
+                {guide.sessions.length > 0 ? (
+                  <>
+                    <p className="eyebrow mb-3">Recent work near you</p>
+                    <h2 className="mb-5 text-2xl font-bold text-stone-950 md:text-3xl">Studio37 sessions in {guide.city}</h2>
+                    <ul className="space-y-3">
+                      {guide.sessions.map((session) => (
+                        <li key={session.description} className="flex items-start gap-3">
+                          <CheckCircle className="mt-1 h-5 w-5 flex-shrink-0 text-amber-700" aria-hidden="true" />
+                          <span className="text-stone-700">
+                            {session.href ? (
+                              <Link href={session.href} className="font-semibold text-amber-800 hover:underline">
+                                {session.description}
+                              </Link>
+                            ) : (
+                              session.description
+                            )}
+                            {session.date && <span className="text-stone-500"> · {session.date}</span>}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </>
+                ) : (
+                  secondReview && (
+                    <figure className="rounded-2xl border border-stone-200 p-6">
+                      <div className="mb-3 flex gap-1 text-amber-500" aria-label="5 out of 5 stars">
+                        {Array.from({ length: 5 }).map((_, index) => (
+                          <Star key={index} className="h-4 w-4 fill-current" aria-hidden="true" />
+                        ))}
+                      </div>
+                      <blockquote className="leading-7 text-stone-700">&ldquo;{secondReview.quote}&rdquo;</blockquote>
+                      <figcaption className="mt-4 text-sm font-semibold text-stone-900">
+                        {secondReview.name} <span className="font-normal text-stone-500">· {secondReview.detail}</span>
+                      </figcaption>
+                    </figure>
+                  )
+                )}
+                <p className="mt-6 text-sm text-stone-500">Rated 5.0 on Google and Thumbtack, with Top Pro status on Thumbtack.</p>
+              </div>
             </div>
           </div>
         </section>
@@ -394,9 +518,14 @@ export default function CityGuidePage({ guide, stateAbbr, nearbyCities }: CityGu
         <div className="container mx-auto flex flex-col items-start gap-4 px-4 py-8 md:flex-row md:items-center md:justify-between">
           <div>
             <h2 className="text-2xl font-bold">Not sure which session fits?</h2>
-            <p className="mt-1 text-amber-50">Tell us your date and what you want photographed, and we will recommend the right coverage and {guide.city} spot.</p>
+            <p className="mt-1 text-amber-50">
+              Tell us your date and what you want photographed, and we will recommend the right coverage and {guide.city} spot.
+            </p>
           </div>
-          <Link href={bookHref} className="inline-flex min-h-12 flex-shrink-0 items-center gap-2 rounded-lg bg-white px-6 font-semibold text-amber-900 transition hover:bg-amber-50">
+          <Link
+            href={bookHref}
+            className="inline-flex min-h-12 flex-shrink-0 items-center gap-2 rounded-lg bg-white px-6 font-semibold text-amber-900 transition hover:bg-amber-50"
+          >
             Book a free consultation
             <ArrowRight className="h-4 w-4" aria-hidden="true" />
           </Link>
@@ -417,7 +546,8 @@ export default function CityGuidePage({ guide, stateAbbr, nearbyCities }: CityGu
           {moreSpots.length > 0 && (
             <details className="group mt-5">
               <summary className="inline-flex min-h-11 cursor-pointer list-none items-center gap-2 rounded-full border border-stone-300 px-5 font-semibold text-stone-800 transition hover:border-amber-400 hover:bg-amber-50 [&::-webkit-details-marker]:hidden">
-                See {moreSpots.length} more {guide.city} spot{moreSpots.length === 1 ? '' : 's'}
+                See {moreSpots.length} more {guide.city} spot
+                {moreSpots.length === 1 ? '' : 's'}
                 <ChevronDown className="h-4 w-4 transition-transform group-open:rotate-180" aria-hidden="true" />
               </summary>
               <div className="mt-5 grid gap-5 md:grid-cols-3">
@@ -441,7 +571,11 @@ export default function CityGuidePage({ guide, stateAbbr, nearbyCities }: CityGu
                   {guide.venues.map((venue) => (
                     <li key={venue.name}>
                       <span className="font-semibold text-stone-900">{venue.name}</span>
-                      {venue.verified && <span className="ml-2 rounded-full bg-amber-50 px-2 py-0.5 text-xs font-semibold text-amber-800">In our venue guide</span>}
+                      {venue.verified && (
+                        <span className="ml-2 rounded-full bg-amber-50 px-2 py-0.5 text-xs font-semibold text-amber-800">
+                          In our venue guide
+                        </span>
+                      )}
                       {venue.address && <span className="block text-sm text-stone-500">{venue.address}</span>}
                       <span className="block">{venue.description}</span>
                     </li>
@@ -472,6 +606,7 @@ export default function CityGuidePage({ guide, stateAbbr, nearbyCities }: CityGu
             <PlanningDetail title="Travel and getting there" icon={Car}>
               <p>{guide.driveTime || `We travel to ${guide.city} from our studio in Pinehurst.`}</p>
               <p className="mt-2">{guide.travelNote}</p>
+              <p className="mt-2">{DESTINATION_TRAVEL_POLICY}</p>
               {guide.bookMost && (
                 <p className="mt-2">
                   <span className="font-semibold text-stone-800">Most booked here: </span>
@@ -513,11 +648,16 @@ export default function CityGuidePage({ guide, stateAbbr, nearbyCities }: CityGu
                     return (
                       <li key={area}>
                         {href ? (
-                          <Link href={href} className="inline-flex min-h-11 items-center rounded-full border border-stone-200 px-4 text-sm font-semibold text-stone-700 hover:border-amber-300 hover:bg-amber-50">
+                          <Link
+                            href={href}
+                            className="inline-flex min-h-11 items-center rounded-full border border-stone-200 px-4 text-sm font-semibold text-stone-700 hover:border-amber-300 hover:bg-amber-50"
+                          >
                             {area}
                           </Link>
                         ) : (
-                          <span className="inline-flex min-h-11 items-center rounded-full border border-stone-200 px-4 text-sm text-stone-600">{area}</span>
+                          <span className="inline-flex min-h-11 items-center rounded-full border border-stone-200 px-4 text-sm text-stone-600">
+                            {area}
+                          </span>
                         )}
                       </li>
                     )
@@ -532,7 +672,12 @@ export default function CityGuidePage({ guide, stateAbbr, nearbyCities }: CityGu
       {/* 8. Final call to action over real work. */}
       <section className="relative overflow-hidden bg-stone-950 text-white">
         <div className="absolute inset-0">
-          <Image src={cld(strip[0].path, 1600)} alt="" fill className="object-cover opacity-35" sizes="100vw" />
+          <CldImg
+            image={{ id: heroImage.id, alt: '' }}
+            widths={SECONDARY_WIDTHS}
+            sizes="100vw"
+            className="h-full w-full object-cover opacity-35"
+          />
         </div>
         <div className="relative z-10 container mx-auto px-4 py-16 text-center md:py-20">
           <h2 className="mb-4 text-3xl font-bold md:text-4xl">Ready to plan your {guide.city} session?</h2>
@@ -544,7 +689,10 @@ export default function CityGuidePage({ guide, stateAbbr, nearbyCities }: CityGu
               Book a free consultation
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>
-            <Link href="/request-portfolio" className="btn-secondary border-white/60 bg-white/10 text-white hover:bg-white hover:text-stone-950">
+            <Link
+              href="/request-portfolio"
+              className="btn-secondary border-white/60 bg-white/10 text-white hover:bg-white hover:text-stone-950"
+            >
               Request private examples
             </Link>
           </div>
