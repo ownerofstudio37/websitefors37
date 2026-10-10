@@ -1,10 +1,11 @@
 import LocalPhotographerCityPage from '@/components/LocalPhotographerCityPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
-import { cityMetaDescriptions } from '@/lib/city-guides'
+import { cityMetaDescriptions, cityOgImage } from '@/lib/city-guides'
 
 export const metadata = generateSEOMetadata({
   title: 'Photographer in Waller, TX | Studio37',
   description: cityMetaDescriptions['waller'],
+  ogImage: cityOgImage('waller'),
   keywords: [
     'photographer Waller TX',
     'wedding photographer Waller Texas',

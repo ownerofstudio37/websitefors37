@@ -1,10 +1,11 @@
 import LocalPhotographerCityPage from '@/components/LocalPhotographerCityPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
-import { cityMetaDescriptions } from '@/lib/city-guides'
+import { cityMetaDescriptions, cityOgImage } from '@/lib/city-guides'
 
 export const metadata = generateSEOMetadata({
   title: 'Photographer in New Waverly, TX | Studio37',
   description: cityMetaDescriptions['local-photographer-new-waverly-tx'],
+  ogImage: cityOgImage('local-photographer-new-waverly-tx'),
   keywords: [
     'photographer New Waverly TX',
     'wedding photographer New Waverly Texas',

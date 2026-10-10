@@ -109,9 +109,13 @@ for (const file of subServicePages) {
   }
 }
 
-const localTemplate = read('components/LocalPhotographerCityPage.tsx')
-for (const marker of ['generateEnhancedLocalBusinessSchema', 'generateBreadcrumbSchema', 'generateFAQSchema', 'application/ld+json']) {
-  if (!localTemplate.includes(marker)) issues.push(`LocalPhotographerCityPage.tsx missing local schema marker: ${marker}`)
+// City pages render through CityGuidePage; FAQSection emits the single FAQPage block (a second
+// generateFAQSchema block would duplicate it).
+for (const file of ['components/LocalPhotographerCityPage.tsx', 'components/CityGuidePage.tsx']) {
+  const localTemplate = read(file)
+  for (const marker of ['generateEnhancedLocalBusinessSchema', 'generateBreadcrumbSchema', 'FAQSection', 'application/ld+json']) {
+    if (!localTemplate.includes(marker)) issues.push(`${file} missing local schema marker: ${marker}`)
+  }
 }
 
 const blogArticle = read('app/blog/[slug]/page.tsx')

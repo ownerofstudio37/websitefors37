@@ -9,6 +9,7 @@ import { generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
 import { Users, Camera, Clock, Star, CheckCircle, ArrowRight } from 'lucide-react'
 import PricingCalculator from '@/components/PricingCalculator'
 import { ServiceTestimonialsSection, TurnaroundExpectationsSection } from '@/components/PublicFeatureContent'
+import ServiceAreaLinks from '@/components/ServiceAreaLinks'
 import ServiceIntentPanel from '@/components/ServiceIntentPanel'
 
 export const metadata = generateSEOMetadata({
@@ -491,6 +492,8 @@ export default function PortraitPhotographyPage() {
       </section>
 
       {/* CTA Section */}
+      <ServiceAreaLinks serviceLabel="Portrait photography" />
+
       <section className="py-16 bg-gradient-to-r from-primary-600 to-purple-600 text-white">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-4">Ready to Book Your Portrait Session?</h2>

@@ -1,10 +1,11 @@
 import LocalPhotographerCityPage from '@/components/LocalPhotographerCityPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
-import { cityMetaDescriptions } from '@/lib/city-guides'
+import { cityMetaDescriptions, cityOgImage } from '@/lib/city-guides'
 
 export const metadata = generateSEOMetadata({
   title: 'Photographer in Cypress, TX | Studio37',
   description: cityMetaDescriptions['local-photographer-cypress-tx'],
+  ogImage: cityOgImage('local-photographer-cypress-tx'),
   keywords: [
     'photographer Cypress TX',
     'local photographer Cypress TX',

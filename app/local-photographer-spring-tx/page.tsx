@@ -1,10 +1,11 @@
 import LocalPhotographerCityPage from '@/components/LocalPhotographerCityPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
-import { cityMetaDescriptions } from '@/lib/city-guides'
+import { cityMetaDescriptions, cityOgImage } from '@/lib/city-guides'
 
 export const metadata = generateSEOMetadata({
   title: 'Photographer in Spring, TX | Studio37',
   description: cityMetaDescriptions['local-photographer-spring-tx'],
+  ogImage: cityOgImage('local-photographer-spring-tx'),
   keywords: [
     'photographer Spring TX',
     'wedding photographer Spring Texas',

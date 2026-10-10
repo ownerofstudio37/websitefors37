@@ -1,10 +1,11 @@
 import LocalPhotographerCityPage from '@/components/LocalPhotographerCityPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
-import { cityMetaDescriptions } from '@/lib/city-guides'
+import { cityMetaDescriptions, cityOgImage } from '@/lib/city-guides'
 
 export const metadata = generateSEOMetadata({
   title: 'Photographer in Navasota, TX | Studio37',
   description: cityMetaDescriptions['navasota'],
+  ogImage: cityOgImage('navasota'),
   keywords: [
     'photographer Navasota TX',
     'wedding photographer Navasota Texas',

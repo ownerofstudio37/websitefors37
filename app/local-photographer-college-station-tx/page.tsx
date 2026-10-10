@@ -1,10 +1,11 @@
 import LocalPhotographerCityPage from '@/components/LocalPhotographerCityPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
-import { cityMetaDescriptions } from '@/lib/city-guides'
+import { cityMetaDescriptions, cityOgImage } from '@/lib/city-guides'
 
 export const metadata = generateSEOMetadata({
   title: 'Photographer in College Station, TX | Studio37',
   description: cityMetaDescriptions['local-photographer-college-station-tx'],
+  ogImage: cityOgImage('local-photographer-college-station-tx'),
   keywords: [
     'photographer College Station TX',
     'wedding photographer College Station Texas',

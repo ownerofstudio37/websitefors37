@@ -6,6 +6,7 @@ import { ArrowRight, Briefcase, CalendarDays, Camera, CheckCircle, Heart, Trendi
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 import { generateServiceSchema } from '@/lib/seo-config'
 import { PackageRecommenderCTA } from '@/components/PublicConversionSections'
+import ServiceAreaLinks from '@/components/ServiceAreaLinks'
 import MarketingAuditCTA from '@/components/MarketingAuditCTA'
 
 export const metadata = generateSEOMetadata({
@@ -506,6 +507,8 @@ export default function ServicesPage() {
       </section>
 
       {/* Call to Action */}
+      <ServiceAreaLinks serviceLabel="Photography" />
+
       <section className="py-20 bg-primary-600 text-white">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Book Your Session?</h2>

@@ -1838,3 +1838,11 @@ export const cityMetaDescriptions: Record<string, string> = {
   'local-photographer-bryan-tx': 'Bryan, TX photographer for Messina Hof vineyard weddings and engagements, downtown Bryan murals, and Lake Bryan sunsets. Sessions from $350.',
   'local-photographer-college-station-tx': 'College Station photographer for Century Tree proposals, Texas A&M senior portraits, and Kyle Field sessions. Two photographers, from $350.',
 }
+
+export const cityGuideLinks = cityGuides.map((guide) => ({ city: guide.city, href: `/${guide.slug}` }))
+
+// Social share card (1200x630) cropped from the city's own hero photo.
+export function cityOgImage(slug: string) {
+  const id = cityImages[slug]?.heroImage.id
+  return id ? `https://res.cloudinary.com/dmjxho2rl/image/upload/f_jpg,q_auto:best,w_1200,h_630,c_fill,g_auto/${id}.jpg` : undefined
+}

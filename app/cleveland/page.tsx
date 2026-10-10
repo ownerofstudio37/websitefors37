@@ -1,10 +1,11 @@
 import LocalPhotographerCityPage from '@/components/LocalPhotographerCityPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
-import { cityMetaDescriptions } from '@/lib/city-guides'
+import { cityMetaDescriptions, cityOgImage } from '@/lib/city-guides'
 
 export const metadata = generateSEOMetadata({
   title: 'Photographer in Cleveland, TX | Studio37',
   description: cityMetaDescriptions['cleveland'],
+  ogImage: cityOgImage('cleveland'),
   keywords: [
     'photographer Cleveland TX',
     'wedding photographer Cleveland Texas',

@@ -8,6 +8,7 @@ import FAQSection from '@/components/FAQSection'
 import { generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
 import { Building2, Camera, Users, Briefcase, CheckCircle, ArrowRight, Star } from 'lucide-react'
 import { ServiceTestimonialsSection, TurnaroundExpectationsSection } from '@/components/PublicFeatureContent'
+import ServiceAreaLinks from '@/components/ServiceAreaLinks'
 import ServiceIntentPanel from '@/components/ServiceIntentPanel'
 
 export const metadata = generateSEOMetadata({
@@ -636,6 +637,8 @@ export default function CommercialPhotographyPage() {
       </section>
 
       {/* CTA Section */}
+      <ServiceAreaLinks serviceLabel="Commercial photography" />
+
       <section className="py-16 bg-gradient-to-r from-primary-600 to-gray-700 text-white">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-4">Ready to Build Your Brand's Visual Identity?</h2>

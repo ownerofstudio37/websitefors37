@@ -1,10 +1,11 @@
 import LocalPhotographerCityPage from '@/components/LocalPhotographerCityPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
-import { cityMetaDescriptions } from '@/lib/city-guides'
+import { cityMetaDescriptions, cityOgImage } from '@/lib/city-guides'
 
 export const metadata = generateSEOMetadata({
   title: 'Photographer in Huntsville, TX | Studio37',
   description: cityMetaDescriptions['local-photographer-huntsville-tx'],
+  ogImage: cityOgImage('local-photographer-huntsville-tx'),
   keywords: [
     'photographer Huntsville TX',
     'wedding photographer Huntsville Texas',

@@ -8,6 +8,7 @@ import { generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
 import { Heart, Camera, Clock, Star, CheckCircle, ArrowRight } from 'lucide-react'
 import FAQSection from '@/components/FAQSection'
 import { ServiceTestimonialsSection, TurnaroundExpectationsSection, VenueStyleExamplesSection } from '@/components/PublicFeatureContent'
+import ServiceAreaLinks from '@/components/ServiceAreaLinks'
 import ServiceIntentPanel from '@/components/ServiceIntentPanel'
 
 export const metadata = generateSEOMetadata({
@@ -594,6 +595,8 @@ export default function WeddingPhotographyPage() {
       </section>
 
       {/* CTA Section */}
+      <ServiceAreaLinks serviceLabel="Wedding photography" />
+
       <section className="py-16 bg-gradient-to-r from-primary-600 to-amber-600 text-white">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-4">Ready to Book Your Wedding Photography?</h2>

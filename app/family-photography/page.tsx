@@ -5,6 +5,7 @@ import { generateSEOMetadata } from '@/lib/seo-helpers'
 import { generateServiceSchema } from '@/lib/seo-config'
 import PortraitSubServiceSupport from '@/components/PortraitSubServiceSupport'
 import SubServiceSeoExpansion from '@/components/SubServiceSeoExpansion'
+import ServiceAreaLinks from '@/components/ServiceAreaLinks'
 import { SubServiceHero } from '@/components/SubServicePageSections'
 
 export const metadata = generateSEOMetadata({
@@ -168,6 +169,7 @@ export default function FamilyPhotographyPage() {
         ]}
         objection="If you are worried about kids melting down, awkward posing, or choosing the wrong location, the consultation is where we build a calmer plan around timing, shade, parking, and your must-have groupings."
       />
+      <ServiceAreaLinks serviceLabel="Family photography" />
     </div>
   )
 }
