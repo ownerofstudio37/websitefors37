@@ -1,10 +1,10 @@
 import LocalPhotographerCityPage from '@/components/LocalPhotographerCityPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
+import { cityMetaDescriptions } from '@/lib/city-guides'
 
 export const metadata = generateSEOMetadata({
-  title: 'Plantersville TX Photographer - Wedding, Portrait & Event Photography | Studio37',
-  description:
-    'Looking for a photographer in Plantersville, TX? Studio37 specializes in ranch and barn weddings, outdoor portraits, and event photography in Grimes County.',
+  title: 'Photographer in Plantersville, TX | Studio37',
+  description: cityMetaDescriptions['plantersville'],
   keywords: [
     'photographer Plantersville TX',
     'wedding photographer Plantersville Texas',

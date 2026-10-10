@@ -37,7 +37,7 @@ const weddingFAQs = [
   },
   {
     question: "Do you travel to wedding venues outside of Pinehurst?",
-    answer: "Yes! We regularly photograph weddings throughout Montgomery County, including The Woodlands, Spring, Magnolia, and Conroe. We also travel to Houston area venues. Travel fees may apply for venues more than 50 miles from Pinehurst."
+    answer: "Yes! We regularly photograph weddings throughout Montgomery County, including The Woodlands, Spring, Magnolia, and Conroe. We also travel to Houston area venues. Beyond the Houston area, we travel to Galveston for any package, the Austin area for sessions of $750 or more, and Dallas for projects of $2,000 or more."
   },
   {
     question: "What's included in your wedding photography packages?",

@@ -1,10 +1,10 @@
 import LocalPhotographerCityPage from '@/components/LocalPhotographerCityPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
+import { cityMetaDescriptions } from '@/lib/city-guides'
 
 export const metadata = generateSEOMetadata({
   title: 'Photographer in The Woodlands, TX | Studio37',
-  description:
-    'Professional photographer in The Woodlands, Texas for weddings, portraits, engagement, event, and commercial sessions. Transparent pricing and Montgomery County coverage.',
+  description: cityMetaDescriptions['local-photographer-the-woodlands-tx'],
   keywords: [
     'photographer The Woodlands TX',
     'wedding photographer The Woodlands',

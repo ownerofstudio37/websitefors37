@@ -40,8 +40,8 @@ export function generateEnhancedLocalBusinessSchema() {
     },
     geo: {
       '@type': 'GeoCoordinates',
-      latitude: 30.1647,
-      longitude: -95.4677
+      latitude: 30.1605,
+      longitude: -95.6970
     },
     areaServed: formatServiceAreasForSchema(),
     openingHoursSpecification: [

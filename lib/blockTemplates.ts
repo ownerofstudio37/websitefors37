@@ -375,7 +375,7 @@ export const PAGE_TEMPLATES: Record<string, PageTemplate> = {
             },
             {
               question: 'Do you travel for shoots?',
-              answer: 'Yes! We travel throughout the region. Travel fees may apply for locations over 50 miles from our studio.'
+              answer: 'Yes! We travel throughout Montgomery County and Greater Houston. Beyond the Houston area, we travel to Galveston for any package, the Austin area for sessions of $750 or more, and Dallas for projects of $2,000 or more.'
             },
             {
               question: 'When will I receive my photos?',

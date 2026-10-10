@@ -1,10 +1,10 @@
 import LocalPhotographerCityPage from '@/components/LocalPhotographerCityPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
+import { cityMetaDescriptions } from '@/lib/city-guides'
 
 export const metadata = generateSEOMetadata({
   title: 'Photographer in Montgomery, TX | Studio37',
-  description:
-    'Professional photographer in Montgomery, Texas for weddings, portraits, engagement, event, and commercial sessions with transparent pricing.',
+  description: cityMetaDescriptions['local-photographer-montgomery-tx'],
   keywords: [
     'photographer Montgomery TX',
     'wedding photographer Montgomery Texas',

@@ -17,8 +17,8 @@ export const businessInfo = {
     website: 'https://www.studio37.cc'
   },
   geo: {
-    latitude: 30.1647,  // Approximate coordinates for Pinehurst, TX
-    longitude: -95.4677
+    latitude: 30.1605,  // 1701 Goodson Loop, Pinehurst (OpenStreetMap geocode)
+    longitude: -95.6970
   },
   serviceAreas: [
     'Pinehurst',

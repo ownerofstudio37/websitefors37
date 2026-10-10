@@ -1,10 +1,10 @@
 import LocalPhotographerCityPage from '@/components/LocalPhotographerCityPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
+import { cityMetaDescriptions } from '@/lib/city-guides'
 
 export const metadata = generateSEOMetadata({
-  title: 'Atascocita TX Photographer - Wedding, Portrait & Event Photography | Studio37',
-  description:
-    'Looking for a photographer in Atascocita, TX? Studio37 provides wedding, family portrait, event, and commercial photography near Lake Houston.',
+  title: 'Photographer in Atascocita, TX | Studio37',
+  description: cityMetaDescriptions['atascocita'],
   keywords: [
     'photographer Atascocita TX',
     'wedding photographer Atascocita Texas',

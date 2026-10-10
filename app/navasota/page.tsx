@@ -1,10 +1,10 @@
 import LocalPhotographerCityPage from '@/components/LocalPhotographerCityPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
+import { cityMetaDescriptions } from '@/lib/city-guides'
 
 export const metadata = generateSEOMetadata({
-  title: 'Navasota TX Photographer - Wedding, Portrait & Event Photography | Studio37',
-  description:
-    'Looking for a photographer in Navasota, TX? Studio37 provides wedding, portrait, event, and commercial photography in the Brazos Valley gateway corridor.',
+  title: 'Photographer in Navasota, TX | Studio37',
+  description: cityMetaDescriptions['navasota'],
   keywords: [
     'photographer Navasota TX',
     'wedding photographer Navasota Texas',

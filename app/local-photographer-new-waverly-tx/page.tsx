@@ -1,10 +1,10 @@
 import LocalPhotographerCityPage from '@/components/LocalPhotographerCityPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
+import { cityMetaDescriptions } from '@/lib/city-guides'
 
 export const metadata = generateSEOMetadata({
   title: 'Photographer in New Waverly, TX | Studio37',
-  description:
-    'Professional photographer in New Waverly, Texas for weddings, portraits, engagement, event, and commercial photography along the I-45 corridor.',
+  description: cityMetaDescriptions['local-photographer-new-waverly-tx'],
   keywords: [
     'photographer New Waverly TX',
     'wedding photographer New Waverly Texas',

@@ -63,7 +63,7 @@ export default async function ContactPage() {
               { '@type': 'Question', name: 'What is your payment policy?', acceptedAnswer: { '@type': 'Answer', text: 'We require a 50% deposit to secure your booking date, with the remaining balance due one week before the session or event. For wedding photography, we offer payment plans.' } },
               { '@type': 'Question', name: 'How many photos will I receive?', acceptedAnswer: { '@type': 'Answer', text: 'The number of photos varies by package and session length. Typically, portrait sessions yield 20-40 edited images, while weddings can range from 300-800 photos. We focus on quality over quantity to deliver the best representation of your event.' } },
               { '@type': 'Question', name: 'How long until I receive my photos?', acceptedAnswer: { '@type': 'Answer', text: "Portrait sessions are typically delivered within 1-2 weeks. Wedding and event photography can take 4-6 weeks. We'll provide select preview images within days of your session." } },
-              { '@type': 'Question', name: 'Do you travel for photography sessions?', acceptedAnswer: { '@type': 'Answer', text: 'Yes, we travel locally and internationally. Local travel within 30 miles is included in our standard rates. For destinations beyond that, additional travel fees apply.' } }
+              { '@type': 'Question', name: 'Do you travel for photography sessions?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. We are based in Pinehurst and photograph throughout Montgomery County and Greater Houston. Beyond the Houston area, we travel to Galveston for any package, the Austin area for sessions of $750 or more, and Dallas for projects of $2,000 or more.' } }
             ]
           })
         }}
@@ -189,7 +189,7 @@ export default async function ContactPage() {
             <div className="surface-panel p-6 rounded-2xl">
               <h3 className="text-xl font-semibold mb-2">Do you travel for photography sessions?</h3>
               <p className="text-gray-600">
-                Yes, we travel locally and internationally for photography assignments. Local travel within 30 miles is included in our standard rates. For destinations beyond that, additional travel fees apply.
+                Yes. We are based in Pinehurst and photograph throughout Montgomery County and Greater Houston. Beyond the Houston area, we travel to Galveston for any package, the Austin area for sessions of $750 or more, and Dallas for projects of $2,000 or more.
               </p>
             </div>
           </div>

@@ -1,10 +1,10 @@
 import LocalPhotographerCityPage from '@/components/LocalPhotographerCityPage'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
+import { cityMetaDescriptions } from '@/lib/city-guides'
 
 export const metadata = generateSEOMetadata({
   title: 'Photographer in Humble, TX | Studio37',
-  description:
-    'Professional photographer in Humble, Texas for weddings, portraits, engagement sessions, events, and commercial photography with transparent pricing.',
+  description: cityMetaDescriptions['humble'],
   keywords: [
     'photographer Humble TX',
     'wedding photographer Humble Texas',
