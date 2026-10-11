@@ -126,6 +126,13 @@ for (const file of ['components/LocalPhotographerCityPage.tsx', 'components/City
   }
 }
 
+// FAQSection already emits FAQPage JSON-LD, so a page-level generateFAQSchema block alongside it doubles
+// the FAQPage (a Search Console structured-data error). Check every route, not just the service pages.
+for (const file of walk('app').filter((item) => item.endsWith('page.tsx'))) {
+  const source = readRaw(file)
+  if (source.includes('generateFAQSchema(') && source.includes('<FAQSection')) issues.push(`${file} emits FAQPage twice`)
+}
+
 const blogArticle = read('app/blog/[slug]/page.tsx')
 for (const marker of ['generateArticleSchema', 'generateBreadcrumbSchema', 'application/ld+json']) {
   if (!blogArticle.includes(marker)) issues.push(`app/blog/[slug]/page.tsx missing blog schema marker: ${marker}`)

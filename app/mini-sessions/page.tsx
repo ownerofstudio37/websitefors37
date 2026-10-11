@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight, CheckCircle2 } from 'lucide-react'
-import { generateFAQSchema, generateSEOMetadata } from '@/lib/seo-helpers'
+import { generateSEOMetadata } from '@/lib/seo-helpers'
 import { generateServiceSchema } from '@/lib/seo-config'
 import FAQSection from '@/components/FAQSection'
 import { TurnaroundExpectationsSection, ServiceTestimonialsSection } from '@/components/PublicFeatureContent'
@@ -39,12 +39,10 @@ export default function MiniSessionsPage() {
     'Mini Sessions',
     'Seasonal mini sessions in Pinehurst, Texas for families, couples, seniors, and quick portrait updates.'
   )
-  const faqSchema = generateFAQSchema(miniFaqs)
 
   return (
     <main className="pt-16">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <section className="relative min-h-[520px] overflow-hidden bg-stone-950 text-white">
         <Image
           src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255559/PS379799_ayoxbp.jpg"

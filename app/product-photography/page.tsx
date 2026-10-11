@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight, CheckCircle2 } from 'lucide-react'
-import { generateFAQSchema, generateSEOMetadata } from '@/lib/seo-helpers'
+import { generateSEOMetadata } from '@/lib/seo-helpers'
 import { generateServiceSchema } from '@/lib/seo-config'
 import FAQSection from '@/components/FAQSection'
 import PortraitSubServiceSupport from '@/components/PortraitSubServiceSupport'
@@ -47,12 +47,10 @@ export default function ProductPhotographyPage() {
     'Product Photography',
     'Product photography in Pinehurst, Texas for ecommerce, websites, catalogs, ads, social content, and launch campaigns.'
   )
-  const faqSchema = generateFAQSchema(faqs)
 
   return (
     <main className="pt-16">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
       <section className="relative min-h-[520px] overflow-hidden bg-stone-950 text-white">
         <Image

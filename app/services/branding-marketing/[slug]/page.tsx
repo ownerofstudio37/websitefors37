@@ -3,7 +3,6 @@ import { notFound } from 'next/navigation'
 import { ArrowRight, CheckCircle2, Megaphone, MinusCircle } from 'lucide-react'
 import FAQSection from '@/components/FAQSection'
 import { generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
-import { generateFAQSchema } from '@/lib/seo-helpers'
 import { generateServiceSchema } from '@/lib/seo-config'
 import { brandingMarketingServices, getBrandingMarketingService } from '@/lib/branding-marketing-services'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
@@ -42,7 +41,6 @@ export default async function BrandingMarketingSubServicePage({ params }: PagePr
     .filter((relatedService): relatedService is NonNullable<typeof relatedService> => Boolean(relatedService))
 
   const serviceSchema = generateServiceSchema(service.shortTitle, service.metaDescription)
-  const faqSchema = generateFAQSchema(service.faq)
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Home', url: 'https://www.studio37.cc' },
     { name: 'Services', url: 'https://www.studio37.cc/services' },
@@ -55,10 +53,6 @@ export default async function BrandingMarketingSubServicePage({ params }: PagePr
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
       <script
         type="application/ld+json"
