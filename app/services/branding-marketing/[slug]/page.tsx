@@ -1,12 +1,13 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { ArrowRight, CheckCircle2, Megaphone, MinusCircle } from 'lucide-react'
+import { AlertCircle, ArrowRight, CheckCircle2, Megaphone, Star } from 'lucide-react'
+import CldImg, { SECONDARY_WIDTHS } from '@/components/CldImg'
 import FAQSection from '@/components/FAQSection'
 import { generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
 import { generateServiceSchema } from '@/lib/seo-config'
-import { brandingMarketingServices, getBrandingMarketingService } from '@/lib/branding-marketing-services'
+import { brandingDetails, brandingMarketingServices, getBrandingMarketingService } from '@/lib/branding-marketing-services'
+import { studio37Reviews } from '@/lib/public-content'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
-import AboveBeyondPoolsProof from '@/components/AboveBeyondPoolsProof'
 
 type PageProps = {
   params: Promise<{ slug: string }>
@@ -31,14 +32,20 @@ export async function generateMetadata({ params }: PageProps) {
   })
 }
 
+// Each sub-page leads with what the service is and who needs it, then first-hand proof when we have it
+// (see brandingDetails), scope, process, fit, and an FAQ specific to the service.
 export default async function BrandingMarketingSubServicePage({ params }: PageProps) {
   const { slug } = await params
   const service = getBrandingMarketingService(slug)
+  const detail = brandingDetails[slug]
 
-  if (!service) notFound()
+  if (!service || !detail) notFound()
   const relatedServices = service.relatedServices
     .map((relatedSlug) => getBrandingMarketingService(relatedSlug))
     .filter((relatedService): relatedService is NonNullable<typeof relatedService> => Boolean(relatedService))
+  const proof = detail.proof
+  const proofReview = proof?.reviewName ? studio37Reviews.find((review) => review.name === proof.reviewName) : undefined
+  const bookHref = `/book-consultation?service=${service.slug}`
 
   const serviceSchema = generateServiceSchema(service.shortTitle, service.metaDescription)
   const breadcrumbSchema = generateBreadcrumbSchema([
@@ -50,15 +57,10 @@ export default async function BrandingMarketingSubServicePage({ params }: PagePr
 
   return (
     <div className="pt-16">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
 
+      {/* 1. Hero */}
       <section className="border-b border-stone-200 bg-stone-950 text-white">
         <div className="container mx-auto px-4 py-16 md:py-20">
           <div className="max-w-4xl">
@@ -72,198 +74,177 @@ export default async function BrandingMarketingSubServicePage({ params }: PagePr
             <h1 className="max-w-4xl text-4xl font-bold leading-tight md:text-5xl">{service.title}</h1>
             <p className="mt-5 max-w-3xl text-xl leading-8 text-stone-200">{service.description}</p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Link href={`/book-consultation?service=${service.slug}`} className="btn-primary inline-flex items-center justify-center">
+              <Link href={bookHref} className="btn-primary inline-flex items-center justify-center">
                 Book a Consultation <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
               </Link>
-              <Link href="/request-portfolio?service=website-demo" className="btn-ghost inline-flex items-center justify-center">
-                Request a Demo
-              </Link>
+              {detail.demoHref ? (
+                <Link href={detail.demoHref} className="btn-ghost inline-flex items-center justify-center">
+                  Request a Demo
+                </Link>
+              ) : (
+                <Link href="/services/branding-marketing/results" className="btn-ghost inline-flex items-center justify-center">
+                  See Marketing Results
+                </Link>
+              )}
             </div>
           </div>
-          <div className="mt-10 grid gap-3 md:grid-cols-2 lg:grid-cols-4">
+          <ul className="mt-10 grid gap-3 md:grid-cols-2 lg:grid-cols-4">
             {service.heroBullets.map((bullet) => (
-              <div key={bullet} className="rounded-lg border border-white/10 bg-white/10 p-4 text-sm font-medium text-stone-100">
+              <li key={bullet} className="rounded-lg border border-white/10 bg-white/10 p-4 text-sm font-medium text-stone-100">
                 {bullet}
-              </div>
+              </li>
             ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* 2. What it is and the signs you need it */}
+      <section className="section-shell bg-white">
+        <div className="container mx-auto grid gap-10 px-4 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+          <div>
+            <p className="eyebrow mb-3">What it is</p>
+            <h2 className="mb-4 text-3xl font-bold text-stone-950 md:text-4xl">{service.shortTitle}, explained</h2>
+            <p className="text-lg leading-8 text-stone-700">{detail.intro}</p>
+          </div>
+          <div className="rounded-2xl bg-stone-50 p-6 md:p-8">
+            <h2 className="mb-4 text-xl font-bold text-stone-950">Signs you need it</h2>
+            <ul className="space-y-3">
+              {detail.signs.map((sign) => (
+                <li key={sign} className="flex gap-3 leading-7 text-stone-700">
+                  <AlertCircle className="mt-1 h-5 w-5 flex-shrink-0 text-amber-700" aria-hidden="true" />
+                  <span>{sign}</span>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </section>
 
-      {service.slug === 'seo-services' && <AboveBeyondPoolsProof compact />}
+      {/* 3. First-hand proof, only where we have it */}
+      {proof && (
+        <section className="section-shell bg-stone-950 text-white">
+          <div className={`container mx-auto grid gap-10 px-4 lg:items-center ${proof.image ? 'lg:grid-cols-[0.9fr_1.1fr]' : ''}`}>
+            {proof.image && (
+              <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
+                <CldImg image={proof.image} widths={SECONDARY_WIDTHS} sizes="(min-width: 1024px) 45vw, 100vw" className="absolute inset-0 h-full w-full object-cover" />
+              </div>
+            )}
+            <div className={proof.image ? '' : 'max-w-4xl'}>
+              <p className="eyebrow-hero mb-3">{proof.eyebrow}</p>
+              <h2 className="mb-4 text-3xl font-bold md:text-4xl">{proof.heading}</h2>
+              <p className="mb-6 text-lg leading-8 text-stone-300">{proof.body}</p>
+              <ul className={`grid gap-3 ${proof.image ? '' : 'md:grid-cols-2'}`}>
+                {proof.points.map((point) => (
+                  <li key={point} className="flex gap-3 rounded-lg border border-white/10 bg-white/5 p-4 text-stone-100">
+                    <CheckCircle2 className="mt-0.5 h-5 w-5 flex-shrink-0 text-amber-300" aria-hidden="true" />
+                    <span>{point}</span>
+                  </li>
+                ))}
+              </ul>
+              {proofReview && (
+                <figure className="mt-6 rounded-xl bg-white/10 p-5">
+                  {proof.reviewLabel && <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-stone-400">{proof.reviewLabel}</p>}
+                  <div className="mb-2 flex gap-1 text-amber-400" aria-label="5 out of 5 stars">
+                    {Array.from({ length: 5 }).map((_, index) => (
+                      <Star key={index} className="h-4 w-4 fill-current" aria-hidden="true" />
+                    ))}
+                  </div>
+                  <blockquote className="leading-7 text-stone-100">&ldquo;{proofReview.quote}&rdquo;</blockquote>
+                  <figcaption className="mt-3 text-sm font-semibold text-white">
+                    {proofReview.name} <span className="font-normal text-stone-400">· {proofReview.detail}</span>
+                  </figcaption>
+                </figure>
+              )}
+              {proof.href && proof.hrefLabel && (
+                <Link href={proof.href} className="mt-6 inline-flex items-center font-semibold text-amber-300 hover:text-amber-200">
+                  {proof.hrefLabel} <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden="true" />
+                </Link>
+              )}
+            </div>
+          </div>
+        </section>
+      )}
 
+      {/* 4. Scope */}
       <section className="section-shell bg-white">
         <div className="container mx-auto px-4">
-          <div className="mb-8 max-w-3xl">
-            <p className="eyebrow mb-3">Measurable Levers</p>
-            <h2 className="text-3xl font-bold text-stone-950 md:text-4xl">Stats and signals we use to guide the work</h2>
-            <p className="mt-4 text-lg leading-8 text-stone-600">
-              Some metrics are proven case-study results. Others are the practical numbers, signals, and checkpoints we track so marketing decisions stay tied to business outcomes.
-            </p>
-          </div>
-          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-            {service.outcomeStats.map((stat) => (
-              <article key={`${stat.value}-${stat.label}`} className="rounded-lg border border-stone-200 bg-stone-50 p-5">
-                <p className="text-3xl font-bold text-primary-700">{stat.value}</p>
-                <h3 className="mt-2 text-base font-semibold text-stone-950">{stat.label}</h3>
-                <p className="mt-2 text-sm leading-6 text-stone-600">{stat.note}</p>
+          <p className="eyebrow mb-3">Scope</p>
+          <h2 className="mb-8 text-3xl font-bold text-stone-950 md:text-4xl">What&apos;s included</h2>
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            {detail.included.map((item) => (
+              <article key={item.title} className="rounded-lg border border-stone-200 bg-stone-50 p-5">
+                <h3 className="mb-2 text-lg font-semibold text-stone-950">{item.title}</h3>
+                <p className="text-sm leading-6 text-stone-600">{item.body}</p>
               </article>
             ))}
           </div>
         </div>
       </section>
 
+      {/* 5. Process */}
       <section className="section-shell bg-stone-50">
         <div className="container mx-auto px-4">
-          <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-            <div>
-              <p className="eyebrow mb-3">What We Improve</p>
-              <h2 className="text-3xl font-bold text-stone-950 md:text-4xl">Make the weak points visible, then fix them in order</h2>
-              <p className="mt-4 text-lg leading-8 text-stone-600">
-                Studio37 works best when the website, content, search visibility, paid traffic, and follow-up path are treated as one system instead of isolated tasks.
-              </p>
-            </div>
-            <div className="grid gap-3 sm:grid-cols-2">
-              {service.improvementAreas.map((area) => (
-                <div key={area} className="flex gap-3 rounded-lg border border-stone-200 bg-white p-4">
-                  <CheckCircle2 className="mt-0.5 h-5 w-5 flex-shrink-0 text-green-600" aria-hidden="true" />
-                  <span className="text-sm font-medium leading-6 text-stone-800">{area}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="section-shell bg-white">
-        <div className="container mx-auto px-4">
-          <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
-            <div>
-              <p className="eyebrow mb-3">Best Fit</p>
-              <h2 className="text-3xl font-bold text-stone-950 md:text-4xl">Built for practical business outcomes</h2>
-              <p className="mt-4 text-lg leading-8 text-stone-600">
-                This service is strongest when it connects to a clear offer, audience, conversion path, and follow-up process.
-              </p>
-            </div>
-            <div className="grid gap-3 md:grid-cols-3">
-              {service.bestFor.map((item) => (
-                <div key={item} className="rounded-lg border border-stone-200 bg-stone-50 p-5">
-                  <CheckCircle2 className="h-5 w-5 text-green-600" aria-hidden="true" />
-                  <p className="mt-3 text-sm font-medium leading-6 text-stone-800">{item}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="section-shell bg-stone-50">
-        <div className="container mx-auto px-4">
-          <div className="mb-8 max-w-3xl">
-            <p className="eyebrow mb-3">Scope</p>
-            <h2 className="text-3xl font-bold text-stone-950 md:text-4xl">What the work can include</h2>
-          </div>
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-            {service.deliverables.map((item) => (
-              <div key={item} className="surface-panel p-5">
-                <h3 className="text-base font-semibold text-stone-950">{item}</h3>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="section-shell bg-white">
-        <div className="container mx-auto px-4">
-          <div className="grid gap-6 lg:grid-cols-2">
-            <div className="rounded-xl border border-stone-200 bg-stone-50 p-6">
-              <p className="eyebrow mb-3">Separate Vendors</p>
-              <h2 className="text-2xl font-bold text-stone-950">The work gets fragmented fast</h2>
-              <ul className="mt-5 space-y-3 text-sm leading-6 text-stone-700">
-                {[
-                  'Website decisions happen without SEO or campaign context.',
-                  'Ad traffic lands on pages that were not built to convert.',
-                  'Content gets produced without a clear website or sales use case.',
-                  'Reporting is split between tools, vendors, and partial handoffs.',
-                ].map((item) => (
-                  <li key={item} className="flex gap-2">
-                    <MinusCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-stone-400" aria-hidden="true" />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="rounded-xl border-2 border-primary-300 bg-primary-50 p-6">
-              <p className="eyebrow mb-3">Studio37 One-Stop Shop</p>
-              <h2 className="text-2xl font-bold text-stone-950">One strategy connects the whole growth system</h2>
-              <ul className="mt-5 space-y-3 text-sm leading-6 text-stone-700">
-                {[
-                  'Website, content, SEO, ads, and social are planned around the same offer.',
-                  'Proof, creative assets, and calls to action are built into the page experience.',
-                  'Campaigns point to pages that have a clear next step and follow-up path.',
-                  'Performance signals inform what to improve next.',
-                ].map((item) => (
-                  <li key={item} className="flex gap-2">
-                    <CheckCircle2 className="mt-0.5 h-4 w-4 flex-shrink-0 text-green-600" aria-hidden="true" />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="section-shell bg-white">
-        <div className="container mx-auto px-4">
-          <div className="mx-auto max-w-3xl text-center">
-            <p className="eyebrow mb-3">Process</p>
-            <h2 className="text-3xl font-bold text-stone-950 md:text-4xl">A clearer path from idea to execution</h2>
-          </div>
-          <div className="mt-10 grid gap-4 md:grid-cols-3">
+          <h2 className="mb-8 text-3xl font-bold text-stone-950 md:text-4xl">How we work</h2>
+          <ol className="grid gap-4 md:grid-cols-3">
             {service.process.map((step, index) => (
-              <div key={step.title} className="rounded-lg border border-stone-200 bg-stone-50 p-6">
-                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-primary-100 text-sm font-bold text-primary-800">
-                  {index + 1}
-                </div>
+              <li key={step.title} className="rounded-lg border border-stone-200 bg-white p-6">
+                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-amber-700 text-sm font-bold text-white">{index + 1}</div>
                 <h3 className="text-lg font-semibold text-stone-950">{step.title}</h3>
                 <p className="mt-3 text-sm leading-6 text-stone-600">{step.copy}</p>
-              </div>
+              </li>
             ))}
-          </div>
+          </ol>
+          {!proof && (
+            <div className="mt-10">
+              <h3 className="mb-4 text-xl font-bold text-stone-950">What we track</h3>
+              <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+                {service.outcomeStats.map((stat) => (
+                  <article key={`${stat.value}-${stat.label}`} className="rounded-lg border border-stone-200 bg-white p-5">
+                    <p className="text-2xl font-bold text-amber-800">{stat.value}</p>
+                    <h4 className="mt-1 font-semibold text-stone-950">{stat.label}</h4>
+                    <p className="mt-2 text-sm leading-6 text-stone-600">{stat.note}</p>
+                  </article>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </section>
 
-      <section className="section-shell bg-stone-50">
-        <div className="container mx-auto px-4">
-          <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-            <div>
-              <p className="eyebrow mb-3">Who This Helps</p>
-              <h2 className="text-3xl font-bold text-stone-950 md:text-4xl">Strong fit for local businesses that need clearer growth systems</h2>
-              <p className="mt-4 text-lg leading-8 text-stone-600">
-                The exact scope changes by business, but these are the kinds of teams that usually benefit from connecting strategy, content, site structure, and follow-through.
-              </p>
-            </div>
-            <div className="grid gap-3 sm:grid-cols-2">
-              {service.industryFits.map((industry) => (
-                <div key={industry} className="rounded-lg border border-stone-200 bg-white p-4 text-sm font-medium leading-6 text-stone-800">
-                  {industry}
-                </div>
+      {/* 6. Fit */}
+      <section className="section-shell bg-white">
+        <div className="container mx-auto grid gap-8 px-4 md:grid-cols-2">
+          <div>
+            <h2 className="mb-4 text-2xl font-bold text-stone-950">Best for</h2>
+            <ul className="space-y-3">
+              {service.bestFor.map((item) => (
+                <li key={item} className="flex gap-3 leading-7 text-stone-700">
+                  <CheckCircle2 className="mt-1 h-5 w-5 flex-shrink-0 text-amber-700" aria-hidden="true" />
+                  <span>{item}</span>
+                </li>
               ))}
-            </div>
+            </ul>
+          </div>
+          <div>
+            <h2 className="mb-4 text-2xl font-bold text-stone-950">Industries we plan for</h2>
+            <ul className="flex flex-wrap gap-2">
+              {service.industryFits.map((industry) => (
+                <li key={industry} className="rounded-full border border-stone-200 bg-stone-50 px-4 py-2 text-sm font-medium text-stone-800">
+                  {industry}
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </section>
 
-      <FAQSection title={`${service.shortTitle} FAQs`} faqs={service.faq} />
+      <FAQSection title={`${service.shortTitle} FAQs`} faqs={[...service.faq, ...detail.moreFaq]} />
 
+      {/* 7. Connected services */}
       <section className="section-shell bg-white">
         <div className="container mx-auto px-4">
           <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-            <div>
-              <p className="eyebrow mb-3">Connected Services</p>
-              <h2 className="text-3xl font-bold text-stone-950 md:text-4xl">Build the next layer without switching teams</h2>
-            </div>
+            <h2 className="text-3xl font-bold text-stone-950 md:text-4xl">Pairs well with</h2>
             <Link href="/services/branding-marketing/results" className="btn-secondary inline-flex items-center justify-center">
               View Marketing Results <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
             </Link>
@@ -273,11 +254,11 @@ export default async function BrandingMarketingSubServicePage({ params }: PagePr
               <Link
                 key={relatedService.slug}
                 href={`/services/branding-marketing/${relatedService.slug}`}
-                className="rounded-lg border border-stone-200 bg-stone-50 p-5 transition hover:-translate-y-0.5 hover:border-primary-200 hover:bg-white"
+                className="rounded-lg border border-stone-200 bg-stone-50 p-5 transition hover:-translate-y-0.5 hover:border-amber-300 hover:bg-white"
               >
                 <h3 className="text-lg font-semibold text-stone-950">{relatedService.shortTitle}</h3>
-                <p className="mt-2 text-sm leading-6 text-stone-600">{relatedService.description}</p>
-                <span className="mt-4 inline-flex items-center text-sm font-semibold text-primary-700">
+                <p className="mt-2 text-sm leading-6 text-stone-600">{relatedService.parentCardDescription}</p>
+                <span className="mt-4 inline-flex items-center text-sm font-semibold text-amber-800">
                   View service <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden="true" />
                 </span>
               </Link>
@@ -286,16 +267,16 @@ export default async function BrandingMarketingSubServicePage({ params }: PagePr
         </div>
       </section>
 
+      {/* 8. Final call to action */}
       <section className="section-shell bg-stone-950 text-white">
         <div className="container mx-auto grid gap-6 px-4 md:grid-cols-[1fr_auto] md:items-center">
           <div>
-            <p className="eyebrow-hero mb-3">Ready To Map The Work?</p>
-            <h2 className="text-3xl font-bold md:text-4xl">Let&apos;s decide whether this is the right growth move.</h2>
+            <h2 className="text-3xl font-bold md:text-4xl">Ready to talk about {service.shortTitle}?</h2>
             <p className="mt-4 max-w-3xl leading-7 text-stone-300">
-              We will look at your current site, offer, content, channels, and sales path before recommending scope.
+              We look at your current site, offers, and channels first, then recommend a scope that fits.
             </p>
           </div>
-          <Link href={`/book-consultation?service=${service.slug}`} className="btn-primary inline-flex items-center justify-center">
+          <Link href={bookHref} className="btn-primary inline-flex items-center justify-center">
             Book Consultation <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
           </Link>
         </div>

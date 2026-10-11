@@ -39,7 +39,7 @@ export const brandingMarketingServices: BrandingMarketingService[] = [
       'Custom websites, service pages, landing pages, lead flows, and private tools built around how your business actually sells.',
     parentCardDescription:
       'Custom websites, service pages, landing pages, and conversion paths built around your offer, content, SEO, and client journey.',
-    metaTitle: 'Custom Website Development Pinehurst TX | Studio37',
+    metaTitle: 'Custom Website Development in Pinehurst, TX | Studio37',
     metaDescription:
       'Custom website development in Pinehurst, TX for service businesses that need conversion pages, SEO structure, lead flows, and room to grow.',
     keywords: ['custom website development Pinehurst TX', 'service business websites', 'conversion website design', 'local SEO website build'],
@@ -82,7 +82,7 @@ export const brandingMarketingServices: BrandingMarketingService[] = [
       'Technical, on-page, local, and content SEO for businesses that need qualified search traffic instead of surface-level keyword edits.',
     parentCardDescription:
       'Technical, on-page, local, and content SEO designed to improve rankings, qualified traffic, and long-term growth.',
-    metaTitle: 'SEO Services Pinehurst TX | Web, Content & Local Search | Studio37',
+    metaTitle: 'SEO Services in Pinehurst, TX | Studio37',
     metaDescription:
       'SEO services in Pinehurst, TX covering technical SEO, local search, service pages, content planning, internal links, and ongoing optimization.',
     keywords: ['SEO services Pinehurst TX', 'local SEO Montgomery County', 'technical SEO consultant', 'service page SEO'],
@@ -125,7 +125,7 @@ export const brandingMarketingServices: BrandingMarketingService[] = [
       'Google and social ad planning, launch, testing, and optimization for businesses that need paid traffic connected to a real conversion path.',
     parentCardDescription:
       'Google and social ad campaign planning, testing, and optimization to generate efficient leads and sales.',
-    metaTitle: 'PPC Management Pinehurst TX | Google Ads & Paid Social | Studio37',
+    metaTitle: 'PPC & Google Ads Management in Pinehurst, TX | Studio37',
     metaDescription:
       'PPC campaign management in Pinehurst, TX for Google Ads and paid social with offer strategy, landing pages, testing, and reporting.',
     keywords: ['PPC management Pinehurst TX', 'Google Ads management Montgomery County', 'paid social ads Texas', 'lead generation campaigns'],
@@ -165,12 +165,12 @@ export const brandingMarketingServices: BrandingMarketingService[] = [
     shortTitle: 'Social Media Management',
     eyebrow: 'Social Presence',
     description:
-      'Social planning, publishing, creative direction, captions, community support, and reporting for brands that need consistency without generic posting.',
+      'Community building, organic growth, and professional photo and video content for brands that want to become the authority in their space.',
     parentCardDescription:
       'Full management across planning, posting, community engagement, and performance reporting to scale brand presence.',
-    metaTitle: 'Social Media Management Pinehurst TX | Studio37',
+    metaTitle: 'Social Media Management in Pinehurst, TX | Studio37',
     metaDescription:
-      'Social media management in Pinehurst, TX with content calendars, captions, platform-ready creative, posting support, and performance reporting.',
+      'Social media management in Pinehurst, TX: community building, organic growth, and professional photo and video content, with Meta ads for lead generation.',
     keywords: ['social media management Pinehurst TX', 'content calendar service', 'social media marketing Montgomery County', 'brand social media support'],
     heroBullets: ['Content calendar planning', 'Caption and post development', 'Platform-ready creative', 'Reporting and refinement'],
     outcomeStats: [
@@ -211,7 +211,7 @@ export const brandingMarketingServices: BrandingMarketingService[] = [
       'Campaign visuals, product content, team assets, website imagery, and short-form creative planned around how the content will be used.',
     parentCardDescription:
       'Strategic campaign visuals for websites, ads, social media, and sales materials built around your brand voice and buyer journey.',
-    metaTitle: 'Brand Content Production Pinehurst TX | Studio37',
+    metaTitle: 'Brand Content Production in Pinehurst, TX | Studio37',
     metaDescription:
       'Brand content production in Pinehurst, TX for campaign visuals, website assets, social content, product content, and sales materials.',
     keywords: ['brand content production Pinehurst TX', 'business content creation Texas', 'campaign content studio', 'website content production'],
@@ -254,7 +254,7 @@ export const brandingMarketingServices: BrandingMarketingService[] = [
       'Brand videos, product clips, social reels, campaign assets, and ad creative planned around message, platform, and conversion path.',
     parentCardDescription:
       'Brand films, product videos, short-form social content, and ad creatives designed to increase engagement and conversions.',
-    metaTitle: 'Video Content Creation Pinehurst TX | Brand Video | Studio37',
+    metaTitle: 'Video Content Creation in Pinehurst, TX | Studio37',
     metaDescription:
       'Video content creation in Pinehurst, TX for brand videos, product clips, social reels, campaign assets, and ad creative.',
     keywords: ['video content creation Pinehurst TX', 'brand video Texas', 'social media video production', 'ad creative video'],
@@ -297,7 +297,7 @@ export const brandingMarketingServices: BrandingMarketingService[] = [
       'Answer Engine Optimization helps your business become easier for AI answer engines to understand, cite, and recommend through structured content, schema, and entity optimization.',
     parentCardDescription:
       'Get your brand cited by AI answer engines. Structured content, schema, and entity optimization so ChatGPT, Perplexity, and Google AI Overviews recommend your business.',
-    metaTitle: 'AEO Services Pinehurst TX | AI Search Visibility | Studio37',
+    metaTitle: 'AEO & AI Search Optimization in Pinehurst, TX | Studio37',
     metaDescription:
       'Answer Engine Optimization services in Pinehurst, TX for brands that want to be cited by ChatGPT, Perplexity, Google AI Overviews, and other AI answer engines.',
     keywords: ['AEO services Pinehurst TX', 'answer engine optimization', 'AI search visibility', 'Google AI Overviews optimization', 'ChatGPT brand citations'],
@@ -335,4 +335,337 @@ export const brandingMarketingServices: BrandingMarketingService[] = [
 
 export function getBrandingMarketingService(slug: string) {
   return brandingMarketingServices.find((service) => service.slug === slug)
+}
+
+// Per-service depth for the sub-pages. Proof is only first-hand: the Above Beyond Pools engagement, the
+// studio37.cc platform we built and run ourselves, the owner's pre-Studio37 PPC result, and published client reviews. Services without a
+// documented result yet have no proof block rather than an invented one.
+export type BrandingProof = {
+  eyebrow: string
+  heading: string
+  body: string
+  points: string[]
+  href?: string
+  hrefLabel?: string
+  image?: { id: string; alt: string }
+  reviewName?: string
+  // Shown above the review when it comes from a different client than the project above it.
+  reviewLabel?: string
+}
+
+export type BrandingDetail = {
+  intro: string
+  signs: string[]
+  included: Array<{ title: string; body: string }>
+  proof?: BrandingProof
+  moreFaq: Array<{ question: string; answer: string }>
+  demoHref?: string
+}
+
+const STUDIO37_PLATFORM_POINTS = [
+  'A custom admin with leads, lead scoring, bookings, a calendar, email templates, and client portals',
+  'Public pricing and package-recommendation tools for visitors',
+  '26 city guides generated from one data file, each with its own spots, reviews, and FAQs',
+  'Service, LocalBusiness, Breadcrumb, and FAQ structured data on every service page',
+]
+
+export const brandingDetails: Record<string, BrandingDetail> = {
+  'custom-website-development': {
+    intro:
+      'A service business website has one job: turn the right visitor into a booked call. We plan the pages around the offers you sell, the questions buyers ask before they reach out, and the follow-up that happens after the form. The build is custom code rather than a page-builder theme, so the site can grow into booking tools, client portals, or an admin your team actually uses.',
+    signs: [
+      'Your site looks fine but the phone and inbox stay quiet.',
+      'Every service lives on one page, so none of them can rank on its own.',
+      'Leads arrive by email with no record of where they came from.',
+      'Small changes need a developer, so the site falls out of date.',
+    ],
+    included: [
+      { title: 'Site and page map', body: 'Which pages exist, what each one has to rank for, and the single action every page should lead to.' },
+      { title: 'Priority page build', body: 'Home, service, and location pages written and built first, with proof and calls to action placed where buyers decide.' },
+      { title: 'Lead capture and routing', body: 'Consultation forms, quote tools, and lead records so every inquiry is tracked from first visit to booked job.' },
+      { title: 'Search foundation', body: 'Titles, descriptions, structured data, sitemap, and fast mobile pages in place before launch, not added later.' },
+    ],
+    proof: {
+      eyebrow: 'Built and run in-house',
+      heading: 'studio37.cc is our own custom build',
+      body: 'The site you are on is custom code we designed, built, and maintain, including the private tools behind it. It is the same approach we take for client builds.',
+      points: STUDIO37_PLATFORM_POINTS,
+      href: '/tools/pricing',
+      hrefLabel: 'Try the pricing tool we built',
+    },
+    moreFaq: [
+      {
+        question: 'Will I be able to update the site myself?',
+        answer:
+          'Yes. We plan editing around who on your team will make changes, from simple content editing for text and photos to a custom admin when you need records like leads or bookings.',
+      },
+      {
+        question: 'How is a custom build different from a template site?',
+        answer:
+          'A template starts with a design and fits your business into it. A custom build starts with your offers, pages, and lead flow, so structure, speed, and tools are shaped around how you sell.',
+      },
+      {
+        question: 'How is pricing set for a website project?',
+        answer:
+          'Scope is set in a consultation, because the work depends on page count, content needs, integrations, and whether you need custom tools.',
+      },
+    ],
+    demoHref: '/request-portfolio?service=website-demo',
+  },
+  'seo-services': {
+    intro:
+      'SEO works when search engines can crawl the site cleanly, every service has a page that matches what buyers type, and those pages earn the click. We start with an audit of indexing, page intent, and internal links, fix what blocks rankings, then build out the service and local pages your market is already searching for.',
+    signs: [
+      'You rank for your business name but not for the services you sell.',
+      'Search Console shows pages as crawled but not indexed.',
+      'Several pages compete for the same search, so none of them win.',
+      'Competitors with weaker reviews show up above you in local results.',
+    ],
+    included: [
+      { title: 'Technical and indexing audit', body: 'Crawl errors, duplicate or thin pages, canonical problems, sitemap health, and structured data issues, ranked by impact.' },
+      { title: 'Service-intent page plan', body: 'One strong page per service and search intent, so pages stop competing with each other and each can rank.' },
+      { title: 'On-page and internal links', body: 'Titles, descriptions, headings, and links rewritten so search engines and buyers understand each page fast.' },
+      { title: 'Reporting from Search Console', body: 'Impressions, clicks, page-one keywords, and indexed pages tracked from real Search Console data, not vanity scores.' },
+    ],
+    proof: {
+      eyebrow: 'Client result',
+      heading: 'Above Beyond Pools: under 10 page-one keywords to 76',
+      body: 'An Austin pool and hot tub service company. The SEO partnership began in February 2026; Search Console reporting covered April 23 to September 27, 2026.',
+      points: [
+        '76 peak page-one keywords, up from under 10',
+        '#1 for "hot tub cleaning services near me" and "pool cleaning austin"',
+        '58% impression growth over three months',
+        'Indexed pages expanded from about 45 to 64',
+      ],
+      href: '/case-studies/above-beyond-pools-seo',
+      hrefLabel: 'Read the case study',
+    },
+    moreFaq: [
+      {
+        question: 'How long does SEO take to show results?',
+        answer:
+          'Technical fixes can show up within weeks, but ranking growth usually builds over months. For Above Beyond Pools, Search Console showed 58% impression growth over a three-month window after the work began.',
+      },
+      {
+        question: 'What does "crawled, currently not indexed" mean?',
+        answer:
+          'Google visited the page but chose not to include it in results, usually because it looks thin or too similar to another page. The fix is making each page clearly useful and distinct, then requesting a recrawl.',
+      },
+      {
+        question: 'Do you write the content too?',
+        answer:
+          'Yes. Service pages, location pages, and supporting articles can be written as part of the engagement, built around the searches your buyers use.',
+      },
+    ],
+  },
+  'ppc-management': {
+    intro:
+      'Paid search and paid social buy attention immediately, which makes them the fastest way to test an offer and the fastest way to waste a budget. We plan the offer, audience, and landing page before campaigns go live, set up conversion tracking so every lead is counted, and adjust spend toward the ads and searches that bring in real inquiries.',
+    signs: [
+      'You are spending on ads but cannot say what a lead costs.',
+      'Ads send traffic to your home page instead of a page built for the offer.',
+      'Clicks are coming in, but calls and forms are not.',
+      'Campaigns were set up once and have not been touched since.',
+    ],
+    included: [
+      { title: 'Offer and audience plan', body: 'Which service to promote, who should see it, and what the ad promises, agreed before any budget is spent.' },
+      { title: 'Campaign build', body: 'Google Ads and paid social campaigns structured so spend can be compared by service, audience, and message.' },
+      { title: 'Landing page alignment', body: 'A page that matches the ad, carries proof, and makes the next step obvious, built by us if you need one.' },
+      { title: 'Tracking and optimization', body: 'Form and call tracking set up first, then regular reviews that move budget toward what produces leads.' },
+    ],
+    proof: {
+      eyebrow: 'Past result',
+      heading: 'A restoration company: about 10x return in three months',
+      body: 'Freelance work by Studio37’s owner before the studio launched: a paid search campaign, a dedicated landing page, and CallRail call tracking so every lead could be traced to the campaign that produced it.',
+      points: [
+        'About 10x return on the ad investment after three months',
+        '10 to 30 leads a month',
+        'PPC campaign, landing page, and call tracking built together',
+      ],
+    },
+    moreFaq: [
+      {
+        question: 'Google Ads or social ads: which should we start with?',
+        answer:
+          'Search ads catch people already looking for your service; social ads create demand with people who are not searching yet. Most local service businesses start with search, then add social once tracking is in place.',
+      },
+      {
+        question: 'How do you measure whether ads are working?',
+        answer:
+          'By cost per lead and lead quality, not clicks. Form tracking and call tracking (such as CallRail) are set up before launch, so every inquiry can be tied back to the campaign that produced it.',
+      },
+    ],
+  },
+  'social-media-management': {
+    intro:
+      'We build a community around your brand and make you the authority in your space, so you can focus on running the business while we run your social. Organic growth is the metric that matters: real followers, real engagement, and a reputation that compounds. When lead generation is the goal, we pair it with Meta ads so the audience you build turns into inquiries.',
+    signs: [
+      'Your last post was weeks ago because no one owns the calendar.',
+      'Posts are mostly stock graphics that could belong to any business.',
+      'Followers engage, but messages and inquiries do not follow.',
+      'Each platform says something different about your business.',
+    ],
+    included: [
+      { title: 'Voice and content pillars', body: 'Three to five themes tied to your offers and proof, so posts stay on-brand without starting from zero each week.' },
+      { title: 'Monthly calendar', body: 'A month of posts planned ahead around launches, seasons, and promotions, approved before anything publishes.' },
+      { title: 'Professional content', body: 'Posts built from professional photography and video shot by our own team, not stock images or quick phone snaps.' },
+      { title: 'Community and growth review', body: 'Engagement handled so the community keeps growing, plus a monthly look at organic growth, saves, shares, and messages.' },
+    ],
+    proof: {
+      eyebrow: 'Creativity + strategy',
+      heading: 'A polished brand built with growth in mind',
+      body: 'Most social media managers work with whatever content you hand them. We are a photography and video studio, so the content and the strategy come from the same team. We do not just take beautiful images; we build a brand that is designed to grow.',
+      points: [
+        'Professional photography and video from our own team',
+        'Organic growth as the main measure of success',
+        'Community building that positions you as the authority',
+        'Meta ads layered in when lead generation is the goal',
+      ],
+      href: '/services/branding-marketing/brand-content-production',
+      hrefLabel: 'See brand content production',
+    },
+    moreFaq: [
+      {
+        question: 'Should social media be paired with paid ads?',
+        answer:
+          'If the goal is brand awareness and authority, organic social on its own is often enough. If the goal is leads, we pair it with Meta ads, so the audience and trust built organically turn into inquiries.',
+      },
+      {
+        question: 'Do you use our photos or stock images?',
+        answer:
+          'Your real work performs better, so we plan posts around photos and video of your business. Because we are also a photography studio, content days can be added when you need fresh material.',
+      },
+      {
+        question: 'Do you reply to comments and messages?',
+        answer:
+          'Community management can be included in the scope. Many businesses prefer to answer inquiries themselves, so we agree on who handles what before launch.',
+      },
+      {
+        question: 'How many posts per week do we need?',
+        answer:
+          'Consistency matters more than volume. We recommend a schedule your business can sustain, then adjust based on what the monthly review shows.',
+      },
+    ],
+  },
+  'brand-content-production': {
+    intro:
+      'Brand content production starts with where each photo or clip will be used: the home page hero, a service page, an ad, a social post, or a sales deck. From that list we build the shot plan, schedule people and locations, and deliver files grouped by use, so one production day fills the website, the ads, and months of social.',
+    signs: [
+      'Your website still uses stock photos or images from years ago.',
+      'You have photos, but none in the shapes your ads and social need.',
+      'Your team, space, and products have changed since your last shoot.',
+      'You are launching a site or campaign and need the visuals to match.',
+    ],
+    included: [
+      { title: 'Usage-first creative brief', body: 'Every asset tied to a placement: website sections, ad sizes, social formats, and print or sales use.' },
+      { title: 'Shot list and schedule', body: 'People, products, locations, and timing planned so the shoot day runs to a list instead of guesswork.' },
+      { title: 'Two-photographer production', body: 'Two photographers on set, so portraits, workspace, and candid moments are covered at the same time.' },
+      { title: 'Files grouped by use', body: 'Delivered in sets for web, ads, and social, with commercial usage included.' },
+    ],
+    proof: {
+      eyebrow: 'Client work',
+      heading: 'Brand and team content for a local volleyball school',
+      body: 'Brand and community content for a volleyball school in Katy, photographed in May 2026.',
+      points: ['Staff and members together under the school sign', 'Group photos of staff and families on the court'],
+      href: '/services/commercial-photography',
+      hrefLabel: 'See commercial photography',
+      image: { id: 'VB_School_Chris_Faves_-_158_wlcspc', alt: 'Volleyball school staff and members cheering under the school sign' },
+      reviewName: 'Ivana M.',
+      reviewLabel: 'From another business client',
+    },
+    moreFaq: [
+      {
+        question: 'Do we own the photos?',
+        answer:
+          'Commercial usage is included, so you can use the content on your website, ads, social channels, and sales materials.',
+      },
+      {
+        question: 'Can you shoot at our location?',
+        answer:
+          'Yes. We shoot on-site at your business, at locations around Montgomery County and Greater Houston, or at our Pinehurst studio for products and headshots.',
+      },
+      {
+        question: 'How far ahead should we book?',
+        answer:
+          'Plan a few weeks ahead so the brief, shot list, and scheduling are done before the shoot, especially when several team members need to be there.',
+      },
+    ],
+  },
+  'video-content-creation': {
+    intro:
+      'Short video is now the default format on social and a strong trust signal on a website. We plan each video around one message and one action, capture the footage alongside your photo shoot when that makes sense, and cut versions for each platform, so a single production can supply reels, ads, and a website clip.',
+    signs: [
+      'Your social channels are photos only while competitors post reels.',
+      'Visitors to your site cannot see you, your team, or your work in motion.',
+      'You need ad creative and only have one version to test.',
+      'You film on your phone but never have time to edit.',
+    ],
+    included: [
+      { title: 'Message and hook plan', body: 'What each video says, why someone keeps watching past the first seconds, and the action it ends on.' },
+      { title: 'Shoot plan', body: 'Scenes and clips planned for the final platforms, so one session produces several usable edits.' },
+      { title: 'Platform edits', body: 'Vertical cuts for reels and stories, wider cuts for websites, and short variants for ad testing.' },
+      { title: 'Photo and video together', body: 'Video can be captured during a brand or event shoot, so you get both from one day.' },
+    ],
+    proof: {
+      eyebrow: 'Client work',
+      heading: 'Photo and video coverage in one booking',
+      body: 'We already deliver video alongside photography, like the quinceañera photo and video coverage reviewed here.',
+      points: ['Photos and video for a quinceañera, delivered together'],
+      reviewName: 'Felipa Q.',
+    },
+    moreFaq: [
+      {
+        question: 'Can video and photos be shot on the same day?',
+        answer:
+          'Yes. Planning both together is usually the most efficient option, because locations, people, and styling are already in place.',
+      },
+      {
+        question: 'What video lengths do you deliver?',
+        answer:
+          'It depends on where the video will run. Social cuts are typically short and vertical, while website and brand videos can run longer.',
+      },
+    ],
+  },
+  'aeo-services': {
+    intro:
+      'AI answer engines like ChatGPT, Perplexity, and Google AI Overviews recommend businesses they can understand and quote. AEO makes that easier: consistent business facts across the web, structured data that spells out your services and locations, and pages that answer buyer questions in plain, quotable sentences.',
+    signs: [
+      'AI tools describe your business with the wrong services or location.',
+      'Your FAQs live in images or scripts that AI crawlers cannot read.',
+      'Your pages talk about you but do not answer the questions buyers ask.',
+      'You already invest in SEO and want to be ready for AI search.',
+    ],
+    included: [
+      { title: 'Entity and facts audit', body: 'How AI tools describe your business today, and where your name, services, and locations are inconsistent.' },
+      { title: 'Structured data', body: 'Organization, LocalBusiness, Service, FAQ, and Breadcrumb markup that matches what is on each page.' },
+      { title: 'Answer-first content', body: 'FAQ hubs and service pages that answer price, process, and location questions directly, in text crawlers can read.' },
+      { title: 'AI crawler access', body: 'An llms.txt summary and crawler-friendly pages, so the facts you want cited are easy to find.' },
+    ],
+    proof: {
+      eyebrow: 'Built and run in-house',
+      heading: 'What we set up on studio37.cc',
+      body: 'Our own site is the working example. Everything below is live and can be checked in the page source.',
+      points: [
+        'An /llms.txt summary of services, prices, and service areas',
+        'A coded FAQ hub with answers in plain HTML, not scripts',
+        'One FAQ block plus Service, LocalBusiness, and Breadcrumb markup per page',
+        'City pages that answer cost, location, permit, and travel questions directly',
+      ],
+      href: '/faq',
+      hrefLabel: 'See our FAQ hub',
+    },
+    moreFaq: [
+      {
+        question: 'What is llms.txt?',
+        answer:
+          'A plain-text file at the root of a website that summarizes who the business is and what it offers, written for AI tools that read the web. Ours is at studio37.cc/llms.txt.',
+      },
+      {
+        question: 'Does AEO replace SEO?',
+        answer:
+          'No. AI answer engines lean on the same signals as search: crawlable pages, clear structure, and trusted facts. AEO adds answer-first content and structured data on top of a solid SEO foundation.',
+      },
+    ],
+    demoHref: '/request-portfolio?service=website-demo',
+  },
 }
