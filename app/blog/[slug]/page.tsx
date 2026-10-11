@@ -13,6 +13,7 @@ import { businessInfo, formatServiceAreaForSchema, generateServiceSchema, geoSer
 import { generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
 import ComparePackagesCTA from '@/components/ComparePackagesCTA'
 import { getStaticBlogPost, staticBlogPosts } from '@/lib/static-blog-posts'
+import { isMergedBlogSlug } from '@/lib/blog-merges'
 
 const isValidSlug = (s: string) => /^[a-z0-9-]{1,200}$/.test(s) // Increased from 64 to 200 chars for longer blog titles
 
@@ -242,14 +243,16 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
   const articleContent = stripSeoTitleComment(articlePost.content)
   
   // Get related posts using same admin client
-  const { data: relatedPosts } = await supabase
+  const { data: recentPosts } = await supabase
     .from('blog_posts')
     .select('id, title, slug, published_at')
     .eq('published', true)
     .or(`published_at.is.null,published_at.lte.${now}`)
     .neq('id', articlePost.id || '')
     .order('published_at', { ascending: false })
-    .limit(3)
+    .limit(10)
+  // Merged posts redirect elsewhere, so they are never suggested as related reading.
+  const relatedPosts = (recentPosts || []).filter((post) => !isMergedBlogSlug(post.slug)).slice(0, 3)
   const fallbackRelatedPosts = staticBlogPosts
     .filter((item) => item.slug !== articlePost.slug)
     .slice(0, 3)

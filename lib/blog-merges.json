@@ -1,0 +1,19 @@
+{
+  "_note": "Blog posts merged into a stronger post (Oct 2026). Only posts Search Console listed as NOT indexed. Each old URL 301s to its destination and is left out of the sitemap, blog index, and related posts. Read by next.config.js and lib/blog-merges.ts.",
+  "redirects": {
+    "magnolia-tx-photography-your-go-to-studio37-guide-to-memories": "/blog/magnolia-tx-studio37s-top-10-photography-hotspots",
+    "mastering-portrait-photography-in-magnolia-tx-tips-tricks": "/blog/magnolia-tx-studio37s-top-10-photography-hotspots",
+    "capture-springs-beauty-a-studio37-magnolia-photography-guide": "/blog/magnolia-tx-studio37s-top-10-photography-hotspots",
+    "tomball-family-portraits-styling-for-texas-pine-woods-with-studio37": "/blog/best-tomball-texas-portrait-session-locations-studio37-guide",
+    "from-the-woodlands-to-tomball-unearthing-cinematic-backdrops": "/blog/best-tomball-texas-portrait-session-locations-studio37-guide",
+    "family-portrait": "/blog/best-outdoor-portrait-locations-in-montgomery-county-tx-studio37",
+    "capture-stunning-outdoor-portraits-studio37s-expert-guide": "/blog/best-outdoor-portrait-locations-in-montgomery-county-tx-studio37",
+    "10-expert-tips-to-prepare-for-your-family-portrait-session": "/blog/5-expert-photography-tips-for-stunning-family-portraits",
+    "how-to-choose-a-photographer-choose-us": "/blog/choosing-your-photographer-portraits-weddings-business-with-studio37",
+    "how-many-photographers-for-your-wedding-studio37-texas": "/blog/why-every-wedding-needs-two-lead-photographers-studio37",
+    "the-luminaire-wedding-photos-visual-planning-guide": "/blog/why-the-luminaire-is-montgomery-countys-most-cinematic-venue",
+    "studio37-photography-spring-texass-premier-choice": "/local-photographer-spring-tx",
+    "discover-spring-txs-best-outdoor-portrait-locations-with-studio37": "/local-photographer-spring-tx",
+    "announcing-2025-fall-mini-sessions-houston-the-woodlands-austin-more": "/mini-sessions"
+  }
+}

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin'
 import { rateLimit, getClientIp } from '@/lib/rateLimit'
 import { createLogger } from '@/lib/logger'
+import { isMergedBlogSlug } from '@/lib/blog-merges'
 
 const log = createLogger('api/blog/list')
 
@@ -30,7 +31,9 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Failed to fetch blog posts' }, { status: 500 })
     }
 
-    return NextResponse.json({ posts: data || [] }, { status: 200 })
+    // Merged posts 301 to their replacement, so they stay off the index page.
+    const posts = (data || []).filter((post) => !isMergedBlogSlug(post.slug))
+    return NextResponse.json({ posts }, { status: 200 })
   } catch (err: any) {
     log.error('Blog list unexpected error', { err: String(err) })
     return NextResponse.json({ error: 'Unexpected error' }, { status: 500 })
