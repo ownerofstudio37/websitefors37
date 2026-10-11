@@ -165,12 +165,12 @@ export const brandingMarketingServices: BrandingMarketingService[] = [
     shortTitle: 'Social Media Management',
     eyebrow: 'Social Presence',
     description:
-      'Social planning, publishing, creative direction, captions, community support, and reporting for brands that need consistency without generic posting.',
+      'Community building, organic growth, and professional photo and video content for brands that want to become the authority in their space.',
     parentCardDescription:
       'Full management across planning, posting, community engagement, and performance reporting to scale brand presence.',
     metaTitle: 'Social Media Management in Pinehurst, TX | Studio37',
     metaDescription:
-      'Social media management in Pinehurst, TX with content calendars, captions, platform-ready creative, posting support, and performance reporting.',
+      'Social media management in Pinehurst, TX: community building, organic growth, and professional photo and video content, with Meta ads for lead generation.',
     keywords: ['social media management Pinehurst TX', 'content calendar service', 'social media marketing Montgomery County', 'brand social media support'],
     heroBullets: ['Content calendar planning', 'Caption and post development', 'Platform-ready creative', 'Reporting and refinement'],
     outcomeStats: [
@@ -498,7 +498,7 @@ export const brandingDetails: Record<string, BrandingDetail> = {
   },
   'social-media-management': {
     intro:
-      'Social media works for a local business when it shows real work, real people, and a reason to reach out, on a schedule you can keep. We set the content pillars and voice, plan a month at a time, produce or edit the posts, and report on what drives profile visits, messages, and inquiries rather than likes alone.',
+      'We build a community around your brand and make you the authority in your space, so you can focus on running the business while we run your social. Organic growth is the metric that matters: real followers, real engagement, and a reputation that compounds. When lead generation is the goal, we pair it with Meta ads so the audience you build turns into inquiries.',
     signs: [
       'Your last post was weeks ago because no one owns the calendar.',
       'Posts are mostly stock graphics that could belong to any business.',
@@ -508,10 +508,28 @@ export const brandingDetails: Record<string, BrandingDetail> = {
     included: [
       { title: 'Voice and content pillars', body: 'Three to five themes tied to your offers and proof, so posts stay on-brand without starting from zero each week.' },
       { title: 'Monthly calendar', body: 'A month of posts planned ahead around launches, seasons, and promotions, approved before anything publishes.' },
-      { title: 'Posts and captions', body: 'Platform-ready creative and captions, using your real photos and video wherever possible.' },
-      { title: 'Monthly review', body: 'What earned saves, shares, profile visits, and messages, and what the next month should change.' },
+      { title: 'Professional content', body: 'Posts built from professional photography and video shot by our own team, not stock images or quick phone snaps.' },
+      { title: 'Community and growth review', body: 'Engagement handled so the community keeps growing, plus a monthly look at organic growth, saves, shares, and messages.' },
     ],
+    proof: {
+      eyebrow: 'Creativity + strategy',
+      heading: 'A polished brand built with growth in mind',
+      body: 'Most social media managers work with whatever content you hand them. We are a photography and video studio, so the content and the strategy come from the same team. We do not just take beautiful images; we build a brand that is designed to grow.',
+      points: [
+        'Professional photography and video from our own team',
+        'Organic growth as the main measure of success',
+        'Community building that positions you as the authority',
+        'Meta ads layered in when lead generation is the goal',
+      ],
+      href: '/services/branding-marketing/brand-content-production',
+      hrefLabel: 'See brand content production',
+    },
     moreFaq: [
+      {
+        question: 'Should social media be paired with paid ads?',
+        answer:
+          'If the goal is brand awareness and authority, organic social on its own is often enough. If the goal is leads, we pair it with Meta ads, so the audience and trust built organically turn into inquiries.',
+      },
       {
         question: 'Do you use our photos or stock images?',
         answer:
