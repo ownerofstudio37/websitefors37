@@ -8,7 +8,7 @@ import { generateServiceSchema } from '@/lib/seo-config'
 export const metadata = generateSEOMetadata({
   title: 'Marketing Results & SEO Case Study | Studio37 Pinehurst TX',
   description:
-    'See Studio37 marketing results, including the Above Beyond Pools SEO case study with 76 peak page-one keywords, three #1 rankings, and 58% impression growth.',
+    'Studio37 marketing results: an SEO case study with 76 page-one keywords and a PPC campaign that returned about 10x in three months.',
   keywords: [
     'Studio37 marketing results',
     'SEO case study Pinehurst TX',
@@ -99,6 +99,34 @@ export default function BrandingMarketingResultsPage() {
       </section>
 
       <AboveBeyondPoolsProof compact secondaryHref="/services/branding-marketing/seo-services" secondaryLabel="Explore SEO Services" />
+
+      <section className="section-shell bg-stone-50">
+        <div className="container mx-auto grid gap-8 px-4 lg:grid-cols-[1fr_1fr] lg:items-center">
+          <div>
+            <p className="eyebrow mb-3">PPC result</p>
+            <h2 className="text-3xl font-bold text-stone-950 md:text-4xl">A restoration company: about 10x return in three months</h2>
+            <p className="mt-4 text-lg leading-8 text-stone-600">
+              Freelance work by Studio37&rsquo;s owner before the studio launched: a paid search campaign, a dedicated landing page, and CallRail call
+              tracking built together, so every lead could be traced to the campaign that produced it.
+            </p>
+            <Link href="/services/branding-marketing/ppc-management" className="btn-secondary mt-6 inline-flex items-center justify-center">
+              Explore PPC Management
+            </Link>
+          </div>
+          <dl className="grid gap-4 sm:grid-cols-2">
+            <div className="rounded-lg border border-stone-200 bg-white p-5">
+              <dt className="text-sm font-semibold text-stone-600">Return on ad investment</dt>
+              <dd className="mt-1 text-3xl font-bold text-amber-800">About 10x</dd>
+              <dd className="mt-1 text-sm text-stone-500">after three months</dd>
+            </div>
+            <div className="rounded-lg border border-stone-200 bg-white p-5">
+              <dt className="text-sm font-semibold text-stone-600">Leads per month</dt>
+              <dd className="mt-1 text-3xl font-bold text-amber-800">10 to 30</dd>
+              <dd className="mt-1 text-sm text-stone-500">tracked by form and call</dd>
+            </div>
+          </dl>
+        </div>
+      </section>
 
       <section className="section-shell bg-stone-50">
         <div className="container mx-auto px-4">

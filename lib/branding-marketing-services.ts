@@ -338,7 +338,7 @@ export function getBrandingMarketingService(slug: string) {
 }
 
 // Per-service depth for the sub-pages. Proof is only first-hand: the Above Beyond Pools engagement, the
-// studio37.cc platform we built and run ourselves, and published client reviews. Services without a
+// studio37.cc platform we built and run ourselves, the owner's pre-Studio37 PPC result, and published client reviews. Services without a
 // documented result yet have no proof block rather than an invented one.
 export type BrandingProof = {
   eyebrow: string
@@ -473,6 +473,16 @@ export const brandingDetails: Record<string, BrandingDetail> = {
       { title: 'Landing page alignment', body: 'A page that matches the ad, carries proof, and makes the next step obvious, built by us if you need one.' },
       { title: 'Tracking and optimization', body: 'Form and call tracking set up first, then regular reviews that move budget toward what produces leads.' },
     ],
+    proof: {
+      eyebrow: 'Past result',
+      heading: 'A restoration company: about 10x return in three months',
+      body: 'Freelance work by Studio37’s owner before the studio launched: a paid search campaign, a dedicated landing page, and CallRail call tracking so every lead could be traced to the campaign that produced it.',
+      points: [
+        'About 10x return on the ad investment after three months',
+        '10 to 30 leads a month',
+        'PPC campaign, landing page, and call tracking built together',
+      ],
+    },
     moreFaq: [
       {
         question: 'Google Ads or social ads: which should we start with?',
@@ -482,7 +492,7 @@ export const brandingDetails: Record<string, BrandingDetail> = {
       {
         question: 'How do you measure whether ads are working?',
         answer:
-          'By cost per lead and lead quality, not clicks. Conversion tracking on forms and calls is set up before launch so every inquiry can be tied back to the campaign that produced it.',
+          'By cost per lead and lead quality, not clicks. Form tracking and call tracking (such as CallRail) are set up before launch, so every inquiry can be tied back to the campaign that produced it.',
       },
     ],
   },
