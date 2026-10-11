@@ -260,8 +260,12 @@ export default function BlogManagementPage() {
         category: postForm.category,
         tags: postForm.tags,
         published: postForm.published,
+        // Editing an already-published post must keep its original date; only a new publish or an explicit
+        // schedule sets a new one (a blank schedule here used to reset every edited post to "now").
         published_at: postForm.published
-          ? fromDateTimeLocal(postForm.scheduled_at) || new Date().toISOString()
+          ? fromDateTimeLocal(postForm.scheduled_at) ||
+            (!isNewPost && selectedPost?.published && selectedPost.published_at) ||
+            new Date().toISOString()
           : null,
       };
 
