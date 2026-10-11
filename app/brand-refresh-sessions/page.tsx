@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight, CheckCircle2 } from 'lucide-react'
-import { generateFAQSchema, generateSEOMetadata } from '@/lib/seo-helpers'
+import { generateSEOMetadata } from '@/lib/seo-helpers'
 import { generateServiceSchema } from '@/lib/seo-config'
 import FAQSection from '@/components/FAQSection'
 import { ServiceTestimonialsSection, TurnaroundExpectationsSection } from '@/components/PublicFeatureContent'
@@ -45,12 +45,10 @@ export default function BrandRefreshSessionsPage() {
     'Brand Refresh Photography Sessions',
     'Brand refresh photography sessions for businesses that need fresh website, social, profile, product, and campaign imagery.'
   )
-  const faqSchema = generateFAQSchema(brandRefreshFaqs)
 
   return (
     <main className="pt-16">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <section className="relative min-h-[520px] overflow-hidden bg-stone-950 text-white">
         <Image
           src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1784791656/VB_School_Caitie_Faves_-_6_gsn8fe.jpg"
