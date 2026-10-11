@@ -19,6 +19,7 @@ import CldImg, { HERO_WIDTHS, SECONDARY_WIDTHS } from '@/components/CldImg'
 import FAQSection from '@/components/FAQSection'
 import { generateBreadcrumbSchema, generateEnhancedLocalBusinessSchema } from '@/lib/enhanced-seo-schemas'
 import { type CityGuide, type CityImage, type CitySpot, DESTINATION_TRAVEL_POLICY, getCityGuideReviews } from '@/lib/city-guides'
+import { cityServiceLinksFor } from '@/lib/city-service-pages'
 
 type CityGuidePageProps = {
   guide: CityGuide
@@ -175,6 +176,8 @@ export default function CityGuidePage({ guide, stateAbbr, nearbyCities }: CityGu
   const moreSpots = orderedSpots.slice(TOP_SPOT_COUNT)
 
   const heroImage: CityImage = guide.heroImage || DEFAULT_HERO
+  // Planning guides plus this city's service pages (e.g. wedding photography in this city).
+  const planningLinks = [...(guide.guides || []), ...cityServiceLinksFor(guide.city)]
 
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Home', url: 'https://www.studio37.cc' },
@@ -507,14 +510,14 @@ export default function CityGuidePage({ guide, stateAbbr, nearbyCities }: CityGu
         <FAQSection faqs={faqs} title={`${guide.city} photography questions`} />
       </div>
 
-      {(guide.guides?.length || nearbyCities.length > 0) && (
+      {(planningLinks.length > 0 || nearbyCities.length > 0) && (
         <section className="section-shell bg-white">
           <div className="container mx-auto grid gap-10 px-4 md:grid-cols-2">
-            {guide.guides && guide.guides.length > 0 && (
+            {planningLinks.length > 0 && (
               <div>
                 <h2 className="mb-4 text-2xl font-bold text-stone-950">{guide.city} planning guides</h2>
                 <ul className="space-y-2">
-                  {guide.guides.map((link) => (
+                  {planningLinks.map((link) => (
                     <li key={link.href}>
                       <Link href={link.href} className="font-semibold text-amber-800 hover:underline">
                         {link.label}
