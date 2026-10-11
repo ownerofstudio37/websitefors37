@@ -299,7 +299,6 @@ const cityGuides: CityGuide[] = [
     guides: [
       { label: 'Top 5 Tomball photoshoot locations', href: '/blog/top-5-locations-for-a-tomball-tx-photoshoot-studio37' },
       { label: 'Best Tomball portrait session locations', href: '/blog/best-tomball-texas-portrait-session-locations-studio37-guide' },
-      { label: 'Styling Tomball family portraits for the pine woods', href: '/blog/tomball-family-portraits-styling-for-texas-pine-woods-with-studio37' },
     ],
   },
   {
@@ -372,7 +371,6 @@ const cityGuides: CityGuide[] = [
     reviewNames: ['Cassey E.', 'Kelsi R.'],
     guides: [
       { label: 'The Woodlands portrait guide', href: '/blog/the-woodlands-portrait-guide-expert-tips-by-studio-37' },
-      { label: 'From The Woodlands to Tomball: cinematic backdrops', href: '/blog/from-the-woodlands-to-tomball-unearthing-cinematic-backdrops' },
       { label: 'Proposal planning in The Woodlands and Magnolia', href: '/blog/proposal-planning-the-woodlands-magnolia' },
     ],
   },
@@ -519,7 +517,6 @@ const cityGuides: CityGuide[] = [
     permits: [MERCER_PERMIT, 'Other Spring parks do not publish a photography policy, so we confirm before booking.'],
     reviewNames: ['Mansher G.', 'Kimberly I.'],
     guides: [
-      { label: 'Spring’s best outdoor portrait locations', href: '/blog/discover-spring-txs-best-outdoor-portrait-locations-with-studio37' },
       { label: 'Mercer Botanic Gardens photography', href: '/blog/mercer-botanical-gardens-photography-why-hire-studio37' },
     ],
   },

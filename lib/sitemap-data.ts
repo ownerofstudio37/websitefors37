@@ -2,6 +2,7 @@ import { createClient } from '@supabase/supabase-js'
 import type { MetadataRoute } from 'next'
 import { localPhotographerLocationSlugs, locationPages } from '@/lib/location-pages'
 import { staticBlogPosts } from '@/lib/static-blog-posts'
+import { isMergedBlogSlug } from '@/lib/blog-merges'
 import { brandingMarketingServices } from '@/lib/branding-marketing-services'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co'
@@ -737,7 +738,7 @@ export async function getSitemapRoutes(): Promise<MetadataRoute.Sitemap> {
         .order('published_at', { ascending: false })
 
       if (posts && posts.length > 0) {
-        const blogRoutes = posts.map((post: any) => {
+        const blogRoutes = posts.filter((post: any) => !isMergedBlogSlug(post.slug)).map((post: any) => {
           const lastModSource = post.updated_at || post.published_at || currentDate.toISOString()
           const priority = getBlogPostPriority(post.published_at, post.updated_at)
           const changeFrequency = getBlogPostChangeFrequency(post.published_at, post.updated_at)

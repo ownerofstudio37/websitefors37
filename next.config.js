@@ -1,3 +1,4 @@
+const blogMerges = require('./lib/blog-merges.json')
 const hasUnsafeBuildPath = process.cwd().includes("'");
 
 const withPWABuilder = require('@ducanh2912/next-pwa').default({
@@ -100,6 +101,12 @@ const nextConfig = {
       { source: '/seo', destination: '/services/branding-marketing', statusCode: 301 },
       { source: '/digital-marketing', destination: '/services/branding-marketing', statusCode: 301 },
       { source: '/senior', destination: '/senior-portraits', statusCode: 301 },
+      // Pages that blog posts link to but that never existed.
+      { source: '/booking', destination: '/book-consultation', statusCode: 301 },
+      { source: '/venues', destination: '/blog/wedding-venues-montgomery-county-tx-photographer-guide', statusCode: 301 },
+      { source: '/packages', destination: '/tools/pricing', statusCode: 301 },
+      // Blog posts merged into a stronger post (lib/blog-merges.json).
+      ...Object.entries(blogMerges.redirects).map(([slug, destination]) => ({ source: `/blog/${slug}`, destination, statusCode: 301 })),
       // Deleted post that Google still has indexed (Search Console, Oct 2026).
       { source: '/blog/capturing-corporate-mixers-how-we-get-authentic-networ', destination: '/corporate-events', statusCode: 301 },
       { source: '/corporate-headshots', destination: '/professional-headshots', statusCode: 301 },
