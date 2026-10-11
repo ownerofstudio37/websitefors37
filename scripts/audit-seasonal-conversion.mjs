@@ -15,8 +15,14 @@ const issues = []
 
 for (const page of pages) {
   const source = fs.readFileSync(path.join(root, page.file), 'utf8')
+  // Pages rendered by ServiceGuidePage carry their CTAs in the template; the lead magnet is opt-in per guide.
+  const template = source.includes('ServiceGuidePage') ? fs.readFileSync(path.join(root, 'components/ServiceGuidePage.tsx'), 'utf8') : ''
+  const guideSlug = page.file.split('/')[1]
+  const guideData = template ? fs.readFileSync(path.join(root, 'lib/service-guides.ts'), 'utf8') : ''
+  const optedIn = guideData.includes(`'${guideSlug}': {\n    slug: '${guideSlug}',\n    leadMagnet: true,`)
   for (const marker of required) {
-    if (!source.includes(marker)) issues.push(`${page.route} missing conversion marker: ${marker}`)
+    const found = source.includes(marker) || (template.includes(marker) && (marker !== 'PrepGuideLeadMagnet' || optedIn))
+    if (!found) issues.push(`${page.route} missing conversion marker: ${marker}`)
   }
 }
 

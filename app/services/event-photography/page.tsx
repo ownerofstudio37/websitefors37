@@ -1,13 +1,14 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { generateSEOMetadata, generateFAQSchema } from '@/lib/seo-helpers'
+import { generateSEOMetadata } from '@/lib/seo-helpers'
 import { generateServiceSchema } from '@/lib/seo-config'
 import FAQSection from '@/components/FAQSection'
 import { generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
 import { Camera, Calendar, Users, Clock, Star, CheckCircle, ArrowRight } from 'lucide-react'
 import { ServiceTestimonialsSection, TurnaroundExpectationsSection, VenueStyleExamplesSection } from '@/components/PublicFeatureContent'
 import ServiceAreaLinks from '@/components/ServiceAreaLinks'
+import ServiceProofSection from '@/components/ServiceProofSection'
 import ServiceIntentPanel from '@/components/ServiceIntentPanel'
 
 export const metadata = generateSEOMetadata({
@@ -51,7 +52,6 @@ export default function EventPhotographyPage() {
     },
   ]
 
-  const faqSchema = generateFAQSchema(eventFaqs)
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Home', url: 'https://www.studio37.cc' },
     { name: 'Services', url: 'https://www.studio37.cc/services' },
@@ -64,10 +64,6 @@ export default function EventPhotographyPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
       <script
         type="application/ld+json"
@@ -107,6 +103,7 @@ export default function EventPhotographyPage() {
       </section>
 
       <ServiceIntentPanel service="event" />
+      <ServiceProofSection serviceKey="event" />
 
       {/* Event Types */}
       <section className="section-shell bg-white">

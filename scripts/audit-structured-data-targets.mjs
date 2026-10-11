@@ -1,6 +1,9 @@
 import fs from 'node:fs'
 import path from 'node:path'
 
+// Pages rendered by the shared ServiceGuidePage template carry their markers in that component.
+const withTemplate = (source) =>
+  source.includes('ServiceGuidePage') ? source + fs.readFileSync(path.join(process.cwd(), 'components/ServiceGuidePage.tsx'), 'utf8') : source
 const rootDir = process.cwd()
 
 const requiredTargets = [
@@ -22,7 +25,7 @@ for (const target of requiredTargets) {
     continue
   }
 
-  const source = fs.readFileSync(absolutePath, 'utf8')
+  const source = withTemplate(fs.readFileSync(absolutePath, 'utf8'))
   for (const check of target.checks) {
     if (!source.includes(check)) {
       issues.push(`${target.file} is missing structured-data marker: ${check}`)

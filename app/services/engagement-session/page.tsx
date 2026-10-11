@@ -2,16 +2,17 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { CheckCircle, ArrowRight, HeartHandshake, Sparkles, MapPinned, Video, Camera } from 'lucide-react'
-import { generateSEOMetadata, generateFAQSchema } from '@/lib/seo-helpers'
+import { generateSEOMetadata } from '@/lib/seo-helpers'
 import { generateServiceSchema } from '@/lib/seo-config'
 import FAQSection from '@/components/FAQSection'
 import { generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
 import { ServiceTestimonialsSection } from '@/components/PublicFeatureContent'
+import ServiceProofSection from '@/components/ServiceProofSection'
 import ServiceIntentPanel from '@/components/ServiceIntentPanel'
 
 export const metadata = generateSEOMetadata({
-  title: 'Engagement & Proposal Photographer in Pinehurst, TX | Studio37',
-  description: 'Studio37 engagement photography in Pinehurst, TX with location planning, posing direction, surprise proposal coverage, concierge planning, and photo/video options.',
+  title: 'Engagement Photographer in Pinehurst, TX | Studio37',
+  description: 'Engagement photos in Pinehurst, TX at Lake Windcrest, Burroughs Park, The Woodlands Waterway, and Mercer, with location planning and two photographers.',
   keywords: [
     'engagement photographer Pinehurst TX',
     'proposal photographer Texas',
@@ -161,7 +162,6 @@ export default function EngagementSessionPage() {
     },
   ]
 
-  const faqSchema = generateFAQSchema(engagementFaqs)
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Home', url: 'https://www.studio37.cc' },
     { name: 'Services', url: 'https://www.studio37.cc/services' },
@@ -173,10 +173,6 @@ export default function EngagementSessionPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
       <script
         type="application/ld+json"
@@ -196,7 +192,7 @@ export default function EngagementSessionPage() {
         <div className="relative z-10 container mx-auto px-4 py-24">
           <div className="max-w-3xl">
             <p className="eyebrow-hero mb-3">Engagement Photography · Pinehurst, TX</p>
-            <h1 className="text-4xl md:text-6xl font-bold mb-4">Engagement Sessions With a Plan</h1>
+            <h1 className="text-4xl md:text-6xl font-bold mb-4">Engagement Photographer in Pinehurst, TX</h1>
             <p className="text-lg md:text-xl text-stone-100 mb-4 leading-relaxed">
               Polished couple portraits with location guidance, natural posing, golden-hour timing,
               and a gallery built for save-the-dates, announcements, and the people you love most.
@@ -215,6 +211,7 @@ export default function EngagementSessionPage() {
       </section>
 
       <ServiceIntentPanel service="engagement" />
+      <ServiceProofSection serviceKey="engagement" />
 
       <section className="section-shell bg-white">
         <div className="container mx-auto px-4">

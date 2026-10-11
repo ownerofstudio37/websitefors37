@@ -15,6 +15,7 @@ import {
   Star,
   Users,
 } from 'lucide-react'
+import CldImg, { HERO_WIDTHS, SECONDARY_WIDTHS } from '@/components/CldImg'
 import FAQSection from '@/components/FAQSection'
 import { generateBreadcrumbSchema, generateEnhancedLocalBusinessSchema } from '@/lib/enhanced-seo-schemas'
 import { type CityGuide, type CityImage, type CitySpot, DESTINATION_TRAVEL_POLICY, getCityGuideReviews } from '@/lib/city-guides'
@@ -26,45 +27,8 @@ type CityGuidePageProps = {
   nearbyCities: string[]
 }
 
-// Cloudinary delivery: q_auto:best at each width, served through srcset so phones get a smaller file
-// while large and high-density screens get the sharp 2400px (hero) / 2000px (secondary) versions.
-const cldUrl = (id: string, width: number, crop = '') =>
-  `https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto:best,w_${width}${crop}/${id}.jpg`
-
-function CldImg({
-  image,
-  widths,
-  sizes,
-  className,
-  crop = '',
-  priority = false,
-}: {
-  image: CityImage
-  widths: number[]
-  sizes: string
-  className: string
-  crop?: string
-  priority?: boolean
-}) {
-  return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      src={cldUrl(image.id, widths[widths.length - 1], crop)}
-      srcSet={widths.map((width) => `${cldUrl(image.id, width, crop)} ${width}w`).join(', ')}
-      sizes={sizes}
-      alt={image.alt}
-      className={className}
-      loading={priority ? 'eager' : 'lazy'}
-      fetchPriority={priority ? 'high' : undefined}
-      decoding="async"
-    />
-  )
-}
-
-const HERO_WIDTHS = [800, 1200, 1600, 2400]
 // Every city defines its own hero in lib/city-guides.ts; this only guards a future city added without one.
 const DEFAULT_HERO: CityImage = { id: 'Untitled_tpoc5r', alt: 'Extended family portrait by a lake lined with cypress trees' }
-const SECONDARY_WIDTHS = [800, 1200, 2000]
 
 
 const SERVICES = [
