@@ -6,7 +6,6 @@ import { generateServiceSchema } from '@/lib/seo-config'
 import FAQSection from '@/components/FAQSection'
 import { generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
 import {
-  Award,
   Megaphone,
   Video,
   MonitorSmartphone,
@@ -25,6 +24,7 @@ import ServiceIntentPanel from '@/components/ServiceIntentPanel'
 import { brandingMarketingServices } from '@/lib/branding-marketing-services'
 import AboveBeyondPoolsProof from '@/components/AboveBeyondPoolsProof'
 import MarketingAuditCTA from '@/components/MarketingAuditCTA'
+import CredentialBadges from '@/components/CredentialBadges'
 
 export const metadata = generateSEOMetadata({
   title: 'SEO, Web Design & Branding in Pinehurst, TX | Studio37',
@@ -284,34 +284,12 @@ export default function BrandingMarketingPage() {
                 SEO strategy, creative production, and website execution under one roof.
               </h2>
             </div>
-            <div className="rounded-xl border border-stone-200 bg-stone-50 p-5">
-              <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
-                <a
-                  href="https://app-na2.hubspot.com/academy/achievements/l22vmwbz/en/1/christian-combest/seo-certified"
-                  title="SEO Certified - Christian Combest, Studio37"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-shrink-0"
-                >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src="https://hubspot-credentials-na1.s3.amazonaws.com/prod/badges/user/ec3fc569f28e4b85b99d8afbd76c274d.png"
-                    alt="HubSpot SEO Certified - Christian Combest"
-                    width={96}
-                    height={96}
-                    className="rounded-lg"
-                  />
-                </a>
-                <div>
-                  <p className="mb-2 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-primary-700">
-                    <Award className="h-4 w-4" aria-hidden="true" />
-                    HubSpot SEO Certified
-                  </p>
-                  <p className="text-sm leading-6 text-stone-700">
-                    Christian Combest leads Studio37&apos;s SEO and growth strategy, pairing technical search work with the content, site structure, conversion paths, and creative assets needed to turn visibility into qualified action.
-                  </p>
-                </div>
-              </div>
+            <div className="space-y-5">
+              <p className="leading-7 text-stone-700">
+                Christian Combest leads Studio37&apos;s SEO and growth strategy, pairing technical search work and paid campaigns with the content, site
+                structure, conversion paths, and creative assets needed to turn visibility into qualified action.
+              </p>
+              <CredentialBadges ids={['google-ads-ai-performance', 'ahrefs-academy', 'hubspot-seo']} />
             </div>
           </div>
         </div>

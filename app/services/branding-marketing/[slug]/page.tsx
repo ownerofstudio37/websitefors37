@@ -8,6 +8,7 @@ import { generateServiceSchema } from '@/lib/seo-config'
 import { brandingDetails, brandingMarketingServices, getBrandingMarketingService } from '@/lib/branding-marketing-services'
 import { studio37Reviews } from '@/lib/public-content'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
+import CredentialBadges from '@/components/CredentialBadges'
 
 type PageProps = {
   params: Promise<{ slug: string }>
@@ -119,6 +120,14 @@ export default async function BrandingMarketingSubServicePage({ params }: PagePr
           </div>
         </div>
       </section>
+
+      {detail.credentials && detail.credentials.length > 0 && (
+        <section className="border-y border-stone-200 bg-stone-50 py-8">
+          <div className="container mx-auto px-4">
+            <CredentialBadges ids={detail.credentials} heading="Certified in this work" />
+          </div>
+        </section>
+      )}
 
       {/* 3. First-hand proof, only where we have it */}
       {proof && (

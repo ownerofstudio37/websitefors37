@@ -1,3 +1,5 @@
+import type { Credential } from '@/lib/credentials'
+
 export type BrandingMarketingService = {
   slug: string
   title: string
@@ -360,6 +362,8 @@ export type BrandingDetail = {
   proof?: BrandingProof
   moreFaq: Array<{ question: string; answer: string }>
   demoHref?: string
+  // Certifications shown on the page (see lib/credentials.ts).
+  credentials?: Credential['id'][]
 }
 
 const STUDIO37_PLATFORM_POINTS = [
@@ -413,6 +417,7 @@ export const brandingDetails: Record<string, BrandingDetail> = {
     demoHref: '/request-portfolio?service=website-demo',
   },
   'seo-services': {
+    credentials: ['ahrefs-academy', 'hubspot-seo'],
     intro:
       'SEO works when search engines can crawl the site cleanly, every service has a page that matches what buyers type, and those pages earn the click. We start with an audit of indexing, page intent, and internal links, fix what blocks rankings, then build out the service and local pages your market is already searching for.',
     signs: [
@@ -459,6 +464,7 @@ export const brandingDetails: Record<string, BrandingDetail> = {
     ],
   },
   'ppc-management': {
+    credentials: ['google-ads-ai-performance'],
     intro:
       'Paid search and paid social buy attention immediately, which makes them the fastest way to test an offer and the fastest way to waste a budget. We plan the offer, audience, and landing page before campaigns go live, set up conversion tracking so every lead is counted, and adjust spend toward the ads and searches that bring in real inquiries.',
     signs: [
@@ -627,6 +633,7 @@ export const brandingDetails: Record<string, BrandingDetail> = {
     ],
   },
   'aeo-services': {
+    credentials: ['ahrefs-academy', 'hubspot-seo'],
     intro:
       'AI answer engines like ChatGPT, Perplexity, and Google AI Overviews recommend businesses they can understand and quote. AEO makes that easier: consistent business facts across the web, structured data that spells out your services and locations, and pages that answer buyer questions in plain, quotable sentences.',
     signs: [
