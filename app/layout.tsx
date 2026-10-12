@@ -30,8 +30,9 @@ const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
   display: "swap",
-  // Preloaded: used above the fold on every page. Loading it late re-wrapped long headings (layout shift).
-  preload: true,
+  // Not preloaded: it would compete with the hero photo for bandwidth, and its size-adjusted fallback
+  // swaps without moving the layout. Playfair (below) is preloaded because late headings re-wrapped.
+  preload: false,
   fallback: ['system-ui', 'arial'],
 });
 
