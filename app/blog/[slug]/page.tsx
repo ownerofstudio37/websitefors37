@@ -381,7 +381,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
                   {localizedBlogLinks.map((link) => (
                     <Link
                       key={link.href}
-                      href={`${link.href}?source=localized-blog`}
+                      href={link.href}
                       className="rounded-lg border border-stone-200 px-4 py-3 text-sm font-semibold text-stone-800 transition hover:border-primary-400 hover:bg-primary-50"
                     >
                       {link.label}
