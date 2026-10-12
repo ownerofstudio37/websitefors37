@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json()
-    const { path } = body
+    const { path, type } = body
 
     if (!path || typeof path !== 'string') {
       log.warn('Revalidation denied: Invalid path', { path })
@@ -46,7 +46,8 @@ export async function POST(req: NextRequest) {
     }
 
     // Revalidate the requested path
-    revalidatePath(path)
+    // type 'layout' refreshes everything under the path (e.g. '/' after a navigation change).
+    revalidatePath(path, type === 'layout' ? 'layout' : 'page')
     log.info('Admin revalidated path', { path, adminId: session.admin_id })
     
     return NextResponse.json({ revalidated: true, path, timestamp: new Date().toISOString() })

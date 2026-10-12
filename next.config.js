@@ -43,8 +43,10 @@ const nextConfig = {
   // Note: eslint.ignoreDuringBuilds will be re-injected in the final export
   // to avoid being dropped by the PWA wrapper's merge.
   images: {
-    // Disable image optimization on serverless (Netlify can't write to cache)
-    unoptimized: process.env.NETLIFY === "true",
+    // Netlify can't run Next's image optimizer, so a custom loader asks Cloudinary for each srcset width
+    // instead (lib/image-loader.js). Before this, every <Image> shipped the original file.
+    loader: "custom",
+    loaderFile: "./lib/image-loader.js",
     formats: ["image/avif", "image/webp"], // Prioritize AVIF
     deviceSizes: [640, 750, 828, 1080, 1200, 1920], // Reduced larger sizes
     imageSizes: [16, 32, 48, 64, 96, 128, 256], // Optimized sizes

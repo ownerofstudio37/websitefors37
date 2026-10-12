@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 import { supabaseAdmin } from '@/lib/supabaseAdmin'
 
 export const dynamic = 'force-dynamic'
@@ -60,6 +61,8 @@ export async function POST(req: NextRequest) {
     }
 
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+    // Public pages are cached; refresh this one so the change shows right away.
+    if (path.startsWith('/')) revalidatePath(path)
     return NextResponse.json({ ok: true, data })
   } catch (e: any) {
     return NextResponse.json({ error: e?.message || 'Unknown error' }, { status: 500 })

@@ -11,6 +11,7 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import rehypeHighlight from "rehype-highlight";
 import { ChooseYourPathSection, HomeSEOAccordion, HomepageConversionGuardrail } from "@/components/HomepageUXSections";
 import MarketingAuditCTA from "@/components/MarketingAuditCTA";
+import { draftMode } from 'next/headers'
 // Note: MDX builder components are dynamically imported only when needed
 
 // Lazy load below-the-fold components for better initial page load
@@ -113,7 +114,7 @@ async function renderVisualLayout(path: string, layout: { blocks: Array<{ id?: s
   )
 }
 
-export default async function HomePage({ searchParams }: { searchParams?: Record<string, string | string[]> }) {
+export default async function HomePage() {
   // If an editor-managed home page exists in content_pages (slug 'home'), render it.
   // Otherwise, fall back to the static homepage sections below.
   const { getSupabaseAdmin } = await import("@/lib/supabaseAdmin");
@@ -125,7 +126,8 @@ export default async function HomePage({ searchParams }: { searchParams?: Record
     .eq("published", true)
     .maybeSingle();
 
-  const useDraft = (searchParams?.edit === '1')
+  // Draft blocks only in editor previews (draft mode); reading searchParams would make the home page dynamic.
+  const useDraft = draftMode().isEnabled
   const currentPath = "/"
   const { getRenderablePageLayout } = await import("@/lib/pageConfigs")
   const routeLayout = await getRenderablePageLayout(currentPath, useDraft)

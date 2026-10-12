@@ -145,6 +145,13 @@ export default function NavigationEditor() {
         if (error) throw error
       }
 
+      // Public pages are cached; refresh every page so the new navigation shows right away.
+      await fetch('/api/admin/revalidate-page', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ path: '/', type: 'layout' }),
+      }).catch(() => undefined)
+
       setItems(reorderedItems)
       setOriginalItems(JSON.parse(JSON.stringify(reorderedItems)))
       setOriginalLogoUrl(logoUrl)
