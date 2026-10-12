@@ -20,6 +20,18 @@ export function middleware(req: NextRequest) {
     }
   }
 
+  // Editor previews (?edit=1) need draft mode so the static page renders fresh with draft blocks.
+  if (
+    req.nextUrl.searchParams.get('edit') === '1' &&
+    !req.cookies.has('__prerender_bypass') &&
+    !pathname.startsWith('/api') &&
+    !pathname.startsWith('/admin')
+  ) {
+    const previewUrl = new URL('/api/preview', req.url)
+    previewUrl.searchParams.set('path', `${pathname}${req.nextUrl.search}`)
+    return NextResponse.redirect(previewUrl)
+  }
+
   const requestHeaders = new Headers(req.headers)
   requestHeaders.set('x-studio37-pathname', pathname)
   requestHeaders.set('x-studio37-search', req.nextUrl.search)

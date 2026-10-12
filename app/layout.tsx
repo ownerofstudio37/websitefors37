@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import { headers } from "next/headers";
+import { draftMode, headers } from "next/headers";
 import "./globals.css";
 import { 
   Inter, 
@@ -30,7 +30,8 @@ const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
   display: "swap",
-  preload: false,
+  // Preloaded: used above the fold on every page. Loading it late re-wrapped long headings (layout shift).
+  preload: true,
   fallback: ['system-ui', 'arial'],
 });
 
@@ -39,7 +40,8 @@ const playfair = Playfair_Display({
   variable: "--font-playfair",
   display: "swap",
   weight: ["400", "700"],
-  preload: false,
+  // Preloaded: used above the fold on every page. Loading it late re-wrapped long headings (layout shift).
+  preload: true,
   fallback: ['georgia', 'serif'],
 });
 
@@ -145,9 +147,12 @@ export default async function RootLayout({
   });
   const localBusinessSchema = generateLocalBusinessSchema();
   const navigationSettings = await getInitialNavigationSettings()
-  const headerStore = headers()
-  const currentPath = headerStore.get('x-studio37-pathname') || ''
-  const currentSearch = headerStore.get('x-studio37-search') || ''
+  // Reading request headers makes every page render per request, so the CMS route bridge only reads them in
+  // draft mode (editor previews via ?edit=1, see middleware.ts). Everyone else gets the cached static page.
+  const isPreview = draftMode().isEnabled
+  const headerStore = isPreview ? headers() : null
+  const currentPath = headerStore?.get('x-studio37-pathname') || ''
+  const currentSearch = headerStore?.get('x-studio37-search') || ''
 
   return (
     <html lang="en">
