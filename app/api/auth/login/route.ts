@@ -86,7 +86,8 @@ export async function POST(request: NextRequest) {
 
   // Create a strong session token stored server-side (hashed)
     const userAgent = request.headers.get('user-agent') || undefined
-    const session = await createSession({ userId: user.id, ip, userAgent })
+    // 30 days, extended automatically while in use (middleware renews active sessions).
+    const session = await createSession({ userId: user.id, ip, userAgent, expiresInDays: 30 })
     if (!session) {
       log.error('Session creation failed', { userId: user.id })
       return NextResponse.json({ error: 'Failed to create session' }, { status: 500 })
@@ -97,7 +98,8 @@ export async function POST(request: NextRequest) {
     cookieStore.set('admin_session', session.token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      // lax so links into the admin from email or other sites keep you logged in.
+      sameSite: 'lax',
       maxAge: Math.floor((session.expiresAt.getTime() - Date.now()) / 1000),
       path: '/'
     })
