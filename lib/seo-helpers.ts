@@ -19,8 +19,8 @@ const DEFAULT_OG_IMAGE =
 const LAYOUT_TITLE_SUFFIX = ` | ${businessInfo.name} - Pinehurst, TX Photography`
 const LOCAL_TITLE_SUFFIX = ` | ${businessInfo.name} Pinehurst, TX`
 const SHORT_TITLE_SUFFIX = ` | ${businessInfo.name}`
-// Roughly what Google shows before truncating a title or snippet.
-const MAX_TITLE_LENGTH = 65
+// Roughly what Google shows before truncating a title (it cuts by pixel width, around 60 characters).
+const MAX_TITLE_LENGTH = 60
 const MAX_DESCRIPTION_LENGTH = 160
 
 // Long titles step down to a shorter suffix (keeping the location while it fits) instead of being cut off mid-word in results.

@@ -10,6 +10,24 @@ const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-ke
 export const sitemapBaseUrl = 'https://www.studio37.cc'
 const staticLastModified = new Date('2026-09-30T00:00:00.000Z')
 
+// When each group of coded pages last had a real content change. Search engines use <lastmod> to decide
+// what to recrawl, so bump the matching date when a group is rewritten (pages not listed use the default).
+const CONTENT_UPDATES: Array<{ match: RegExp; date: string }> = [
+  // City guides rebuilt (Oct 10) and linked to their city-service pages (Oct 11).
+  { match: /^\/(local-photographer-[a-z-]+-tx|humble|kingwood|atascocita|porter|splendora|cleveland|waller|navasota|plantersville)$/, date: '2026-10-11' },
+  // City-service pages rebuilt from verified city data.
+  { match: /^\/(wedding|engagement|family|portrait)-photographer-[a-z-]+-tx$/, date: '2026-10-11' },
+  // Service pages, portrait specialty guides, branding pages, certifications, and the About bio.
+  { match: /^\/services(\/.*)?$/, date: '2026-10-11' },
+  { match: /^\/(family-photography|senior-portraits|maternity-sessions|professional-headshots|headshot-photographer-houston-tx|about|case-studies\/[a-z-]+)$/, date: '2026-10-11' },
+]
+
+function contentLastModified(url: string) {
+  const path = url.replace(sitemapBaseUrl, '') || '/'
+  const update = CONTENT_UPDATES.find((entry) => entry.match.test(path))
+  return update ? new Date(`${update.date}T00:00:00.000Z`) : null
+}
+
 const hasRealSupabaseConfig =
   !!process.env.NEXT_PUBLIC_SUPABASE_URL &&
   !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY &&
@@ -767,5 +785,8 @@ export async function getSitemapRoutes(): Promise<MetadataRoute.Sitemap> {
     return true
   })
 
-  return dedupedRoutes
+  // Coded pages carry the default date; swap in the real content-update date where one is known.
+  return dedupedRoutes.map((route) =>
+    route.lastModified === staticLastModified ? { ...route, lastModified: contentLastModified(route.url) ?? staticLastModified } : route
+  )
 }

@@ -1,6 +1,8 @@
 export type StaticBlogPost = {
   slug: string
   title: string
+  // Shorter search-result title when the on-page title runs long.
+  seo_title?: string
   excerpt: string
   content: string
   published_at: string
@@ -55,6 +57,7 @@ Studio37 builds custom websites, SEO structure, content, and growth paths togeth
   {
     slug: 'seo-vs-ppc-local-service-businesses',
     title: 'SEO vs PPC for Local Service Businesses: Which Should You Start With?',
+    seo_title: 'SEO vs PPC for Local Service Businesses: Where to Start',
     excerpt: 'A practical comparison of SEO and PPC for local businesses, including when to invest in search visibility, paid leads, landing pages, and tracking.',
     meta_description: 'Compare SEO vs PPC for local service businesses. Learn when to use organic search, paid ads, landing pages, tracking, and conversion optimization.',
     meta_keywords: ['SEO vs PPC local business', 'local service business marketing', 'Google Ads vs SEO', 'PPC management Pinehurst TX'],
@@ -89,6 +92,7 @@ Studio37 handles SEO, PPC, content, and landing pages together so traffic does n
   {
     slug: 'plan-marketing-photos-website-ads-together',
     title: 'Why Your Marketing Photos, Website, and Ads Should Be Planned Together',
+    seo_title: 'Plan Your Marketing Photos, Website, and Ads Together',
     excerpt: 'A guide for businesses that need brand visuals, website content, and ad campaigns to feel connected instead of scattered across vendors.',
     meta_description: 'Learn why brand photos, website content, SEO, and ads should be planned together for stronger conversion paths and more consistent marketing.',
     meta_keywords: ['brand photos website ads', 'business content strategy', 'brand content production', 'website and marketing strategy'],
