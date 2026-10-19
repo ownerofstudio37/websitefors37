@@ -14,8 +14,7 @@ export function generateEnhancedLocalBusinessSchema() {
     sameAs: [
       'https://www.facebook.com/studio37photography',
       'https://www.instagram.com/studio37photography',
-      'https://www.yelp.com/biz/studio37-photography',
-      'https://www.linkedin.com/company/studio37-photography'
+      'https://www.yelp.com/biz/studio37-photography'
     ],
     logo: {
       '@type': 'ImageObject',

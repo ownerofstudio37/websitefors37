@@ -14,6 +14,8 @@ import { generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
 import ComparePackagesCTA from '@/components/ComparePackagesCTA'
 import { getStaticBlogPost, staticBlogPosts } from '@/lib/static-blog-posts'
 import { isMergedBlogSlug } from '@/lib/blog-merges'
+import { cityGuideLinks } from '@/lib/city-guides'
+import { type CityServiceKey, cityServiceConfig, cityServiceSlug } from '@/lib/city-service-pages'
 
 const isValidSlug = (s: string) => /^[a-z0-9-]{1,200}$/.test(s) // Increased from 64 to 200 chars for longer blog titles
 
@@ -123,21 +125,47 @@ function getLocalizedBlogServiceSchema(post: any, intent: ReturnType<typeof getA
   }
 }
 
+// City names that are also ordinary words only count with a state or "Old Town" next to them.
+const AMBIGUOUS_CITIES = new Set(['Spring', 'Humble', 'Porter', 'Cleveland', 'Waller', 'Willis', 'Magnolia'])
+// Phrases that contain a city name but are not about that city.
+const NOT_THE_CITY = /Montgomery County|Sam Houston|Lake Houston|Pinehurst studio|studio in Pinehurst/g
+
+function cityMentions(text: string, city: string) {
+  const name = city.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  const pattern = AMBIGUOUS_CITIES.has(city)
+    ? new RegExp(`(Old Town ${name}|\\b${name},? (TX|Texas)\\b|\\bin ${name}\\b)`, 'g')
+    : new RegExp(`\\b${name}\\b`, 'g')
+  return (text.replace(NOT_THE_CITY, ' ').match(pattern) || []).length
+}
+
+// Links to the city guides a post mentions, using the matching city-service page (e.g. a wedding post that
+// mentions Navasota links to /wedding-photographer-navasota-tx) when one exists.
 function getLocalizedBlogLinks(post: any, intent: ReturnType<typeof getArticleIntent>) {
-  return getLocalizedBlogAreas(post).map((area) => ({
-    href: `/${area.slug}`,
-    label:
-      area.name === 'Cypress'
-        ? 'Cypress portrait session details'
-        : area.name === 'Tomball'
-          ? 'Book a Tomball family photographer'
-          : area.name === 'Spring'
-            ? 'Book a Spring family photographer'
-            : area.name === 'The Woodlands'
-              ? 'The Woodlands photographer details'
-              : `${area.name} ${intent.serviceLabel.toLowerCase()} details`,
-    landmarks: area.landmarks.slice(0, 2).join(' and '),
-  }))
+  const text = `${post.title || ''} ${(post.tags || []).join(' ')} ${post.excerpt || ''} ${post.content || ''}`
+  const haystack = text.toLowerCase()
+  const service: CityServiceKey | null = intent.serviceHref.includes('wedding')
+    ? 'wedding'
+    : intent.serviceHref.includes('engagement')
+      ? 'engagement'
+      : intent.serviceHref.includes('portrait')
+        ? /famil|kids|children/.test(haystack)
+          ? 'family'
+          : 'portrait'
+        : null
+
+  // Cities named in the title come first, then the ones the post talks about most.
+  const title = post.title || ''
+  return cityGuideLinks
+    .map((guide) => ({ guide, score: cityMentions(text, guide.city) + (cityMentions(title, guide.city) ? 100 : 0) }))
+    .filter((entry) => entry.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 3)
+    .map(({ guide }) => {
+      const specific = service ? cityServiceSlug(service, guide.city) : undefined
+      return specific
+        ? { href: `/${specific}`, label: `${cityServiceConfig[service as CityServiceKey].role} in ${guide.city}, TX`, note: `${guide.city} spots, seasons, and pricing` }
+        : { href: guide.href, label: `Photographer in ${guide.city}, TX`, note: `Local spots and planning notes for ${guide.city}` }
+    })
 }
 
 export async function generateStaticParams() {
@@ -188,7 +216,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 
   if (staticPost) {
     return generateSEOMetadata({
-      title: staticPost.title,
+      title: staticPost.seo_title || staticPost.title,
       description: staticPost.meta_description,
       keywords: staticPost.meta_keywords,
       canonicalUrl: blogCanonical(staticPost.slug),
@@ -385,9 +413,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
                       className="rounded-lg border border-stone-200 px-4 py-3 text-sm font-semibold text-stone-800 transition hover:border-primary-400 hover:bg-primary-50"
                     >
                       {link.label}
-                      <span className="mt-1 block text-xs font-normal text-stone-500">
-                        Location confidence near {link.landmarks}
-                      </span>
+                      <span className="mt-1 block text-xs font-normal text-stone-500">{link.note}</span>
                     </Link>
                   ))}
                 </div>

@@ -440,7 +440,7 @@ export default function BookSessionPageEnhanced() {
             </button>
             
             <p className="text-sm text-gray-500 mb-6">
-              Need to make changes? Contact us at <a href="tel:+18325551234" className="text-blue-600 hover:underline">(832) 555-1234</a>
+              Need to make changes? Contact us at <a href="tel:+18327139944" className="text-blue-600 hover:underline">(832) 713-9944</a>
             </p>
             <button 
               onClick={() => {
@@ -738,7 +738,7 @@ export default function BookSessionPageEnhanced() {
                     </div>
                     <div className="flex items-start gap-2">
                       <Phone className="h-4 w-4 flex-shrink-0 mt-0.5" />
-                      <span>(832) 555-1234</span>
+                      <span>(832) 713-9944</span>
                     </div>
                   </div>
                 </div>
