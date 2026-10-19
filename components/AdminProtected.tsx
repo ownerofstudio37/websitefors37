@@ -16,13 +16,15 @@ export default function AdminProtected({ children }: AdminProtectedProps) {
     const checkAuth = async () => {
       try {
         const res = await fetch('/api/auth/session', { cache: 'no-store' })
-        if (res.ok) {
-          setIsAuthenticated(true)
-        } else {
+        // Only a real "not logged in" answer sends you to the login page; a temporary error or rate
+        // limit keeps you on the page (middleware already blocks anyone without a valid session).
+        if (res.status === 401) {
           router.push('/login')
+        } else {
+          setIsAuthenticated(true)
         }
       } catch {
-        router.push('/login')
+        setIsAuthenticated(true)
       } finally {
         setLoading(false)
       }

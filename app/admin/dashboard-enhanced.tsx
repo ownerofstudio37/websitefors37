@@ -300,17 +300,17 @@ export default function EnhancedAdminDashboard() {
   const checkAuth = async () => {
     try {
       const response = await fetch("/api/auth/session");
-      const data = await response.json();
-
-      if (data.authenticated && data.user) {
-        setIsAuthenticated(true);
-        setUser(data.user);
-      } else {
+      // Only a real "not logged in" answer redirects; temporary errors keep you on the dashboard.
+      if (response.status === 401) {
         router.push("/login");
+        return;
       }
+      const data = await response.json().catch(() => ({}));
+      setIsAuthenticated(true);
+      if (data.user) setUser(data.user);
     } catch (error) {
       console.error("Auth check failed:", error);
-      router.push("/login");
+      setIsAuthenticated(true);
     } finally {
       setLoading(false);
     }

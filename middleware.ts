@@ -1,28 +1,63 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+import { ADMIN_SESSION_COOKIE, checkAdminSession } from '@/lib/admin-session-edge'
 
-// Lightweight security middleware
-export function middleware(req: NextRequest) {
+// API routes anyone may call. Everything else under /api needs a valid admin session, so a route
+// added later is private by default. Routes marked "own check" verify a secret or signature themselves.
+const PUBLIC_API: Array<{ path: RegExp; methods?: string[] }> = [
+  { path: /^\/api\/auth\/(login|logout|session|status)$/ },
+  { path: /^\/api\/chat(\/respond|\/feedback)?$/ },
+  { path: /^\/api\/availability$/, methods: ['GET'] },
+  { path: /^\/api\/consultation\/book$/ },
+  { path: /^\/api\/quote\/recommend$/ },
+  { path: /^\/api\/galleries\/[^/]+\/(access|downloads|favorites)$/ },
+  { path: /^\/api\/leads$/, methods: ['POST'] }, // contact and lead forms create leads only
+  { path: /^\/api\/blog\/list$/, methods: ['GET'] },
+  { path: /^\/api\/(vitals|health)$/ },
+  { path: /^\/api\/og$/ },
+  { path: /^\/api\/preview$/ }, // own check: only admins get draft mode
+  { path: /^\/api\/revalidate$/ }, // own check: secret
+  { path: /^\/api\/webhooks\// }, // own check: signature
+  { path: /^\/api\/meta-leads$/ }, // own check: verify token + signature
+  { path: /^\/api\/appointments\/send-reminders$/ }, // own check: CRON_SECRET
+  { path: /^\/api\/leads\/follow-up$/ }, // own check: CRON_SECRET
+  { path: /^\/api\/setup-admin$/ }, // own check: ADMIN_SETUP_TOKEN
+  { path: /^\/api\/calendar\/callback$/ }, // Google OAuth redirect
+]
+
+const isPublicApi = (pathname: string, method: string) =>
+  method === 'OPTIONS' || PUBLIC_API.some((rule) => rule.path.test(pathname) && (!rule.methods || rule.methods.includes(method)))
+
+export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl
+  const token = req.cookies.get(ADMIN_SESSION_COOKIE.name)?.value
 
-  // Protect admin routes (except login and setup)
-  if (
-    pathname.startsWith('/admin') &&
-    pathname !== '/admin/login' &&
-    pathname !== '/setup-admin'
-  ) {
-    const hasSession = req.cookies.has('admin_session')
-    if (!hasSession) {
+  const needsAdmin =
+    (pathname.startsWith('/api/') && !isPublicApi(pathname, req.method)) ||
+    (pathname.startsWith('/admin') && pathname !== '/admin/login')
+  let renewedUntil: Date | null = null
+
+  if (needsAdmin) {
+    const session = await checkAdminSession(token, req.nextUrl.origin)
+    if (!session.valid) {
+      if (pathname.startsWith('/api/')) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      }
       const loginUrl = new URL('/login', req.url)
       // Preserve original destination to return after login
-      loginUrl.searchParams.set('next', pathname)
-      return NextResponse.redirect(loginUrl)
+      loginUrl.searchParams.set('next', `${pathname}${req.nextUrl.search}`)
+      const redirect = NextResponse.redirect(loginUrl)
+      if (token) redirect.cookies.delete(ADMIN_SESSION_COOKIE.name)
+      return redirect
     }
+    if (session.renewed) renewedUntil = session.expiresAt
   }
 
   // Editor previews (?edit=1) need draft mode so the static page renders fresh with draft blocks.
+  // Only logged-in admins are sent there; everyone else just gets the normal page.
   if (
     req.nextUrl.searchParams.get('edit') === '1' &&
+    token &&
     !req.cookies.has('__prerender_bypass') &&
     !pathname.startsWith('/api') &&
     !pathname.startsWith('/admin')
@@ -42,6 +77,8 @@ export function middleware(req: NextRequest) {
       headers: requestHeaders,
     },
   })
+  // Active sessions are extended in place (see lib/admin-session-edge.ts), so the cookie follows.
+  if (renewedUntil && token) res.cookies.set(ADMIN_SESSION_COOKIE.name, token, ADMIN_SESSION_COOKIE.options(renewedUntil))
   res.headers.set('X-DNS-Prefetch-Control', 'on')
   res.headers.set('X-Content-Type-Options', 'nosniff')
   res.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin')
