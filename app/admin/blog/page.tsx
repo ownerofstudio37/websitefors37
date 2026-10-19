@@ -137,7 +137,7 @@ export default function BlogManagementPage() {
     seo_title: "",
     meta_description: "",
     meta_keywords: "", // Will be split into array on submit
-    author: "Admin",
+    author: "Studio37",
     category: "",
     tags: [] as string[],
     published: false,
@@ -344,7 +344,7 @@ export default function BlogManagementPage() {
       seo_title: "",
       meta_description: "",
       meta_keywords: "",
-      author: "Admin",
+      author: "Studio37",
       category: "",
       tags: [],
       published: false,
@@ -369,7 +369,7 @@ export default function BlogManagementPage() {
       seo_title: draft.seoTitle || draft.title || "",
       meta_description: draft.metaDescription || "",
       meta_keywords: (draft.suggestedTags || []).join(", "),
-      author: "Admin",
+      author: "Studio37",
       category: draft.category || "",
       tags: draft.suggestedTags || [],
       published: false,
@@ -580,7 +580,7 @@ export default function BlogManagementPage() {
       meta_keywords: Array.isArray(post.meta_keywords)
         ? post.meta_keywords.join(", ")
         : post.meta_keywords || "",
-      author: post.author_id || "Admin",
+      author: post.author_id || "Studio37",
       category: post.category || "",
       tags: post.tags || [],
       published: post.published,
@@ -619,7 +619,7 @@ export default function BlogManagementPage() {
           featured_image_position: post.featured_image_position || "center center",
           meta_description: post.meta_description || "",
           meta_keywords: post.meta_keywords || [],
-          author: post.author_id || "Admin",
+          author: post.author_id || "Studio37",
           category: post.category || "",
           tags: post.tags || [],
           ...updateData,
@@ -798,7 +798,7 @@ export default function BlogManagementPage() {
                     <div className="flex items-center gap-4 text-sm text-gray-500">
                       <div className="flex items-center gap-1">
                         <User className="h-4 w-4" />
-                        <span>{post.author_id || "Admin"}</span>
+                        <span>{post.author_id || "Studio37"}</span>
                       </div>
                       <div className="flex items-center gap-1">
                         <Calendar className="h-4 w-4" />
