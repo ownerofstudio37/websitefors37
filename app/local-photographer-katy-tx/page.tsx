@@ -3,7 +3,7 @@ import { generateSEOMetadata } from '@/lib/seo-helpers'
 import { cityMetaDescriptions, cityOgImage } from '@/lib/city-guides'
 
 export const metadata = generateSEOMetadata({
-  title: 'Photographer in Katy, TX | Studio37',
+  title: 'Katy, TX Photographer: Weddings, Portraits & Events',
   description: cityMetaDescriptions['local-photographer-katy-tx'],
   ogImage: cityOgImage('local-photographer-katy-tx'),
   keywords: [
