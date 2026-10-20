@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useSelectedLayoutSegment } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowRight, CheckCircle, Globe, Megaphone, Search, Target, TrendingUp, Video } from 'lucide-react'
-import { ConversionStackTail, PackageComparisonSection } from '@/components/PublicConversionSections'
+import { NextStepDecisionBand } from '@/components/PublicConversionSections'
 import ServiceExpectationCards from '@/components/ServiceExpectationCards'
 import { brandingMarketingServices } from '@/lib/branding-marketing-services'
 
@@ -33,39 +33,12 @@ export default function ServicesConversionTail() {
     return <BrandingMarketingConversionTail mobileExpanded={mobileExpanded} setMobileExpanded={setMobileExpanded} />
   }
 
+  // Each service page already shows its own packages, area links, and turnaround, so the shared tail is just
+  // the process cards and the proof band (which sends visitors to the gallery).
   return (
     <>
-      <div className="md:hidden border-t border-stone-200 bg-stone-50 px-4 py-6">
-        <button
-          type="button"
-          onClick={() => setMobileExpanded((value) => !value)}
-          className="w-full rounded-lg border border-stone-300 bg-white px-4 py-3 text-left text-sm font-semibold text-stone-900 shadow-sm"
-        >
-          {mobileExpanded ? 'Hide planning proof and next steps' : 'Show planning proof and next steps'}
-        </button>
-        {mobileExpanded && (
-          <div className="mt-6 space-y-8">
-            <PackageComparisonSection />
-            <ServiceExpectationCards serviceName={copy.serviceName} />
-            <ConversionStackTail
-              serviceName={copy.serviceName}
-              proofCtaLabel={copy.proofCtaLabel}
-              proofTitle={copy.proofTitle}
-              proofBody={copy.proofBody}
-            />
-          </div>
-        )}
-      </div>
-      <div className="hidden md:block">
-        <PackageComparisonSection />
-        <ServiceExpectationCards serviceName={copy.serviceName} />
-        <ConversionStackTail
-          serviceName={copy.serviceName}
-          proofCtaLabel={copy.proofCtaLabel}
-          proofTitle={copy.proofTitle}
-          proofBody={copy.proofBody}
-        />
-      </div>
+      <ServiceExpectationCards serviceName={copy.serviceName} />
+      <NextStepDecisionBand serviceName={copy.serviceName} />
     </>
   )
 }
