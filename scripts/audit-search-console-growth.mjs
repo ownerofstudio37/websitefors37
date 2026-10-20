@@ -18,7 +18,7 @@ const checks = [
   },
   {
     file: 'app/local-photographer-houston-tx/page.tsx',
-    patterns: ['Houston Commercial Photographer Near Me', 'houston commercial photography', 'commercial photographer near me'],
+    patterns: ['Photographer in Houston, TX', 'commercial photographer Houston TX', 'headshot photographer Houston TX'],
   },
   {
     file: 'app/katy/page.tsx',
@@ -30,11 +30,11 @@ const checks = [
   },
   {
     file: 'app/local-photographer-pinehurst-tx/page.tsx',
-    patterns: ['Pinehurst TX Photographer Near Me'],
+    patterns: ['Photographer in Pinehurst, TX'],
   },
   {
     file: 'app/services/commercial-photography/page.tsx',
-    patterns: ['Commercial Photographer Houston', 'commercial photographer near me', 'Product Photography', 'Architectural Photography', 'Brand Refresh Sessions'],
+    patterns: ['commercial photographer Houston', 'commercial photographer near me', 'Product Photography', 'Architectural Photography', 'Brand Refresh Sessions'],
   },
   {
     file: 'app/product-photography/page.tsx',

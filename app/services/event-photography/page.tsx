@@ -76,7 +76,7 @@ export default function EventPhotographyPage() {
         <div className="absolute inset-0 opacity-40">
           <Image
             src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1784791655/Alice_Birthday_Party_-_74_zxkulm.jpg"
-            alt="Studio37 birthday party event photography coverage in Pinehurst TX"
+            alt="Guests celebrating at a first birthday party"
             fill
             className="object-cover"
             priority
@@ -246,7 +246,7 @@ export default function EventPhotographyPage() {
             <div className="relative">
               <Image
                 src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1779268257/Untitled_iz4geh.jpg"
-                alt="Studio37 event photography coverage in Montgomery County TX"
+                alt="Guests in pink shirts laughing together at an indoor community event"
                 width={600}
                 height={400}
                 className="rounded-[var(--radius-card)] shadow-[var(--shadow-strong)] object-cover object-[50%_20%]"

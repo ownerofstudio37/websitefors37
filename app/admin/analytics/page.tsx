@@ -98,6 +98,7 @@ export default function AnalyticsPage() {
     ['Hero CTA', 'booking_click / booking_start', '/'],
     ['Pricing tool', 'pricing_duration_change / booking_start', '/tools/pricing'],
     ['Package recommender', 'package_recommender_selection', '/tools/package-recommender'],
+    ['Gallery site visits', 'gallery_click (page_path, link_section, link_text)', 'https://gallery.studio37.cc'],
     ['Request portfolio', 'portfolio_request_click / portfolio_request_submit', '/request-portfolio'],
     ['Booking forms', 'booking_start / form_submit', '/book-consultation'],
     ['Chatbot', 'chatbot lead source + detected intent', '/admin/chatbot-training'],

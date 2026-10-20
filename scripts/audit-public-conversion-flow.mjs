@@ -19,7 +19,7 @@ const checks = [
   },
   {
     file: 'app/blog/[slug]/page.tsx',
-    patterns: ['getArticleIntent', 'Want this translated into your actual plan?', 'Request matched examples', 'Request Private Examples', 'aspect-[16/9]'],
+    patterns: ['getArticleIntent', 'Want this translated into your actual plan?', 'Request matched examples', '/request-portfolio', 'aspect-[16/9]'],
   },
   {
     file: 'lib/public-content.ts',
@@ -68,7 +68,7 @@ const checks = [
   },
   {
     file: 'components/CuratedRecentWork.tsx',
-    patterns: ['Request Tailored Examples', 'Request similar galleries', 'Complete galleries are shared privately by request'],
+    patterns: ['View Portfolio', 'https://gallery.studio37.cc', 'Complete galleries are shared privately by request'],
   },
   {
     file: 'components/PublicConversionSections.tsx',
@@ -102,7 +102,7 @@ const checks = [
   },
   {
     file: 'scripts/audit-mobile-public-polish.mjs',
-    patterns: ['Request similar galleries', '/book-consultation', '/tools/pricing', '/request-portfolio'],
+    patterns: ['View Portfolio', '/book-consultation', '/tools/pricing', '/request-portfolio'],
   },
 ]
 

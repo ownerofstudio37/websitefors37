@@ -62,6 +62,19 @@ export const studio37ServiceFacts: ServiceFact[] = [
     serviceAreas: ["Pinehurst TX", "The Woodlands TX", "Montgomery County TX", "Tomball TX", "Magnolia TX", "Greater Houston"],
   },
   {
+    name: "Engagement Sessions",
+    slug: "engagement-session",
+    types: ["Engagement sessions", "Surprise proposals", "Proposal concierge planning"],
+    description:
+      "Engagement sessions start at $450 with location planning, relaxed direction, and a private gallery. Surprise proposal concierge planning is quoted after a consultation.",
+    packages: {
+      signature: { name: "Signature Engagement", price: "$450", duration: "45 minutes", photos: "15+ edited photos", features: ["Location planning support", "Styling and prep guide", "Save-the-date crop set"] },
+      premium: { name: "Premium Engagement", price: "$650", duration: "75 minutes", photos: "25+ edited photos", features: ["Two location concepts", "Outfit and timeline coaching", "72-hour sneak peek"] },
+      editorial: { name: "Editorial Engagement", price: "$900", duration: "90+ minutes", photos: "35+ edited photos", features: ["Creative direction and shot list", "Golden-hour planning", "48-hour sneak peek"] },
+    },
+    serviceAreas: ["Pinehurst TX", "The Woodlands TX", "Montgomery County TX", "Tomball TX", "Magnolia TX", "Greater Houston"],
+  },
+  {
     name: "Portrait Photography",
     slug: "portrait-photography",
     types: ["Family portraits", "Senior portraits", "Headshots", "Maternity sessions"],

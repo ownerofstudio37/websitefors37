@@ -46,7 +46,7 @@ export default function MiniSessionsPage() {
       <section className="relative min-h-[520px] overflow-hidden bg-stone-950 text-white">
         <Image
           src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255559/PS379799_ayoxbp.jpg"
-          alt="Studio37 mini session portrait in Montgomery County"
+          alt="Couple embracing among lush green trees"
           fill
           priority
           className="object-cover opacity-55"
@@ -59,6 +59,10 @@ export default function MiniSessionsPage() {
               A short, polished portrait session for families, couples, seniors, and anyone who needs fresh images without a full-session timeline.
             </p>
             <p className="mt-4 text-sm font-semibold text-amber-100">Starting at $350 · 30 minutes · private gallery delivery</p>
+            <Link href="/holiday-mini-sessions" className="mt-3 inline-flex items-center text-sm font-semibold text-white underline-offset-4 hover:underline">
+              Planning holiday cards? See holiday mini sessions
+              <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden="true" />
+            </Link>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link href="/book-a-session?package=portrait_mini" className="btn-primary inline-flex items-center">
                 Book a Mini Session <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />

@@ -18,7 +18,7 @@ const checks = [
     patterns: [
       'Brand Refresh Sessions (commercial photos)',
       'Branding + Marketing (web, SEO, PPC)',
-      'Custom websites, SEO, PPC, social systems, and growth strategy',
+      '/services/branding-marketing',
     ],
   },
   {

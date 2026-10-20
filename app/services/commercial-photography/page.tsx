@@ -130,7 +130,7 @@ export default function CommercialPhotographyPage() {
         <div className="absolute inset-0 opacity-40">
           <Image
             src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1778033155/Untitled-46_2_tg6z4m.jpg"
-            alt="Studio37 commercial photography for business content in Pinehurst TX"
+            alt="Black and white product photo of a felt cowboy hat on a dark table"
             fill
             className="object-cover"
             priority
@@ -266,7 +266,7 @@ export default function CommercialPhotographyPage() {
             <div className="relative">
               <Image
                 src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255706/PS373287_d7fl9k.jpg"
-                alt="Studio37 commercial brand photography for Montgomery County businesses"
+                alt="Two craft cocktails on a bar top under warm lights"
                 width={600}
                 height={400}
                 className="rounded-[var(--radius-card)] shadow-[var(--shadow-strong)]"

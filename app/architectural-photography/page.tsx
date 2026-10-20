@@ -47,7 +47,7 @@ export default function ArchitecturalPhotographyPage() {
       <section className="relative min-h-[520px] overflow-hidden bg-stone-950 text-white">
         <Image
           src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1784791656/VB_School_Chris_Faves_-_4-2_u9lpel.jpg"
-          alt="Studio37 architectural and real estate photography for business spaces"
+          alt="The Volleyball School sign mounted on the front of a building"
           fill
           priority
           className="object-cover opacity-55"

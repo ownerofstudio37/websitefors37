@@ -108,7 +108,12 @@ const nextConfig = {
       // Pages that blog posts link to but that never existed.
       { source: '/booking', destination: '/book-consultation', statusCode: 301 },
       { source: '/venues', destination: '/blog/wedding-venues-montgomery-county-tx-photographer-guide', statusCode: 301 },
-      { source: '/packages', destination: '/tools/pricing', statusCode: 301 },
+      { source: '/packages', destination: '/pricing', statusCode: 301 },
+      { source: '/prices', destination: '/pricing', statusCode: 301 },
+      { source: '/testimonials', destination: '/reviews', statusCode: 301 },
+      // Expired seasonal promos (still indexed) point at the evergreen mini sessions page.
+      { source: '/fall-mini-sale', destination: '/mini-sessions', statusCode: 301 },
+      { source: '/feb14-mini', destination: '/mini-sessions', statusCode: 301 },
       // Blog posts merged into a stronger post (lib/blog-merges.json).
       ...Object.entries(blogMerges.redirects).map(([slug, destination]) => ({ source: `/blog/${slug}`, destination, statusCode: 301 })),
       // Deleted post that Google still has indexed (Search Console, Oct 2026).

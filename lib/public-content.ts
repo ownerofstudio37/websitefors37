@@ -61,7 +61,22 @@ export const studio37Reviews = [
     quote: 'Fantastic with kids and incredibly efficient.',
     detail: 'Kid-friendly session',
   },
+  {
+    name: 'Astini S.',
+    service: 'Portrait',
+    quote: 'They are the kindest couple, and we clicked with them right away.',
+    detail: 'Couples portrait session',
+  },
+  {
+    name: 'Bate I.',
+    service: 'Portrait',
+    quote: 'They were absolutely amazing!',
+    detail: 'Solo portrait session',
+  },
 ]
+
+// Checked against the public Thumbtack profile on 2026-10-20. Update the count when it changes.
+export const thumbtackRating = { rating: '5.0', count: 28 }
 
 export const localTrustReviews = [
   studio37Reviews[3],
@@ -85,7 +100,7 @@ export const recentWorkItems = [
     service: 'Engagement',
     location: 'The Woodlands, TX',
     image: curatedImageSlots.engagementHero,
-    alt: 'Studio37 golden-hour engagement photography session in The Woodlands Texas',
+    alt: 'Engaged couple leaning against a large oak tree at golden hour',
     note: 'Soft sunset portraits with location planning, relaxed direction, and save-the-date variety.',
     galleryUrl: 'https://gallery.studio37.cc',
     featured: true,
@@ -96,7 +111,7 @@ export const recentWorkItems = [
     service: 'Proposal',
     location: 'Montgomery County',
     image: curatedImageSlots.proposalProof,
-    alt: 'Studio37 surprise proposal photography with concierge planning in Montgomery County Texas',
+    alt: 'Man kneeling in the grass to propose under a large oak tree',
     note: 'A discreet reveal plan with privacy notes, portrait timing, and post-proposal gallery coverage.',
     galleryUrl: 'https://gallery.studio37.cc',
     featured: true,
@@ -107,7 +122,7 @@ export const recentWorkItems = [
     service: 'Portraits',
     location: 'Pinehurst, TX',
     image: curatedImageSlots.portraitProof,
-    alt: 'Studio37 editorial portrait session in Pinehurst Texas',
+    alt: 'Young woman posing among pink azalea blooms',
     note: 'Clean direction, polished editing, and gallery-ready portrait variety.',
     featured: true,
     order: 3,
@@ -117,7 +132,7 @@ export const recentWorkItems = [
     service: 'Family',
     location: 'Montgomery County',
     image: curatedImageSlots.familyProof,
-    alt: 'Warm Studio37 family photography session in Montgomery County Texas',
+    alt: 'Black and white family portrait of parents hugging their three daughters by the water',
     note: 'Relaxed posing, detail coverage, and natural connection moments.',
     featured: true,
     order: 4,
@@ -127,7 +142,7 @@ export const recentWorkItems = [
     service: 'Commercial',
     location: 'Greater Houston',
     image: curatedImageSlots.commercialProof,
-    alt: 'Studio37 commercial brand photography refresh in Greater Houston',
+    alt: 'Two craft cocktails on a bar top under warm lights',
     note: 'Business-ready images for web, social, profiles, and campaigns.',
     featured: true,
     order: 5,

@@ -17,8 +17,13 @@ export const businessInfo = {
     website: 'https://www.studio37.cc'
   },
   geo: {
-    latitude: 30.1605,  // 1701 Goodson Loop, Pinehurst (OpenStreetMap geocode)
-    longitude: -95.6970
+    latitude: 30.1624,  // The Google Business Profile pin (matching it keeps the listing and schema consistent)
+    longitude: -95.7019
+  },
+  // Public review profiles. The Google link is the Business Profile's CID, so it survives listing renames.
+  reviewProfiles: {
+    google: 'https://maps.google.com/?cid=8075543250953996134',
+    thumbtack: 'https://www.thumbtack.com/tx/pinehurst/event-photographers/studio-37/service/552295631777284097',
   },
   serviceAreas: [
     'Pinehurst',
@@ -203,7 +208,8 @@ export function generateLocalBusinessSchema() {
       opens: hours === 'Closed' ? null : hours.split('-')[0],
       closes: hours === 'Closed' ? null : hours.split('-')[1]
     })).filter(hours => hours.opens),
-    sameAs: Object.values(businessInfo.socialMedia),
+    sameAs: [...Object.values(businessInfo.socialMedia), ...Object.values(businessInfo.reviewProfiles)],
+    hasMap: businessInfo.reviewProfiles.google,
     priceRange: '$$',
     paymentAccepted: 'Cash, Credit Card, Check, PayPal',
     currenciesAccepted: 'USD'

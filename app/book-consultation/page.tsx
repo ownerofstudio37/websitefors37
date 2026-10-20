@@ -1,6 +1,6 @@
 import { Suspense } from 'react'
 import ConsultationBookingForm from '@/components/ConsultationBookingForm'
-import { Phone, Mail, Clock, CheckCircle2, Search, Target } from 'lucide-react'
+import { Phone, Mail, CheckCircle2 } from 'lucide-react'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 import { studio37Reviews } from '@/lib/public-content'
 
@@ -33,77 +33,49 @@ export default function BookConsultationPage({
         title: 'Request Your Free Website + SEO Growth Audit',
         intro:
           'Start with a focused 15-minute audit call. We will review your website, search visibility, content gaps, paid traffic opportunities, and lead path so you know the cleanest next move.',
-        cardOneTitle: 'Focused Review',
-        cardOneCopy: 'We look at the site, offer, search structure, and obvious conversion gaps before recommending scope.',
-        cardTwoTitle: '100% Free',
-        cardTwoCopy: 'No obligation. The goal is to identify whether SEO, website structure, content, PPC, or follow-up should come first.',
-        cardThreeTitle: 'Clear Next Step',
-        cardThreeCopy: 'You leave with a practical direction, not a generic agency menu.',
+        chips: ['15-minute audit call', '100% free, no obligation', 'A clear next step'],
       }
     : {
         eyebrow: 'Consultation',
         title: 'Book Your Free Consultation',
         intro:
           'Start with a quick 15-minute planning call. We will confirm the right service, package direction, availability, and whether you should book a session, request a quote, or review private gallery examples first.',
-        cardOneTitle: 'Quick & Easy',
-        cardOneCopy: 'Just 15 minutes to discuss your vision and get expert recommendations.',
-        cardTwoTitle: '100% Free',
-        cardTwoCopy: 'No obligations, no hidden costs. Just valuable insights for your project',
-        cardThreeTitle: 'We Call You',
-        cardThreeCopy: 'At your selected time, we will call you and turn the conversation into a clear next step.',
+        chips: ['15-minute call', '100% free, no obligation', 'We call you at the time you pick'],
       }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-stone-50 to-white pt-20">
       {/* Hero Section */}
-      <div className="bg-stone-950 text-white py-20 md:py-24">
+      <div className="bg-stone-950 text-white py-12 md:py-16">
         <div className="container mx-auto px-4 max-w-6xl">
           <div className="text-center">
             <div className="eyebrow mb-4 bg-white/10 text-amber-200 border-white/10">{pageCopy.eyebrow}</div>
-            <h1 className="text-4xl md:text-6xl font-bold mb-4">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">
               {pageCopy.title}
             </h1>
-            <p className="text-xl text-stone-300 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-lg md:text-xl text-stone-300 max-w-2xl mx-auto leading-relaxed">
               {pageCopy.intro}
             </p>
           </div>
         </div>
       </div>
 
-      {/* Benefits Section */}
-      <div className="container mx-auto px-4 py-12 md:py-16 max-w-6xl">
-        <div className="grid md:grid-cols-3 gap-8 mb-12">
-          <div className="surface-panel text-center p-8">
-            <div className="w-16 h-16 bg-amber-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
-              {isMarketingAudit ? <Search className="h-8 w-8 text-primary-600" /> : <Clock className="h-8 w-8 text-primary-600" />}
-            </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-2">{pageCopy.cardOneTitle}</h3>
-            <p className="text-gray-600">
-              {pageCopy.cardOneCopy}
-            </p>
-          </div>
+      <div className="container mx-auto px-4 py-8 md:py-12 max-w-6xl">
+        {/* The form comes first; the explanation of what happens next sits below it. */}
+        <ul className="mb-8 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm font-semibold text-stone-700">
+          {pageCopy.chips.map((label) => (
+            <li key={label} className="inline-flex items-center gap-2">
+              <CheckCircle2 className="h-4 w-4 text-green-700" aria-hidden="true" />
+              {label}
+            </li>
+          ))}
+        </ul>
 
-          <div className="surface-panel text-center p-8">
-            <div className="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-              <CheckCircle2 className="h-8 w-8 text-green-600" />
-            </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-2">{pageCopy.cardTwoTitle}</h3>
-            <p className="text-gray-600">
-              {pageCopy.cardTwoCopy}
-            </p>
-          </div>
+        <Suspense fallback={null}>
+          <ConsultationBookingForm />
+        </Suspense>
 
-          <div className="surface-panel text-center p-8">
-            <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-              {isMarketingAudit ? <Target className="h-8 w-8 text-blue-600" /> : <Phone className="h-8 w-8 text-blue-600" />}
-            </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-2">{pageCopy.cardThreeTitle}</h3>
-            <p className="text-gray-600">
-              {pageCopy.cardThreeCopy}
-            </p>
-          </div>
-        </div>
-
+        <div className="mt-16" />
         {isMarketingAudit && (
           <div className="mb-12 rounded-xl border border-primary-200 bg-primary-50 p-6">
             <p className="text-sm font-semibold uppercase tracking-[0.18em] text-primary-800">What To Bring</p>
@@ -215,10 +187,6 @@ export default function BookConsultationPage({
           </div>
         </div>
 
-        {/* Booking Form */}
-        <Suspense fallback={null}>
-          <ConsultationBookingForm />
-        </Suspense>
 
         {/* Alternative Contact Methods */}
         <div className="mt-12 text-center">

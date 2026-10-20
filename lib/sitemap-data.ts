@@ -20,6 +20,8 @@ const CONTENT_UPDATES: Array<{ match: RegExp; date: string }> = [
   // Service pages, portrait specialty guides, branding pages, certifications, and the About bio.
   { match: /^\/services(\/.*)?$/, date: '2026-10-11' },
   { match: /^\/(family-photography|senior-portraits|maternity-sessions|professional-headshots|headshot-photographer-houston-tx|about|case-studies\/[a-z-]+)$/, date: '2026-10-11' },
+  // Pricing and reviews pages added; FAQ linked to them.
+  { match: /^\/(pricing|reviews|faq|holiday-mini-sessions)$/, date: '2026-10-20' },
 ]
 
 function contentLastModified(url: string) {
@@ -62,6 +64,9 @@ const EXCLUDED_PAGE_SLUGS = new Set([
   'new-landing-page',
   'google-site-verification',
   'portfolio',
+  // Coded routes own these.
+  'pricing',
+  'reviews',
   // Thin portfolio stubs (under 300 words); the real portfolio is the gallery subdomain.
   'project-showcase',
   'projects',
@@ -230,6 +235,12 @@ export async function getSitemapRoutes(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(post.updated_at),
       changeFrequency: 'monthly' as const,
       priority: PRIORITIES.blogPostsModerate,
+    })),
+    ...['/pricing', '/reviews', '/holiday-mini-sessions'].map((path) => ({
+      url: `${sitemapBaseUrl}${path}`,
+      lastModified: staticLastModified,
+      changeFrequency: 'monthly' as const,
+      priority: PRIORITIES.mainPages,
     })),
     {
       url: `${sitemapBaseUrl}/compare`,

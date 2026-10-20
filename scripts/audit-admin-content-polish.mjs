@@ -44,7 +44,7 @@ const checks = [
       'published_at',
       'SEO description',
       'AI Blog Writer',
-      'Short and Medium are safest',
+      'switch to Short or Medium',
     ],
   },
   {

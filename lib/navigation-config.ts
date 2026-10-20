@@ -24,6 +24,14 @@ const CONCIERGE_NAV_ITEM: NavigationItem = {
   visible: true,
 }
 
+const PRICING_NAV_ITEM: NavigationItem = {
+  id: 'services-pricing',
+  label: 'Prices & Packages',
+  href: '/pricing',
+  order: 7.5,
+  visible: true,
+}
+
 const BASE_SERVICE_NAV_CHILDREN: NavigationItem[] = [
   { id: 'services-wedding', label: 'Wedding Photography', href: '/services/wedding-photography', order: 1, visible: true },
   { id: 'services-portrait', label: 'Portrait Photography', href: '/services/portrait-photography', order: 2, visible: true },
@@ -101,8 +109,10 @@ export function normalizeNavigationItems(items: NavigationItem[]): NavigationIte
         return (
           child.id !== ENGAGEMENT_NAV_ITEM.id &&
           child.id !== CONCIERGE_NAV_ITEM.id &&
+          child.id !== PRICING_NAV_ITEM.id &&
           href !== ENGAGEMENT_NAV_ITEM.href &&
-          href !== CONCIERGE_NAV_ITEM.href
+          href !== CONCIERGE_NAV_ITEM.href &&
+          href !== PRICING_NAV_ITEM.href
         )
       })
       .map((child) => {
@@ -129,7 +139,7 @@ export function normalizeNavigationItems(items: NavigationItem[]): NavigationIte
 
     return {
       ...item,
-      children: [...children, ENGAGEMENT_NAV_ITEM, CONCIERGE_NAV_ITEM].sort((a, b) => a.order - b.order),
+      children: [...children, ENGAGEMENT_NAV_ITEM, CONCIERGE_NAV_ITEM, PRICING_NAV_ITEM].sort((a, b) => a.order - b.order),
     }
   })
 }

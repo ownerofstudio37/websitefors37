@@ -65,6 +65,7 @@ export default function SEOFooter() {
               <li><Link href="/services/event-photography" className="hover:text-white transition-colors">Event Photography</Link></li>
               <li><Link href="/services/commercial-photography" className="hover:text-white transition-colors">Commercial Photography</Link></li>
               <li><Link href="/services/branding-marketing" className="hover:text-white transition-colors">Branding &amp; Marketing</Link></li>
+              <li><Link href="/pricing" className="hover:text-white transition-colors">Prices &amp; Packages</Link></li>
               <li><Link href="/compare" className="hover:text-white transition-colors">Compare Packages</Link></li>
               <li><Link href="/locations" className="hover:text-white transition-colors">Service Areas</Link></li>
             </ul>
@@ -75,6 +76,7 @@ export default function SEOFooter() {
             <ul className="space-y-2 text-sm">
               <li><Link href="/blog" className="hover:text-white transition-colors">Blog &amp; Tips</Link></li>
               <li><Link href="/about" className="hover:text-white transition-colors">About Studio37</Link></li>
+              <li><Link href="/reviews" className="hover:text-white transition-colors">Client Reviews</Link></li>
               <li><Link href="/session-prep" className="hover:text-white transition-colors">Session Prep Guides</Link></li>
               <li><Link href="/book-consultation" className="hover:text-white transition-colors">Book Consultation</Link></li>
               <li><Link href="/contact" className="hover:text-white transition-colors">Contact Us</Link></li>

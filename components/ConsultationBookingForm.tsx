@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Calendar as CalendarIcon, Clock, ArrowRight, ArrowLeft, CheckCircle2, Phone, Mail, User, MessageSquare, Tag } from 'lucide-react'
@@ -105,6 +105,20 @@ function formatSelectedDate(
 const ConsultationBookingForm = () => {
   const [step, setStep] = useState(1)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const formTopRef = useRef<HTMLDivElement>(null)
+  const firstStepRender = useRef(true)
+
+  // Each step replaces the last, so on phones bring the top of the form back into view when the step changes.
+  useEffect(() => {
+    if (firstStepRender.current) {
+      firstStepRender.current = false
+      return
+    }
+    const top = formTopRef.current?.getBoundingClientRect().top
+    if (top !== undefined && (top < 0 || top > window.innerHeight * 0.5)) {
+      formTopRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+  }, [step])
   const searchParams = useSearchParams()
   const packageInterest = searchParams?.get('package') || ''
   const serviceParam = searchParams?.get('service') || ''
@@ -271,8 +285,11 @@ const ConsultationBookingForm = () => {
           onClick={() => {
             if (!isPast) {
               setSelectedDate(dateStr)
+              setStep(2)
             }
           }}
+          aria-label={currentDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
+          aria-pressed={isSelected}
           className={`relative min-h-[44px] min-w-0 rounded-lg border p-1.5 transition-all sm:min-h-[50px] sm:p-2 ${borderColor} ${bgColor} ${cursor} ${
             isSelected ? 'ring-2 ring-primary-600 ring-offset-2' : ''
           }`}
@@ -359,7 +376,7 @@ const ConsultationBookingForm = () => {
   }
 
   return (
-    <div className="w-full max-w-4xl mx-auto">
+    <div ref={formTopRef} className="w-full max-w-4xl mx-auto scroll-mt-24">
       {/* Progress Steps */}
       <div className="mb-8">
         <div className="flex items-center justify-between relative">
@@ -419,7 +436,7 @@ const ConsultationBookingForm = () => {
               </div>
             )}
             <p className="text-gray-600 mb-6">
-              Select a convenient date for your free 15-minute consultation call.
+              Tap a date for your free 15-minute consultation call.
             </p>
 
             {/* Month Navigation */}
@@ -493,8 +510,12 @@ const ConsultationBookingForm = () => {
                   {timeSlots.map((slot) => (
                     <button
                       key={slot.time}
-                      onClick={() => setSelectedTime(slot.time)}
+                      onClick={() => {
+                        setSelectedTime(slot.time)
+                        setStep(3)
+                      }}
                       disabled={!slot.available}
+                      aria-pressed={selectedTime === slot.time}
                       className={`p-3 rounded-lg border-2 transition-all font-medium text-sm ${
                         selectedTime === slot.time
                           ? 'bg-primary-600 text-white border-primary-600'
@@ -545,11 +566,14 @@ const ConsultationBookingForm = () => {
 
             <div className="space-y-4 mb-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="consult-name" className="block text-sm font-medium text-gray-700 mb-2">
                   <User className="inline h-4 w-4 mr-1" />
                   Full Name *
                 </label>
                 <input
+                  id="consult-name"
+                  name="name"
+                  autoComplete="name"
                   type="text"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -560,11 +584,14 @@ const ConsultationBookingForm = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="consult-email" className="block text-sm font-medium text-gray-700 mb-2">
                   <Mail className="inline h-4 w-4 mr-1" />
                   Email Address *
                 </label>
                 <input
+                  id="consult-email"
+                  name="email"
+                  autoComplete="email"
                   type="email"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
@@ -575,11 +602,14 @@ const ConsultationBookingForm = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="consult-phone" className="block text-sm font-medium text-gray-700 mb-2">
                   <Phone className="inline h-4 w-4 mr-1" />
                   Phone Number *
                 </label>
                 <input
+                  id="consult-phone"
+                  name="phone"
+                  autoComplete="tel"
                   type="tel"
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
@@ -590,11 +620,13 @@ const ConsultationBookingForm = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="consult-notes" className="block text-sm font-medium text-gray-700 mb-2">
                   <MessageSquare className="inline h-4 w-4 mr-1" />
                   What would you like to discuss? (optional)
                 </label>
                 <textarea
+                  id="consult-notes"
+                  name="notes"
                   value={formData.notes}
                   onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent"

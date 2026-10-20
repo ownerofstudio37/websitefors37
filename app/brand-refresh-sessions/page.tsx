@@ -52,7 +52,7 @@ export default function BrandRefreshSessionsPage() {
       <section className="relative min-h-[520px] overflow-hidden bg-stone-950 text-white">
         <Image
           src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1784791656/VB_School_Caitie_Faves_-_6_gsn8fe.jpg"
-          alt="Studio37 brand refresh photography session for a business"
+          alt="Pink volleyball school T-shirt hanging against a court net"
           fill
           priority
           className="object-cover opacity-55"

@@ -9,6 +9,7 @@ type EventName =
   | 'phone_click'
   | 'email_click'
   | 'gallery_view'
+  | 'gallery_click'
   | 'video_watch'
   | 'booking_click'
   | 'lead_captured'
@@ -352,6 +353,23 @@ export function setupPrimaryCtaTracking() {
     }
     if (href.startsWith('mailto:')) {
       trackEvent('email_click', { link_url: href, page_path: window.location.pathname })
+      return
+    }
+
+    // The gallery site is where visitors browse full work (and leave their details), so record which page,
+    // section, and link sent them there.
+    if (href.includes('gallery.studio37.cc')) {
+      const section = clickable.closest('section,header,footer,nav')
+      trackEvent('gallery_click', {
+        link_url: href,
+        link_text: (clickable.textContent || '').trim().slice(0, 80),
+        link_section:
+          section?.getAttribute('aria-label') ||
+          section?.querySelector('h1,h2')?.textContent?.trim().slice(0, 80) ||
+          section?.tagName.toLowerCase() ||
+          'page',
+        page_path: window.location.pathname,
+      })
       return
     }
 
