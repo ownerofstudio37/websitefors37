@@ -29,7 +29,7 @@ export default function ServiceGuidePage({ guide, serviceName, description }: { 
 
       <section className="relative overflow-hidden bg-stone-950 text-white">
         <div className="absolute inset-0">
-          <CldImg image={guide.heroImage} widths={HERO_WIDTHS} sizes="100vw" className="h-full w-full object-cover opacity-60" priority />
+          <CldImg image={guide.heroImage} widths={HERO_WIDTHS} quality="good" sizes="100vw" className="h-full w-full object-cover opacity-60" priority />
         </div>
         <div
           className="absolute inset-0 bg-[linear-gradient(180deg,rgba(12,10,9,0.35),rgba(12,10,9,0.85))] md:bg-[linear-gradient(90deg,rgba(12,10,9,0.9),rgba(12,10,9,0.55),rgba(12,10,9,0.2))]"

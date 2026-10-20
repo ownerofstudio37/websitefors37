@@ -11,6 +11,7 @@ type Specialty = { label: string; href: string }
 export default function ServiceProofSection({ serviceKey, specialties }: { serviceKey: keyof typeof serviceProof; specialties?: Specialty[] }) {
   const proof = serviceProof[serviceKey]
   const review = getServiceReview(proof.reviewName)
+  const extraReview = proof.extraReviewName ? getServiceReview(proof.extraReviewName) : undefined
 
   return (
     <>
@@ -92,6 +93,19 @@ export default function ServiceProofSection({ serviceKey, specialties }: { servi
               <h2 id={`${serviceKey}-proof`} className="text-2xl font-bold text-stone-950 md:text-3xl">
                 {proof.heading}
               </h2>
+            )}
+            {extraReview && (
+              <figure className="rounded-2xl border border-stone-200 p-6">
+                <div className="mb-3 flex gap-1 text-amber-500" role="img" aria-label="5 out of 5 stars">
+                  {Array.from({ length: 5 }).map((_, index) => (
+                    <Star key={index} className="h-4 w-4 fill-current" aria-hidden="true" />
+                  ))}
+                </div>
+                <blockquote className="leading-7 text-stone-700">&ldquo;{extraReview.quote}&rdquo;</blockquote>
+                <figcaption className="mt-3 text-sm font-semibold text-stone-900">
+                  {extraReview.name} <span className="font-normal text-stone-500">· {extraReview.detail}</span>
+                </figcaption>
+              </figure>
             )}
             <p className="text-sm text-stone-500">Rated 5.0 on Google and Thumbtack, with Top Pro status on Thumbtack.</p>
           </div>
