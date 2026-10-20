@@ -3,7 +3,7 @@ import { generateSEOMetadata } from '@/lib/seo-helpers'
 import { cityMetaDescriptions, cityOgImage } from '@/lib/city-guides'
 
 export const metadata = generateSEOMetadata({
-  title: 'Photographer in The Woodlands, TX | Studio37',
+  title: 'The Woodlands Photographer: Portraits & Weddings | Studio37',
   description: cityMetaDescriptions['local-photographer-the-woodlands-tx'],
   ogImage: cityOgImage('local-photographer-the-woodlands-tx'),
   keywords: [

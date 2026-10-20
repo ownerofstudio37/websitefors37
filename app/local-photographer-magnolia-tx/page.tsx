@@ -3,7 +3,7 @@ import { generateSEOMetadata } from '@/lib/seo-helpers'
 import { cityMetaDescriptions, cityOgImage } from '@/lib/city-guides'
 
 export const metadata = generateSEOMetadata({
-  title: 'Photographer in Magnolia, TX | Studio37',
+  title: 'Magnolia, TX Photographer: Families, Portraits & Headshots',
   description: cityMetaDescriptions['local-photographer-magnolia-tx'],
   ogImage: cityOgImage('local-photographer-magnolia-tx'),
   keywords: [

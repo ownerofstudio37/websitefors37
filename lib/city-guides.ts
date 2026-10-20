@@ -1814,7 +1814,7 @@ export const cityMetaDescriptions: Record<string, string> = {
   'local-photographer-the-woodlands-tx': 'The Woodlands photographer for pine-trail family sessions and Waterway portraits, plus resort and country club weddings. Two photographers, from $350.',
   'local-photographer-conroe-tx': 'Conroe, TX photographer for Lake Conroe sunsets, W.G. Jones State Forest, and downtown sessions, plus Conroe wedding venues. Sessions from $350.',
   'local-photographer-spring-tx': 'Spring, TX photographer for Mercer Botanic Gardens, Spring Creek Greenway, and Old Town Spring sessions. Two photographers, sessions from $350.',
-  'local-photographer-montgomery-tx': 'Montgomery, TX photographer for Fernland Historical Park, Lake Conroe sunsets, and barn and lakeside weddings. Two photographers, sessions from $350.',
+  'local-photographer-montgomery-tx': 'Montgomery, TX photographer for Fernland Historical Park, Lake Conroe sunsets, barn weddings, and studio sessions at our Pinehurst studio. From $350.',
   'local-photographer-cypress-tx': 'Cypress, TX photographer for Kleb Woods, Kickerillo-Mischer Preserve, and Cypress Top Historic Park sessions. Two photographers, from $350.',
   'local-photographer-houston-tx': 'Houston photographer for skyline sessions at Buffalo Bayou, the Arboretum, Hermann Park, and the Heights. We handle park permits. Sessions from $350.',
   'local-photographer-katy-tx': 'Katy, TX photographer for Katy Boardwalk sunsets, Mary Jo Peckham Park, and Old Katy sessions, plus Katy wedding venues. Sessions from $350.',
