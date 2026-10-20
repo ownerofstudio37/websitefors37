@@ -43,6 +43,7 @@ export function credentialPersonSchema(ids: Credential['id'][] = credentials.map
   return {
     '@context': 'https://schema.org',
     '@type': 'Person',
+    '@id': 'https://www.studio37.cc/about#christian',
     name: 'Christian Combest',
     jobTitle: 'Owner, SEO and Growth Strategy',
     worksFor: { '@type': 'Organization', name: 'Studio37', url: 'https://www.studio37.cc' },

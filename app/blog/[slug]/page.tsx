@@ -139,10 +139,12 @@ function getArticleIntent(post: any) {
 }
 
 function getLocalizedBlogAreas(post: any) {
-  const haystack = `${post.title || ''} ${(post.tags || []).join(' ')} ${post.excerpt || ''} ${post.content || ''}`.toLowerCase()
+  const text = `${post.title || ''} ${(post.tags || []).join(' ')} ${post.excerpt || ''} ${post.content || ''}`
+  const haystack = text.toLowerCase()
 
+  // cityMentions keeps words like "spring" (the season) and "Sam Houston" from counting as cities.
   return geoServiceAreas.filter((area) => {
-    const cityMatch = haystack.includes(area.name.toLowerCase())
+    const cityMatch = cityMentions(text, area.name) > 0
     const landmarkMatch = area.landmarks.some((landmark) => haystack.includes(landmark.toLowerCase()))
     return cityMatch || landmarkMatch
   })

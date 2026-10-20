@@ -47,10 +47,16 @@ export default function Hero() {
                 See Our Work
               </Link>
             </div>
-            <Link href="/tools/package-recommender" className="mt-5 inline-flex items-center text-sm font-semibold text-amber-100 hover:underline">
-              Not sure which package fits? Find my package
-              <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden="true" />
-            </Link>
+            <div className="mt-5 flex flex-wrap gap-x-6 gap-y-2 text-sm font-semibold text-amber-100">
+              <Link href="/pricing" className="inline-flex items-center hover:underline">
+                See all prices
+                <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden="true" />
+              </Link>
+              <Link href="/tools/package-recommender" className="inline-flex items-center hover:underline">
+                Find my package
+                <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden="true" />
+              </Link>
+            </div>
           </div>
 
           <div className="hidden rounded-xl border border-white/15 bg-white/10 p-6 shadow-2xl backdrop-blur-md lg:block">

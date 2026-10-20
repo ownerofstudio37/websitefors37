@@ -148,7 +148,7 @@ export default function CityServicePage({ slug, description }: { slug: string; d
             <ul className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm font-semibold text-stone-100 sm:flex sm:flex-wrap" aria-label="Why clients book Studio37">
               <li className="flex items-center gap-1.5">
                 <Star className="h-4 w-4 fill-amber-400 text-amber-400" aria-hidden="true" />
-                5.0 on Google &amp; Thumbtack
+                <Link href="/reviews" className="underline-offset-4 hover:underline">5.0 on Google &amp; Thumbtack</Link>
               </li>
               <li className="flex items-center gap-1.5">
                 <Users className="h-4 w-4 text-amber-300" aria-hidden="true" />

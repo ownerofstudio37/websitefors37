@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Briefcase, CalendarDays, Camera, CheckCircle, Heart, MapPin, ShieldCheck, Star, Users } from 'lucide-react'
 import FAQSection from '@/components/FAQSection'
 import GoogleBusinessWidget from '@/components/GoogleBusinessWidget'
-import { generateBreadcrumbSchema, generateEnhancedLocalBusinessSchema } from '@/lib/enhanced-seo-schemas'
+import { generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
 import { BestPhotoLocationsSection } from '@/components/PublicFeatureContent'
 import { localTrustReviews } from '@/lib/public-content'
 import CityGuidePage from '@/components/CityGuidePage'
@@ -417,7 +417,6 @@ export default function LocalPhotographerCityPage({
     { name: 'Home', url: 'https://www.studio37.cc' },
     { name: `Local Photographer ${cityLabel}`, url: `https://www.studio37.cc/${slug}` },
   ])
-  const localBusinessSchema = generateEnhancedLocalBusinessSchema()
 
   const cityFaqs = [
     {
@@ -458,10 +457,6 @@ export default function LocalPhotographerCityPage({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
       />
 
       <section className="relative overflow-hidden bg-stone-950 py-20 text-white md:py-24">

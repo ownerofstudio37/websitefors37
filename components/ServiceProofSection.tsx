@@ -117,7 +117,8 @@ export default function ServiceProofSection({ serviceKey, specialties }: { servi
                 </figcaption>
               </figure>
             )}
-            <p className="text-sm text-stone-500">Rated 5.0 on Google and Thumbtack, with Top Pro status on Thumbtack.</p>
+            <p className="text-sm text-stone-500">Rated 5.0 on Google and Thumbtack, with Top Pro status on Thumbtack.{' '}
+              <Link href="/reviews" className="font-semibold text-amber-800 hover:underline">Read the reviews</Link></p>
           </div>
         </div>
       </section>

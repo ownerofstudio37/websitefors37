@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import { businessInfo, formatServiceAreasForSchema, schemaAssetUrls } from '@/lib/seo-config'
+import { businessInfo, schemaAssetUrls } from '@/lib/seo-config'
 
 interface SEOProps {
   title: string
@@ -173,21 +173,19 @@ export function generateArticleSchema(article: {
   author: string
   url: string
 }) {
+  const organization = { '@type': 'Organization', '@id': `${businessInfo.contact.website}/#organization`, name: businessInfo.legalName, url: businessInfo.contact.website }
   return {
     '@context': 'https://schema.org',
-    '@type': 'Article',
+    '@type': 'BlogPosting',
     headline: article.headline,
     description: article.description,
     image: article.image,
     datePublished: article.datePublished,
     dateModified: article.dateModified || article.datePublished,
     // Placeholder CMS authors ("Admin", the studio name) are credited to the business, not a fake person.
-    author: isPlaceholderAuthor(article.author)
-      ? { '@type': 'Organization', name: businessInfo.legalName, url: businessInfo.contact.website }
-      : { '@type': 'Person', name: article.author },
+    author: isPlaceholderAuthor(article.author) ? organization : { '@type': 'Person', name: article.author },
     publisher: {
-      '@type': 'Organization',
-      name: businessInfo.name,
+      ...organization,
       logo: {
         '@type': 'ImageObject',
         url: schemaAssetUrls.logo
@@ -197,18 +195,8 @@ export function generateArticleSchema(article: {
       '@type': 'WebPage',
       '@id': article.url
     },
-    about: businessInfo.services.map((service) => ({
-      '@type': 'Thing',
-      name: service,
-    })),
-    mentions: [
-      {
-        '@type': 'Organization',
-        name: businessInfo.legalName,
-        url: businessInfo.contact.website,
-      },
-      ...formatServiceAreasForSchema(),
-    ],
+    isPartOf: { '@id': `${businessInfo.contact.website}/#website` },
+    inLanguage: 'en-US',
   }
 }
 

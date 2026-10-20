@@ -8,13 +8,11 @@ export function generateEnhancedLocalBusinessSchema() {
     '@id': 'https://www.studio37.cc/#organization',
     name: 'Studio37 Photography',
     alternateName: 'Studio37',
-    legalName: 'Studio37 Photography LLC',
     description: 'Professional photography services specializing in weddings, portraits, events, and commercial photography in Pinehurst, Texas and Montgomery County.',
     url: 'https://www.studio37.cc',
     sameAs: [
       'https://www.facebook.com/studio37photography',
-      'https://www.instagram.com/studio37photography',
-      'https://www.yelp.com/biz/studio37-photography'
+      'https://www.instagram.com/studio37photography'
     ],
     logo: {
       '@type': 'ImageObject',
@@ -60,7 +58,7 @@ export function generateEnhancedLocalBusinessSchema() {
       }
     ],
     priceRange: '$$',
-    paymentAccepted: ['Cash', 'Credit Card', 'Check', 'PayPal', 'Venmo'],
+    paymentAccepted: ['Cash', 'Credit Card', 'Check', 'PayPal'],
     currenciesAccepted: 'USD',
     hasOfferCatalog: {
       '@type': 'OfferCatalog',
@@ -124,7 +122,6 @@ export function generateEnhancedLocalBusinessSchema() {
       '@type': 'Organization',
       name: 'Professional Photographers of America'
     },
-    award: 'Best Wedding Photographer Montgomery County 2024'
   }
 }
 
@@ -161,18 +158,13 @@ export function generateWebsiteSchema() {
     '@type': 'WebSite',
     '@id': 'https://www.studio37.cc/#website',
     url: 'https://www.studio37.cc',
-    name: 'Studio37 Photography',
-    description: 'Professional photography services in Pinehurst, Texas - Wedding, Portrait, Event & Commercial Photography',
+    // Google reads name/alternateName as the site name shown in search results.
+    name: 'Studio37',
+    alternateName: ['Studio37 Photography', 'Studio 37'],
+    description: 'Wedding, portrait, event, and commercial photography in Pinehurst, Texas and Greater Houston.',
+    inLanguage: 'en-US',
     publisher: {
       '@id': 'https://www.studio37.cc/#organization'
-    },
-    potentialAction: {
-      '@type': 'SearchAction',
-      target: {
-        '@type': 'EntryPoint',
-        urlTemplate: 'https://www.studio37.cc/search?q={search_term_string}'
-      },
-      'query-input': 'required name=search_term_string'
     }
   }
 }
