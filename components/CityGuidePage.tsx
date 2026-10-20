@@ -15,11 +15,13 @@ import {
   Star,
   Users,
 } from 'lucide-react'
-import CldImg, { HERO_WIDTHS, SECONDARY_WIDTHS } from '@/components/CldImg'
+import CldImg, { BANNER_ASPECT, HERO_ASPECT, HERO_WIDTHS, SECONDARY_WIDTHS } from '@/components/CldImg'
 import FAQSection from '@/components/FAQSection'
 import { generateBreadcrumbSchema, generateEnhancedLocalBusinessSchema } from '@/lib/enhanced-seo-schemas'
 import { type CityGuide, type CityImage, type CitySpot, DESTINATION_TRAVEL_POLICY, getCityGuideReviews } from '@/lib/city-guides'
 import { cityServiceLinksFor } from '@/lib/city-service-pages'
+import { cityMentions } from '@/lib/city-mentions'
+import { staticBlogPosts } from '@/lib/static-blog-posts'
 
 type CityGuidePageProps = {
   guide: CityGuide
@@ -163,7 +165,25 @@ function PlanningDetail({ title, icon: Icon, children }: { title: string; icon: 
   )
 }
 
-export default function CityGuidePage({ guide, stateAbbr, nearbyCities }: CityGuidePageProps) {
+// Blog posts whose title is about this city (same matching rules the blog uses for its local links).
+async function getCityBlogLinks(city: string) {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.studio37.cc'}/api/blog/list`, { next: { revalidate: 3600 } })
+    if (!res.ok) return []
+    const { posts: dbPosts = [] } = (await res.json()) as { posts?: Array<{ title?: string; slug: string }> }
+    // The API returns database posts only; include the code-based posts too.
+    const slugs = new Set(dbPosts.map((post) => post.slug))
+    const posts = [...dbPosts, ...staticBlogPosts.filter((post) => !slugs.has(post.slug))]
+    return posts
+      .filter((post) => cityMentions(post.title || '', city) > 0)
+      .slice(0, 4)
+      .map((post) => ({ label: (post.title || '').replace(/\s*\|\s*Studio\s?37.*$/i, ''), href: `/blog/${post.slug}` }))
+  } catch {
+    return []
+  }
+}
+
+export default async function CityGuidePage({ guide, stateAbbr, nearbyCities }: CityGuidePageProps) {
   const cityLabel = `${guide.city}, ${stateAbbr}`
   const pageUrl = `https://www.studio37.cc/${guide.slug}`
   const bookHref = `/book-consultation?city=${encodeURIComponent(cityLabel)}`
@@ -177,7 +197,10 @@ export default function CityGuidePage({ guide, stateAbbr, nearbyCities }: CityGu
 
   const heroImage: CityImage = guide.heroImage || DEFAULT_HERO
   // Planning guides plus this city's service pages (e.g. wedding photography in this city).
-  const planningLinks = [...(guide.guides || []), ...cityServiceLinksFor(guide.city)]
+  const blogLinks = await getCityBlogLinks(guide.city)
+  const planningLinks = [...(guide.guides || []), ...blogLinks, ...cityServiceLinksFor(guide.city)].filter(
+    (link, index, all) => all.findIndex((other) => other.href === link.href) === index
+  )
 
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Home', url: 'https://www.studio37.cc' },
@@ -243,7 +266,7 @@ export default function CityGuidePage({ guide, stateAbbr, nearbyCities }: CityGu
       {/* 1. Hero: pitch, trust, and the booking action. Location detail waits until later in the page. */}
       <section className="relative overflow-hidden bg-stone-950 text-white">
         <div className="absolute inset-0">
-          <CldImg image={heroImage} widths={HERO_WIDTHS} sizes="100vw" className="h-full w-full object-cover opacity-60" priority />
+          <CldImg image={heroImage} widths={HERO_WIDTHS} quality="good" aspect={HERO_ASPECT} sizes="100vw" className="h-full w-full object-cover opacity-60" priority />
         </div>
         <div
           className="absolute inset-0 bg-[linear-gradient(180deg,rgba(12,10,9,0.35),rgba(12,10,9,0.85))] md:bg-[linear-gradient(90deg,rgba(12,10,9,0.9),rgba(12,10,9,0.55),rgba(12,10,9,0.2))]"
@@ -562,7 +585,7 @@ export default function CityGuidePage({ guide, stateAbbr, nearbyCities }: CityGu
         <div className="absolute inset-0">
           <CldImg
             image={{ id: heroImage.id, alt: '' }}
-            widths={SECONDARY_WIDTHS}
+            widths={SECONDARY_WIDTHS} quality="good" aspect={BANNER_ASPECT}
             sizes="100vw"
             className="h-full w-full object-cover opacity-35"
           />

@@ -2,8 +2,18 @@ import Link from 'next/link'
 import { ArrowRight, Camera, CheckCircle, MapPin, Star } from 'lucide-react'
 import CldImg, { SECONDARY_WIDTHS } from '@/components/CldImg'
 import { getServiceReview, serviceProof } from '@/lib/service-guides'
+import RelatedGuides, { type GuideTopic } from '@/components/RelatedGuides'
 
 type Specialty = { label: string; href: string }
+
+const GUIDE_TOPIC: Record<string, GuideTopic> = {
+  wedding: 'wedding',
+  portrait: 'portrait',
+  event: 'event',
+  commercial: 'business',
+  engagement: 'engagement',
+  concierge: 'proposal',
+}
 
 // First-hand proof for a main service page: a real photo, a review, recent sessions with links to
 // the city pages, and the spots or venues we have worked. Optional specialties turn the section
@@ -11,6 +21,7 @@ type Specialty = { label: string; href: string }
 export default function ServiceProofSection({ serviceKey, specialties }: { serviceKey: keyof typeof serviceProof; specialties?: Specialty[] }) {
   const proof = serviceProof[serviceKey]
   const review = getServiceReview(proof.reviewName)
+  const extraReview = proof.extraReviewName ? getServiceReview(proof.extraReviewName) : undefined
 
   return (
     <>
@@ -93,6 +104,19 @@ export default function ServiceProofSection({ serviceKey, specialties }: { servi
                 {proof.heading}
               </h2>
             )}
+            {extraReview && (
+              <figure className="rounded-2xl border border-stone-200 p-6">
+                <div className="mb-3 flex gap-1 text-amber-500" role="img" aria-label="5 out of 5 stars">
+                  {Array.from({ length: 5 }).map((_, index) => (
+                    <Star key={index} className="h-4 w-4 fill-current" aria-hidden="true" />
+                  ))}
+                </div>
+                <blockquote className="leading-7 text-stone-700">&ldquo;{extraReview.quote}&rdquo;</blockquote>
+                <figcaption className="mt-3 text-sm font-semibold text-stone-900">
+                  {extraReview.name} <span className="font-normal text-stone-500">· {extraReview.detail}</span>
+                </figcaption>
+              </figure>
+            )}
             <p className="text-sm text-stone-500">Rated 5.0 on Google and Thumbtack, with Top Pro status on Thumbtack.</p>
           </div>
         </div>
@@ -125,6 +149,8 @@ export default function ServiceProofSection({ serviceKey, specialties }: { servi
           </div>
         </div>
       </section>
+
+      {GUIDE_TOPIC[serviceKey] && <RelatedGuides topic={GUIDE_TOPIC[serviceKey]} />}
     </>
   )
 }

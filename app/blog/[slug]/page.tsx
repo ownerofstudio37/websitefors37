@@ -15,6 +15,7 @@ import ComparePackagesCTA from '@/components/ComparePackagesCTA'
 import { getStaticBlogPost, staticBlogPosts } from '@/lib/static-blog-posts'
 import { isMergedBlogSlug } from '@/lib/blog-merges'
 import { cityGuideLinks } from '@/lib/city-guides'
+import { cityMentions } from '@/lib/city-mentions'
 import { type CityServiceKey, cityServiceConfig, cityServiceSlug } from '@/lib/city-service-pages'
 
 const isValidSlug = (s: string) => /^[a-z0-9-]{1,200}$/.test(s) // Increased from 64 to 200 chars for longer blog titles
@@ -42,9 +43,48 @@ function displayTitle(title: string) {
 }
 
 // The page header already renders the post title as the only <h1>; demote any H1 inside the post body.
-const articleBodyComponents = {
-  h1: (props: React.ComponentProps<'h2'>) => <h2 {...props} />,
+// Section headings get ids so the "In this guide" list can jump to them.
+function headingText(children: React.ReactNode): string {
+  if (typeof children === 'string' || typeof children === 'number') return String(children)
+  if (Array.isArray(children)) return children.map(headingText).join('')
+  if (React.isValidElement(children)) return headingText((children.props as { children?: React.ReactNode }).children)
+  return ''
 }
+
+function headingId(text: string) {
+  return text.toLowerCase().replace(/&amp;/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 80)
+}
+
+const articleBodyComponents = {
+  h1: ({ children, ...props }: React.ComponentProps<'h2'>) => <h2 id={headingId(headingText(children))} {...props}>{children}</h2>,
+  h2: ({ children, ...props }: React.ComponentProps<'h2'>) => <h2 id={headingId(headingText(children))} className="scroll-mt-24" {...props}>{children}</h2>,
+}
+
+const normalizeTitle = (text: string) => text.toLowerCase().replace(/[^a-z0-9]/g, '')
+
+// Many posts open with their own title as a "# Heading", which repeated the page title in the body.
+function stripLeadingTitle(content: string, title: string) {
+  const match = content.match(/^\s*#\s+(.+)\n/)
+  if (!match) return content
+  const heading = normalizeTitle(match[1])
+  const pageTitle = normalizeTitle(displayTitle(title || ''))
+  return heading && (heading === pageTitle || pageTitle.startsWith(heading) || heading.startsWith(pageTitle)) ? content.slice(match[0].length) : content
+}
+
+// "## Heading" sections for the jump list (markdown and HTML h2s both count).
+function sectionHeadings(content: string) {
+  const md = [...content.matchAll(/^##\s+(.+?)\s*#*$/gm)].map((m) => m[1])
+  const html = [...content.matchAll(/<h2[^>]*>([\s\S]*?)<\/h2>/gi)].map((m) => m[1].replace(/<[^>]+>/g, ''))
+  return [...md, ...html]
+    .map((text) => text.replace(/[*_`]/g, '').trim())
+    .filter(Boolean)
+    .map((text) => ({ text, id: headingId(text) }))
+}
+
+const formatPostDate = (value: string) =>
+  new Date(value).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' })
+
+const MAX_TAGS = 4
 
 function notFoundMetadata(slug?: string) {
   return generateSEOMetadata({
@@ -123,19 +163,6 @@ function getLocalizedBlogServiceSchema(post: any, intent: ReturnType<typeof getA
     url: blogCanonical(post.slug),
     areaServed: matchedAreas.map(formatServiceAreaForSchema),
   }
-}
-
-// City names that are also ordinary words only count with a state or "Old Town" next to them.
-const AMBIGUOUS_CITIES = new Set(['Spring', 'Humble', 'Porter', 'Cleveland', 'Waller', 'Willis', 'Magnolia'])
-// Phrases that contain a city name but are not about that city.
-const NOT_THE_CITY = /Montgomery County|Sam Houston|Lake Houston|Pinehurst studio|studio in Pinehurst/g
-
-function cityMentions(text: string, city: string) {
-  const name = city.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-  const pattern = AMBIGUOUS_CITIES.has(city)
-    ? new RegExp(`(Old Town ${name}|\\b${name},? (TX|Texas)\\b|\\bin ${name}\\b)`, 'g')
-    : new RegExp(`\\b${name}\\b`, 'g')
-  return (text.replace(NOT_THE_CITY, ' ').match(pattern) || []).length
 }
 
 // Links to the city guides a post mentions, using the matching city-service page (e.g. a wedding post that
@@ -268,7 +295,9 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
   const articleIntent = getArticleIntent(articlePost)
   const localizedServiceSchema = getLocalizedBlogServiceSchema(articlePost, articleIntent)
   const localizedBlogLinks = getLocalizedBlogLinks(articlePost, articleIntent)
-  const articleContent = stripSeoTitleComment(articlePost.content)
+  const articleContent = stripLeadingTitle(stripSeoTitleComment(articlePost.content), articlePost.title)
+  const articleSections = sectionHeadings(articleContent)
+  const readingMinutes = Math.max(1, Math.round((articleContent.replace(/<[^>]+>/g, ' ').match(/\S+/g) || []).length / 230))
   
   // Get related posts using same admin client
   const { data: recentPosts } = await supabase
@@ -334,12 +363,8 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
           <div className="mt-6 flex flex-wrap items-center text-sm text-stone-600">
             <div className="flex items-center mr-6 mb-2">
               <Calendar className="h-4 w-4 mr-1" />
-              <span>
-                {articlePost.published_at
-                  ? new Date(articlePost.published_at).toLocaleDateString()
-                  : new Date(articlePost.created_at || Date.now()).toLocaleDateString()
-                }
-              </span>
+              <span>{formatPostDate(articlePost.published_at || articlePost.created_at || new Date().toISOString())}</span>
+              <span className="ml-2 text-stone-500">· {readingMinutes} min read</span>
             </div>
             <div className="flex items-center mr-6 mb-2">
               <User className="h-4 w-4 mr-1" />
@@ -348,7 +373,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
             {articlePost.tags && articlePost.tags.length > 0 && (
               <div className="flex items-center flex-wrap">
                 <Tag className="h-4 w-4 mr-2" />
-                {articlePost.tags.map((tag: string, index: number) => (
+                {articlePost.tags.slice(0, MAX_TAGS).map((tag: string, index: number) => (
                   <span 
                     key={index} 
                     className="mb-2 mr-2 rounded-full bg-white px-3 py-1 text-xs font-medium text-stone-700 ring-1 ring-stone-200"
@@ -388,6 +413,21 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
             </div>
           )}
           
+          {articleSections.length >= 4 && (
+            <nav aria-label="In this guide" className="mb-10 rounded-lg border border-stone-200 bg-white p-5">
+              <p className="mb-3 text-sm font-semibold uppercase tracking-wide text-stone-500">In this guide</p>
+              <ol className="grid gap-2 text-sm sm:grid-cols-2">
+                {articleSections.map((section) => (
+                  <li key={section.id}>
+                    <a href={`#${section.id}`} className="font-medium text-amber-800 hover:underline">
+                      {section.text}
+                    </a>
+                  </li>
+                ))}
+              </ol>
+            </nav>
+          )}
+
           <article className="prose max-w-none prose-stone lg:prose-lg prose-headings:text-stone-950 prose-a:text-primary-700">
             <MDXRemote
               source={articleContent}
@@ -452,7 +492,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
                       className="rounded-lg border border-stone-200 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
                     >
                       <p className="mb-2 text-sm text-stone-500">
-                        {new Date(relatedPost.published_at).toLocaleDateString()}
+                        {formatPostDate(relatedPost.published_at)}
                       </p>
                       <h4 className="font-bold text-stone-950 transition-colors hover:text-primary-700">
                         {relatedPost.title}

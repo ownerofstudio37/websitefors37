@@ -9,6 +9,7 @@ import { brandingDetails, brandingMarketingServices, getBrandingMarketingService
 import { studio37Reviews } from '@/lib/public-content'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 import CredentialBadges from '@/components/CredentialBadges'
+import RelatedGuides from '@/components/RelatedGuides'
 
 type PageProps = {
   params: Promise<{ slug: string }>
@@ -246,6 +247,8 @@ export default async function BrandingMarketingSubServicePage({ params }: PagePr
           </div>
         </div>
       </section>
+
+      <RelatedGuides topic="business" heading="Marketing and content guides" />
 
       <FAQSection title={`${service.shortTitle} FAQs`} faqs={[...service.faq, ...detail.moreFaq]} />
 

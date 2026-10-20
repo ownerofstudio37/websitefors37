@@ -2,7 +2,7 @@
 
 import React from 'react'
 import Link from 'next/link'
-import { Camera, Users, Building, Heart, Megaphone, ArrowRight, HeartHandshake } from 'lucide-react'
+import { Camera, Users, Building, Heart, Megaphone, ArrowRight, HeartHandshake, Sparkles } from 'lucide-react'
 import OptimizedImage from './OptimizedImage'
 
 const services = [
@@ -39,6 +39,23 @@ const services = [
 			category: 'professional portraits',
 			slug: 'portrait-photography',
 			image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1779268257/PS375315_zyvbbi.jpg',
+		},
+		{
+			icon: Sparkles,
+			title: 'Engagement Sessions',
+			startingPrice: 'Starting at $450',
+			description:
+				'Golden-hour engagement sessions with location planning, relaxed direction, and save-the-date ready images, from Lake Windcrest to The Woodlands Waterway.',
+			nextStep: 'Pick the look you want, then a golden-hour time.',
+			features: [
+				'45-minute sessions',
+				'Location planning support',
+				'Styling and prep guide',
+				'Save-the-date crop set',
+			],
+			category: 'engagement',
+			slug: 'engagement-session',
+			image: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1790850959/KeltonSP-171_rb326n.jpg',
 		},
 		{
 			icon: HeartHandshake,
@@ -138,7 +155,7 @@ export default function Services() {
 								<div
 									className="surface-panel p-5 md:p-6 h-full flex flex-col transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-[0_18px_50px_rgba(15,23,42,0.12)]"
 								>
-									<div className="flex items-center justify-center w-14 h-14 bg-amber-50 rounded-2xl mb-5 group-hover:bg-amber-700 transition-all duration-300">
+									<div className="hidden md:flex items-center justify-center w-14 h-14 bg-amber-50 rounded-2xl mb-5 group-hover:bg-amber-700 transition-all duration-300">
 										<Icon className="h-8 w-8 text-primary-600 group-hover:text-white transition-colors duration-300" />
 									</div>
 
@@ -146,7 +163,7 @@ export default function Services() {
 									<Link
 										href={`/services/${service.slug}`}
 										aria-label={`View ${service.title}`}
-										className="mb-5 block aspect-[4/3] relative rounded-2xl overflow-hidden bg-stone-200 w-full focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2"
+										className="mb-5 block aspect-[16/10] md:aspect-[4/3] relative rounded-2xl overflow-hidden bg-stone-200 w-full focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2"
 									>
 										<OptimizedImage
 											src={service.image}
@@ -177,13 +194,13 @@ export default function Services() {
 										{service.description}
 									</p>
 
-									<ul className="space-y-2.5 mb-6 border-t border-stone-100 pt-5">
+									<ul className="mb-6 grid grid-cols-2 gap-x-3 gap-y-2.5 border-t border-stone-100 pt-5 md:grid-cols-1">
 										{service.features.map((feature) => (
 											<li
 												key={feature}
-												className="flex items-center text-sm text-stone-700"
+												className="flex items-start text-sm text-stone-700"
 											>
-												<div className="w-2 h-2 bg-amber-600 rounded-full mr-3 group-hover:scale-125 transition-transform duration-300"></div>
+												<div className="mt-1.5 w-2 h-2 flex-shrink-0 bg-amber-600 rounded-full mr-3 group-hover:scale-125 transition-transform duration-300"></div>
 												{feature}
 											</li>
 										))}
@@ -194,7 +211,8 @@ export default function Services() {
 											View Service Details
 											<ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" />
 										</Link>
-										<div className="grid grid-cols-2 gap-2">
+										{/* Same two tools on every card: shown on larger screens only, the page links them above. */}
+										<div className="hidden grid-cols-2 gap-2 md:grid">
 											<Link
 												href="/tools/package-recommender"
 												className="rounded-lg border border-stone-200 px-3 py-2 text-center text-xs font-semibold text-stone-800 hover:border-amber-300 hover:text-amber-800"

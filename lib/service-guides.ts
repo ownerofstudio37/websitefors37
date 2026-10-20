@@ -25,6 +25,8 @@ export type ServiceProof = {
   heading: string
   secondaryImage: CityImage
   reviewName: string
+  // Optional second review shown under the sessions list.
+  extraReviewName?: string
   sessions: ServiceSession[]
   spotsHeading: string
   spots: ServiceSpot[]
@@ -131,11 +133,17 @@ export const serviceProof: Record<string, ServiceProof> = {
     ],
   },
   engagement: {
-    eyebrow: 'Engagement locations',
-    heading: 'Where we photograph engagements',
-    secondaryImage: { id: 'PS379799_ayoxbp', alt: 'Couple embracing among lush green trees' },
+    eyebrow: 'Recent proposals',
+    heading: 'Proposals and engagements we have photographed',
+    secondaryImage: { id: 'KeltonSP-171_rb326n', alt: 'Engaged couple lying in the grass, raising their joined hands to show the engagement ring' },
     reviewName: 'Ainslee C.',
-    sessions: [],
+    extraReviewName: 'Lisa D.',
+    sessions: [
+      { description: 'A proposal at Rose Hill in the Tomball area', date: 'July 2026', cityLabel: 'Tomball', cityHref: CITY.tomball },
+      { description: 'A proposal at Mercer Botanic Gardens', date: 'February 2026', cityLabel: 'Humble', cityHref: CITY.humble },
+      { description: 'A proposal in College Station', date: 'March 2026', cityLabel: 'College Station', cityHref: CITY.collegeStation },
+      { description: 'A surprise proposal at Moody Gardens in Galveston, followed by family photos' },
+    ],
     spotsHeading: 'Engagement spots in our city guides',
     spots: [
       { name: 'Lake Windcrest', cityLabel: 'Magnolia', cityHref: CITY.magnolia, why: 'A clean sunset over the water with wooded shores.', verified: true },
