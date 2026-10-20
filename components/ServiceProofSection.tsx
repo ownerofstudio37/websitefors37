@@ -2,8 +2,18 @@ import Link from 'next/link'
 import { ArrowRight, Camera, CheckCircle, MapPin, Star } from 'lucide-react'
 import CldImg, { SECONDARY_WIDTHS } from '@/components/CldImg'
 import { getServiceReview, serviceProof } from '@/lib/service-guides'
+import RelatedGuides, { type GuideTopic } from '@/components/RelatedGuides'
 
 type Specialty = { label: string; href: string }
+
+const GUIDE_TOPIC: Record<string, GuideTopic> = {
+  wedding: 'wedding',
+  portrait: 'portrait',
+  event: 'event',
+  commercial: 'business',
+  engagement: 'engagement',
+  concierge: 'proposal',
+}
 
 // First-hand proof for a main service page: a real photo, a review, recent sessions with links to
 // the city pages, and the spots or venues we have worked. Optional specialties turn the section
@@ -139,6 +149,8 @@ export default function ServiceProofSection({ serviceKey, specialties }: { servi
           </div>
         </div>
       </section>
+
+      {GUIDE_TOPIC[serviceKey] && <RelatedGuides topic={GUIDE_TOPIC[serviceKey]} />}
     </>
   )
 }

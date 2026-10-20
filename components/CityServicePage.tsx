@@ -1,12 +1,13 @@
 import type { ReactNode } from 'react'
 import Link from 'next/link'
 import { ArrowRight, CalendarDays, Camera, Car, CheckCircle, ChevronDown, Heart, MapPin, ShieldCheck, Star, Users } from 'lucide-react'
-import CldImg, { HERO_WIDTHS, SECONDARY_WIDTHS } from '@/components/CldImg'
+import CldImg, { BANNER_ASPECT, HERO_ASPECT, HERO_WIDTHS, SECONDARY_WIDTHS } from '@/components/CldImg'
 import FAQSection from '@/components/FAQSection'
 import { generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
 import { generateServiceSchema } from '@/lib/seo-config'
 import type { CitySpot } from '@/lib/city-guides'
 import { getCityServicePage, listWithAnd } from '@/lib/city-service-pages'
+import RelatedGuides from '@/components/RelatedGuides'
 
 const TOP_SPOT_COUNT = 3
 
@@ -113,7 +114,7 @@ export default function CityServicePage({ slug, description }: { slug: string; d
       {/* 1. Hero: pitch, trust, booking. */}
       <section className="relative overflow-hidden bg-stone-950 text-white">
         <div className="absolute inset-0">
-          <CldImg image={data.heroImage} widths={HERO_WIDTHS} quality="good" sizes="100vw" className="h-full w-full object-cover opacity-60" priority />
+          <CldImg image={data.heroImage} widths={HERO_WIDTHS} quality="good" aspect={HERO_ASPECT} sizes="100vw" className="h-full w-full object-cover opacity-60" priority />
         </div>
         <div
           className="absolute inset-0 bg-[linear-gradient(180deg,rgba(12,10,9,0.35),rgba(12,10,9,0.85))] md:bg-[linear-gradient(90deg,rgba(12,10,9,0.9),rgba(12,10,9,0.55),rgba(12,10,9,0.2))]"
@@ -348,6 +349,8 @@ export default function CityServicePage({ slug, description }: { slug: string; d
         </div>
       </section>
 
+      <RelatedGuides topic={data.service} city={city} heading={`${config.label} guides`} />
+
       <FAQSection faqs={faqs} title={`${config.label} in ${city}: questions`} />
 
       {/* 6. Links: same service elsewhere, other services here, and the main service pages. */}
@@ -412,7 +415,7 @@ export default function CityServicePage({ slug, description }: { slug: string; d
       {/* 7. Final call to action. */}
       <section className="relative overflow-hidden bg-stone-950 text-white">
         <div className="absolute inset-0">
-          <CldImg image={{ id: data.heroImage.id, alt: '' }} widths={SECONDARY_WIDTHS} sizes="100vw" className="h-full w-full object-cover opacity-35" />
+          <CldImg image={{ id: data.heroImage.id, alt: '' }} widths={SECONDARY_WIDTHS} quality="good" aspect={BANNER_ASPECT} sizes="100vw" className="h-full w-full object-cover opacity-35" />
         </div>
         <div className="relative z-10 container mx-auto px-4 py-16 text-center md:py-20">
           <h2 className="mb-4 text-3xl font-bold md:text-4xl">Ready to plan your {city} session?</h2>

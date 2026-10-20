@@ -9,6 +9,14 @@ export const cldUrl = (id: string, width: number, crop = '', quality: 'best' | '
 export const HERO_WIDTHS = [640, 800, 1200, 1600, 2400]
 export const SECONDARY_WIDTHS = [800, 1200, 2000]
 
+// Smart crops for wide banners: Cloudinary finds the subject (g_auto) and crops to each shape, so a face
+// near the top of a photo stays in frame instead of being cut by a centered CSS crop.
+export const HERO_ASPECT = { desktop: '5:2', mobile: '2:3' }
+export const BANNER_ASPECT = { desktop: '4:1', mobile: '1:1' }
+const smartCrop = (ratio: string) => `,c_fill,g_auto,ar_${ratio}`
+const srcSetFor = (id: string, widths: number[], crop: string, quality: 'best' | 'good') =>
+  widths.map((width) => `${cldUrl(id, width, crop, quality)} ${width}w`).join(', ')
+
 export default function CldImg({
   image,
   widths,
@@ -17,6 +25,7 @@ export default function CldImg({
   crop = '',
   priority = false,
   quality = 'best',
+  aspect,
 }: {
   image: CityImage
   widths: number[]
@@ -25,12 +34,15 @@ export default function CldImg({
   crop?: string
   priority?: boolean
   quality?: 'best' | 'good'
+  // Art direction: a wide smart crop from 768px up, a tall one on phones.
+  aspect?: { desktop: string; mobile: string }
 }) {
-  return (
+  const imgCrop = aspect ? smartCrop(aspect.mobile) : crop
+  const img = (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      src={cldUrl(image.id, widths[widths.length - 1], crop, quality)}
-      srcSet={widths.map((width) => `${cldUrl(image.id, width, crop, quality)} ${width}w`).join(', ')}
+      src={cldUrl(image.id, widths[widths.length - 1], imgCrop, quality)}
+      srcSet={srcSetFor(image.id, widths, imgCrop, quality)}
       sizes={sizes}
       alt={image.alt}
       className={className}
@@ -38,5 +50,13 @@ export default function CldImg({
       fetchPriority={priority ? 'high' : undefined}
       decoding="async"
     />
+  )
+  if (!aspect) return img
+  return (
+    // display: contents so the <img> sizes against the hero box exactly as it did without <picture>.
+    <picture className="contents">
+      <source media="(min-width: 768px)" srcSet={srcSetFor(image.id, widths, smartCrop(aspect.desktop), quality)} sizes={sizes} />
+      {img}
+    </picture>
   )
 }
