@@ -161,8 +161,6 @@ export default function ServicesPage() {
 
       <PackageRecommenderCTA />
 
-      <MarketingAuditCTA compact source="services-page" />
-
       <section className="section-shell bg-white">
         <div className="container mx-auto px-4">
           <div className="mx-auto mb-10 max-w-3xl text-center">
@@ -201,7 +199,7 @@ export default function ServicesPage() {
               Huntsville, New Caney, Hockley, Bryan, and College Station.
             </p>
             <div className="flex flex-wrap gap-3 text-sm">
-              <Link href="/local-photographer-pinehurst-tx" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">All Service Areas</Link>
+              <Link href="/locations" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">All Service Areas</Link>
               <Link href="/local-photographer-the-woodlands-tx" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">The Woodlands</Link>
               <Link href="/local-photographer-katy-tx" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">Katy</Link>
               <Link href="/local-photographer-conroe-tx" className="px-4 py-2.5 rounded-full bg-white border border-stone-300 hover:border-amber-300">Conroe</Link>
@@ -220,6 +218,9 @@ export default function ServicesPage() {
           </div>
         </div>
       </section>
+
+      {/* Marketing pitch sits after the photography services, not above them. */}
+      <MarketingAuditCTA compact source="services-page" />
 
       <section className="py-12 bg-white border-y border-stone-200">
         <div className="container mx-auto px-4">

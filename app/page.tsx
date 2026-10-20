@@ -4,8 +4,7 @@ import Hero from "@/components/Hero";
 import LeadCaptureForm from "@/components/LeadCaptureForm";
 import LazyMount from "@/components/LazyMount";
 import { PressCredentialsBlock } from "@/components/BuilderRuntime";
-import { HomepageNarrativeFlow, HomepageProofUpgrade, PackageRecommenderCTA, PortfolioPathSection, PublicTrustStrip, RealReviewProofStrip, WhatHappensNextSection } from "@/components/PublicConversionSections";
-import CuratedRecentWork from "@/components/CuratedRecentWork";
+import { HomepageNarrativeFlow, HomepageProofUpgrade, PackageRecommenderCTA, PublicTrustStrip } from "@/components/PublicConversionSections";
 import { generateSEOMetadata } from "@/lib/seo-helpers";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import rehypeHighlight from "rehype-highlight";
@@ -15,9 +14,6 @@ import { draftMode } from 'next/headers'
 // Note: MDX builder components are dynamically imported only when needed
 
 // Lazy load below-the-fold components for better initial page load
-const Services = dynamic(() => import("@/components/Services"), {
-  loading: () => <div className="h-96 bg-gray-50" />,
-});
 const ServiceAreaSEO = dynamic(
   () => import("@/components/ServiceAreaSEO"),
   {
@@ -31,9 +27,6 @@ const PortraitHighlightGallery = dynamic(
     loading: () => <div className="h-96 bg-gray-50" />,
   }
 );
-const Testimonials = dynamic(() => import("@/components/Testimonials"), {
-  loading: () => <div className="h-96 bg-white" />,
-});
 
 export const metadata = generateSEOMetadata({
   title: "Studio37 | Pinehurst Wedding Photographer & Branding Studio",
@@ -248,78 +241,31 @@ export default async function HomePage() {
             <a href="/admin/content" className="underline ml-2 font-semibold">create MDX content</a> for this page.
           </p>
         </div>
-        <Hero />
-        <PublicTrustStrip />
-        <HomepageProofUpgrade />
-        <HomepageNarrativeFlow />
-        <ChooseYourPathSection />
-        <MarketingAuditCTA compact source="homepage-static" />
-        <LazyMount minHeight={560}>
-          <PortraitHighlightGallery />
-        </LazyMount>
-        <CuratedRecentWork />
-        <PortfolioPathSection />
-        <RealReviewProofStrip />
-        <PackageRecommenderCTA />
-        <LazyMount minHeight={720}>
-          <Services />
-        </LazyMount>
-        <WhatHappensNextSection serviceName="photography session" />
-        <LazyMount minHeight={520}>
-          <ServiceAreaSEO />
-        </LazyMount>
-
-        <HomeSEOAccordion />
-
-        <section className="py-16 bg-gray-50">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto text-center mb-12">
-              <h2 className="text-3xl font-bold mb-4">
-                Ready when you are.
-              </h2>
-              <p className="text-lg text-gray-700">
-                Tell us the date, the city, and what you&apos;re planning. We&apos;ll take it from there.
-              </p>
-            </div>
-            <LeadCaptureForm />
-          </div>
-        </section>
-        <LazyMount minHeight={400}>
-          <Testimonials />
-        </LazyMount>
-
-        {/* Press & Credentials Section */}
-        <PressCredentialsBlock 
-          title="Featured In & Professional Credentials"
-          subtitle="Members of Professional Photographers of America. Fully insured for client work."
-          showBadges={true}
-          showPress={true}
-        />
+        <StaticHomepageSections />
 
       </>
     )
   }
 
-  // Static fallback homepage
+  // Static fallback homepage.
+  return <StaticHomepageSections />
+}
+
+// Static homepage: one of each section, with real work right after the trust strip (it used to repeat
+// services, reviews, process, and portfolio twice each, about 30 phone screens). Shared by the public
+// page and the editor's preview so both show the same thing.
+function StaticHomepageSections() {
   return (
     <>
       <Hero />
       <PublicTrustStrip />
-      <HomepageProofUpgrade />
-      <HomepageNarrativeFlow />
-      <ChooseYourPathSection />
-      <MarketingAuditCTA compact source="homepage-static" />
       <LazyMount minHeight={560}>
         <PortraitHighlightGallery />
       </LazyMount>
-      <CuratedRecentWork />
-      <PortfolioPathSection />
-      <RealReviewProofStrip />
+      <ChooseYourPathSection />
+      <HomepageProofUpgrade />
+      <HomepageNarrativeFlow />
       <PackageRecommenderCTA />
-      <LazyMount minHeight={720}>
-        <Services />
-      </LazyMount>
-      <WhatHappensNextSection serviceName="photography session" />
       <LazyMount minHeight={520}>
         <ServiceAreaSEO />
       </LazyMount>
@@ -337,12 +283,11 @@ export default async function HomePage() {
               Tell us the date, the city, and what you&apos;re planning. We&apos;ll take it from there.
             </p>
           </div>
-          <LeadCaptureForm />
+          <LeadCaptureForm compact />
         </div>
       </section>
-      <LazyMount minHeight={400}>
-        <Testimonials />
-      </LazyMount>
+
+      <MarketingAuditCTA compact source="homepage-static" />
 
       {/* Press & Credentials Section */}
       <PressCredentialsBlock 

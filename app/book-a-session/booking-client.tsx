@@ -735,7 +735,7 @@ export default function BookSessionPage() {
                       <div className="flex-1">
                         <div className="font-semibold text-lg">Free Consultation</div>
                         <div className="text-sm text-gray-600 mt-1">Best if you want guidance before choosing or paying for a package</div>
-                        <div className="text-primary-600 font-medium mt-2">Free</div>
+                        <div className="text-primary-700 font-medium mt-2">Free</div>
                       </div>
                     </div>
                   </label>

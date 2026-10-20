@@ -55,15 +55,15 @@ export default function LeadSignupForm() {
   return (
     <section
       aria-label="Newsletter Signup"
-      className="mb-10 mx-auto max-w-4xl rounded-lg border border-amber-200 bg-amber-50/90 backdrop-blur-sm p-5 shadow-sm md:p-6"
+      className="mb-10 mx-auto max-w-4xl rounded-lg border border-amber-200 bg-amber-50 p-5 text-stone-900 shadow-sm md:p-6"
     >
       <div className="md:flex md:items-center md:gap-10">
         <div className="mb-5 md:mb-0 md:flex-1">
           <h2 className="text-2xl font-semibold tracking-tight text-amber-800 flex items-center gap-2 mb-2">
-            <Mail className="w-6 h-6 text-amber-600" />
+            <Mail className="w-6 h-6 text-amber-700" />
             Studio37 Newsletter
           </h2>
-          <p className="text-sm text-amber-700 leading-relaxed">
+          <p className="text-sm text-amber-900 leading-relaxed">
             Be the first to hear about mini sessions, seasonal promotions, and practical photography planning notes. One email at a time. Unsubscribe anytime.
           </p>
         </div>
@@ -83,7 +83,7 @@ export default function LeadSignupForm() {
                 onChange={e => setName(e.target.value)}
                 required
                 disabled={submitting}
-                className="flex-1 px-4 py-2.5 border border-amber-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 bg-white disabled:opacity-50 text-sm"
+                className="flex-1 px-4 py-2.5 border border-amber-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 bg-white text-stone-900 placeholder:text-stone-500 disabled:opacity-50 text-sm"
               />
               <input
                 type="email"
@@ -92,12 +92,12 @@ export default function LeadSignupForm() {
                 onChange={e => setEmail(e.target.value)}
                 required
                 disabled={submitting}
-                className="flex-1 px-4 py-2.5 border border-amber-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 bg-white disabled:opacity-50 text-sm"
+                className="flex-1 px-4 py-2.5 border border-amber-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 bg-white text-stone-900 placeholder:text-stone-500 disabled:opacity-50 text-sm"
               />
               <button
                 type="submit"
                 disabled={submitting}
-                className="flex items-center justify-center gap-2 bg-amber-600 hover:bg-amber-700 text-white font-semibold px-5 py-2.5 rounded-lg transition disabled:opacity-50 whitespace-nowrap text-sm"
+                className="flex items-center justify-center gap-2 bg-amber-700 hover:bg-amber-800 text-white font-semibold px-5 py-2.5 rounded-lg transition disabled:opacity-50 whitespace-nowrap text-sm"
               >
                 {submitting ? 'Subscribing…' : 'Subscribe'}
               </button>
@@ -105,7 +105,7 @@ export default function LeadSignupForm() {
           )}
           {error && <p className="mt-2 text-red-600 text-sm">{error}</p>}
           {!done && (
-            <p className="mt-2 text-xs text-amber-600">No spam, ever. Unsubscribe with one click.</p>
+            <p className="mt-2 text-xs text-amber-800">No spam, ever. Unsubscribe with one click.</p>
           )}
         </div>
       </div>

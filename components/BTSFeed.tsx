@@ -298,7 +298,7 @@ export default function BTSFeed() {
               <span aria-hidden="true">{currentPost.shares}</span>
             </button>
 
-            <div className="ml-auto flex items-center gap-1 text-gray-400 text-xs">
+            <div className="ml-auto flex items-center gap-1 text-gray-500 text-xs">
               <Users className="h-4 w-4" />
               <span>Pinehurst, TX</span>
             </div>

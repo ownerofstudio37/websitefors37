@@ -41,7 +41,7 @@ const checks = [
   {
     label: 'Homepage LazyMount sections reserve explicit heights',
     file: 'app/page.tsx',
-    needles: ['<LazyMount minHeight={560}>', '<LazyMount minHeight={720}>', '<LazyMount minHeight={520}>', '<LazyMount minHeight={400}>'],
+    needles: ['<LazyMount minHeight={560}>', '<LazyMount minHeight={520}>'],
   },
   {
     label: 'AI generation has timeout, retry, fallback model, and fallback draft handling',
