@@ -5,6 +5,9 @@
 
 type EventName = 
   | 'form_submit'
+  | 'generate_lead'
+  | 'phone_click'
+  | 'email_click'
   | 'gallery_view'
   | 'video_watch'
   | 'booking_click'
@@ -103,6 +106,8 @@ export function trackBookingClick(bookingType?: string) {
   trackEvent('booking_click', {
     booking_type: bookingType || 'consultation'
   })
+  // A submitted booking or consultation request is a lead.
+  if (bookingType?.endsWith('-submit')) trackEvent('generate_lead', { lead_source: bookingType })
 }
 
 /**
@@ -114,6 +119,8 @@ export function trackLeadCapture(source: string, serviceInterest?: string) {
     service_interest: serviceInterest || 'general',
     timestamp: new Date().toISOString()
   })
+  // GA4's recommended lead event, which GA suggests marking as a key event.
+  trackEvent('generate_lead', { lead_source: source, service_interest: serviceInterest || 'general' })
 }
 
 /**
@@ -337,6 +344,16 @@ export function setupPrimaryCtaTracking() {
     const href = clickable instanceof HTMLAnchorElement
       ? (clickable.getAttribute('href') || '')
       : ''
+
+    // Calls and emails are leads too.
+    if (href.startsWith('tel:')) {
+      trackEvent('phone_click', { link_url: href, page_path: window.location.pathname })
+      return
+    }
+    if (href.startsWith('mailto:')) {
+      trackEvent('email_click', { link_url: href, page_path: window.location.pathname })
+      return
+    }
 
     if (href.includes('/book-a-session')) {
       trackBookingClick('book-session-cta')
