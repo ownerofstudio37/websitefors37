@@ -357,7 +357,7 @@ export default function ServiceComparePage() {
               <div key={item.title} className="flex flex-col items-center gap-2">
                 <span className="text-3xl" aria-hidden>{item.icon}</span>
                 <p className="font-semibold text-white text-sm">{item.title}</p>
-                <p className="text-stone-600 text-xs">{item.sub}</p>
+                <p className="text-stone-400 text-xs">{item.sub}</p>
               </div>
             ))}
           </div>
