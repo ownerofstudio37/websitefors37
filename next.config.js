@@ -111,6 +111,8 @@ const nextConfig = {
       { source: '/packages', destination: '/pricing', statusCode: 301 },
       { source: '/prices', destination: '/pricing', statusCode: 301 },
       { source: '/testimonials', destination: '/reviews', statusCode: 301 },
+      // The portfolio lives on the gallery site (it captures leads); /portfolio was a duplicate of /gallery-experience.
+      { source: '/portfolio', destination: 'https://gallery.studio37.cc', statusCode: 301 },
       // Expired seasonal promos (still indexed) point at the evergreen mini sessions page.
       { source: '/fall-mini-sale', destination: '/mini-sessions', statusCode: 301 },
       { source: '/feb14-mini', destination: '/mini-sessions', statusCode: 301 },
