@@ -5,9 +5,10 @@ import { ArrowRight, Camera } from "@/icons";
 
 // Home page hero: a real client photo, the pitch, and two clear actions. Trust points live in the
 // PublicTrustStrip directly below, so they are not repeated here.
+// The owner's chosen butterfly macro (with the Studio37 mark). Swap for a client photo here when ready.
 const HERO_IMAGE = {
-  src: "https://res.cloudinary.com/dmjxho2rl/image/upload/Untitled-30_fliqiq.jpg",
-  alt: "Bride walking down the aisle with her father at an outdoor vineyard ceremony",
+  src: "https://res.cloudinary.com/dmjxho2rl/image/upload/v1759639187/A4B03835-ED8B-4FBB-A27E-1F2EE6CA1A18_1_105_c_gstgil_e_gen_restore_e_improve_e_sharpen_l_image_upload_My_Brand_IMG_2115_mtuowt_c_scale_fl_relative_w_0.40_o_80_fl_layer_apply_g_south_x_0.03_y_0.04_yqgycj.jpg",
+  alt: "Studio 37 Photography - Professional wedding and portrait photography",
 };
 
 export default function Hero() {
@@ -18,7 +19,7 @@ export default function Hero() {
   return (
     <section className="relative overflow-hidden bg-stone-950 text-white" aria-label="Studio37 Photography">
       <div className="absolute inset-0">
-        <Image src={HERO_IMAGE.src} alt={HERO_IMAGE.alt} fill priority sizes="100vw" quality={90} className="object-cover object-[55%_center]" />
+        <Image src={HERO_IMAGE.src} alt={HERO_IMAGE.alt} fill priority sizes="100vw" quality={90} className="object-cover" />
       </div>
       <div
         className="absolute inset-0 bg-[linear-gradient(180deg,rgba(12,10,9,0.35),rgba(12,10,9,0.85))] md:bg-[linear-gradient(90deg,rgba(12,10,9,0.9),rgba(12,10,9,0.55),rgba(12,10,9,0.15))]"
