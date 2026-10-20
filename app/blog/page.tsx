@@ -1,4 +1,5 @@
 // Use anon supabase client to enable ISR caching (no cookies dependency)
+import { BLOG_TOPICS, blogTopicIndex } from '@/lib/blog-topics'
 // Fetch via server API to avoid RLS-related failures; API uses service role and returns only published fields
 import Link from 'next/link'
 import Image from 'next/image'
@@ -82,21 +83,9 @@ const businessGrowthGuides = [
 
 // Topic groups for the full archive at the bottom of the page. First match wins, so the more specific
 // topics come first; anything unmatched lands in Portraits & Families.
-const ARCHIVE_TOPICS: Array<{ label: string; match: RegExp }> = [
-  { label: 'Engagements & Proposals', match: /engagement|proposal/i },
-  { label: 'Weddings', match: /wedding|bride|venue|luminaire|elopement|first look|aisle|peach orchard|big sky|iron manor/i },
-  { label: 'Events', match: /event|party|corporate mixer|birthday|quince/i },
-  { label: 'Business & Marketing', match: /brand|business|seo|ppc|website|marketing|stock|product photo|google maps|reels|template|media library|e-commerce/i },
-  { label: 'Portraits & Families', match: /./ },
-]
-
 function groupPostsByTopic(posts: any[]) {
-  const groups = ARCHIVE_TOPICS.map((topic) => ({ label: topic.label, posts: [] as any[] }))
-  // Grouped by title only: tags are too broad (most posts are tagged with several services).
-  for (const post of posts) {
-    const index = ARCHIVE_TOPICS.findIndex((topic) => topic.match.test(post.title || ''))
-    groups[index].posts.push(post)
-  }
+  const groups = BLOG_TOPICS.map((topic) => ({ label: topic.label, posts: [] as any[] }))
+  for (const post of posts) groups[blogTopicIndex(post.title || '')].posts.push(post)
   return groups.filter((group) => group.posts.length > 0)
 }
 

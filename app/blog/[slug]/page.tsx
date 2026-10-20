@@ -16,6 +16,7 @@ import { getStaticBlogPost, staticBlogPosts } from '@/lib/static-blog-posts'
 import { isMergedBlogSlug } from '@/lib/blog-merges'
 import { cityGuideLinks } from '@/lib/city-guides'
 import { cityMentions } from '@/lib/city-mentions'
+import { relatedPostsFor } from '@/lib/blog-topics'
 import { type CityServiceKey, cityServiceConfig, cityServiceSlug } from '@/lib/city-service-pages'
 
 const isValidSlug = (s: string) => /^[a-z0-9-]{1,200}$/.test(s) // Increased from 64 to 200 chars for longer blog titles
@@ -301,20 +302,18 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
   const articleSections = sectionHeadings(articleContent)
   const readingMinutes = Math.max(1, Math.round((articleContent.replace(/<[^>]+>/g, ' ').match(/\S+/g) || []).length / 230))
   
-  // Get related posts using same admin client
-  const { data: recentPosts } = await supabase
+  // Related reading by subject (lib/blog-topics), from every published post plus the code-based ones.
+  const { data: publishedPosts } = await supabase
     .from('blog_posts')
-    .select('id, title, slug, published_at')
+    .select('id, title, slug, published_at, tags, excerpt')
     .eq('published', true)
     .or(`published_at.is.null,published_at.lte.${now}`)
-    .neq('id', articlePost.id || '')
-    .order('published_at', { ascending: false })
-    .limit(10)
-  // Merged posts redirect elsewhere, so they are never suggested as related reading.
-  const relatedPosts = (recentPosts || []).filter((post) => !isMergedBlogSlug(post.slug)).slice(0, 3)
-  const fallbackRelatedPosts = staticBlogPosts
-    .filter((item) => item.slug !== articlePost.slug)
-    .slice(0, 3)
+  const dbSlugs = new Set((publishedPosts || []).map((post) => post.slug))
+  const relatedCandidates = [
+    ...(publishedPosts || []),
+    ...staticBlogPosts.filter((item) => !dbSlugs.has(item.slug)),
+  ].filter((post) => !isMergedBlogSlug(post.slug)) // merged posts redirect elsewhere
+  const relatedPosts = relatedPostsFor(articlePost, relatedCandidates, 4)
 
   // Generate Article schema for SEO
   const articleSchema = generateArticleSchema({
@@ -483,11 +482,11 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
               </div>
             </section>
           
-            {((relatedPosts && relatedPosts.length > 0) || fallbackRelatedPosts.length > 0) && (
+            {relatedPosts.length > 0 && (
               <div className="mt-16 border-t border-stone-200 pt-12">
                 <h3 className="mb-6 text-2xl font-bold text-stone-950">Related Guides</h3>
-                <div className="grid gap-4 md:grid-cols-3">
-                  {(relatedPosts && relatedPosts.length > 0 ? relatedPosts : fallbackRelatedPosts).map((relatedPost) => (
+                <div className="grid gap-4 sm:grid-cols-2">
+                  {relatedPosts.map((relatedPost) => (
                     <Link 
                       key={relatedPost.slug}
                       href={`/blog/${relatedPost.slug}`}
@@ -497,7 +496,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
                         {formatPostDate(relatedPost.published_at)}
                       </p>
                       <h4 className="font-bold text-stone-950 transition-colors hover:text-primary-700">
-                        {relatedPost.title}
+                        {displayTitle(relatedPost.title)}
                       </h4>
                     </Link>
                   ))}
