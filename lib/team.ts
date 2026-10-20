@@ -22,6 +22,13 @@ export const teamPeople = [
       recognizedBy: { '@type': 'Organization', name: credential.issuer },
       url: credential.verifyUrl,
     })),
+    // Third-party coverage (also linked from the home page's "Featured In" block).
+    subjectOf: {
+      '@type': 'Article',
+      name: 'Rising Stars: Meet Christian Combest of Pinehurst',
+      url: 'https://voyagehouston.com/interview/rising-stars-meet-christian-combest-of-pinehurst/',
+      publisher: { '@type': 'Organization', name: 'Voyage Houston Magazine' },
+    },
   },
   {
     '@type': 'Person',
