@@ -55,7 +55,7 @@ export default function ProductPhotographyPage() {
       <section className="relative min-h-[520px] overflow-hidden bg-stone-950 text-white">
         <Image
           src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1769255706/PS373287_d7fl9k.jpg"
-          alt="Studio37 product and commercial detail photography for web, ads, and catalog use"
+          alt="Two craft cocktails on a bar top under warm lights"
           fill
           priority
           className="object-cover opacity-55"

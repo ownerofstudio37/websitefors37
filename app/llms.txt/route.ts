@@ -35,6 +35,7 @@ ${services.join('\n\n')}
 ### Specialty portrait sessions
 ${specialties.join('\n')}
 - [Mini sessions](${site}/mini-sessions): seasonal 30-minute sessions from $350
+- [Holiday mini sessions](${site}/holiday-mini-sessions): 30-minute holiday card sessions from $350
 
 ## Reviews
 Rated ${thumbtackRating.rating} on Thumbtack from ${thumbtackRating.count} reviews, and 5.0 on Google.

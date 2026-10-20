@@ -21,7 +21,7 @@ const CONTENT_UPDATES: Array<{ match: RegExp; date: string }> = [
   { match: /^\/services(\/.*)?$/, date: '2026-10-11' },
   { match: /^\/(family-photography|senior-portraits|maternity-sessions|professional-headshots|headshot-photographer-houston-tx|about|case-studies\/[a-z-]+)$/, date: '2026-10-11' },
   // Pricing and reviews pages added; FAQ linked to them.
-  { match: /^\/(pricing|reviews|faq)$/, date: '2026-10-20' },
+  { match: /^\/(pricing|reviews|faq|holiday-mini-sessions)$/, date: '2026-10-20' },
 ]
 
 function contentLastModified(url: string) {
@@ -236,7 +236,7 @@ export async function getSitemapRoutes(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'monthly' as const,
       priority: PRIORITIES.blogPostsModerate,
     })),
-    ...['/pricing', '/reviews'].map((path) => ({
+    ...['/pricing', '/reviews', '/holiday-mini-sessions'].map((path) => ({
       url: `${sitemapBaseUrl}${path}`,
       lastModified: staticLastModified,
       changeFrequency: 'monthly' as const,

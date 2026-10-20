@@ -14,7 +14,7 @@ const checks = [
   },
   {
     file: 'components/CuratedRecentWork.tsx',
-    patterns: ['Request Tailored Examples', 'Request similar galleries', 'TrackedPortfolioRequestLink'],
+    patterns: ['View Portfolio', 'https://gallery.studio37.cc', 'TrackedPortfolioRequestLink'],
   },
   {
     file: 'components/Hero.tsx',

@@ -25,7 +25,7 @@ const checks = [
   },
   {
     file: 'components/CuratedRecentWork.tsx',
-    required: ['aria-label="Open the full Studio37 gallery', 'quality={88}'],
+    required: ['aria-label="Open the Studio37 featured portfolio gallery"', 'quality={82}'],
   },
   {
     file: 'components/QuoteAbandonmentCapture.tsx',

@@ -190,6 +190,25 @@ export default function PricingPage() {
           </div>
         </section>
 
+        <section aria-labelledby="guides-heading" className="mb-12 rounded-2xl border border-stone-200 bg-white p-6">
+          <h2 id="guides-heading" className="text-xl font-bold text-stone-950">
+            Comparing photographers?
+          </h2>
+          <p className="mt-2 leading-7 text-stone-600">Our price guides explain what drives the cost and how to compare quotes side by side.</p>
+          <ul className="mt-3 flex flex-col gap-2 text-sm font-semibold sm:flex-row sm:gap-6">
+            <li>
+              <Link href="/blog/wedding-photographer-cost-montgomery-county-tx" className="text-amber-800 hover:underline">
+                How much does a wedding photographer cost?
+              </Link>
+            </li>
+            <li>
+              <Link href="/blog/family-photo-session-cost-houston" className="text-amber-800 hover:underline">
+                How much do family photos cost?
+              </Link>
+            </li>
+          </ul>
+        </section>
+
         <section aria-labelledby="more-heading" className="mb-12 grid gap-4 md:grid-cols-2">
           <div className="rounded-2xl border border-stone-200 bg-white p-6">
             <h2 id="more-heading" className="text-xl font-bold text-stone-950">

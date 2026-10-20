@@ -214,7 +214,7 @@ export default function BrandingMarketingPage() {
         <div className="absolute inset-0 opacity-35">
           <Image
             src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1784791656/VB_School_Chris_Faves_-_4-2_u9lpel.jpg"
-            alt="Studio37 branding and marketing planning workspace for campaign content"
+            alt="The Volleyball School sign mounted on the front of a building"
             fill
             className="object-cover"
             priority

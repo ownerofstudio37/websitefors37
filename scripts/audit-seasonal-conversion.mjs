@@ -10,7 +10,8 @@ const pages = [
   { route: '/graduation', file: 'app/graduation/page.tsx' },
 ]
 
-const required = ['/book-a-session', 'PrepGuideLeadMagnet']
+// Each entry passes if any of its markers is present. Event pages book through a consultation, not a session.
+const required = [['/book-a-session', '/book-consultation'], ['PrepGuideLeadMagnet']]
 const issues = []
 
 for (const page of pages) {
@@ -20,9 +21,9 @@ for (const page of pages) {
   const guideSlug = page.file.split('/')[1]
   const guideData = template ? fs.readFileSync(path.join(root, 'lib/service-guides.ts'), 'utf8') : ''
   const optedIn = guideData.includes(`'${guideSlug}': {\n    slug: '${guideSlug}',\n    leadMagnet: true,`)
-  for (const marker of required) {
-    const found = source.includes(marker) || (template.includes(marker) && (marker !== 'PrepGuideLeadMagnet' || optedIn))
-    if (!found) issues.push(`${page.route} missing conversion marker: ${marker}`)
+  for (const markers of required) {
+    const found = markers.some((marker) => source.includes(marker) || (template.includes(marker) && (marker !== 'PrepGuideLeadMagnet' || optedIn)))
+    if (!found) issues.push(`${page.route} missing conversion marker: ${markers.join(' or ')}`)
   }
 }
 

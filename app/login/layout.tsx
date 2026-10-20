@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Login | Studio37',
+  title: { absolute: 'Admin Login | Studio37' },
   description: 'Secure login for Studio37 admin access.',
   robots: {
     index: false,
