@@ -117,7 +117,7 @@ export default function BTSFeed() {
   return (
     <div className="space-y-6 relative">
       {/* Post Navigation Dots */}
-      <div className="flex justify-center gap-2 mb-4">
+      <div className="flex justify-center gap-1 mb-4">
         {BTS_POSTS.map((_, index) => (
           <button
             key={index}
@@ -125,12 +125,15 @@ export default function BTSFeed() {
             title={`View post ${index + 1}`}
             aria-label={`Go to post ${index + 1}`}
             aria-pressed={index === currentPostIndex}
-            className={`w-3 h-3 rounded-full transition-all duration-300 ${
-              index === currentPostIndex 
-                ? 'bg-blue-600 scale-110' 
-                : 'bg-gray-300 hover:bg-gray-400'
-            }`}
-          />
+            // 32px tap area around the 12px dot so it is easy to hit with a thumb.
+            className="group flex h-8 w-8 items-center justify-center rounded-full"
+          >
+            <span
+              className={`block h-3 w-3 rounded-full transition-all duration-300 ${
+                index === currentPostIndex ? 'scale-110 bg-amber-700' : 'bg-gray-300 group-hover:bg-gray-400'
+              }`}
+            />
+          </button>
         ))}
       </div>
 
@@ -255,7 +258,7 @@ export default function BTSFeed() {
           )}
 
           {/* Post Actions */}
-            <div className="flex items-center gap-6 pt-4 border-t border-gray-100" role="group" aria-label="Post actions">
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 pt-4 border-t border-gray-100" role="group" aria-label="Post actions">
             <motion.button
               whileTap={{ scale: 0.9 }}
               onClick={() => handleLike(currentPost.id)}
@@ -337,7 +340,7 @@ export default function BTSFeed() {
       </div>
 
       {/* Live Activity Indicator */}
-      <div className="flex items-center justify-center gap-2 mt-6 text-gray-500 text-sm">
+      <div className="mt-6 flex max-w-full flex-wrap items-center justify-center gap-2 px-4 text-center text-sm text-gray-500">
         <motion.div
           animate={{ scale: [1, 1.2, 1] }}
           transition={{ duration: 2, repeat: Infinity }}
