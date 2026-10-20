@@ -61,7 +61,22 @@ export const studio37Reviews = [
     quote: 'Fantastic with kids and incredibly efficient.',
     detail: 'Kid-friendly session',
   },
+  {
+    name: 'Astini S.',
+    service: 'Portrait',
+    quote: 'They are the kindest couple, and we clicked with them right away.',
+    detail: 'Couples portrait session',
+  },
+  {
+    name: 'Bate I.',
+    service: 'Portrait',
+    quote: 'They were absolutely amazing!',
+    detail: 'Solo portrait session',
+  },
 ]
+
+// Checked against the public Thumbtack profile on 2026-10-20. Update the count when it changes.
+export const thumbtackRating = { rating: '5.0', count: 28 }
 
 export const localTrustReviews = [
   studio37Reviews[3],

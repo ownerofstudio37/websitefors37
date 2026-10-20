@@ -83,8 +83,9 @@ for (const file of files) {
   if (source.includes(galleryHost)) sawGalleryHost = true
 
   for (const href of extractHrefs(source)) {
-    if (href === '/gallery' || href === '/portfolio') {
-      issues.push(`${relative} links to ${href}; public gallery/portfolio links should use ${galleryHost}`)
+    // /portfolio is the on-site portfolio; /gallery is the client-access route, so public links use the gallery host.
+    if (href === '/gallery') {
+      issues.push(`${relative} links to ${href}; public gallery links should use ${galleryHost}`)
     }
 
     const internalHref = normalizeInternalHref(href)

@@ -5,6 +5,8 @@ import { generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
 import { generateFAQSchema } from '@/lib/schema'
 import { businessInfo } from '@/lib/seo-config'
 import { studio37ServiceFacts } from '@/lib/studio37-package-facts'
+import { thumbtackRating } from '@/lib/public-content'
+import { portfolioCategories } from '@/lib/portfolio'
 
 export const metadata = generateSEOMetadata({
   title: 'Photography FAQ: Pricing, Booking & Delivery',
@@ -16,6 +18,7 @@ export const metadata = generateSEOMetadata({
 export const revalidate = 86400
 
 type Faq = { question: string; answer: string }
+type FaqLink = { label: string; href: string }
 
 // Pricing answers are generated from the same package facts the chatbot uses, so they cannot drift.
 function packageSummary(slug: string) {
@@ -27,12 +30,18 @@ function packageSummary(slug: string) {
   return `${service.description} ${packages}.`
 }
 
-const faqGroups: Array<{ id: string; title: string; faqs: Faq[] }> = [
+const faqGroups: Array<{ id: string; title: string; faqs: Faq[]; links?: FaqLink[] }> = [
   {
     id: 'pricing',
     title: 'Pricing and packages',
     faqs: [
+      {
+        question: 'Where can I see all of your prices?',
+        answer:
+          'Every published package is on our pricing page: weddings, engagement sessions, portraits, family, senior, maternity, and headshot sessions, events, and business photography, with what each one includes.',
+      },
       { question: 'How much does wedding photography cost with Studio37?', answer: packageSummary('wedding-photography') },
+      { question: 'How much does an engagement session cost?', answer: packageSummary('engagement-session') },
       { question: 'How much does a portrait session cost?', answer: packageSummary('portrait-photography') },
       { question: 'How much does event photography cost?', answer: packageSummary('event-photography') },
       { question: 'How much does commercial photography cost for a business?', answer: packageSummary('commercial-photography') },
@@ -41,6 +50,11 @@ const faqGroups: Array<{ id: string; title: string; faqs: Faq[] }> = [
         answer:
           'Yes. Every core commercial package includes usage rights for web, social, and marketing channels, with expanded licensing available when needed.',
       },
+    ],
+    links: [
+      { label: 'All prices and packages', href: '/pricing' },
+      { label: 'Compare services', href: '/compare' },
+      { label: 'Find my package', href: '/tools/package-recommender' },
     ],
   },
   {
@@ -94,6 +108,28 @@ const faqGroups: Array<{ id: string; title: string; faqs: Faq[] }> = [
           'Yes. We share complete galleries during your consultation so you can see our full documentation style and editing approach, or you can request private examples for the type of session you are planning.',
       },
     ],
+    links: [
+      { label: 'Request a full gallery', href: '/request-portfolio' },
+      { label: 'Browse the portfolio', href: '/portfolio' },
+    ],
+  },
+  {
+    id: 'reviews',
+    title: 'Reviews and portfolio',
+    faqs: [
+      {
+        question: 'Where can I read Studio37 reviews?',
+        answer: `Studio37 is rated ${thumbtackRating.rating} on Thumbtack from ${thumbtackRating.count} reviews and 5.0 on Google. Our reviews page collects client reviews by session type, with links to read every review on Google and Thumbtack.`,
+      },
+      {
+        question: 'Where can I see examples of your work?',
+        answer: `Our portfolio is organized by session type: ${portfolioCategories.map((category) => category.label.toLowerCase()).join(', ')}. You can also request a complete private gallery from a session like yours.`,
+      },
+    ],
+    links: [
+      { label: 'Client reviews', href: '/reviews' },
+      ...portfolioCategories.map((category) => ({ label: `${category.label} portfolio`, href: `/portfolio/${category.slug}` })),
+    ],
   },
   {
     id: 'booking',
@@ -111,7 +147,12 @@ const faqGroups: Array<{ id: string; title: string; faqs: Faq[] }> = [
       {
         question: 'Do you offer engagement sessions?',
         answer:
-          'Yes. Engagement sessions are included in the Complete and Premium wedding collections, or can be booked separately.',
+          'Yes. Engagement sessions are included in the Complete and Premium wedding collections, or can be booked separately starting at $450.',
+      },
+      {
+        question: 'Do you offer mini sessions?',
+        answer:
+          'Yes. Seasonal mini sessions in Pinehurst start at $350 for 30 minutes, with private gallery delivery. They work well for families, couples, seniors, and quick portrait updates.',
       },
       {
         question: 'What happens if there is bad weather on our wedding day?',
@@ -216,6 +257,17 @@ export default function FAQPage() {
                 </details>
               ))}
             </div>
+            {group.links && (
+              <ul className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-sm font-semibold">
+                {group.links.map((link) => (
+                  <li key={link.href}>
+                    <Link href={link.href} className="text-amber-800 hover:underline">
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
           </section>
         ))}
 
@@ -228,8 +280,8 @@ export default function FAQPage() {
             <Link href="/book-consultation" className="btn-primary">
               Book a free consultation
             </Link>
-            <Link href="/tools/package-recommender" className="btn-secondary">
-              Compare packages
+            <Link href="/pricing" className="btn-secondary">
+              See all prices
             </Link>
           </div>
         </section>

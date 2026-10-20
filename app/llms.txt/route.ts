@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server'
 import { businessInfo } from '@/lib/seo-config'
 import { studio37ServiceFacts } from '@/lib/studio37-package-facts'
+import { portfolioCategories } from '@/lib/portfolio'
+import { thumbtackRating } from '@/lib/public-content'
+import { serviceGuides } from '@/lib/service-guides'
 
 export const revalidate = 86400
 
@@ -13,6 +16,10 @@ export async function GET() {
       .join('\n')
     return `### ${service.name}\n${service.description}\n${packages}\nDetails: ${site}/services/${service.slug}`
   })
+  const specialties = Object.values(serviceGuides).map(
+    (guide) => `- [${guide.h1}](${site}/${guide.slug}): ${guide.packages.map((pkg) => `${pkg.name} ${pkg.price}`).join(', ')}`
+  )
+  const portfolios = portfolioCategories.map((category) => `- [${category.h1}](${site}/portfolio/${category.slug})`)
 
   const body = `# ${businessInfo.legalName}
 
@@ -27,11 +34,27 @@ export async function GET() {
 ## Services and starting prices
 ${services.join('\n\n')}
 
+### Specialty portrait sessions
+${specialties.join('\n')}
+- [Mini sessions](${site}/mini-sessions): seasonal 30-minute sessions from $350
+
+## Reviews
+Rated ${thumbtackRating.rating} on Thumbtack from ${thumbtackRating.count} reviews, and 5.0 on Google.
+- [Client reviews](${site}/reviews)
+- [Google Business Profile](${businessInfo.reviewProfiles.google})
+- [Thumbtack profile](${businessInfo.reviewProfiles.thumbtack})
+
+## Portfolio
+${portfolios.join('\n')}
+
 ## Service areas
 ${businessInfo.serviceAreas.join(', ')}, Texas.
 
 ## Key pages
 - [Services overview](${site}/services)
+- [Prices and packages](${site}/pricing)
+- [Compare services](${site}/compare)
+- [Portfolio](${site}/portfolio)
 - [Frequently asked questions](${site}/faq)
 - [Package recommender](${site}/tools/package-recommender)
 - [Pricing calculator](${site}/tools/pricing)
