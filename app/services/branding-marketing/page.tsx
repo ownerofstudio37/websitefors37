@@ -238,6 +238,14 @@ export default function BrandingMarketingPage() {
                 See SEO Results
               </Link>
             </div>
+            {/* Search Console shows commercial-photography searches landing here; point them to the right page. */}
+            <p className="mt-6 text-sm text-white/80">
+              Just need photos for your business?{' '}
+              <Link href="/services/commercial-photography" className="font-semibold text-amber-200 underline-offset-4 hover:underline">
+                See commercial photography
+              </Link>{' '}
+              for products, teams, and brand content, from $500.
+            </p>
           </div>
         </div>
       </section>
