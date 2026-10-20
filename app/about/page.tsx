@@ -187,7 +187,7 @@ export default function AboutPage() {
                 <div className="space-y-3">
                   <div className="flex items-center gap-3">
                     <span className="w-2 h-2 bg-green-600 rounded-full"></span>
-                    <span>5.0 rating across Google and Thumbtack</span>
+                    <Link href="/reviews" className="underline-offset-4 hover:text-amber-800 hover:underline">5.0 rating across Google and Thumbtack</Link>
                   </div>
                   <div className="flex items-center gap-3">
                     <span className="w-2 h-2 bg-green-600 rounded-full"></span>
@@ -200,6 +200,17 @@ export default function AboutPage() {
                   <div className="flex items-center gap-3">
                     <span className="w-2 h-2 bg-green-600 rounded-full"></span>
                     <span>Serving Montgomery County since 2020</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="w-2 h-2 bg-green-600 rounded-full"></span>
+                    <a
+                      href="https://voyagehouston.com/interview/rising-stars-meet-christian-combest-of-pinehurst/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="underline-offset-4 hover:text-amber-800 hover:underline"
+                    >
+                      Featured in Voyage Houston: &ldquo;Rising Stars: Meet Christian Combest&rdquo;
+                    </a>
                   </div>
                 </div>
               </div>
@@ -279,7 +290,7 @@ export default function AboutPage() {
           <div className="surface-panel flex flex-wrap justify-center gap-8 items-center p-8">
             <a href="https://ppa.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-90 transition-opacity">
               <img 
-                src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1774328861/PPA-Logo_wblk6k.png"
+                src="https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto,h_192/v1774328861/PPA-Logo_wblk6k.png"
                 alt="Professional Photographers of America" 
                 className="h-16 md:h-20 w-auto object-contain"
                 loading="lazy"

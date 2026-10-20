@@ -1599,7 +1599,7 @@ export function PPALogoBlock({
   })
 
   // Using Cloudinary-hosted PPA logo to avoid cross-site blocking
-  const logoUrl = "https://res.cloudinary.com/dmjxho2rl/image/upload/v1774328861/PPA-Logo_wblk6k.png"
+  const logoUrl = "https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto,h_192/v1774328861/PPA-Logo_wblk6k.png"
 
   const content = (
     <div className={`flex ${alignmentClasses[finalAlignment as keyof typeof alignmentClasses] || 'justify-center'}`}>
@@ -1708,7 +1708,7 @@ export function TrustBadgesCombinedBlock({
     <div className={`py-8 bg-white flex flex-wrap ${alignmentClasses[finalAlignment as keyof typeof alignmentClasses] || 'justify-center'} gap-8 items-center ${responsiveClasses}`}>
       <a href="https://ppa.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-90 transition-opacity">
         <img 
-          src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1774328861/PPA-Logo_wblk6k.png" 
+          src="https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto,h_192/v1774328861/PPA-Logo_wblk6k.png" 
           alt="Professional Photographers of America" 
           className="h-16 md:h-20 w-auto object-contain"
         />
@@ -1757,7 +1757,7 @@ export function PressCredentialsBlock({
   const finalPressFeatures = ov.pressFeatures ?? pressFeatures ?? [
     {
       name: 'Voyage Houston Magazine',
-      logo: 'https://res.cloudinary.com/dmjxho2rl/image/upload/v1769586862/huston3_upslnu.png',
+      logo: 'https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto,h_128/v1769586862/huston3_upslnu.png',
       link: 'https://voyagehouston.com/interview/rising-stars-meet-christian-combest-of-pinehurst/',
       description: 'Featured in "Rising Stars: Meet Christian Combest of Pinehurst"'
     }
@@ -1793,9 +1793,11 @@ export function PressCredentialsBlock({
                 title="Professional Photographers of America"
               >
                 <img 
-                  src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1774328861/PPA-Logo_wblk6k.png" 
+                  src="https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto,h_192/v1774328861/PPA-Logo_wblk6k.png" 
                   alt="Professional Photographers of America" 
                   className="h-16 md:h-24 w-auto object-contain"
+                  loading="lazy"
+                  decoding="async"
                 />
               </a>
               
@@ -1811,6 +1813,8 @@ export function PressCredentialsBlock({
                   src="https://app.fullframeinsurance.com/media/site_seals/0001/06/3b90b57044c80c69bd9c02042952a0a33dce7681.png" 
                   alt="Full Frame Insurance Seal" 
                   className="h-24 md:h-32 w-auto object-contain"
+                  loading="lazy"
+                  decoding="async"
                 />
               </a>
             </div>
@@ -1838,6 +1842,8 @@ export function PressCredentialsBlock({
                             src={feature.logo} 
                             alt={feature.name} 
                             className="h-12 md:h-16 w-auto object-contain"
+                            loading="lazy"
+                            decoding="async"
                           />
                         )}
                       </div>

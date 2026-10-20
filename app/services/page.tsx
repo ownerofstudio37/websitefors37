@@ -424,7 +424,7 @@ export default function ServicesPage() {
           <div className="flex flex-wrap justify-center gap-8 items-center">
             <a href="https://ppa.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-90 transition-opacity">
               <img 
-                src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1774328861/PPA-Logo_wblk6k.png" 
+                src="https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto,h_192/v1774328861/PPA-Logo_wblk6k.png" 
                 alt="Professional Photographers of America" 
                 className="h-16 md:h-20 w-auto object-contain"
                 loading="lazy"

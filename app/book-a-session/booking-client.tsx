@@ -1004,7 +1004,7 @@ export default function BookSessionPage() {
       <div className="mt-4 py-8 border-t border-white/10 flex flex-wrap justify-center gap-8 items-center bg-white/95">
         <a href="https://ppa.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-90 transition-opacity">
           <img 
-            src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1774328861/PPA-Logo_wblk6k.png"
+            src="https://res.cloudinary.com/dmjxho2rl/image/upload/f_auto,q_auto,h_192/v1774328861/PPA-Logo_wblk6k.png"
             alt="Professional Photographers of America" 
             className="h-16 w-auto object-contain"
             loading="lazy"
