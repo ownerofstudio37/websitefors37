@@ -103,6 +103,8 @@ const nextConfig = {
       { source: '/seo', destination: '/services/branding-marketing', statusCode: 301 },
       { source: '/digital-marketing', destination: '/services/branding-marketing', statusCode: 301 },
       { source: '/senior', destination: '/senior-portraits', statusCode: 301 },
+      // Older CMS service-area page duplicated /locations (the service-area hub).
+      { source: '/service-area', destination: '/locations', statusCode: 301 },
       // Pages that blog posts link to but that never existed.
       { source: '/booking', destination: '/book-consultation', statusCode: 301 },
       { source: '/venues', destination: '/blog/wedding-venues-montgomery-county-tx-photographer-guide', statusCode: 301 },

@@ -126,7 +126,9 @@
 
   .motion-section {
     content-visibility: auto;
-    contain-intrinsic-size: 1px 720px;
+    /* auto: once a section has rendered, the browser keeps its real height, so the page stops growing and
+       the scrollbar stops jumping as you scroll. */
+    contain-intrinsic-size: auto 1px auto 720px;
   }
 
   .section-soft {

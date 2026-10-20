@@ -5,7 +5,7 @@ import PortraitSubServiceSupport from '@/components/PortraitSubServiceSupport'
 import { SubServiceHero, SubServicePackageGrid, SubServiceProofGrid, SubServiceStoryBlock } from '@/components/SubServicePageSections'
 
 export const metadata = generateSEOMetadata({
-  title: 'Corporate Event Photography Houston & Montgomery County | Studio37',
+  title: 'Corporate Event Photographer, Houston & Montgomery County',
   description:
     'Corporate event photography for conferences, galas, award ceremonies, business gatherings, PR recaps, and internal communications in Houston and Montgomery County.',
   canonicalUrl: 'https://www.studio37.cc/corporate-events',

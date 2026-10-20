@@ -6,7 +6,7 @@ import { generateSEOMetadata } from '@/lib/seo-helpers'
 import { staticBlogPosts } from '@/lib/static-blog-posts'
 
 export const metadata = generateSEOMetadata({
-  title: 'Photography and Marketing Planning Guides | Studio37 Pinehurst, TX',
+  title: 'Photography & Marketing Guides | Studio37 Pinehurst, TX',
   description: 'Clear Studio37 guides for choosing photography services, planning portraits and weddings, and improving websites, SEO, content, PPC, and brand marketing.',
   keywords: [
     'photography blog',
@@ -79,6 +79,26 @@ const businessGrowthGuides = [
     copy: 'Why brand visuals, web content, SEO, and ad creative should share one plan.',
   },
 ]
+
+// Topic groups for the full archive at the bottom of the page. First match wins, so the more specific
+// topics come first; anything unmatched lands in Portraits & Families.
+const ARCHIVE_TOPICS: Array<{ label: string; match: RegExp }> = [
+  { label: 'Engagements & Proposals', match: /engagement|proposal/i },
+  { label: 'Weddings', match: /wedding|bride|venue|luminaire|elopement|first look|aisle|peach orchard|big sky|iron manor/i },
+  { label: 'Events', match: /event|party|corporate mixer|birthday|quince/i },
+  { label: 'Business & Marketing', match: /brand|business|seo|ppc|website|marketing|stock|product photo|google maps|reels|template|media library|e-commerce/i },
+  { label: 'Portraits & Families', match: /./ },
+]
+
+function groupPostsByTopic(posts: any[]) {
+  const groups = ARCHIVE_TOPICS.map((topic) => ({ label: topic.label, posts: [] as any[] }))
+  // Grouped by title only: tags are too broad (most posts are tagged with several services).
+  for (const post of posts) {
+    const index = ARCHIVE_TOPICS.findIndex((topic) => topic.match.test(post.title || ''))
+    groups[index].posts.push(post)
+  }
+  return groups.filter((group) => group.posts.length > 0)
+}
 
 export default async function BlogPage() {
   let posts: any[] = []
@@ -279,9 +299,29 @@ export default async function BlogPage() {
                 })}
               </div>
             {posts.length > 18 && (
-              <p className="mt-8 text-center text-sm text-stone-600">
-                Showing the newest guides first. More archive filtering is coming as the guide library grows.
-              </p>
+              // Full archive: every guide gets a link from the blog, not just the newest 18.
+              <section className="mt-12 rounded-lg border border-stone-200 bg-white p-6 md:p-8" aria-labelledby="blog-archive">
+                <h2 id="blog-archive" className="text-2xl font-bold text-stone-950">Browse every guide by topic</h2>
+                <p className="mt-2 text-stone-600">All {posts.length} Studio37 guides, newest first within each topic.</p>
+                <div className="mt-6 grid gap-8 md:grid-cols-2">
+                  {groupPostsByTopic(posts).map((group) => (
+                    <div key={group.label}>
+                      <h3 className="mb-3 text-lg font-semibold text-stone-950">
+                        {group.label} <span className="text-sm font-normal text-stone-500">({group.posts.length})</span>
+                      </h3>
+                      <ul className="space-y-2">
+                        {group.posts.map((post: any) => (
+                          <li key={post.slug}>
+                            <Link href={`/blog/${post.slug}`} className="text-sm font-medium text-amber-800 hover:underline">
+                              {post.title}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </section>
             )}
             <div className="mt-10 rounded-lg border border-amber-200 bg-amber-50 p-6 md:flex md:items-center md:justify-between md:gap-6">
               <div>

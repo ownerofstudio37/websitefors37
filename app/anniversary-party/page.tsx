@@ -5,7 +5,7 @@ import PortraitSubServiceSupport from '@/components/PortraitSubServiceSupport'
 import { SubServiceHero, SubServicePackageGrid, SubServiceProofGrid, SubServiceStoryBlock } from '@/components/SubServicePageSections'
 
 export const metadata = generateSEOMetadata({
-  title: 'Anniversary Party Photography Houston & Montgomery County | Studio37',
+  title: 'Anniversary Party Photographer, Houston & Montgomery County',
   description:
     'Anniversary party photography for milestone anniversaries, vow renewals, couple portraits, event moments, and private gallery delivery in Houston and Montgomery County.',
   canonicalUrl: 'https://www.studio37.cc/anniversary-party',

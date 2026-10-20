@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 import { generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
 import { locationPages } from '@/lib/location-pages'
+import { cityGuideLinks } from '@/lib/city-guides'
 import ServiceAreaMarketModules from '@/components/ServiceAreaMarketModules'
 import LocationsFilterGrid from '@/components/LocationsFilterGrid'
 
@@ -63,7 +64,9 @@ export default function LocationsIndexPage() {
         </div>
       </section>
 
-      <LocationsFilterGrid locations={locationPages} />
+      <LocationsFilterGrid
+        locations={locationPages.map((location) => ({ ...location, href: cityGuideLinks.find((guide) => guide.city === location.city)?.href }))}
+      />
 
       <ServiceAreaMarketModules />
     </div>

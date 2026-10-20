@@ -11,6 +11,7 @@ import { ServiceTestimonialsSection, TurnaroundExpectationsSection } from '@/com
 import ServiceAreaLinks from '@/components/ServiceAreaLinks'
 import ServiceProofSection from '@/components/ServiceProofSection'
 import ServiceIntentPanel from '@/components/ServiceIntentPanel'
+import { cityGuideLinks } from '@/lib/city-guides'
 
 export const metadata = generateSEOMetadata({
   title: 'Commercial Photography Studio Houston & Pinehurst | Studio37',
@@ -394,11 +395,8 @@ export default function CommercialPhotographyPage() {
               'Conroe, TX',
               'Houston, TX'
             ].map((area) => {
-              const slug = area.startsWith('Pinehurst')
-                ? '/local-photographer-pinehurst-tx'
-                : area.startsWith('Magnolia')
-                ? '/magnolia'
-                : null
+              // Every listed city with a guide links straight to it (no redirect hops).
+              const slug = cityGuideLinks.find((guide) => area.startsWith(guide.city))?.href ?? null
 
               return (
                 <div key={area} className="surface-panel p-6 text-center">

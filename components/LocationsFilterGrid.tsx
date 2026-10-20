@@ -38,7 +38,7 @@ export default function LocationsFilterGrid({ locations }: { locations: Location
           {filtered.map((location) => (
             <Link
               key={location.slug}
-              href={`/${location.slug.replace(/-tx$/, '')}`}
+              href={location.href ?? `/${location.slug.replace(/-tx$/, '')}`}
               className="bg-white border border-gray-200 rounded-lg p-5 hover:border-primary-300 hover:shadow-md transition-all"
             >
               <h3 className="text-xl font-semibold text-gray-900">{location.city}, TX</h3>

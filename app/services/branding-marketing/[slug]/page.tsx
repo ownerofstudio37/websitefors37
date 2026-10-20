@@ -153,7 +153,7 @@ export default async function BrandingMarketingSubServicePage({ params }: PagePr
               {proofReview && (
                 <figure className="mt-6 rounded-xl bg-white/10 p-5">
                   {proof.reviewLabel && <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-stone-400">{proof.reviewLabel}</p>}
-                  <div className="mb-2 flex gap-1 text-amber-400" aria-label="5 out of 5 stars">
+                  <div className="mb-2 flex gap-1 text-amber-400" role="img" aria-label="5 out of 5 stars">
                     {Array.from({ length: 5 }).map((_, index) => (
                       <Star key={index} className="h-4 w-4 fill-current" aria-hidden="true" />
                     ))}

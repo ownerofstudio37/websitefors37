@@ -319,7 +319,7 @@ export default function CityGuidePage({ guide, stateAbbr, nearbyCities }: CityGu
             <div className={guide.secondaryImage ? 'space-y-8' : 'contents'}>
               {featuredReview && (
                 <figure className="rounded-2xl bg-stone-50 p-6 md:p-8">
-                  <div className="mb-4 flex gap-1 text-amber-500" aria-label="5 out of 5 stars">
+                  <div className="mb-4 flex gap-1 text-amber-500" role="img" aria-label="5 out of 5 stars">
                     {Array.from({ length: 5 }).map((_, index) => (
                       <Star key={index} className="h-5 w-5 fill-current" aria-hidden="true" />
                     ))}
@@ -358,7 +358,7 @@ export default function CityGuidePage({ guide, stateAbbr, nearbyCities }: CityGu
                 ) : (
                   secondReview && (
                     <figure className="rounded-2xl border border-stone-200 p-6">
-                      <div className="mb-3 flex gap-1 text-amber-500" aria-label="5 out of 5 stars">
+                      <div className="mb-3 flex gap-1 text-amber-500" role="img" aria-label="5 out of 5 stars">
                         {Array.from({ length: 5 }).map((_, index) => (
                           <Star key={index} className="h-4 w-4 fill-current" aria-hidden="true" />
                         ))}
