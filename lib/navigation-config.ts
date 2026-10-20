@@ -32,32 +32,6 @@ const PRICING_NAV_ITEM: NavigationItem = {
   visible: true,
 }
 
-// The top-level gallery link opens the on-site portfolio (lib/portfolio.ts categories), plus reviews and the
-// featured gallery subdomain.
-const PORTFOLIO_NAV_ITEM: NavigationItem = {
-  id: 'gallery',
-  label: 'Portfolio',
-  href: '/portfolio',
-  order: 2,
-  visible: true,
-  children: [
-    { id: 'portfolio-weddings', label: 'Weddings', href: '/portfolio/weddings', order: 1, visible: true },
-    { id: 'portfolio-engagements', label: 'Engagements & Proposals', href: '/portfolio/engagements', order: 2, visible: true },
-    { id: 'portfolio-portraits', label: 'Portraits & Headshots', href: '/portfolio/portraits', order: 3, visible: true },
-    { id: 'portfolio-families', label: 'Families', href: '/portfolio/families', order: 4, visible: true },
-    { id: 'portfolio-seniors', label: 'Seniors', href: '/portfolio/seniors', order: 5, visible: true },
-    { id: 'portfolio-events', label: 'Events', href: '/portfolio/events', order: 6, visible: true },
-    { id: 'portfolio-reviews', label: 'Client Reviews', href: '/reviews', order: 7, visible: true },
-    { id: 'portfolio-featured', label: 'Featured Gallery Site', href: 'https://gallery.studio37.cc', order: 8, visible: true },
-  ],
-}
-
-const isGalleryItem = (item: NavigationItem, href: string) =>
-  item.id === 'gallery' ||
-  /^https?:\/\/gallery\.studio37\.cc\/?$/i.test(href) ||
-  href === '/gallery' ||
-  href === '/portfolio'
-
 const BASE_SERVICE_NAV_CHILDREN: NavigationItem[] = [
   { id: 'services-wedding', label: 'Wedding Photography', href: '/services/wedding-photography', order: 1, visible: true },
   { id: 'services-portrait', label: 'Portrait Photography', href: '/services/portrait-photography', order: 2, visible: true },
@@ -105,10 +79,6 @@ export function normalizeNavigationItems(items: NavigationItem[]): NavigationIte
       item.id === 'service-areas' ||
       itemHref === '/locations' ||
       item.label.toLowerCase().includes('service area')
-
-    if (isGalleryItem(item, itemHref)) {
-      return { ...PORTFOLIO_NAV_ITEM, order: item.order, visible: item.visible }
-    }
 
     if (isServiceAreasItem) {
       const children = Array.isArray(item.children) && item.children.length > 0
@@ -176,7 +146,7 @@ export function normalizeNavigationItems(items: NavigationItem[]): NavigationIte
 
 export const FALLBACK_NAV_ITEMS: NavigationItem[] = [
   { id: 'home', label: 'Home', href: '/', order: 1, visible: true },
-  PORTFOLIO_NAV_ITEM,
+  { id: 'gallery', label: 'Featured Work', href: 'https://gallery.studio37.cc', order: 2, visible: true },
   {
     id: 'service-areas',
     label: 'Service Areas',

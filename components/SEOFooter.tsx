@@ -76,7 +76,6 @@ export default function SEOFooter() {
             <ul className="space-y-2 text-sm">
               <li><Link href="/blog" className="hover:text-white transition-colors">Blog &amp; Tips</Link></li>
               <li><Link href="/about" className="hover:text-white transition-colors">About Studio37</Link></li>
-              <li><Link href="/portfolio" className="hover:text-white transition-colors">Portfolio</Link></li>
               <li><Link href="/reviews" className="hover:text-white transition-colors">Client Reviews</Link></li>
               <li><Link href="/session-prep" className="hover:text-white transition-colors">Session Prep Guides</Link></li>
               <li><Link href="/book-consultation" className="hover:text-white transition-colors">Book Consultation</Link></li>

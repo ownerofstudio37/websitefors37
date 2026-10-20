@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server'
 import { businessInfo } from '@/lib/seo-config'
 import { studio37ServiceFacts } from '@/lib/studio37-package-facts'
-import { portfolioCategories } from '@/lib/portfolio'
 import { thumbtackRating } from '@/lib/public-content'
 import { serviceGuides } from '@/lib/service-guides'
 
@@ -19,7 +18,6 @@ export async function GET() {
   const specialties = Object.values(serviceGuides).map(
     (guide) => `- [${guide.h1}](${site}/${guide.slug}): ${guide.packages.map((pkg) => `${pkg.name} ${pkg.price}`).join(', ')}`
   )
-  const portfolios = portfolioCategories.map((category) => `- [${category.h1}](${site}/portfolio/${category.slug})`)
 
   const body = `# ${businessInfo.legalName}
 
@@ -45,7 +43,8 @@ Rated ${thumbtackRating.rating} on Thumbtack from ${thumbtackRating.count} revie
 - [Thumbtack profile](${businessInfo.reviewProfiles.thumbtack})
 
 ## Portfolio
-${portfolios.join('\n')}
+- [Featured work and recent galleries](https://gallery.studio37.cc)
+- [Request a complete private gallery](${site}/request-portfolio)
 
 ## Service areas
 ${businessInfo.serviceAreas.join(', ')}, Texas.
@@ -54,7 +53,6 @@ ${businessInfo.serviceAreas.join(', ')}, Texas.
 - [Services overview](${site}/services)
 - [Prices and packages](${site}/pricing)
 - [Compare services](${site}/compare)
-- [Portfolio](${site}/portfolio)
 - [Frequently asked questions](${site}/faq)
 - [Package recommender](${site}/tools/package-recommender)
 - [Pricing calculator](${site}/tools/pricing)

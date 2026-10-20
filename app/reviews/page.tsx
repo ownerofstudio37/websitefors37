@@ -15,9 +15,9 @@ export const metadata = generateSEOMetadata({
 // Reviews are copied from the public Google and Thumbtack profiles. Self-serving review markup is not eligible
 // for star rich results, so the page carries no Review or AggregateRating schema.
 const GROUPS = [
-  { title: 'Proposals and portraits', types: ['Proposal', 'Portrait'], href: '/portfolio/portraits', link: 'See portrait work' },
-  { title: 'Families', types: ['Family'], href: '/portfolio/families', link: 'See family work' },
-  { title: 'Events and parties', types: ['Event'], href: '/portfolio/events', link: 'See event work' },
+  { title: 'Proposals and portraits', types: ['Proposal', 'Portrait'], href: '/services/portrait-photography', link: 'Portrait photography' },
+  { title: 'Families', types: ['Family'], href: '/family-photography', link: 'Family photography' },
+  { title: 'Events and parties', types: ['Event'], href: '/services/event-photography', link: 'Event photography' },
   { title: 'Business photography', types: ['Commercial'], href: '/services/commercial-photography', link: 'Commercial photography' },
 ]
 

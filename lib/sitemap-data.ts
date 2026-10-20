@@ -4,7 +4,6 @@ import { localPhotographerLocationSlugs, locationPages } from '@/lib/location-pa
 import { staticBlogPosts } from '@/lib/static-blog-posts'
 import { isMergedBlogSlug } from '@/lib/blog-merges'
 import { brandingMarketingServices } from '@/lib/branding-marketing-services'
-import { portfolioCategories } from '@/lib/portfolio'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co'
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key'
@@ -21,8 +20,8 @@ const CONTENT_UPDATES: Array<{ match: RegExp; date: string }> = [
   // Service pages, portrait specialty guides, branding pages, certifications, and the About bio.
   { match: /^\/services(\/.*)?$/, date: '2026-10-11' },
   { match: /^\/(family-photography|senior-portraits|maternity-sessions|professional-headshots|headshot-photographer-houston-tx|about|case-studies\/[a-z-]+)$/, date: '2026-10-11' },
-  // Pricing, reviews, and portfolio pages added; FAQ linked to them.
-  { match: /^\/(pricing|reviews|faq|portfolio(\/[a-z]+)?)$/, date: '2026-10-20' },
+  // Pricing and reviews pages added; FAQ linked to them.
+  { match: /^\/(pricing|reviews|faq)$/, date: '2026-10-20' },
 ]
 
 function contentLastModified(url: string) {
@@ -64,8 +63,8 @@ const EXCLUDED_PAGE_SLUGS = new Set([
   // Near-duplicate of /service-area.
   'new-landing-page',
   'google-site-verification',
-  // Coded routes own these.
   'portfolio',
+  // Coded routes own these.
   'pricing',
   'reviews',
   // Thin portfolio stubs (under 300 words); the real portfolio is the gallery subdomain.
@@ -237,7 +236,7 @@ export async function getSitemapRoutes(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'monthly' as const,
       priority: PRIORITIES.blogPostsModerate,
     })),
-    ...['/pricing', '/reviews', '/portfolio', ...portfolioCategories.map(({ slug }) => `/portfolio/${slug}`)].map((path) => ({
+    ...['/pricing', '/reviews'].map((path) => ({
       url: `${sitemapBaseUrl}${path}`,
       lastModified: staticLastModified,
       changeFrequency: 'monthly' as const,

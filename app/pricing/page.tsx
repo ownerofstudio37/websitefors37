@@ -16,20 +16,12 @@ export const metadata = generateSEOMetadata({
 
 export const revalidate = 86400
 
-// Portfolio page for each core service, where one exists.
-const PORTFOLIO: Record<string, string> = {
-  'wedding-photography': '/portfolio/weddings',
-  'engagement-session': '/portfolio/engagements',
-  'portrait-photography': '/portfolio/portraits',
-  'event-photography': '/portfolio/events',
-}
-
 // Specialty portrait sessions, read from the same package lists their guide pages show.
 const SPECIALTIES = [
-  { slug: 'family-photography', label: 'Family sessions', portfolio: '/portfolio/families' },
-  { slug: 'senior-portraits', label: 'Senior portraits', portfolio: '/portfolio/seniors' },
-  { slug: 'maternity-sessions', label: 'Maternity sessions', portfolio: '/portfolio/portraits' },
-  { slug: 'professional-headshots', label: 'Headshots', portfolio: '/portfolio/portraits' },
+  { slug: 'family-photography', label: 'Family sessions' },
+  { slug: 'senior-portraits', label: 'Senior portraits' },
+  { slug: 'maternity-sessions', label: 'Maternity sessions' },
+  { slug: 'professional-headshots', label: 'Headshots' },
 ]
 
 const INCLUDED = [
@@ -116,11 +108,9 @@ export default function PricingPage() {
                 <p className="mt-2 leading-7 text-stone-600">{service.description}</p>
               </div>
               <div className="flex flex-shrink-0 flex-wrap gap-x-5 gap-y-2 text-sm font-semibold">
-                {PORTFOLIO[service.slug] && (
-                  <Link href={PORTFOLIO[service.slug]} className="text-amber-800 hover:underline">
-                    See the portfolio
-                  </Link>
-                )}
+                <Link href="https://gallery.studio37.cc" className="text-amber-800 hover:underline">
+                  See recent work
+                </Link>
                 <Link href={`/services/${service.slug}`} className="inline-flex items-center text-amber-800 hover:underline">
                   Package details
                   <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden="true" />
@@ -179,18 +169,13 @@ export default function PricingPage() {
             start at $350 for 30 minutes.
           </p>
           <div className="mt-5 grid gap-4 md:grid-cols-2">
-            {SPECIALTIES.map(({ slug, label, portfolio }) => (
+            {SPECIALTIES.map(({ slug, label }) => (
               <div key={slug} className="rounded-2xl border border-stone-200 bg-white p-5">
                 <div className="mb-3 flex items-baseline justify-between gap-3">
                   <h3 className="text-lg font-bold text-stone-950">{label}</h3>
-                  <div className="flex gap-4 text-sm font-semibold">
-                    <Link href={portfolio} className="text-amber-800 hover:underline">
-                      Photos
-                    </Link>
-                    <Link href={`/${slug}`} className="text-amber-800 hover:underline">
-                      Details
-                    </Link>
-                  </div>
+                  <Link href={`/${slug}`} className="text-sm font-semibold text-amber-800 hover:underline">
+                    Details
+                  </Link>
                 </div>
                 <dl className="divide-y divide-stone-100">
                   {serviceGuides[slug].packages.map((pkg) => (

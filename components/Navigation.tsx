@@ -161,7 +161,7 @@ export default function Navigation({
   }
 
   const normalizeNavHref = (href: string) => {
-    if (href === '/gallery' || href === 'gallery') {
+    if (href === '/gallery' || href === 'gallery' || href === '/portfolio' || href === 'portfolio') {
       return 'https://gallery.studio37.cc'
     }
     if (/^https?:\/\//i.test(href)) return href
@@ -243,7 +243,7 @@ export default function Navigation({
               const normalizeHref = (href: string, parentHref?: string) => {
                 try {
                   // Override gallery link to point to external subdomain
-                  if (href === '/gallery' || href === 'gallery') {
+                  if (href === '/gallery' || href === 'gallery' || href === '/portfolio' || href === 'portfolio') {
                     return 'https://gallery.studio37.cc'
                   }
                   
@@ -441,7 +441,7 @@ export default function Navigation({
                 const normalizeHref = (href: string, parentHref?: string) => {
                   try {
                     // Override gallery link to point to external subdomain (matches desktop behavior)
-                    if (href === '/gallery' || href === 'gallery') {
+                    if (href === '/gallery' || href === 'gallery' || href === '/portfolio' || href === 'portfolio') {
                       return 'https://gallery.studio37.cc'
                     }
                     

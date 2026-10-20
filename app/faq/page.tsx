@@ -6,7 +6,6 @@ import { generateFAQSchema } from '@/lib/schema'
 import { businessInfo } from '@/lib/seo-config'
 import { studio37ServiceFacts } from '@/lib/studio37-package-facts'
 import { thumbtackRating } from '@/lib/public-content'
-import { portfolioCategories } from '@/lib/portfolio'
 
 export const metadata = generateSEOMetadata({
   title: 'Photography FAQ: Pricing, Booking & Delivery',
@@ -110,12 +109,12 @@ const faqGroups: Array<{ id: string; title: string; faqs: Faq[]; links?: FaqLink
     ],
     links: [
       { label: 'Request a full gallery', href: '/request-portfolio' },
-      { label: 'Browse the portfolio', href: '/portfolio' },
+      { label: 'See recent work', href: 'https://gallery.studio37.cc' },
     ],
   },
   {
     id: 'reviews',
-    title: 'Reviews and portfolio',
+    title: 'Reviews and recent work',
     faqs: [
       {
         question: 'Where can I read Studio37 reviews?',
@@ -123,12 +122,14 @@ const faqGroups: Array<{ id: string; title: string; faqs: Faq[]; links?: FaqLink
       },
       {
         question: 'Where can I see examples of your work?',
-        answer: `Our portfolio is organized by session type: ${portfolioCategories.map((category) => category.label.toLowerCase()).join(', ')}. You can also request a complete private gallery from a session like yours.`,
+        answer:
+          'Our gallery site at gallery.studio37.cc has our featured and most recent work across weddings, engagements, portraits, families, seniors, and events. You can also request a complete private gallery from a session like yours.',
       },
     ],
     links: [
       { label: 'Client reviews', href: '/reviews' },
-      ...portfolioCategories.map((category) => ({ label: `${category.label} portfolio`, href: `/portfolio/${category.slug}` })),
+      { label: 'Recent work', href: 'https://gallery.studio37.cc' },
+      { label: 'Request a full gallery', href: '/request-portfolio' },
     ],
   },
   {
