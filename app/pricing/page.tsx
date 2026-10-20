@@ -11,6 +11,7 @@ export const metadata = generateSEOMetadata({
   description:
     'Every Studio37 package price in one place: weddings from $1,200, engagements from $450, portraits, families, and seniors from $350, events from $600, and business photography from $500.',
   canonicalUrl: `${businessInfo.contact.website}/pricing`,
+  ogImage: 'https://res.cloudinary.com/dmjxho2rl/image/upload/f_jpg,q_auto:best,w_1200,h_630,c_fill,g_auto/Untitled-30_fliqiq.jpg',
   pageType: 'service',
 })
 

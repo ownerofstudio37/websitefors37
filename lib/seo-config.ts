@@ -1,3 +1,4 @@
+import { founderRefs } from '@/lib/team'
 // Local Business SEO Configuration
 export const businessInfo = {
   name: 'Studio37',
@@ -210,6 +211,7 @@ export function generateLocalBusinessSchema() {
     })).filter(hours => hours.opens),
     sameAs: [...Object.values(businessInfo.socialMedia), ...Object.values(businessInfo.reviewProfiles)],
     hasMap: businessInfo.reviewProfiles.google,
+    founder: founderRefs,
     priceRange: '$$',
     paymentAccepted: 'Cash, Credit Card, Check, PayPal',
     currenciesAccepted: 'USD'

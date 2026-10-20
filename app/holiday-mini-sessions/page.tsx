@@ -16,6 +16,7 @@ export const metadata = generateSEOMetadata({
   description:
     'Holiday mini sessions near Pinehurst, The Woodlands, and Magnolia: 30 minutes, 15+ edited photos, and a private gallery from $350, timed so your photos arrive before holiday cards go out.',
   canonicalUrl: `${businessInfo.contact.website}/holiday-mini-sessions`,
+  ogImage: 'https://res.cloudinary.com/dmjxho2rl/image/upload/f_jpg,q_auto:best,w_1200,h_630,c_fill,g_auto/Untitled-3_2_u4p9kx.jpg',
   pageType: 'service',
 })
 

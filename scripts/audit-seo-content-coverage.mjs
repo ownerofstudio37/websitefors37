@@ -121,9 +121,11 @@ for (const file of subServicePages) {
 const localTemplate = read('components/LocalPhotographerCityPage.tsx')
 for (const file of ['components/LocalPhotographerCityPage.tsx', 'components/CityGuidePage.tsx']) {
   const template = read(file)
-  for (const marker of ['generateEnhancedLocalBusinessSchema', 'generateBreadcrumbSchema', 'FAQSection', 'application/ld+json']) {
+  for (const marker of ['generateBreadcrumbSchema', 'FAQSection', 'application/ld+json']) {
     if (!template.includes(marker)) issues.push(`${file} missing local schema marker: ${marker}`)
   }
+  // The root layout emits the one business entity; a second copy per city page would conflict with it.
+  if (template.includes('generateEnhancedLocalBusinessSchema')) issues.push(`${file} emits a second LocalBusiness block`)
 }
 
 // FAQSection already emits FAQPage JSON-LD, so a page-level generateFAQSchema block alongside it doubles

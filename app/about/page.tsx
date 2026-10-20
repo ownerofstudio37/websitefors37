@@ -4,26 +4,47 @@ import Link from "next/link"
 import { generateSEOMetadata } from '@/lib/seo-helpers'
 import BTSFeed from '@/components/BTSFeed'
 import { optimizeCloudinaryUrl } from '@/lib/cloudinaryOptimizer'
+import { teamPeople } from '@/lib/team'
+import { generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
 
 export const metadata = generateSEOMetadata({
   title: 'About Studio37: Christian & Caitie, Pinehurst Photographers',
-  description: 'Meet Christian and Caitie, the award-winning photography team behind Studio37 in Pinehurst, Texas. Serving Montgomery County with personalized sessions and artistic excellence.',
+  description: 'Meet Christian and Caitie, the husband-and-wife photography team behind Studio37 in Pinehurst, Texas: two photographers at every session across Montgomery County and Houston.',
   keywords: [
     'about Studio37',
     'Christian photographer Pinehurst TX',
     'Caitie photographer Texas',
     'photography team Montgomery County',
     'professional photographer Pinehurst',
-    'award winning photographer Texas'
+    'husband and wife photographers Texas'
   ],
-  canonicalUrl: 'https://www.studio37.cc/about'
+  canonicalUrl: 'https://www.studio37.cc/about',
+  ogImage: 'https://res.cloudinary.com/dmjxho2rl/image/upload/f_jpg,q_auto:best,w_1200,h_630,c_fill,g_auto/PS379781_kttvv3.jpg',
 })
 
 export const revalidate = 86400
 
+// The owners as people tied to the business, so search and AI engines can connect the bios to Studio37.
+const aboutSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'AboutPage',
+  '@id': 'https://www.studio37.cc/about#page',
+  url: 'https://www.studio37.cc/about',
+  name: 'About Studio37',
+  about: { '@id': 'https://www.studio37.cc/#organization' },
+  mainEntity: teamPeople,
+}
+
 export default function AboutPage() {
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', url: 'https://www.studio37.cc' },
+    { name: 'About', url: 'https://www.studio37.cc/about' },
+  ])
+
   return (
     <div className="pt-20 min-h-screen bg-stone-50">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-stone-950 text-white py-24 md:py-32">
         <div className="absolute inset-0 opacity-40">

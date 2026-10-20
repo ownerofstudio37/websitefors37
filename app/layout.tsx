@@ -11,6 +11,7 @@ import dynamic from "next/dynamic";
 import Navigation from "@/components/Navigation";
 import QueryProvider from "@/components/QueryProvider";
 import { businessInfo, generateLocalBusinessSchema } from "@/lib/seo-config";
+import { generateWebsiteSchema } from "@/lib/enhanced-seo-schemas";
 import { createClient } from "@supabase/supabase-js";
 import GoogleAnalyticsScript from "@/components/GoogleAnalyticsScript";
 import SimpleAnalyticsScript from "@/components/SimpleAnalyticsScript";
@@ -146,6 +147,7 @@ export default async function RootLayout({
     loading: () => null,
   });
   const localBusinessSchema = generateLocalBusinessSchema();
+  const websiteSchema = generateWebsiteSchema();
   const navigationSettings = await getInitialNavigationSettings()
   // Reading request headers makes every page render per request, so the CMS route bridge only reads them in
   // draft mode (editor previews via ?edit=1, see middleware.ts). Everyone else gets the cached static page.
@@ -167,6 +169,7 @@ export default async function RootLayout({
             __html: JSON.stringify(localBusinessSchema, null, 0),
           }}
         />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }} />
         <meta
           name="google-site-verification"
           content={process.env.GOOGLE_SITE_VERIFICATION || ""}

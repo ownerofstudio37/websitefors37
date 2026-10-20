@@ -13,7 +13,7 @@ export default function ComparePackagesCTA({ context = 'your session' }: { conte
             <p className="text-sm font-semibold uppercase tracking-[0.16em] text-amber-800">Compare Packages</p>
             <h2 className="mt-1 text-2xl font-bold text-stone-950">Choose the right starting point for {context}</h2>
             <p className="mt-2 max-w-2xl text-sm leading-6 text-stone-600">
-              Use the package recommender for weddings, events, commercial work, and portraits, or open the portrait pricing calculator for minute-based planning.
+              Answer a few questions in the package recommender, or see every published price and what each package includes on one page.
             </p>
           </div>
         </div>
@@ -21,8 +21,8 @@ export default function ComparePackagesCTA({ context = 'your session' }: { conte
           <Link href="/tools/package-recommender" className="btn-primary inline-flex items-center justify-center">
             Find My Package <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
           </Link>
-          <Link href="/tools/pricing" className="btn-secondary inline-flex items-center justify-center">
-            Pricing Tool
+          <Link href="/pricing" className="btn-secondary inline-flex items-center justify-center">
+            See All Prices
           </Link>
         </div>
       </div>

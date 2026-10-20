@@ -10,7 +10,7 @@ const galleryUrl = 'https://gallery.studio37.cc'
 
 export function PublicTrustStrip() {
   const items = [
-    { icon: Star, label: '5.0 rating across Google and Thumbtack' },
+    { icon: Star, label: '5.0 rating across Google and Thumbtack', href: '/reviews' },
     { icon: Clock, label: 'Clear previews and delivery timelines' },
     { icon: ShieldCheck, label: 'PPA member, insured, and prepared' },
     { icon: MapPin, label: 'Two photographers across Greater Houston' },
@@ -19,10 +19,16 @@ export function PublicTrustStrip() {
   return (
     <section className="border-y border-stone-200 bg-white">
       <div className="container mx-auto grid gap-3 px-4 py-5 sm:grid-cols-2 lg:grid-cols-4">
-        {items.map(({ icon: Icon, label }) => (
+        {items.map(({ icon: Icon, label, href }) => (
           <div key={label} className="flex items-center gap-3 rounded-lg bg-stone-50 px-4 py-3">
             <Icon className="h-5 w-5 flex-shrink-0 text-amber-700" aria-hidden="true" />
-            <span className="text-sm font-medium text-stone-800">{label}</span>
+            {href ? (
+              <Link href={href} className="text-sm font-medium text-stone-800 underline-offset-4 hover:text-amber-800 hover:underline">
+                {label}
+              </Link>
+            ) : (
+              <span className="text-sm font-medium text-stone-800">{label}</span>
+            )}
           </div>
         ))}
       </div>

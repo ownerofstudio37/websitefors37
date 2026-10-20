@@ -12,6 +12,7 @@ export const metadata = generateSEOMetadata({
   title: 'Mini Sessions in Pinehurst TX | Studio37',
   description: 'Seasonal mini sessions in Pinehurst, TX for families, couples, seniors, and quick portrait updates. Studio37 mini sessions start at $350.',
   canonicalUrl: 'https://www.studio37.cc/mini-sessions',
+  ogImage: 'https://res.cloudinary.com/dmjxho2rl/image/upload/f_jpg,q_auto:best,w_1200,h_630,c_fill,g_auto/PS379799_ayoxbp.jpg',
   pageType: 'service',
 })
 

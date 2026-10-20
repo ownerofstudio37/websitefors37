@@ -237,7 +237,7 @@ export default function Navigation({
             )}
           </Link>
 
-          <div className="hidden lg:flex items-center gap-3 xl:gap-4" suppressHydrationWarning>
+          <div className="hidden lg:flex items-center gap-1 xl:gap-4" suppressHydrationWarning>
             {navItems.map((item) => {
               // Normalize hrefs to prevent duplicated segments like /services/services
               const normalizeHref = (href: string, parentHref?: string) => {
@@ -312,7 +312,7 @@ export default function Navigation({
                   >
                     <Link
                       href={parentHref}
-                      className={`transition-all font-medium px-3 py-2 rounded-full flex items-center gap-1 ${
+                      className={`whitespace-nowrap transition-all font-medium px-3 py-2 rounded-full flex items-center gap-1 ${
                         isParentActive
                           ? solidNav
                             ? 'bg-amber-50 text-amber-800 ring-1 ring-amber-200'
@@ -381,7 +381,7 @@ export default function Navigation({
                 <Link
                   key={item.id}
                   href={normalizeHref(item.href)}
-                  className={`transition-all font-medium px-3 py-2 rounded-full ${
+                  className={`whitespace-nowrap transition-all font-medium px-3 py-2 rounded-full ${
                     item.highlighted
                       ? scrolled
                         ? 'btn-primary'

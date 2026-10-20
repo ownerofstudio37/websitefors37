@@ -10,6 +10,7 @@ export const metadata = generateSEOMetadata({
   title: 'Studio37 Reviews | Pinehurst, TX Photographer',
   description: `Read what Studio37 clients say about our wedding, proposal, portrait, family, event, and business photography. Rated ${thumbtackRating.rating} on Thumbtack from ${thumbtackRating.count} reviews.`,
   canonicalUrl: `${businessInfo.contact.website}/reviews`,
+  ogImage: 'https://res.cloudinary.com/dmjxho2rl/image/upload/f_jpg,q_auto:best,w_1200,h_630,c_fill,g_auto/Untitled_tpoc5r.jpg',
 })
 
 // Reviews are copied from the public Google and Thumbtack profiles. Self-serving review markup is not eligible

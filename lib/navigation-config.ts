@@ -24,6 +24,7 @@ const CONCIERGE_NAV_ITEM: NavigationItem = {
   visible: true,
 }
 
+// Pricing is a top-level link (see swapHomeForPricing), so it is kept out of the Services dropdown.
 const PRICING_NAV_ITEM: NavigationItem = {
   id: 'services-pricing',
   label: 'Prices & Packages',
@@ -72,8 +73,19 @@ function normalizeNavHref(href: string): string {
   return trimmed.startsWith('/') ? trimmed : `/${trimmed}`
 }
 
+// The logo already links home, so the top-level Home slot shows Pricing instead (unless the saved
+// navigation already has a top-level Pricing link, in which case Home is simply dropped).
+function swapHomeForPricing(items: NavigationItem[]): NavigationItem[] {
+  const isHome = (item: NavigationItem) => item.id === 'home' || normalizeNavHref(item.href) === '/'
+  const hasPricing = items.some((item) => normalizeNavHref(item.href) === '/pricing')
+  return items.flatMap((item) => {
+    if (!isHome(item)) return [item]
+    return hasPricing ? [] : [{ id: 'pricing', label: 'Pricing', href: '/pricing', order: item.order, visible: item.visible }]
+  })
+}
+
 export function normalizeNavigationItems(items: NavigationItem[]): NavigationItem[] {
-  return items.map((item) => {
+  return swapHomeForPricing(items).map((item) => {
     const itemHref = normalizeNavHref(item.href)
     const isServiceAreasItem =
       item.id === 'service-areas' ||
@@ -139,7 +151,7 @@ export function normalizeNavigationItems(items: NavigationItem[]): NavigationIte
 
     return {
       ...item,
-      children: [...children, ENGAGEMENT_NAV_ITEM, CONCIERGE_NAV_ITEM, PRICING_NAV_ITEM].sort((a, b) => a.order - b.order),
+      children: [...children, ENGAGEMENT_NAV_ITEM, CONCIERGE_NAV_ITEM].sort((a, b) => a.order - b.order),
     }
   })
 }

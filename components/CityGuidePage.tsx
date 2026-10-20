@@ -17,7 +17,7 @@ import {
 } from 'lucide-react'
 import CldImg, { BANNER_ASPECT, HERO_ASPECT, HERO_WIDTHS, SECONDARY_WIDTHS } from '@/components/CldImg'
 import FAQSection from '@/components/FAQSection'
-import { generateBreadcrumbSchema, generateEnhancedLocalBusinessSchema } from '@/lib/enhanced-seo-schemas'
+import { generateBreadcrumbSchema } from '@/lib/enhanced-seo-schemas'
 import { type CityGuide, type CityImage, type CitySpot, DESTINATION_TRAVEL_POLICY, getCityGuideReviews } from '@/lib/city-guides'
 import { cityServiceLinksFor } from '@/lib/city-service-pages'
 import { cityMentions } from '@/lib/city-mentions'
@@ -206,7 +206,6 @@ export default async function CityGuidePage({ guide, stateAbbr, nearbyCities }: 
     { name: 'Home', url: 'https://www.studio37.cc' },
     { name: `Photographer in ${cityLabel}`, url: pageUrl },
   ])
-  const localBusinessSchema = generateEnhancedLocalBusinessSchema()
 
   // FAQ answers are built from this city's own data so they differ from every other city page.
   const faqs = [
@@ -256,12 +255,6 @@ export default async function CityGuidePage({ guide, stateAbbr, nearbyCities }: 
   return (
     <div className="pt-16">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(localBusinessSchema),
-        }}
-      />
 
       {/* 1. Hero: pitch, trust, and the booking action. Location detail waits until later in the page. */}
       <section className="relative overflow-hidden bg-stone-950 text-white">
@@ -301,7 +294,7 @@ export default async function CityGuidePage({ guide, stateAbbr, nearbyCities }: 
             >
               <li className="flex items-center gap-1.5">
                 <Star className="h-4 w-4 fill-amber-400 text-amber-400" aria-hidden="true" />
-                5.0 on Google &amp; Thumbtack
+                <Link href="/reviews" className="underline-offset-4 hover:underline">5.0 on Google &amp; Thumbtack</Link>
               </li>
               <li className="flex items-center gap-1.5">
                 <Users className="h-4 w-4 text-amber-300" aria-hidden="true" />
@@ -393,7 +386,8 @@ export default async function CityGuidePage({ guide, stateAbbr, nearbyCities }: 
                     </figure>
                   )
                 )}
-                <p className="mt-6 text-sm text-stone-500">Rated 5.0 on Google and Thumbtack, with Top Pro status on Thumbtack.</p>
+                <p className="mt-6 text-sm text-stone-500">Rated 5.0 on Google and Thumbtack, with Top Pro status on Thumbtack.{' '}
+              <Link href="/reviews" className="font-semibold text-amber-800 hover:underline">Read the reviews</Link></p>
               </div>
             </div>
           </div>

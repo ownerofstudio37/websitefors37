@@ -31,7 +31,7 @@ export default function PublicStickyCTA() {
           <Calendar className="h-5 w-5 text-amber-700 transition-transform duration-150 group-active:scale-95" aria-hidden="true" />
           Book consult
         </Link>
-        <Link href="/tools/pricing" aria-label="Open the Studio37 pricing tool" className={`${actionClass} border-x border-stone-200`}>
+        <Link href="/pricing" aria-label="See Studio37 prices and packages" className={`${actionClass} border-x border-stone-200`}>
           <Calculator className="h-5 w-5 text-amber-700 transition-transform duration-150 group-active:scale-95" aria-hidden="true" />
           Price
         </Link>
