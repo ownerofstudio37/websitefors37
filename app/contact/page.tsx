@@ -70,8 +70,8 @@ export default async function ContactPage() {
       />
       <div className="absolute left-0 top-20 w-full h-[39rem] z-0 pointer-events-none bg-stone-900">
         <Image
-          src="https://res.cloudinary.com/dmjxho2rl/image/upload/v1759639187/A4B03835-ED8B-4FBB-A27E-1F2EE6CA1A18_1_105_c_gstgil_e_gen_restore_e_improve_e_sharpen_l_image_upload_My_Brand_IMG_2115_mtuowt_c_scale_fl_relative_w_0.40_o_80_fl_layer_apply_g_south_x_0.03_y_0.04_yqgycj.jpg"
-          alt="Studio37 Pinehurst photography contact background"
+          src="https://res.cloudinary.com/dmjxho2rl/image/upload/Untitled-8_2_b18mim.jpg"
+          alt="Couple walking hand in hand on a green garden path"
           fill
           className="object-cover"
           priority
@@ -113,7 +113,7 @@ export default async function ContactPage() {
         <section className="pb-8">
           <div className="grid lg:grid-cols-[1.08fr_0.92fr] gap-8 items-start">
             <div>
-              <LeadCaptureForm />
+              <LeadCaptureForm compact />
             </div>
             <aside className="space-y-4">
               <div className="rounded-lg border border-stone-200 bg-white p-6 shadow-sm">

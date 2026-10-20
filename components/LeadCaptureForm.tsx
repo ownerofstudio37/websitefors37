@@ -23,7 +23,8 @@ const leadSchema = z.object({
 
 type LeadFormData = z.infer<typeof leadSchema>
 
-export default function LeadCaptureForm() {
+// compact: the page already has its own heading and trust points, so skip the intro panel and trust box.
+export default function LeadCaptureForm({ compact = false }: { compact?: boolean } = {}) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [showThankYou, setShowThankYou] = useState(false)
   const [validFieldsSet, setValidFieldsSet] = useState<Set<string>>(new Set<string>())
@@ -98,8 +99,9 @@ export default function LeadCaptureForm() {
   }
 
   return (
-    <div className="surface-panel max-w-5xl mx-auto overflow-hidden">
-      <div className="grid lg:grid-cols-[0.92fr_1.08fr]">
+    <div className={`surface-panel mx-auto overflow-hidden ${compact ? 'max-w-3xl' : 'max-w-5xl'}`}>
+      <div className={compact ? '' : 'grid lg:grid-cols-[0.92fr_1.08fr]'}>
+        {!compact && (
         <div className="bg-stone-950 text-white p-8 md:p-10 lg:p-12">
           <div className="eyebrow mb-4 bg-white/10 text-amber-200 border-white/10">Start the conversation</div>
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Tell us what you&apos;re planning.</h2>
@@ -115,8 +117,9 @@ export default function LeadCaptureForm() {
             Most sessions include private gallery delivery, sharing, download options, and clear next-step guidance.
           </div>
         </div>
-        <div className="p-8 md:p-10 lg:p-12 bg-white">
-          <BookingTrustProof />
+        )}
+        <div className={`bg-white ${compact ? 'p-6 md:p-10' : 'p-8 md:p-10 lg:p-12'}`}>
+          {!compact && <BookingTrustProof />}
           {/* Completion progress */}
           {(() => {
             const requiredFields: (keyof LeadFormData)[] = ['name', 'email', 'service_interest', 'message']
@@ -273,7 +276,7 @@ export default function LeadCaptureForm() {
         <div className="grid xl:grid-cols-2 gap-6">
           <div>
             <label htmlFor="budget-select" className="block text-sm font-medium text-gray-700 mb-2">
-              Package Interest <span className="text-gray-400 text-xs">(Optional)</span>
+              Package Interest <span className="text-gray-500 text-xs">(Optional)</span>
             </label>
             <select
               {...register('budget_range')}
@@ -325,7 +328,7 @@ export default function LeadCaptureForm() {
               }`}
               placeholder="Tell us about your photography needs..."
             />
-            <div className="absolute bottom-3 right-3 text-xs text-gray-400">
+            <div className="absolute bottom-3 right-3 text-xs text-gray-500">
               {watchedFields.message?.length || 0} chars
             </div>
           </div>

@@ -36,8 +36,8 @@ module.exports = {
           300: '#f6d37f',
           400: '#f1b846',
           500: '#eda21f',
-          600: '#dc8715',
-          700: '#b46e14', // Main primary color
+          600: '#b35f0e', // darkened Oct 2026: readable as text and behind white text (WCAG AA)
+          700: '#a3610f', // Main primary color (was #b46e14; darkened slightly to pass WCAG AA contrast)
           800: '#945a15',
           900: '#7a4b17',
         },

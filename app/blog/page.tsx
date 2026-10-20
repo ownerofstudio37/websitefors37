@@ -135,9 +135,9 @@ export default async function BlogPage() {
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-4xl text-center">
             <p className="eyebrow-hero mb-4">Studio37 Field Notes</p>
-            <h1 className="text-4xl font-bold leading-tight md:text-6xl">Planning notes for better shoots, websites, and growth systems.</h1>
+            <h1 className="text-4xl font-bold leading-tight md:text-6xl">Photography planning guides for better shoots.</h1>
             <p className="mx-auto mt-5 max-w-3xl text-lg leading-8 text-stone-200">
-              Clear Studio37 notes for comparing services, preparing well, choosing locations, and making websites, SEO, content, and campaigns work together.
+              Location guides, prep tips, and planning notes for weddings, portraits, and events around Pinehurst, The Woodlands, and Greater Houston, plus a few guides for growing businesses.
             </p>
           </div>
         </div>
@@ -162,28 +162,6 @@ export default async function BlogPage() {
               <Link key={path.label} href={path.href} className="rounded-lg border border-stone-200 bg-stone-50 p-4 transition hover:-translate-y-0.5 hover:border-amber-300 hover:bg-amber-50">
                 <h2 className="text-sm font-bold uppercase tracking-[0.16em] text-stone-950">{path.label}</h2>
                 <p className="mt-2 text-sm leading-6 text-stone-600">{path.copy}</p>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="border-b border-stone-200 bg-amber-50 py-8">
-        <div className="container mx-auto px-4">
-          <div className="mb-5 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-            <div>
-              <p className="eyebrow mb-2">Business Growth Guides</p>
-              <h2 className="text-2xl font-bold text-stone-950">Website, SEO, content, and campaign planning</h2>
-            </div>
-            <Link href="/book-consultation?service=marketing-audit&source=blog-index" className="btn-primary w-fit">
-              Request growth audit
-            </Link>
-          </div>
-          <div className="grid gap-3 md:grid-cols-3">
-            {businessGrowthGuides.map((guide) => (
-              <Link key={guide.href} href={guide.href} className="rounded-lg border border-amber-200 bg-white p-4 transition hover:-translate-y-0.5 hover:border-amber-400">
-                <h3 className="font-semibold leading-snug text-stone-950">{guide.title}</h3>
-                <p className="mt-2 text-sm leading-6 text-stone-600">{guide.copy}</p>
               </Link>
             ))}
           </div>
@@ -340,6 +318,29 @@ export default async function BlogPage() {
       </div>
 
       {/* SEO Text Block */}
+      {/* Business guides come after the photography guides. */}
+      <section className="border-b border-stone-200 bg-amber-50 py-8">
+        <div className="container mx-auto px-4">
+          <div className="mb-5 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+            <div>
+              <p className="eyebrow mb-2">Business Growth Guides</p>
+              <h2 className="text-2xl font-bold text-stone-950">Website, SEO, content, and campaign planning</h2>
+            </div>
+            <Link href="/book-consultation?service=marketing-audit&source=blog-index" className="btn-primary w-fit">
+              Request growth audit
+            </Link>
+          </div>
+          <div className="grid gap-3 md:grid-cols-3">
+            {businessGrowthGuides.map((guide) => (
+              <Link key={guide.href} href={guide.href} className="rounded-lg border border-amber-200 bg-white p-4 transition hover:-translate-y-0.5 hover:border-amber-400">
+                <h3 className="font-semibold leading-snug text-stone-950">{guide.title}</h3>
+                <p className="mt-2 text-sm leading-6 text-stone-600">{guide.copy}</p>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="section-shell bg-white border-t border-stone-200">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">

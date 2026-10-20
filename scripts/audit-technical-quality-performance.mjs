@@ -6,7 +6,7 @@ const root = process.cwd()
 const checks = [
   {
     file: 'app/page.tsx',
-    patterns: ['import LazyMount', '<LazyMount minHeight={400}>'],
+    patterns: ['import LazyMount', '<LazyMount minHeight={560}>'],
   },
   {
     file: 'app/layout.tsx',

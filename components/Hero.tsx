@@ -1,180 +1,73 @@
-'use client';
-
 import React from "react";
-import { Camera, ArrowRight } from "@/icons";
 import Link from "next/link";
 import Image from "next/image";
-import { optimizeCloudinaryUrl } from "@/lib/cloudinaryOptimizer";
+import { ArrowRight, Camera } from "@/icons";
+
+// Home page hero: a real client photo, the pitch, and two clear actions. Trust points live in the
+// PublicTrustStrip directly below, so they are not repeated here.
+// The owner's chosen butterfly macro (with the Studio37 mark). Swap for a client photo here when ready.
+const HERO_IMAGE = {
+  src: "https://res.cloudinary.com/dmjxho2rl/image/upload/v1759639187/A4B03835-ED8B-4FBB-A27E-1F2EE6CA1A18_1_105_c_gstgil_e_gen_restore_e_improve_e_sharpen_l_image_upload_My_Brand_IMG_2115_mtuowt_c_scale_fl_relative_w_0.40_o_80_fl_layer_apply_g_south_x_0.03_y_0.04_yqgycj.jpg",
+  alt: "Studio 37 Photography - Professional wedding and portrait photography",
+};
 
 export default function Hero() {
   const heroTitle = "Pinehurst wedding, portrait, and event photography that feels calm and true to you.";
-  const heroSubtitle = "Studio37 covers weddings, portraits, events, brands, and proposals across Pinehurst, The Woodlands, and Greater Houston with clear direction and two photographers on every session.";
-  
-  // Static hero image - optimized for LCP
-  const rawHeroImage = "https://res.cloudinary.com/dmjxho2rl/image/upload/v1759639187/A4B03835-ED8B-4FBB-A27E-1F2EE6CA1A18_1_105_c_gstgil_e_gen_restore_e_improve_e_sharpen_l_image_upload_My_Brand_IMG_2115_mtuowt_c_scale_fl_relative_w_0.40_o_80_fl_layer_apply_g_south_x_0.03_y_0.04_yqgycj.jpg";
-  
-  // Generate multi-density sources for responsive loading (reduces LCP bytes)
-  const heroImageLarge = optimizeCloudinaryUrl(rawHeroImage, 1600, 'auto:good');
-  const heroImageMedium = optimizeCloudinaryUrl(rawHeroImage, 1200, 'auto:good');
-  const heroImageSmall = optimizeCloudinaryUrl(rawHeroImage, 800, 'auto:good');
-  // Use the medium as default src (balanced quality vs size).
-  const heroImage = heroImageMedium;
-  const heroMinHeight = "min(90svh, 780px)";
-  const overlayPct = 74;
+  const heroSubtitle =
+    "Two photographers on every session, clear direction, and published prices, across Pinehurst, The Woodlands, and Greater Houston.";
 
   return (
-    <section
-      className="relative flex items-center justify-center overflow-hidden"
-      style={{ 
-        minHeight: heroMinHeight,
-        contain: 'layout style paint', // Performance: contain layout to prevent reflow
-      }}
-      aria-label="Hero section - Studio 37 Photography"
-    >
-      {/* Background Image - Next/Image only to improve LCP request discovery */}
-      <div className="absolute inset-0 z-0" style={{ contain: 'strict' }}>
-        <Image
-          src={heroImage}
-          alt="Studio 37 Photography - Professional wedding and portrait photography"
-          fill
-          priority
-          fetchPriority="high"
-          quality={70}
-          sizes="100vw"
-          decoding="async"
-          className="object-cover"
-          placeholder="blur"
-          blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWEREiMxUf/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
-        />
+    <section className="relative overflow-hidden bg-stone-950 text-white" aria-label="Studio37 Photography">
+      <div className="absolute inset-0">
+        <Image src={HERO_IMAGE.src} alt={HERO_IMAGE.alt} fill priority sizes="100vw" quality={90} className="object-cover" />
       </div>
-
-      {/* Overlay with vintage gradient */}
       <div
-        className="absolute inset-0 z-10"
-        style={{
-          background: `linear-gradient(to top, rgba(120, 53, 15, ${
-            overlayPct / 100
-          }), rgba(146, 64, 14, ${
-            Math.max(overlayPct - 20, 0) / 100
-          }), rgba(0,0,0,0))`,
-          willChange: 'auto', // keep simple; no layer promotion
-        }}
-      ></div>
+        className="absolute inset-0 bg-[linear-gradient(180deg,rgba(12,10,9,0.35),rgba(12,10,9,0.85))] md:bg-[linear-gradient(90deg,rgba(12,10,9,0.9),rgba(12,10,9,0.55),rgba(12,10,9,0.15))]"
+        aria-hidden="true"
+      />
 
-      {/* Film grain removed for performance - dark overlay provides depth */}
-
-      <div className="relative z-20 container mx-auto px-4">
-        <div className="max-w-6xl mx-auto pt-20 md:pt-32 pb-16 md:pb-24">
-          <div className="grid gap-8 lg:grid-cols-[1fr_360px] lg:items-end">
-          <div className="max-w-3xl text-left">
+      <div className="relative z-10 container mx-auto px-4 pb-14 pt-28 md:pb-24 md:pt-36">
+        <div className="grid gap-8 lg:grid-cols-[1fr_340px] lg:items-end">
+          <div className="max-w-3xl">
             <div className="eyebrow-hero mb-5">Pinehurst, TX · Greater Houston</div>
-            <h1
-              className="font-serif text-4xl sm:text-5xl md:text-7xl lg:text-[5.35rem] font-bold mb-5 leading-[0.98] text-white drop-shadow-lg"
-              suppressHydrationWarning
-            >
-              {heroTitle}
-            </h1>
-
-            <p
-              className="text-base md:text-2xl mb-6 text-stone-100 max-w-2xl leading-relaxed"
-              suppressHydrationWarning
-            >
-              {heroSubtitle}
-            </p>
-
-            <div className="mb-6 grid max-w-2xl gap-2 text-xs text-stone-100/95 sm:grid-cols-3 sm:text-sm">
-              <span className="rounded-lg border border-white/15 bg-white/10 px-4 py-3 backdrop-blur">5.0 rated</span>
-              <span className="rounded-lg border border-white/15 bg-white/10 px-4 py-3 backdrop-blur">Two photographers</span>
-              <span className="rounded-lg border border-white/15 bg-white/10 px-4 py-3 backdrop-blur">Packages from $350</span>
-            </div>
-
-            <div className="mb-5 max-w-2xl rounded-xl border border-white/15 bg-black/20 px-4 py-3 text-sm leading-6 text-stone-100 backdrop-blur">
-              <strong className="text-white">Know what you need?</strong> Book a free consultation. Still comparing? Start with the package recommender or request private gallery examples.
-            </div>
-
+            <h1 className="mb-5 font-serif text-4xl font-bold leading-[1.02] drop-shadow-lg sm:text-5xl md:text-7xl">{heroTitle}</h1>
+            <p className="mb-7 max-w-2xl text-lg leading-8 text-stone-100 md:text-2xl md:leading-relaxed">{heroSubtitle}</p>
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-            <Link
-              href="/book-consultation"
-              className="btn-primary w-[calc(100%-4.75rem)] justify-center text-base sm:w-auto sm:text-lg px-6 sm:px-8 py-3 sm:py-4 focus:outline-none focus:ring-4 focus:ring-amber-500 focus:ring-offset-2"
-              aria-label="Book a free Studio37 consultation"
-            >
-              Book Free Consultation
-              <ArrowRight className="ml-2 h-5 w-5" aria-hidden="true" />
-            </Link>
-
-            <Link
-              href="/tools/package-recommender"
-              className="btn-secondary w-[calc(100%-4.75rem)] justify-center text-base sm:w-auto sm:text-lg px-6 sm:px-8 py-3 sm:py-4 focus:outline-none focus:ring-4 focus:ring-amber-500 focus:ring-offset-2"
-              aria-label="Find the best Studio37 package"
-            >
-              Find My Package
-            </Link>
-
-            <Link
-              href="https://gallery.studio37.cc"
-              className="btn-ghost w-[calc(100%-4.75rem)] justify-center text-base sm:w-auto sm:text-lg px-6 sm:px-8 py-3 sm:py-4 focus:outline-none focus:ring-4 focus:ring-amber-500 focus:ring-offset-2"
-              aria-label="View featured Studio37 photography work"
-            >
-              Featured Work
-            </Link>
+              <Link
+                href="/book-consultation"
+                className="btn-primary justify-center px-6 py-3 text-base focus:outline-none focus:ring-4 focus:ring-amber-500 focus:ring-offset-2 sm:px-8 sm:py-4 sm:text-lg"
+              >
+                Book Free Consultation
+                <ArrowRight className="ml-2 h-5 w-5" aria-hidden="true" />
+              </Link>
+              <Link
+                href="https://gallery.studio37.cc"
+                className="btn-secondary justify-center border-white/60 bg-white/10 px-6 py-3 text-base text-white hover:bg-white hover:text-stone-950 sm:px-8 sm:py-4 sm:text-lg"
+              >
+                See Our Work
+              </Link>
             </div>
+            <Link href="/tools/package-recommender" className="mt-5 inline-flex items-center text-sm font-semibold text-amber-100 hover:underline">
+              Not sure which package fits? Find my package
+              <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden="true" />
+            </Link>
           </div>
 
-          <div className="max-w-xl rounded-xl border border-white/15 bg-white/10 backdrop-blur-md p-5 md:p-6 text-white shadow-2xl lg:justify-self-end">
+          <div className="hidden rounded-xl border border-white/15 bg-white/10 p-6 shadow-2xl backdrop-blur-md lg:block">
             <div className="flex items-start gap-4">
-              <div className="rounded-lg bg-amber-300/20 p-3 border border-amber-200/20">
+              <div className="rounded-lg border border-amber-200/20 bg-amber-300/20 p-3">
                 <Camera className="h-6 w-6 text-amber-200" />
               </div>
               <div>
-                <p className="text-sm uppercase tracking-[0.2em] text-amber-200 mb-2">Why Studio37</p>
-                <p className="text-base md:text-lg text-stone-100 leading-relaxed">
+                <p className="mb-2 text-sm uppercase tracking-[0.2em] text-amber-200">Why Studio37</p>
+                <p className="text-lg leading-relaxed text-stone-100">
                   Warm color, clean direction, and practical planning before anyone steps in front of the camera.
                 </p>
               </div>
             </div>
           </div>
-          </div>
         </div>
       </div>
-
-      <div className="absolute inset-5 md:inset-8 rounded-2xl border border-white/10 pointer-events-none z-10"></div>
-
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 animate-bounce-slow motion-safe:animate-bounce-slow" aria-hidden="true">
-        <div className="w-6 h-10 border-2 border-amber-200/50 rounded-full flex justify-center">
-          <div className="w-1 h-3 bg-amber-200/70 rounded-full mt-2"></div>
-        </div>
-      </div>
-
-      <style jsx>{`
-        @keyframes fade-in-up {
-          from {
-            opacity: 0;
-            transform: translateY(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        @keyframes bounce-slow {
-          0%,
-          100% {
-            transform: translate(-50%, 0);
-          }
-          50% {
-            transform: translate(-50%, 10px);
-          }
-        }
-        .animate-fade-in-up {
-          animation: fade-in-up 0.8s ease-out;
-        }
-        .animate-bounce-slow {
-          animation: bounce-slow 1.5s ease-in-out infinite;
-        }
-        @media (prefers-reduced-motion: reduce) {
-          .animate-bounce-slow { animation: none; }
-        }
-      `}</style>
     </section>
   );
 }

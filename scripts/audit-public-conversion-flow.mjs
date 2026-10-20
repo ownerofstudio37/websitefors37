@@ -7,9 +7,8 @@ const checks = [
       'HomepageNarrativeFlow',
       'PublicTrustStrip',
       'ChooseYourPathSection',
-      'CuratedRecentWork',
-      'RealReviewProofStrip',
-      'WhatHappensNextSection',
+      'PortraitHighlightGallery',
+      'HomepageProofUpgrade',
       'PackageRecommenderCTA',
       'LeadCaptureForm',
     ],
@@ -161,16 +160,19 @@ for (const check of checks) {
   }
 }
 
-const homepage = fs.readFileSync('app/page.tsx', 'utf8')
+const homepageSource = fs.readFileSync('app/page.tsx', 'utf8')
+const homepage = homepageSource.slice(homepageSource.indexOf('function StaticHomepageSections'))
+// Home page order (Oct 2026 audit): trust, then real work, then services, proof, process, contact.
+// Checked inside StaticHomepageSections, which both the public page and the editor preview render.
 const ordered = [
   '<Hero',
   '<PublicTrustStrip',
-  '<HomepageNarrativeFlow',
+  '<PortraitHighlightGallery',
   '<ChooseYourPathSection',
-  '<CuratedRecentWork',
-  '<RealReviewProofStrip',
-  '<WhatHappensNextSection',
+  '<HomepageProofUpgrade',
+  '<HomepageNarrativeFlow',
   '<PackageRecommenderCTA',
+  '<LeadCaptureForm',
 ]
 
 let lastIndex = -1
