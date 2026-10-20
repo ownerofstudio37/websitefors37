@@ -82,7 +82,7 @@ function sectionHeadings(content: string) {
 }
 
 const formatPostDate = (value: string) =>
-  new Date(value).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'America/Chicago' })
+  new Date(value).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' })
 
 const MAX_TAGS = 4
 

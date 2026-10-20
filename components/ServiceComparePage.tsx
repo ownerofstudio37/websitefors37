@@ -288,17 +288,17 @@ export default function ServiceComparePage() {
                     <h3 className="text-lg font-bold text-stone-900 mt-3 leading-tight">
                       {svc.name}
                     </h3>
-                    <p className="text-sm text-stone-500 mt-1">{svc.tagline}</p>
+                    <p className="text-sm text-stone-600 mt-1">{svc.tagline}</p>
                   </div>
 
                   <div className="p-5 flex flex-col flex-1">
                     <div className="mb-4">
-                      <p className="text-xs text-stone-500 uppercase tracking-widest">Starting at</p>
+                      <p className="text-xs text-stone-600 uppercase tracking-widest">Starting at</p>
                       <p className="text-3xl font-bold text-stone-900">{svc.startingAt}</p>
-                      <p className="text-xs text-stone-400 mt-0.5">{svc.startingNote}</p>
+                      <p className="text-xs text-stone-600 mt-0.5">{svc.startingNote}</p>
                     </div>
 
-                    <p className="text-xs font-medium text-stone-500 mb-2 uppercase tracking-widest">
+                    <p className="text-xs font-medium text-stone-600 mb-2 uppercase tracking-widest">
                       Best for
                     </p>
                     <p className="text-sm text-stone-700 mb-4">{svc.bestFor}</p>
@@ -313,7 +313,7 @@ export default function ServiceComparePage() {
                     </ul>
 
                     {/* Trust badge */}
-                    <div className="flex items-center gap-1.5 mb-4 text-xs text-stone-500">
+                    <div className="flex items-center gap-1.5 mb-4 text-xs text-stone-600">
                       {[...Array(5)].map((_, i) => (
                         <Star key={i} className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
                       ))}
@@ -357,7 +357,7 @@ export default function ServiceComparePage() {
               <div key={item.title} className="flex flex-col items-center gap-2">
                 <span className="text-3xl" aria-hidden>{item.icon}</span>
                 <p className="font-semibold text-white text-sm">{item.title}</p>
-                <p className="text-stone-400 text-xs">{item.sub}</p>
+                <p className="text-stone-600 text-xs">{item.sub}</p>
               </div>
             ))}
           </div>
