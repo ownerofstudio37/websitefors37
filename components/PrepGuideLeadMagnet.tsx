@@ -88,7 +88,7 @@ export default function PrepGuideLeadMagnet() {
         </div>
         <form onSubmit={submit} className="rounded-lg border border-white/10 bg-white/10 p-5 backdrop-blur">
           <div className="grid gap-3 md:grid-cols-2">
-            <select value={guide} onChange={(event) => setGuide(event.target.value as GuideKey)} className="rounded-md border border-white/20 bg-white px-3 py-3 text-stone-950">
+            <select aria-label="Choose a prep guide" value={guide} onChange={(event) => setGuide(event.target.value as GuideKey)} className="rounded-md border border-white/20 bg-white px-3 py-3 text-stone-950">
               {guides.map((item) => (
                 <option key={item.value} value={item.value}>{item.label}</option>
               ))}

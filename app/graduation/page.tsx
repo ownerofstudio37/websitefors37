@@ -6,7 +6,7 @@ import PortraitSubServiceSupport from '@/components/PortraitSubServiceSupport'
 import { SubServiceHero, SubServicePackageGrid, SubServiceProofGrid, SubServiceStoryBlock } from '@/components/SubServicePageSections'
 
 export const metadata = generateSEOMetadata({
-  title: 'Graduation Photography Houston & Montgomery County | Studio37',
+  title: 'Graduation Photographer, Houston & Montgomery County',
   description:
     'Graduation photography for cap and gown portraits, campus sessions, ceremony coverage, family photos, and graduation celebrations in Houston and Montgomery County.',
   canonicalUrl: 'https://www.studio37.cc/graduation',

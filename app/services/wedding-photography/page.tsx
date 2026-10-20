@@ -11,6 +11,7 @@ import { ServiceTestimonialsSection, TurnaroundExpectationsSection, VenueStyleEx
 import ServiceAreaLinks from '@/components/ServiceAreaLinks'
 import ServiceProofSection from '@/components/ServiceProofSection'
 import ServiceIntentPanel from '@/components/ServiceIntentPanel'
+import { cityGuideLinks } from '@/lib/city-guides'
 
 export const metadata = generateSEOMetadata({
   title: 'Wedding Photographer in Pinehurst, TX | Studio37',
@@ -263,11 +264,8 @@ export default function WeddingPhotographyPage() {
               'Conroe, TX',
               'Houston, TX'
             ].map((area) => {
-              const slug = area.startsWith('Pinehurst')
-                ? '/local-photographer-pinehurst-tx'
-                : area.startsWith('Magnolia')
-                ? '/magnolia'
-                : null
+              // Every listed city with a guide links straight to it (no redirect hops).
+              const slug = cityGuideLinks.find((guide) => area.startsWith(guide.city))?.href ?? null
 
               return (
                 <div key={area} className="surface-panel p-6 text-center">
@@ -296,7 +294,7 @@ export default function WeddingPhotographyPage() {
             </p>
           </div>
 
-          <div className="mb-8 overflow-x-auto pb-2 md:overflow-visible">
+          <div className="mb-8 overflow-x-auto pb-2 md:overflow-visible" tabIndex={0} role="region" aria-label="Wedding collections comparison">
             <div className="flex min-w-max gap-3 md:grid md:min-w-0 md:grid-cols-4">
               {[
                 ['Micro', '3 hours', 'Courthouse, backyard, chapel, or guest count under 30.'],

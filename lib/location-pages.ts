@@ -5,6 +5,8 @@ export type LocationPage = {
   region: string
   intro: string
   nearbySpots: string[]
+  // Resolved city guide URL (set by app/locations/page.tsx so the client grid skips the city data).
+  href?: string
 }
 
 export const locationPages: LocationPage[] = [

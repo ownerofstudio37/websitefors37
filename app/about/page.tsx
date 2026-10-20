@@ -6,7 +6,7 @@ import BTSFeed from '@/components/BTSFeed'
 import { optimizeCloudinaryUrl } from '@/lib/cloudinaryOptimizer'
 
 export const metadata = generateSEOMetadata({
-  title: 'About Studio37 - Christian & Caitie Photography Team in Pinehurst, TX',
+  title: 'About Studio37: Christian & Caitie, Pinehurst Photographers',
   description: 'Meet Christian and Caitie, the award-winning photography team behind Studio37 in Pinehurst, Texas. Serving Montgomery County with personalized sessions and artistic excellence.',
   keywords: [
     'about Studio37',
