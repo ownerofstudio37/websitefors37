@@ -14,7 +14,6 @@ import { businessInfo, generateLocalBusinessSchema } from "@/lib/seo-config";
 import { createClient } from "@supabase/supabase-js";
 import GoogleAnalyticsScript from "@/components/GoogleAnalyticsScript";
 import SimpleAnalyticsScript from "@/components/SimpleAnalyticsScript";
-import Analytics from "@/components/Analytics";
 import ClientErrorBoundary from "@/components/ClientErrorBoundary";
 import ToasterClient from "@/components/ToasterClient";
 import ChatBotMount from "@/components/ChatBotMount";
@@ -201,9 +200,6 @@ export default async function RootLayout({
         {/* @ts-ignore */}
         <SimpleAnalyticsScript />
         <QueryProvider>
-          <Suspense fallback={null}>
-            <Analytics />
-          </Suspense>
           <AnalyticsSetup />
           <WebVitals />
           {/* Wrap dynamic/client sections in an error boundary to avoid hard crashes from runtime errors */}
