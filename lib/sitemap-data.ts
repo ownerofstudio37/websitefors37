@@ -62,6 +62,8 @@ const EXCLUDED_PAGE_SLUGS = new Set([
   'gallery',
   // Near-duplicate of /service-area.
   'new-landing-page',
+  // CMS page that next.config.js now 301s to /locations.
+  'service-area',
   'google-site-verification',
   'portfolio',
   // Coded routes own these.
