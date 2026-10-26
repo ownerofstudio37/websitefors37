@@ -14,6 +14,7 @@ export const SECONDARY_WIDTHS = [800, 1200, 2000]
 export const HERO_ASPECT = { desktop: '5:2', mobile: '2:3' }
 export const BANNER_ASPECT = { desktop: '4:1', mobile: '1:1' }
 const smartCrop = (ratio: string) => `,c_fill,g_auto,ar_${ratio}`
+const MOBILE_MAX_WIDTH = 800
 const srcSetFor = (id: string, widths: number[], crop: string, quality: 'best' | 'good') =>
   widths.map((width) => `${cldUrl(id, width, crop, quality)} ${width}w`).join(', ')
 
@@ -38,11 +39,14 @@ export default function CldImg({
   aspect?: { desktop: string; mobile: string }
 }) {
   const imgCrop = aspect ? smartCrop(aspect.mobile) : crop
+  // Phone heroes sit behind a dark overlay, so 800px wide (2x on a phone screen) is plenty; without the cap a
+  // 3x iPhone downloads the 1200px file, about twice the bytes, for the image that decides LCP.
+  const imgWidths = aspect ? widths.filter((width) => width <= MOBILE_MAX_WIDTH) : widths
   const img = (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      src={cldUrl(image.id, widths[widths.length - 1], imgCrop, quality)}
-      srcSet={srcSetFor(image.id, widths, imgCrop, quality)}
+      src={cldUrl(image.id, imgWidths[imgWidths.length - 1], imgCrop, quality)}
+      srcSet={srcSetFor(image.id, imgWidths, imgCrop, quality)}
       sizes={sizes}
       alt={image.alt}
       className={className}
